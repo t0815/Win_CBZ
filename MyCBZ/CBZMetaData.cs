@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -27,9 +28,9 @@ namespace MyCBZ
         private List<CBZMetaDataEntry> Defaults { get; set; }
 
 
-        public ObservableCollection<CBZMetaDataEntry> Values { get; set; }
+        public BindingList<CBZMetaDataEntry> Values { get; set; }
 
-        public ObservableCollection<CBZMetaDataEntryPage> PageMetaData { get; set; }
+        public BindingList<CBZMetaDataEntryPage> PageMetaData { get; set; }
 
         private readonly Stream InputStream;
 
@@ -37,8 +38,8 @@ namespace MyCBZ
         public CBZMetaData(bool createDefault = false)
         {
             Defaults = new List<CBZMetaDataEntry>();
-            Values = new ObservableCollection<CBZMetaDataEntry>();
-            PageMetaData = new ObservableCollection<CBZMetaDataEntryPage>();
+            Values = new BindingList<CBZMetaDataEntry>();
+            PageMetaData = new BindingList<CBZMetaDataEntryPage>();
             MetaData = new XmlDocument();
 
             MakeDefaultKeys();
@@ -57,7 +58,8 @@ namespace MyCBZ
             InputStream = fileInputStream;
 
             Defaults = new List<CBZMetaDataEntry>();
-            Values = new ObservableCollection<CBZMetaDataEntry>();
+            Values = new BindingList<CBZMetaDataEntry>();
+            PageMetaData = new BindingList<CBZMetaDataEntryPage>();
 
             MakeDefaultKeys();
 
@@ -87,6 +89,8 @@ namespace MyCBZ
             }
 
             MetaDataFileName = name;
+
+            FillMissingDefaultProps();
         }
 
         protected void HandlePageMetaData(XmlNode pageNodes)
@@ -148,7 +152,7 @@ namespace MyCBZ
 
         protected void MakeDefaultKeys()
         {
-            Defaults.Add(new CBZMetaDataEntry("Seriew", ""));
+            Defaults.Add(new CBZMetaDataEntry("Series", ""));
             Defaults.Add(new CBZMetaDataEntry("Number", ""));
             Defaults.Add(new CBZMetaDataEntry("Web", ""));
             Defaults.Add(new CBZMetaDataEntry("Summary", ""));
@@ -193,6 +197,23 @@ namespace MyCBZ
             }
 
             return i;
+        }
+
+        public void Validate(CBZMetaDataEntry entry, String newKey)
+        {
+            int occurence = 0;
+            foreach (CBZMetaDataEntry entryA in Values)
+            {
+                if (entryA.Key.ToLower().Equals(newKey.ToLower()))
+                {
+                    occurence++;
+                }
+            }
+
+            if (occurence > 1)
+            {
+                throw new MetaDataValidationException(entry, "");
+            }
         }
 
         public void Free()

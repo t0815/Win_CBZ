@@ -77,6 +77,11 @@ namespace CBZMage
                     item.BackColor = Color.Orange;
                 }
 
+                if (e.Image.Deleted)
+                {
+                    item.ForeColor = Color.Silver;
+                }
+
                 PageImages.Images.Add(e.Image.GetThumbnail(ThumbAbort, Handle));
             }));
 
@@ -281,10 +286,14 @@ namespace CBZMage
                 model.MetaData = new CBZMetaData(true);
             }
 
+            model.MetaData.FillMissingDefaultProps();
+
             MetaDataLoaded(sender, new MetaDataLoadEvent(model.MetaData.Values));
 
             btnAddMetaData.Enabled = false;
             btnRemoveMetaData.Enabled = true;
+            AddMetaDataRowBtn.Enabled = true;
+            RemoveMetadataRowBtn.Enabled = false;
         }
 
         private void btnRemoveMetaData_Click(object sender, EventArgs e)
@@ -296,6 +305,46 @@ namespace CBZMage
                 model.MetaData.Values.Clear();
                 btnAddMetaData.Enabled = true;
                 btnRemoveMetaData.Enabled = false;
+                AddMetaDataRowBtn.Enabled = false;
+                RemoveMetadataRowBtn.Enabled = false;
+            }
+        }
+
+        private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
+        {
+            model.MetaData.Values.Add(new CBZMetaDataEntry(""));
+        }
+
+        private void metaDataGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            RemoveMetadataRowBtn.Enabled = metaDataGrid.SelectedRows.Count > 0;   
+        }
+
+        private void RemoveMetadataRowBtn_Click(object sender, EventArgs e)
+        {
+            if (metaDataGrid.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in metaDataGrid.SelectedRows)
+                {
+                    if (row.DataBoundItem is CBZMetaDataEntry)
+                    {
+                        model.MetaData.Values.Remove((CBZMetaDataEntry)row.DataBoundItem);
+                    }
+                }
+            }
+        }
+
+        private void metaDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            try
+            {
+                if (e.ColumnIndex == 0)
+                {
+                    model.MetaData.Validate((CBZMetaDataEntry)metaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
+                }
+            } catch (MetaDataValidationException ve)
+            {
+                e.Cancel = true;
             }
         }
     }

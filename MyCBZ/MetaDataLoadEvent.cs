@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,9 @@ namespace MyCBZ
     internal class MetaDataLoadEvent
     {
 
-        public ObservableCollection<CBZMetaDataEntry> MetaData { get; set; }  
+        public BindingList<CBZMetaDataEntry> MetaData { get; set; }  
 
-        public MetaDataLoadEvent(ObservableCollection<CBZMetaDataEntry> metadata)
+        public MetaDataLoadEvent(BindingList<CBZMetaDataEntry> metadata)
         {
             this.MetaData = metadata;
         }   

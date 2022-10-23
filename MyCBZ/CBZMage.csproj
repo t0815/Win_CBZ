@@ -60,6 +60,7 @@
     <Compile Include="CBZArchiveInfo.cs" />
     <Compile Include="CBZMetaDataEntry.cs" />
     <Compile Include="CBZLocalFile.cs" />
+    <Compile Include="MetaDataValidationException.cs" />
     <Compile Include="ImageEditForm.cs">
       <SubType>Form</SubType>
     </Compile>

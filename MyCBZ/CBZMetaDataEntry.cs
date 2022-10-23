@@ -14,14 +14,19 @@ namespace MyCBZ
 
         protected bool ReadOnly { get; set; }
 
+        public CBZMetaDataEntry(String key)
+        {
+            Key = key;
+            Value = "";
+        }
 
-        public CBZMetaDataEntry(String key, String value = null)
+        public CBZMetaDataEntry(String key, String value)
         {
             Key = key;
             Value = value;
         }
 
-        public CBZMetaDataEntry(String key, String value = null, bool readOnly = false)
+        public CBZMetaDataEntry(String key, String value, bool readOnly = false)
         {
             Key = key;
             Value = value;

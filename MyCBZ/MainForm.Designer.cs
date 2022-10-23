@@ -102,6 +102,9 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolButtonImages = new System.Windows.Forms.ImageList(this.components);
             this.openImagesDialog = new System.Windows.Forms.OpenFileDialog();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.AddMetaDataRowBtn = new System.Windows.Forms.Button();
+            this.RemoveMetadataRowBtn = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -125,6 +128,7 @@
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metaDataGrid)).BeginInit();
             this.metaDataEditorContextMenu.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -567,7 +571,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(477, 295);
+            this.tabPage2.Size = new System.Drawing.Size(477, 298);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -653,12 +657,14 @@
             this.MetadataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MetadataTablePanel.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.MetadataTablePanel.Controls.Add(this.metaDataGrid, 0, 1);
+            this.MetadataTablePanel.Controls.Add(this.flowLayoutPanel1, 0, 2);
             this.MetadataTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetadataTablePanel.Location = new System.Drawing.Point(0, 0);
             this.MetadataTablePanel.Name = "MetadataTablePanel";
-            this.MetadataTablePanel.RowCount = 2;
+            this.MetadataTablePanel.RowCount = 3;
             this.MetadataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.MetadataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.MetadataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.MetadataTablePanel.Size = new System.Drawing.Size(981, 326);
             this.MetadataTablePanel.TabIndex = 7;
             // 
@@ -667,7 +673,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
             this.tableLayoutPanel1.Controls.Add(this.comboBox1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -688,7 +694,7 @@
             "ComicInfo.xml"});
             this.comboBox1.Location = new System.Drawing.Point(120, 15);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(758, 24);
+            this.comboBox1.Size = new System.Drawing.Size(757, 24);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.Text = "ComicInfo.xml";
             // 
@@ -700,12 +706,12 @@
             this.tableLayoutPanel2.Controls.Add(this.btnRemoveMetaData, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnAddMetaData, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(881, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(880, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(94, 54);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(95, 54);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // btnRemoveMetaData
@@ -716,7 +722,7 @@
             this.btnRemoveMetaData.Location = new System.Drawing.Point(50, 3);
             this.btnRemoveMetaData.Name = "btnRemoveMetaData";
             this.btnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnRemoveMetaData.Size = new System.Drawing.Size(41, 48);
+            this.btnRemoveMetaData.Size = new System.Drawing.Size(42, 48);
             this.btnRemoveMetaData.TabIndex = 8;
             this.btnRemoveMetaData.UseVisualStyleBackColor = true;
             this.btnRemoveMetaData.Click += new System.EventHandler(this.btnRemoveMetaData_Click);
@@ -754,8 +760,10 @@
             this.metaDataGrid.Name = "metaDataGrid";
             this.metaDataGrid.RowHeadersWidth = 51;
             this.metaDataGrid.RowTemplate.Height = 24;
-            this.metaDataGrid.Size = new System.Drawing.Size(975, 260);
+            this.metaDataGrid.Size = new System.Drawing.Size(975, 206);
             this.metaDataGrid.TabIndex = 4;
+            this.metaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.metaDataGrid_CellValidating);
+            this.metaDataGrid.SelectionChanged += new System.EventHandler(this.metaDataGrid_SelectionChanged);
             // 
             // metaDataEditorContextMenu
             // 
@@ -798,6 +806,38 @@
             this.openImagesDialog.FileName = "openFileDialog1";
             this.openImagesDialog.Multiselect = true;
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.AddMetaDataRowBtn);
+            this.flowLayoutPanel1.Controls.Add(this.RemoveMetadataRowBtn);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 275);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(975, 48);
+            this.flowLayoutPanel1.TabIndex = 8;
+            // 
+            // AddMetaDataRowBtn
+            // 
+            this.AddMetaDataRowBtn.Enabled = false;
+            this.AddMetaDataRowBtn.Image = global::MyCBZ.Properties.Resources.add2;
+            this.AddMetaDataRowBtn.Location = new System.Drawing.Point(3, 3);
+            this.AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
+            this.AddMetaDataRowBtn.Size = new System.Drawing.Size(46, 44);
+            this.AddMetaDataRowBtn.TabIndex = 0;
+            this.AddMetaDataRowBtn.UseVisualStyleBackColor = true;
+            this.AddMetaDataRowBtn.Click += new System.EventHandler(this.AddMetaDataRowBtn_Click);
+            // 
+            // RemoveMetadataRowBtn
+            // 
+            this.RemoveMetadataRowBtn.Enabled = false;
+            this.RemoveMetadataRowBtn.Image = global::MyCBZ.Properties.Resources.delete2;
+            this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(55, 3);
+            this.RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
+            this.RemoveMetadataRowBtn.Size = new System.Drawing.Size(47, 44);
+            this.RemoveMetadataRowBtn.TabIndex = 1;
+            this.RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
+            this.RemoveMetadataRowBtn.Click += new System.EventHandler(this.RemoveMetadataRowBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -838,6 +878,7 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metaDataGrid)).EndInit();
             this.metaDataEditorContextMenu.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -917,6 +958,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem addFilesToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openImagesDialog;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button AddMetaDataRowBtn;
+        private System.Windows.Forms.Button RemoveMetadataRowBtn;
     }
 }
 

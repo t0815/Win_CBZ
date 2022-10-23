@@ -63,7 +63,7 @@ namespace CBZMage
 
             CurrentFile = new CBZArchiveInfo();
             Pages = new List<CBZImage>();
-            MetaData = new CBZMetaData();
+            MetaData = new CBZMetaData(true);
         }
 
 
