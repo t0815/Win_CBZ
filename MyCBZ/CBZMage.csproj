@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CBZImage.cs" />
+    <Compile Include="CBZMetaDataEntryPage.cs" />
     <Compile Include="CBZProjectModel.cs" />
     <Compile Include="CBZMetaData.cs" />
     <Compile Include="CBZArchiveInfo.cs" />

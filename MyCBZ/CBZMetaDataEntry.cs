@@ -12,7 +12,7 @@ namespace MyCBZ
 
         public String Value { get; set; }
 
-        public bool IsReadOnly { get; set; }
+        protected bool ReadOnly { get; set; }
 
 
         public CBZMetaDataEntry(String key, String value = null)
@@ -25,7 +25,7 @@ namespace MyCBZ
         {
             Key = key;
             Value = value;
-            IsReadOnly = readOnly;
+            ReadOnly = readOnly;
         }
 
         public List<String> GetOptionsForType()

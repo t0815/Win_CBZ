@@ -24,21 +24,31 @@ namespace MyCBZ
 
         private XmlWriter MetaDataWriter { get; set; }
 
+        private List<CBZMetaDataEntry> Defaults { get; set; }
+
 
         public ObservableCollection<CBZMetaDataEntry> Values { get; set; }
 
+        public ObservableCollection<CBZMetaDataEntryPage> PageMetaData { get; set; }
 
-        private Stream InputStream;
+        private readonly Stream InputStream;
 
        
         public CBZMetaData(bool createDefault = false)
         {
+            Defaults = new List<CBZMetaDataEntry>();
             Values = new ObservableCollection<CBZMetaDataEntry>();
+            PageMetaData = new ObservableCollection<CBZMetaDataEntryPage>();
             MetaData = new XmlDocument();
+
+            MakeDefaultKeys();
 
             if (createDefault)
             {
-                MakeDefaultKeys();
+                foreach (var key in Defaults)
+                {
+                    Values.Add(key);
+                }
             }
         }
 
@@ -46,7 +56,11 @@ namespace MyCBZ
         {
             InputStream = fileInputStream;
 
+            Defaults = new List<CBZMetaDataEntry>();
             Values = new ObservableCollection<CBZMetaDataEntry>();
+
+            MakeDefaultKeys();
+
             MetaData = new XmlDocument();
             MetaDataReader = XmlReader.Create(InputStream);
             MetaDataReader.Read();
@@ -83,25 +97,25 @@ namespace MyCBZ
 
         }
 
-        public void MakeDefaultKeys()
+        protected void MakeDefaultKeys()
         {
-            Values.Add(new CBZMetaDataEntry("Seriew", ""));
-            Values.Add(new CBZMetaDataEntry("Number", ""));
-            Values.Add(new CBZMetaDataEntry("Web", ""));
-            Values.Add(new CBZMetaDataEntry("Summary", ""));
-            Values.Add(new CBZMetaDataEntry("Notes", ""));
-            Values.Add(new CBZMetaDataEntry("Publisher", ""));
-            Values.Add(new CBZMetaDataEntry("Imprint", ""));
-            Values.Add(new CBZMetaDataEntry("Genre", ""));  
-            Values.Add(new CBZMetaDataEntry("PageCount", ""));
-            Values.Add(new CBZMetaDataEntry("LanguageISO", ""));
-            Values.Add(new CBZMetaDataEntry("Artist", ""));
-            Values.Add(new CBZMetaDataEntry("Title", ""));
-            Values.Add(new CBZMetaDataEntry("Year", ""));
-            Values.Add(new CBZMetaDataEntry("Month", ""));
-            Values.Add(new CBZMetaDataEntry("Day", ""));
-            Values.Add(new CBZMetaDataEntry("AgeRating", ""));
-            Values.Add(new CBZMetaDataEntry("Characters", ""));
+            Defaults.Add(new CBZMetaDataEntry("Seriew", ""));
+            Defaults.Add(new CBZMetaDataEntry("Number", ""));
+            Defaults.Add(new CBZMetaDataEntry("Web", ""));
+            Defaults.Add(new CBZMetaDataEntry("Summary", ""));
+            Defaults.Add(new CBZMetaDataEntry("Notes", ""));
+            Defaults.Add(new CBZMetaDataEntry("Publisher", ""));
+            Defaults.Add(new CBZMetaDataEntry("Imprint", ""));
+            Defaults.Add(new CBZMetaDataEntry("Genre", ""));
+            Defaults.Add(new CBZMetaDataEntry("PageCount", "", true));
+            Defaults.Add(new CBZMetaDataEntry("LanguageISO", ""));
+            Defaults.Add(new CBZMetaDataEntry("Artist", ""));
+            Defaults.Add(new CBZMetaDataEntry("Title", ""));
+            Defaults.Add(new CBZMetaDataEntry("Year", ""));
+            Defaults.Add(new CBZMetaDataEntry("Month", ""));
+            Defaults.Add(new CBZMetaDataEntry("Day", ""));
+            Defaults.Add(new CBZMetaDataEntry("AgeRating", ""));
+            Defaults.Add(new CBZMetaDataEntry("Characters", ""));
         }
 
 

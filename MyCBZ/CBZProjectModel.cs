@@ -199,15 +199,19 @@ namespace CBZMage
                 Archive = ZipFile.Open(Name, Mode);
                 count = Archive.Entries.Count;
 
+                try
+                {
+                    ZipArchiveEntry metaDataEntry = Archive.GetEntry("ComicInfo.xml");
+
+                    MetaData = new CBZMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
+
+                    OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
+                } catch (Exception)
+                { }
+
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
-                    if (entry.FullName.ToLower().Contains("comicinfo.xml"))
-                    {
-                        MetaData = new CBZMetaData(entry.Open(), entry.FullName);
-
-                        OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
-                    }
-                    else
+                    if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
                         itemSize = entry.Length;
                         CBZImage cBZImage = new CBZImage(entry.Open(), entry.FullName);
