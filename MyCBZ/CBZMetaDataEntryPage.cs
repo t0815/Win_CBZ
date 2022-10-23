@@ -39,6 +39,10 @@ namespace MyCBZ
          * 
          */
 
+        public CBZMetaDataEntryPage()
+        {
+        }
+
         public CBZMetaDataEntryPage(int image, long size = 0)
         {
             Image = image;
@@ -49,7 +53,7 @@ namespace MyCBZ
         {
             Image = image;
             ImageSize = size;
-            ImageType = ImageType;
+            ImageType = imageType;
         }
     }
 }

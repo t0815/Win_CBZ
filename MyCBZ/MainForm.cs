@@ -281,11 +281,6 @@ namespace CBZMage
                 model.MetaData = new CBZMetaData(true);
             }
 
-            if (model.MetaData.Values.Count == 0)
-            {
-                model.MetaData.MakeDefaultKeys();
-            }
-
             MetaDataLoaded(sender, new MetaDataLoadEvent(model.MetaData.Values));
 
             btnAddMetaData.Enabled = false;

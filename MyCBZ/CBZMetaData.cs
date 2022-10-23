@@ -76,7 +76,7 @@ namespace MyCBZ
                         switch (subNode.Name.ToLower())
                         {
                             case "pages":
-                                handlePageMetaData(subNode);
+                                HandlePageMetaData(subNode);
                                 break;
                             default:
                                 Values.Add(new CBZMetaDataEntry(subNode.Name, subNode.InnerText));
@@ -89,10 +89,59 @@ namespace MyCBZ
             MetaDataFileName = name;
         }
 
-        protected void handlePageMetaData(XmlNode pageNodes)
+        protected void HandlePageMetaData(XmlNode pageNodes)
         {
-            foreach (XmlNode subNode in pageNodes.ChildNodes)
+            CBZMetaDataEntryPage pageMeta;
+
+            if (pageNodes != null)
             {
+                foreach (XmlNode subNode in pageNodes.ChildNodes)
+                {
+                    if (subNode.Attributes.Count > 0)
+                    {
+                        pageMeta = new CBZMetaDataEntryPage();
+
+                        foreach (XmlAttribute attrib in subNode.Attributes)
+                        {
+                            try
+                            {
+                                switch (attrib.Name.ToLower())
+                                {
+                                    case "image":
+                                        pageMeta.Image = int.Parse(attrib.Value);
+                                        break;
+
+                                    case "type":
+                                        pageMeta.ImageType = attrib.Value;
+                                        break;
+
+                                    case "doublepage":
+                                        pageMeta.DoublePage = Boolean.Parse(attrib.Value);
+                                        break;
+
+                                    case "imagesize":
+                                        pageMeta.ImageSize = long.Parse(attrib.Value);
+                                        break;
+
+                                    case "key":
+                                        pageMeta.Key = attrib.Value;
+                                        break;
+
+                                    case "imagewidth":
+                                        pageMeta.ImageWidth = int.Parse(attrib.Value);
+                                        break;
+
+                                    case "imagewheight":
+                                        pageMeta.ImageHeight = int.Parse(attrib.Value);
+                                        break;
+                                }
+                            } catch (Exception) { }
+                        }
+
+                        PageMetaData.Add(pageMeta);
+
+                    }
+                }
             }
 
         }
@@ -118,6 +167,33 @@ namespace MyCBZ
             Defaults.Add(new CBZMetaDataEntry("Characters", ""));
         }
 
+        public int FillMissingDefaultProps()
+        {
+            int i = 0;
+            bool valueExists;
+
+            foreach (CBZMetaDataEntry entry in Defaults)
+            {
+                valueExists = false;
+                foreach (CBZMetaDataEntry v in Values)
+                {
+                    if (v.Key.ToLower().Equals(entry.Key.ToLower()))
+                    {
+                        valueExists = true;
+                        break;
+                    }
+                }
+
+                if (!valueExists)
+                {
+                    Values.Add(entry);
+                    i++;
+                }
+
+            }
+
+            return i;
+        }
 
         public void Free()
         {
