@@ -1,0 +1,12 @@
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\CBZMage.csproj.AssemblyReference.cache
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\CBZMage.csproj.SuggestedBindingRedirects.cache
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\CBZMage.MainForm.resources
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\MyCBZ.Properties.Resources.resources
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\CBZMage.csproj.GenerateResource.cache
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\CBZMage.csproj.CoreCompileInputs.cache
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\MyCBZ.exe
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\MyCBZ.pdb
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\bin\Debug\MyCBZ.exe.config
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\bin\Debug\MyCBZ.exe
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\bin\Debug\MyCBZ.pdb
+C:\Users\Thomas\source\repos\MyCBZ\MyCBZ\obj\Debug\MyCBZ.ImageEditForm.resources
