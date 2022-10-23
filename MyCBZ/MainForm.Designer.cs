@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -156,9 +157,9 @@
             this.toolStripButton11,
             this.toolStripSeparator7,
             this.toolStripButton12});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 28);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 30);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1474, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1474, 31);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -168,13 +169,13 @@
             this.toolStripButton7.Image = global::MyCBZ.Properties.Resources.document;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton7.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton7.Text = "toolStripButton7";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton1
             // 
@@ -182,7 +183,7 @@
             this.toolStripButton1.Image = global::MyCBZ.Properties.Resources.folder;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton1.Text = "toolStripButton1";
             // 
             // toolStripButton2
@@ -191,13 +192,13 @@
             this.toolStripButton2.Image = global::MyCBZ.Properties.Resources.disk_blue;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton2.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton2.Text = "toolStripButton2";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton13
             // 
@@ -205,13 +206,13 @@
             this.toolStripButton13.Image = global::MyCBZ.Properties.Resources.folder_document;
             this.toolStripButton13.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton13.Name = "toolStripButton13";
-            this.toolStripButton13.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton13.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton13.Text = "toolStripButton13";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton3
             // 
@@ -219,7 +220,7 @@
             this.toolStripButton3.Image = global::MyCBZ.Properties.Resources.add2;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton3.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton3.Text = "toolStripButton3";
             // 
             // toolStripButton4
@@ -228,13 +229,13 @@
             this.toolStripButton4.Image = global::MyCBZ.Properties.Resources.delete2;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton4.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton4.Text = "toolStripButton4";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton5
             // 
@@ -242,7 +243,7 @@
             this.toolStripButton5.Image = global::MyCBZ.Properties.Resources.arrow_down_green;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton5.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton5.Text = "toolStripButton5";
             // 
             // toolStripButton6
@@ -251,13 +252,13 @@
             this.toolStripButton6.Image = global::MyCBZ.Properties.Resources.arrow_up_green;
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton6.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton6.Text = "toolStripButton6";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton8
             // 
@@ -265,13 +266,13 @@
             this.toolStripButton8.Image = global::MyCBZ.Properties.Resources.document_attachment;
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton8.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton8.Text = "toolStripButton8";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton9
             // 
@@ -279,7 +280,7 @@
             this.toolStripButton9.Image = global::MyCBZ.Properties.Resources.star_yellow_add;
             this.toolStripButton9.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton9.Name = "toolStripButton9";
-            this.toolStripButton9.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton9.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton9.Text = "toolStripButton9";
             // 
             // toolStripButton10
@@ -288,13 +289,13 @@
             this.toolStripButton10.Image = global::MyCBZ.Properties.Resources.export2;
             this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton10.Name = "toolStripButton10";
-            this.toolStripButton10.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton10.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton10.Text = "toolStripButton10";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton11
             // 
@@ -302,13 +303,13 @@
             this.toolStripButton11.Image = global::MyCBZ.Properties.Resources.checks;
             this.toolStripButton11.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton11.Name = "toolStripButton11";
-            this.toolStripButton11.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton11.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton11.Text = "toolStripButton11";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton12
             // 
@@ -316,7 +317,7 @@
             this.toolStripButton12.Image = global::MyCBZ.Properties.Resources.window_information;
             this.toolStripButton12.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton12.Name = "toolStripButton12";
-            this.toolStripButton12.Size = new System.Drawing.Size(29, 24);
+            this.toolStripButton12.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton12.Text = "toolStripButton12";
             // 
             // menuStrip1
@@ -328,7 +329,7 @@
             this.toolStripMenuItem4});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1474, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1474, 30);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -344,7 +345,7 @@
             this.toolStripMenuItem3,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -404,7 +405,7 @@
             this.toolStripSeparator9,
             this.addFilesToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(69, 26);
             this.projectToolStripMenuItem.Text = "Project";
             // 
             // addFolderToolStripMenuItem
@@ -431,7 +432,7 @@
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 24);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 26);
             this.toolStripMenuItem4.Text = "?";
             // 
             // aboutToolStripMenuItem
@@ -489,9 +490,9 @@
             this.MainPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.MainPanel.Controls.Add(this.MainSplitBox);
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainPanel.Location = new System.Drawing.Point(0, 55);
+            this.MainPanel.Location = new System.Drawing.Point(0, 61);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1474, 674);
+            this.MainPanel.Size = new System.Drawing.Size(1474, 668);
             this.MainPanel.TabIndex = 3;
             // 
             // MainSplitBox
@@ -508,7 +509,7 @@
             // MainSplitBox.Panel2
             // 
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1474, 674);
+            this.MainSplitBox.Size = new System.Drawing.Size(1474, 668);
             this.MainSplitBox.SplitterDistance = 487;
             this.MainSplitBox.TabIndex = 6;
             // 
@@ -526,8 +527,8 @@
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.tabControl1);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(485, 672);
-            this.SplitBoxPageView.SplitterDistance = 341;
+            this.SplitBoxPageView.Size = new System.Drawing.Size(485, 666);
+            this.SplitBoxPageView.SplitterDistance = 337;
             this.SplitBoxPageView.TabIndex = 6;
             // 
             // PageView
@@ -537,7 +538,7 @@
             this.PageView.LargeImageList = this.PageImages;
             this.PageView.Location = new System.Drawing.Point(0, 0);
             this.PageView.Name = "PageView";
-            this.PageView.Size = new System.Drawing.Size(485, 341);
+            this.PageView.Size = new System.Drawing.Size(485, 337);
             this.PageView.TabIndex = 6;
             this.PageView.UseCompatibleStateImageBehavior = false;
             this.PageView.SelectedIndexChanged += new System.EventHandler(this.PageView_SelectedIndexChanged);
@@ -551,7 +552,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(485, 327);
+            this.tabControl1.Size = new System.Drawing.Size(485, 325);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -560,7 +561,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(477, 298);
+            this.tabPage1.Size = new System.Drawing.Size(477, 296);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -598,8 +599,8 @@
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(981, 672);
-            this.SplitBoxItemsList.SplitterDistance = 342;
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(981, 666);
+            this.SplitBoxItemsList.SplitterDistance = 338;
             this.SplitBoxItemsList.TabIndex = 7;
             // 
             // PagesList
@@ -616,7 +617,7 @@
             this.PagesList.LabelEdit = true;
             this.PagesList.Location = new System.Drawing.Point(0, 0);
             this.PagesList.Name = "PagesList";
-            this.PagesList.Size = new System.Drawing.Size(981, 342);
+            this.PagesList.Size = new System.Drawing.Size(981, 338);
             this.PagesList.TabIndex = 5;
             this.PagesList.UseCompatibleStateImageBehavior = false;
             this.PagesList.View = System.Windows.Forms.View.Details;
@@ -648,7 +649,7 @@
             this.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetadataPanel.Location = new System.Drawing.Point(0, 0);
             this.MetadataPanel.Name = "MetadataPanel";
-            this.MetadataPanel.Size = new System.Drawing.Size(981, 326);
+            this.MetadataPanel.Size = new System.Drawing.Size(981, 324);
             this.MetadataPanel.TabIndex = 9;
             // 
             // MetadataTablePanel
@@ -665,7 +666,7 @@
             this.MetadataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.MetadataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.MetadataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MetadataTablePanel.Size = new System.Drawing.Size(981, 326);
+            this.MetadataTablePanel.Size = new System.Drawing.Size(981, 324);
             this.MetadataTablePanel.TabIndex = 7;
             // 
             // tableLayoutPanel1
@@ -751,6 +752,9 @@
             // 
             // metaDataGrid
             // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Empty;
+            this.metaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.metaDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -813,7 +817,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 275);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(975, 48);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(975, 46);
             this.flowLayoutPanel1.TabIndex = 8;
             // 
             // AddMetaDataRowBtn

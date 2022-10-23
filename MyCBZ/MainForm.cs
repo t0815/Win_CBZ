@@ -313,6 +313,7 @@ namespace CBZMage
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
             model.MetaData.Values.Add(new CBZMetaDataEntry(""));
+            metaDataGrid.Refresh();
         }
 
         private void metaDataGrid_SelectionChanged(object sender, EventArgs e)
@@ -344,7 +345,8 @@ namespace CBZMage
                 }
             } catch (MetaDataValidationException ve)
             {
-                e.Cancel = true;
+                metaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
+                //e.Cancel = true;
             }
         }
     }

@@ -102,7 +102,7 @@ namespace CBZMage
 
                 Pages.Add(cBZImage);
 
-                OnImageLoaded(new ItemLoadProgressEvent(index, fileList.Count, cBZImage));
+                OnImageLoaded(new ItemLoadProgressEvent(index, Pages.Count, cBZImage));
 
                 index++;
             }

@@ -212,7 +212,7 @@ namespace MyCBZ
 
             if (occurence > 1)
             {
-                throw new MetaDataValidationException(entry, "");
+                throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!");
             }
         }
 
