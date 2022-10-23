@@ -17,7 +17,7 @@ namespace CBZMage
     public partial class MainForm : Form
     {
 
-        private CBZProjectModel model;
+        private CBZProjectModel ProjectModel;
 
         private Thread ClosingTask;
 
@@ -28,11 +28,13 @@ namespace CBZMage
         public MainForm()
         {
             InitializeComponent();
-            model = new CBZProjectModel(Program.Path);
-            model.ImageProgress += FileLoaded;
-            model.ArchiveStatusChanged += ArchiveStateChanged;
-            model.ItemChanged += ItemChanged;
-            model.MetaDataLoaded += MetaDataLoaded;
+            ProjectModel = new CBZProjectModel(CBZMageSettings.Default.TempFolderPath);
+            ProjectModel.ImageProgress += FileLoaded;
+            ProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
+            ProjectModel.ItemChanged += ItemChanged;
+            ProjectModel.MetaDataLoaded += MetaDataLoaded;
+            ProjectModel.LogMessage += MessageLogged;
+            NewProject();            
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -42,7 +44,7 @@ namespace CBZMage
 
             if (openCBFResult == DialogResult.OK)
             {
-                ClosingTask = model.Close();
+                ClosingTask = ProjectModel.Close();
 
                 Task.Factory.StartNew(() =>
                 {
@@ -54,7 +56,7 @@ namespace CBZMage
                         }
                     }
 
-                    OpeningTask = model.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
+                    OpeningTask = ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
                 });
             }
         }
@@ -71,10 +73,12 @@ namespace CBZMage
             {
                 ListViewItem item = PagesList.Items.Add(e.Image.Name, -1);
                 item.SubItems.Add(e.Image.Number.ToString());
+                item.SubItems.Add(e.Image.ImageType.ToString());
                 item.SubItems.Add(e.Image.LastModified.ToString());
                 item.SubItems.Add(e.Image.Size.ToString());
-                if (!e.Image.Compressed) { 
-                    item.BackColor = Color.Orange;
+                if (!e.Image.Compressed) 
+                {
+                    item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
                 }
 
                 if (e.Image.Deleted)
@@ -112,6 +116,15 @@ namespace CBZMage
                 
                 }
             
+            }));
+        }
+
+        private void OperationFinished(object sender, OperationFinishedEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = 100;
+                toolStripProgressBar.Value = 0;
             }));
         }
 
@@ -160,31 +173,28 @@ namespace CBZMage
                 //
             }
 
-           
-            if (e.State == CBZArchiveStatusEvent.ARCHIVE_OPENED)
+            switch (e.State)
             {
-                filename = e.ArchiveInfo.FileName;
-            }
+                case CBZArchiveStatusEvent.ARCHIVE_OPENED:
+                    filename = e.ArchiveInfo.FileName;
+                    break;
 
+                case CBZArchiveStatusEvent.ARCHIVE_OPENING:
+                    filename = e.ArchiveInfo.FileName;
+                    info = "Reading archive...";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
+                    filename = "<NO FILE>";
+                    info = "Ready.";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
+                    filename = e.ArchiveInfo.FileName;
+                    info = "Closing file...";
+                    break;
+            }
           
-            if (e.State == CBZArchiveStatusEvent.ARCHIVE_OPENING)
-            {
-                filename = e.ArchiveInfo.FileName;
-                info = "Reading archive...";
-            }
-
-
-            if (e.State == CBZArchiveStatusEvent.ARCHIVE_CLOSING)
-            {
-                info = "Closing file...";
-            }
-
-            if (e.State == CBZArchiveStatusEvent.ARCHIVE_CLOSED)
-            {
-                //
-            }
-
-
             try
             {
                 if (this.InvokeRequired)
@@ -193,11 +203,83 @@ namespace CBZMage
                     {
                         fileNameLabel.Text = filename;
                         applicationStatusLabel.Text = info;
+
+                        DisableControllsForArchiveState(e.State);
                     }));
                 }
             } catch (Exception)
             {
 
+            }
+        }
+
+
+        private void MessageLogged(object sender, LogMessageEvent e)
+        {
+            try
+            {
+                if (!WindowClosed)
+                {
+                    MessageLogListView.Invoke(new Action(() =>
+                    {
+                        ListViewItem logItem = MessageLogListView.Items.Add("");
+                        logItem.SubItems.Add(e.MessageTime.LocalDateTime.ToString());
+                        logItem.SubItems.Add(e.Message);
+
+                        switch (e.Type)
+                        {
+                            case LogMessageEvent.LOGMESSAGE_TYPE_INFO:
+                                logItem.ImageIndex = 5;
+                                break;
+                            case LogMessageEvent.LOGMESSAGE_TYPE_WARNING:
+                                logItem.ImageIndex = 4;
+                                break;
+                            case LogMessageEvent.LOGMESSAGE_TYPE_ERROR:
+                                logItem.ImageIndex = 3;
+                                break;
+                            default:
+                                logItem.ImageIndex = -1;
+                                break;
+                        }
+                    }));
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
+        private void NewProject()
+        {
+            if (ProjectModel != null)
+            {
+                ProjectModel.New();
+            }
+        }
+
+        private void DisableControllsForArchiveState(int state) 
+        {
+            switch (state)
+            {
+                case CBZArchiveStatusEvent.ARCHIVE_OPENING:
+                    newToolStripMenuItem.Enabled = false;
+                    openToolStripMenuItem.Enabled = false;
+                    ToolButtonNew.Enabled = false;
+                    ToolButtonOpen.Enabled = false;
+                    addFilesToolStripMenuItem.Enabled = false;
+                    toolStripButton3.Enabled = false;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_OPENED:
+                    newToolStripMenuItem.Enabled = true;
+                    openToolStripMenuItem.Enabled = true;
+                    ToolButtonNew.Enabled = true;
+                    ToolButtonOpen.Enabled = true;
+                    addFilesToolStripMenuItem.Enabled = true;
+                    toolStripButton3.Enabled = true;
+                    break;
             }
         }
 
@@ -213,7 +295,7 @@ namespace CBZMage
                     }
                 }
 
-                ClosingTask = model.Close();
+                ClosingTask = ProjectModel.Close();
             });
         }
 
@@ -254,7 +336,7 @@ namespace CBZMage
             //ClearProject();
         }
 
-        private void addFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             DialogResult openImageResult = openImagesDialog.ShowDialog();
@@ -264,10 +346,10 @@ namespace CBZMage
             {
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
-                files = model.parseFiles(new List<String>(openImagesDialog.FileNames));
+                files = ProjectModel.ParseFiles(new List<String>(openImagesDialog.FileNames));
                 if (files.Count > 0)
                 {
-                    model.AddImages(files, newIndex);
+                    ProjectModel.AddImages(files, newIndex);
                 }
 
             }
@@ -279,16 +361,16 @@ namespace CBZMage
             //e.Label;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnAddMetaData_Click(object sender, EventArgs e)
         {
-            if (model.MetaData == null)
+            if (ProjectModel.MetaData == null)
             {
-                model.MetaData = new CBZMetaData(true);
+                ProjectModel.MetaData = new CBZMetaData(true);
             }
 
-            model.MetaData.FillMissingDefaultProps();
+            ProjectModel.MetaData.FillMissingDefaultProps();
 
-            MetaDataLoaded(sender, new MetaDataLoadEvent(model.MetaData.Values));
+            MetaDataLoaded(sender, new MetaDataLoadEvent(ProjectModel.MetaData.Values));
 
             btnAddMetaData.Enabled = false;
             btnRemoveMetaData.Enabled = true;
@@ -296,13 +378,13 @@ namespace CBZMage
             RemoveMetadataRowBtn.Enabled = false;
         }
 
-        private void btnRemoveMetaData_Click(object sender, EventArgs e)
+        private void BtnRemoveMetaData_Click(object sender, EventArgs e)
         {
-            if (model.MetaData != null)
+            if (ProjectModel.MetaData != null)
             {
                 metaDataGrid.DataSource = null;
 
-                model.MetaData.Values.Clear();
+                ProjectModel.MetaData.Values.Clear();
                 btnAddMetaData.Enabled = true;
                 btnRemoveMetaData.Enabled = false;
                 AddMetaDataRowBtn.Enabled = false;
@@ -312,11 +394,11 @@ namespace CBZMage
 
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
-            model.MetaData.Values.Add(new CBZMetaDataEntry(""));
+            ProjectModel.MetaData.Values.Add(new CBZMetaDataEntry(""));
             metaDataGrid.Refresh();
         }
 
-        private void metaDataGrid_SelectionChanged(object sender, EventArgs e)
+        private void MetaDataGrid_SelectionChanged(object sender, EventArgs e)
         {
             RemoveMetadataRowBtn.Enabled = metaDataGrid.SelectedRows.Count > 0;   
         }
@@ -329,25 +411,33 @@ namespace CBZMage
                 {
                     if (row.DataBoundItem is CBZMetaDataEntry)
                     {
-                        model.MetaData.Values.Remove((CBZMetaDataEntry)row.DataBoundItem);
+                        ProjectModel.MetaData.Values.Remove((CBZMetaDataEntry)row.DataBoundItem);
                     }
                 }
             }
         }
 
-        private void metaDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        private void MetaDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             try
             {
                 if (e.ColumnIndex == 0)
                 {
-                    model.MetaData.Validate((CBZMetaDataEntry)metaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
+                    ProjectModel.MetaData.Validate((CBZMetaDataEntry)metaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
                 }
             } catch (MetaDataValidationException ve)
             {
                 metaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
                 //e.Cancel = true;
             }
+        }
+
+        private void extractAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ProjectModel.Extract();
+            } catch (Exception) { }
         }
     }
 }

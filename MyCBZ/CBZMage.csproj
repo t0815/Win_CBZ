@@ -53,38 +53,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CBZImage.cs" />
-    <Compile Include="CBZMetaDataEntryPage.cs" />
-    <Compile Include="CBZProjectModel.cs" />
-    <Compile Include="CBZMetaData.cs" />
-    <Compile Include="CBZArchiveInfo.cs" />
-    <Compile Include="CBZMetaDataEntry.cs" />
-    <Compile Include="CBZLocalFile.cs" />
-    <Compile Include="MetaDataValidationException.cs" />
-    <Compile Include="ImageEditForm.cs">
+    <Compile Include="Events\ItemExtractedEvent.cs" />
+    <Compile Include="Models\CBZImage.cs" />
+    <Compile Include="CBZMageSettings.cs" />
+    <Compile Include="Models\CBZMetaDataEntryPage.cs" />
+    <Compile Include="Models\CBZProjectModel.cs" />
+    <Compile Include="Models\CBZMetaData.cs" />
+    <Compile Include="Models\CBZMetaDataEntry.cs" />
+    <Compile Include="Models\CBZLocalFile.cs" />
+    <Compile Include="PathHelper.cs" />
+    <Compile Include="HTMLColor.cs" />
+    <Compile Include="Colors.cs" />
+    <Compile Include="Events\LogMessageEvent.cs" />
+    <Compile Include="Events\OperationFinishedEvent.cs" />
+    <Compile Include="Exceptions\MetaDataValidationException.cs" />
+    <Compile Include="Forms\ImageEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageEditForm.Designer.cs">
+    <Compile Include="Forms\ImageEditForm.Designer.cs">
       <DependentUpon>ImageEditForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileOperationEvent.cs" />
-    <Compile Include="ItemChangedEvent.cs" />
-    <Compile Include="CBZArchiveStatusEvent.cs" />
-    <Compile Include="MetaDataLoadEvent.cs" />
-    <Compile Include="ItemFailedEvent.cs" />
-    <Compile Include="ItemLoadProgressEvent.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Events\FileOperationEvent.cs" />
+    <Compile Include="Events\ItemChangedEvent.cs" />
+    <Compile Include="Events\CBZArchiveStatusEvent.cs" />
+    <Compile Include="Events\MetaDataLoadEvent.cs" />
+    <Compile Include="Events\ItemFailedEvent.cs" />
+    <Compile Include="Events\ItemLoadProgressEvent.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ImageEditForm.resx">
+    <Compile Include="CBZMageSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>CBZMageSettings.settings</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\ImageEditForm.resx">
       <DependentUpon>ImageEditForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -107,6 +118,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <AdditionalFiles Include="CBZMageSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>CBZMageSettings.Designer.cs</LastGenOutput>
+    </AdditionalFiles>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

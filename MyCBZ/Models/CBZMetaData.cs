@@ -27,10 +27,11 @@ namespace MyCBZ
 
         private List<CBZMetaDataEntry> Defaults { get; set; }
 
-
         public BindingList<CBZMetaDataEntry> Values { get; set; }
 
         public BindingList<CBZMetaDataEntryPage> PageMetaData { get; set; }
+
+        public event EventHandler<LogMessageEvent> LogMessageEvent;
 
         private readonly Stream InputStream;
 

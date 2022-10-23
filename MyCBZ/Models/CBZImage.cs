@@ -17,10 +17,13 @@ namespace CBZMage
 
         public const int IMAGE_STATUS_NEW = 0;
         public const int IMAGE_STATUS_COMPRESSED = 1;
+        public const int IMAGE_STATUS_DELETED = 2;
 
         public String Filename { get; set; }
 
         public String Name { get; set; }
+
+        public String ImageType { get; set; } = "Story";
 
         public int Number { get; set; }
 
@@ -69,6 +72,7 @@ namespace CBZMage
             Filename = ImageFileInfo.Name;
             LocalPath = ImageFileInfo.Directory.FullName;
             Name = ImageFileInfo.Name;
+            LastModified = ImageFileInfo.LastWriteTime;
         }
         
 
@@ -105,14 +109,14 @@ namespace CBZMage
 
         public Image GetImage()
         {
-            this.loadImage();
+            this.LoadImage();
 
             return Image;
         }
 
         public Image GetThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
         {
-            this.loadImage();
+            this.LoadImage();
 
             Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
 
@@ -123,13 +127,21 @@ namespace CBZMage
         }
 
 
-        public void createLocalWorkingCopy()
+        public bool CreateLocalWorkingCopy()
         {
+            if (ImageStream != null)
+            {
+                if (ImageStream.CanRead)
+                {
 
+                }
+            }
+
+            return true;
         }
 
 
-        private void loadImage()
+        private void LoadImage()
         {
             if (Image == null && ImageStream.CanRead)
             {
