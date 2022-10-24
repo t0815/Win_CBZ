@@ -27,15 +27,17 @@ namespace CBZMage
 
         public String WorkingDir { get; set; }
 
+        public int ArchiveState { get; set; }
+
         protected String ProjectGUID { get; set; }
 
-        protected Boolean IsNew = false;
+        public Boolean IsNew = false;
 
-        protected Boolean IsSaved = false;
+        public Boolean IsSaved = false;
 
-        protected Boolean IsChanged = false;
+        public Boolean IsChanged = false;
 
-        protected Boolean IsClosed = false;
+        public Boolean IsClosed = false;
 
         public BindingList<CBZImage> Pages { get; set; }
 
@@ -71,7 +73,7 @@ namespace CBZMage
 
         private Thread CloseArchiveThread;
 
-       
+        private Thread SaveArchiveThread;
 
 
         public CBZProjectModel(String workingDir)
@@ -136,6 +138,32 @@ namespace CBZMage
             return LoadArchiveThread;
         }
 
+        public void Save()
+        {
+
+            if (LoadArchiveThread != null)
+            {
+                if (LoadArchiveThread.IsAlive)
+                {
+
+                    return;
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+
+                    return;
+                }
+            }
+
+            SaveArchiveThread = new Thread(new ThreadStart(ExtractArchiveProc));
+            SaveArchiveThread.Start();
+
+            // return SaveArchiveThread;
+        }
 
         public Thread Extract()
         {
@@ -162,36 +190,42 @@ namespace CBZMage
             return ExtractArchiveThread;
         }
 
+
+
         public void AddImages(List<CBZLocalFile> fileList, int maxIndex = 0)
         {
             int index = maxIndex;
+            int progress = 0;
 
             foreach (CBZLocalFile fileObject in fileList)
             {
                 try
                 {
-                    fileObject.FileInfo = fileObject.FileInfo.CopyTo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileInfo.Name);
-
-                    CBZImage cBZImage = new CBZImage(fileObject.FileInfo);
+                    FileInfo localCopyInfo = fileObject.FileInfo.CopyTo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileInfo.Name);
+                    
+                    CBZImage cBZImage = new CBZImage(localCopyInfo);
                     cBZImage.Size = fileObject.FileSize;
                     cBZImage.Number = index + 1;
                     cBZImage.Index = index;
-                    cBZImage.Filename = fileObject.FullPath;
+                    cBZImage.LocalPath = fileObject.FullPath;
                     cBZImage.Compressed = false;
                     cBZImage.LastModified = fileObject.FileInfo.LastWriteTime;
+                    cBZImage.Name = fileObject.FileInfo.Name;
+                    cBZImage.TempPath = localCopyInfo.FullName;
+                    fileObject.FileInfo = localCopyInfo;
 
                     Pages.Add(cBZImage);
 
-                    OnImageLoaded(new ItemLoadProgressEvent(index, Pages.Count, cBZImage));
+                    OnImageLoaded(new ItemLoadProgressEvent(progress, Pages.Count, cBZImage));
 
-                    index++;
+                    index++; progress++;
                 } catch (Exception ef)
                 {
                     OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message));
                 }
             }
 
-            OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
+            OnOperationFinished(new OperationFinishedEvent(progress, Pages.Count));
         }
 
         public List<CBZLocalFile> LoadDirectory(String path)
@@ -314,6 +348,7 @@ namespace CBZMage
                         cBZImage.Filename = entry.FullName;
                         cBZImage.Compressed = true;
                         cBZImage.LastModified = entry.LastWriteTime;
+                        cBZImage.Name = entry.Name;
 
                         Pages.Add(cBZImage);
                         OnImageLoaded(new ItemLoadProgressEvent(index, count, cBZImage));
@@ -342,7 +377,7 @@ namespace CBZMage
             int index = 0;
             try
             {
-                Archive = ZipFile.Open(Name, Mode);
+                Archive = ZipFile.Open(FileName, Mode);
                 count = Archive.Entries.Count;
 
                 try
@@ -359,21 +394,43 @@ namespace CBZMage
                 catch (Exception)
                 { }
 
+                ZipArchiveEntry fileEntry;
+                foreach (CBZImage cBZImage in Pages)
+                {
+                    try
+                    {
+                        fileEntry = Archive.GetEntry(cBZImage.Name);
+                        if (fileEntry != null)
+                        {
+                            fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
+                            cBZImage.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
+                            OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
+                            index++;
+                        }
+                    } catch (Exception efile)
+                    {
+                        OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]"));
+                    }
+
+                }
+
+                /*  Bulk Extract??!?
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
-                        entry.ExtractToFile(WorkingDir + ProjectGUID + "\\" + entry.Name);
-                        OnItemExtracted(new ItemExtractedEvent(index, count, WorkingDir + ProjectGUID + "\\" + entry.Name));
+                        entry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + entry.Name);
+                        OnItemExtracted(new ItemExtractedEvent(index, count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + entry.Name));
                         index++;
                     }
 
                     Thread.Sleep(50);
                 }
+                */
             }
             catch (Exception e)
             {
-                OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + e.Message + "]"));
+                OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive [" + e.Message + "]"));
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTED));

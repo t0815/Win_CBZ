@@ -18,6 +18,7 @@ namespace CBZMage
         public const int IMAGE_STATUS_NEW = 0;
         public const int IMAGE_STATUS_COMPRESSED = 1;
         public const int IMAGE_STATUS_DELETED = 2;
+        public const int IMAGE_STATUS_CHANGED = 3;
 
         public String Filename { get; set; }
 
@@ -73,6 +74,7 @@ namespace CBZMage
             LocalPath = ImageFileInfo.Directory.FullName;
             Name = ImageFileInfo.Name;
             LastModified = ImageFileInfo.LastWriteTime;
+            Size = ImageFileInfo.Length;
         }
         
 
@@ -93,6 +95,7 @@ namespace CBZMage
             Filename = fileInfoAccess.FullName;
             LocalPath = fileInfoAccess.Directory.FullName;
             Name = fileInfoAccess.Name;
+            Size = fileInfoAccess.Length;
         }
 
         public CBZImage(Stream fileInputStream, String name)
@@ -105,6 +108,16 @@ namespace CBZMage
         {
             ImageStream = zipInputStream;
             Name = name;
+        }
+
+        public void DeleteTemporaryFile()
+        {
+            File.Delete(TempPath);
+        }
+
+        public void DeleteLocalFile()
+        {
+            File.Delete(LocalPath);
         }
 
         public Image GetImage()

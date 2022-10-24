@@ -34,6 +34,7 @@ namespace CBZMage
             ProjectModel.ItemChanged += ItemChanged;
             ProjectModel.MetaDataLoaded += MetaDataLoaded;
             ProjectModel.LogMessage += MessageLogged;
+            ProjectModel.ItemExtracted += ItemExtracted;
             NewProject();            
         }
 
@@ -76,14 +77,22 @@ namespace CBZMage
                 item.SubItems.Add(e.Image.ImageType.ToString());
                 item.SubItems.Add(e.Image.LastModified.ToString());
                 item.SubItems.Add(e.Image.Size.ToString());
+                item.Tag = e.Image;
+
                 if (!e.Image.Compressed) 
                 {
                     item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
                 }
 
+                if (e.Image.Changed)
+                {
+                    item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+                }
+
                 if (e.Image.Deleted)
                 {
                     item.ForeColor = Color.Silver;
+                    item.BackColor = Color.Transparent;
                 }
 
                 PageImages.Images.Add(e.Image.GetThumbnail(ThumbAbort, Handle));
@@ -92,6 +101,7 @@ namespace CBZMage
             PageView.Invoke(new Action(() => {
                 ListViewItem page = PageView.Items.Add(e.Image.Filename, e.Index);
                 page.SubItems.Add(e.Image.Index.ToString());
+                page.Tag = e.Image;
             }));
             
         }
@@ -153,11 +163,29 @@ namespace CBZMage
             }
         }
 
+        private void ItemExtracted(object sender, ItemExtractedEvent e)
+        {
+            try
+            {
+                if (!WindowClosed)
+                {
+                    toolStripProgressBar.Control.Invoke(new Action(() =>
+                    {
+                        toolStripProgressBar.Maximum = e.Total;
+                        toolStripProgressBar.Value = e.Index;
+                    }));
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
         private void ArchiveStateChanged(object sender, CBZArchiveStatusEvent e)
         {
             String info = "Ready.";
-            String filename = "<NO FILE>";
+            String filename = e.ArchiveInfo.FileName;
 
             try
             {
@@ -176,11 +204,10 @@ namespace CBZMage
             switch (e.State)
             {
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
-                    filename = e.ArchiveInfo.FileName;
+                    info = "Ready.";
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENING:
-                    filename = e.ArchiveInfo.FileName;
                     info = "Reading archive...";
                     break;
 
@@ -190,7 +217,6 @@ namespace CBZMage
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
-                    filename = e.ArchiveInfo.FileName;
                     info = "Closing file...";
                     break;
             }
@@ -203,6 +229,7 @@ namespace CBZMage
                     {
                         fileNameLabel.Text = filename;
                         applicationStatusLabel.Text = info;
+                        ProjectModel.ArchiveState = e.State;
 
                         DisableControllsForArchiveState(e.State);
                     }));
@@ -314,9 +341,16 @@ namespace CBZMage
             ClearProject();
         }
 
-        private void PageView_SelectedIndexChanged(object sender, EventArgs e)
+        private void PageView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             ListView.SelectedListViewItemCollection selectedPages = this.PageView.SelectedItems;
+            bool buttonState = selectedPages.Count > 0;
+           
+            toolStripButton4.Enabled = buttonState;
+            toolStripButton5.Enabled = buttonState;
+            toolStripButton6.Enabled = buttonState;
+
+            toolStripButton9.Enabled = selectedPages.Count == 1;
 
             foreach (ListViewItem itempage in PagesList.Items)
             {
@@ -333,7 +367,12 @@ namespace CBZMage
         {
             WindowClosed = true;
 
-            //ClearProject();
+            if (ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
+                ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
+                ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
+                ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING) {
+                    e.Cancel = true;
+            }
         }
 
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -438,6 +477,37 @@ namespace CBZMage
             {
                 ProjectModel.Extract();
             } catch (Exception) { }
+        }
+
+        private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
+            bool buttonState = selectedPages.Count > 0;
+
+            toolStripButton4.Enabled = buttonState;
+            toolStripButton5.Enabled = buttonState;
+            toolStripButton6.Enabled = buttonState;
+
+            toolStripButton9.Enabled = selectedPages.Count == 1;
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
+
+            if (selectedPages.Count > 0)
+            {
+                foreach (ListViewItem img in selectedPages)
+                {
+                    ((CBZImage)img.Tag).Deleted = true;
+                    if (!((CBZImage)img.Tag).Compressed)
+                    {
+                        ((CBZImage)img.Tag).DeleteTemporaryFile();
+                    }
+                    img.ForeColor = Color.Silver;
+                    img.BackColor = Color.Transparent;
+                }
+            }
         }
     }
 }

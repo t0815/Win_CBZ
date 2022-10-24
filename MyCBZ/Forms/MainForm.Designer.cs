@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -120,8 +120,8 @@
             this.RemoveMetadataRowBtn = new System.Windows.Forms.Button();
             this.MessageLogListView = new System.Windows.Forms.ListView();
             this.messageLogColumnIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.messageLogColumnMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.messageLogColumnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.messageLogColumnMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -262,6 +262,7 @@
             this.toolStripButton4.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton4.Text = "toolStripButton4";
             this.toolStripButton4.ToolTipText = "Remove selected Page(s)";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // toolStripSeparator2
             // 
@@ -514,7 +515,7 @@
             // 
             this.extractAllToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.export2;
             this.extractAllToolStripMenuItem.Name = "extractAllToolStripMenuItem";
-            this.extractAllToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.extractAllToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.extractAllToolStripMenuItem.Text = "Extract all...";
             this.extractAllToolStripMenuItem.Click += new System.EventHandler(this.extractAllToolStripMenuItem_Click);
             // 
@@ -712,7 +713,7 @@
             this.PageView.Size = new System.Drawing.Size(483, 277);
             this.PageView.TabIndex = 6;
             this.PageView.UseCompatibleStateImageBehavior = false;
-            this.PageView.SelectedIndexChanged += new System.EventHandler(this.PageView_SelectedIndexChanged);
+            this.PageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PageView_ItemSelectionChanged);
             // 
             // tabControl1
             // 
@@ -768,7 +769,6 @@
             // 
             // PagesList
             // 
-            this.PagesList.CheckBoxes = true;
             this.PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NamePageCol,
             this.IndexPageCol,
@@ -785,6 +785,7 @@
             this.PagesList.TabIndex = 5;
             this.PagesList.UseCompatibleStateImageBehavior = false;
             this.PagesList.View = System.Windows.Forms.View.Details;
+            this.PagesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PagesList_ItemSelectionChanged);
             // 
             // NamePageCol
             // 
@@ -841,7 +842,7 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 98F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.Controls.Add(this.comboBox1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
@@ -863,7 +864,7 @@
             "ComicInfo.xml"});
             this.comboBox1.Location = new System.Drawing.Point(120, 3);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(755, 24);
+            this.comboBox1.Size = new System.Drawing.Size(753, 24);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.Text = "ComicInfo.xml";
             // 
@@ -875,12 +876,12 @@
             this.tableLayoutPanel2.Controls.Add(this.btnRemoveMetaData, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.btnAddMetaData, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(878, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(876, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(99, 29);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(101, 29);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // btnRemoveMetaData
@@ -889,10 +890,10 @@
             this.btnRemoveMetaData.Enabled = false;
             this.btnRemoveMetaData.ImageIndex = 1;
             this.btnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.btnRemoveMetaData.Location = new System.Drawing.Point(52, 3);
+            this.btnRemoveMetaData.Location = new System.Drawing.Point(53, 3);
             this.btnRemoveMetaData.Name = "btnRemoveMetaData";
             this.btnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnRemoveMetaData.Size = new System.Drawing.Size(44, 23);
+            this.btnRemoveMetaData.Size = new System.Drawing.Size(45, 23);
             this.btnRemoveMetaData.TabIndex = 8;
             this.btnRemoveMetaData.UseVisualStyleBackColor = true;
             this.btnRemoveMetaData.Click += new System.EventHandler(this.BtnRemoveMetaData_Click);
@@ -916,7 +917,7 @@
             this.btnAddMetaData.Location = new System.Drawing.Point(3, 3);
             this.btnAddMetaData.Name = "btnAddMetaData";
             this.btnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.btnAddMetaData.Size = new System.Drawing.Size(43, 23);
+            this.btnAddMetaData.Size = new System.Drawing.Size(44, 23);
             this.btnAddMetaData.TabIndex = 7;
             this.btnAddMetaData.UseVisualStyleBackColor = true;
             this.btnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);
@@ -934,8 +935,8 @@
             // metaDataGrid
             // 
             this.metaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.metaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.metaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.metaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.metaDataGrid.ContextMenuStrip = this.metaDataEditorContextMenu;
             this.metaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1003,15 +1004,15 @@
             // 
             this.messageLogColumnIcon.Text = "";
             // 
-            // messageLogColumnMessage
-            // 
-            this.messageLogColumnMessage.Text = "Message";
-            this.messageLogColumnMessage.Width = 400;
-            // 
             // messageLogColumnTime
             // 
             this.messageLogColumnTime.Text = "Time";
             this.messageLogColumnTime.Width = 120;
+            // 
+            // messageLogColumnMessage
+            // 
+            this.messageLogColumnMessage.Text = "Message";
+            this.messageLogColumnMessage.Width = 400;
             // 
             // MainForm
             // 
