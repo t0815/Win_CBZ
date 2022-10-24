@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,9 @@ namespace MyCBZ
         public static String ResolvePath(String path)
         {
             
-            String resolved = path;
-            String source = "";
+            String resolved = "";
             String env = "";
+            String cnf = "";
 
             if (path == null)
             {
@@ -25,27 +26,42 @@ namespace MyCBZ
 
             String[] parts = path.Split('\\');
 
-            source = parts.First();
-            if (source != null)
+            foreach (String part in parts)
             {
-                Match test = Regex.Match(source, "(\\%{1}[A-Za-z0-9]{1,}\\%{1})");
-                if (test.Success)
+                if (part.Length > 0)
                 {
-                    source = source.Trim('%');
-                    env = Environment.GetEnvironmentVariable(source);
-                    if (env != null)
+                    Match test = Regex.Match(part, "(\\%{1}[A-Za-z0-9]{1,}\\%{1})");
+                    if (test.Success)
                     {
-                        resolved = env;
-                        foreach (String r in parts.Skip(1))
+                        env = Environment.GetEnvironmentVariable(part.Trim('%'));
+                        if (env != null)
                         {
-                            resolved += "\\" + r;
+                            resolved += "\\" + env;
                         }
-                    }
+                        else
+                        {
+                            try
+                            {
+                                cnf = CBZMageSettings.Default[part.Trim('%')].ToString();
+                                resolved += "\\" + cnf;
+                            } catch (SettingsPropertyNotFoundException)
+                            {
+                                resolved += "\\" + part;
+                            }
+                        }
+                    } else
+                    {
+                        resolved += "\\" + part;
+                    }                 
                 }
             }
 
-            return resolved;
-        }
+            if (resolved.Length == 0)
+            {
+                resolved = path;
+            }
 
+            return resolved.TrimStart('\\');
+        }
     }
 }
