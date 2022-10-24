@@ -66,36 +66,45 @@ namespace CBZMage
 
         public delegate EventHandler<FileOperationEvent> FileOperationEventHandler();
         
-        public CBZImage(String fileName)
+        public CBZImage(String fileName, FileAccess mode = FileAccess.Read)
         {
             ImageFileInfo = new FileInfo(fileName);
-            FileStream ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-            Filename = ImageFileInfo.Name;
-            LocalPath = ImageFileInfo.Directory.FullName;
+            ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
+            if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+            {
+                RemoveReadOnlyAttribute(ref ImageFileInfo);
+            }
+            FileStream ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
+            Filename = ImageFileInfo.Name;       
+            LocalPath = ImageFileInfo.Directory.FullName;               
             Name = ImageFileInfo.Name;
             LastModified = ImageFileInfo.LastWriteTime;
             Size = ImageFileInfo.Length;
         }
         
 
-        public CBZImage(FileInfo fileInfoAccess)
+        public CBZImage(FileInfo ImageFileInfo, FileAccess mode = FileAccess.Read)
         {
-            ImageFileInfo = fileInfoAccess;
+            this.ImageFileInfo = ImageFileInfo;
+            ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
             try
             {
-                ImageStream = fileInfoAccess.Open(FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+                {
+                    RemoveReadOnlyAttribute(ref ImageFileInfo);
+                }
+                ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
+                ReadOnly = ImageStream.CanWrite;
             } catch (UnauthorizedAccessException uae)
             {
-                // MessageBox.Show(uae.Message);
-
-                ImageStream = fileInfoAccess.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                 ReadOnly = true;
             }
 
-            Filename = fileInfoAccess.FullName;
-            LocalPath = fileInfoAccess.Directory.FullName;
-            Name = fileInfoAccess.Name;
-            Size = fileInfoAccess.Length;
+            Filename = ImageFileInfo.FullName;
+            LocalPath = ImageFileInfo.Directory.FullName;
+            Name = ImageFileInfo.Name;
+            Size = ImageFileInfo.Length;
         }
 
         public CBZImage(Stream fileInputStream, String name)
@@ -110,14 +119,31 @@ namespace CBZMage
             Name = name;
         }
 
+
+        protected bool RemoveReadOnlyAttribute(ref FileInfo ImageFileInfo)
+        {
+            FileAttributes fileAttributes = ImageFileInfo.Attributes & ~FileAttributes.ReadOnly;
+            File.SetAttributes(ImageFileInfo.FullName, fileAttributes);
+            ImageFileInfo.Attributes = fileAttributes;
+
+            return !ImageFileInfo.IsReadOnly;
+        }
+
         public void DeleteTemporaryFile()
         {
-            File.Delete(TempPath);
+            if (TempPath != null)
+            {
+                ImageStream.Close();
+                File.Delete(TempPath);
+            }
         }
 
         public void DeleteLocalFile()
         {
-            File.Delete(LocalPath);
+            if (!ReadOnly)
+            {
+                File.Delete(LocalPath);
+            }           
         }
 
         public Image GetImage()
@@ -140,17 +166,28 @@ namespace CBZMage
         }
 
 
-        public bool CreateLocalWorkingCopy()
+        public String CreateLocalWorkingCopy(String destination)
         {
             if (ImageStream != null)
             {
                 if (ImageStream.CanRead)
                 {
+                    FileInfo copyFileInfo = new FileInfo(destination);
+                    FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
 
+                    ImageStream.CopyTo(localCopyStream);
+                    localCopyStream.Close();
+
+                    if (copyFileInfo.Exists)
+                    {
+                        TempPath = destination;
+
+                        return destination;
+                    }
                 }
             }
 
-            return true;
+            return "";
         }
 
 
@@ -180,6 +217,9 @@ namespace CBZMage
             {
                 Image.Dispose();
             }
+
+            ImageStream.Close();
+            ImageStream.Dispose();
         }
     }
 }

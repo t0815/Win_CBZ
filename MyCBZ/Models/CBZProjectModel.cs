@@ -203,7 +203,7 @@ namespace CBZMage
                 {
                     FileInfo localCopyInfo = fileObject.FileInfo.CopyTo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileInfo.Name);
                     
-                    CBZImage cBZImage = new CBZImage(localCopyInfo);
+                    CBZImage cBZImage = new CBZImage(localCopyInfo, FileAccess.ReadWrite);
                     cBZImage.Size = fileObject.FileSize;
                     cBZImage.Number = index + 1;
                     cBZImage.Index = index;

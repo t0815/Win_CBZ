@@ -502,7 +502,13 @@ namespace CBZMage
                     ((CBZImage)img.Tag).Deleted = true;
                     if (!((CBZImage)img.Tag).Compressed)
                     {
-                        ((CBZImage)img.Tag).DeleteTemporaryFile();
+                        try
+                        {
+                            ((CBZImage)img.Tag).DeleteTemporaryFile();
+                        } catch (Exception ex)
+                        {
+                            MessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message));
+                        }
                     }
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
