@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MyCBZ
@@ -27,7 +28,8 @@ namespace MyCBZ
             source = parts.First();
             if (source != null)
             {
-                if (source.Substring(0, 1).Equals("%") && source.Substring(source.Length - 1, 1).Equals("%"))
+                Match test = Regex.Match(source, "(\\%{1}[A-Za-z0-9]{1,}\\%{1})");
+                if (test.Success)
                 {
                     source = source.Trim('%');
                     env = Environment.GetEnvironmentVariable(source);
