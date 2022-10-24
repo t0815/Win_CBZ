@@ -30,6 +30,7 @@ namespace MyCBZ
             {
                 if (part.Length > 0)
                 {
+                    // check for placeholders in format %NAME%
                     Match test = Regex.Match(part, "(\\%{1}[A-Za-z0-9]{1,}\\%{1})");
                     if (test.Success)
                     {

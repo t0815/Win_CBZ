@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 
 namespace CBZMage
 {
@@ -221,7 +222,7 @@ namespace CBZMage
                     index++; progress++;
                 } catch (Exception ef)
                 {
-                    OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message));
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
                 }
             }
 
@@ -247,7 +248,7 @@ namespace CBZMage
                 }
             } catch (Exception ex)
             {
-                OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message));
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
             } finally
             {
                 
@@ -279,7 +280,7 @@ namespace CBZMage
 
             } catch (Exception ex)
             {
-                OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message));
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
             } finally
             {
                 //
@@ -329,11 +330,11 @@ namespace CBZMage
                         OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
                     } else
                     {
-                        OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!"));
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!");
                     }
                 } catch (Exception)
                 {
-                    OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!"));
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
                 }
 
                 foreach (ZipArchiveEntry entry in Archive.Entries)
@@ -361,7 +362,7 @@ namespace CBZMage
                 }
             } catch (Exception e)
             {
-                OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive\n" + e.Message));
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive\n" + e.Message);
             }
 
             FileSize = totalSize;
@@ -409,7 +410,7 @@ namespace CBZMage
                         }
                     } catch (Exception efile)
                     {
-                        OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]"));
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
                     }
 
                 }
@@ -430,7 +431,7 @@ namespace CBZMage
             }
             catch (Exception e)
             {
-                OnLogMessage(new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive [" + e.Message + "]"));
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive [" + e.Message + "]");
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTED));
@@ -501,15 +502,6 @@ namespace CBZMage
         protected virtual void OnOperationFinished(OperationFinishedEvent e)
         {
             EventHandler<OperationFinishedEvent> handler = OperationFinished;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
-        protected virtual void OnLogMessage(LogMessageEvent e)
-        {
-            EventHandler<LogMessageEvent> handler = LogMessage;
             if (handler != null)
             {
                 handler(this, e);

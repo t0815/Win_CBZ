@@ -33,8 +33,8 @@ namespace CBZMage
             ProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
             ProjectModel.ItemChanged += ItemChanged;
             ProjectModel.MetaDataLoaded += MetaDataLoaded;
-            ProjectModel.LogMessage += MessageLogged;
             ProjectModel.ItemExtracted += ItemExtracted;
+            MessageLogger.Instance.SetHandler(MessageLogged);
             NewProject();            
         }
 
@@ -507,7 +507,7 @@ namespace CBZMage
                             ((CBZImage)img.Tag).DeleteTemporaryFile();
                         } catch (Exception ex)
                         {
-                            MessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message));
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                         }
                     }
                     img.ForeColor = Color.Silver;
