@@ -99,7 +99,7 @@ namespace CBZMage
             }));
 
             PageView.Invoke(new Action(() => {
-                ListViewItem page = PageView.Items.Add(e.Image.Filename, e.Index);
+                ListViewItem page = PageView.Items.Add(e.Image.Name, e.Index);
                 page.SubItems.Add(e.Image.Index.ToString());
                 page.Tag = e.Image;
             }));
@@ -296,7 +296,11 @@ namespace CBZMage
                     ToolButtonNew.Enabled = false;
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
-                    toolStripButton3.Enabled = false;
+                    ToolButtonAddFiles.Enabled = false;
+                    btnAddMetaData.Enabled = false;
+                    btnRemoveMetaData.Enabled = false;
+                    ToolButtonExtractArchive.Enabled = false;
+                    extractAllToolStripMenuItem.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -305,7 +309,81 @@ namespace CBZMage
                     ToolButtonNew.Enabled = true;
                     ToolButtonOpen.Enabled = true;
                     addFilesToolStripMenuItem.Enabled = true;
-                    toolStripButton3.Enabled = true;
+                    ToolButtonAddFiles.Enabled = true;
+                    ToolButtonExtractArchive.Enabled = true;
+                    extractAllToolStripMenuItem.Enabled = true;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
+                    newToolStripMenuItem.Enabled = false;
+                    openToolStripMenuItem.Enabled = false;
+                    ToolButtonNew.Enabled = false;
+                    ToolButtonOpen.Enabled = false;
+                    addFilesToolStripMenuItem.Enabled = false;
+                    ToolButtonAddFiles.Enabled = false;
+                    btnAddMetaData.Enabled = false;
+                    btnRemoveMetaData.Enabled = false;
+                    ToolButtonExtractArchive.Enabled = false;
+                    extractAllToolStripMenuItem.Enabled = false;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_SAVED:
+                    newToolStripMenuItem.Enabled = true;
+                    openToolStripMenuItem.Enabled = true;
+                    ToolButtonNew.Enabled = true;
+                    ToolButtonOpen.Enabled = true;
+                    addFilesToolStripMenuItem.Enabled = true;
+                    ToolButtonAddFiles.Enabled = true;
+                    ToolButtonExtractArchive.Enabled = true;
+                    extractAllToolStripMenuItem.Enabled = true;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
+                    newToolStripMenuItem.Enabled = false;
+                    openToolStripMenuItem.Enabled = false;
+                    ToolButtonNew.Enabled = false;
+                    ToolButtonOpen.Enabled = false;
+                    addFilesToolStripMenuItem.Enabled = false;
+                    ToolButtonAddFiles.Enabled = false;
+                    btnRemoveMetaData.Enabled = false;
+                    ToolButtonExtractArchive.Enabled = false;
+                    extractAllToolStripMenuItem.Enabled = false;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
+                    newToolStripMenuItem.Enabled = true;
+                    openToolStripMenuItem.Enabled = true;
+                    ToolButtonNew.Enabled = true;
+                    ToolButtonOpen.Enabled = true;
+                    addFilesToolStripMenuItem.Enabled = true;
+                    ToolButtonAddFiles.Enabled = true;
+                    ToolButtonExtractArchive.Enabled = true;
+                    extractAllToolStripMenuItem.Enabled = true;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
+                    newToolStripMenuItem.Enabled = false;
+                    openToolStripMenuItem.Enabled = false;
+                    ToolButtonNew.Enabled = false;
+                    ToolButtonOpen.Enabled = false;
+                    addFilesToolStripMenuItem.Enabled = false;
+                    ToolButtonAddFiles.Enabled = false;
+                    btnAddMetaData.Enabled = false;
+                    btnRemoveMetaData.Enabled = false;
+                    ToolButtonExtractArchive.Enabled = false;
+                    extractAllToolStripMenuItem.Enabled = false;
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
+                    newToolStripMenuItem.Enabled = true;
+                    openToolStripMenuItem.Enabled = true;
+                    ToolButtonNew.Enabled = true;
+                    ToolButtonOpen.Enabled = true;
+                    addFilesToolStripMenuItem.Enabled = true;
+                    ToolButtonAddFiles.Enabled = true;
+                    ToolButtonRemoveFiles.Enabled = false;
+                    ToolButtonMovePageDown.Enabled = false;
+                    ToolButtonMovePageUp.Enabled = false;
                     break;
             }
         }
@@ -318,7 +396,7 @@ namespace CBZMage
                 {
                     while (OpeningTask.IsAlive)
                     {
-                        System.Threading.Thread.Sleep(100);
+                        System.Threading.Thread.Sleep(50);
                     }
                 }
 
@@ -326,9 +404,9 @@ namespace CBZMage
             });
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!WindowClosed)
+            if (!WindowClosed && !ArchiveProcessing())
             {
                 PagesList.Items.Clear();
                 PageView.Clear();
@@ -346,11 +424,11 @@ namespace CBZMage
             ListView.SelectedListViewItemCollection selectedPages = this.PageView.SelectedItems;
             bool buttonState = selectedPages.Count > 0;
            
-            toolStripButton4.Enabled = buttonState;
-            toolStripButton5.Enabled = buttonState;
-            toolStripButton6.Enabled = buttonState;
+            ToolButtonRemoveFiles.Enabled = buttonState;
+            ToolButtonMovePageDown.Enabled = buttonState;
+            ToolButtonMovePageUp.Enabled = buttonState;
 
-            toolStripButton9.Enabled = selectedPages.Count == 1;
+            ToolButtonSetPageType.Enabled = selectedPages.Count == 1;
 
             foreach (ListViewItem itempage in PagesList.Items)
             {
@@ -367,12 +445,7 @@ namespace CBZMage
         {
             WindowClosed = true;
 
-            if (ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
-                ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
-                ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
-                ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING) {
-                    e.Cancel = true;
-            }
+            e.Cancel = ArchiveProcessing();
         }
 
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -394,13 +467,24 @@ namespace CBZMage
             }
         }
 
+        // todo: implement
         private void PagesList_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             //PagesList.
             //e.Label;
         }
 
-        private void BtnAddMetaData_Click(object sender, EventArgs e)
+
+        private bool ArchiveProcessing()
+        {
+            return (ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
+               ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
+               ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
+               ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING);
+        }
+
+
+        private void AddMetaData()
         {
             if (ProjectModel.MetaData == null)
             {
@@ -409,7 +493,7 @@ namespace CBZMage
 
             ProjectModel.MetaData.FillMissingDefaultProps();
 
-            MetaDataLoaded(sender, new MetaDataLoadEvent(ProjectModel.MetaData.Values));
+            MetaDataLoaded(this, new MetaDataLoadEvent(ProjectModel.MetaData.Values));
 
             btnAddMetaData.Enabled = false;
             btnRemoveMetaData.Enabled = true;
@@ -417,7 +501,7 @@ namespace CBZMage
             RemoveMetadataRowBtn.Enabled = false;
         }
 
-        private void BtnRemoveMetaData_Click(object sender, EventArgs e)
+        private void RemoveMetaData() 
         {
             if (ProjectModel.MetaData != null)
             {
@@ -429,6 +513,16 @@ namespace CBZMage
                 AddMetaDataRowBtn.Enabled = false;
                 RemoveMetadataRowBtn.Enabled = false;
             }
+        }
+
+        private void BtnAddMetaData_Click(object sender, EventArgs e)
+        {
+            AddMetaData();
+        }
+
+        private void BtnRemoveMetaData_Click(object sender, EventArgs e)
+        {
+            RemoveMetaData();
         }
 
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
@@ -484,11 +578,11 @@ namespace CBZMage
             ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
             bool buttonState = selectedPages.Count > 0;
 
-            toolStripButton4.Enabled = buttonState;
-            toolStripButton5.Enabled = buttonState;
-            toolStripButton6.Enabled = buttonState;
+            ToolButtonRemoveFiles.Enabled = buttonState;
+            ToolButtonMovePageDown.Enabled = buttonState;
+            ToolButtonMovePageUp.Enabled = buttonState;
 
-            toolStripButton9.Enabled = selectedPages.Count == 1;
+            ToolButtonSetPageType.Enabled = selectedPages.Count == 1;
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
@@ -513,7 +607,58 @@ namespace CBZMage
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
                 }
+            }   
+        }
+
+        /*
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PagesList_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(List<ListViewItem>)))
+            {
+                var items = (List<ListViewItem>)e.Data.GetData(typeof(List<ListViewItem>));
+
+                ListViewItem targetItem = PagesList.GetItemAt(e.X, e.Y);
+
+                if (targetItem != null)
+                {
+                    foreach (ListViewItem lvi in items)
+                    {
+
+
+                    }
+                }
             }
         }
+
+        private void PagesList_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(List<ListViewItem>)))
+            {
+                e.Effect = DragDropEffects.Move;
+
+            }
+
+        }
+
+        private void PagesList_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            var items = new List<ListViewItem>();
+            items.Add((ListViewItem)e.Item);
+            foreach (ListViewItem lvi in PagesList.SelectedItems)
+            {
+                if (!items.Contains(lvi))
+                {
+                    items.Add(lvi);
+                }
+            }
+            // pass the items to move...
+            PagesList.DoDragDrop(items, DragDropEffects.Move);
+        }
+        **/
     }
 }

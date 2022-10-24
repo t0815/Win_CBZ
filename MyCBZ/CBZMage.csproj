@@ -53,6 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ExtendedListView\CancelListViewItemDragEventArgs.cs" />
+    <Compile Include="Components\ExtendedListView\ExtendetListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\ExtendedListView\ExtendetListView.Designer.cs">
+      <DependentUpon>ExtendetListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
+    <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
     <Compile Include="Models\CBZImage.cs" />
@@ -93,6 +102,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>CBZMageSettings.settings</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Components\ExtendedListView\ExtendetListView.resx">
+      <DependentUpon>ExtendetListView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageEditForm.resx">
       <DependentUpon>ImageEditForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -180,6 +192,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\export2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\import2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\preferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\harddisk_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\photo_portrait.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
