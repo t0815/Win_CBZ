@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -287,6 +288,28 @@ namespace CBZMage
             }
 
             return filesObjects;
+        }
+
+        public void UpdatePageIndices()
+        {
+            int newIndex = 0;
+            int updated = 1;
+            foreach (CBZImage page in Pages)
+            {
+                if (page.Deleted)
+                {
+                    page.Index = -1;
+                    page.Number = -1;
+                } else
+                {
+                    page.Index = newIndex;
+                    page.Number = newIndex + 1;
+                    newIndex++;
+                }
+
+                OnImageLoaded(new ItemLoadProgressEvent(updated, Pages.Count, page));
+                updated++;
+            }
         }
 
         public Thread Close()

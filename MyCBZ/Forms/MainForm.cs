@@ -75,11 +75,25 @@ namespace CBZMage
 
             PagesList.Invoke(new Action(() =>
             {
-                ListViewItem item = PagesList.Items.Add(e.Image.Name, -1);
-                item.SubItems.Add(e.Image.Number.ToString());
-                item.SubItems.Add(e.Image.ImageType.ToString());
-                item.SubItems.Add(e.Image.LastModified.ToString());
-                item.SubItems.Add(e.Image.Size.ToString());
+                ListViewItem item;
+                ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+
+                if (existingItem == null)
+                {
+                    item = PagesList.Items.Add(e.Image.Name, -1);
+                    item.SubItems.Add(e.Image.Number.ToString());
+                    item.SubItems.Add(e.Image.ImageType.ToString());
+                    item.SubItems.Add(e.Image.LastModified.ToString());
+                    item.SubItems.Add(e.Image.Size.ToString());
+                } else
+                {
+                    item = existingItem;
+                    item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
+                    item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
+                    item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
+                    item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Image.Size.ToString());
+                }
+               
                 item.Tag = e.Image;
 
                 if (!e.Image.Compressed) 
@@ -98,16 +112,45 @@ namespace CBZMage
                     item.BackColor = Color.Transparent;
                 }
 
-                PageImages.Images.Add(e.Image.GetThumbnail(ThumbAbort, Handle));
+                if (existingItem == null)
+                {
+                    PageImages.Images.Add(e.Image.GetThumbnail(ThumbAbort, Handle));
+                }
             }));
 
             PageView.Invoke(new Action(() => {
-                ListViewItem page = PageView.Items.Add("", e.Index);
-                page.SubItems.Add(e.Image.Name);
-                page.SubItems.Add(e.Image.Index.ToString());
+                ListViewItem page;
+                ListViewItem existingItem = FindListViewItemForPage(PageView, e.Image);
+
+                if (existingItem == null)
+                {
+                    page = PageView.Items.Add("", e.Index);
+                    page.SubItems.Add(e.Image.Name);
+                    page.SubItems.Add(e.Image.Index.ToString());
+                } else
+                {
+                    page = existingItem;
+                    page.SubItems[1] = new ListViewItem.ListViewSubItem(page, e.Image.Name);
+                    page.SubItems[2] = new ListViewItem.ListViewSubItem(page, e.Image.Index.ToString());
+                }
+                
                 page.Tag = e.Image;
             }));
             
+        }
+
+        private ListViewItem FindListViewItemForPage(ExtendetListView owner, CBZImage page)
+        {
+            foreach (ListViewItem item in owner.Items)
+            {
+                // if (((CBZImage)item.Tag).)
+                if (item.Tag.Equals(page))
+                {
+                    return item;
+                }
+            }
+
+            return null;
         }
 
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
@@ -619,6 +662,8 @@ namespace CBZMage
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
                 }
+
+                ProjectModel.UpdatePageIndices();
             }   
         }
 
@@ -654,6 +699,14 @@ namespace CBZMage
         private void ToolButtonEditImageProps_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in PagesList.Items)
+            {
+                item.Selected = true;
+            }
         }
 
 
