@@ -1,5 +1,7 @@
 # CBZ_Mage
 
+![Screenshot](/meta/Screenshot.jpg)
+
 ## Author
 
 KillerIsDead
