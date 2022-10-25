@@ -185,6 +185,12 @@ namespace MyCBZ
                     this.InsertionIndex = insertionIndex;
                     this.Invalidate();
                 }
+
+                // Scroll top or bottom for dragging item
+                if (this.InsertionIndex > -1 && this.InsertionIndex < this.Items.Count)
+                {
+                    EnsureVisible(this.InsertionIndex);
+                }
             }
 
             base.OnDragOver(drgevent);
