@@ -41,6 +41,12 @@ namespace CBZMage
 
         public Boolean IsClosed = false;
 
+        public Boolean ApplyRenaming = false;
+
+        public String RenameStoryPagePattern { get; set; }
+
+        public String RenameSpecialPagePattern { get; set; }
+
         public BindingList<CBZImage> Pages { get; set; }
 
         public CBZMetaData MetaData { get; set; }
@@ -344,6 +350,15 @@ namespace CBZMage
             }
         }
 
+        public String RenameEntry(CBZImage page)
+        {
+            string newName = page.Name;
+
+
+
+            return newName;
+        }
+
         public Thread Close()
         {
             if (LoadArchiveThread != null)
@@ -435,7 +450,10 @@ namespace CBZMage
             try
             {
                 Archive = ZipFile.Open(FileName, Mode);
-                count = Archive.Entries.Count;
+                if (Mode != ZipArchiveMode.Create)
+                {
+                    count = Archive.Entries.Count;
+                }
 
                 // Write files to archive
                 ZipArchiveEntry processingEntry;
@@ -443,19 +461,27 @@ namespace CBZMage
                 {
                     try
                     {
-                        if (page.Compressed)
+                        if (page.Compressed && Mode != ZipArchiveMode.Create)
                         {
                             processingEntry = Archive.GetEntry(page.EntryName);
                             processingEntry.Delete();
 
                             if (!page.Deleted)
                             {
+                                if (ApplyRenaming)
+                                {
+                                    page.Name = RenameEntry(page);
+                                }
                                 Archive.CreateEntryFromFile(page.TempPath, page.Name);
                             }
                         } else
                         {
                             if (!page.Deleted)
                             {
+                                if (ApplyRenaming)
+                                {
+                                    page.Name = RenameEntry(page);
+                                }
                                 Archive.CreateEntryFromFile(page.TempPath, page.Name);
                             }
                         }
@@ -476,6 +502,9 @@ namespace CBZMage
             } catch (Exception ex)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
+            } finally
+            {
+                Archive.Dispose();
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));

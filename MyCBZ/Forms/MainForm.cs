@@ -298,6 +298,14 @@ namespace CBZMage
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
                     info = "Closing file...";
                     break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_SAVED:
+                    info = "Ready.";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
+                    info = "Writing archive...";
+                    break;
             }
           
             try
@@ -395,6 +403,8 @@ namespace CBZMage
                     extractAllToolStripMenuItem.Enabled = true;
                     BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
+                    TextboxStoryPageRenamingPattern.Enabled = true;
+                    TextboxSpecialPageRenamingPattern.Enabled = true;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVING:
@@ -410,6 +420,9 @@ namespace CBZMage
                     extractAllToolStripMenuItem.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
+                    CheckBoxDoRenamePages.Enabled = false;
+                    TextboxStoryPageRenamingPattern.Enabled = false;
+                    TextboxSpecialPageRenamingPattern.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVED:
@@ -421,6 +434,9 @@ namespace CBZMage
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
                     extractAllToolStripMenuItem.Enabled = true;
+                    CheckBoxDoRenamePages.Enabled = true;
+                    TextboxStoryPageRenamingPattern.Enabled = true;
+                    TextboxSpecialPageRenamingPattern.Enabled = true;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
@@ -471,6 +487,8 @@ namespace CBZMage
                     ToolButtonMovePageUp.Enabled = false;
                     BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
+                    TextboxStoryPageRenamingPattern.Enabled = true;
+                    TextboxSpecialPageRenamingPattern.Enabled = true;
                     break;
             }
         }
