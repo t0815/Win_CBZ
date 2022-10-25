@@ -128,8 +128,10 @@
             // LicenseInfoRichtextBox
             // 
             this.LicenseInfoRichtextBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.LicenseInfoRichtextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LicenseInfoRichtextBox.Location = new System.Drawing.Point(153, 24);
             this.LicenseInfoRichtextBox.Name = "LicenseInfoRichtextBox";
+            this.LicenseInfoRichtextBox.ReadOnly = true;
             this.LicenseInfoRichtextBox.Size = new System.Drawing.Size(348, 165);
             this.LicenseInfoRichtextBox.TabIndex = 1;
             this.LicenseInfoRichtextBox.Text = "";

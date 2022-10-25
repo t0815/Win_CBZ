@@ -37,6 +37,10 @@ namespace CBZMage
             ProjectModel.ItemChanged += ItemChanged;
             ProjectModel.MetaDataLoaded += MetaDataLoaded;
             ProjectModel.ItemExtracted += ItemExtracted;
+            ProjectModel.OperationFinished += OperationFinished;
+            ProjectModel.FileOperation += FileOperationHandler;
+            ProjectModel.ArchiveOperation += ArchiveOperationHandler;
+
             MessageLogger.Instance.SetHandler(MessageLogged);
             NewProject();
         }
@@ -62,6 +66,16 @@ namespace CBZMage
 
                     OpeningTask = ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
                 });
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult saveDialogResult = SaveArchiveDialog.ShowDialog();
+
+            if (saveDialogResult == DialogResult.OK)
+            {
+                ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Create);
             }
         }
 
@@ -177,6 +191,24 @@ namespace CBZMage
         }
 
         private void OperationFinished(object sender, OperationFinishedEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = 100;
+                toolStripProgressBar.Value = 0;
+            }));
+        }
+
+        private void FileOperationHandler(object sender, FileOperationEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = 100;
+                toolStripProgressBar.Value = 0;
+            }));
+        }
+
+        private void ArchiveOperationHandler(object sender, ArchiveOperationEvent e)
         {
             toolStripProgressBar.Control.Invoke(new Action(() =>
             {
@@ -709,7 +741,7 @@ namespace CBZMage
             }
         }
 
-
+        
         /*
         /// <summary>
         /// 

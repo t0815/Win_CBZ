@@ -24,6 +24,8 @@ namespace CBZMage
 
         public String Name { get; set; }
 
+        public String EntryName { get; set; } 
+
         public String ImageType { get; set; } = "Story";
 
         public int Number { get; set; }
@@ -111,12 +113,14 @@ namespace CBZMage
         {
             ImageStream = fileInputStream;
             Name = name;
+            EntryName = name;
         }
 
         public CBZImage(GZipStream zipInputStream, String name)
         {
             ImageStream = zipInputStream;
             Name = name;
+            EntryName = name;
         }
 
 

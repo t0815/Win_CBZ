@@ -69,6 +69,10 @@ namespace CBZMage
 
         public event EventHandler<ItemExtractedEvent> ItemExtracted;
 
+        public event EventHandler<FileOperationEvent> FileOperation;
+
+        public event EventHandler<ArchiveOperationEvent> ArchiveOperation;
+
         private Thread LoadArchiveThread;
 
         private Thread ExtractArchiveThread;
@@ -161,10 +165,18 @@ namespace CBZMage
                 }
             }
 
-            SaveArchiveThread = new Thread(new ThreadStart(ExtractArchiveProc));
+            SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
             SaveArchiveThread.Start();
 
             // return SaveArchiveThread;
+        }
+
+        public void SaveAs(String path, ZipArchiveMode mode)
+        {
+            FileName = path;
+            Mode = mode;
+
+            Save();
         }
 
         public Thread Extract()
@@ -197,7 +209,6 @@ namespace CBZMage
         public void AddImages(List<CBZLocalFile> fileList, int maxIndex = 0)
         {
             int index = maxIndex;
-            int progress = 0;
 
             foreach (CBZLocalFile fileObject in fileList)
             {
@@ -218,16 +229,16 @@ namespace CBZMage
 
                     Pages.Add(cBZImage);
 
-                    OnImageLoaded(new ItemLoadProgressEvent(progress, Pages.Count, cBZImage));
+                    OnImageLoaded(new ItemLoadProgressEvent(index, Pages.Count, cBZImage));
 
-                    index++; progress++;
+                    index++;
                 } catch (Exception ef)
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
                 }
             }
 
-            OnOperationFinished(new OperationFinishedEvent(progress, Pages.Count));
+            OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
         }
 
         public List<CBZLocalFile> LoadDirectory(String path)
@@ -288,6 +299,27 @@ namespace CBZMage
             }
 
             return filesObjects;
+        }
+
+        public int RemoveDeletedPages()
+        {
+            int deletedPagesCount = 0;
+            List<CBZImage> deletedPagesList = new List<CBZImage>();
+
+            foreach (CBZImage page in Pages)
+            {
+                if (page.Deleted)
+                {
+                    deletedPagesList.Add(page);
+                }
+            }
+
+            foreach (CBZImage page in deletedPagesList)
+            {
+                Pages.Remove(page);
+            }
+
+            return deletedPagesCount;
         }
 
         public void UpdatePageIndices()
@@ -375,6 +407,7 @@ namespace CBZMage
                         cBZImage.Name = entry.Name;
 
                         Pages.Add(cBZImage);
+                        
                         OnImageLoaded(new ItemLoadProgressEvent(index, count, cBZImage));
 
                         totalSize += itemSize;
@@ -392,6 +425,62 @@ namespace CBZMage
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
         }
+
+        protected void SaveArchiveProc()
+        {
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+
+            int count = 0;
+            int index = 0;
+            try
+            {
+                Archive = ZipFile.Open(FileName, Mode);
+                count = Archive.Entries.Count;
+
+                // Write files to archive
+                ZipArchiveEntry processingEntry;
+                foreach (CBZImage page in Pages)
+                {
+                    try
+                    {
+                        if (page.Compressed)
+                        {
+                            processingEntry = Archive.GetEntry(page.EntryName);
+                            processingEntry.Delete();
+
+                            if (!page.Deleted)
+                            {
+                                Archive.CreateEntryFromFile(page.TempPath, page.Name);
+                            }
+                        } else
+                        {
+                            if (!page.Deleted)
+                            {
+                                Archive.CreateEntryFromFile(page.TempPath, page.Name);
+                            }
+                        }
+                    }
+                    catch (Exception efile)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath +"] to Archive [" + efile.Message + "]");
+                    }
+
+                    OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
+
+                    index++;
+                }
+
+                // Create Metadata
+
+
+            } catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
+            }
+
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+        }
+
 
         protected void ExtractArchiveProc()
         {
@@ -534,6 +623,24 @@ namespace CBZMage
         protected virtual void OnItemExtracted(ItemExtractedEvent e)
         {
             EventHandler<ItemExtractedEvent> handler = ItemExtracted;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnFileOperation(FileOperationEvent e)
+        {
+            EventHandler<FileOperationEvent> handler = FileOperation;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnArchiveOperation(ArchiveOperationEvent e)
+        {
+            EventHandler<ArchiveOperationEvent> handler = ArchiveOperation;
             if (handler != null)
             {
                 handler(this, e);

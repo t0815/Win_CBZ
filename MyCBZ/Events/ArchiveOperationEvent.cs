@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace MyCBZ
 {
-    internal class FileOperationEvent
+    internal class ArchiveOperationEvent
     {
 
         public const int STATUS_SUCCESS = 0;
         public const int STATUS_FAILED = -1;
 
-        public const int OPERATION_DELETE = 1;
-        public const int OPERATION_COPY = 2;
-        
+        public const int OPERATION_EXTRACT = 1;
+        public const int OPERATION_COMPRESS = 2;
 
         public int Operation { get; set; }
 
@@ -23,12 +22,12 @@ namespace MyCBZ
 
         public CBZImage Image { get; set; }
 
-        public long Completed { get; set; }
+        public int Completed { get; set; }
 
-        public long Total { get; set; }
+        public int Total { get; set; }
 
 
-        public FileOperationEvent(int operation, int status, long completed, long total, CBZImage image)
+        public ArchiveOperationEvent(int operation, int status, int completed, int total, CBZImage image)
         {
             this.Operation = operation;
             this.Status = status;   

@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
+    <Compile Include="Events\ArchiveOperationEvent.cs" />
     <Compile Include="Forms\AboutDialogForm.cs">
       <SubType>Form</SubType>
     </Compile>
