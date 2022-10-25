@@ -55,9 +55,9 @@ namespace CBZMage
             this.ToolButtonEditImageProps = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonSetPageType = new System.Windows.Forms.ToolStripSplitButton();
-            this.storyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TypeStoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
-            this.coverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TypeCoverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolButtonExtractArchive = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
@@ -384,9 +384,9 @@ namespace CBZMage
             // 
             this.ToolButtonSetPageType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonSetPageType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.storyToolStripMenuItem,
+            this.TypeStoryToolStripMenuItem,
             this.toolStripMenuItem9,
-            this.coverToolStripMenuItem});
+            this.TypeCoverToolStripMenuItem});
             this.ToolButtonSetPageType.Enabled = false;
             this.ToolButtonSetPageType.Image = global::MyCBZ.Properties.Resources.photo_portrait;
             this.ToolButtonSetPageType.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -395,22 +395,23 @@ namespace CBZMage
             this.ToolButtonSetPageType.Text = "toolStripSplitButton1";
             this.ToolButtonSetPageType.ToolTipText = "Set Type for selected pages";
             // 
-            // storyToolStripMenuItem
+            // TypeStoryToolStripMenuItem
             // 
-            this.storyToolStripMenuItem.Name = "storyToolStripMenuItem";
-            this.storyToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
-            this.storyToolStripMenuItem.Text = "Story";
+            this.TypeStoryToolStripMenuItem.Name = "TypeStoryToolStripMenuItem";
+            this.TypeStoryToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.TypeStoryToolStripMenuItem.Text = "Story";
+            this.TypeStoryToolStripMenuItem.Click += new System.EventHandler(this.TypeStoryToolStripMenuItem_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(127, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(221, 6);
             // 
-            // coverToolStripMenuItem
+            // TypeCoverToolStripMenuItem
             // 
-            this.coverToolStripMenuItem.Name = "coverToolStripMenuItem";
-            this.coverToolStripMenuItem.Size = new System.Drawing.Size(130, 26);
-            this.coverToolStripMenuItem.Text = "Cover";
+            this.TypeCoverToolStripMenuItem.Name = "TypeCoverToolStripMenuItem";
+            this.TypeCoverToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.TypeCoverToolStripMenuItem.Text = "Cover";
             // 
             // ToolButtonExtractArchive
             // 
@@ -687,7 +688,7 @@ namespace CBZMage
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1337,7 +1338,7 @@ namespace CBZMage
             this.MetaDataHeaderPanel.ColumnCount = 3;
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 128F));
             this.MetaDataHeaderPanel.Controls.Add(this.tableLayoutPanel1, 2, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.comboBox1, 1, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
@@ -1358,7 +1359,7 @@ namespace CBZMage
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.BtnRemoveMetaData, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.BtnAddMetaData, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(791, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(788, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -1412,7 +1413,7 @@ namespace CBZMage
             "ComicInfo.xml"});
             this.comboBox1.Location = new System.Drawing.Point(108, 3);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(680, 24);
+            this.comboBox1.Size = new System.Drawing.Size(677, 24);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.Text = "ComicInfo.xml";
             // 
@@ -1604,9 +1605,9 @@ namespace CBZMage
         private System.Windows.Forms.ColumnHeader messageLogColumnTime;
         private System.Windows.Forms.ColumnHeader messageLogColumnMessage;
         private System.Windows.Forms.ToolStripSplitButton ToolButtonSetPageType;
-        private System.Windows.Forms.ToolStripMenuItem storyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TypeStoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
-        private System.Windows.Forms.ToolStripMenuItem coverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TypeCoverToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;

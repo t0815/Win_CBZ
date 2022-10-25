@@ -305,6 +305,8 @@ namespace CBZMage
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -316,6 +318,8 @@ namespace CBZMage
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
                     extractAllToolStripMenuItem.Enabled = true;
+                    BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
+                    BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVING:
@@ -329,6 +333,8 @@ namespace CBZMage
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVED:
@@ -388,6 +394,8 @@ namespace CBZMage
                     ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonMovePageDown.Enabled = false;
                     ToolButtonMovePageUp.Enabled = false;
+                    BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
+                    BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
                     break;
             }
         }
@@ -627,6 +635,22 @@ namespace CBZMage
         {
             AboutDialogForm aboutDialogForm = new AboutDialogForm();
             aboutDialogForm.ShowDialog();
+        }
+
+        private void TypeStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in PagesList.SelectedItems)
+            {
+                ((CBZImage)item.Tag).ImageType = CBZMetaDataEntryPage.COMIC_PAGE_TYPE_FRONT_COVER;
+
+                if (item.SubItems.Count > 0)
+                {
+
+                }
+                
+            }
+
+            // PagesList.SelectedItems.
         }
 
         /*

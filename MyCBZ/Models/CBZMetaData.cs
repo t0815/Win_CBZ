@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -15,6 +16,10 @@ namespace MyCBZ
 {
     internal class CBZMetaData
     {
+        protected static readonly String[] DefaultProperties = { "Series", "Number", "Web",
+        "Summary", "Notes", "Publisher", "Imprint", "Genre", "PageCount", "LanguageISO",
+        "Artist", "Title", "Year", "Month", "Day", "AgeRating", "Characters"};
+
         public String MetaDataFileName { get; set; }
 
         public XmlNode Root { get; set; }
@@ -31,7 +36,6 @@ namespace MyCBZ
 
         public BindingList<CBZMetaDataEntryPage> PageMetaData { get; set; }
 
-        public event EventHandler<LogMessageEvent> LogMessageEvent;
 
         private readonly Stream InputStream;
 
@@ -94,6 +98,46 @@ namespace MyCBZ
             FillMissingDefaultProps();
         }
 
+        public void Save(String path)
+        {
+            MemoryStream ms = BuildComicInfoXMLStream();
+            using (FileStream fs = File.Create(path, 4096, FileOptions.WriteThrough))
+            {
+                ms.CopyTo(fs);
+                fs.Close();
+            }
+        }
+
+
+        public MemoryStream BuildComicInfoXMLStream()
+        {
+            MemoryStream ms = new MemoryStream();
+            XmlWriter xmlWriter = XmlWriter.Create(ms);
+
+            xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartElement("ComicInfo");
+            foreach (CBZMetaDataEntry entry in Values)
+            {
+                xmlWriter.WriteElementString(entry.Key, entry.Value);
+                xmlWriter.WriteEndElement();
+            }
+            xmlWriter.WriteStartElement("Pages");
+            foreach (CBZMetaDataEntryPage page in PageMetaData)
+            {
+                xmlWriter.WriteStartElement("Page");
+                foreach (KeyValuePair<String, String> attibute in page.Attributes)
+                {
+                    xmlWriter.WriteAttributeString(attibute.Key, attibute.Value);
+                }
+                xmlWriter.WriteEndElement();
+            }
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndElement();
+
+            return ms;
+        }
+
+
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
             CBZMetaDataEntryPage pageMeta;
@@ -110,66 +154,24 @@ namespace MyCBZ
                         {
                             try
                             {
-                                switch (attrib.Name.ToLower())
-                                {
-                                    case "image":
-                                        pageMeta.Image = int.Parse(attrib.Value);
-                                        break;
-
-                                    case "type":
-                                        pageMeta.ImageType = attrib.Value;
-                                        break;
-
-                                    case "doublepage":
-                                        pageMeta.DoublePage = Boolean.Parse(attrib.Value);
-                                        break;
-
-                                    case "imagesize":
-                                        pageMeta.ImageSize = long.Parse(attrib.Value);
-                                        break;
-
-                                    case "key":
-                                        pageMeta.Key = attrib.Value;
-                                        break;
-
-                                    case "imagewidth":
-                                        pageMeta.ImageWidth = int.Parse(attrib.Value);
-                                        break;
-
-                                    case "imagewheight":
-                                        pageMeta.ImageHeight = int.Parse(attrib.Value);
-                                        break;
-                                }
-                            } catch (Exception) { }
+                                pageMeta.SetAttribute(attrib.Name, attrib.Value);
+                            } catch (Exception) {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to read page->" + attrib.Name + " from ComicInfo.xml");
+                            }
                         }
 
                         PageMetaData.Add(pageMeta);
-
                     }
                 }
             }
-
         }
 
         protected void MakeDefaultKeys()
         {
-            Defaults.Add(new CBZMetaDataEntry("Series", ""));
-            Defaults.Add(new CBZMetaDataEntry("Number", ""));
-            Defaults.Add(new CBZMetaDataEntry("Web", ""));
-            Defaults.Add(new CBZMetaDataEntry("Summary", ""));
-            Defaults.Add(new CBZMetaDataEntry("Notes", ""));
-            Defaults.Add(new CBZMetaDataEntry("Publisher", ""));
-            Defaults.Add(new CBZMetaDataEntry("Imprint", ""));
-            Defaults.Add(new CBZMetaDataEntry("Genre", ""));
-            Defaults.Add(new CBZMetaDataEntry("PageCount", "", true));
-            Defaults.Add(new CBZMetaDataEntry("LanguageISO", ""));
-            Defaults.Add(new CBZMetaDataEntry("Artist", ""));
-            Defaults.Add(new CBZMetaDataEntry("Title", ""));
-            Defaults.Add(new CBZMetaDataEntry("Year", ""));
-            Defaults.Add(new CBZMetaDataEntry("Month", ""));
-            Defaults.Add(new CBZMetaDataEntry("Day", ""));
-            Defaults.Add(new CBZMetaDataEntry("AgeRating", ""));
-            Defaults.Add(new CBZMetaDataEntry("Characters", ""));
+            foreach (String prop in DefaultProperties)
+            {
+                Defaults.Add(new CBZMetaDataEntry(prop, ""));
+            }
         }
 
         public int FillMissingDefaultProps()
