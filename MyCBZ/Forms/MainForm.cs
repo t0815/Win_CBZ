@@ -11,6 +11,7 @@ using System.IO.Compression;
 using System.Reflection;
 using MyCBZ;
 using System.Threading;
+using MyCBZ.Forms;
 
 namespace CBZMage
 {
@@ -620,6 +621,12 @@ namespace CBZMage
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "CBZ_Mage v" + CBZMageSettings.Default.Version + "  - Welcome!");
                 WindowShown = true;
             }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutDialogForm aboutDialogForm = new AboutDialogForm();
+            aboutDialogForm.ShowDialog();
         }
 
         /*

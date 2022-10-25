@@ -63,6 +63,12 @@
     </Compile>
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
+    <Compile Include="Forms\AboutDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutDialogForm.Designer.cs">
+      <DependentUpon>AboutDialogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
     <Compile Include="Models\CBZImage.cs" />
@@ -78,11 +84,11 @@
     <Compile Include="Events\LogMessageEvent.cs" />
     <Compile Include="Events\OperationFinishedEvent.cs" />
     <Compile Include="Exceptions\MetaDataValidationException.cs" />
-    <Compile Include="Forms\ImageEditForm.cs">
+    <Compile Include="Forms\ImagePreviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ImageEditForm.Designer.cs">
-      <DependentUpon>ImageEditForm.cs</DependentUpon>
+    <Compile Include="Forms\ImagePreviewForm.Designer.cs">
+      <DependentUpon>ImagePreviewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Events\FileOperationEvent.cs" />
     <Compile Include="Events\ItemChangedEvent.cs" />
@@ -106,8 +112,11 @@
     <EmbeddedResource Include="Components\ExtendedListView\ExtendetListView.resx">
       <DependentUpon>ExtendetListView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ImageEditForm.resx">
-      <DependentUpon>ImageEditForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AboutDialogForm.resx">
+      <DependentUpon>AboutDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImagePreviewForm.resx">
+      <DependentUpon>ImagePreviewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

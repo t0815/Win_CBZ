@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyCBZ
+namespace MyCBZ.Forms
 {
-    public partial class ImageEditForm : Form
+    public partial class AboutDialogForm : Form
     {
-        public ImageEditForm()
+        public AboutDialogForm()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

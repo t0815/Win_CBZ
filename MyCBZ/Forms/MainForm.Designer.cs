@@ -32,10 +32,10 @@ namespace CBZMage
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,6 +46,8 @@ namespace CBZMage
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonAddFiles = new System.Windows.Forms.ToolStripButton();
             this.ToolButtonRemoveFiles = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolButtonBuild = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonMovePageDown = new System.Windows.Forms.ToolStripButton();
             this.ToolButtonMovePageUp = new System.Windows.Forms.ToolStripButton();
@@ -61,6 +63,7 @@ namespace CBZMage
             this.toolStripButton11 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonInfo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolBarSearchLabel = new System.Windows.Forms.ToolStripLabel();
             this.ToolBarSearchInput = new System.Windows.Forms.ToolStripTextBox();
             this.MenuBar = new System.Windows.Forms.MenuStrip();
@@ -86,6 +89,8 @@ namespace CBZMage
             this.addFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.extractAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripSeparator();
+            this.buildCBZToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extrasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearTemporaryFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,6 +120,26 @@ namespace CBZMage
             this.ImageQualitySliderMinLabel = new System.Windows.Forms.Label();
             this.ImageQualityTrackBar = new System.Windows.Forms.TrackBar();
             this.TabPageGlobalSettings = new System.Windows.Forms.TabPage();
+            this.GroupBoxImageRenaming = new System.Windows.Forms.GroupBox();
+            this.TextboxSpecialPageRenamingPattern = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.PlaceholdersFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.PlaceholdersInfoLabel = new System.Windows.Forms.Label();
+            this.TextboxStoryPageRenamingPattern = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SplitBoxItemsList = new System.Windows.Forms.SplitContainer();
             this.PagesList = new MyCBZ.ExtendetListView();
             this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -139,20 +164,6 @@ namespace CBZMage
             this.messageLogColumnIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.messageLogColumnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.messageLogColumnMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.GroupBoxImageRenaming = new System.Windows.Forms.GroupBox();
-            this.PlaceholdersInfoLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.PlaceholdersFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -175,6 +186,9 @@ namespace CBZMage
             this.GroupBoxImageQuality.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).BeginInit();
             this.TabPageGlobalSettings.SuspendLayout();
+            this.GroupBoxImageRenaming.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.PlaceholdersFlowPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitBoxItemsList)).BeginInit();
             this.SplitBoxItemsList.Panel1.SuspendLayout();
             this.SplitBoxItemsList.Panel2.SuspendLayout();
@@ -185,9 +199,6 @@ namespace CBZMage
             this.panel1.SuspendLayout();
             this.MetaDataHeaderPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.GroupBoxImageRenaming.SuspendLayout();
-            this.PlaceholdersFlowPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolBar
@@ -203,6 +214,8 @@ namespace CBZMage
             this.toolStripSeparator1,
             this.ToolButtonAddFiles,
             this.ToolButtonRemoveFiles,
+            this.toolStripSeparator10,
+            this.ToolButtonBuild,
             this.toolStripSeparator2,
             this.ToolButtonMovePageDown,
             this.ToolButtonMovePageUp,
@@ -215,6 +228,7 @@ namespace CBZMage
             this.toolStripButton11,
             this.toolStripSeparator7,
             this.ToolButtonInfo,
+            this.toolStripSeparator11,
             this.ToolBarSearchLabel,
             this.ToolBarSearchInput});
             this.ToolBar.Location = new System.Drawing.Point(0, 28);
@@ -303,6 +317,22 @@ namespace CBZMage
             this.ToolButtonRemoveFiles.Text = "toolStripButton4";
             this.ToolButtonRemoveFiles.ToolTipText = "Remove selected Page(s)";
             this.ToolButtonRemoveFiles.Click += new System.EventHandler(this.toolStripButton4_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(6, 27);
+            // 
+            // ToolButtonBuild
+            // 
+            this.ToolButtonBuild.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolButtonBuild.Enabled = false;
+            this.ToolButtonBuild.Image = global::MyCBZ.Properties.Resources.box_white;
+            this.ToolButtonBuild.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolButtonBuild.Name = "ToolButtonBuild";
+            this.ToolButtonBuild.Size = new System.Drawing.Size(29, 24);
+            this.ToolButtonBuild.Text = "toolStripButton1";
+            this.ToolButtonBuild.ToolTipText = "Build CBZ";
             // 
             // toolStripSeparator2
             // 
@@ -421,6 +451,11 @@ namespace CBZMage
             this.ToolButtonInfo.Name = "ToolButtonInfo";
             this.ToolButtonInfo.Size = new System.Drawing.Size(29, 24);
             this.ToolButtonInfo.Text = "toolStripButton12";
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(6, 27);
             // 
             // ToolBarSearchLabel
             // 
@@ -572,7 +607,9 @@ namespace CBZMage
             this.toolStripSeparator9,
             this.addFilesToolStripMenuItem,
             this.toolStripMenuItem8,
-            this.extractAllToolStripMenuItem});
+            this.extractAllToolStripMenuItem,
+            this.toolStripMenuItem11,
+            this.buildCBZToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.projectToolStripMenuItem.Text = "Project";
@@ -611,6 +648,19 @@ namespace CBZMage
             this.extractAllToolStripMenuItem.Text = "Extract all...";
             this.extractAllToolStripMenuItem.Click += new System.EventHandler(this.ExtractAllToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem11
+            // 
+            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(172, 6);
+            // 
+            // buildCBZToolStripMenuItem
+            // 
+            this.buildCBZToolStripMenuItem.Enabled = false;
+            this.buildCBZToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.box_white;
+            this.buildCBZToolStripMenuItem.Name = "buildCBZToolStripMenuItem";
+            this.buildCBZToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
+            this.buildCBZToolStripMenuItem.Text = "Build CBZ";
+            // 
             // extrasToolStripMenuItem
             // 
             this.extrasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -637,8 +687,9 @@ namespace CBZMage
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // OpenCBFDialog
             // 
@@ -834,7 +885,7 @@ namespace CBZMage
             // TabPagePageSettings
             // 
             this.TabPagePageSettings.Controls.Add(this.GroupBoxImageQuality);
-            this.TabPagePageSettings.ImageIndex = 2;
+            this.TabPagePageSettings.ImageIndex = 1;
             this.TabPagePageSettings.Location = new System.Drawing.Point(4, 25);
             this.TabPagePageSettings.Name = "TabPagePageSettings";
             this.TabPagePageSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -859,6 +910,7 @@ namespace CBZMage
             // 
             // ImageQualitySliderMaxLabel
             // 
+            this.ImageQualitySliderMaxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageQualitySliderMaxLabel.AutoSize = true;
             this.ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(157, 66);
             this.ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
@@ -891,7 +943,7 @@ namespace CBZMage
             // TabPageGlobalSettings
             // 
             this.TabPageGlobalSettings.Controls.Add(this.GroupBoxImageRenaming);
-            this.TabPageGlobalSettings.ImageIndex = 1;
+            this.TabPageGlobalSettings.ImageIndex = 2;
             this.TabPageGlobalSettings.Location = new System.Drawing.Point(4, 25);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(3);
@@ -899,6 +951,215 @@ namespace CBZMage
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
+            // 
+            // GroupBoxImageRenaming
+            // 
+            this.GroupBoxImageRenaming.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupBoxImageRenaming.Controls.Add(this.TextboxSpecialPageRenamingPattern);
+            this.GroupBoxImageRenaming.Controls.Add(this.label13);
+            this.GroupBoxImageRenaming.Controls.Add(this.label12);
+            this.GroupBoxImageRenaming.Controls.Add(this.label9);
+            this.GroupBoxImageRenaming.Controls.Add(this.pictureBox1);
+            this.GroupBoxImageRenaming.Controls.Add(this.PlaceholdersFlowPanel);
+            this.GroupBoxImageRenaming.Controls.Add(this.PlaceholdersInfoLabel);
+            this.GroupBoxImageRenaming.Controls.Add(this.TextboxStoryPageRenamingPattern);
+            this.GroupBoxImageRenaming.Controls.Add(this.checkBox1);
+            this.GroupBoxImageRenaming.Location = new System.Drawing.Point(7, 6);
+            this.GroupBoxImageRenaming.Name = "GroupBoxImageRenaming";
+            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(188, 306);
+            this.GroupBoxImageRenaming.TabIndex = 5;
+            this.GroupBoxImageRenaming.TabStop = false;
+            this.GroupBoxImageRenaming.Text = "Renaming";
+            // 
+            // TextboxSpecialPageRenamingPattern
+            // 
+            this.TextboxSpecialPageRenamingPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextboxSpecialPageRenamingPattern.Location = new System.Drawing.Point(10, 122);
+            this.TextboxSpecialPageRenamingPattern.Name = "TextboxSpecialPageRenamingPattern";
+            this.TextboxSpecialPageRenamingPattern.Size = new System.Drawing.Size(172, 22);
+            this.TextboxSpecialPageRenamingPattern.TabIndex = 8;
+            this.TextboxSpecialPageRenamingPattern.Text = "{type}_{index}";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(8, 103);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(160, 16);
+            this.label13.TabIndex = 7;
+            this.label13.Text = "Special Pages (i.e Cover)";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(8, 47);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(119, 16);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "Default Story Page";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.Location = new System.Drawing.Point(35, 249);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(147, 54);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Note: Parameter {type} is only applied for pages other than \"Story\"";
+            this.label9.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::MyCBZ.Properties.Resources.information;
+            this.pictureBox1.Location = new System.Drawing.Point(11, 249);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(18, 19);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
+            // 
+            // PlaceholdersFlowPanel
+            // 
+            this.PlaceholdersFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PlaceholdersFlowPanel.Controls.Add(this.label2);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label3);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label10);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label4);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label5);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label6);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label7);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label11);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label8);
+            this.PlaceholdersFlowPanel.Controls.Add(this.label14);
+            this.PlaceholdersFlowPanel.Location = new System.Drawing.Point(12, 175);
+            this.PlaceholdersFlowPanel.Name = "PlaceholdersFlowPanel";
+            this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(4);
+            this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(171, 68);
+            this.PlaceholdersFlowPanel.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 4);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(37, 16);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "{title}";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(50, 4);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 16);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "{page}";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(105, 4);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 16);
+            this.label10.TabIndex = 7;
+            this.label10.Text = "{pages}";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 16);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "{size}";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(54, 20);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 16);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "{number}";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 36);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 16);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "{month}";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(66, 36);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(44, 16);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "{year}";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(116, 36);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(43, 16);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "{lang}";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 52);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(54, 16);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "{series}";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(67, 52);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(43, 16);
+            this.label14.TabIndex = 9;
+            this.label14.Text = "{type}";
+            // 
+            // PlaceholdersInfoLabel
+            // 
+            this.PlaceholdersInfoLabel.AutoSize = true;
+            this.PlaceholdersInfoLabel.Location = new System.Drawing.Point(13, 150);
+            this.PlaceholdersInfoLabel.Name = "PlaceholdersInfoLabel";
+            this.PlaceholdersInfoLabel.Size = new System.Drawing.Size(87, 16);
+            this.PlaceholdersInfoLabel.TabIndex = 2;
+            this.PlaceholdersInfoLabel.Text = "Placeholders";
+            // 
+            // TextboxStoryPageRenamingPattern
+            // 
+            this.TextboxStoryPageRenamingPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextboxStoryPageRenamingPattern.Location = new System.Drawing.Point(10, 66);
+            this.TextboxStoryPageRenamingPattern.Name = "TextboxStoryPageRenamingPattern";
+            this.TextboxStoryPageRenamingPattern.Size = new System.Drawing.Size(173, 22);
+            this.TextboxStoryPageRenamingPattern.TabIndex = 1;
+            this.TextboxStoryPageRenamingPattern.Text = "{title}_p_{page}";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(6, 21);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(124, 20);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Rename Pages";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // SplitBoxItemsList
             // 
@@ -979,7 +1240,7 @@ namespace CBZMage
             this.MetadataPanel.RowCount = 3;
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.72727F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.27273F));
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.MetadataPanel.Size = new System.Drawing.Size(923, 346);
             this.MetadataPanel.TabIndex = 10;
@@ -991,68 +1252,75 @@ namespace CBZMage
             this.MetaDataTableActionsPanel.AutoSize = true;
             this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
             this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
-            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 293);
+            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 300);
             this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
-            this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(917, 50);
+            this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(917, 43);
             this.MetaDataTableActionsPanel.TabIndex = 13;
             // 
             // AddMetaDataRowBtn
             // 
             this.AddMetaDataRowBtn.Enabled = false;
             this.AddMetaDataRowBtn.Image = global::MyCBZ.Properties.Resources.add2;
+            this.AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddMetaDataRowBtn.Location = new System.Drawing.Point(3, 3);
             this.AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
-            this.AddMetaDataRowBtn.Size = new System.Drawing.Size(46, 44);
+            this.AddMetaDataRowBtn.Size = new System.Drawing.Size(166, 39);
             this.AddMetaDataRowBtn.TabIndex = 0;
+            this.AddMetaDataRowBtn.Text = "Add Property";
             this.AddMetaDataRowBtn.UseVisualStyleBackColor = true;
+            this.AddMetaDataRowBtn.Click += new System.EventHandler(this.AddMetaDataRowBtn_Click);
             // 
             // RemoveMetadataRowBtn
             // 
             this.RemoveMetadataRowBtn.Enabled = false;
             this.RemoveMetadataRowBtn.Image = global::MyCBZ.Properties.Resources.delete2;
-            this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(55, 3);
+            this.RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(175, 3);
             this.RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
-            this.RemoveMetadataRowBtn.Size = new System.Drawing.Size(47, 44);
+            this.RemoveMetadataRowBtn.Size = new System.Drawing.Size(158, 39);
             this.RemoveMetadataRowBtn.TabIndex = 1;
+            this.RemoveMetadataRowBtn.Text = "Remove";
             this.RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
+            this.RemoveMetadataRowBtn.Click += new System.EventHandler(this.RemoveMetadataRowBtn_Click);
             // 
             // MetaDataGrid
             // 
             this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataGrid.Location = new System.Drawing.Point(3, 68);
+            this.MetaDataGrid.Location = new System.Drawing.Point(3, 70);
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
-            this.MetaDataGrid.Size = new System.Drawing.Size(917, 218);
+            this.MetaDataGrid.Size = new System.Drawing.Size(917, 224);
             this.MetaDataGrid.TabIndex = 12;
+            this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
             // 
             // panel1
             // 
@@ -1060,7 +1328,7 @@ namespace CBZMage
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(917, 59);
+            this.panel1.Size = new System.Drawing.Size(917, 61);
             this.panel1.TabIndex = 14;
             // 
             // MetaDataHeaderPanel
@@ -1069,7 +1337,7 @@ namespace CBZMage
             this.MetaDataHeaderPanel.ColumnCount = 3;
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 125F));
             this.MetaDataHeaderPanel.Controls.Add(this.tableLayoutPanel1, 2, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.comboBox1, 1, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
@@ -1090,7 +1358,7 @@ namespace CBZMage
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.BtnRemoveMetaData, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.BtnAddMetaData, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(792, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(791, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
@@ -1144,7 +1412,7 @@ namespace CBZMage
             "ComicInfo.xml"});
             this.comboBox1.Location = new System.Drawing.Point(108, 3);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(681, 24);
+            this.comboBox1.Size = new System.Drawing.Size(680, 24);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.Text = "ComicInfo.xml";
             // 
@@ -1191,150 +1459,6 @@ namespace CBZMage
             this.messageLogColumnMessage.Text = "Message";
             this.messageLogColumnMessage.Width = 500;
             // 
-            // GroupBoxImageRenaming
-            // 
-            this.GroupBoxImageRenaming.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GroupBoxImageRenaming.Controls.Add(this.label9);
-            this.GroupBoxImageRenaming.Controls.Add(this.pictureBox1);
-            this.GroupBoxImageRenaming.Controls.Add(this.PlaceholdersFlowPanel);
-            this.GroupBoxImageRenaming.Controls.Add(this.PlaceholdersInfoLabel);
-            this.GroupBoxImageRenaming.Controls.Add(this.textBox1);
-            this.GroupBoxImageRenaming.Controls.Add(this.checkBox1);
-            this.GroupBoxImageRenaming.Location = new System.Drawing.Point(7, 6);
-            this.GroupBoxImageRenaming.Name = "GroupBoxImageRenaming";
-            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(188, 256);
-            this.GroupBoxImageRenaming.TabIndex = 5;
-            this.GroupBoxImageRenaming.TabStop = false;
-            this.GroupBoxImageRenaming.Text = "Renaming";
-            // 
-            // PlaceholdersInfoLabel
-            // 
-            this.PlaceholdersInfoLabel.AutoSize = true;
-            this.PlaceholdersInfoLabel.Location = new System.Drawing.Point(11, 87);
-            this.PlaceholdersInfoLabel.Name = "PlaceholdersInfoLabel";
-            this.PlaceholdersInfoLabel.Size = new System.Drawing.Size(87, 16);
-            this.PlaceholdersInfoLabel.TabIndex = 2;
-            this.PlaceholdersInfoLabel.Text = "Placeholders";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(9, 52);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(173, 22);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "{title}_p_{page}";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 21);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(124, 20);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Rename Pages";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // PlaceholdersFlowPanel
-            // 
-            this.PlaceholdersFlowPanel.Controls.Add(this.label2);
-            this.PlaceholdersFlowPanel.Controls.Add(this.label3);
-            this.PlaceholdersFlowPanel.Controls.Add(this.label4);
-            this.PlaceholdersFlowPanel.Controls.Add(this.label5);
-            this.PlaceholdersFlowPanel.Controls.Add(this.label6);
-            this.PlaceholdersFlowPanel.Controls.Add(this.label7);
-            this.PlaceholdersFlowPanel.Controls.Add(this.label8);
-            this.PlaceholdersFlowPanel.Location = new System.Drawing.Point(10, 112);
-            this.PlaceholdersFlowPanel.Name = "PlaceholdersFlowPanel";
-            this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(4);
-            this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(171, 53);
-            this.PlaceholdersFlowPanel.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 4);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(37, 16);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "{title}";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(50, 4);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 16);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "{page}";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(105, 4);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 16);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "{size}";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 20);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(62, 16);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "{number}";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(75, 20);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 16);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "{month}";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 36);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 16);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "{year}";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(57, 36);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(54, 16);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "{series}";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::MyCBZ.Properties.Resources.information;
-            this.pictureBox1.Location = new System.Drawing.Point(10, 179);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 24);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.Location = new System.Drawing.Point(45, 187);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(137, 66);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "Note: Only pages of type \"Story\" will be renamed.";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1344,6 +1468,7 @@ namespace CBZMage
             this.Controls.Add(this.StatusBar);
             this.Controls.Add(this.ToolBar);
             this.Controls.Add(this.MenuBar);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.MenuBar;
             this.Name = "MainForm";
             this.Text = "CBZ-Mage (c) K1ll3RisD3Ad";
@@ -1375,6 +1500,11 @@ namespace CBZMage
             this.GroupBoxImageQuality.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).EndInit();
             this.TabPageGlobalSettings.ResumeLayout(false);
+            this.GroupBoxImageRenaming.ResumeLayout(false);
+            this.GroupBoxImageRenaming.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.PlaceholdersFlowPanel.ResumeLayout(false);
+            this.PlaceholdersFlowPanel.PerformLayout();
             this.SplitBoxItemsList.Panel1.ResumeLayout(false);
             this.SplitBoxItemsList.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitBoxItemsList)).EndInit();
@@ -1388,11 +1518,6 @@ namespace CBZMage
             this.MetaDataHeaderPanel.ResumeLayout(false);
             this.MetaDataHeaderPanel.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.GroupBoxImageRenaming.ResumeLayout(false);
-            this.GroupBoxImageRenaming.PerformLayout();
-            this.PlaceholdersFlowPanel.ResumeLayout(false);
-            this.PlaceholdersFlowPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1510,13 +1635,24 @@ namespace CBZMage
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label PlaceholdersInfoLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TextboxStoryPageRenamingPattern;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox TextboxSpecialPageRenamingPattern;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripButton ToolButtonBuild;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem11;
+        private System.Windows.Forms.ToolStripMenuItem buildCBZToolStripMenuItem;
     }
 }
 
