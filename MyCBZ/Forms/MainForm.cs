@@ -637,21 +637,20 @@ namespace CBZMage
             aboutDialogForm.ShowDialog();
         }
 
-        private void TypeStoryToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TypeSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
-                ((CBZImage)item.Tag).ImageType = CBZMetaDataEntryPage.COMIC_PAGE_TYPE_FRONT_COVER;
+                ((CBZImage)item.Tag).ImageType = (String)((ToolStripMenuItem)sender).Tag;
 
                 if (item.SubItems.Count > 0)
                 {
-
+                    item.SubItems[2].Text = (String)((ToolStripMenuItem)sender).Tag;
                 }
                 
             }
-
-            // PagesList.SelectedItems.
         }
+
 
         /*
         /// <summary>
