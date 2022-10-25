@@ -15,6 +15,7 @@ namespace MyCBZ.Forms
         public AboutDialogForm()
         {
             InitializeComponent();
+            LicenseInfoRichtextBox.Rtf = global::MyCBZ.Properties.Resources.CBZMageAboutMessage;
         }
 
         private void button1_Click(object sender, EventArgs e)

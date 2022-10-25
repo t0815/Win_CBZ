@@ -146,78 +146,118 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>CBZMageSettings.Designer.cs</LastGenOutput>
     </AdditionalFiles>
+    <None Include="Resources\CBZMageAboutMessage.rtf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OpenIcon.ico" />
+    <None Include="Resources\Trash_About.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\folder.png" />
+    <None Include="Resources\box_surprise_large.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\box_white.png" />
+    <None Include="Resources\box_out.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\document.png" />
+    <None Include="Resources\box_surprise.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\add2.png" />
+    <None Include="Resources\clipboard_check_edit.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\delete2.png" />
+    <None Include="Resources\clipboard_paste.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\disk_blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrow_down_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrow_up_green.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document_add.png" />
+    <None Include="Resources\delete.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\document_attachment.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\data_information.png" />
+    <None Include="Resources\document_zip.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\window_information.png" />
+    <None Include="Resources\error.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\star_yellow_add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\information.png" />
+    <None Include="Resources\floppy_disk.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder_document.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\checks.png" />
+    <None Include="Resources\folder_open.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\export2.png" />
+    <None Include="Resources\hand_money.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\import2.png" />
+    <None Include="Resources\magnifying_glass.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\preferences.png" />
+    <None Include="Resources\nav_down.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\paste.png" />
+    <None Include="Resources\nav_up.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\harddisk_delete.png" />
+    <None Include="Resources\navigate_plus.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\photo_portrait.png" />
+    <None Include="Resources\paint_bucket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\photo_landscape.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_as.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sign_warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\speech_balloon_answer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\window_gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\window_information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document_page_number.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_into.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delivery_note.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder_zip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\garbage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\door_exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box_into.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\validate.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -260,13 +260,13 @@ namespace CBZMage
                         switch (e.Type)
                         {
                             case LogMessageEvent.LOGMESSAGE_TYPE_INFO:
-                                logItem.ImageIndex = 5;
+                                logItem.ImageIndex = 0;
                                 break;
                             case LogMessageEvent.LOGMESSAGE_TYPE_WARNING:
-                                logItem.ImageIndex = 4;
+                                logItem.ImageIndex = 1;
                                 break;
                             case LogMessageEvent.LOGMESSAGE_TYPE_ERROR:
-                                logItem.ImageIndex = 3;
+                                logItem.ImageIndex = 2;
                                 break;
                             default:
                                 logItem.ImageIndex = -1;
@@ -463,14 +463,14 @@ namespace CBZMage
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            DialogResult openImageResult = openImagesDialog.ShowDialog();
+            DialogResult openImageResult = OpenImagesDialog.ShowDialog();
             List<CBZLocalFile> files = new List<CBZLocalFile>();
 
             if (openImageResult == DialogResult.OK)
             {
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
-                files = ProjectModel.ParseFiles(new List<String>(openImagesDialog.FileNames));
+                files = ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
                 if (files.Count > 0)
                 {
                     ProjectModel.AddImages(files, newIndex);
@@ -649,6 +649,11 @@ namespace CBZMage
                 }
                 
             }
+        }
+
+        private void ToolButtonEditImageProps_Click(object sender, EventArgs e)
+        {
+
         }
 
 
