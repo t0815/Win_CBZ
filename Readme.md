@@ -2,7 +2,7 @@
 
 ## Author
 
-K1lL3R1sD3aD
+KillerIsDead
 
 ## Third party components
 
