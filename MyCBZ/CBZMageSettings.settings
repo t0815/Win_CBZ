@@ -5,5 +5,8 @@
     <Setting Name="TempFolderPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">%APPDATA%\CBZMage\temp\</Value>
     </Setting>
+    <Setting Name="Version" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0.5b</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

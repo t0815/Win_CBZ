@@ -25,6 +25,8 @@ namespace CBZMage
 
         private bool WindowClosed = false;
 
+        private bool WindowShown = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -35,7 +37,7 @@ namespace CBZMage
             ProjectModel.MetaDataLoaded += MetaDataLoaded;
             ProjectModel.ItemExtracted += ItemExtracted;
             MessageLogger.Instance.SetHandler(MessageLogged);
-            NewProject();            
+            NewProject();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -99,7 +101,8 @@ namespace CBZMage
             }));
 
             PageView.Invoke(new Action(() => {
-                ListViewItem page = PageView.Items.Add(e.Image.Name, e.Index);
+                ListViewItem page = PageView.Items.Add("", e.Index);
+                page.SubItems.Add(e.Image.Name);
                 page.SubItems.Add(e.Image.Index.ToString());
                 page.Tag = e.Image;
             }));
@@ -108,16 +111,16 @@ namespace CBZMage
 
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
         {
-            metaDataGrid.Invoke(new Action(() =>
+            MetaDataGrid.Invoke(new Action(() =>
             {
-                metaDataGrid.DataSource = e.MetaData;
+                MetaDataGrid.DataSource = e.MetaData;
 
-                btnAddMetaData.Enabled = false;
-                btnRemoveMetaData.Enabled = true;
-                DataGridViewColumn firstCol = metaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
+                BtnAddMetaData.Enabled = false;
+                BtnRemoveMetaData.Enabled = true;
+                DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
                 if (firstCol != null)
                 {
-                    DataGridViewColumn secondCol = metaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
+                    DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
                     if (secondCol != null)
                     {
                         firstCol.Width = 150;
@@ -297,8 +300,8 @@ namespace CBZMage
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
                     ToolButtonAddFiles.Enabled = false;
-                    btnAddMetaData.Enabled = false;
-                    btnRemoveMetaData.Enabled = false;
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
                     break;
@@ -321,8 +324,8 @@ namespace CBZMage
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
                     ToolButtonAddFiles.Enabled = false;
-                    btnAddMetaData.Enabled = false;
-                    btnRemoveMetaData.Enabled = false;
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
                     break;
@@ -345,7 +348,7 @@ namespace CBZMage
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
                     ToolButtonAddFiles.Enabled = false;
-                    btnRemoveMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
                     break;
@@ -368,8 +371,8 @@ namespace CBZMage
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
                     ToolButtonAddFiles.Enabled = false;
-                    btnAddMetaData.Enabled = false;
-                    btnRemoveMetaData.Enabled = false;
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
                     break;
@@ -495,8 +498,8 @@ namespace CBZMage
 
             MetaDataLoaded(this, new MetaDataLoadEvent(ProjectModel.MetaData.Values));
 
-            btnAddMetaData.Enabled = false;
-            btnRemoveMetaData.Enabled = true;
+            BtnAddMetaData.Enabled = false;
+            BtnRemoveMetaData.Enabled = true;
             AddMetaDataRowBtn.Enabled = true;
             RemoveMetadataRowBtn.Enabled = false;
         }
@@ -505,11 +508,11 @@ namespace CBZMage
         {
             if (ProjectModel.MetaData != null)
             {
-                metaDataGrid.DataSource = null;
+                MetaDataGrid.DataSource = null;
 
                 ProjectModel.MetaData.Values.Clear();
-                btnAddMetaData.Enabled = true;
-                btnRemoveMetaData.Enabled = false;
+                BtnAddMetaData.Enabled = true;
+                BtnRemoveMetaData.Enabled = false;
                 AddMetaDataRowBtn.Enabled = false;
                 RemoveMetadataRowBtn.Enabled = false;
             }
@@ -528,19 +531,19 @@ namespace CBZMage
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
             ProjectModel.MetaData.Values.Add(new CBZMetaDataEntry(""));
-            metaDataGrid.Refresh();
+            MetaDataGrid.Refresh();
         }
 
         private void MetaDataGrid_SelectionChanged(object sender, EventArgs e)
         {
-            RemoveMetadataRowBtn.Enabled = metaDataGrid.SelectedRows.Count > 0;   
+            RemoveMetadataRowBtn.Enabled = MetaDataGrid.SelectedRows.Count > 0;   
         }
 
         private void RemoveMetadataRowBtn_Click(object sender, EventArgs e)
         {
-            if (metaDataGrid.SelectedRows.Count > 0)
+            if (MetaDataGrid.SelectedRows.Count > 0)
             {
-                foreach (DataGridViewRow row in metaDataGrid.SelectedRows)
+                foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
                     if (row.DataBoundItem is CBZMetaDataEntry)
                     {
@@ -556,16 +559,16 @@ namespace CBZMage
             {
                 if (e.ColumnIndex == 0)
                 {
-                    ProjectModel.MetaData.Validate((CBZMetaDataEntry)metaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
+                    ProjectModel.MetaData.Validate((CBZMetaDataEntry)MetaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
                 }
             } catch (MetaDataValidationException ve)
             {
-                metaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
+                MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
                 //e.Cancel = true;
             }
         }
 
-        private void extractAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExtractAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -608,6 +611,15 @@ namespace CBZMage
                     img.BackColor = Color.Transparent;
                 }
             }   
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (!WindowShown)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "CBZ_Mage v" + CBZMageSettings.Default.Version + "  - Welcome!");
+                WindowShown = true;
+            }
         }
 
         /*
