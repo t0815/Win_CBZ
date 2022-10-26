@@ -413,6 +413,8 @@ namespace CBZMage
                     extractAllToolStripMenuItem.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
+                    ToolButtonSave.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -428,6 +430,9 @@ namespace CBZMage
                     BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
+                    ToolButtonSave.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
+                    ProjectModel.IsNew = false; 
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVING:
@@ -446,6 +451,8 @@ namespace CBZMage
                     CheckBoxDoRenamePages.Enabled = false;
                     TextboxStoryPageRenamingPattern.Enabled = false;
                     TextboxSpecialPageRenamingPattern.Enabled = false;
+                    ToolButtonSave.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVED:
@@ -460,6 +467,10 @@ namespace CBZMage
                     CheckBoxDoRenamePages.Enabled = true;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
+                    ToolButtonSave.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
+                    ProjectModel.IsNew = false;
+                    ProjectModel.IsSaved = true;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
@@ -496,6 +507,8 @@ namespace CBZMage
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     extractAllToolStripMenuItem.Enabled = false;
+                    ToolButtonSave.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
@@ -512,7 +525,19 @@ namespace CBZMage
                     BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
+                    ToolButtonSave.Enabled = false;
+                    saveToolStripMenuItem.Enabled = false;
                     break;
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
+                    if (!ProjectModel.IsNew)
+                    {
+                        ToolButtonSave.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                    }
+                    break;
+
             }
         }
 

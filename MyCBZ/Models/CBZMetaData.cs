@@ -119,6 +119,7 @@ namespace MyCBZ
             xmlWriter.WriteStartElement("ComicInfo");
             foreach (CBZMetaDataEntry entry in Values)
             {
+                xmlWriter.WriteStartElement(entry.Key);
                 xmlWriter.WriteElementString(entry.Key, entry.Value);
                 xmlWriter.WriteEndElement();
             }
@@ -132,7 +133,6 @@ namespace MyCBZ
                 }
                 xmlWriter.WriteEndElement();
             }
-            xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndDocument();
             xmlWriter.Close();
