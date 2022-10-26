@@ -11,6 +11,7 @@
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;{name}&lt;/string&gt;
   &lt;string&gt;{title}&lt;/string&gt;
   &lt;string&gt;{page}&lt;/string&gt;
   &lt;string&gt;{pages}&lt;/string&gt;
@@ -21,7 +22,14 @@
   &lt;string&gt;{lang}&lt;/string&gt;
   &lt;string&gt;{series}&lt;/string&gt;
   &lt;string&gt;{type}&lt;/string&gt;
+  &lt;string&gt;{if (&amp;lt;conditions&amp;gt;) then '&amp;lt;pattern&amp;gt;|&amp;lt;string&amp;gt;' else '&amp;lt;pattern&amp;gt;|&amp;lt;string&amp;gt;'}&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="StoryPageRenamePattern" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{title}_p{page}</Value>
+    </Setting>
+    <Setting Name="SpecialPageRenamePattern" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{type}_{index}</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -48,6 +48,7 @@ namespace MyCBZ {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>{name}</string>
   <string>{title}</string>
   <string>{page}</string>
   <string>{pages}</string>
@@ -58,10 +59,35 @@ namespace MyCBZ {
   <string>{lang}</string>
   <string>{series}</string>
   <string>{type}</string>
+  <string>{if (&lt;conditions&gt;) then '&lt;pattern&gt;|&lt;string&gt;' else '&lt;pattern&gt;|&lt;string&gt;'}</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection RenamerPlaceholders {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["RenamerPlaceholders"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{title}_p{page}")]
+        public string StoryPageRenamePattern {
+            get {
+                return ((string)(this["StoryPageRenamePattern"]));
+            }
+            set {
+                this["StoryPageRenamePattern"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("{type}_{index}")]
+        public string SpecialPageRenamePattern {
+            get {
+                return ((string)(this["SpecialPageRenamePattern"]));
+            }
+            set {
+                this["SpecialPageRenamePattern"] = value;
             }
         }
     }
