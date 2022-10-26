@@ -731,9 +731,11 @@ namespace CBZMage
 
                 TextboxStoryPageRenamingPattern.Text = CBZMageSettings.Default.StoryPageRenamePattern;
                 TextboxSpecialPageRenamingPattern.Text = CBZMageSettings.Default.SpecialPageRenamePattern;
+
+                Label placeholderLabel;
                 foreach (String placeholder in CBZMageSettings.Default.RenamerPlaceholders)
                 {
-                    Label placeholderLabel = new Label();
+                    placeholderLabel = new Label();
                     placeholderLabel.Name = "Label" + placeholder;
                     placeholderLabel.Text = placeholder;
                     placeholderLabel.AutoSize = true;
@@ -741,8 +743,23 @@ namespace CBZMage
                     PlaceholdersFlowPanel.Controls.Add(placeholderLabel);
                 }
 
+                Label fnLabel;
+                foreach (String fn in CBZMageSettings.Default.RenamerFunctions)
+                {
+                    fnLabel = new Label();
+                    fnLabel.Name = "Label" + fn;
+                    fnLabel.Text = fn;
+                    fnLabel.AutoSize = true;
+                    fnLabel.Font = new Font(fnLabel.Font.Name, 10, fnLabel.Font.Style, fnLabel.Font.Unit);
+                    FunctionsFlowPanel.Controls.Add(fnLabel);
+                }
+
                 PlaceholdersFlowPanel.FlowDirection = FlowDirection.LeftToRight;
                 PlaceholdersFlowPanel.Refresh();
+
+                FunctionsFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+                FunctionsFlowPanel.Refresh();
+
                 WindowShown = true;
             }
         }

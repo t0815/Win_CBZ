@@ -472,14 +472,17 @@ namespace CBZMage
             int index = 0;
             try
             {
-                Archive = ZipFile.Open(FileName, Mode);
                 if (Mode == ZipArchiveMode.Create)
                 {
-                    
+                    Archive = ZipFile.Open(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + ProjectGUID + ".cbz.tmp", Mode);
                 } else
                 {
+                    Archive = ZipFile.Open(FileName, Mode);
                     count = Archive.Entries.Count;
                 }
+
+                // Rebuild ComicInfo.xml's PageIndex
+                MetaData.RebuildPageMetaData(Pages.ToList<CBZImage>());
 
                 // Write files to archive
                 ZipArchiveEntry processingEntry;
@@ -496,7 +499,7 @@ namespace CBZMage
                             {
                                 if (ApplyRenaming)
                                 {
-                                    page.Name = RenameEntry(page);
+                                    RenamePageScript(page);
                                 }
                                 Archive.CreateEntryFromFile(page.TempPath, page.Name);
                             }
@@ -506,7 +509,7 @@ namespace CBZMage
                             {
                                 if (ApplyRenaming)
                                 {
-                                    page.Name = RenameEntry(page);
+                                    RenamePageScript(page);
                                 }
                                 Archive.CreateEntryFromFile(page.TempPath, page.Name);
                             }
@@ -533,6 +536,8 @@ namespace CBZMage
                     ms.Close();
                 }
 
+                Archive.Dispose();
+
             } catch (Exception ex)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
@@ -542,6 +547,14 @@ namespace CBZMage
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+        }
+
+        public void RenamePageScript(CBZImage page)
+        {
+            String newName = RenameEntry(page);
+            MetaData.UpdatePageIndexMetaDataEntry(newName, page);
+            page.Name = newName;
+            page.Changed = true;
         }
 
 

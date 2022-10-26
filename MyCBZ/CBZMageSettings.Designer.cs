@@ -59,7 +59,7 @@ namespace MyCBZ {
   <string>{lang}</string>
   <string>{series}</string>
   <string>{type}</string>
-  <string>{if (&lt;conditions&gt;) then '&lt;pattern&gt;|&lt;string&gt;' else '&lt;pattern&gt;|&lt;string&gt;'}</string>
+  <string>{IF (&lt;conditions&gt;) THEN '&lt;pattern&gt;|&lt;string&gt;' ELSE '&lt;pattern&gt;|&lt;string&gt;'}</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection RenamerPlaceholders {
             get {
@@ -88,6 +88,29 @@ namespace MyCBZ {
             }
             set {
                 this["SpecialPageRenamePattern"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
+            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
+            "tring>count(&lt;property&gt;, &lt;{attribute}&gt;)</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RenamerFunctions {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RenamerFunctions"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Einstellung {
+            get {
+                return ((string)(this["Einstellung"]));
+            }
+            set {
+                this["Einstellung"] = value;
             }
         }
     }

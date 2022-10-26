@@ -157,7 +157,7 @@ namespace CBZMage
             this.ModifiedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeFormatedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label2 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.FunctionsFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -224,7 +224,7 @@ namespace CBZMage
             this.ToolBarSearchLabel,
             this.ToolBarSearchInput,
             this.toolStripButton1});
-            this.ToolBar.Location = new System.Drawing.Point(0, 28);
+            this.ToolBar.Location = new System.Drawing.Point(0, 30);
             this.ToolBar.Name = "ToolBar";
             this.ToolBar.Size = new System.Drawing.Size(1558, 31);
             this.ToolBar.TabIndex = 0;
@@ -487,7 +487,7 @@ namespace CBZMage
             this.toolStripMenuItem4});
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
-            this.MenuBar.Size = new System.Drawing.Size(1558, 28);
+            this.MenuBar.Size = new System.Drawing.Size(1558, 30);
             this.MenuBar.TabIndex = 1;
             this.MenuBar.Text = "menuStrip1";
             // 
@@ -503,7 +503,7 @@ namespace CBZMage
             this.toolStripMenuItem3,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -570,7 +570,7 @@ namespace CBZMage
             this.toolStripMenuItem10,
             this.settingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // copyToolStripMenuItem
@@ -621,7 +621,7 @@ namespace CBZMage
             this.toolStripMenuItem11,
             this.buildCBZToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(61, 26);
             this.projectToolStripMenuItem.Text = "Pages";
             // 
             // addFolderToolStripMenuItem
@@ -675,7 +675,7 @@ namespace CBZMage
             this.extrasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ClearTemporaryFolderToolStripMenuItem});
             this.extrasToolStripMenuItem.Name = "extrasToolStripMenuItem";
-            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.extrasToolStripMenuItem.Text = "Extras";
             // 
             // ClearTemporaryFolderToolStripMenuItem
@@ -689,7 +689,7 @@ namespace CBZMage
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AboutToolStripMenuItem});
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 24);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 26);
             this.toolStripMenuItem4.Text = "?";
             // 
             // AboutToolStripMenuItem
@@ -808,7 +808,7 @@ namespace CBZMage
             // PrimarySplitBox
             // 
             this.PrimarySplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PrimarySplitBox.Location = new System.Drawing.Point(0, 59);
+            this.PrimarySplitBox.Location = new System.Drawing.Point(0, 61);
             this.PrimarySplitBox.Name = "PrimarySplitBox";
             this.PrimarySplitBox.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -819,8 +819,8 @@ namespace CBZMage
             // PrimarySplitBox.Panel2
             // 
             this.PrimarySplitBox.Panel2.Controls.Add(this.MessageLogListView);
-            this.PrimarySplitBox.Size = new System.Drawing.Size(1558, 930);
-            this.PrimarySplitBox.SplitterDistance = 749;
+            this.PrimarySplitBox.Size = new System.Drawing.Size(1558, 928);
+            this.PrimarySplitBox.SplitterDistance = 748;
             this.PrimarySplitBox.TabIndex = 4;
             // 
             // MainPanel
@@ -830,7 +830,7 @@ namespace CBZMage
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1558, 749);
+            this.MainPanel.Size = new System.Drawing.Size(1558, 748);
             this.MainPanel.TabIndex = 4;
             // 
             // MainSplitBox
@@ -847,7 +847,7 @@ namespace CBZMage
             // MainSplitBox.Panel2
             // 
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1558, 749);
+            this.MainSplitBox.Size = new System.Drawing.Size(1558, 748);
             this.MainSplitBox.SplitterDistance = 364;
             this.MainSplitBox.TabIndex = 6;
             // 
@@ -865,8 +865,8 @@ namespace CBZMage
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.TabControlPageSettings);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(362, 747);
-            this.SplitBoxPageView.SplitterDistance = 277;
+            this.SplitBoxPageView.Size = new System.Drawing.Size(362, 746);
+            this.SplitBoxPageView.SplitterDistance = 276;
             this.SplitBoxPageView.TabIndex = 6;
             // 
             // TabControlPageSettings
@@ -956,7 +956,7 @@ namespace CBZMage
             this.GroupBoxImageRenaming.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GroupBoxImageRenaming.Controls.Add(this.flowLayoutPanel1);
+            this.GroupBoxImageRenaming.Controls.Add(this.FunctionsFlowPanel);
             this.GroupBoxImageRenaming.Controls.Add(this.label2);
             this.GroupBoxImageRenaming.Controls.Add(this.TextboxSpecialPageRenamingPattern);
             this.GroupBoxImageRenaming.Controls.Add(this.label13);
@@ -1062,7 +1062,7 @@ namespace CBZMage
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(1190, 749);
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(1190, 748);
             this.SplitBoxItemsList.SplitterDistance = 279;
             this.SplitBoxItemsList.TabIndex = 7;
             // 
@@ -1083,7 +1083,7 @@ namespace CBZMage
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.27273F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MetadataPanel.Size = new System.Drawing.Size(1188, 464);
+            this.MetadataPanel.Size = new System.Drawing.Size(1188, 463);
             this.MetadataPanel.TabIndex = 10;
             // 
             // MetaDataTableActionsPanel
@@ -1093,7 +1093,7 @@ namespace CBZMage
             this.MetaDataTableActionsPanel.AutoSize = true;
             this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
             this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
-            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 418);
+            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 417);
             this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
             this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(1182, 43);
             this.MetaDataTableActionsPanel.TabIndex = 13;
@@ -1159,7 +1159,7 @@ namespace CBZMage
             this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
-            this.MetaDataGrid.Size = new System.Drawing.Size(1182, 315);
+            this.MetaDataGrid.Size = new System.Drawing.Size(1182, 314);
             this.MetaDataGrid.TabIndex = 12;
             this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
             // 
@@ -1281,7 +1281,7 @@ namespace CBZMage
             this.MessageLogListView.HideSelection = false;
             this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
             this.MessageLogListView.Name = "MessageLogListView";
-            this.MessageLogListView.Size = new System.Drawing.Size(1558, 177);
+            this.MessageLogListView.Size = new System.Drawing.Size(1558, 176);
             this.MessageLogListView.SmallImageList = this.LogMessageImageList;
             this.MessageLogListView.TabIndex = 0;
             this.MessageLogListView.UseCompatibleStateImageBehavior = false;
@@ -1330,7 +1330,7 @@ namespace CBZMage
             this.PageView.LargeImageList = this.PageImages;
             this.PageView.Location = new System.Drawing.Point(0, 0);
             this.PageView.Name = "PageView";
-            this.PageView.Size = new System.Drawing.Size(362, 277);
+            this.PageView.Size = new System.Drawing.Size(362, 276);
             this.PageView.TabIndex = 6;
             this.PageView.UseCompatibleStateImageBehavior = false;
             this.PageView.View = System.Windows.Forms.View.Tile;
@@ -1390,15 +1390,15 @@ namespace CBZMage
             this.label2.TabIndex = 9;
             this.label2.Text = "Functions";
             // 
-            // flowLayoutPanel1
+            // FunctionsFlowPanel
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.FunctionsFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(11, 342);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(318, 79);
-            this.flowLayoutPanel1.TabIndex = 10;
+            this.FunctionsFlowPanel.Location = new System.Drawing.Point(11, 342);
+            this.FunctionsFlowPanel.Name = "FunctionsFlowPanel";
+            this.FunctionsFlowPanel.Size = new System.Drawing.Size(318, 79);
+            this.FunctionsFlowPanel.TabIndex = 10;
             // 
             // MainForm
             // 
@@ -1583,7 +1583,7 @@ namespace CBZMage
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.SaveFileDialog SaveArchiveDialog;
         private System.Windows.Forms.ToolTip NamePlaceholderTooltip;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel FunctionsFlowPanel;
         private System.Windows.Forms.Label label2;
     }
 }

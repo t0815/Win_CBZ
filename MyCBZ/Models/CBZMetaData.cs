@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CBZMage;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -137,7 +138,49 @@ namespace MyCBZ
             return ms;
         }
 
+        /**
+         * 
+         */
+        public void RebuildPageMetaData(List<CBZImage> pages)
+        {
+            List<CBZMetaDataEntryPage> originalPageMetaData = PageMetaData.ToList<CBZMetaDataEntryPage>();
+            
+            PageMetaData.Clear();
 
+            CBZMetaDataEntryPage newPageEntry;
+            foreach (CBZImage page in pages)
+            {
+                try
+                {
+                    newPageEntry = new CBZMetaDataEntryPage();
+                    newPageEntry.SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());
+
+                    PageMetaData.Add(newPageEntry);
+                }
+                catch (Exception ex)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error rebuilding <pages> metadata for pagee->" + page.Name + "! [" + ex.Message + "]");
+                }
+            }
+        }
+
+        public void UpdatePageIndexMetaDataEntry(String name, CBZImage page)
+        {
+            foreach (CBZMetaDataEntryPage entry in PageMetaData)
+            {
+                if (entry.GetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
+                {
+                    entry.SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());
+
+                    break;
+                }
+            }
+        }
+            
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
             CBZMetaDataEntryPage pageMeta;
