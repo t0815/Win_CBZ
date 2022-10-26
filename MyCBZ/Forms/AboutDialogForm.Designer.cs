@@ -30,7 +30,7 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.AppNameLabel = new System.Windows.Forms.Label();
             this.AboutBoxBanner = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ButtonCloseDialog = new System.Windows.Forms.Button();
@@ -65,23 +65,23 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.AppNameLabel);
             this.panel1.Controls.Add(this.AboutBoxBanner);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(521, 78);
             this.panel1.TabIndex = 0;
             // 
-            // label1
+            // AppNameLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Courier New", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(351, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(150, 31);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "CBZ_Mage";
+            this.AppNameLabel.AutoSize = true;
+            this.AppNameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.AppNameLabel.Font = new System.Drawing.Font("Courier New", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AppNameLabel.Location = new System.Drawing.Point(351, 25);
+            this.AppNameLabel.Name = "AppNameLabel";
+            this.AppNameLabel.Size = new System.Drawing.Size(150, 31);
+            this.AppNameLabel.TabIndex = 1;
+            this.AppNameLabel.Text = "CBZ_Mage";
             // 
             // AboutBoxBanner
             // 
@@ -169,7 +169,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label AppNameLabel;
         private System.Windows.Forms.PictureBox AboutBoxBanner;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panel2;

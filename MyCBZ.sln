@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBZMage", "MyCBZ\CBZMage.csproj", "{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Win_CBZ", "MyCBZ\Win_CBZ.csproj", "{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{EF69A985-DE9A-4D68-A70A-0B1F5BCFA6DB}"
 	ProjectSection(SolutionItems) = preProject

@@ -15,6 +15,7 @@ namespace MyCBZ.Forms
         public AboutDialogForm()
         {
             InitializeComponent();
+            AppNameLabel.Text = CBZMageSettings.Default.AppName;
             LicenseInfoRichtextBox.Rtf = global::MyCBZ.Properties.Resources.CBZMageAboutMessage;
         }
 

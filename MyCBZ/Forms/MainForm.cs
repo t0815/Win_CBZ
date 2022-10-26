@@ -50,6 +50,8 @@ namespace CBZMage
             newProjectModel.FileOperation += FileOperationHandler;
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
 
+            this.Text = CBZMageSettings.Default.AppName + " (c) Trash_s0Ft";
+
             return newProjectModel;
         }
 
@@ -782,7 +784,7 @@ namespace CBZMage
         {
             if (!WindowShown)
             {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "CBZ_Mage v" + CBZMageSettings.Default.Version + "  - Welcome!");
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, CBZMageSettings.Default.AppName + " v" + CBZMageSettings.Default.Version + "  - Welcome!");
 
                 TextboxStoryPageRenamingPattern.Text = CBZMageSettings.Default.StoryPageRenamePattern;
                 TextboxSpecialPageRenamingPattern.Text = CBZMageSettings.Default.SpecialPageRenamePattern;

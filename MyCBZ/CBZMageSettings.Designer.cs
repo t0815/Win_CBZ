@@ -102,15 +102,12 @@ namespace MyCBZ {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Einstellung {
+        [global::System.Configuration.DefaultSettingValueAttribute("Win_CBZ")]
+        public string AppName {
             get {
-                return ((string)(this["Einstellung"]));
-            }
-            set {
-                this["Einstellung"] = value;
+                return ((string)(this["AppName"]));
             }
         }
     }
