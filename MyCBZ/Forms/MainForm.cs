@@ -32,15 +32,6 @@ namespace CBZMage
         public MainForm()
         {
             InitializeComponent();
-            //ProjectModel = new CBZProjectModel(CBZMageSettings.Default.TempFolderPath);
-            //ProjectModel.ImageProgress += FileLoaded;
-            //ProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
-            //ProjectModel.ItemChanged += ItemChanged;
-            //ProjectModel.MetaDataLoaded += MetaDataLoaded;
-            //ProjectModel.ItemExtracted += ItemExtracted;
-            //ProjectModel.OperationFinished += OperationFinished;
-            //ProjectModel.FileOperation += FileOperationHandler;
-            //ProjectModel.ArchiveOperation += ArchiveOperationHandler;
 
             ProjectModel = NewProjectModel();
 
@@ -329,12 +320,18 @@ namespace CBZMage
                 case CBZArchiveStatusEvent.ARCHIVE_SAVING:
                     info = "Writing archive...";
                     break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
+                    break;
             }
           
             try
             {
-                if (this.InvokeRequired)
-                {
+                //if (this.InvokeRequired)
+                //{
                     this.Invoke(new Action(() =>
                     {
                         fileNameLabel.Text = filename;
@@ -343,7 +340,7 @@ namespace CBZMage
 
                         DisableControllsForArchiveState(e.State);
                     }));
-                }
+                //}
             } catch (Exception)
             {
 
