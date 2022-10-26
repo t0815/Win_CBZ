@@ -578,6 +578,7 @@ namespace CBZMage
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
                 } finally
                 {
+                    File.Delete(TemporaryFileName);
                     Archive = ZipFile.Open(FileName, Mode);
                     this.IsChanged = false;
                 }

@@ -93,6 +93,11 @@ namespace CBZMage
             }
         }
 
+        private void ToolButtonSave_Click(object sender, EventArgs e)
+        {    
+            ProjectModel.Save();
+        }
+
         private void FileLoaded(object sender, ItemLoadProgressEvent e)
         {
             toolStripProgressBar.Control.Invoke(new Action(() =>
@@ -425,6 +430,7 @@ namespace CBZMage
                     extractAllToolStripMenuItem.Enabled = true;
                     BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
+                    AddMetaDataRowBtn.Enabled = ProjectModel.MetaData.Values != null;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
@@ -519,6 +525,7 @@ namespace CBZMage
                     ToolButtonMovePageDown.Enabled = false;
                     ToolButtonMovePageUp.Enabled = false;
                     BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
+                    AddMetaDataRowBtn.Enabled = ProjectModel.MetaData.Values != null;
                     BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
@@ -848,8 +855,11 @@ namespace CBZMage
         private void CheckBoxDoRenamePages_CheckedChanged(object sender, EventArgs e)
         {
             ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
+            ProjectModel.IsChanged = true;
             TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
             TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
+            ToolButtonSave.Enabled = true;
+            saveToolStripMenuItem.Enabled = true;
         }
 
         private void TextboxStoryPageRenamingPattern_TextChanged(object sender, EventArgs e)
@@ -867,6 +877,25 @@ namespace CBZMage
         private void ClearTemporaryFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void PagesList_AfterLabelEdit_1(object sender, LabelEditEventArgs e)
+        {
+            ListViewItem editedItem = PagesList.Items[e.Item];
+            
+            foreach (ListViewItem item in PagesList.Items)
+            {
+                if (item.Tag != editedItem.Tag)
+                {
+                    if (item.Text == editedItem.Text)
+                    {
+                        e.CancelEdit = true;
+                        return;
+                    }
+                }
+            }
+
+            ((CBZImage)editedItem.Tag).Name = e.Label;
         }
 
 

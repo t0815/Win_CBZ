@@ -32,10 +32,10 @@ namespace CBZMage
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -266,6 +266,7 @@ namespace CBZMage
             this.ToolButtonSave.Size = new System.Drawing.Size(29, 28);
             this.ToolButtonSave.Text = "toolStripButton2";
             this.ToolButtonSave.ToolTipText = "Save";
+            this.ToolButtonSave.Click += new System.EventHandler(this.ToolButtonSave_Click);
             // 
             // toolStripSeparator8
             // 
@@ -537,8 +538,9 @@ namespace CBZMage
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.floppy_disk;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.ToolButtonSave_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -821,7 +823,7 @@ namespace CBZMage
             // 
             this.PrimarySplitBox.Panel2.Controls.Add(this.MessageLogListView);
             this.PrimarySplitBox.Size = new System.Drawing.Size(1558, 930);
-            this.PrimarySplitBox.SplitterDistance = 749;
+            this.PrimarySplitBox.SplitterDistance = 748;
             this.PrimarySplitBox.TabIndex = 4;
             // 
             // MainPanel
@@ -831,7 +833,7 @@ namespace CBZMage
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1558, 749);
+            this.MainPanel.Size = new System.Drawing.Size(1558, 748);
             this.MainPanel.TabIndex = 4;
             // 
             // MainSplitBox
@@ -848,7 +850,7 @@ namespace CBZMage
             // MainSplitBox.Panel2
             // 
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1558, 749);
+            this.MainSplitBox.Size = new System.Drawing.Size(1558, 748);
             this.MainSplitBox.SplitterDistance = 364;
             this.MainSplitBox.TabIndex = 6;
             // 
@@ -866,8 +868,8 @@ namespace CBZMage
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.TabControlPageSettings);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(362, 747);
-            this.SplitBoxPageView.SplitterDistance = 277;
+            this.SplitBoxPageView.Size = new System.Drawing.Size(362, 746);
+            this.SplitBoxPageView.SplitterDistance = 276;
             this.SplitBoxPageView.TabIndex = 6;
             // 
             // PageView
@@ -880,7 +882,7 @@ namespace CBZMage
             this.PageView.LargeImageList = this.PageImages;
             this.PageView.Location = new System.Drawing.Point(0, 0);
             this.PageView.Name = "PageView";
-            this.PageView.Size = new System.Drawing.Size(362, 277);
+            this.PageView.Size = new System.Drawing.Size(362, 276);
             this.PageView.TabIndex = 6;
             this.PageView.UseCompatibleStateImageBehavior = false;
             this.PageView.View = System.Windows.Forms.View.Tile;
@@ -1098,8 +1100,8 @@ namespace CBZMage
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(1190, 749);
-            this.SplitBoxItemsList.SplitterDistance = 279;
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(1190, 748);
+            this.SplitBoxItemsList.SplitterDistance = 278;
             this.SplitBoxItemsList.TabIndex = 7;
             // 
             // PagesList
@@ -1117,10 +1119,11 @@ namespace CBZMage
             this.PagesList.LabelEdit = true;
             this.PagesList.Location = new System.Drawing.Point(0, 0);
             this.PagesList.Name = "PagesList";
-            this.PagesList.Size = new System.Drawing.Size(1188, 277);
+            this.PagesList.Size = new System.Drawing.Size(1188, 276);
             this.PagesList.TabIndex = 5;
             this.PagesList.UseCompatibleStateImageBehavior = false;
             this.PagesList.View = System.Windows.Forms.View.Details;
+            this.PagesList.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.PagesList_AfterLabelEdit_1);
             this.PagesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PagesList_ItemSelectionChanged);
             // 
             // NamePageCol
@@ -1208,41 +1211,42 @@ namespace CBZMage
             // MetaDataGrid
             // 
             this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle19;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataGrid.Location = new System.Drawing.Point(3, 97);
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
             this.MetaDataGrid.Size = new System.Drawing.Size(1182, 315);
             this.MetaDataGrid.TabIndex = 12;
             this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
+            this.MetaDataGrid.SelectionChanged += new System.EventHandler(this.MetaDataGrid_SelectionChanged);
             // 
             // panel1
             // 
@@ -1259,7 +1263,7 @@ namespace CBZMage
             this.MetaDataHeaderPanel.ColumnCount = 3;
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             this.MetaDataHeaderPanel.Controls.Add(this.MetaDataActionsPanel, 2, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.ComboBoxSelectMetadataFileName, 1, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
@@ -1282,12 +1286,12 @@ namespace CBZMage
             this.MetaDataActionsPanel.Controls.Add(this.BtnRemoveMetaData, 0, 0);
             this.MetaDataActionsPanel.Controls.Add(this.BtnAddMetaData, 0, 0);
             this.MetaDataActionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataActionsPanel.Location = new System.Drawing.Point(1017, 0);
+            this.MetaDataActionsPanel.Location = new System.Drawing.Point(1011, 0);
             this.MetaDataActionsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.MetaDataActionsPanel.Name = "MetaDataActionsPanel";
             this.MetaDataActionsPanel.RowCount = 1;
             this.MetaDataActionsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.MetaDataActionsPanel.Size = new System.Drawing.Size(165, 40);
+            this.MetaDataActionsPanel.Size = new System.Drawing.Size(171, 40);
             this.MetaDataActionsPanel.TabIndex = 12;
             // 
             // BtnRemoveMetaData
@@ -1296,10 +1300,10 @@ namespace CBZMage
             this.BtnRemoveMetaData.Enabled = false;
             this.BtnRemoveMetaData.ImageIndex = 1;
             this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.BtnRemoveMetaData.Location = new System.Drawing.Point(85, 3);
+            this.BtnRemoveMetaData.Location = new System.Drawing.Point(88, 3);
             this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnRemoveMetaData.Size = new System.Drawing.Size(77, 34);
+            this.BtnRemoveMetaData.Size = new System.Drawing.Size(80, 34);
             this.BtnRemoveMetaData.TabIndex = 8;
             this.BtnRemoveMetaData.UseVisualStyleBackColor = true;
             this.BtnRemoveMetaData.Click += new System.EventHandler(this.BtnRemoveMetaData_Click);
@@ -1319,7 +1323,7 @@ namespace CBZMage
             this.BtnAddMetaData.Location = new System.Drawing.Point(3, 3);
             this.BtnAddMetaData.Name = "BtnAddMetaData";
             this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnAddMetaData.Size = new System.Drawing.Size(76, 34);
+            this.BtnAddMetaData.Size = new System.Drawing.Size(79, 34);
             this.BtnAddMetaData.TabIndex = 7;
             this.BtnAddMetaData.UseVisualStyleBackColor = true;
             this.BtnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);
@@ -1333,7 +1337,7 @@ namespace CBZMage
             this.ComboBoxSelectMetadataFileName.FormattingEnabled = true;
             this.ComboBoxSelectMetadataFileName.Items.AddRange(new object[] {
             "ComicInfo.xml"});
-            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(250, 8);
+            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(247, 8);
             this.ComboBoxSelectMetadataFileName.Name = "ComboBoxSelectMetadataFileName";
             this.ComboBoxSelectMetadataFileName.Size = new System.Drawing.Size(652, 24);
             this.ComboBoxSelectMetadataFileName.TabIndex = 2;
@@ -1362,7 +1366,7 @@ namespace CBZMage
             this.MessageLogListView.HideSelection = false;
             this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
             this.MessageLogListView.Name = "MessageLogListView";
-            this.MessageLogListView.Size = new System.Drawing.Size(1558, 177);
+            this.MessageLogListView.Size = new System.Drawing.Size(1558, 178);
             this.MessageLogListView.SmallImageList = this.LogMessageImageList;
             this.MessageLogListView.TabIndex = 0;
             this.MessageLogListView.UseCompatibleStateImageBehavior = false;
