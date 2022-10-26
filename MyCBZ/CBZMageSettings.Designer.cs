@@ -43,5 +43,26 @@ namespace MyCBZ {
                 return ((string)(this["Version"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>{title}</string>
+  <string>{page}</string>
+  <string>{pages}</string>
+  <string>{size}</string>
+  <string>{number}</string>
+  <string>{month}</string>
+  <string>{year}</string>
+  <string>{lang}</string>
+  <string>{series}</string>
+  <string>{type}</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection RenamerPlaceholders {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["RenamerPlaceholders"]));
+            }
+        }
     }
 }

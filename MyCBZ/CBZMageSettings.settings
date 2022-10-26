@@ -8,5 +8,20 @@
     <Setting Name="Version" Type="System.String" Scope="Application">
       <Value Profile="(Default)">0.5b</Value>
     </Setting>
+    <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;{title}&lt;/string&gt;
+  &lt;string&gt;{page}&lt;/string&gt;
+  &lt;string&gt;{pages}&lt;/string&gt;
+  &lt;string&gt;{size}&lt;/string&gt;
+  &lt;string&gt;{number}&lt;/string&gt;
+  &lt;string&gt;{month}&lt;/string&gt;
+  &lt;string&gt;{year}&lt;/string&gt;
+  &lt;string&gt;{lang}&lt;/string&gt;
+  &lt;string&gt;{series}&lt;/string&gt;
+  &lt;string&gt;{type}&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

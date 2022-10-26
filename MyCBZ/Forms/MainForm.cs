@@ -42,6 +42,7 @@ namespace CBZMage
             ProjectModel.ArchiveOperation += ArchiveOperationHandler;
 
             MessageLogger.Instance.SetHandler(MessageLogged);
+
             NewProject();
         }
 
@@ -722,6 +723,19 @@ namespace CBZMage
             if (!WindowShown)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "CBZ_Mage v" + CBZMageSettings.Default.Version + "  - Welcome!");
+
+                foreach (String placeholder in CBZMageSettings.Default.RenamerPlaceholders)
+                {
+                    Label placeholderLabel = new Label();
+                    placeholderLabel.Name = "Label" + placeholder;
+                    placeholderLabel.Text = placeholder;
+                    placeholderLabel.AutoSize = true;
+                    placeholderLabel.Font = new Font(placeholderLabel.Font.Name, 14, placeholderLabel.Font.Style, placeholderLabel.Font.Unit);
+                    PlaceholdersFlowPanel.Controls.Add(placeholderLabel);
+                }
+
+                PlaceholdersFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+                PlaceholdersFlowPanel.Refresh();
                 WindowShown = true;
             }
         }
@@ -759,7 +773,24 @@ namespace CBZMage
             }
         }
 
-        
+        private void CheckBoxDoRenamePages_CheckedChanged(object sender, EventArgs e)
+        {
+            ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
+            TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
+            TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
+        }
+
+        private void TextboxStoryPageRenamingPattern_TextChanged(object sender, EventArgs e)
+        {
+            ProjectModel.RenameStoryPagePattern = TextboxStoryPageRenamingPattern.Text;
+        }
+
+        private void TextboxSpecialPageRenamingPattern_TextChanged(object sender, EventArgs e)
+        {
+            ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
+        }
+
+
         /*
         /// <summary>
         /// 

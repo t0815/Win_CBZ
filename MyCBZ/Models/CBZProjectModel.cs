@@ -23,6 +23,8 @@ namespace CBZMage
 
         public String FileName { get; set; }
 
+        public String TemporaryFileName { get; set; }
+
         public long FileSize { get; set; } = 0;
 
         public String Description { get; set; }
@@ -92,7 +94,7 @@ namespace CBZMage
         {
             WorkingDir = workingDir;
             Pages = new BindingList<CBZImage>();
-            MetaData = new CBZMetaData(true);          
+            MetaData = new CBZMetaData(false);          
         }
 
 
@@ -354,9 +356,19 @@ namespace CBZMage
         {
             string newName = page.Name;
 
+            switch (page.ImageType)
+            {
+                case CBZImage
+            }
 
 
             return newName;
+        }
+
+        public String RequestTemporaryFile()
+        {
+
+            return "";
         }
 
         public Thread Close()
@@ -450,7 +462,10 @@ namespace CBZMage
             try
             {
                 Archive = ZipFile.Open(FileName, Mode);
-                if (Mode != ZipArchiveMode.Create)
+                if (Mode == ZipArchiveMode.Create)
+                {
+                    
+                } else
                 {
                     count = Archive.Entries.Count;
                 }
@@ -497,7 +512,15 @@ namespace CBZMage
                 }
 
                 // Create Metadata
-
+                if (MetaData.Values.Count > 0)
+                {
+                    MemoryStream ms = MetaData.BuildComicInfoXMLStream();
+                    ZipArchiveEntry metaDataEntry = Archive.CreateEntry("ComicInfo.xml");
+                    MemoryStream entryStream = (MemoryStream)metaDataEntry.Open();
+                    ms.CopyTo(entryStream);
+                    entryStream.Close();
+                    ms.Close();
+                }
 
             } catch (Exception ex)
             {
