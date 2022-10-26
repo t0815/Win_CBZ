@@ -13,9 +13,9 @@ Application for creating and editing .cbz (ComicBookZip)
 
 ## Features
 
-> Edit, Add or remove MetaData from cbz-files
-> Honor page index and set page types
-> add, delete, edit pages
+- Edit, Add or remove MetaData from cbz-files
+- Honor page index and set page types
+- add, delete, edit pages
 
 ## Build
 
