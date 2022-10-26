@@ -134,6 +134,10 @@ namespace MyCBZ
             }
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Close();
+
+            ms.Position = 0;
 
             return ms;
         }

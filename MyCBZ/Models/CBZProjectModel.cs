@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Text;
@@ -91,12 +92,15 @@ namespace CBZMage
 
         private Thread DeleteFileThread;
 
+        private Random RandomProvider;
+
 
         public CBZProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
             Pages = new BindingList<CBZImage>();
             MetaData = new CBZMetaData(false);
+            RandomProvider = new Random();
 
             ProjectGUID = Guid.NewGuid().ToString();
             if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
@@ -514,6 +518,10 @@ namespace CBZMage
                         if (page.Compressed)
                         {
                             ExtractSingleFile(page);
+                            if (page.TempPath == null)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
+                            }
                         } 
 
                         if (!page.Deleted)
@@ -578,6 +586,7 @@ namespace CBZMage
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RenamePageScript(CBZImage page)
         {
             String newName = RenameEntry(page);
@@ -587,6 +596,7 @@ namespace CBZMage
         }
 
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ExtractSingleFile(CBZImage page, String path = null)
         {
             try
@@ -598,6 +608,9 @@ namespace CBZMage
                     fileEntry.ExtractToFile(NewTemporaryFileName.FullName);
                     page.TempPath = NewTemporaryFileName.FullName;
                     OnItemExtracted(new ItemExtractedEvent(1, 1, NewTemporaryFileName.FullName));
+                } else
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + page.Name + "] exists in archive!");
                 }
             }
             catch (Exception efile)
@@ -608,9 +621,7 @@ namespace CBZMage
 
         protected FileInfo MakeNewTempFileName(String entryName, String extension = "")
         {
-            Random random = new Random();
-
-            return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + random.Next().ToString("X") + extension + ".tmp");
+            return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + RandomProvider.Next().ToString("X") + extension + ".tmp");
         }
 
 
