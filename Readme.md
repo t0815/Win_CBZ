@@ -11,6 +11,12 @@ t0815, Trash_s0Ft
 Application for creating and editing .cbz (ComicBookZip)
 (archive) files.
 
+## Features
+
+> Edit, Add or remove MetaData from cbz-files
+> Honor page index and set page types
+> add, delete, edit pages
+
 ## Build
 
 Microsoft Visual Studio [Community] 2022 (64-Bit) 
