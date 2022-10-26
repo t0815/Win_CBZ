@@ -147,7 +147,7 @@ namespace CBZMage
                     item.BackColor = Color.Transparent;
                 }
 
-                if (existingItem == null)
+                if (existingItem == null && TogglePagePreviewToolbutton.Checked == true)
                 {
                     PageImages.Images.Add(e.Image.GetThumbnail(ThumbAbort, Handle));
                 }
@@ -789,6 +789,10 @@ namespace CBZMage
                 TextboxStoryPageRenamingPattern.Text = CBZMageSettings.Default.StoryPageRenamePattern;
                 TextboxSpecialPageRenamingPattern.Text = CBZMageSettings.Default.SpecialPageRenamePattern;
 
+                TogglePagePreviewToolbutton.Checked = CBZMageSettings.Default.PagePreviewEnabled;
+                SplitBoxPageView.Panel1Collapsed = !CBZMageSettings.Default.PagePreviewEnabled;
+                ProjectModel.PreloadPageImages = CBZMageSettings.Default.PagePreviewEnabled;
+
                 Label placeholderLabel;
                 foreach (String placeholder in CBZMageSettings.Default.RenamerPlaceholders)
                 {
@@ -898,6 +902,14 @@ namespace CBZMage
             }
 
             ((CBZImage)editedItem.Tag).Name = e.Label;
+        }
+
+        private void TogglePagePreviewToolbutton_Click(object sender, EventArgs e)
+        {
+            TogglePagePreviewToolbutton.Checked = !TogglePagePreviewToolbutton.Checked;
+            CBZMageSettings.Default.PagePreviewEnabled = TogglePagePreviewToolbutton.Checked;
+            SplitBoxPageView.Panel1Collapsed = !TogglePagePreviewToolbutton.Checked;
+            ProjectModel.PreloadPageImages = TogglePagePreviewToolbutton.Checked;
         }
 
 

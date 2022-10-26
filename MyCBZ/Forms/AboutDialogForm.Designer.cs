@@ -79,9 +79,9 @@
             this.AppNameLabel.Font = new System.Drawing.Font("Courier New", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AppNameLabel.Location = new System.Drawing.Point(351, 25);
             this.AppNameLabel.Name = "AppNameLabel";
-            this.AppNameLabel.Size = new System.Drawing.Size(150, 31);
+            this.AppNameLabel.Size = new System.Drawing.Size(167, 31);
             this.AppNameLabel.TabIndex = 1;
-            this.AppNameLabel.Text = "CBZ_Mage";
+            this.AppNameLabel.Text = "<AppName>";
             // 
             // AboutBoxBanner
             // 

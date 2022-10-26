@@ -110,5 +110,17 @@ namespace MyCBZ {
                 return ((string)(this["AppName"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PagePreviewEnabled {
+            get {
+                return ((bool)(this["PagePreviewEnabled"]));
+            }
+            set {
+                this["PagePreviewEnabled"] = value;
+            }
+        }
     }
 }

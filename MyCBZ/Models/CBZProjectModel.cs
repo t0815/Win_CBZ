@@ -52,6 +52,8 @@ namespace CBZMage
 
         public String RenameSpecialPagePattern { get; set; }
 
+        public bool PreloadPageImages { get; set; }
+
         public BindingList<CBZImage> Pages { get; set; }
 
         public CBZMetaData MetaData { get; set; }
