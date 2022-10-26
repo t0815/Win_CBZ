@@ -216,7 +216,7 @@ namespace CBZMage
 
         public void AddImages(List<CBZLocalFile> fileList, int maxIndex = 0)
         {
-            int index = maxIndex;
+            int index = maxIndex + 1;
 
             foreach (CBZLocalFile fileObject in fileList)
             {
@@ -367,9 +367,12 @@ namespace CBZMage
                     break;
             }
 
-            if (pattern.Length > 0)
+            if (pattern != null)
             {
+                if (pattern.Length > 0)
+                {
 
+                }
             }
 
 
@@ -470,12 +473,12 @@ namespace CBZMage
 
             int count = 0;
             int index = 0;
+
+            ZipArchive BuildingArchive;
             try
             {
-                if (Mode == ZipArchiveMode.Create)
-                {
-                    Archive = ZipFile.Open(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + ProjectGUID + ".cbz.tmp", Mode);
-                } else
+                BuildingArchive = ZipFile.Open(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + ProjectGUID + ".cbz.tmp", ZipArchiveMode.Create);
+                if (Mode == ZipArchiveMode.Update)
                 {
                     Archive = ZipFile.Open(FileName, Mode);
                     count = Archive.Entries.Count;
@@ -493,15 +496,14 @@ namespace CBZMage
                         if (page.Compressed && Mode != ZipArchiveMode.Create)
                         {
                             processingEntry = Archive.GetEntry(page.EntryName);
-                            processingEntry.Delete();
-
                             if (!page.Deleted)
                             {
+                                ExtractSingleFile(page);
                                 if (ApplyRenaming)
                                 {
                                     RenamePageScript(page);
                                 }
-                                Archive.CreateEntryFromFile(page.TempPath, page.Name);
+                                BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
                             }
                         } else
                         {
@@ -555,6 +557,25 @@ namespace CBZMage
             MetaData.UpdatePageIndexMetaDataEntry(newName, page);
             page.Name = newName;
             page.Changed = true;
+        }
+
+
+        public void ExtractSingleFile(CBZImage page)
+        {
+            try
+            {
+                ZipArchiveEntry fileEntry = Archive.GetEntry(page.Name);
+                if (fileEntry != null)
+                {
+                    fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
+                    page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
+                    OnItemExtracted(new ItemExtractedEvent(page.Index, 1, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
+                }
+            }
+            catch (Exception efile)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
+            }
         }
 
 

@@ -11,6 +11,17 @@ t0815, Trash_s0Ft
 Application for creating and editing .cbz (ComicBookZip)
 (archive) files.
 
+## Build
+
+Microsoft Visual Studio [Community] 2022 (64-Bit) 
+
+- Checkout Code
+- Open Project
+- Build in VS 2022
+
+## Latest Reloase
+
+None yet, everything is still WIP.
 
 ## Third party components
 

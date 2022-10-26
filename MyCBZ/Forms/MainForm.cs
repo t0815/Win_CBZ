@@ -12,6 +12,7 @@ using System.Reflection;
 using MyCBZ;
 using System.Threading;
 using MyCBZ.Forms;
+using System.IO;
 
 namespace CBZMage
 {
@@ -76,7 +77,13 @@ namespace CBZMage
 
             if (saveDialogResult == DialogResult.OK)
             {
-                ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Create);
+                if (File.Exists(SaveArchiveDialog.FileName))
+                {
+                    ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
+                } else
+                {
+                    ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Create);
+                }
             }
         }
 
@@ -578,13 +585,17 @@ namespace CBZMage
             }
         }
 
-        // todo: implement
         private void PagesList_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
-            //PagesList.
-            //e.Label;
+            if (e.Item > -1)
+            {
+                ListViewItem changedItem = PagesList.Items[e.Item - 1];
+                if (changedItem != null)
+                {
+                    ((CBZImage)changedItem.Tag).Name = e.Label;
+                }
+            }
         }
-
 
         private bool ArchiveProcessing()
         {
@@ -693,7 +704,7 @@ namespace CBZMage
             ToolButtonMovePageDown.Enabled = buttonState;
             ToolButtonMovePageUp.Enabled = buttonState;
 
-            ToolButtonSetPageType.Enabled = selectedPages.Count == 1;
+            ToolButtonSetPageType.Enabled = buttonState;
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
