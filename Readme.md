@@ -4,7 +4,12 @@
 
 ## Author
 
-KillerIsDead, Trash_s0Ft
+t0815, Trash_s0Ft
+
+## About
+
+Application for creating and editing .cbz (ComicBookZip)
+(archive) files.
 
 
 ## Third party components
