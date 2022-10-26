@@ -19,7 +19,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 - Open Project
 - Build in VS 2022
 
-## Latest Reloase
+## Latest Release
 
 None yet, everything is still WIP.
 

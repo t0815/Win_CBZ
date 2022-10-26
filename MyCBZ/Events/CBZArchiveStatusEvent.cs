@@ -18,6 +18,9 @@ namespace MyCBZ
         public const int ARCHIVE_CLOSED = 6;
         public const int ARCHIVE_EXTRACTING = 7;
         public const int ARCHIVE_EXTRACTED = 8;
+        public const int ARCHIVE_FILE_ADDED = 9;
+        public const int ARCHIVE_FILE_DELETED = 10;
+        public const int ARCHIVE_FILE_RENAMED = 11;
 
         public CBZProjectModel ArchiveInfo { get; set; }
 
