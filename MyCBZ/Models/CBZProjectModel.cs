@@ -355,10 +355,21 @@ namespace CBZMage
         public String RenameEntry(CBZImage page)
         {
             string newName = page.Name;
+            string pattern = "";
 
             switch (page.ImageType)
             {
-                case CBZImage
+                case CBZMetaDataEntryPage.COMIC_PAGE_TYPE_STORY:
+                    pattern = RenameStoryPagePattern;
+                    break;
+                default:
+                    pattern = RenameSpecialPagePattern;
+                    break;
+            }
+
+            if (pattern.Length > 0)
+            {
+
             }
 
 
