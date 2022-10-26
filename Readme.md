@@ -1,4 +1,4 @@
-# CBZ_Mage
+# Win_CBZ
 
 ![Screenshot](/meta/Screenshot.jpg)
 
