@@ -62,7 +62,7 @@ namespace MyCBZ
                 resolved = path;
             }
 
-            return resolved.TrimStart('\\');
+            return resolved.TrimStart('\\') + "\\";
         }
     }
 }

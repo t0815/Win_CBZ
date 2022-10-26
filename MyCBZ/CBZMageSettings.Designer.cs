@@ -25,7 +25,7 @@ namespace MyCBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("%APPDATA%\\CBZMage\\temp\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("%APPDATA%\\CBZMage\\Temp\\")]
         public string TempFolderPath {
             get {
                 return ((string)(this["TempFolderPath"]));

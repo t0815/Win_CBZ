@@ -14,6 +14,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using File = System.IO.File;
 
 namespace CBZMage
 {
@@ -57,6 +59,8 @@ namespace CBZMage
 
         private System.IO.Compression.ZipArchive Archive { get; set; }
 
+        private System.IO.Compression.ZipArchive TemporaryArchive { get; set; }
+
         private ZipArchiveMode Mode;
 
         public event EventHandler<CBZProjectModel> ArchiveChanged;
@@ -73,8 +77,6 @@ namespace CBZMage
 
         public event EventHandler<OperationFinishedEvent> OperationFinished;
 
-        public event EventHandler<LogMessageEvent> LogMessage;
-
         public event EventHandler<ItemExtractedEvent> ItemExtracted;
 
         public event EventHandler<FileOperationEvent> FileOperation;
@@ -89,12 +91,20 @@ namespace CBZMage
 
         private Thread SaveArchiveThread;
 
+        private Thread DeleteFileThread;
+
 
         public CBZProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
             Pages = new BindingList<CBZImage>();
-            MetaData = new CBZMetaData(false);          
+            MetaData = new CBZMetaData(false);
+
+            ProjectGUID = Guid.NewGuid().ToString();
+            if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
+            }
         }
 
 
@@ -124,7 +134,6 @@ namespace CBZMage
                 MetaData.Free();
 
                 ProjectGUID = Guid.NewGuid().ToString();
-
                 if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
                 {
                     DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
@@ -159,8 +168,7 @@ namespace CBZMage
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-
-                    return;
+                    LoadArchiveThread.Abort();
                 }
             }
 
@@ -168,15 +176,12 @@ namespace CBZMage
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-
-                    return;
+                    CloseArchiveThread.Abort();
                 }
             }
 
             SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
             SaveArchiveThread.Start();
-
-            // return SaveArchiveThread;
         }
 
         public void SaveAs(String path, ZipArchiveMode mode)
@@ -213,6 +218,13 @@ namespace CBZMage
         }
 
 
+        public void CloseTemporaryArchive()
+        {
+            if (this.TemporaryArchive != null)
+            {
+                this.TemporaryArchive.Dispose();
+            }
+        }
 
         public void AddImages(List<CBZLocalFile> fileList, int maxIndex = 0)
         {
@@ -474,47 +486,33 @@ namespace CBZMage
             int count = 0;
             int index = 0;
 
-            ZipArchive BuildingArchive;
+            TemporaryFileName = MakeNewTempFileName("", ".cbz").FullName;
+
+            ZipArchive BuildingArchive = null;
             try
             {
-                BuildingArchive = ZipFile.Open(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + ProjectGUID + ".cbz.tmp", ZipArchiveMode.Create);
-                if (Mode == ZipArchiveMode.Update)
-                {
-                    Archive = ZipFile.Open(FileName, Mode);
-                    count = Archive.Entries.Count;
-                }
+                BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
                 // Rebuild ComicInfo.xml's PageIndex
                 MetaData.RebuildPageMetaData(Pages.ToList<CBZImage>());
 
-                // Write files to archive
-                ZipArchiveEntry processingEntry;
+                // Write files to new temporary archive
                 foreach (CBZImage page in Pages)
                 {
                     try
                     {
-                        if (page.Compressed && Mode != ZipArchiveMode.Create)
+                        if (page.Compressed)
                         {
-                            processingEntry = Archive.GetEntry(page.EntryName);
-                            if (!page.Deleted)
-                            {
-                                ExtractSingleFile(page);
-                                if (ApplyRenaming)
-                                {
-                                    RenamePageScript(page);
-                                }
-                                BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
-                            }
-                        } else
+                            ExtractSingleFile(page);
+                        } 
+
+                        if (!page.Deleted)
                         {
-                            if (!page.Deleted)
+                            if (ApplyRenaming)
                             {
-                                if (ApplyRenaming)
-                                {
-                                    RenamePageScript(page);
-                                }
-                                Archive.CreateEntryFromFile(page.TempPath, page.Name);
+                                RenamePageScript(page);
                             }
+                            BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
                         }
                     }
                     catch (Exception efile)
@@ -531,21 +529,39 @@ namespace CBZMage
                 if (MetaData.Values.Count > 0)
                 {
                     MemoryStream ms = MetaData.BuildComicInfoXMLStream();
-                    ZipArchiveEntry metaDataEntry = Archive.CreateEntry("ComicInfo.xml");
+                    ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry("ComicInfo.xml");
                     MemoryStream entryStream = (MemoryStream)metaDataEntry.Open();
                     ms.CopyTo(entryStream);
                     entryStream.Close();
                     ms.Close();
                 }
 
-                Archive.Dispose();
+                
 
             } catch (Exception ex)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
             } finally
             {
-                Archive.Dispose();
+                try
+                {
+                    if (BuildingArchive != null)
+                    {
+                        BuildingArchive.Dispose();
+                    }
+
+                    this.Archive.Dispose();
+
+                    File.Copy(TemporaryFileName, FileName);
+                    Archive = ZipFile.Open(FileName, Mode);
+
+                } catch (Exception mvex)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
+                } finally
+                {
+                    Archive = ZipFile.Open(FileName, Mode);
+                }
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
@@ -560,22 +576,30 @@ namespace CBZMage
         }
 
 
-        public void ExtractSingleFile(CBZImage page)
+        public void ExtractSingleFile(CBZImage page, String path = null)
         {
             try
             {
                 ZipArchiveEntry fileEntry = Archive.GetEntry(page.Name);
                 if (fileEntry != null)
                 {
-                    fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
-                    page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
-                    OnItemExtracted(new ItemExtractedEvent(page.Index, 1, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
+                    FileInfo NewTemporaryFileName = MakeNewTempFileName(fileEntry.Name);
+                    fileEntry.ExtractToFile(NewTemporaryFileName.FullName);
+                    page.TempPath = NewTemporaryFileName.FullName;
+                    OnItemExtracted(new ItemExtractedEvent(1, 1, NewTemporaryFileName.FullName));
                 }
             }
             catch (Exception efile)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
             }
+        }
+
+        protected FileInfo MakeNewTempFileName(String entryName, String extension = "")
+        {
+            Random random = new Random();
+
+            return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + random.Next().ToString("X") + extension + ".tmp");
         }
 
 
@@ -670,6 +694,68 @@ namespace CBZMage
             Name = "";
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
+        }
+
+        public Thread ClearTempFolder()
+        {
+
+            if (LoadArchiveThread != null)
+            {
+                if (LoadArchiveThread.IsAlive)
+                {
+                    LoadArchiveThread.Abort();
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+                    CloseArchiveThread.Abort();
+                }
+            }
+
+            if (ExtractArchiveThread != null)
+            {
+                if (ExtractArchiveThread.IsAlive)
+                {
+                    ExtractArchiveThread.Abort();
+                }
+            }
+
+            DeleteFileThread = new Thread(new ThreadStart(ExtractArchiveProc));
+            DeleteFileThread.Start();
+
+            return DeleteFileThread;
+        }
+
+        public void DeleteTempFolderItems()
+        {
+           // String path = 
+        }
+
+        public void CopyTo(CBZProjectModel destination)
+        {
+            if (destination != null)
+            {
+                CBZImage[] copyPages = new CBZImage[this.Pages.Count];
+
+                this.Pages.CopyTo(copyPages, 0);
+                destination.Pages = new BindingList<CBZImage>(copyPages);
+                destination.MetaData = this.MetaData;
+                destination.Name = this.Name;
+                destination.ProjectGUID = this.ProjectGUID;
+                destination.RenameStoryPagePattern = this.RenameStoryPagePattern;
+                destination.RenameSpecialPagePattern = this.RenameSpecialPagePattern;
+                destination.WorkingDir = this.WorkingDir;
+                destination.IsChanged = this.IsChanged;
+                destination.IsNew = this.IsNew;
+                destination.IsSaved = this.IsSaved;
+                destination.FileSize = this.FileSize;
+                destination.IsClosed = this.IsClosed;
+                destination.TemporaryFileName = this.TemporaryFileName;
+                destination.TotalSize = this.TotalSize;
+            }
         }
 
         protected virtual void OnImageLoaded(ItemLoadProgressEvent e)

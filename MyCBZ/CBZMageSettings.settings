@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="TempFolderPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">%APPDATA%\CBZMage\temp\</Value>
+      <Value Profile="(Default)">%APPDATA%\CBZMage\Temp\</Value>
     </Setting>
     <Setting Name="Version" Type="System.String" Scope="Application">
       <Value Profile="(Default)">0.5b</Value>

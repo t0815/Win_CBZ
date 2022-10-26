@@ -32,19 +32,34 @@ namespace CBZMage
         public MainForm()
         {
             InitializeComponent();
-            ProjectModel = new CBZProjectModel(CBZMageSettings.Default.TempFolderPath);
-            ProjectModel.ImageProgress += FileLoaded;
-            ProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
-            ProjectModel.ItemChanged += ItemChanged;
-            ProjectModel.MetaDataLoaded += MetaDataLoaded;
-            ProjectModel.ItemExtracted += ItemExtracted;
-            ProjectModel.OperationFinished += OperationFinished;
-            ProjectModel.FileOperation += FileOperationHandler;
-            ProjectModel.ArchiveOperation += ArchiveOperationHandler;
+            //ProjectModel = new CBZProjectModel(CBZMageSettings.Default.TempFolderPath);
+            //ProjectModel.ImageProgress += FileLoaded;
+            //ProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
+            //ProjectModel.ItemChanged += ItemChanged;
+            //ProjectModel.MetaDataLoaded += MetaDataLoaded;
+            //ProjectModel.ItemExtracted += ItemExtracted;
+            //ProjectModel.OperationFinished += OperationFinished;
+            //ProjectModel.FileOperation += FileOperationHandler;
+            //ProjectModel.ArchiveOperation += ArchiveOperationHandler;
+
+            ProjectModel = NewProjectModel();
 
             MessageLogger.Instance.SetHandler(MessageLogged);
+        }
 
-            NewProject();
+        private CBZProjectModel NewProjectModel()
+        {
+            CBZProjectModel newProjectModel = new CBZProjectModel(CBZMageSettings.Default.TempFolderPath);
+            newProjectModel.ImageProgress += FileLoaded;
+            newProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
+            newProjectModel.ItemChanged += ItemChanged;
+            newProjectModel.MetaDataLoaded += MetaDataLoaded;
+            newProjectModel.ItemExtracted += ItemExtracted;
+            newProjectModel.OperationFinished += OperationFinished;
+            newProjectModel.FileOperation += FileOperationHandler;
+            newProjectModel.ArchiveOperation += ArchiveOperationHandler;
+
+            return newProjectModel;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -825,6 +840,11 @@ namespace CBZMage
         {
             ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
             CBZMageSettings.Default.SpecialPageRenamePattern = TextboxSpecialPageRenamingPattern.Text;
+        }
+
+        private void ClearTemporaryFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
 
