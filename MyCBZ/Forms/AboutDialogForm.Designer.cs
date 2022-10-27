@@ -1,4 +1,4 @@
-﻿namespace MyCBZ.Forms
+﻿namespace Win_CBZ.Forms
 {
     partial class AboutDialogForm
     {
@@ -86,7 +86,7 @@
             // AboutBoxBanner
             // 
             this.AboutBoxBanner.Dock = System.Windows.Forms.DockStyle.Left;
-            this.AboutBoxBanner.Image = global::MyCBZ.Properties.Resources.Trash_About;
+            this.AboutBoxBanner.Image = global::Win_CBZ.Properties.Resources.Trash_About;
             this.AboutBoxBanner.Location = new System.Drawing.Point(0, 0);
             this.AboutBoxBanner.Name = "AboutBoxBanner";
             this.AboutBoxBanner.Size = new System.Drawing.Size(289, 78);
@@ -138,7 +138,7 @@
             // 
             // AboutPictureBox
             // 
-            this.AboutPictureBox.Image = global::MyCBZ.Properties.Resources.box_surprise_large;
+            this.AboutPictureBox.Image = global::Win_CBZ.Properties.Resources.box_surprise_large;
             this.AboutPictureBox.Location = new System.Drawing.Point(17, 22);
             this.AboutPictureBox.Name = "AboutPictureBox";
             this.AboutPictureBox.Size = new System.Drawing.Size(130, 167);

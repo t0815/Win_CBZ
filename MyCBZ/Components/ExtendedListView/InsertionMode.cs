@@ -1,7 +1,7 @@
 ﻿// Dragging items in a ListView control with visual insertion guides
 // http://www.cyotek.com/blog/dragging-items-in-a-listview-control-with-visual-insertion-guides
 
-namespace MyCBZ
+namespace Win_CBZ
 {
   /// <summary>
   /// Determines the insertion mode of a drag operation

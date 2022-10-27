@@ -1,11 +1,10 @@
-﻿using CBZMage;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCBZ
+namespace Win_CBZ
 {
     internal class ItemExtractedEvent
     {

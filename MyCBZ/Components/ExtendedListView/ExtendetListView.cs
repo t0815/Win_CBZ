@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyCBZ
+namespace Win_CBZ
 {
     public class ExtendetListView : System.Windows.Forms.ListView
     {

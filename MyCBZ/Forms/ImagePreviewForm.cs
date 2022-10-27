@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyCBZ
+namespace Win_CBZ
 {
     public partial class ImagePreviewForm : Form
     {

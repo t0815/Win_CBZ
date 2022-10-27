@@ -1,4 +1,4 @@
-﻿using MyCBZ;
+﻿using Win_CBZ;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +18,7 @@ using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using File = System.IO.File;
 
-namespace CBZMage
+namespace Win_CBZ
 {
     internal class ProjectModel
     {
@@ -830,8 +830,11 @@ namespace CBZMage
 
         public void DeleteTempFolderItems()
         {
-            String path = WorkingDir;
-
+            String path = PathHelper.ResolvePath(WorkingDir);
+            
+            DirectoryInfo dir = new DirectoryInfo(path);
+            var folders = dir.EnumerateDirectories();
+           
 
         }
 
@@ -861,74 +864,42 @@ namespace CBZMage
 
         protected virtual void OnImageLoaded(ItemLoadProgressEvent e)
         {
-            EventHandler<ItemLoadProgressEvent> handler = ImageProgress;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ImageProgress?.Invoke(this, e);
         }
 
         protected virtual void OnItemChanged(PageChangedEvent e)
         {
-            EventHandler<PageChangedEvent> handler = ItemChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ItemChanged?.Invoke(this, e);
         }
 
         protected virtual void OnArchiveStatusChanged(CBZArchiveStatusEvent e)
         {
-            EventHandler<CBZArchiveStatusEvent> handler = ArchiveStatusChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ArchiveStatusChanged?.Invoke(this, e);
         }
 
         protected virtual void OnMetaDataLoaded(MetaDataLoadEvent e)
         {
-            EventHandler<MetaDataLoadEvent> handler = MetaDataLoaded;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            MetaDataLoaded?.Invoke(this, e);
         }
 
         protected virtual void OnOperationFinished(OperationFinishedEvent e)
         {
-            EventHandler<OperationFinishedEvent> handler = OperationFinished;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            OperationFinished?.Invoke(this, e);
         }
 
         protected virtual void OnItemExtracted(ItemExtractedEvent e)
         {
-            EventHandler<ItemExtractedEvent> handler = ItemExtracted;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ItemExtracted?.Invoke(this, e);
         }
 
         protected virtual void OnFileOperation(FileOperationEvent e)
         {
-            EventHandler<FileOperationEvent> handler = FileOperation;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            FileOperation?.Invoke(this, e);
         }
 
         protected virtual void OnArchiveOperation(ArchiveOperationEvent e)
         {
-            EventHandler<ArchiveOperationEvent> handler = ArchiveOperation;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            ArchiveOperation?.Invoke(this, e);
         }
     }
 }

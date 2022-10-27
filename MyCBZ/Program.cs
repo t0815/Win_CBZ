@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CBZMage
+namespace Win_CBZ
 {
     internal static class Program
     {

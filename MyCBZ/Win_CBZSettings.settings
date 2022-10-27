@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MyCBZ" GeneratedClassName="Win_CBZSettings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Win_CBZ" GeneratedClassName="Win_CBZSettings">
   <Profiles />
   <Settings>
     <Setting Name="TempFolderPath" Type="System.String" Scope="User">

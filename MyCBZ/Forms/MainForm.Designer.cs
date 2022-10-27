@@ -1,6 +1,5 @@
-﻿using MyCBZ;
-
-namespace CBZMage
+﻿
+namespace Win_CBZ
 {
     partial class MainForm
     {
@@ -149,8 +148,8 @@ namespace CBZMage
             this.LogMessageImageList = new System.Windows.Forms.ImageList(this.components);
             this.SaveArchiveDialog = new System.Windows.Forms.SaveFileDialog();
             this.NamePlaceholderTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.PageView = new MyCBZ.ExtendetListView();
-            this.PagesList = new MyCBZ.ExtendetListView();
+            this.PageView = new Win_CBZ.ExtendetListView();
+            this.PagesList = new Win_CBZ.ExtendetListView();
             this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IndexPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -231,7 +230,7 @@ namespace CBZMage
             // ToolButtonNew
             // 
             this.ToolButtonNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonNew.Image = global::MyCBZ.Properties.Resources.document_zip;
+            this.ToolButtonNew.Image = global::Win_CBZ.Properties.Resources.document_zip;
             this.ToolButtonNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonNew.Name = "ToolButtonNew";
             this.ToolButtonNew.Size = new System.Drawing.Size(29, 28);
@@ -247,7 +246,7 @@ namespace CBZMage
             // ToolButtonOpen
             // 
             this.ToolButtonOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonOpen.Image = global::MyCBZ.Properties.Resources.folder_open;
+            this.ToolButtonOpen.Image = global::Win_CBZ.Properties.Resources.folder_open;
             this.ToolButtonOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonOpen.Name = "ToolButtonOpen";
             this.ToolButtonOpen.Size = new System.Drawing.Size(29, 28);
@@ -259,7 +258,7 @@ namespace CBZMage
             // 
             this.ToolButtonSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonSave.Enabled = false;
-            this.ToolButtonSave.Image = global::MyCBZ.Properties.Resources.floppy_disk;
+            this.ToolButtonSave.Image = global::Win_CBZ.Properties.Resources.floppy_disk;
             this.ToolButtonSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSave.Name = "ToolButtonSave";
             this.ToolButtonSave.Size = new System.Drawing.Size(29, 28);
@@ -275,7 +274,7 @@ namespace CBZMage
             // ToolButtonAddFolder
             // 
             this.ToolButtonAddFolder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonAddFolder.Image = global::MyCBZ.Properties.Resources.folder_into;
+            this.ToolButtonAddFolder.Image = global::Win_CBZ.Properties.Resources.folder_into;
             this.ToolButtonAddFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonAddFolder.Name = "ToolButtonAddFolder";
             this.ToolButtonAddFolder.Size = new System.Drawing.Size(29, 28);
@@ -290,7 +289,7 @@ namespace CBZMage
             // ToolButtonAddFiles
             // 
             this.ToolButtonAddFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonAddFiles.Image = global::MyCBZ.Properties.Resources.folder_document;
+            this.ToolButtonAddFiles.Image = global::Win_CBZ.Properties.Resources.folder_document;
             this.ToolButtonAddFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonAddFiles.Name = "ToolButtonAddFiles";
             this.ToolButtonAddFiles.Size = new System.Drawing.Size(29, 28);
@@ -302,7 +301,7 @@ namespace CBZMage
             // 
             this.ToolButtonRemoveFiles.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonRemoveFiles.Enabled = false;
-            this.ToolButtonRemoveFiles.Image = global::MyCBZ.Properties.Resources.garbage;
+            this.ToolButtonRemoveFiles.Image = global::Win_CBZ.Properties.Resources.garbage;
             this.ToolButtonRemoveFiles.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonRemoveFiles.Name = "ToolButtonRemoveFiles";
             this.ToolButtonRemoveFiles.Size = new System.Drawing.Size(29, 28);
@@ -319,7 +318,7 @@ namespace CBZMage
             // 
             this.ToolButtonBuild.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonBuild.Enabled = false;
-            this.ToolButtonBuild.Image = global::MyCBZ.Properties.Resources.box_into;
+            this.ToolButtonBuild.Image = global::Win_CBZ.Properties.Resources.box_into;
             this.ToolButtonBuild.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonBuild.Name = "ToolButtonBuild";
             this.ToolButtonBuild.Size = new System.Drawing.Size(29, 28);
@@ -335,7 +334,7 @@ namespace CBZMage
             // 
             this.ToolButtonMovePageDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonMovePageDown.Enabled = false;
-            this.ToolButtonMovePageDown.Image = global::MyCBZ.Properties.Resources.nav_down;
+            this.ToolButtonMovePageDown.Image = global::Win_CBZ.Properties.Resources.nav_down;
             this.ToolButtonMovePageDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonMovePageDown.Name = "ToolButtonMovePageDown";
             this.ToolButtonMovePageDown.Size = new System.Drawing.Size(29, 28);
@@ -346,7 +345,7 @@ namespace CBZMage
             // 
             this.ToolButtonMovePageUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonMovePageUp.Enabled = false;
-            this.ToolButtonMovePageUp.Image = global::MyCBZ.Properties.Resources.nav_up;
+            this.ToolButtonMovePageUp.Image = global::Win_CBZ.Properties.Resources.nav_up;
             this.ToolButtonMovePageUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonMovePageUp.Name = "ToolButtonMovePageUp";
             this.ToolButtonMovePageUp.Size = new System.Drawing.Size(29, 28);
@@ -361,7 +360,7 @@ namespace CBZMage
             // ToolButtonEditImageProps
             // 
             this.ToolButtonEditImageProps.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonEditImageProps.Image = global::MyCBZ.Properties.Resources.edit;
+            this.ToolButtonEditImageProps.Image = global::Win_CBZ.Properties.Resources.edit;
             this.ToolButtonEditImageProps.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonEditImageProps.Name = "ToolButtonEditImageProps";
             this.ToolButtonEditImageProps.Size = new System.Drawing.Size(29, 28);
@@ -377,7 +376,7 @@ namespace CBZMage
             // 
             this.ToolButtonSetPageType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonSetPageType.Enabled = false;
-            this.ToolButtonSetPageType.Image = global::MyCBZ.Properties.Resources.photo_landscape;
+            this.ToolButtonSetPageType.Image = global::Win_CBZ.Properties.Resources.photo_landscape;
             this.ToolButtonSetPageType.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSetPageType.Name = "ToolButtonSetPageType";
             this.ToolButtonSetPageType.Size = new System.Drawing.Size(43, 28);
@@ -390,7 +389,7 @@ namespace CBZMage
             // 
             this.ToolButtonExtractArchive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.ToolButtonExtractArchive.Enabled = false;
-            this.ToolButtonExtractArchive.Image = global::MyCBZ.Properties.Resources.box_out;
+            this.ToolButtonExtractArchive.Image = global::Win_CBZ.Properties.Resources.box_out;
             this.ToolButtonExtractArchive.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonExtractArchive.Name = "ToolButtonExtractArchive";
             this.ToolButtonExtractArchive.Size = new System.Drawing.Size(29, 28);
@@ -405,7 +404,7 @@ namespace CBZMage
             // ToolButtonStatistics
             // 
             this.ToolButtonStatistics.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonStatistics.Image = global::MyCBZ.Properties.Resources.window_information;
+            this.ToolButtonStatistics.Image = global::Win_CBZ.Properties.Resources.window_information;
             this.ToolButtonStatistics.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonStatistics.Name = "ToolButtonStatistics";
             this.ToolButtonStatistics.Size = new System.Drawing.Size(29, 28);
@@ -419,7 +418,7 @@ namespace CBZMage
             // TogglePagePreviewToolbutton
             // 
             this.TogglePagePreviewToolbutton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.TogglePagePreviewToolbutton.Image = global::MyCBZ.Properties.Resources.photos;
+            this.TogglePagePreviewToolbutton.Image = global::Win_CBZ.Properties.Resources.photos;
             this.TogglePagePreviewToolbutton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TogglePagePreviewToolbutton.Name = "TogglePagePreviewToolbutton";
             this.TogglePagePreviewToolbutton.Size = new System.Drawing.Size(29, 28);
@@ -430,7 +429,7 @@ namespace CBZMage
             // ToolButtonSearch
             // 
             this.ToolButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonSearch.Image = global::MyCBZ.Properties.Resources.validate;
+            this.ToolButtonSearch.Image = global::Win_CBZ.Properties.Resources.validate;
             this.ToolButtonSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSearch.Name = "ToolButtonSearch";
             this.ToolButtonSearch.Size = new System.Drawing.Size(29, 28);
@@ -458,7 +457,7 @@ namespace CBZMage
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::MyCBZ.Properties.Resources.magnifying_glass;
+            this.toolStripButton1.Image = global::Win_CBZ.Properties.Resources.magnifying_glass;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
@@ -496,7 +495,7 @@ namespace CBZMage
             // 
             // newToolStripMenuItem
             // 
-            this.newToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.document_zip;
+            this.newToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.document_zip;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.newToolStripMenuItem.Text = "New";
@@ -509,7 +508,7 @@ namespace CBZMage
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.folder_open;
+            this.openToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.folder_open;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.openToolStripMenuItem.Text = "Open";
@@ -523,7 +522,7 @@ namespace CBZMage
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.floppy_disk;
+            this.saveToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.floppy_disk;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.saveToolStripMenuItem.Text = "Save";
@@ -531,7 +530,7 @@ namespace CBZMage
             // 
             // saveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.save_as;
+            this.saveAsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.save_as;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.saveAsToolStripMenuItem.Text = "Save as...";
@@ -544,7 +543,7 @@ namespace CBZMage
             // 
             // quitToolStripMenuItem
             // 
-            this.quitToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.door_exit;
+            this.quitToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.door_exit;
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.quitToolStripMenuItem.Text = "Quit";
@@ -570,7 +569,7 @@ namespace CBZMage
             // 
             // pasteToolStripMenuItem
             // 
-            this.pasteToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.clipboard_paste;
+            this.pasteToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.clipboard_paste;
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.pasteToolStripMenuItem.Text = "Paste";
@@ -594,7 +593,7 @@ namespace CBZMage
             // 
             // settingsToolStripMenuItem
             // 
-            this.settingsToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.window_gear;
+            this.settingsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.window_gear;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -615,7 +614,7 @@ namespace CBZMage
             // 
             // addFolderToolStripMenuItem
             // 
-            this.addFolderToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.folder_into;
+            this.addFolderToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.folder_into;
             this.addFolderToolStripMenuItem.Name = "addFolderToolStripMenuItem";
             this.addFolderToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.addFolderToolStripMenuItem.Text = "Add Folder...";
@@ -627,7 +626,7 @@ namespace CBZMage
             // 
             // addFilesToolStripMenuItem
             // 
-            this.addFilesToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.folder_document;
+            this.addFilesToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.folder_document;
             this.addFilesToolStripMenuItem.Name = "addFilesToolStripMenuItem";
             this.addFilesToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.addFilesToolStripMenuItem.Text = "Add Files...";
@@ -641,7 +640,7 @@ namespace CBZMage
             // extractAllToolStripMenuItem
             // 
             this.extractAllToolStripMenuItem.Enabled = false;
-            this.extractAllToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.box_out;
+            this.extractAllToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.box_out;
             this.extractAllToolStripMenuItem.Name = "extractAllToolStripMenuItem";
             this.extractAllToolStripMenuItem.Size = new System.Drawing.Size(175, 26);
             this.extractAllToolStripMenuItem.Text = "Extract all...";
@@ -684,7 +683,7 @@ namespace CBZMage
             // 
             // AboutToolStripMenuItem
             // 
-            this.AboutToolStripMenuItem.Image = global::MyCBZ.Properties.Resources.speech_balloon_answer;
+            this.AboutToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.speech_balloon_answer;
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
             this.AboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.AboutToolStripMenuItem.Text = "About";
@@ -886,7 +885,7 @@ namespace CBZMage
             // 
             // GroupBoxImageQuality
             // 
-            this.GroupBoxImageQuality.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GroupBoxImageQuality.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBoxImageQuality.Controls.Add(this.ImageQualitySliderMaxLabel);
             this.GroupBoxImageQuality.Controls.Add(this.ImageQualitySliderMinLabel);
@@ -919,7 +918,7 @@ namespace CBZMage
             // 
             // ImageQualityTrackBar
             // 
-            this.ImageQualityTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ImageQualityTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageQualityTrackBar.BackColor = System.Drawing.SystemColors.Window;
             this.ImageQualityTrackBar.Location = new System.Drawing.Point(6, 22);
@@ -944,8 +943,8 @@ namespace CBZMage
             // 
             // GroupBoxImageRenaming
             // 
-            this.GroupBoxImageRenaming.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.GroupBoxImageRenaming.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBoxImageRenaming.Controls.Add(this.FunctionsFlowPanel);
             this.GroupBoxImageRenaming.Controls.Add(this.label2);
@@ -965,8 +964,8 @@ namespace CBZMage
             // 
             // FunctionsFlowPanel
             // 
-            this.FunctionsFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.FunctionsFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FunctionsFlowPanel.Location = new System.Drawing.Point(11, 342);
             this.FunctionsFlowPanel.Name = "FunctionsFlowPanel";
@@ -984,7 +983,7 @@ namespace CBZMage
             // 
             // TextboxSpecialPageRenamingPattern
             // 
-            this.TextboxSpecialPageRenamingPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextboxSpecialPageRenamingPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextboxSpecialPageRenamingPattern.Enabled = false;
             this.TextboxSpecialPageRenamingPattern.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1015,8 +1014,8 @@ namespace CBZMage
             // 
             // PlaceholdersFlowPanel
             // 
-            this.PlaceholdersFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.PlaceholdersFlowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PlaceholdersFlowPanel.Location = new System.Drawing.Point(12, 175);
             this.PlaceholdersFlowPanel.Name = "PlaceholdersFlowPanel";
@@ -1035,7 +1034,7 @@ namespace CBZMage
             // 
             // TextboxStoryPageRenamingPattern
             // 
-            this.TextboxStoryPageRenamingPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextboxStoryPageRenamingPattern.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextboxStoryPageRenamingPattern.Enabled = false;
             this.TextboxStoryPageRenamingPattern.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1098,7 +1097,7 @@ namespace CBZMage
             // 
             // MetaDataTableActionsPanel
             // 
-            this.MetaDataTableActionsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.MetaDataTableActionsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MetaDataTableActionsPanel.AutoSize = true;
             this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
@@ -1111,7 +1110,7 @@ namespace CBZMage
             // AddMetaDataRowBtn
             // 
             this.AddMetaDataRowBtn.Enabled = false;
-            this.AddMetaDataRowBtn.Image = global::MyCBZ.Properties.Resources.add;
+            this.AddMetaDataRowBtn.Image = global::Win_CBZ.Properties.Resources.add;
             this.AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddMetaDataRowBtn.Location = new System.Drawing.Point(3, 3);
             this.AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
@@ -1124,7 +1123,7 @@ namespace CBZMage
             // RemoveMetadataRowBtn
             // 
             this.RemoveMetadataRowBtn.Enabled = false;
-            this.RemoveMetadataRowBtn.Image = global::MyCBZ.Properties.Resources.delete;
+            this.RemoveMetadataRowBtn.Image = global::Win_CBZ.Properties.Resources.delete;
             this.RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(175, 3);
             this.RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";

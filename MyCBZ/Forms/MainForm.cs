@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Compression;
 using System.Reflection;
-using MyCBZ;
+using Win_CBZ.Forms;
 using System.Threading;
-using MyCBZ.Forms;
 using System.IO;
 
-namespace CBZMage
+namespace Win_CBZ
 {
     public partial class MainForm : Form
     {

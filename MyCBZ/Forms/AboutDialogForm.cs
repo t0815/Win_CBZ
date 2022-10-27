@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MyCBZ.Forms
+namespace Win_CBZ.Forms
 {
     public partial class AboutDialogForm : Form
     {
@@ -16,7 +16,7 @@ namespace MyCBZ.Forms
         {
             InitializeComponent();
             AppNameLabel.Text = Win_CBZSettings.Default.AppName;
-            LicenseInfoRichtextBox.Rtf = global::MyCBZ.Properties.Resources.CBZMageAboutMessage;
+            LicenseInfoRichtextBox.Rtf = global::Win_CBZ.Properties.Resources.CBZMageAboutMessage;
         }
 
         private void button1_Click(object sender, EventArgs e)

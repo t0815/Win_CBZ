@@ -1,4 +1,4 @@
-﻿namespace MyCBZ
+﻿namespace Win_CBZ
 {
     partial class ImagePreviewForm
     {

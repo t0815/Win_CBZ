@@ -1,5 +1,4 @@
-﻿using CBZMage;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,9 +12,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Page = CBZMage.Page;
 
-namespace MyCBZ
+namespace Win_CBZ
 {
     internal class MetaData
     {

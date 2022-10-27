@@ -4,7 +4,7 @@ using System.Windows.Forms;
 // Dragging items in a ListView control with visual insertion guides
 // http://www.cyotek.com/blog/dragging-items-in-a-listview-control-with-visual-insertion-guides
 
-namespace MyCBZ
+namespace Win_CBZ
 {
   /// <summary>
   /// Provides data for the <see cref="ListView.ItemDragging"/> event of the <see cref="ListView"/> control.

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace MyCBZ
+namespace Win_CBZ
 {
     public class ExtendetListViewDesigner 
     {

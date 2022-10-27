@@ -1,4 +1,4 @@
-﻿using MyCBZ;
+﻿using Win_CBZ;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace CBZMage
+namespace Win_CBZ
 {
     internal class Page
     {
