@@ -13,16 +13,18 @@ Application for creating and editing .cbz (ComicBookZip)
 
 ## Features
 
-- Edit, Add or remove MetaData from cbz-files
-- Honor page index and set page types
-- add, delete, edit pages
+- Add, edit and delete pages and meta-data from cbz-filee
+- Set page types (FrontCover, BackCover, Story ....)
+- Reorder pages
+- Extract pages
+- Rename pages using placeholders
 
 ## Build
 
 Microsoft Visual Studio [Community] 2022 (64-Bit) 
 
-- Checkout Code
-- Open Project
+- Checkout code
+- Open project
 - Build in VS 2022
 
 ## Latest Release
