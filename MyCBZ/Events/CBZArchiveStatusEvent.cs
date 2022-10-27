@@ -22,7 +22,7 @@ namespace MyCBZ
         public const int ARCHIVE_FILE_DELETED = 10;
         public const int ARCHIVE_FILE_RENAMED = 11;
 
-        public CBZProjectModel ArchiveInfo { get; set; }
+        public ProjectModel ArchiveInfo { get; set; }
 
         public int State { get; set; }
 
@@ -33,14 +33,14 @@ namespace MyCBZ
         public CBZArchiveStatusEvent.Operation Callback;
 
 
-        public CBZArchiveStatusEvent(CBZProjectModel archive, int state)
+        public CBZArchiveStatusEvent(ProjectModel archive, int state)
         {
             this.ArchiveInfo = archive;
             this.State = state;
 
         }
 
-        public CBZArchiveStatusEvent(CBZProjectModel archive, int state, CBZArchiveStatusEvent.Operation callback)
+        public CBZArchiveStatusEvent(ProjectModel archive, int state, CBZArchiveStatusEvent.Operation callback)
         {
             this.ArchiveInfo = archive;
             this.State = state;

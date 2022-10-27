@@ -21,14 +21,14 @@ namespace MyCBZ
 
         public int Status { get; set; }
 
-        public CBZImage Image { get; set; }
+        public Page Image { get; set; }
 
         public long Completed { get; set; }
 
         public long Total { get; set; }
 
 
-        public FileOperationEvent(int operation, int status, long completed, long total, CBZImage image)
+        public FileOperationEvent(int operation, int status, long completed, long total, Page image)
         {
             this.Operation = operation;
             this.Status = status;   

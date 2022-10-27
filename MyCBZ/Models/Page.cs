@@ -12,13 +12,15 @@ using System.Windows.Forms.VisualStyles;
 
 namespace CBZMage
 {
-    internal class CBZImage
+    internal class Page
     {
 
         public const int IMAGE_STATUS_NEW = 0;
         public const int IMAGE_STATUS_COMPRESSED = 1;
         public const int IMAGE_STATUS_DELETED = 2;
         public const int IMAGE_STATUS_CHANGED = 3;
+
+        public String Id { get; set; }
 
         public String Filename { get; set; }
 
@@ -32,7 +34,7 @@ namespace CBZMage
 
         public long Size { get; set; }
 
-        public String WokringDir { get; set; }
+        public String WorkingDir { get; set; }
 
         public String LocalPath { get; set; }
 
@@ -52,6 +54,8 @@ namespace CBZMage
 
         public int Index { get; set; }
 
+        public String Key { get; set; }
+
         public DateTimeOffset LastModified { get; set; }
 
         protected int ThumbW { get; set; } = 128;
@@ -68,7 +72,7 @@ namespace CBZMage
 
         public delegate EventHandler<FileOperationEvent> FileOperationEventHandler();
         
-        public CBZImage(String fileName, FileAccess mode = FileAccess.Read)
+        public Page(String fileName, FileAccess mode = FileAccess.Read)
         {
             ImageFileInfo = new FileInfo(fileName);
             ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
@@ -82,10 +86,11 @@ namespace CBZMage
             Name = ImageFileInfo.Name;
             LastModified = ImageFileInfo.LastWriteTime;
             Size = ImageFileInfo.Length;
+            Id = Guid.NewGuid().ToString();
         }
         
 
-        public CBZImage(FileInfo ImageFileInfo, FileAccess mode = FileAccess.Read)
+        public Page(FileInfo ImageFileInfo, FileAccess mode = FileAccess.Read)
         {
             this.ImageFileInfo = ImageFileInfo;
             ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
@@ -107,20 +112,23 @@ namespace CBZMage
             LocalPath = ImageFileInfo.Directory.FullName;
             Name = ImageFileInfo.Name;
             Size = ImageFileInfo.Length;
+            Id = Guid.NewGuid().ToString();
         }
 
-        public CBZImage(Stream fileInputStream, String name)
+        public Page(Stream fileInputStream, String name)
         {
             ImageStream = fileInputStream;
             Name = name;
             EntryName = name;
+            Id = Guid.NewGuid().ToString();
         }
 
-        public CBZImage(GZipStream zipInputStream, String name)
+        public Page(GZipStream zipInputStream, String name)
         {
             ImageStream = zipInputStream;
             Name = name;
             EntryName = name;
+            Id = Guid.NewGuid().ToString();
         }
 
 

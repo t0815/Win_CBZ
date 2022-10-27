@@ -72,13 +72,13 @@
     </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
-    <Compile Include="Models\CBZImage.cs" />
-    <Compile Include="CBZMageSettings.cs" />
-    <Compile Include="Models\CBZMetaDataEntryPage.cs" />
-    <Compile Include="Models\CBZProjectModel.cs" />
-    <Compile Include="Models\CBZMetaData.cs" />
-    <Compile Include="Models\CBZMetaDataEntry.cs" />
-    <Compile Include="Models\CBZLocalFile.cs" />
+    <Compile Include="Models\Page.cs" />
+    <Compile Include="Win_CBZSettings.cs" />
+    <Compile Include="Models\MetaDataEntryPage.cs" />
+    <Compile Include="Models\ProjectModel.cs" />
+    <Compile Include="Models\MetaData.cs" />
+    <Compile Include="Models\MetaDataEntry.cs" />
+    <Compile Include="Models\LocalFile.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="HTMLColor.cs" />
     <Compile Include="Colors.cs" />
@@ -105,10 +105,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CBZMageSettings.Designer.cs">
+    <Compile Include="Win_CBZSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>CBZMageSettings.settings</DependentUpon>
+      <DependentUpon>Win_CBZSettings.settings</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Components\ExtendedListView\ExtendetListView.resx">
       <DependentUpon>ExtendetListView.cs</DependentUpon>
@@ -143,9 +143,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <AdditionalFiles Include="CBZMageSettings.settings">
+    <AdditionalFiles Include="Win_CBZSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>CBZMageSettings.Designer.cs</LastGenOutput>
+      <LastGenOutput>Win_CBZSettings.Designer.cs</LastGenOutput>
     </AdditionalFiles>
     <None Include="Resources\CBZMageAboutMessage.rtf" />
   </ItemGroup>

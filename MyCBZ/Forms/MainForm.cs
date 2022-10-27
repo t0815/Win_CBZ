@@ -19,7 +19,7 @@ namespace CBZMage
     public partial class MainForm : Form
     {
 
-        private CBZProjectModel ProjectModel;
+        private ProjectModel ProjectModel;
 
         private Thread ClosingTask;
 
@@ -38,9 +38,9 @@ namespace CBZMage
             MessageLogger.Instance.SetHandler(MessageLogged);
         }
 
-        private CBZProjectModel NewProjectModel()
+        private ProjectModel NewProjectModel()
         {
-            CBZProjectModel newProjectModel = new CBZProjectModel(CBZMageSettings.Default.TempFolderPath);
+            ProjectModel newProjectModel = new ProjectModel(Win_CBZSettings.Default.TempFolderPath);
             newProjectModel.ImageProgress += FileLoaded;
             newProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
             newProjectModel.ItemChanged += ItemChanged;
@@ -50,7 +50,7 @@ namespace CBZMage
             newProjectModel.FileOperation += FileOperationHandler;
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
 
-            this.Text = CBZMageSettings.Default.AppName + " (c) Trash_s0Ft";
+            this.Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
         }
@@ -146,39 +146,21 @@ namespace CBZMage
                     item.ForeColor = Color.Silver;
                     item.BackColor = Color.Transparent;
                 }
-
-                if (existingItem == null && TogglePagePreviewToolbutton.Checked == true)
-                {
-                    PageImages.Images.Add(e.Image.GetThumbnail(ThumbAbort, Handle));
-                }
             }));
 
-            PageView.Invoke(new Action(() => {
-                ListViewItem page;
-                ListViewItem existingItem = FindListViewItemForPage(PageView, e.Image);
-
-                if (existingItem == null)
+            if (TogglePagePreviewToolbutton.Checked)
+            {
+                PageView.Invoke(new Action(() =>
                 {
-                    page = PageView.Items.Add("", e.Index);
-                    page.SubItems.Add(e.Image.Name);
-                    page.SubItems.Add(e.Image.Index.ToString());
-                } else
-                {
-                    page = existingItem;
-                    page.SubItems[1] = new ListViewItem.ListViewSubItem(page, e.Image.Name);
-                    page.SubItems[2] = new ListViewItem.ListViewSubItem(page, e.Image.Index.ToString());
-                }
-                
-                page.Tag = e.Image;
-            }));
-            
+                    CreatePagePreviewFromItem(e.Image);
+                }));
+            }
         }
 
-        private ListViewItem FindListViewItemForPage(ExtendetListView owner, CBZImage page)
+        private ListViewItem FindListViewItemForPage(ExtendetListView owner, Page page)
         {
             foreach (ListViewItem item in owner.Items)
             {
-                // if (((CBZImage)item.Tag).)
                 if (item.Tag.Equals(page))
                 {
                     return item;
@@ -186,6 +168,57 @@ namespace CBZMage
             }
 
             return null;
+        }
+
+        public void ReloadPreviewThumbs()
+        {
+            PageImages.Images.Clear();
+
+            foreach (Page page in ProjectModel.Pages)
+            {
+                if (!PageImages.Images.ContainsKey(page.Name))
+                {
+                    PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+                } else
+                {
+                    PageImages.Images.RemoveByKey(page.Name);
+                    PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+                }
+            }
+        }
+
+        private ListViewItem CreatePagePreviewFromItem(Page page)
+        {
+            ListViewItem itemPage;
+            ListViewItem existingItem = FindListViewItemForPage(PageView, page);
+
+            if (!PageImages.Images.ContainsKey(page.Name))
+            {
+                PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+            }
+            else
+            {
+                PageImages.Images.RemoveByKey(page.Name);
+                PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+            }
+
+            if (existingItem == null)
+            {
+                itemPage = PageView.Items.Add("", page.Index);
+                itemPage.ImageKey = page.Name;
+                itemPage.SubItems.Add(page.Name);
+                itemPage.SubItems.Add(page.Index.ToString());
+            }
+            else
+            {
+                itemPage = existingItem;
+                itemPage.SubItems[1] = new ListViewItem.ListViewSubItem(itemPage, page.Name);
+                itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Index.ToString());
+            }
+
+            itemPage.Tag = page;
+
+            return itemPage;
         }
 
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
@@ -606,7 +639,7 @@ namespace CBZMage
 
             if (!ArchiveProcessing())
             {
-                CBZMageSettings.Default.Save();
+                Win_CBZSettings.Default.Save();
             }
 
             e.Cancel = ArchiveProcessing();
@@ -616,7 +649,7 @@ namespace CBZMage
         {
 
             DialogResult openImageResult = OpenImagesDialog.ShowDialog();
-            List<CBZLocalFile> files = new List<CBZLocalFile>();
+            List<LocalFile> files = new List<LocalFile>();
 
             if (openImageResult == DialogResult.OK)
             {
@@ -638,7 +671,7 @@ namespace CBZMage
                 ListViewItem changedItem = PagesList.Items[e.Item - 1];
                 if (changedItem != null)
                 {
-                    ((CBZImage)changedItem.Tag).Name = e.Label;
+                    ((Page)changedItem.Tag).Name = e.Label;
                 }
             }
         }
@@ -656,7 +689,7 @@ namespace CBZMage
         {
             if (ProjectModel.MetaData == null)
             {
-                ProjectModel.MetaData = new CBZMetaData(true);
+                ProjectModel.MetaData = new MetaData(true);
             }
 
             ProjectModel.MetaData.FillMissingDefaultProps();
@@ -695,7 +728,7 @@ namespace CBZMage
 
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
-            ProjectModel.MetaData.Values.Add(new CBZMetaDataEntry(""));
+            ProjectModel.MetaData.Values.Add(new MetaDataEntry(""));
             MetaDataGrid.Refresh();
         }
 
@@ -710,9 +743,9 @@ namespace CBZMage
             {
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
-                    if (row.DataBoundItem is CBZMetaDataEntry)
+                    if (row.DataBoundItem is MetaDataEntry)
                     {
-                        ProjectModel.MetaData.Values.Remove((CBZMetaDataEntry)row.DataBoundItem);
+                        ProjectModel.MetaData.Values.Remove((MetaDataEntry)row.DataBoundItem);
                     }
                 }
             }
@@ -724,7 +757,7 @@ namespace CBZMage
             {
                 if (e.ColumnIndex == 0)
                 {
-                    ProjectModel.MetaData.Validate((CBZMetaDataEntry)MetaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
+                    ProjectModel.MetaData.Validate((MetaDataEntry)MetaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
                 }
             } catch (MetaDataValidationException ve)
             {
@@ -761,12 +794,12 @@ namespace CBZMage
             {
                 foreach (ListViewItem img in selectedPages)
                 {
-                    ((CBZImage)img.Tag).Deleted = true;
-                    if (!((CBZImage)img.Tag).Compressed)
+                    ((Page)img.Tag).Deleted = true;
+                    if (!((Page)img.Tag).Compressed)
                     {
                         try
                         {
-                            ((CBZImage)img.Tag).DeleteTemporaryFile();
+                            ((Page)img.Tag).DeleteTemporaryFile();
                         } catch (Exception ex)
                         {
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
@@ -784,17 +817,17 @@ namespace CBZMage
         {
             if (!WindowShown)
             {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, CBZMageSettings.Default.AppName + " v" + CBZMageSettings.Default.Version + "  - Welcome!");
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
 
-                TextboxStoryPageRenamingPattern.Text = CBZMageSettings.Default.StoryPageRenamePattern;
-                TextboxSpecialPageRenamingPattern.Text = CBZMageSettings.Default.SpecialPageRenamePattern;
+                TextboxStoryPageRenamingPattern.Text = Win_CBZSettings.Default.StoryPageRenamePattern;
+                TextboxSpecialPageRenamingPattern.Text = Win_CBZSettings.Default.SpecialPageRenamePattern;
 
-                TogglePagePreviewToolbutton.Checked = CBZMageSettings.Default.PagePreviewEnabled;
-                SplitBoxPageView.Panel1Collapsed = !CBZMageSettings.Default.PagePreviewEnabled;
-                ProjectModel.PreloadPageImages = CBZMageSettings.Default.PagePreviewEnabled;
+                TogglePagePreviewToolbutton.Checked = Win_CBZSettings.Default.PagePreviewEnabled;
+                SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
+                ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
 
                 Label placeholderLabel;
-                foreach (String placeholder in CBZMageSettings.Default.RenamerPlaceholders)
+                foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
                 {
                     placeholderLabel = new Label();
                     placeholderLabel.Name = "Label" + placeholder;
@@ -805,7 +838,7 @@ namespace CBZMage
                 }
 
                 Label fnLabel;
-                foreach (String fn in CBZMageSettings.Default.RenamerFunctions)
+                foreach (String fn in Win_CBZSettings.Default.RenamerFunctions)
                 {
                     fnLabel = new Label();
                     fnLabel.Name = "Label" + fn;
@@ -835,7 +868,7 @@ namespace CBZMage
         {
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
-                ((CBZImage)item.Tag).ImageType = (String)((ToolStripMenuItem)sender).Tag;
+                ((Page)item.Tag).ImageType = (String)((ToolStripMenuItem)sender).Tag;
 
                 if (item.SubItems.Count > 0)
                 {
@@ -871,13 +904,13 @@ namespace CBZMage
         private void TextboxStoryPageRenamingPattern_TextChanged(object sender, EventArgs e)
         {
             ProjectModel.RenameStoryPagePattern = TextboxStoryPageRenamingPattern.Text;
-            CBZMageSettings.Default.StoryPageRenamePattern = TextboxStoryPageRenamingPattern.Text;
+            Win_CBZSettings.Default.StoryPageRenamePattern = TextboxStoryPageRenamingPattern.Text;
         }
 
         private void TextboxSpecialPageRenamingPattern_TextChanged(object sender, EventArgs e)
         {
             ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
-            CBZMageSettings.Default.SpecialPageRenamePattern = TextboxSpecialPageRenamingPattern.Text;
+            Win_CBZSettings.Default.SpecialPageRenamePattern = TextboxSpecialPageRenamingPattern.Text;
         }
 
         private void ClearTemporaryFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -901,13 +934,13 @@ namespace CBZMage
                 }
             }
 
-            ((CBZImage)editedItem.Tag).Name = e.Label;
+            ((Page)editedItem.Tag).Name = e.Label;
         }
 
         private void TogglePagePreviewToolbutton_Click(object sender, EventArgs e)
         {
             TogglePagePreviewToolbutton.Checked = !TogglePagePreviewToolbutton.Checked;
-            CBZMageSettings.Default.PagePreviewEnabled = TogglePagePreviewToolbutton.Checked;
+            Win_CBZSettings.Default.PagePreviewEnabled = TogglePagePreviewToolbutton.Checked;
             SplitBoxPageView.Panel1Collapsed = !TogglePagePreviewToolbutton.Checked;
             ProjectModel.PreloadPageImages = TogglePagePreviewToolbutton.Checked;
         }

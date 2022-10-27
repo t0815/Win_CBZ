@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyCBZ
 {
-    internal class CBZLocalFile
+    internal class LocalFile
     {
 
         public String FileName { get; set; }
@@ -23,7 +23,7 @@ namespace MyCBZ
         public FileInfo FileInfo { get; set; }
 
 
-        public CBZLocalFile(String fileName)
+        public LocalFile(String fileName)
         {
             FullPath = fileName;
         }

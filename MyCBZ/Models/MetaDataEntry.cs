@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCBZ
 {
-    internal class CBZMetaDataEntry
+    internal class MetaDataEntry
     {
         public String Key { get; set; }
 
@@ -14,19 +14,19 @@ namespace MyCBZ
 
         protected bool ReadOnly { get; set; }
 
-        public CBZMetaDataEntry(String key)
+        public MetaDataEntry(String key)
         {
             Key = key;
             Value = "";
         }
 
-        public CBZMetaDataEntry(String key, String value)
+        public MetaDataEntry(String key, String value)
         {
             Key = key;
             Value = value;
         }
 
-        public CBZMetaDataEntry(String key, String value, bool readOnly = false)
+        public MetaDataEntry(String key, String value, bool readOnly = false)
         {
             Key = key;
             Value = value;

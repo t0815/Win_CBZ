@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCBZ
 {
-    internal class CBZMetaDataEntryPage
+    internal class MetaDataEntryPage
     {
         public const String COMIC_PAGE_ATTRIBUTE_IMAGE = "Image";
         public const String COMIC_PAGE_ATTRIBUTE_TYPE = "Type";
@@ -58,12 +58,12 @@ namespace MyCBZ
          * 
          */
 
-        public CBZMetaDataEntryPage()
+        public MetaDataEntryPage()
         {
             Attributes = new Dictionary<String, String>();
         }
 
-        public CBZMetaDataEntryPage SetAttribute(String name, String value)
+        public MetaDataEntryPage SetAttribute(String name, String value)
         {
             Attributes.Add(name, value);
 

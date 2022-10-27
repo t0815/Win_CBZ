@@ -15,10 +15,10 @@ namespace MyCBZ
 
         public int Total { get; set; }
 
-        public CBZImage Image { get; set; }
+        public Page Image { get; set; }
 
 
-        public ItemLoadProgressEvent(int index, int total, CBZImage image)
+        public ItemLoadProgressEvent(int index, int total, Page image)
         {
             this.Index = index;
             this.Total = total;

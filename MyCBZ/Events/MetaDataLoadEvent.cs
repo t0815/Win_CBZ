@@ -12,9 +12,9 @@ namespace MyCBZ
     internal class MetaDataLoadEvent
     {
 
-        public BindingList<CBZMetaDataEntry> MetaData { get; set; }  
+        public BindingList<MetaDataEntry> MetaData { get; set; }  
 
-        public MetaDataLoadEvent(BindingList<CBZMetaDataEntry> metadata)
+        public MetaDataLoadEvent(BindingList<MetaDataEntry> metadata)
         {
             this.MetaData = metadata;
         }   

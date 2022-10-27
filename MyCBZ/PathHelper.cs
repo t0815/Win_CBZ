@@ -43,7 +43,7 @@ namespace MyCBZ
                         {
                             try
                             {
-                                cnf = CBZMageSettings.Default[part.Trim('%')].ToString();
+                                cnf = Win_CBZSettings.Default[part.Trim('%')].ToString();
                                 resolved += "\\" + cnf;
                             } catch (SettingsPropertyNotFoundException)
                             {

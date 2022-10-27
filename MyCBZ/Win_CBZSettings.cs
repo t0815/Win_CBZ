@@ -6,9 +6,9 @@
     //  Das PropertyChanged-Ereignis wird ausgelöst, nachdem der Wert einer Einstellung geändert wurde.
     //  Das SettingsLoaded-Ereignis wird ausgelöst, nachdem die Einstellungswerte geladen wurden.
     //  Das SettingsSaving-Ereignis wird ausgelöst, bevor die Einstellungswerte gespeichert werden.
-    internal sealed partial class CBZMageSettings {
+    internal sealed partial class Win_CBZSettings {
         
-        public CBZMageSettings() {
+        public Win_CBZSettings() {
             // // Heben Sie die Auskommentierung der unten angezeigten Zeilen auf, um Ereignishandler zum Speichern und Ändern von Einstellungen hinzuzufügen:
             //
             // this.SettingChanging += this.SettingChangingEventHandler;

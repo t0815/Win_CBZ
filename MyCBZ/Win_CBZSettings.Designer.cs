@@ -13,11 +13,11 @@ namespace MyCBZ {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
-    internal sealed partial class CBZMageSettings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Win_CBZSettings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static CBZMageSettings defaultInstance = ((CBZMageSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new CBZMageSettings())));
+        private static Win_CBZSettings defaultInstance = ((Win_CBZSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Win_CBZSettings())));
         
-        public static CBZMageSettings Default {
+        public static Win_CBZSettings Default {
             get {
                 return defaultInstance;
             }

@@ -9,12 +9,12 @@ namespace MyCBZ
     internal class MetaDataValidationException : Exception
     {
 
-        public CBZMetaDataEntry Item;
+        public MetaDataEntry Item;
 
         public new String Message;
 
 
-        public MetaDataValidationException(CBZMetaDataEntry item, String message)
+        public MetaDataValidationException(MetaDataEntry item, String message)
         {
             Message = message;
             Item = item;

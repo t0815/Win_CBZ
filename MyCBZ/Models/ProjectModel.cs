@@ -20,7 +20,7 @@ using File = System.IO.File;
 
 namespace CBZMage
 {
-    internal class CBZProjectModel
+    internal class ProjectModel
     {
         public String Name { get; set; }
 
@@ -54,9 +54,9 @@ namespace CBZMage
 
         public bool PreloadPageImages { get; set; }
 
-        public BindingList<CBZImage> Pages { get; set; }
+        public BindingList<Page> Pages { get; set; }
 
-        public CBZMetaData MetaData { get; set; }
+        public MetaData MetaData { get; set; }
 
         public long TotalSize { get; set; }
 
@@ -64,7 +64,7 @@ namespace CBZMage
 
         private ZipArchiveMode Mode;
 
-        public event EventHandler<CBZProjectModel> ArchiveChanged;
+        public event EventHandler<ProjectModel> ArchiveChanged;
 
         public event EventHandler<ItemChangedEvent> ItemChanged;
 
@@ -94,14 +94,16 @@ namespace CBZMage
 
         private Thread DeleteFileThread;
 
+        private Thread PageUpdateThread;
+
         private Random RandomProvider;
 
 
-        public CBZProjectModel(String workingDir)
+        public ProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
-            Pages = new BindingList<CBZImage>();
-            MetaData = new CBZMetaData(false);
+            Pages = new BindingList<Page>();
+            MetaData = new MetaData(false);
             RandomProvider = new Random();
 
             ProjectGUID = Guid.NewGuid().ToString();
@@ -221,17 +223,17 @@ namespace CBZMage
             return ExtractArchiveThread;
         } 
 
-        public void AddImages(List<CBZLocalFile> fileList, int maxIndex = 0)
+        public void AddImages(List<LocalFile> fileList, int maxIndex = 0)
         {
             int index = maxIndex + 1;
 
-            foreach (CBZLocalFile fileObject in fileList)
+            foreach (LocalFile fileObject in fileList)
             {
                 try
                 {
                     FileInfo localCopyInfo = fileObject.FileInfo.CopyTo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileInfo.Name);
                     
-                    CBZImage cBZImage = new CBZImage(localCopyInfo, FileAccess.ReadWrite);
+                    Page cBZImage = new Page(localCopyInfo, FileAccess.ReadWrite);
                     cBZImage.Size = fileObject.FileSize;
                     cBZImage.Number = index + 1;
                     cBZImage.Index = index;
@@ -264,9 +266,9 @@ namespace CBZMage
             OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
         }
 
-        public List<CBZLocalFile> LoadDirectory(String path)
+        public List<LocalFile> LoadDirectory(String path)
         {
-            List<CBZLocalFile> files = new List<CBZLocalFile>();
+            List<LocalFile> files = new List<LocalFile>();
 
             DirectoryInfo di = new DirectoryInfo(path);
 
@@ -274,7 +276,7 @@ namespace CBZMage
             {
                 foreach (var fi in di.EnumerateFiles())
                 {
-                    CBZLocalFile localFile = new CBZLocalFile(fi.FullName);
+                    LocalFile localFile = new LocalFile(fi.FullName);
                     localFile.FilePath = di.FullName;
                     localFile.FileName = fi.FullName;
                     localFile.FileSize = fi.Length;
@@ -292,9 +294,9 @@ namespace CBZMage
             return files;
         }
 
-        public List<CBZLocalFile> ParseFiles(List<String> files)
+        public List<LocalFile> ParseFiles(List<String> files)
         {
-            List<CBZLocalFile> filesObjects = new List<CBZLocalFile>();
+            List<LocalFile> filesObjects = new List<LocalFile>();
 
             try
             {
@@ -302,7 +304,7 @@ namespace CBZMage
                 {
                     var fi = new FileInfo(fname);
                      
-                    CBZLocalFile localFile = new CBZLocalFile(fi.FullName);
+                    LocalFile localFile = new LocalFile(fi.FullName);
                     localFile.FilePath = fi.Directory.FullName;
                     localFile.FileName = fi.Name;
                     localFile.FileSize = fi.Length;
@@ -325,9 +327,9 @@ namespace CBZMage
         public int RemoveDeletedPages()
         {
             int deletedPagesCount = 0;
-            List<CBZImage> deletedPagesList = new List<CBZImage>();
+            List<Page> deletedPagesList = new List<Page>();
 
-            foreach (CBZImage page in Pages)
+            foreach (Page page in Pages)
             {
                 if (page.Deleted)
                 {
@@ -335,7 +337,7 @@ namespace CBZMage
                 }
             }
 
-            foreach (CBZImage page in deletedPagesList)
+            foreach (Page page in deletedPagesList)
             {
                 Pages.Remove(page);
             }
@@ -345,9 +347,25 @@ namespace CBZMage
 
         public void UpdatePageIndices()
         {
+            if (LoadArchiveThread != null)
+            {
+                if (LoadArchiveThread.IsAlive)
+                {
+                    LoadArchiveThread.Abort();
+                }
+            }
+
+            PageUpdateThread = new Thread(new ThreadStart(UpdatePageIndicesProc));
+            PageUpdateThread.Start();
+
+            //return LoadArchiveThread;
+        }
+
+        protected void UpdatePageIndicesProc()
+        {
             int newIndex = 0;
             int updated = 1;
-            foreach (CBZImage page in Pages)
+            foreach (Page page in Pages)
             {
                 if (page.Deleted)
                 {
@@ -365,16 +383,18 @@ namespace CBZMage
                 this.IsChanged = true;
                 updated++;
             }
+
+            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
         }
 
-        public String RenameEntry(CBZImage page)
+        public String RenameEntry(Page page)
         {
             string newName = page.Name;
             string pattern = "";
 
             switch (page.ImageType)
             {
-                case CBZMetaDataEntryPage.COMIC_PAGE_TYPE_STORY:
+                case MetaDataEntryPage.COMIC_PAGE_TYPE_STORY:
                     pattern = RenameStoryPagePattern;
                     break;
                 default:
@@ -393,7 +413,7 @@ namespace CBZMage
             return newName;
         }
 
-        public String RequestTemporaryFile(CBZImage page)
+        public String RequestTemporaryFile(Page page)
         {
             String tempFileName = MakeNewTempFileName(page.Name).FullName;
             if (page.Compressed)
@@ -440,7 +460,7 @@ namespace CBZMage
 
                     if (metaDataEntry != null)
                     {
-                        MetaData = new CBZMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
+                        MetaData = new MetaData(metaDataEntry.Open(), metaDataEntry.FullName);
 
                         OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
                     } else
@@ -457,7 +477,7 @@ namespace CBZMage
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
                         itemSize = entry.Length;
-                        CBZImage cBZImage = new CBZImage(entry.Open(), entry.FullName);
+                        Page cBZImage = new Page(entry.Open(), entry.FullName);
                         cBZImage.Size = itemSize;
                         cBZImage.Number = index + 1;
                         cBZImage.Index = index;
@@ -488,7 +508,7 @@ namespace CBZMage
 
         public void RunRenameScriptsForPages()
         {
-            foreach (CBZImage page in Pages)
+            foreach (Page page in Pages)
             {
                 RenamePageScript(page);
 
@@ -510,10 +530,10 @@ namespace CBZMage
                 BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
                 // Rebuild ComicInfo.xml's PageIndex
-                MetaData.RebuildPageMetaData(Pages.ToList<CBZImage>());
+                MetaData.RebuildPageMetaData(Pages.ToList<Page>());
 
                 // Write files to new temporary archive
-                foreach (CBZImage page in Pages)
+                foreach (Page page in Pages)
                 {
                     try
                     {
@@ -546,7 +566,7 @@ namespace CBZMage
                 }
 
                 // Create Metadata
-                if (MetaData.Values.Count > 0 || MetaData.PageMetaData.Count > 0)
+                if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
                 {
                     MemoryStream ms = MetaData.BuildComicInfoXMLStream();
                     ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry("ComicInfo.xml");
@@ -590,7 +610,7 @@ namespace CBZMage
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RenamePageScript(CBZImage page)
+        public void RenamePageScript(Page page)
         {
             String newName = RenameEntry(page);
             MetaData.UpdatePageIndexMetaDataEntry(newName, page);
@@ -600,7 +620,7 @@ namespace CBZMage
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void ExtractSingleFile(CBZImage page, String path = null)
+        public void ExtractSingleFile(Page page, String path = null)
         {
             try
             {
@@ -645,7 +665,7 @@ namespace CBZMage
 
                     if (metaDataEntry != null)
                     {
-                        MetaData = new CBZMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
+                        MetaData = new MetaData(metaDataEntry.Open(), metaDataEntry.FullName);
 
                         OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
                     }
@@ -654,7 +674,7 @@ namespace CBZMage
                 { }
 
                 ZipArchiveEntry fileEntry;
-                foreach (CBZImage cBZImage in Pages)
+                foreach (Page cBZImage in Pages)
                 {
                     try
                     {
@@ -706,7 +726,7 @@ namespace CBZMage
 
             FileSize = 0;
             FileName = "";
-            foreach (CBZImage page in Pages)
+            foreach (Page page in Pages)
             {
                 page.FreeImage();
                 OnItemChanged(new ItemChangedEvent(page.Index, Pages.Count, page));
@@ -761,14 +781,14 @@ namespace CBZMage
 
         }
 
-        public void CopyTo(CBZProjectModel destination)
+        public void CopyTo(ProjectModel destination)
         {
             if (destination != null)
             {
-                CBZImage[] copyPages = new CBZImage[this.Pages.Count];
+                Page[] copyPages = new Page[this.Pages.Count];
 
                 this.Pages.CopyTo(copyPages, 0);
-                destination.Pages = new BindingList<CBZImage>(copyPages);
+                destination.Pages = new BindingList<Page>(copyPages);
                 destination.MetaData = this.MetaData;
                 destination.Name = this.Name;
                 destination.ProjectGUID = this.ProjectGUID;

@@ -15,7 +15,7 @@ using System.Xml.Linq;
 
 namespace MyCBZ
 {
-    internal class CBZMetaData
+    internal class MetaData
     {
         protected static readonly String[] DefaultProperties = { "Series", "Number", "Web",
         "Summary", "Notes", "Publisher", "Imprint", "Genre", "PageCount", "LanguageISO",
@@ -25,28 +25,28 @@ namespace MyCBZ
 
         public XmlNode Root { get; set; }
 
-        private XmlDocument MetaData { get; set; }
+        private XmlDocument Document { get; set; }
 
         private XmlReader MetaDataReader { get; set; }
 
         private XmlWriter MetaDataWriter { get; set; }
 
-        private List<CBZMetaDataEntry> Defaults { get; set; }
+        private List<MetaDataEntry> Defaults { get; set; }
 
-        public BindingList<CBZMetaDataEntry> Values { get; set; }
+        public BindingList<MetaDataEntry> Values { get; set; }
 
-        public BindingList<CBZMetaDataEntryPage> PageMetaData { get; set; }
+        public BindingList<MetaDataEntryPage> PageIndex { get; set; }
 
 
         private readonly Stream InputStream;
 
        
-        public CBZMetaData(bool createDefault = false)
+        public MetaData(bool createDefault = false)
         {
-            Defaults = new List<CBZMetaDataEntry>();
-            Values = new BindingList<CBZMetaDataEntry>();
-            PageMetaData = new BindingList<CBZMetaDataEntryPage>();
-            MetaData = new XmlDocument();
+            Defaults = new List<MetaDataEntry>();
+            Values = new BindingList<MetaDataEntry>();
+            PageIndex = new BindingList<MetaDataEntryPage>();
+            Document = new XmlDocument();
 
             MakeDefaultKeys();
 
@@ -59,22 +59,22 @@ namespace MyCBZ
             }
         }
 
-        public CBZMetaData(Stream fileInputStream, String name)
+        public MetaData(Stream fileInputStream, String name)
         {
             InputStream = fileInputStream;
 
-            Defaults = new List<CBZMetaDataEntry>();
-            Values = new BindingList<CBZMetaDataEntry>();
-            PageMetaData = new BindingList<CBZMetaDataEntryPage>();
+            Defaults = new List<MetaDataEntry>();
+            Values = new BindingList<MetaDataEntry>();
+            PageIndex = new BindingList<MetaDataEntryPage>();
 
             MakeDefaultKeys();
 
-            MetaData = new XmlDocument();
+            Document = new XmlDocument();
             MetaDataReader = XmlReader.Create(InputStream);
             MetaDataReader.Read();
-            MetaData.Load(MetaDataReader);
+            Document.Load(MetaDataReader);
 
-            foreach (XmlNode node in MetaData.ChildNodes)
+            foreach (XmlNode node in Document.ChildNodes)
             {
                 if (node.Name.ToLower().Equals("comicinfo"))
                 {
@@ -87,7 +87,7 @@ namespace MyCBZ
                                 HandlePageMetaData(subNode);
                                 break;
                             default:
-                                Values.Add(new CBZMetaDataEntry(subNode.Name, subNode.InnerText));
+                                Values.Add(new MetaDataEntry(subNode.Name, subNode.InnerText));
                                 break;
                         }   
                     }
@@ -117,14 +117,14 @@ namespace MyCBZ
 
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("ComicInfo");
-            foreach (CBZMetaDataEntry entry in Values)
+            foreach (MetaDataEntry entry in Values)
             {
                 xmlWriter.WriteStartElement(entry.Key);
                 xmlWriter.WriteElementString(entry.Key, entry.Value);
                 xmlWriter.WriteEndElement();
             }
             xmlWriter.WriteStartElement("Pages");
-            foreach (CBZMetaDataEntryPage page in PageMetaData)
+            foreach (MetaDataEntryPage page in PageIndex)
             {
                 xmlWriter.WriteStartElement("Page");
                 foreach (KeyValuePair<String, String> attibute in page.Attributes)
@@ -145,23 +145,23 @@ namespace MyCBZ
         /**
          * 
          */
-        public void RebuildPageMetaData(List<CBZImage> pages)
+        public void RebuildPageMetaData(List<Page> pages)
         {
-            List<CBZMetaDataEntryPage> originalPageMetaData = PageMetaData.ToList<CBZMetaDataEntryPage>();
+            List<MetaDataEntryPage> originalPageMetaData = PageIndex.ToList<MetaDataEntryPage>();
             
-            PageMetaData.Clear();
+            PageIndex.Clear();
 
-            CBZMetaDataEntryPage newPageEntry;
-            foreach (CBZImage page in pages)
+            MetaDataEntryPage newPageEntry;
+            foreach (Page page in pages)
             {
                 try
                 {
-                    newPageEntry = new CBZMetaDataEntryPage();
-                    newPageEntry.SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
-                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());
+                    newPageEntry = new MetaDataEntryPage();
+                    newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());
 
-                    PageMetaData.Add(newPageEntry);
+                    PageIndex.Add(newPageEntry);
                 }
                 catch (Exception ex)
                 {
@@ -170,15 +170,15 @@ namespace MyCBZ
             }
         }
 
-        public void UpdatePageIndexMetaDataEntry(String name, CBZImage page)
+        public void UpdatePageIndexMetaDataEntry(String name, Page page)
         {
-            foreach (CBZMetaDataEntryPage entry in PageMetaData)
+            foreach (MetaDataEntryPage entry in PageIndex)
             {
-                if (entry.GetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
+                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
                 {
-                    entry.SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
-                        .SetAttribute(CBZMetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());
+                    entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());
 
                     break;
                 }
@@ -187,7 +187,7 @@ namespace MyCBZ
             
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
-            CBZMetaDataEntryPage pageMeta;
+            MetaDataEntryPage pageMeta;
 
             if (pageNodes != null)
             {
@@ -195,7 +195,7 @@ namespace MyCBZ
                 {
                     if (subNode.Attributes.Count > 0)
                     {
-                        pageMeta = new CBZMetaDataEntryPage();
+                        pageMeta = new MetaDataEntryPage();
 
                         foreach (XmlAttribute attrib in subNode.Attributes)
                         {
@@ -207,7 +207,7 @@ namespace MyCBZ
                             }
                         }
 
-                        PageMetaData.Add(pageMeta);
+                        PageIndex.Add(pageMeta);
                     }
                 }
             }
@@ -217,7 +217,7 @@ namespace MyCBZ
         {
             foreach (String prop in DefaultProperties)
             {
-                Defaults.Add(new CBZMetaDataEntry(prop, ""));
+                Defaults.Add(new MetaDataEntry(prop, ""));
             }
         }
 
@@ -226,10 +226,10 @@ namespace MyCBZ
             int i = 0;
             bool valueExists;
 
-            foreach (CBZMetaDataEntry entry in Defaults)
+            foreach (MetaDataEntry entry in Defaults)
             {
                 valueExists = false;
-                foreach (CBZMetaDataEntry v in Values)
+                foreach (MetaDataEntry v in Values)
                 {
                     if (v.Key.ToLower().Equals(entry.Key.ToLower()))
                     {
@@ -249,10 +249,10 @@ namespace MyCBZ
             return i;
         }
 
-        public void Validate(CBZMetaDataEntry entry, String newKey)
+        public void Validate(MetaDataEntry entry, String newKey)
         {
             int occurence = 0;
-            foreach (CBZMetaDataEntry entryA in Values)
+            foreach (MetaDataEntry entryA in Values)
             {
                 if (entryA.Key.ToLower().Equals(newKey.ToLower()))
                 {
@@ -274,7 +274,7 @@ namespace MyCBZ
                 }
             }
 
-            MetaData.RemoveAll();
+            Document.RemoveAll();
             if (MetaDataReader != null)
             {
                 MetaDataReader.Dispose();

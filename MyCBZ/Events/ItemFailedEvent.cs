@@ -14,10 +14,10 @@ namespace MyCBZ
 
         public String message { get; set; }  
 
-        public CBZImage image { get; set; }
+        public Page image { get; set; }
 
 
-        public ItemFailedEvent(int index, String message, CBZImage image)
+        public ItemFailedEvent(int index, String message, Page image)
         {
             this.index = index;
             this.message = message;
