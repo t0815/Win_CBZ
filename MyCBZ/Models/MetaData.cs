@@ -119,9 +119,7 @@ namespace Win_CBZ
             xmlWriter.WriteStartElement("ComicInfo");
             foreach (MetaDataEntry entry in Values)
             {
-                xmlWriter.WriteStartElement(entry.Key);
                 xmlWriter.WriteElementString(entry.Key, entry.Value);
-                xmlWriter.WriteEndElement();
             }
             xmlWriter.WriteStartElement("Pages");
             foreach (MetaDataEntryPage page in PageIndex)
