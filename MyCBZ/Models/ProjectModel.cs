@@ -406,6 +406,8 @@ namespace CBZMage
             {
                 if (pattern.Length > 0)
                 {
+                    OnItemChanged(new ItemChangedEvent(page.Index, 1, page));
+
                     this.IsChanged = true;
                 }
             }
@@ -472,23 +474,21 @@ namespace CBZMage
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
                 }
 
+                String tempFileName = "";
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
-                        itemSize = entry.Length;
-                        Page cBZImage = new Page(entry.Open(), entry.FullName);
-                        cBZImage.Size = itemSize;
-                        cBZImage.Number = index + 1;
-                        cBZImage.Index = index;
-                        cBZImage.Filename = entry.FullName;
-                        cBZImage.Compressed = true;
-                        cBZImage.LastModified = entry.LastWriteTime;
-                        cBZImage.Name = entry.Name;
+                        Page page = new Page(entry, WorkingDir, MakeNewRandomId());
 
-                        Pages.Add(cBZImage);
+                        page.Number = index + 1;
+                        page.Index = index;
+
+                        tempFileName = RequestTemporaryFile(page);
+
+                        Pages.Add(page);
                         
-                        OnImageLoaded(new ItemLoadProgressEvent(index, count, cBZImage));
+                        OnImageLoaded(new ItemLoadProgressEvent(index, count, page));
 
                         totalSize += itemSize;
                         index++;
@@ -644,7 +644,12 @@ namespace CBZMage
 
         protected FileInfo MakeNewTempFileName(String entryName, String extension = "")
         {
-            return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + RandomProvider.Next().ToString("X") + extension + ".tmp");
+            return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
+        }
+
+        protected String MakeNewRandomId()
+        {
+            return RandomProvider.Next().ToString("X");
         }
 
 
@@ -674,15 +679,16 @@ namespace CBZMage
                 { }
 
                 ZipArchiveEntry fileEntry;
-                foreach (Page cBZImage in Pages)
+                foreach (Page page in Pages)
                 {
                     try
                     {
-                        fileEntry = Archive.GetEntry(cBZImage.Name);
+                        
+                        fileEntry = Archive.GetEntry(page.Name);
                         if (fileEntry != null)
                         {
                             fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
-                            cBZImage.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
+                            page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
                             OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
                             index++;
                         }

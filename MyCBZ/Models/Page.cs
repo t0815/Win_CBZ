@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CBZMage
 {
@@ -21,6 +22,8 @@ namespace CBZMage
         public const int IMAGE_STATUS_CHANGED = 3;
 
         public String Id { get; set; }
+
+        public String TemporaryFileId { get; set; }
 
         public String Filename { get; set; }
 
@@ -70,6 +73,8 @@ namespace CBZMage
 
         private FileInfo ImageFileInfo;
 
+        private ZipArchiveEntry ImageEntry;
+
         public delegate EventHandler<FileOperationEvent> FileOperationEventHandler();
         
         public Page(String fileName, FileAccess mode = FileAccess.Read)
@@ -115,6 +120,22 @@ namespace CBZMage
             Id = Guid.NewGuid().ToString();
         }
 
+
+        public Page(ZipArchiveEntry entry, String workingDir, String randomId)
+        {
+            ImageEntry = entry;
+            Compressed = true;
+
+            Filename = entry.FullName;
+            Name = entry.Name;
+            Size = entry.Length;
+            LastModified = entry.LastWriteTime;
+            Id = Guid.NewGuid().ToString();
+            TemporaryFileId = randomId;
+            WorkingDir = workingDir;
+        }
+
+
         public Page(Stream fileInputStream, String name)
         {
             ImageStream = fileInputStream;
@@ -128,6 +149,7 @@ namespace CBZMage
             ImageStream = zipInputStream;
             Name = name;
             EntryName = name;
+            Compressed = true;
             Id = Guid.NewGuid().ToString();
         }
 
@@ -141,10 +163,36 @@ namespace CBZMage
             return !ImageFileInfo.IsReadOnly;
         }
 
+        public void RequestTemporaryFile()
+        {
+
+            if (Compressed)
+            {
+                if (ImageEntry != null)
+                {
+                    if (TempPath == null)
+                    {
+                        ImageEntry.ExtractToFile(WorkingDir + TemporaryFileId);
+
+                        TempPath = WorkingDir + TemporaryFileId;
+                    }
+                }
+                else
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + Name + "] exists in archive!");
+                }
+            }
+        }
+
         public void DeleteTemporaryFile()
         {
             if (TempPath != null)
             {
+                if (Compressed)
+                {
+                    
+                }
+
                 ImageStream.Close();
                 File.Delete(TempPath);
             }
@@ -205,9 +253,19 @@ namespace CBZMage
 
         private void LoadImage()
         {
-            if (Image == null && ImageStream.CanRead)
+            if (Image == null && ImageStream != null && ImageStream.CanRead)
             {
                 Image = Image.FromStream(ImageStream);
+            }
+
+            if (Image == null)
+            {
+                if (Compressed && ImageEntry != null)
+                {
+                    RequestTemporaryFile();
+                    ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
+                    Image = Image.FromStream(ImageStream);
+                }
             }
 
             if (Image != null)
@@ -219,6 +277,9 @@ namespace CBZMage
                 }
 
                 ImageStream.Close();
+            } else
+            {
+                throw new Exception("Failed to load/extract image!");
             }
         }
 
