@@ -474,17 +474,25 @@ namespace CBZMage
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
                 }
 
-                String tempFileName = "";
+                // String tempFileName = "";
+                MetaDataEntryPage pageIndexEntry;
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
-                        Page page = new Page(entry, WorkingDir, MakeNewRandomId());
+                        Page page = new Page(entry, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\", MakeNewRandomId());
 
                         page.Number = index + 1;
                         page.Index = index;
 
-                        tempFileName = RequestTemporaryFile(page);
+                        pageIndexEntry = MetaData.FindIndexEntryForPage(page);
+                        if (pageIndexEntry != null)
+                        {
+                            page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
+                            page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                        }
+
+                        // tempFileName = RequestTemporaryFile(page);
 
                         Pages.Add(page);
                         
@@ -593,7 +601,10 @@ namespace CBZMage
                         BuildingArchive.Dispose();
                     }
 
-                    this.Archive.Dispose();
+                    if (Archive != null)
+                    {
+                        Archive.Dispose();
+                    }
 
                     CopyFile(TemporaryFileName, FileName);
 
@@ -609,9 +620,15 @@ namespace CBZMage
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
                 } finally
                 {
-                    File.Delete(TemporaryFileName);
-                    Archive = ZipFile.Open(FileName, Mode);
-                    this.IsChanged = false;
+                    try
+                    {
+                        File.Delete(TemporaryFileName);
+                        Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
+                        IsChanged = false;
+                    } catch (Exception rex)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
+                    }
                 }
             }
 

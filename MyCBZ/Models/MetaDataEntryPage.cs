@@ -28,6 +28,11 @@ namespace MyCBZ
         public const String COMIC_PAGE_TYPE_OTHER = "Other";
         public const String COMIC_PAGE_TYPE_DELETED = "Deleted";
 
+        public static String [] PageTypes = {COMIC_PAGE_TYPE_STORY, COMIC_PAGE_TYPE_FRONT_COVER,
+         COMIC_PAGE_TYPE_INNER_COVER, COMIC_PAGE_TYPE_BACK_COVER, COMIC_PAGE_TYPE_ROUNDUP, COMIC_PAGE_TYPE_ADVERTICEMENT, 
+            COMIC_PAGE_TYPE_EDITORIAL,COMIC_PAGE_TYPE_LETTERS, COMIC_PAGE_TYPE_PREVIEW, COMIC_PAGE_TYPE_OTHER, 
+            COMIC_PAGE_TYPE_DELETED};
+
         /*
          <xs:enumeration value = "FrontCover" />
                     < xs:enumeration value = "InnerCover" />

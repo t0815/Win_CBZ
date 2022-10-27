@@ -87,13 +87,7 @@ namespace CBZMage
 
             if (saveDialogResult == DialogResult.OK)
             {
-                if (File.Exists(SaveArchiveDialog.FileName))
-                {
-                    ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
-                } else
-                {
-                    ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Create);
-                }
+                ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
             }
         }
 
@@ -278,8 +272,8 @@ namespace CBZMage
         {
             toolStripProgressBar.Control.Invoke(new Action(() =>
             {
-                toolStripProgressBar.Maximum = 100;
-                toolStripProgressBar.Value = 0;
+                toolStripProgressBar.Maximum = e.Total;
+                toolStripProgressBar.Value = e.Completed;
             }));
         }
 
@@ -865,6 +859,16 @@ namespace CBZMage
 
                 FunctionsFlowPanel.FlowDirection = FlowDirection.LeftToRight;
                 FunctionsFlowPanel.Refresh();
+
+                ToolButtonSetPageType.Click += TypeSelectionToolStripMenuItem_Click;
+                ToolButtonSetPageType.Tag = "FrontCover";
+
+                ToolStripItem newPageTypeItem;
+                foreach (String pageType in MetaDataEntryPage.PageTypes) {
+                    newPageTypeItem = ToolButtonSetPageType.DropDownItems.Add(pageType);
+                    newPageTypeItem.Tag = pageType;
+                    newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
+                }
 
                 WindowShown = true;
             }

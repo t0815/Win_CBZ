@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Page = CBZMage.Page;
 
 namespace MyCBZ
 {
@@ -19,7 +21,7 @@ namespace MyCBZ
     {
         protected static readonly String[] DefaultProperties = { "Series", "Number", "Web",
         "Summary", "Notes", "Publisher", "Imprint", "Genre", "PageCount", "LanguageISO",
-        "Artist", "Title", "Year", "Month", "Day", "AgeRating", "Characters"};
+        "Author", "Title", "Year", "Month", "Day", "AgeRating", "Characters"};
 
         public String MetaDataFileName { get; set; }
 
@@ -184,7 +186,20 @@ namespace MyCBZ
                 }
             }
         }
-            
+
+        public MetaDataEntryPage FindIndexEntryForPage(Page page)
+        {
+            foreach (MetaDataEntryPage entry in PageIndex)
+            {
+                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
+                {
+                    return entry;
+                }
+            }
+
+            return null;
+        }
+
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
             MetaDataEntryPage pageMeta;
