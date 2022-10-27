@@ -29,6 +29,8 @@ namespace CBZMage
 
         private bool WindowShown = false;
 
+        private Thread ThumbnailThread;
+
         public MainForm()
         {
             InitializeComponent();
@@ -115,7 +117,8 @@ namespace CBZMage
 
                 if (existingItem == null)
                 {
-                    item = PagesList.Items.Add(e.Image.Name, -1);
+                    item = PagesList.Items.Add(e.Image.Name);
+                    item.ImageKey = e.Image.Id;
                     item.SubItems.Add(e.Image.Number.ToString());
                     item.SubItems.Add(e.Image.ImageType.ToString());
                     item.SubItems.Add(e.Image.LastModified.ToString());
@@ -172,19 +175,29 @@ namespace CBZMage
 
         public void ReloadPreviewThumbs()
         {
-            PageImages.Images.Clear();
-
-            foreach (Page page in ProjectModel.Pages)
+            this.Invoke(new Action(() =>
             {
-                if (!PageImages.Images.ContainsKey(page.Name))
+                PageImages.Images.Clear();
+
+                foreach (Page page in ProjectModel.Pages)
                 {
-                    PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
-                } else
-                {
-                    PageImages.Images.RemoveByKey(page.Name);
-                    PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+                    try
+                    {
+                        if (!PageImages.Images.ContainsKey(page.Id))
+                        {
+                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                        }
+                        else
+                        {
+                            PageImages.Images.RemoveByKey(page.Name);
+                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                        }
+                    } catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                    }
                 }
-            }
+            }));
         }
 
         private ListViewItem CreatePagePreviewFromItem(Page page)
@@ -194,24 +207,25 @@ namespace CBZMage
 
             if (!PageImages.Images.ContainsKey(page.Name))
             {
-                PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+                PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
             }
             else
             {
-                PageImages.Images.RemoveByKey(page.Name);
-                PageImages.Images.Add(page.Name, page.GetThumbnail(ThumbAbort, Handle));
+                //PageImages.Images.RemoveByKey(page.Name);
+                //PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
             }
 
             if (existingItem == null)
             {
-                itemPage = PageView.Items.Add("", page.Index);
-                itemPage.ImageKey = page.Name;
+                itemPage = PageView.Items.Add("");
+                itemPage.ImageKey = page.Id;
                 itemPage.SubItems.Add(page.Name);
                 itemPage.SubItems.Add(page.Index.ToString());
             }
             else
             {
                 itemPage = existingItem;
+                itemPage.ImageKey = page.Id;
                 itemPage.SubItems[1] = new ListViewItem.ListViewSubItem(itemPage, page.Name);
                 itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Index.ToString());
             }
@@ -238,9 +252,7 @@ namespace CBZMage
                         firstCol.Width = 150;
                         secondCol.Width = 250;
                     }
-                
-                }
-            
+                }         
             }));
         }
 
@@ -943,6 +955,30 @@ namespace CBZMage
             Win_CBZSettings.Default.PagePreviewEnabled = TogglePagePreviewToolbutton.Checked;
             SplitBoxPageView.Panel1Collapsed = !TogglePagePreviewToolbutton.Checked;
             ProjectModel.PreloadPageImages = TogglePagePreviewToolbutton.Checked;
+
+            if (Win_CBZSettings.Default.PagePreviewEnabled && PageView.Items.Count == 0) 
+            {
+                /*
+                if (ThumbnailThread != null)
+                {
+                    if (ThumbnailThread.IsAlive)
+                    {
+                        ThumbnailThread.Abort();
+                    }
+                }
+
+                ThumbnailThread = new Thread(new ThreadStart(ReloadPreviewThumbs));
+                ThumbnailThread.Start();
+                */
+
+                PageView.Invoke(new Action(() =>
+                {
+                    foreach (ListViewItem pageItem in PagesList.Items)
+                    {
+                        CreatePagePreviewFromItem((Page)pageItem.Tag);
+                    }
+                }));
+            }
         }
 
 

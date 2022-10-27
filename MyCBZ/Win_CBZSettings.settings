@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MyCBZ" GeneratedClassName="CBZMageSettings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MyCBZ" GeneratedClassName="Win_CBZSettings">
   <Profiles />
   <Settings>
     <Setting Name="TempFolderPath" Type="System.String" Scope="User">
@@ -22,7 +22,6 @@
   &lt;string&gt;{lang}&lt;/string&gt;
   &lt;string&gt;{series}&lt;/string&gt;
   &lt;string&gt;{type}&lt;/string&gt;
-  &lt;string&gt;{IF (&amp;lt;conditions&amp;gt;) THEN '&amp;lt;pattern&amp;gt;|&amp;lt;string&amp;gt;' ELSE '&amp;lt;pattern&amp;gt;|&amp;lt;string&amp;gt;'}&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="StoryPageRenamePattern" Type="System.String" Scope="User">
@@ -35,6 +34,7 @@
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
   &lt;string&gt;count(&amp;lt;property&amp;gt;, &amp;lt;{attribute}&amp;gt;)&lt;/string&gt;
+  &lt;string&gt;{IF (&amp;lt;conditions&amp;gt;) THEN '&amp;lt;pattern&amp;gt;|&amp;lt;string&amp;gt;' ELSE '&amp;lt;pattern&amp;gt;|&amp;lt;string&amp;gt;'}&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="AppName" Type="System.String" Scope="Application">

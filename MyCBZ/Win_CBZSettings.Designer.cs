@@ -59,7 +59,6 @@ namespace MyCBZ {
   <string>{lang}</string>
   <string>{series}</string>
   <string>{type}</string>
-  <string>{IF (&lt;conditions&gt;) THEN '&lt;pattern&gt;|&lt;string&gt;' ELSE '&lt;pattern&gt;|&lt;string&gt;'}</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection RenamerPlaceholders {
             get {
@@ -93,9 +92,11 @@ namespace MyCBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
-            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
-            "tring>count(&lt;property&gt;, &lt;{attribute}&gt;)</string>\r\n</ArrayOfString>")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>count(&lt;property&gt;, &lt;{attribute}&gt;)</string>
+  <string>{IF (&lt;conditions&gt;) THEN '&lt;pattern&gt;|&lt;string&gt;' ELSE '&lt;pattern&gt;|&lt;string&gt;'}</string>
+</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection RenamerFunctions {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["RenamerFunctions"]));
