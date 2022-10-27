@@ -163,9 +163,8 @@ namespace CBZMage
             return !ImageFileInfo.IsReadOnly;
         }
 
-        public void RequestTemporaryFile()
+        protected void RequestTemporaryFile()
         {
-
             if (Compressed)
             {
                 if (ImageEntry != null)
@@ -228,22 +227,43 @@ namespace CBZMage
 
         public String CreateLocalWorkingCopy(String destination)
         {
-            if (ImageStream != null)
+            if (Compressed)
             {
-                if (ImageStream.CanRead)
+                RequestTemporaryFile();
+
+                if (TempPath != null)
                 {
-                    FileInfo copyFileInfo = new FileInfo(destination);
-                    FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
-
-                    ImageStream.CopyTo(localCopyStream);
-                    localCopyStream.Close();
-
-                    if (copyFileInfo.Exists)
+                    return TempPath;
+                }
+            }
+            else
+            {
+                FileInfo copyFileInfo = new FileInfo(destination);
+                if (ImageStream != null)
+                {
+                    if (ImageStream.CanRead)
                     {
-                        TempPath = destination;
+                        FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
 
-                        return destination;
+                        ImageStream.CopyTo(localCopyStream);
+                        localCopyStream.Close();                     
                     }
+                } else
+                {
+                    if (LocalPath != null)
+                    {
+                        FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+                        FileStream destinationStream = File.Create(destination);
+
+                        localCopyStream.CopyTo(destinationStream);
+                    }
+                }
+
+                if (copyFileInfo.Exists)
+                {
+                    TempPath = destination;
+
+                    return destination;
                 }
             }
 

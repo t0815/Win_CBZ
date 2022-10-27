@@ -539,7 +539,8 @@ namespace CBZMage
                     {
                         if (page.Compressed)
                         {
-                            ExtractSingleFile(page);
+                            FileInfo NewTemporaryFileName = MakeNewTempFileName(page.Name);
+                            page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
                             if (page.TempPath == null)
                             {
                                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
