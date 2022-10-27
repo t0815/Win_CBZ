@@ -884,11 +884,17 @@ namespace CBZMage
         {
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
-                ((Page)item.Tag).ImageType = (String)((ToolStripMenuItem)sender).Tag;
+                if (sender is ToolStripMenuItem)
+                {
+                    ((Page)item.Tag).ImageType = (String)((ToolStripMenuItem)sender).Tag;
+                } else
+                {
+                    ((Page)item.Tag).ImageType = (String)((ToolStripSplitButton)sender).Tag; 
+                }
 
                 if (item.SubItems.Count > 0)
                 {
-                    item.SubItems[2].Text = (String)((ToolStripMenuItem)sender).Tag;
+                    item.SubItems[2].Text = ((Page)item.Tag).ImageType;
                 }
                 
             }
@@ -983,6 +989,25 @@ namespace CBZMage
                     }
                 }));
             }
+        }
+
+        private void ToolButtonSetPageType_ButtonClick(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in PagesList.SelectedItems)
+            {
+                ((Page)item.Tag).ImageType = (String)((ToolStripSplitButton)sender).Tag;
+
+                if (item.SubItems.Count > 0)
+                {
+                    item.SubItems[2].Text = (String)((ToolStripSplitButton)sender).Tag;
+                }
+
+            }
+        }
+
+        private void ToolButtonSetPageType_Click(object sender, EventArgs e)
+        {
+            
         }
 
 
