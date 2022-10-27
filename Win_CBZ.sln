@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		meta\Screenshot.jpg = meta\Screenshot.jpg
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Win_CBZ-Setup", "Win_CBZ-Setup\Win_CBZ-Setup.vdproj", "{37E47093-BE3B-4587-8628-F50BD5D3943A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37E47093-BE3B-4587-8628-F50BD5D3943A}.Debug|Any CPU.ActiveCfg = Debug
+		{37E47093-BE3B-4587-8628-F50BD5D3943A}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
