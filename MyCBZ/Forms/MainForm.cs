@@ -290,7 +290,7 @@ namespace CBZMage
             return true;
         }
 
-        private void ItemChanged(object sender, ItemChangedEvent e)
+        private void ItemChanged(object sender, PageChangedEvent e)
         {
             try
             {
@@ -299,7 +299,7 @@ namespace CBZMage
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
                         toolStripProgressBar.Maximum = e.Total;
-                        toolStripProgressBar.Value = e.Index;
+                        toolStripProgressBar.Value = e.Image.Index;
                     }));
                 }
             } catch (Exception)

@@ -66,7 +66,7 @@ namespace CBZMage
 
         public event EventHandler<ProjectModel> ArchiveChanged;
 
-        public event EventHandler<ItemChangedEvent> ItemChanged;
+        public event EventHandler<PageChangedEvent> ItemChanged;
 
         public event EventHandler<ItemLoadProgressEvent> ImageProgress;
 
@@ -406,7 +406,7 @@ namespace CBZMage
             {
                 if (pattern.Length > 0)
                 {
-                    OnItemChanged(new ItemChangedEvent(page.Index, 1, page));
+                    OnItemChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
 
                     this.IsChanged = true;
                 }
@@ -521,6 +521,7 @@ namespace CBZMage
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
             int index = 0;
+            List<Page> deletedPages = new List<Page>();
 
             TemporaryFileName = MakeNewTempFileName("", ".cbz").FullName;
 
@@ -554,6 +555,10 @@ namespace CBZMage
                                 RenamePageScript(page);
                             }
                             BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
+                        } else
+                        {
+                            // collect all deleted items
+                            deletedPages.Add(page);
                         }
                     }
                     catch (Exception efile)
@@ -576,9 +581,6 @@ namespace CBZMage
                     entryStream.Close();
                     ms.Close();
                 }
-
-                
-
             } catch (Exception ex)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
@@ -593,8 +595,14 @@ namespace CBZMage
 
                     this.Archive.Dispose();
 
-                    File.Replace(TemporaryFileName, FileName, FileName + ".bak");
-                    Archive = ZipFile.Open(FileName, Mode);
+                    CopyFile(TemporaryFileName, FileName);
+
+                    foreach (Page deletedPage in deletedPages)
+                    {
+                        Pages.Remove(deletedPage);
+
+                        OnItemChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_DELETED, deletedPages.Count));
+                    }
 
                 } catch (Exception mvex)
                 {
@@ -651,6 +659,26 @@ namespace CBZMage
         protected String MakeNewRandomId()
         {
             return RandomProvider.Next().ToString("X");
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void CopyFile(string inputFilePath, string outputFilePath)
+        {
+            int bufferSize = 1024 * 1024;
+
+            using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
+            {
+                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.ReadWrite);
+                fileStream.SetLength(fs.Length);
+                int bytesRead = -1;
+                byte[] bytes = new byte[bufferSize];
+
+                while ((bytesRead = fs.Read(bytes, 0, bufferSize)) > 0)
+                {
+                    fileStream.Write(bytes, 0, bytesRead);
+                }
+                fs.Close();
+            }
         }
 
 
@@ -736,7 +764,7 @@ namespace CBZMage
             foreach (Page page in Pages)
             {
                 page.FreeImage();
-                OnItemChanged(new ItemChangedEvent(page.Index, Pages.Count, page));
+                OnItemChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED, Pages.Count));
                 Thread.Sleep(100);
             }
 
@@ -821,9 +849,9 @@ namespace CBZMage
             }
         }
 
-        protected virtual void OnItemChanged(ItemChangedEvent e)
+        protected virtual void OnItemChanged(PageChangedEvent e)
         {
-            EventHandler<ItemChangedEvent> handler = ItemChanged;
+            EventHandler<PageChangedEvent> handler = ItemChanged;
             if (handler != null)
             {
                 handler(this, e);

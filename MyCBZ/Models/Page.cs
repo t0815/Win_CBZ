@@ -16,11 +16,6 @@ namespace CBZMage
     internal class Page
     {
 
-        public const int IMAGE_STATUS_NEW = 0;
-        public const int IMAGE_STATUS_COMPRESSED = 1;
-        public const int IMAGE_STATUS_DELETED = 2;
-        public const int IMAGE_STATUS_CHANGED = 3;
-
         public String Id { get; set; }
 
         public String TemporaryFileId { get; set; }

@@ -32,22 +32,5 @@ namespace MyCBZ
             Value = value;
             ReadOnly = readOnly;
         }
-
-        public List<String> GetOptionsForType()
-        {
-            List<String> values = new List<String>();
-
-            if (Key != null)
-            {
-                if (Key.ToLower().Equals("genre"))
-                {
-                    values.Add("Adult");
-                    values.Add("Fantasy");
-                    values.Add("Sci-Fi");
-                }
-            }
-
-            return values;
-        }
     }
 }
