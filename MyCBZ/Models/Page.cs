@@ -175,6 +175,19 @@ namespace CBZMage
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + Name + "] exists in archive!");
                 }
+            } else
+            {
+                if (ReadOnly)
+                {
+                    FileInfo tempFileInfo = new FileInfo(TempPath);
+                    FileStream ImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    FileStream localFile = File.OpenRead(LocalPath);
+
+                    localFile.CopyTo(ImageStream);
+
+                    ImageStream.Close();
+                    localFile.Close();
+                }
             }
         }
 
@@ -275,12 +288,9 @@ namespace CBZMage
 
             if (Image == null)
             {
-                if (Compressed && ImageEntry != null)
-                {
-                    RequestTemporaryFile();
-                    ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
-                    Image = Image.FromStream(ImageStream);
-                }
+                RequestTemporaryFile();
+                ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
+                Image = Image.FromStream(ImageStream);  
             }
 
             if (Image != null)

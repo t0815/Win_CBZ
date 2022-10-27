@@ -233,20 +233,20 @@ namespace CBZMage
                 {
                     FileInfo localCopyInfo = fileObject.FileInfo.CopyTo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileInfo.Name);
                     
-                    Page cBZImage = new Page(localCopyInfo, FileAccess.ReadWrite);
-                    cBZImage.Size = fileObject.FileSize;
-                    cBZImage.Number = index + 1;
-                    cBZImage.Index = index;
-                    cBZImage.LocalPath = fileObject.FullPath;
-                    cBZImage.Compressed = false;
-                    cBZImage.LastModified = fileObject.FileInfo.LastWriteTime;
-                    cBZImage.Name = fileObject.FileInfo.Name;
-                    cBZImage.TempPath = localCopyInfo.FullName;
+                    Page page = new Page(localCopyInfo, FileAccess.ReadWrite);
+                    page.Size = fileObject.FileSize;
+                    page.Number = index + 1;
+                    page.Index = index;
+                    page.LocalPath = fileObject.FullPath;
+                    page.Compressed = false;
+                    page.LastModified = fileObject.FileInfo.LastWriteTime;
+                    page.Name = fileObject.FileInfo.Name;
+                    page.TempPath = localCopyInfo.FullName;
                     fileObject.FileInfo = localCopyInfo;
 
-                    Pages.Add(cBZImage);
+                    Pages.Add(page);
 
-                    OnImageLoaded(new ItemLoadProgressEvent(index, Pages.Count, cBZImage));
+                    OnImageLoaded(new ItemLoadProgressEvent(index, Pages.Count, page));
 
                     index++;
                 } catch (Exception ef)
@@ -264,6 +264,8 @@ namespace CBZMage
             }
 
             OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
+
+            UpdatePageIndices();
         }
 
         public List<LocalFile> LoadDirectory(String path)
