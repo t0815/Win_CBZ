@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ
 {
-    internal class PageDuplicateNameException : Exception
+    internal class PageDuplicateNameException : ApplicationException
     {
 
         public Page Page;
 
-        public new String Message;
 
-
-        public PageDuplicateNameException(Page page, String message)
+        public PageDuplicateNameException(Page page, String message, bool showErrorDialog = false) : base(message, showErrorDialog)
         {
-            Page = page;
-            Message = message;
+            Page = page;           
         }
     }
 }

@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="Components\ExtendedListView\CancelListViewItemDragEventArgs.cs" />
     <Compile Include="Components\ExtendedListView\ExtendetListView.cs">
       <SubType>Component</SubType>
@@ -65,12 +66,20 @@
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
     <Compile Include="Events\ArchiveOperationEvent.cs" />
     <Compile Include="Events\TaskProgressEvent.cs" />
+    <Compile Include="Exceptions\ApplicationException.cs" />
+    <Compile Include="Exceptions\PageException.cs" />
     <Compile Include="Exceptions\PageDuplicateNameException.cs" />
     <Compile Include="Forms\AboutDialogForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AboutDialogForm.Designer.cs">
       <DependentUpon>AboutDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ErrorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorDialog.Designer.cs">
+      <DependentUpon>ErrorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
@@ -116,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutDialogForm.resx">
       <DependentUpon>AboutDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ErrorDialog.resx">
+      <DependentUpon>ErrorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImagePreviewForm.resx">
       <DependentUpon>ImagePreviewForm.cs</DependentUpon>

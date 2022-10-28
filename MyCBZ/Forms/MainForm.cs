@@ -683,10 +683,21 @@ namespace Win_CBZ
                     {
                         ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
                         PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), PageChangedEvent.IMAGE_STATUS_RENAMED));
-                    } catch (Exception ex)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                     }
+                    catch (PageDuplicateNameException eduplicate)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, eduplicate.Message);
+                        e.CancelEdit = true;
+                    }
+                    catch (PageException ep)
+                    {
+                        e.CancelEdit = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        e.CancelEdit = true;
+                    }
+                   
                 }
             }
         }
@@ -1019,7 +1030,13 @@ namespace Win_CBZ
             
         }
 
-      
+        private void dEBUGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ErrorDialog err = new ErrorDialog();
+            err.ShowDialog();
+        }
+
+
         /*
         /// <summary>
         /// 

@@ -54,7 +54,7 @@ namespace Win_CBZ
 
         public bool PreloadPageImages { get; set; }
 
-        public BindingList<Page> Pages { get; set; }
+        public List<Page> Pages { get; set; }
 
         public MetaData MetaData { get; set; }
 
@@ -98,7 +98,7 @@ namespace Win_CBZ
         public ProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
-            Pages = new BindingList<Page>();
+            Pages = new List<Page>();
             MetaData = new MetaData(false);
             RandomProvider = new Random();
 
@@ -388,9 +388,14 @@ namespace Win_CBZ
 
         public void RenamePage(Page page, String name)
         {
+            if (name == null)
+            {
+                throw new PageException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! The new name must not be NULL.");
+            }
+
             foreach (Page oldPage in Pages)
             {
-                if (oldPage.Name == name)
+                if (oldPage.Name.ToLower().Equals(name.ToLower()))
                 {
                     throw new PageDuplicateNameException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! A different page with the same name already exists.");
                 }
@@ -864,7 +869,7 @@ namespace Win_CBZ
                 Page[] copyPages = new Page[this.Pages.Count];
 
                 this.Pages.CopyTo(copyPages, 0);
-                destination.Pages = new BindingList<Page>(copyPages);
+                destination.Pages = new List<Page>(copyPages);
                 destination.MetaData = this.MetaData;
                 destination.Name = this.Name;
                 destination.ProjectGUID = this.ProjectGUID;

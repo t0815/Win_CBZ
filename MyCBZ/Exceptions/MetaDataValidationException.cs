@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ
 {
-    internal class MetaDataValidationException : Exception
+    internal class MetaDataValidationException : ApplicationException
     {
 
         public MetaDataEntry Item;
 
-        public new String Message;
-
-
-        public MetaDataValidationException(MetaDataEntry item, String message)
+        public MetaDataValidationException(MetaDataEntry item, String message, bool showErrorDialog = false) : base(message, showErrorDialog)
         {
-            Message = message;
             Item = item;
         }
     }
