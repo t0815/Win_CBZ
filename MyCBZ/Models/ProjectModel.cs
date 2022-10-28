@@ -64,13 +64,9 @@ namespace Win_CBZ
 
         private ZipArchiveMode Mode;
 
-        public event EventHandler<ProjectModel> ArchiveChanged;
+        public event EventHandler<TaskProgressEvent> TaskProgress;
 
-        public event EventHandler<PageChangedEvent> ItemChanged;
-
-        public event EventHandler<ItemLoadProgressEvent> ImageProgress;
-
-        public event EventHandler<ItemFailedEvent> ItemFailed;
+        public event EventHandler<PageChangedEvent> PageChanged;
 
         public event EventHandler<CBZArchiveStatusEvent> ArchiveStatusChanged;
 
@@ -246,8 +242,8 @@ namespace Win_CBZ
 
                     Pages.Add(page);
 
-                    OnImageLoaded(new ItemLoadProgressEvent(index, Pages.Count, page));
-
+                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
+                    
                     index++;
                 } catch (Exception ef)
                 {
@@ -380,7 +376,8 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
-                OnImageLoaded(new ItemLoadProgressEvent(updated, Pages.Count, page));
+                OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                OnTaskProgress(new TaskProgressEvent(page, updated, Pages.Count));
 
                 this.IsChanged = true;
                 updated++;
@@ -408,7 +405,7 @@ namespace Win_CBZ
             {
                 if (pattern.Length > 0)
                 {
-                    OnItemChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
 
                     this.IsChanged = true;
                 }
@@ -498,7 +495,8 @@ namespace Win_CBZ
 
                         Pages.Add(page);
                         
-                        OnImageLoaded(new ItemLoadProgressEvent(index, count, page));
+                        OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
+                        OnTaskProgress(new TaskProgressEvent(page, index, count));
 
                         totalSize += itemSize;
                         index++;
@@ -610,11 +608,14 @@ namespace Win_CBZ
 
                     CopyFile(TemporaryFileName, FileName);
 
+                    int deletedIndex = 0;
                     foreach (Page deletedPage in deletedPages)
                     {
                         Pages.Remove(deletedPage);
 
-                        OnItemChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_DELETED, deletedPages.Count));
+                        OnPageChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_DELETED));
+                        OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
+                        deletedIndex++;
                     }
 
                 } catch (Exception mvex)
@@ -783,7 +784,8 @@ namespace Win_CBZ
             foreach (Page page in Pages)
             {
                 page.FreeImage();
-                OnItemChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED, Pages.Count));
+                OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
                 Thread.Sleep(100);
             }
 
@@ -862,14 +864,14 @@ namespace Win_CBZ
             }
         }
 
-        protected virtual void OnImageLoaded(ItemLoadProgressEvent e)
+        protected virtual void OnPageChanged(PageChangedEvent e)
         {
-            ImageProgress?.Invoke(this, e);
+            PageChanged?.Invoke(this, e);
         }
 
-        protected virtual void OnItemChanged(PageChangedEvent e)
+        protected virtual void OnTaskProgress(TaskProgressEvent e)
         {
-            ItemChanged?.Invoke(this, e);
+            TaskProgress?.Invoke(this, e);
         }
 
         protected virtual void OnArchiveStatusChanged(CBZArchiveStatusEvent e)

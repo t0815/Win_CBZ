@@ -20,12 +20,11 @@ namespace Win_CBZ
 
         public DateTimeOffset MessageTime { get; set; }
 
-
         public LogMessageEvent(int type, String message)
         {
-            this.Type = type;
-            this.Message = message; 
-            this.MessageTime = DateTimeOffset.Now;
+            Type = type;
+            Message = message; 
+            MessageTime = DateTimeOffset.Now;
         }   
     }
 }

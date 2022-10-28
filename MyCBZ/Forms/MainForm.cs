@@ -42,11 +42,12 @@ namespace Win_CBZ
         private ProjectModel NewProjectModel()
         {
             ProjectModel newProjectModel = new ProjectModel(Win_CBZSettings.Default.TempFolderPath);
-            newProjectModel.ImageProgress += FileLoaded;
+            
             newProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
-            newProjectModel.ItemChanged += ItemChanged;
+            newProjectModel.TaskProgress += TaskProgress;
+            newProjectModel.PageChanged += PageChanged;
             newProjectModel.MetaDataLoaded += MetaDataLoaded;
-            newProjectModel.ItemExtracted += ItemExtracted;
+            // newProjectModel.ItemExtracted += ItemExtracted;
             newProjectModel.OperationFinished += OperationFinished;
             newProjectModel.FileOperation += FileOperationHandler;
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
@@ -91,18 +92,19 @@ namespace Win_CBZ
         }
 
         private void ToolButtonSave_Click(object sender, EventArgs e)
-        {    
-            ProjectModel.Save();
+        {
+            if (!ProjectModel.IsNew && !ProjectModel.IsSaved)
+            {
+                saveAsToolStripMenuItem_Click(sender, e);
+            } else
+            {
+                ProjectModel.Save();
+            }
         }
 
-        private void FileLoaded(object sender, ItemLoadProgressEvent e)
+        private void PageChanged(object sender, PageChangedEvent e)
         {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
-            {
-                toolStripProgressBar.Maximum = e.Total;
-                toolStripProgressBar.Value = e.Index;
-            }));
-
+            
             PagesList.Invoke(new Action(() =>
             {
                 ListViewItem item;
@@ -276,6 +278,15 @@ namespace Win_CBZ
             }));
         }
 
+        private void PageOperationHandler(object sender, ArchiveOperationEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = e.Total;
+                toolStripProgressBar.Value = e.Completed;
+            }));
+        }
+
 
         private bool ThumbAbort()
         {
@@ -283,7 +294,7 @@ namespace Win_CBZ
             return true;
         }
 
-        private void ItemChanged(object sender, PageChangedEvent e)
+        private void TaskProgress(object sender, TaskProgressEvent e)
         {
             try
             {
@@ -292,25 +303,7 @@ namespace Win_CBZ
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
                         toolStripProgressBar.Maximum = e.Total;
-                        toolStripProgressBar.Value = e.Image.Index;
-                    }));
-                }
-            } catch (Exception)
-            {
-
-            }
-        }
-
-        private void ItemExtracted(object sender, ItemExtractedEvent e)
-        {
-            try
-            {
-                if (!WindowClosed)
-                {
-                    toolStripProgressBar.Control.Invoke(new Action(() =>
-                    {
-                        toolStripProgressBar.Maximum = e.Total;
-                        toolStripProgressBar.Value = e.Index;
+                        toolStripProgressBar.Value = e.Current;
                     }));
                 }
             }
@@ -575,11 +568,8 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
-                    if (!ProjectModel.IsNew)
-                    {
-                        ToolButtonSave.Enabled = true;
-                        saveToolStripMenuItem.Enabled = true;
-                    }
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;                   
                     break;
 
             }
@@ -1009,7 +999,7 @@ namespace Win_CBZ
             
         }
 
-
+      
         /*
         /// <summary>
         /// 

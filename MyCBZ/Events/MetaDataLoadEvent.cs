@@ -15,7 +15,7 @@ namespace Win_CBZ
 
         public MetaDataLoadEvent(BindingList<MetaDataEntry> metadata)
         {
-            this.MetaData = metadata;
+            MetaData = metadata;
         }   
     }
 }

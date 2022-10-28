@@ -13,7 +13,7 @@ Application for creating and editing .cbz (ComicBookZip)
 
 ## Features
 
-- Add, edit and delete pages and meta-data from cbz-filee
+- Add, edit and delete pages and meta-data from cbz-files
 - Set page types (FrontCover, BackCover, Story ....)
 - Reorder pages
 - Extract pages

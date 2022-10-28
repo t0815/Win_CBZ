@@ -15,19 +15,17 @@ namespace Win_CBZ
         public const int IMAGE_STATUS_CHANGED = 3;
         public const int IMAGE_STATUS_RENAMED = 4;
         public const int IMAGE_STATUS_CLOSED = 5;
+        public const int IMAGE_STATUS_ERROR = 6;
 
         public int State { get; set; }
-
-        public int Total { get; set; }
 
         public Page Image { get; set; }
 
 
-        public PageChangedEvent(Page image, int state = PageChangedEvent.IMAGE_STATUS_NEW, int total = 1)
+        public PageChangedEvent(Page page, int state = PageChangedEvent.IMAGE_STATUS_NEW)
         {
-            this.State = state;
-            this.Total = total; 
-            this.Image = image;
+            this.State = state; 
+            this.Image = page;
         }   
     }
 }

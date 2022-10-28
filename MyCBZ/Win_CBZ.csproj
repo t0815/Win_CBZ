@@ -64,6 +64,7 @@
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
     <Compile Include="Events\ArchiveOperationEvent.cs" />
+    <Compile Include="Events\TaskProgressEvent.cs" />
     <Compile Include="Forms\AboutDialogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,11 +93,10 @@
       <DependentUpon>ImagePreviewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Events\FileOperationEvent.cs" />
-    <Compile Include="Events\ItemChangedEvent.cs" />
+    <Compile Include="Events\PageChangedEvent.cs" />
     <Compile Include="Events\CBZArchiveStatusEvent.cs" />
     <Compile Include="Events\MetaDataLoadEvent.cs" />
     <Compile Include="Events\ItemFailedEvent.cs" />
-    <Compile Include="Events\ItemLoadProgressEvent.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,6 +262,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\photos.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\compress2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\elements_selection.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
