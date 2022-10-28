@@ -552,6 +552,7 @@ namespace Win_CBZ
                     extractAllToolStripMenuItem.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    RemoveMetaData();
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
@@ -571,10 +572,15 @@ namespace Win_CBZ
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    RemoveMetaData();
                     break;
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
+                case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
+                case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
+                case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
                     ToolButtonSave.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;                   
                     break;
@@ -673,7 +679,14 @@ namespace Win_CBZ
                 ListViewItem changedItem = PagesList.Items[e.Item - 1];
                 if (changedItem != null)
                 {
-                    ((Page)changedItem.Tag).Name = e.Label;
+                    try
+                    {
+                        ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
+                        PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), PageChangedEvent.IMAGE_STATUS_RENAMED));
+                    } catch (Exception ex)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                    }
                 }
             }
         }

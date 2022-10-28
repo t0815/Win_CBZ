@@ -386,7 +386,20 @@ namespace Win_CBZ
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
         }
 
-        public String RenameEntry(Page page)
+        public void RenamePage(Page page, String name)
+        {
+            foreach (Page oldPage in Pages)
+            {
+                if (oldPage.Name == name)
+                {
+                    throw new PageDuplicateNameException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! A different page with the same name already exists.");
+                }
+            }
+
+            page.Name = name;
+        }
+
+        public String RenameEntryScript(Page page)
         {
             string newName = page.Name;
             string pattern = "";
@@ -641,7 +654,7 @@ namespace Win_CBZ
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RenamePageScript(Page page)
         {
-            String newName = RenameEntry(page);
+            String newName = RenameEntryScript(page);
             MetaData.UpdatePageIndexMetaDataEntry(newName, page);
             page.Name = newName;
             page.Changed = true;

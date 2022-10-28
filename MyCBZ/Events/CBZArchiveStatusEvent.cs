@@ -20,6 +20,10 @@ namespace Win_CBZ
         public const int ARCHIVE_FILE_ADDED = 9;
         public const int ARCHIVE_FILE_DELETED = 10;
         public const int ARCHIVE_FILE_RENAMED = 11;
+        public const int ARCHIVE_FILE_UPDATED = 12;
+        public const int ARCHIVE_METADATA_ADDED = 13;
+        public const int ARCHIVE_METADATA_CHANGED = 14;
+        public const int ARCHIVE_METADATA_DELETED = 15;
 
         public ProjectModel ArchiveInfo { get; set; }
 
