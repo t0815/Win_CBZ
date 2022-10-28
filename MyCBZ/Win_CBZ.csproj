@@ -269,5 +269,11 @@
   <ItemGroup>
     <None Include="Resources\elements_selection.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrashBannerNew.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrashInstallerBanner.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -429,9 +429,19 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Trash_About {
+        internal static System.Drawing.Bitmap TrashBannerNew {
             get {
-                object obj = ResourceManager.GetObject("Trash_About", resourceCulture);
+                object obj = ResourceManager.GetObject("TrashBannerNew", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TrashInstallerBanner {
+            get {
+                object obj = ResourceManager.GetObject("TrashInstallerBanner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

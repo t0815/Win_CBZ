@@ -86,10 +86,10 @@
             // AboutBoxBanner
             // 
             this.AboutBoxBanner.Dock = System.Windows.Forms.DockStyle.Left;
-            this.AboutBoxBanner.Image = global::Win_CBZ.Properties.Resources.Trash_About;
+            this.AboutBoxBanner.Image = global::Win_CBZ.Properties.Resources.TrashBannerNew;
             this.AboutBoxBanner.Location = new System.Drawing.Point(0, 0);
             this.AboutBoxBanner.Name = "AboutBoxBanner";
-            this.AboutBoxBanner.Size = new System.Drawing.Size(289, 78);
+            this.AboutBoxBanner.Size = new System.Drawing.Size(523, 78);
             this.AboutBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.AboutBoxBanner.TabIndex = 0;
             this.AboutBoxBanner.TabStop = false;
