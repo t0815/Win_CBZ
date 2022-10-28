@@ -316,8 +316,11 @@ namespace Win_CBZ
                 Image.Dispose();
             }
 
-            ImageStream.Close();
-            ImageStream.Dispose();
+            if (ImageStream != null)
+            {
+                ImageStream.Close();
+                ImageStream.Dispose();
+            }
         }
     }
 }

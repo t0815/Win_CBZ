@@ -107,51 +107,58 @@ namespace Win_CBZ
             
             PagesList.Invoke(new Action(() =>
             {
-                ListViewItem item;
-                ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+                if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
+                {
+                    ListViewItem item;
+                    ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
 
-                if (existingItem == null)
-                {
-                    item = PagesList.Items.Add(e.Image.Name);
-                    item.ImageKey = e.Image.Id;
-                    item.SubItems.Add(e.Image.Number.ToString());
-                    item.SubItems.Add(e.Image.ImageType.ToString());
-                    item.SubItems.Add(e.Image.LastModified.ToString());
-                    item.SubItems.Add(e.Image.Size.ToString());
-                } else
-                {
-                    item = existingItem;
-                    item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
-                    item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
-                    item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
-                    item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Image.Size.ToString());
-                }
-               
-                item.Tag = e.Image;
+                    if (existingItem == null)
+                    {
+                        item = PagesList.Items.Add(e.Image.Name);
+                        item.ImageKey = e.Image.Id;
+                        item.SubItems.Add(e.Image.Number.ToString());
+                        item.SubItems.Add(e.Image.ImageType.ToString());
+                        item.SubItems.Add(e.Image.LastModified.ToString());
+                        item.SubItems.Add(e.Image.Size.ToString());
+                    }
+                    else
+                    {
+                        item = existingItem;
+                        item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
+                        item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
+                        item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
+                        item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Image.Size.ToString());
+                    }
 
-                if (!e.Image.Compressed) 
-                {
-                    item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
-                }
+                    item.Tag = e.Image;
 
-                if (e.Image.Changed)
-                {
-                    item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
-                }
+                    if (!e.Image.Compressed)
+                    {
+                        item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
+                    }
 
-                if (e.Image.Deleted)
-                {
-                    item.ForeColor = Color.Silver;
-                    item.BackColor = Color.Transparent;
+                    if (e.Image.Changed)
+                    {
+                        item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+                    }
+
+                    if (e.Image.Deleted)
+                    {
+                        item.ForeColor = Color.Silver;
+                        item.BackColor = Color.Transparent;
+                    }
                 }
             }));
 
             if (TogglePagePreviewToolbutton.Checked)
             {
-                PageView.Invoke(new Action(() =>
+                if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
                 {
-                    CreatePagePreviewFromItem(e.Image);
-                }));
+                    PageView.Invoke(new Action(() =>
+                    {
+                        CreatePagePreviewFromItem(e.Image);
+                    }));
+                }
             }
         }
 
@@ -343,7 +350,7 @@ namespace Win_CBZ
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
-                    filename = "<NO FILE>";
+                    filename = "";
                     info = "Ready.";
                     break;
 

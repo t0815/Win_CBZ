@@ -21,6 +21,8 @@ namespace Win_CBZ
         "Summary", "Notes", "Publisher", "Imprint", "Genre", "PageCount", "LanguageISO",
         "Author", "Title", "Year", "Month", "Day", "AgeRating", "Characters"};
 
+        public List<String> CustomDefaultProperties { get; set; }
+
         public String MetaDataFileName { get; set; }
 
         public XmlNode Root { get; set; }

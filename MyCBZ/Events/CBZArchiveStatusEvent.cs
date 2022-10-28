@@ -32,16 +32,16 @@ namespace Win_CBZ
         public CBZArchiveStatusEvent.Operation Callback;
 
 
-        public CBZArchiveStatusEvent(ProjectModel archive, int state)
+        public CBZArchiveStatusEvent(ProjectModel project, int state)
         {
-            this.ArchiveInfo = archive;
+            this.ArchiveInfo = project;
             this.State = state;
 
         }
 
-        public CBZArchiveStatusEvent(ProjectModel archive, int state, CBZArchiveStatusEvent.Operation callback)
+        public CBZArchiveStatusEvent(ProjectModel project, int state, CBZArchiveStatusEvent.Operation callback)
         {
-            this.ArchiveInfo = archive;
+            this.ArchiveInfo = project;
             this.State = state;
             this.Callback = callback;
         }   

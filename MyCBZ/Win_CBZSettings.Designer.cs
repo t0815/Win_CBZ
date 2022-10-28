@@ -123,5 +123,16 @@ namespace Win_CBZ {
                 this["PagePreviewEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomDefaultProperties {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomDefaultProperties"]));
+            }
+            set {
+                this["CustomDefaultProperties"] = value;
+            }
+        }
     }
 }

@@ -779,6 +779,8 @@ namespace Win_CBZ
                 Archive.Dispose();
             }
 
+            MetaData.Free();
+
             FileSize = 0;
             FileName = "";
             foreach (Page page in Pages)
@@ -790,9 +792,11 @@ namespace Win_CBZ
             }
 
             Pages.Clear();
-            MetaData.Free();
-
             Name = "";
+            FileName = "";
+            IsSaved = false;
+            IsNew = true;
+            IsClosed = true;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
         }
