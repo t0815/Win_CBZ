@@ -256,14 +256,27 @@ namespace Win_CBZ
                 if (Win_CBZSettings.Default.CustomDefaultProperties != null) {
                     foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
                     {
-                        Defaults.Add(new MetaDataEntry(prop, ""));
+                        try
+                        {
+                            Defaults.Add(ParseDefaultProp(prop));
+                        } catch (Exception)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata-prop->" + prop + "!");
+                        }
                     }
                 }
             } else
             {
                 foreach (String prop in custom)
                 {
-                    Defaults.Add(new MetaDataEntry(prop, ""));
+                    try
+                    {
+                        Defaults.Add(ParseDefaultProp(prop));
+                    }
+                    catch (Exception)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata-prop->" + prop + "!");
+                    }
                 }
             }
 
@@ -277,6 +290,20 @@ namespace Win_CBZ
 
             Defaults = Defaults.Distinct<MetaDataEntry>().ToList();
         }
+
+
+        public MetaDataEntry ParseDefaultProp(String prop)
+        {
+            MetaDataEntry entry = new MetaDataEntry(prop, "");
+
+            if (prop.Split('=').Length == 2)
+            {
+                entry = new MetaDataEntry(prop.Split('=')[0].Trim(), prop.Split('=')[1].Trim());
+            }
+
+            return entry;
+        }
+
 
         public int FillMissingDefaultProps()
         {

@@ -642,14 +642,35 @@ namespace Win_CBZ
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            WindowClosed = true;
-
             if (!ArchiveProcessing())
             {
-                Win_CBZSettings.Default.Save();
+                if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
+                {
+                    DialogResult res = ApplicationMessage.ShowConfirmation("There are unsaved changes to the current CBZ-Archive.\nAre you sure you want to quit anyway?", "Unsaved changes...");
+                    if (res == DialogResult.Yes)
+                    {
+                        e.Cancel = false || ArchiveProcessing();
+                        if (!e.Cancel)
+                        {
+                            Win_CBZSettings.Default.Save();
+                            WindowClosed = true;
+                        }
+                    } else
+                    {
+                        e.Cancel = true;
+                    }
+                }
+                else
+                {
+                    Win_CBZSettings.Default.Save();
+                    WindowClosed = true;
+                }
+            } else
+            {
+                ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_OK);
+                e.Cancel = false || ArchiveProcessing();
             }
-
-            e.Cancel = ArchiveProcessing();
+            
         }
 
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1038,6 +1059,11 @@ namespace Win_CBZ
                     }
                 }
             }
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
 
