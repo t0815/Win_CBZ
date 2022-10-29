@@ -104,11 +104,18 @@ namespace Win_CBZ
 
         public void Save(String path)
         {
-            MemoryStream ms = BuildComicInfoXMLStream();
-            using (FileStream fs = File.Create(path, 4096, FileOptions.WriteThrough))
+            try
             {
-                ms.CopyTo(fs);
-                fs.Close();
+                MemoryStream ms = BuildComicInfoXMLStream();
+                using (FileStream fs = File.Create(path, 4096, FileOptions.WriteThrough))
+                {
+                    ms.CopyTo(fs);
+                    fs.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MetaDataException(this, "Error saving MataData [" + path + "] to disk! [" + ex.Message + "]", true);
             }
         }
 
@@ -200,6 +207,19 @@ namespace Win_CBZ
             return null;
         }
 
+        public bool HasValues()
+        {
+            foreach (MetaDataEntry entry in Values)
+            {
+                if (entry.Value != null && entry.Value != "")
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
             MetaDataEntryPage pageMeta;
@@ -230,14 +250,19 @@ namespace Win_CBZ
 
         protected void MakeDefaultKeys()
         {
-            foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
-            {
-                Defaults.Add(new MetaDataEntry(prop, ""));
+            if (Win_CBZSettings.Default.CustomDefaultProperties != null) {
+                foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
+                {
+                    Defaults.Add(new MetaDataEntry(prop, ""));
+                }
             }
 
-            foreach (String prop in DefaultProperties)
+            if (Defaults.Count == 0)
             {
-                Defaults.Add(new MetaDataEntry(prop, ""));
+                foreach (String prop in DefaultProperties)
+                {
+                    Defaults.Add(new MetaDataEntry(prop, ""));
+                }               
             }
 
             Defaults = Defaults.Distinct<MetaDataEntry>().ToList();

@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationError.cs" />
+    <Compile Include="ApplicationMessage.cs" />
     <Compile Include="Components\ExtendedListView\CancelListViewItemDragEventArgs.cs" />
     <Compile Include="Components\ExtendedListView\ExtendetListView.cs">
       <SubType>Component</SubType>
@@ -67,6 +67,7 @@
     <Compile Include="Events\ArchiveOperationEvent.cs" />
     <Compile Include="Events\TaskProgressEvent.cs" />
     <Compile Include="Exceptions\ApplicationException.cs" />
+    <Compile Include="Exceptions\MetaDataException.cs" />
     <Compile Include="Exceptions\MetaDataPageEntryException.cs" />
     <Compile Include="Exceptions\MetaDataEntryException.cs" />
     <Compile Include="Exceptions\PageException.cs" />
@@ -77,11 +78,11 @@
     <Compile Include="Forms\AboutDialogForm.Designer.cs">
       <DependentUpon>AboutDialogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ErrorDialog.cs">
+    <Compile Include="Forms\ApplicationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ErrorDialog.Designer.cs">
-      <DependentUpon>ErrorDialog.cs</DependentUpon>
+    <Compile Include="Forms\ApplicationDialog.Designer.cs">
+      <DependentUpon>ApplicationDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
@@ -128,8 +129,8 @@
     <EmbeddedResource Include="Forms\AboutDialogForm.resx">
       <DependentUpon>AboutDialogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ErrorDialog.resx">
-      <DependentUpon>ErrorDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ApplicationDialog.resx">
+      <DependentUpon>ApplicationDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImagePreviewForm.resx">
       <DependentUpon>ImagePreviewForm.cs</DependentUpon>
@@ -304,6 +305,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\info_dialog_exclamation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\question_dialog.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

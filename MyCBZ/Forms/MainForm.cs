@@ -688,7 +688,7 @@ namespace Win_CBZ
                     {                      
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, eduplicate.Message);
                         e.CancelEdit = true;
-                        ApplicationError.ShowException(eduplicate, ApplicationError.MT_ERROR);
+                        ApplicationMessage.ShowException(eduplicate, ApplicationMessage.MT_ERROR);
                     }
                     catch (PageException ep)
                     {
@@ -750,7 +750,18 @@ namespace Win_CBZ
 
         private void BtnRemoveMetaData_Click(object sender, EventArgs e)
         {
-            RemoveMetaData();
+            if (ProjectModel != null && ProjectModel.MetaData != null)
+            {
+                if (ProjectModel.MetaData.HasValues()) {
+                    if (ApplicationMessage.ShowConfirmation("Are you sure you want to remove existing Metadata from Archive?", "Remove existing Meta-Data") == DialogResult.Yes)
+                    {
+                        RemoveMetaData();
+                    }
+                } else
+                {
+                    RemoveMetaData();
+                }
+            }          
         }
 
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
