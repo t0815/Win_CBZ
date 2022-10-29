@@ -248,8 +248,9 @@ namespace Win_CBZ
             }
         }
 
-        protected void MakeDefaultKeys()
+        public void MakeDefaultKeys()
         {
+            Defaults.Clear();
             if (Win_CBZSettings.Default.CustomDefaultProperties != null) {
                 foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
                 {

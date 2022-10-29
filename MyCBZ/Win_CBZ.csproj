@@ -84,6 +84,12 @@
     <Compile Include="Forms\ApplicationDialog.Designer.cs">
       <DependentUpon>ApplicationDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
     <Compile Include="Models\Page.cs" />
@@ -138,6 +144,9 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -308,6 +317,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\question_dialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\window_gear_large.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

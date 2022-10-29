@@ -1023,6 +1023,15 @@ namespace Win_CBZ
             
         }
 
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsDialog settingsDialog = new SettingsDialog();
+            if (settingsDialog.ShowDialog() == DialogResult.OK)
+            {
+                ProjectModel.MetaData.MakeDefaultKeys();
+            }
+        }
+
 
         /*
         /// <summary>
