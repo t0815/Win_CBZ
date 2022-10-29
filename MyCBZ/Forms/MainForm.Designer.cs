@@ -1284,7 +1284,7 @@ namespace Win_CBZ
             this.MetaDataHeaderPanel.ColumnCount = 3;
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 218F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 219F));
             this.MetaDataHeaderPanel.Controls.Add(this.MetaDataActionsPanel, 2, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.ComboBoxSelectMetadataFileName, 1, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
@@ -1307,12 +1307,12 @@ namespace Win_CBZ
             this.MetaDataActionsPanel.Controls.Add(this.BtnRemoveMetaData, 0, 0);
             this.MetaDataActionsPanel.Controls.Add(this.BtnAddMetaData, 0, 0);
             this.MetaDataActionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataActionsPanel.Location = new System.Drawing.Point(963, 0);
+            this.MetaDataActionsPanel.Location = new System.Drawing.Point(962, 0);
             this.MetaDataActionsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.MetaDataActionsPanel.Name = "MetaDataActionsPanel";
             this.MetaDataActionsPanel.RowCount = 1;
             this.MetaDataActionsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.MetaDataActionsPanel.Size = new System.Drawing.Size(219, 40);
+            this.MetaDataActionsPanel.Size = new System.Drawing.Size(220, 40);
             this.MetaDataActionsPanel.TabIndex = 12;
             // 
             // BtnRemoveMetaData
@@ -1321,7 +1321,7 @@ namespace Win_CBZ
             this.BtnRemoveMetaData.Enabled = false;
             this.BtnRemoveMetaData.ImageIndex = 1;
             this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.BtnRemoveMetaData.Location = new System.Drawing.Point(112, 3);
+            this.BtnRemoveMetaData.Location = new System.Drawing.Point(113, 3);
             this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.BtnRemoveMetaData.Size = new System.Drawing.Size(104, 34);
@@ -1344,7 +1344,7 @@ namespace Win_CBZ
             this.BtnAddMetaData.Location = new System.Drawing.Point(3, 3);
             this.BtnAddMetaData.Name = "BtnAddMetaData";
             this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnAddMetaData.Size = new System.Drawing.Size(103, 34);
+            this.BtnAddMetaData.Size = new System.Drawing.Size(104, 34);
             this.BtnAddMetaData.TabIndex = 7;
             this.BtnAddMetaData.UseVisualStyleBackColor = true;
             this.BtnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);

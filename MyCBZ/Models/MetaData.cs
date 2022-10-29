@@ -314,6 +314,28 @@ namespace Win_CBZ
             }
         }
 
+        public void ValidateDefaults()
+        {
+            int occurence = 0;
+            foreach (MetaDataEntry entryA in Defaults)
+            {
+                foreach (MetaDataEntry entryB in Defaults)
+                {
+                    if (entryA.Key.ToLower().Equals(entryB.Key.ToLower()))
+                    {
+                        occurence++;
+                    }
+                }
+
+                if (occurence > 1)
+                {
+                    throw new MetaDataValidationException(entryA, "Duplicate keys ['" + entryA.Key + "'] not allowed!");
+                }
+
+                occurence = 0;
+            }  
+        }
+
         public void Free()
         {
             if (InputStream != null) { 

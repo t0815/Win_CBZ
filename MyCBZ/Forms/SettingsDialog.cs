@@ -39,6 +39,7 @@ namespace Win_CBZ.Forms
             {
                 Win_CBZSettings.Default.CustomDefaultProperties = new StringCollection();
             }
+
             foreach (String line in CustomDefaultKeys.Lines)
             {
                 if (line != null && line != "")

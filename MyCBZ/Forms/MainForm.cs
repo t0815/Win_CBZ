@@ -18,7 +18,7 @@ namespace Win_CBZ
     public partial class MainForm : Form
     {
 
-        private ProjectModel ProjectModel;
+        private ProjectModel ProjectModel { get; set; }
 
         private Thread ClosingTask;
 
@@ -1029,6 +1029,16 @@ namespace Win_CBZ
             if (settingsDialog.ShowDialog() == DialogResult.OK)
             {
                 ProjectModel.MetaData.MakeDefaultKeys();
+                try
+                {
+                    ProjectModel.MetaData.ValidateDefaults();
+                } catch (MetaDataValidationException mv)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
+                    ApplicationMessage.ShowException(mv);
+
+                    settingsToolStripMenuItem_Click(sender, e);
+                }
             }
         }
 
