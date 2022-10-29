@@ -50,7 +50,7 @@
             this.SettingsTablePanel.ColumnCount = 3;
             this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.40752F));
             this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.59248F));
-            this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
             this.SettingsTablePanel.Controls.Add(this.HeaderPanel, 0, 0);
             this.SettingsTablePanel.Controls.Add(this.SettingsSectionList, 0, 1);
             this.SettingsTablePanel.Controls.Add(this.ButtonOk, 1, 2);
@@ -109,9 +109,9 @@
             // 
             this.ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOk.Location = new System.Drawing.Point(564, 388);
+            this.ButtonOk.Location = new System.Drawing.Point(539, 388);
             this.ButtonOk.Name = "ButtonOk";
-            this.ButtonOk.Size = new System.Drawing.Size(94, 33);
+            this.ButtonOk.Size = new System.Drawing.Size(111, 33);
             this.ButtonOk.TabIndex = 2;
             this.ButtonOk.Text = "Ok";
             this.ButtonOk.UseVisualStyleBackColor = true;
@@ -121,9 +121,9 @@
             // 
             this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ButtonCancel.Location = new System.Drawing.Point(684, 388);
+            this.ButtonCancel.Location = new System.Drawing.Point(664, 388);
             this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Size = new System.Drawing.Size(99, 33);
+            this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
             this.ButtonCancel.TabIndex = 3;
             this.ButtonCancel.Text = "Cancel";
             this.ButtonCancel.UseVisualStyleBackColor = true;
@@ -135,7 +135,7 @@
             this.SettingsGroup1Panel.Controls.Add(this.label2);
             this.SettingsGroup1Panel.Controls.Add(this.label1);
             this.SettingsGroup1Panel.Controls.Add(this.CustomDefaultKeys);
-            this.SettingsGroup1Panel.Location = new System.Drawing.Point(204, 92);
+            this.SettingsGroup1Panel.Location = new System.Drawing.Point(201, 92);
             this.SettingsGroup1Panel.Name = "SettingsGroup1Panel";
             this.SettingsGroup1Panel.Size = new System.Drawing.Size(579, 269);
             this.SettingsGroup1Panel.TabIndex = 4;
@@ -175,7 +175,9 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.SettingsTablePanel);
             this.Name = "SettingsDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Application Configuration";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsDialog_FormClosing);
             this.SettingsTablePanel.ResumeLayout(false);
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();

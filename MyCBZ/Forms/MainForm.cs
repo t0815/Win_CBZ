@@ -12,13 +12,12 @@ using System.Reflection;
 using Win_CBZ.Forms;
 using System.Threading;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace Win_CBZ
 {
     public partial class MainForm : Form
     {
-
-        private ProjectModel ProjectModel { get; set; }
 
         private Thread ClosingTask;
 
@@ -34,7 +33,7 @@ namespace Win_CBZ
         {
             InitializeComponent();
 
-            ProjectModel = NewProjectModel();
+            Program.ProjectModel = NewProjectModel();
 
             MessageLogger.Instance.SetHandler(MessageLogged);
         }
@@ -64,7 +63,7 @@ namespace Win_CBZ
 
             if (openCBFResult == DialogResult.OK)
             {
-                ClosingTask = ProjectModel.Close();
+                ClosingTask = Program.ProjectModel.Close();
 
                 Task.Factory.StartNew(() =>
                 {
@@ -76,7 +75,7 @@ namespace Win_CBZ
                         }
                     }
 
-                    OpeningTask = ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
+                    OpeningTask = Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
                 });
             }
         }
@@ -87,18 +86,18 @@ namespace Win_CBZ
 
             if (saveDialogResult == DialogResult.OK)
             {
-                ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
+                Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
             }
         }
 
         private void ToolButtonSave_Click(object sender, EventArgs e)
         {
-            if (!ProjectModel.IsNew && !ProjectModel.IsSaved)
+            if (!Program.ProjectModel.IsNew && !Program.ProjectModel.IsSaved)
             {
                 saveAsToolStripMenuItem_Click(sender, e);
             } else
             {
-                ProjectModel.Save();
+                Program.ProjectModel.Save();
             }
         }
 
@@ -181,7 +180,7 @@ namespace Win_CBZ
             {
                 PageImages.Images.Clear();
 
-                foreach (Page page in ProjectModel.Pages)
+                foreach (Page page in Program.ProjectModel.Pages)
                 {
                     try
                     {
@@ -381,7 +380,7 @@ namespace Win_CBZ
                     {
                         fileNameLabel.Text = filename;
                         applicationStatusLabel.Text = info;
-                        ProjectModel.ArchiveState = e.State;
+                        Program.ProjectModel.ArchiveState = e.State;
 
                         DisableControllsForArchiveState(e.State);
                     }));
@@ -432,9 +431,9 @@ namespace Win_CBZ
 
         private void NewProject()
         {
-            if (ProjectModel != null)
+            if (Program.ProjectModel != null)
             {
-                ProjectModel.New();
+                Program.ProjectModel.New();
             }
         }
 
@@ -468,14 +467,14 @@ namespace Win_CBZ
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
                     extractAllToolStripMenuItem.Enabled = true;
-                    BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
-                    BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
-                    AddMetaDataRowBtn.Enabled = ProjectModel.MetaData.Values != null;
+                    BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                    BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                    AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
-                    ProjectModel.IsNew = false; 
+                    Program.ProjectModel.IsNew = false; 
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVING:
@@ -512,8 +511,8 @@ namespace Win_CBZ
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
-                    ProjectModel.IsNew = false;
-                    ProjectModel.IsSaved = true;
+                    Program.ProjectModel.IsNew = false;
+                    Program.ProjectModel.IsSaved = true;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
@@ -565,9 +564,9 @@ namespace Win_CBZ
                     ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonMovePageDown.Enabled = false;
                     ToolButtonMovePageUp.Enabled = false;
-                    BtnAddMetaData.Enabled = ProjectModel.MetaData.Values.Count == 0;
-                    AddMetaDataRowBtn.Enabled = ProjectModel.MetaData.Values != null;
-                    BtnRemoveMetaData.Enabled = ProjectModel.MetaData.Values.Count > 0;
+                    BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                    AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                    BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
@@ -600,7 +599,7 @@ namespace Win_CBZ
                     }
                 }
 
-                ClosingTask = ProjectModel.Close();
+                ClosingTask = Program.ProjectModel.Close();
             });
         }
 
@@ -663,10 +662,10 @@ namespace Win_CBZ
             {
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
-                files = ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
+                files = Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
                 if (files.Count > 0)
                 {
-                    ProjectModel.AddImages(files, newIndex);
+                    Program.ProjectModel.AddImages(files, newIndex);
                 }
 
             }
@@ -681,7 +680,7 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
+                        Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
                         PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), PageChangedEvent.IMAGE_STATUS_RENAMED));
                     }
                     catch (PageDuplicateNameException eduplicate)
@@ -705,23 +704,23 @@ namespace Win_CBZ
 
         private bool ArchiveProcessing()
         {
-            return (ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
-               ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
-               ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
-               ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING);
+            return (Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
+               Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
+               Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
+               Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING);
         }
 
 
         private void AddMetaData()
         {
-            if (ProjectModel.MetaData == null)
+            if (Program.ProjectModel.MetaData == null)
             {
-                ProjectModel.MetaData = new MetaData(true);
+                Program.ProjectModel.MetaData = new MetaData(true);
             }
 
-            ProjectModel.MetaData.FillMissingDefaultProps();
+            Program.ProjectModel.MetaData.FillMissingDefaultProps();
 
-            MetaDataLoaded(this, new MetaDataLoadEvent(ProjectModel.MetaData.Values));
+            MetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
 
             BtnAddMetaData.Enabled = false;
             BtnRemoveMetaData.Enabled = true;
@@ -731,11 +730,11 @@ namespace Win_CBZ
 
         private void RemoveMetaData() 
         {
-            if (ProjectModel.MetaData != null)
+            if (Program.ProjectModel.MetaData != null)
             {
                 MetaDataGrid.DataSource = null;
 
-                ProjectModel.MetaData.Values.Clear();
+                Program.ProjectModel.MetaData.Values.Clear();
                 BtnAddMetaData.Enabled = true;
                 BtnRemoveMetaData.Enabled = false;
                 AddMetaDataRowBtn.Enabled = false;
@@ -750,9 +749,9 @@ namespace Win_CBZ
 
         private void BtnRemoveMetaData_Click(object sender, EventArgs e)
         {
-            if (ProjectModel != null && ProjectModel.MetaData != null)
+            if (Program.ProjectModel != null && Program.ProjectModel.MetaData != null)
             {
-                if (ProjectModel.MetaData.HasValues()) {
+                if (Program.ProjectModel.MetaData.HasValues()) {
                     if (ApplicationMessage.ShowConfirmation("Are you sure you want to remove existing Metadata from Archive?", "Remove existing Meta-Data") == DialogResult.Yes)
                     {
                         RemoveMetaData();
@@ -766,7 +765,7 @@ namespace Win_CBZ
 
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
-            ProjectModel.MetaData.Values.Add(new MetaDataEntry(""));
+            Program.ProjectModel.MetaData.Values.Add(new MetaDataEntry(""));
             MetaDataGrid.Refresh();
         }
 
@@ -783,7 +782,7 @@ namespace Win_CBZ
                 {
                     if (row.DataBoundItem is MetaDataEntry)
                     {
-                        ProjectModel.MetaData.Values.Remove((MetaDataEntry)row.DataBoundItem);
+                        Program.ProjectModel.MetaData.Values.Remove((MetaDataEntry)row.DataBoundItem);
                     }
                 }
             }
@@ -795,7 +794,7 @@ namespace Win_CBZ
             {
                 if (e.ColumnIndex == 0)
                 {
-                    ProjectModel.MetaData.Validate((MetaDataEntry)MetaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
+                    Program.ProjectModel.MetaData.Validate((MetaDataEntry)MetaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
                 }
             } catch (MetaDataValidationException ve)
             {
@@ -808,7 +807,7 @@ namespace Win_CBZ
         {
             try
             {
-                ProjectModel.Extract();
+                Program.ProjectModel.Extract();
             } catch (Exception) { }
         }
 
@@ -847,7 +846,7 @@ namespace Win_CBZ
                     img.BackColor = Color.Transparent;
                 }
 
-                ProjectModel.UpdatePageIndices();
+                Program.ProjectModel.UpdatePageIndices();
             }   
         }
 
@@ -862,7 +861,7 @@ namespace Win_CBZ
 
                 TogglePagePreviewToolbutton.Checked = Win_CBZSettings.Default.PagePreviewEnabled;
                 SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
-                ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
+                Program.ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
 
                 Label placeholderLabel;
                 foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
@@ -947,8 +946,8 @@ namespace Win_CBZ
 
         private void CheckBoxDoRenamePages_CheckedChanged(object sender, EventArgs e)
         {
-            ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
-            ProjectModel.IsChanged = true;
+            Program.ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
+            Program.ProjectModel.IsChanged = true;
             TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
             TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
             ToolButtonSave.Enabled = true;
@@ -957,13 +956,13 @@ namespace Win_CBZ
 
         private void TextboxStoryPageRenamingPattern_TextChanged(object sender, EventArgs e)
         {
-            ProjectModel.RenameStoryPagePattern = TextboxStoryPageRenamingPattern.Text;
+            Program.ProjectModel.RenameStoryPagePattern = TextboxStoryPageRenamingPattern.Text;
             Win_CBZSettings.Default.StoryPageRenamePattern = TextboxStoryPageRenamingPattern.Text;
         }
 
         private void TextboxSpecialPageRenamingPattern_TextChanged(object sender, EventArgs e)
         {
-            ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
+            Program.ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
             Win_CBZSettings.Default.SpecialPageRenamePattern = TextboxSpecialPageRenamingPattern.Text;
         }
 
@@ -977,7 +976,7 @@ namespace Win_CBZ
             TogglePagePreviewToolbutton.Checked = !TogglePagePreviewToolbutton.Checked;
             Win_CBZSettings.Default.PagePreviewEnabled = TogglePagePreviewToolbutton.Checked;
             SplitBoxPageView.Panel1Collapsed = !TogglePagePreviewToolbutton.Checked;
-            ProjectModel.PreloadPageImages = TogglePagePreviewToolbutton.Checked;
+            Program.ProjectModel.PreloadPageImages = TogglePagePreviewToolbutton.Checked;
 
             if (Win_CBZSettings.Default.PagePreviewEnabled && PageView.Items.Count == 0) 
             {
@@ -1028,16 +1027,15 @@ namespace Win_CBZ
             SettingsDialog settingsDialog = new SettingsDialog();
             if (settingsDialog.ShowDialog() == DialogResult.OK)
             {
-                ProjectModel.MetaData.MakeDefaultKeys();
-                try
+                if (settingsDialog.NewDefaults != null)
                 {
-                    ProjectModel.MetaData.ValidateDefaults();
-                } catch (MetaDataValidationException mv)
-                {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
-                    ApplicationMessage.ShowException(mv);
-
-                    settingsToolStripMenuItem_Click(sender, e);
+                    foreach (String line in settingsDialog.NewDefaults)
+                    {
+                        if (line != null && line != "")
+                        {
+                            Win_CBZSettings.Default.CustomDefaultProperties.Add(line);
+                        }
+                    }
                 }
             }
         }

@@ -9,6 +9,8 @@ namespace Win_CBZ
     internal static class Program
     {
 
+        public static ProjectModel ProjectModel { get; set; }
+
         public static String Path { get; set; } = "./";
 
         /// <summary>

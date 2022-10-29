@@ -248,11 +248,20 @@ namespace Win_CBZ
             }
         }
 
-        public void MakeDefaultKeys()
+        public void MakeDefaultKeys(List<string> custom = null)
         {
             Defaults.Clear();
-            if (Win_CBZSettings.Default.CustomDefaultProperties != null) {
-                foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
+            if (custom == null) {
+
+                if (Win_CBZSettings.Default.CustomDefaultProperties != null) {
+                    foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
+                    {
+                        Defaults.Add(new MetaDataEntry(prop, ""));
+                    }
+                }
+            } else
+            {
+                foreach (String prop in custom)
                 {
                     Defaults.Add(new MetaDataEntry(prop, ""));
                 }
@@ -316,9 +325,10 @@ namespace Win_CBZ
 
         public void ValidateDefaults()
         {
-            int occurence = 0;
+            int occurence;
             foreach (MetaDataEntry entryA in Defaults)
             {
+                occurence = 0;
                 foreach (MetaDataEntry entryB in Defaults)
                 {
                     if (entryA.Key.ToLower().Equals(entryB.Key.ToLower()))
@@ -330,9 +340,7 @@ namespace Win_CBZ
                 if (occurence > 1)
                 {
                     throw new MetaDataValidationException(entryA, "Duplicate keys ['" + entryA.Key + "'] not allowed!");
-                }
-
-                occurence = 0;
+                }              
             }  
         }
 
