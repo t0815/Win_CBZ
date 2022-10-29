@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -151,7 +152,7 @@ namespace Win_CBZ
             
             PageIndex.Clear();
 
-            MetaDataEntryPage newPageEntry;
+            MetaDataEntryPage newPageEntry = null;
             foreach (Page page in pages)
             {
                 try
@@ -166,6 +167,7 @@ namespace Win_CBZ
                 catch (Exception ex)
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error rebuilding <pages> metadata for pagee->" + page.Name + "! [" + ex.Message + "]");
+                    //throw new MetaDataPageEntryException(newPageEntry, "Error rebuilding <pages> metadata for pagee->" + page.Name + "! [" + ex.Message + "]");
                 }
             }
         }
@@ -228,10 +230,17 @@ namespace Win_CBZ
 
         protected void MakeDefaultKeys()
         {
+            foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
+            {
+                Defaults.Add(new MetaDataEntry(prop, ""));
+            }
+
             foreach (String prop in DefaultProperties)
             {
                 Defaults.Add(new MetaDataEntry(prop, ""));
             }
+
+            Defaults = Defaults.Distinct<MetaDataEntry>().ToList();
         }
 
         public int FillMissingDefaultProps()

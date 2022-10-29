@@ -28,7 +28,7 @@ namespace Win_CBZ
 
         private bool WindowShown = false;
 
-        private Thread ThumbnailThread;
+        // private Thread ThumbnailThread;
 
         public MainForm()
         {
@@ -685,9 +685,10 @@ namespace Win_CBZ
                         PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), PageChangedEvent.IMAGE_STATUS_RENAMED));
                     }
                     catch (PageDuplicateNameException eduplicate)
-                    {
+                    {                      
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, eduplicate.Message);
                         e.CancelEdit = true;
+                        ApplicationError.ShowException(eduplicate, ApplicationError.MT_ERROR);
                     }
                     catch (PageException ep)
                     {
@@ -958,25 +959,6 @@ namespace Win_CBZ
         private void ClearTemporaryFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void PagesList_AfterLabelEdit_1(object sender, LabelEditEventArgs e)
-        {
-            ListViewItem editedItem = PagesList.Items[e.Item];
-            
-            foreach (ListViewItem item in PagesList.Items)
-            {
-                if (item.Tag != editedItem.Tag)
-                {
-                    if (item.Text == editedItem.Text)
-                    {
-                        e.CancelEdit = true;
-                        return;
-                    }
-                }
-            }
-
-            ((Page)editedItem.Tag).Name = e.Label;
         }
 
         private void TogglePagePreviewToolbutton_Click(object sender, EventArgs e)

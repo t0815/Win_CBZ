@@ -67,6 +67,8 @@
     <Compile Include="Events\ArchiveOperationEvent.cs" />
     <Compile Include="Events\TaskProgressEvent.cs" />
     <Compile Include="Exceptions\ApplicationException.cs" />
+    <Compile Include="Exceptions\MetaDataPageEntryException.cs" />
+    <Compile Include="Exceptions\MetaDataEntryException.cs" />
     <Compile Include="Exceptions\PageException.cs" />
     <Compile Include="Exceptions\PageDuplicateNameException.cs" />
     <Compile Include="Forms\AboutDialogForm.cs">

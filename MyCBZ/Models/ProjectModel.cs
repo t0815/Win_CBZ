@@ -54,7 +54,7 @@ namespace Win_CBZ
 
         public bool PreloadPageImages { get; set; }
 
-        public List<Page> Pages { get; set; }
+        public BindingList<Page> Pages { get; set; }
 
         public MetaData MetaData { get; set; }
 
@@ -98,7 +98,7 @@ namespace Win_CBZ
         public ProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
-            Pages = new List<Page>();
+            Pages = new BindingList<Page>();
             MetaData = new MetaData(false);
             RandomProvider = new Random();
 
@@ -869,7 +869,7 @@ namespace Win_CBZ
                 Page[] copyPages = new Page[this.Pages.Count];
 
                 this.Pages.CopyTo(copyPages, 0);
-                destination.Pages = new List<Page>(copyPages);
+                destination.Pages = new BindingList<Page>(copyPages);
                 destination.MetaData = this.MetaData;
                 destination.Name = this.Name;
                 destination.ProjectGUID = this.ProjectGUID;
