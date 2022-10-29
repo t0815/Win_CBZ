@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ApplicationError.cs" />
     <Compile Include="Components\ExtendedListView\CancelListViewItemDragEventArgs.cs" />
     <Compile Include="Components\ExtendedListView\ExtendetListView.cs">
       <SubType>Component</SubType>
@@ -287,6 +287,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TrashInstallerBanner.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\error_dialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sign_warning_dialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_dialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_dialog2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_dialog_exclamation.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

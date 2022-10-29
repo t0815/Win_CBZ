@@ -1030,12 +1030,6 @@ namespace Win_CBZ
             
         }
 
-        private void dEBUGToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ErrorDialog err = new ErrorDialog();
-            err.ShowDialog();
-        }
-
 
         /*
         /// <summary>

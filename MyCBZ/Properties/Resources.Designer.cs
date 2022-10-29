@@ -249,6 +249,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap error_dialog {
+            get {
+                object obj = ResourceManager.GetObject("error_dialog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap floppy_disk {
             get {
                 object obj = ResourceManager.GetObject("floppy_disk", resourceCulture);
@@ -312,6 +322,26 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap hand_money {
             get {
                 object obj = ResourceManager.GetObject("hand_money", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap info_dialog {
+            get {
+                object obj = ResourceManager.GetObject("info_dialog", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap info_dialog_exclamation {
+            get {
+                object obj = ResourceManager.GetObject("info_dialog_exclamation", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -452,6 +482,16 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap validate {
             get {
                 object obj = ResourceManager.GetObject("validate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap warning_dialog {
+            get {
+                object obj = ResourceManager.GetObject("warning_dialog", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
