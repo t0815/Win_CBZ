@@ -39,6 +39,17 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
+        public static DialogResult ShowWarning(String message, String title, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL)
+        {
+            ApplicationDialog errorDialog = new ApplicationDialog();
+            errorDialog.Buttons = buttons;
+            errorDialog.DialogType = type;
+            errorDialog.DialogTitle = title;
+            errorDialog.Message = message;
+
+            return errorDialog.ShowDialog();
+        }
+
         public static DialogResult ShowConfirmation(String message, String title, short type = MT_CONFIRMATION, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
