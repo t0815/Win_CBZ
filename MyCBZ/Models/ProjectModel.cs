@@ -355,11 +355,12 @@ namespace Win_CBZ
 
             if (PageUpdateThread != null)
             {
-                if (LoadArchiveThread.IsAlive)
+                if (PageUpdateThread.IsAlive)
                 {
                     return;
                 }
             }
+
             PageUpdateThread = new Thread(new ThreadStart(UpdatePageIndicesProc));
             PageUpdateThread.Start();
 

@@ -731,17 +731,17 @@ namespace Win_CBZ
             int IndexOldItem = 0;
             int direction = 0;
 
-            if (newIndex < 0)
+            if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
             {
                 return;
             }
 
             if (newIndex > items[0].Index)
             {
-                direction = 1;
+                direction = -1;
             } else
             {
-                direction = -1;
+                direction = 1;
             }
 
             foreach (ListViewItem item in items)
@@ -751,13 +751,24 @@ namespace Win_CBZ
                 IndexOldItem = item.Index;
                 PagesList.Items.Remove(originalItem);
                 PagesList.Items.Remove(item);
-                PagesList.Items.Insert(newIndex, item); 
-                PagesList.Items.Insert(IndexOldItem, originalItem);
-
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
                 Program.ProjectModel.Pages.Remove((Page)item.Tag);
-                Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
-                Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                if (direction == 1)
+                {
+                    PagesList.Items.Insert(newIndex, item);
+                    PagesList.Items.Insert(IndexOldItem, originalItem);
+                    Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
+                    Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                } else
+                {
+                    PagesList.Items.Insert(IndexOldItem, originalItem);
+                    PagesList.Items.Insert(newIndex, item);
+                    Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                    Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);             
+                }
+              
+                //Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
+                //Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
                 newIndex += direction;
             }
 
@@ -1117,9 +1128,9 @@ namespace Win_CBZ
 
         private void ToolButtonMovePageDown_Click(object sender, EventArgs e)
         {
-            ListViewItem first = PagesList.SelectedItems[0];
+            ListViewItem last = PagesList.SelectedItems[PagesList.SelectedItems.Count - 1];
 
-            MoveItemsTo(first.Index + 1, PagesList.SelectedItems);
+            MoveItemsTo(last.Index + 1, PagesList.SelectedItems);
         }
 
 
