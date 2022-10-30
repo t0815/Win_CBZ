@@ -696,7 +696,7 @@ namespace Win_CBZ
         {
             if (e.Item > -1)
             {
-                ListViewItem changedItem = PagesList.Items[e.Item - 1];
+                ListViewItem changedItem = PagesList.Items[e.Item];
                 if (changedItem != null)
                 {
                     try
@@ -722,6 +722,48 @@ namespace Win_CBZ
                 }
             }
         }
+
+
+        private void MoveItemsTo(int newIndex, ListView.SelectedListViewItemCollection items)
+        {
+            ListViewItem originalItem;
+            ListViewItem newItem;
+            int IndexOldItem = 0;
+            int direction = 0;
+
+            if (newIndex < 0)
+            {
+                return;
+            }
+
+            if (newIndex > items[0].Index)
+            {
+                direction = 1;
+            } else
+            {
+                direction = -1;
+            }
+
+            foreach (ListViewItem item in items)
+            {
+                originalItem = PagesList.Items[newIndex];
+                newItem = item;
+                IndexOldItem = item.Index;
+                PagesList.Items.Remove(originalItem);
+                PagesList.Items.Remove(item);
+                PagesList.Items.Insert(newIndex, item); 
+                PagesList.Items.Insert(IndexOldItem, originalItem);
+
+                Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
+                Program.ProjectModel.Pages.Remove((Page)item.Tag);
+                Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
+                Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                newIndex += direction;
+            }
+
+            Program.ProjectModel.UpdatePageIndices();
+        }
+
 
         private bool ArchiveProcessing()
         {
@@ -1043,7 +1085,7 @@ namespace Win_CBZ
             
         }
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsDialog settingsDialog = new SettingsDialog();
             if (settingsDialog.ShowDialog() == DialogResult.OK)
@@ -1061,9 +1103,23 @@ namespace Win_CBZ
             }
         }
 
-        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void ToolButtonMovePageUp_Click(object sender, EventArgs e)
+        {
+            ListViewItem first = PagesList.SelectedItems[0];
+
+            MoveItemsTo(first.Index - 1, PagesList.SelectedItems);
+        }
+
+        private void ToolButtonMovePageDown_Click(object sender, EventArgs e)
+        {
+            ListViewItem first = PagesList.SelectedItems[0];
+
+            MoveItemsTo(first.Index + 1, PagesList.SelectedItems);
         }
 
 
