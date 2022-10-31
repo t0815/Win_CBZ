@@ -122,6 +122,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -426,15 +434,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
-        "ProductCode" = "8:{6CF6CFAA-6B91-4157-8555-547E702E47B8}"
-        "PackageCode" = "8:{A672F7B2-4C43-4AF4-B4D0-A58ACCEC1114}"
+        "ProductCode" = "8:{6FD50B8D-0C4B-4E4D-85CD-E6D2939CDB05}"
+        "PackageCode" = "8:{DB9CEAB0-0009-4BFD-AB3D-9164AF8B50BC}"
         "UpgradeCode" = "8:{813B9659-6DDC-4083-B56B-0400F17E8B45}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.7.0"
+        "ProductVersion" = "8:0.7.7"
         "Manufacturer" = "8:Trash_s0Ft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -972,7 +980,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EF16AE22273449909DAA4542302B11CD"
             {
-            "SourcePath" = "8:..\\MyCBZ\\obj\\Release\\Win_CBZ.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
