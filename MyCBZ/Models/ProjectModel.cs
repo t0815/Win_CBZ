@@ -387,7 +387,7 @@ namespace Win_CBZ
             {
                 if (PageUpdateThread.IsAlive)
                 {
-                    return;
+                    LoadArchiveThread.Abort(); ;
                 }
             }
 

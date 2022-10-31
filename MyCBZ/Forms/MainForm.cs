@@ -31,7 +31,11 @@ namespace Win_CBZ
 
         private String LastOutputDirectory = "";
 
-        // private Thread ThumbnailThread;
+        private Thread ThumbnailThread;
+
+        private Thread RequestThumbnailThread;
+
+        private List<Page> ThumbnailPagesSlice;
 
         public MainForm()
         {
@@ -40,6 +44,8 @@ namespace Win_CBZ
             Program.ProjectModel = NewProjectModel();
 
             MessageLogger.Instance.SetHandler(MessageLogged);
+
+            ThumbnailPagesSlice = new List<Page>();
         }
 
         private ProjectModel NewProjectModel()
@@ -261,11 +267,80 @@ namespace Win_CBZ
             }));
         }
 
+
+        public void RequestThumbnailSlice()
+        {
+            if (Win_CBZSettings.Default.PagePreviewEnabled)
+            {
+
+                if (ThumbnailThread != null)
+                {
+                    if (ThumbnailThread.IsAlive)
+                    {
+                        ThumbnailThread.Abort();
+                    }
+                }
+
+                if (RequestThumbnailThread != null)
+                {
+                    if (RequestThumbnailThread.IsAlive)
+                    {
+                        return;
+                    }
+                }
+
+                RequestThumbnailThread = new Thread(new ThreadStart(LoadThumbnailSlice));
+                RequestThumbnailThread.Start();
+
+                /*
+                PageView.Invoke(new Action(() =>
+                {
+                    foreach (ListViewItem pageItem in PagesList.Items)
+                    {
+                        CreatePagePreviewFromItem((Page)pageItem.Tag);
+                    }
+                }));
+                */
+            }
+        }
+
+        public void LoadThumbnailSlice()
+        {
+            this.Invoke(new Action(() =>
+            {
+                //PageImages.Images.Clear();
+
+                foreach (Page page in ThumbnailPagesSlice)
+                {
+                    try
+                    {
+                        if (!PageImages.Images.ContainsKey(page.Id))
+                        {
+                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                        }
+                        else
+                        {
+                            //PageImages.Images.RemoveByKey(page.Name);
+                            //PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                    }
+                }
+
+                ThumbnailPagesSlice.Clear();
+            }));
+        }
+
+
         private ListViewItem CreatePagePreviewFromItem(Page page)
         {
             ListViewItem itemPage;
             ListViewItem existingItem = FindListViewItemForPage(PageView, page);
 
+            /*
             if (!PageImages.Images.ContainsKey(page.Id))
             {
                 PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
@@ -275,6 +350,7 @@ namespace Win_CBZ
                 //PageImages.Images.RemoveByKey(page.Name);
                 //PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
             }
+            */
 
             if (existingItem == null)
             {
@@ -369,7 +445,10 @@ namespace Win_CBZ
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
                         toolStripProgressBar.Maximum = e.Total;
-                        toolStripProgressBar.Value = e.Current;
+                        if (e.Current > -1)
+                        {
+                            toolStripProgressBar.Value = e.Current;
+                        }
                     }));
                 }
             }
@@ -516,6 +595,7 @@ namespace Win_CBZ
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -527,12 +607,13 @@ namespace Win_CBZ
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
                     ExtractSelectedPages.Enabled = true;
+                    ToolButtonAddFolder.Enabled = true;
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                     //TextboxStoryPageRenamingPattern.Enabled = true;
                     //TextboxSpecialPageRenamingPattern.Enabled = true;
-                    CheckBoxDoRenamePages.Enabled = false;
+                    CheckBoxDoRenamePages.Enabled = true;
                     CheckBoxDoRenamePages.Checked = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
@@ -550,6 +631,7 @@ namespace Win_CBZ
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     CheckBoxDoRenamePages.Enabled = false;
@@ -569,6 +651,7 @@ namespace Win_CBZ
                     ToolButtonExtractArchive.Enabled = true;
                     ExtractSelectedPages.Enabled = true;
                     CheckBoxDoRenamePages.Enabled = true;
+                    ToolButtonAddFolder.Enabled = true;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
@@ -585,6 +668,7 @@ namespace Win_CBZ
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
                     ToolButtonAddFiles.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
@@ -596,6 +680,7 @@ namespace Win_CBZ
                     ToolButtonNew.Enabled = true;
                     ToolButtonOpen.Enabled = true;
                     addFilesToolStripMenuItem.Enabled = true;
+                    ToolButtonAddFolder.Enabled = true;
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
                     ExtractSelectedPages.Enabled = true;
@@ -610,6 +695,7 @@ namespace Win_CBZ
                     ToolButtonAddFiles.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
                     ToolButtonSave.Enabled = false;
@@ -627,6 +713,7 @@ namespace Win_CBZ
                     ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonMovePageDown.Enabled = false;
                     ToolButtonMovePageUp.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
@@ -672,6 +759,14 @@ namespace Win_CBZ
                 if (SavingTask != null)
                 {
                     while (ClosingTask.IsAlive)
+                    {
+                        System.Threading.Thread.Sleep(50);
+                    }
+                }
+
+                if (ThumbnailThread != null)
+                {
+                    while (ThumbnailThread.IsAlive)
                     {
                         System.Threading.Thread.Sleep(50);
                     }
@@ -1143,6 +1238,7 @@ namespace Win_CBZ
                 ThumbnailThread.Start();
                 */
 
+                /*
                 PageView.Invoke(new Action(() =>
                 {
                     foreach (ListViewItem pageItem in PagesList.Items)
@@ -1150,6 +1246,7 @@ namespace Win_CBZ
                         CreatePagePreviewFromItem((Page)pageItem.Tag);
                     }
                 }));
+                */
             }
         }
 
@@ -1219,17 +1316,37 @@ namespace Win_CBZ
 
             Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, owner.LargeImageList.ImageSize.Width + 2, owner.LargeImageList.ImageSize.Height + 2);
 
-            
+
             int customItemBoundsW = owner.LargeImageList.ImageSize.Width;
             int customItemBoundsH = owner.LargeImageList.ImageSize.Height;
 
-           // e.Bounds.Width = customItemBoundsW + 4;
+            // e.Bounds.Width = customItemBoundsW + 4;
 
 
             if (page != null)
             {
                 e.Graphics.DrawRectangle(borderPen, rectangle);
-                e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 2));
+                if (owner.LargeImageList.Images.IndexOfKey(page.Id) >= 0)
+                {
+                    e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 2));
+                } else
+                {
+                    ThumbnailPagesSlice.Add(page);
+                    if (RequestThumbnailThread != null)
+                    {
+                        if (!RequestThumbnailThread.IsAlive)
+                        {
+                            RequestThumbnailSlice();
+                        }
+                    } else
+                    {
+                        RequestThumbnailSlice();
+                    }
+                }
+            }
+            else
+            {
+
             }
         }
 
