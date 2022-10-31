@@ -364,7 +364,7 @@ namespace Win_CBZ
             PageUpdateThread = new Thread(new ThreadStart(UpdatePageIndicesProc));
             PageUpdateThread.Start();
 
-            //return LoadArchiveThread;
+            //return PageUpdateThread;
         }
 
         protected void UpdatePageIndicesProc()
