@@ -206,7 +206,7 @@ namespace Win_CBZ
             ListViewItem itemPage;
             ListViewItem existingItem = FindListViewItemForPage(PageView, page);
 
-            if (!PageImages.Images.ContainsKey(page.Name))
+            if (!PageImages.Images.ContainsKey(page.Id))
             {
                 PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
             }
@@ -451,7 +451,7 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
-                    extractAllToolStripMenuItem.Enabled = false;
+                    ExtractSelectedPages.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonSave.Enabled = false;
@@ -466,7 +466,7 @@ namespace Win_CBZ
                     addFilesToolStripMenuItem.Enabled = true;
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
-                    extractAllToolStripMenuItem.Enabled = true;
+                    ExtractSelectedPages.Enabled = true;
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
@@ -487,7 +487,7 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
-                    extractAllToolStripMenuItem.Enabled = false;
+                    ExtractSelectedPages.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     CheckBoxDoRenamePages.Enabled = false;
@@ -505,7 +505,7 @@ namespace Win_CBZ
                     addFilesToolStripMenuItem.Enabled = true;
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
-                    extractAllToolStripMenuItem.Enabled = true;
+                    ExtractSelectedPages.Enabled = true;
                     CheckBoxDoRenamePages.Enabled = true;
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
@@ -524,7 +524,7 @@ namespace Win_CBZ
                     ToolButtonAddFiles.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
-                    extractAllToolStripMenuItem.Enabled = false;
+                    ExtractSelectedPages.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
@@ -535,7 +535,7 @@ namespace Win_CBZ
                     addFilesToolStripMenuItem.Enabled = true;
                     ToolButtonAddFiles.Enabled = true;
                     ToolButtonExtractArchive.Enabled = true;
-                    extractAllToolStripMenuItem.Enabled = true;
+                    ExtractSelectedPages.Enabled = true;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
@@ -548,7 +548,7 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
-                    extractAllToolStripMenuItem.Enabled = false;
+                    ExtractSelectedPages.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
                     RemoveMetaData();
@@ -728,6 +728,8 @@ namespace Win_CBZ
         {
             ListViewItem originalItem;
             ListViewItem newItem;
+            ListViewItem pageOriginal;
+            ListViewItem pageNew;
             int IndexOldItem = 0;
             int direction = 0;
 
@@ -748,21 +750,29 @@ namespace Win_CBZ
             {
                 originalItem = PagesList.Items[newIndex];
                 newItem = item;
+                pageOriginal = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+                pageNew = FindListViewItemForPage(PageView, (Page)item.Tag);
                 IndexOldItem = item.Index;
                 PagesList.Items.Remove(originalItem);
                 PagesList.Items.Remove(item);
+                PageView.Items.Remove(pageOriginal);
+                PageView.Items.Remove(pageNew);
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
                 Program.ProjectModel.Pages.Remove((Page)item.Tag);
                 if (direction == 1)
                 {
                     PagesList.Items.Insert(newIndex, item);
                     PagesList.Items.Insert(IndexOldItem, originalItem);
+                    PageView.Items.Insert(newIndex, pageNew);
+                    PageView.Items.Insert(IndexOldItem, pageOriginal);
                     Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
                     Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
                 } else
                 {
                     PagesList.Items.Insert(IndexOldItem, originalItem);
                     PagesList.Items.Insert(newIndex, item);
+                    PageView.Items.Insert(IndexOldItem, pageOriginal);
+                    PageView.Items.Insert(newIndex, pageNew);
                     Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
                     Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);             
                 }
@@ -773,6 +783,7 @@ namespace Win_CBZ
             }
 
             Program.ProjectModel.UpdatePageIndices();
+            Program.ProjectModel.IsChanged = true;
         }
 
 
@@ -895,6 +906,12 @@ namespace Win_CBZ
             ToolButtonMovePageUp.Enabled = buttonState;
 
             ToolButtonSetPageType.Enabled = buttonState;
+
+            if (buttonState)
+            {
+                LabelW.Text = ((Page)selectedPages[0].Tag).W.ToString();
+                LabelH.Text = ((Page)selectedPages[0].Tag).H.ToString();
+            }
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)

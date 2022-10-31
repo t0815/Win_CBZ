@@ -386,6 +386,7 @@ namespace Win_CBZ
 
                 OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 OnTaskProgress(new TaskProgressEvent(page, updated, Pages.Count));
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                 this.IsChanged = true;
                 updated++;
@@ -408,6 +409,8 @@ namespace Win_CBZ
                     throw new PageDuplicateNameException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! A different page with the same name already exists.");
                 }
             }
+
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
             page.Name = name;
         }
