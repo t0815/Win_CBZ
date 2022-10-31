@@ -470,8 +470,10 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
-                    TextboxStoryPageRenamingPattern.Enabled = true;
-                    TextboxSpecialPageRenamingPattern.Enabled = true;
+                    //TextboxStoryPageRenamingPattern.Enabled = true;
+                    //TextboxSpecialPageRenamingPattern.Enabled = true;
+                    CheckBoxDoRenamePages.Enabled = false;
+                    CheckBoxDoRenamePages.Checked = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
                     Program.ProjectModel.IsNew = false; 
@@ -567,13 +569,20 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
-                    TextboxStoryPageRenamingPattern.Enabled = true;
-                    TextboxSpecialPageRenamingPattern.Enabled = true;
+                    TextboxStoryPageRenamingPattern.Enabled = false;
+                    TextboxSpecialPageRenamingPattern.Enabled = false;
+                    CheckBoxDoRenamePages.Enabled = false;
+                    CheckBoxDoRenamePages.Checked = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
                     RemoveMetaData();
                     break;
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
+                    CheckBoxDoRenamePages.Enabled = true;
+                    CheckBoxDoRenamePages.Checked = false;
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                    break;
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
@@ -1148,6 +1157,30 @@ namespace Win_CBZ
             ListViewItem last = PagesList.SelectedItems[PagesList.SelectedItems.Count - 1];
 
             MoveItemsTo(last.Index + 1, PagesList.SelectedItems);
+        }
+
+        private void PageView_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            ListView owner = sender as ListView;
+            ListViewItem item = e.Item as ListViewItem;
+            Page page = (Page)item.Tag;
+            Pen borderPen = new Pen(Color.LightGray, 2);
+            int center = ((e.Bounds.Width + 4) / 2) - ((owner.LargeImageList.ImageSize.Width + 4) / 2);
+
+            Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, owner.LargeImageList.ImageSize.Width + 2, owner.LargeImageList.ImageSize.Height + 2);
+
+            
+            int customItemBoundsW = owner.LargeImageList.ImageSize.Width;
+            int customItemBoundsH = owner.LargeImageList.ImageSize.Height;
+
+           // e.Bounds.Width = customItemBoundsW + 4;
+
+
+            if (page != null)
+            {
+                e.Graphics.DrawRectangle(borderPen, rectangle);
+                e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 2));
+            }
         }
 
 
