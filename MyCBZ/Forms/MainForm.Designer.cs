@@ -111,6 +111,11 @@ namespace Win_CBZ
             this.SplitBoxPageView = new System.Windows.Forms.SplitContainer();
             this.TabControlPageSettings = new System.Windows.Forms.TabControl();
             this.TabPagePageSettings = new System.Windows.Forms.TabPage();
+            this.GroupBoxDimensions = new System.Windows.Forms.GroupBox();
+            this.LabelH = new System.Windows.Forms.Label();
+            this.LabelW = new System.Windows.Forms.Label();
+            this.LabelHeight = new System.Windows.Forms.Label();
+            this.LabelWidth = new System.Windows.Forms.Label();
             this.GroupBoxImageQuality = new System.Windows.Forms.GroupBox();
             this.ImageQualitySliderMaxLabel = new System.Windows.Forms.Label();
             this.ImageQualitySliderMinLabel = new System.Windows.Forms.Label();
@@ -156,11 +161,6 @@ namespace Win_CBZ
             this.TypePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ModifiedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeFormatedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.GroupBoxDimensions = new System.Windows.Forms.GroupBox();
-            this.LabelWidth = new System.Windows.Forms.Label();
-            this.LabelHeight = new System.Windows.Forms.Label();
-            this.LabelW = new System.Windows.Forms.Label();
-            this.LabelH = new System.Windows.Forms.Label();
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -180,6 +180,7 @@ namespace Win_CBZ
             this.SplitBoxPageView.SuspendLayout();
             this.TabControlPageSettings.SuspendLayout();
             this.TabPagePageSettings.SuspendLayout();
+            this.GroupBoxDimensions.SuspendLayout();
             this.GroupBoxImageQuality.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).BeginInit();
             this.TabPageGlobalSettings.SuspendLayout();
@@ -195,7 +196,6 @@ namespace Win_CBZ
             this.panel1.SuspendLayout();
             this.MetaDataHeaderPanel.SuspendLayout();
             this.MetaDataActionsPanel.SuspendLayout();
-            this.GroupBoxDimensions.SuspendLayout();
             this.SuspendLayout();
             // 
             // ToolBar
@@ -230,7 +230,7 @@ namespace Win_CBZ
             this.ToolBarSearchLabel,
             this.ToolBarSearchInput,
             this.toolStripButton1});
-            this.ToolBar.Location = new System.Drawing.Point(0, 30);
+            this.ToolBar.Location = new System.Drawing.Point(0, 28);
             this.ToolBar.Name = "ToolBar";
             this.ToolBar.Size = new System.Drawing.Size(1558, 31);
             this.ToolBar.TabIndex = 0;
@@ -489,7 +489,7 @@ namespace Win_CBZ
             this.toolStripMenuItem4});
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
-            this.MenuBar.Size = new System.Drawing.Size(1558, 30);
+            this.MenuBar.Size = new System.Drawing.Size(1558, 28);
             this.MenuBar.TabIndex = 1;
             this.MenuBar.Text = "menuStrip1";
             // 
@@ -505,41 +505,41 @@ namespace Win_CBZ
             this.toolStripMenuItem3,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.document_zip;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(147, 6);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.folder_open;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(221, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(147, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.floppy_disk;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ToolButtonSave_Click);
             // 
@@ -547,20 +547,20 @@ namespace Win_CBZ
             // 
             this.saveAsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.save_as;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(221, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(147, 6);
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.door_exit;
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
             // 
@@ -574,13 +574,13 @@ namespace Win_CBZ
             this.toolStripMenuItem10,
             this.settingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.copyToolStripMenuItem.Text = "Copy";
             // 
             // PasteToolStripMenuItem
@@ -588,32 +588,32 @@ namespace Win_CBZ
             this.PasteToolStripMenuItem.Enabled = false;
             this.PasteToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.clipboard_paste;
             this.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem";
-            this.PasteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.PasteToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.PasteToolStripMenuItem.Text = "Paste";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(221, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(149, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.elements_selection;
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.selectAllToolStripMenuItem.Text = "Select all";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(221, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(149, 6);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.window_gear;
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(152, 26);
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
@@ -626,7 +626,7 @@ namespace Win_CBZ
             this.toolStripMenuItem8,
             this.ExtractSelectedPages});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(61, 26);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             this.projectToolStripMenuItem.Text = "Pages";
             // 
             // addFolderToolStripMenuItem
@@ -669,7 +669,7 @@ namespace Win_CBZ
             this.ClearTemporaryFolderToolStripMenuItem,
             this.toolStripMenuItem9});
             this.extrasToolStripMenuItem.Name = "extrasToolStripMenuItem";
-            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
+            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
             this.extrasToolStripMenuItem.Text = "Extras";
             // 
             // ClearTemporaryFolderToolStripMenuItem
@@ -689,7 +689,7 @@ namespace Win_CBZ
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AboutToolStripMenuItem});
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 26);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 24);
             this.toolStripMenuItem4.Text = "?";
             // 
             // AboutToolStripMenuItem
@@ -810,7 +810,7 @@ namespace Win_CBZ
             // PrimarySplitBox
             // 
             this.PrimarySplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PrimarySplitBox.Location = new System.Drawing.Point(0, 61);
+            this.PrimarySplitBox.Location = new System.Drawing.Point(0, 59);
             this.PrimarySplitBox.Name = "PrimarySplitBox";
             this.PrimarySplitBox.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -821,8 +821,8 @@ namespace Win_CBZ
             // PrimarySplitBox.Panel2
             // 
             this.PrimarySplitBox.Panel2.Controls.Add(this.MessageLogListView);
-            this.PrimarySplitBox.Size = new System.Drawing.Size(1558, 923);
-            this.PrimarySplitBox.SplitterDistance = 738;
+            this.PrimarySplitBox.Size = new System.Drawing.Size(1558, 925);
+            this.PrimarySplitBox.SplitterDistance = 739;
             this.PrimarySplitBox.TabIndex = 4;
             // 
             // MainPanel
@@ -832,7 +832,7 @@ namespace Win_CBZ
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1558, 738);
+            this.MainPanel.Size = new System.Drawing.Size(1558, 739);
             this.MainPanel.TabIndex = 4;
             // 
             // MainSplitBox
@@ -849,7 +849,7 @@ namespace Win_CBZ
             // MainSplitBox.Panel2
             // 
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1558, 738);
+            this.MainSplitBox.Size = new System.Drawing.Size(1558, 739);
             this.MainSplitBox.SplitterDistance = 364;
             this.MainSplitBox.TabIndex = 6;
             // 
@@ -867,7 +867,7 @@ namespace Win_CBZ
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.TabControlPageSettings);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(362, 736);
+            this.SplitBoxPageView.Size = new System.Drawing.Size(362, 737);
             this.SplitBoxPageView.SplitterDistance = 273;
             this.SplitBoxPageView.TabIndex = 6;
             // 
@@ -881,7 +881,7 @@ namespace Win_CBZ
             this.TabControlPageSettings.Location = new System.Drawing.Point(0, 0);
             this.TabControlPageSettings.Name = "TabControlPageSettings";
             this.TabControlPageSettings.SelectedIndex = 0;
-            this.TabControlPageSettings.Size = new System.Drawing.Size(362, 459);
+            this.TabControlPageSettings.Size = new System.Drawing.Size(362, 460);
             this.TabControlPageSettings.TabIndex = 0;
             // 
             // TabPagePageSettings
@@ -892,10 +892,59 @@ namespace Win_CBZ
             this.TabPagePageSettings.Location = new System.Drawing.Point(4, 25);
             this.TabPagePageSettings.Name = "TabPagePageSettings";
             this.TabPagePageSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPagePageSettings.Size = new System.Drawing.Size(354, 430);
+            this.TabPagePageSettings.Size = new System.Drawing.Size(354, 431);
             this.TabPagePageSettings.TabIndex = 0;
             this.TabPagePageSettings.Text = "Page Adjustments";
             this.TabPagePageSettings.UseVisualStyleBackColor = true;
+            // 
+            // GroupBoxDimensions
+            // 
+            this.GroupBoxDimensions.Controls.Add(this.LabelH);
+            this.GroupBoxDimensions.Controls.Add(this.LabelW);
+            this.GroupBoxDimensions.Controls.Add(this.LabelHeight);
+            this.GroupBoxDimensions.Controls.Add(this.LabelWidth);
+            this.GroupBoxDimensions.Location = new System.Drawing.Point(6, 10);
+            this.GroupBoxDimensions.Name = "GroupBoxDimensions";
+            this.GroupBoxDimensions.Size = new System.Drawing.Size(334, 62);
+            this.GroupBoxDimensions.TabIndex = 4;
+            this.GroupBoxDimensions.TabStop = false;
+            this.GroupBoxDimensions.Text = "Dimensions";
+            // 
+            // LabelH
+            // 
+            this.LabelH.AutoSize = true;
+            this.LabelH.Location = new System.Drawing.Point(231, 27);
+            this.LabelH.Name = "LabelH";
+            this.LabelH.Size = new System.Drawing.Size(14, 16);
+            this.LabelH.TabIndex = 3;
+            this.LabelH.Text = "0";
+            // 
+            // LabelW
+            // 
+            this.LabelW.AutoSize = true;
+            this.LabelW.Location = new System.Drawing.Point(71, 27);
+            this.LabelW.Name = "LabelW";
+            this.LabelW.Size = new System.Drawing.Size(14, 16);
+            this.LabelW.TabIndex = 2;
+            this.LabelW.Text = "0";
+            // 
+            // LabelHeight
+            // 
+            this.LabelHeight.AutoSize = true;
+            this.LabelHeight.Location = new System.Drawing.Point(176, 27);
+            this.LabelHeight.Name = "LabelHeight";
+            this.LabelHeight.Size = new System.Drawing.Size(49, 16);
+            this.LabelHeight.TabIndex = 1;
+            this.LabelHeight.Text = "Height:";
+            // 
+            // LabelWidth
+            // 
+            this.LabelWidth.AutoSize = true;
+            this.LabelWidth.Location = new System.Drawing.Point(21, 27);
+            this.LabelWidth.Name = "LabelWidth";
+            this.LabelWidth.Size = new System.Drawing.Size(44, 16);
+            this.LabelWidth.TabIndex = 0;
+            this.LabelWidth.Text = "Width:";
             // 
             // GroupBoxImageQuality
             // 
@@ -950,7 +999,7 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Location = new System.Drawing.Point(4, 25);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(354, 431);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(354, 430);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -963,7 +1012,7 @@ namespace Win_CBZ
             this.GroupBoxImageRenaming.Controls.Add(this.FileSettingsTablePanel);
             this.GroupBoxImageRenaming.Location = new System.Drawing.Point(7, 6);
             this.GroupBoxImageRenaming.Name = "GroupBoxImageRenaming";
-            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(336, 421);
+            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(336, 420);
             this.GroupBoxImageRenaming.TabIndex = 5;
             this.GroupBoxImageRenaming.TabStop = false;
             this.GroupBoxImageRenaming.Text = "Renaming";
@@ -995,7 +1044,7 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.FileSettingsTablePanel.Size = new System.Drawing.Size(330, 400);
+            this.FileSettingsTablePanel.Size = new System.Drawing.Size(330, 399);
             this.FileSettingsTablePanel.TabIndex = 1;
             // 
             // FunctionsFlowPanel
@@ -1005,7 +1054,7 @@ namespace Win_CBZ
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FunctionsFlowPanel.Location = new System.Drawing.Point(3, 287);
             this.FunctionsFlowPanel.Name = "FunctionsFlowPanel";
-            this.FunctionsFlowPanel.Size = new System.Drawing.Size(324, 110);
+            this.FunctionsFlowPanel.Size = new System.Drawing.Size(324, 109);
             this.FunctionsFlowPanel.TabIndex = 14;
             // 
             // PlaceholdersInfoLabel
@@ -1099,7 +1148,7 @@ namespace Win_CBZ
             this.TabPageArchiveSettings.Location = new System.Drawing.Point(4, 25);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(354, 433);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(354, 430);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;
@@ -1119,7 +1168,7 @@ namespace Win_CBZ
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(1190, 738);
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(1190, 739);
             this.SplitBoxItemsList.SplitterDistance = 271;
             this.SplitBoxItemsList.TabIndex = 7;
             // 
@@ -1140,7 +1189,7 @@ namespace Win_CBZ
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.27273F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MetadataPanel.Size = new System.Drawing.Size(1188, 461);
+            this.MetadataPanel.Size = new System.Drawing.Size(1188, 462);
             this.MetadataPanel.TabIndex = 10;
             // 
             // MetaDataTableActionsPanel
@@ -1150,7 +1199,7 @@ namespace Win_CBZ
             this.MetaDataTableActionsPanel.AutoSize = true;
             this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
             this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
-            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 415);
+            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 416);
             this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
             this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(1182, 43);
             this.MetaDataTableActionsPanel.TabIndex = 13;
@@ -1204,7 +1253,7 @@ namespace Win_CBZ
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataGrid.Location = new System.Drawing.Point(3, 96);
+            this.MetaDataGrid.Location = new System.Drawing.Point(3, 97);
             this.MetaDataGrid.Name = "MetaDataGrid";
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
@@ -1227,7 +1276,7 @@ namespace Win_CBZ
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1182, 87);
+            this.panel1.Size = new System.Drawing.Size(1182, 88);
             this.panel1.TabIndex = 14;
             // 
             // MetaDataHeaderPanel
@@ -1236,7 +1285,7 @@ namespace Win_CBZ
             this.MetaDataHeaderPanel.ColumnCount = 3;
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
             this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 251F));
             this.MetaDataHeaderPanel.Controls.Add(this.MetaDataActionsPanel, 2, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.ComboBoxSelectMetadataFileName, 1, 0);
             this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
@@ -1259,12 +1308,12 @@ namespace Win_CBZ
             this.MetaDataActionsPanel.Controls.Add(this.BtnRemoveMetaData, 0, 0);
             this.MetaDataActionsPanel.Controls.Add(this.BtnAddMetaData, 0, 0);
             this.MetaDataActionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataActionsPanel.Location = new System.Drawing.Point(933, 0);
+            this.MetaDataActionsPanel.Location = new System.Drawing.Point(930, 0);
             this.MetaDataActionsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.MetaDataActionsPanel.Name = "MetaDataActionsPanel";
             this.MetaDataActionsPanel.RowCount = 1;
             this.MetaDataActionsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.MetaDataActionsPanel.Size = new System.Drawing.Size(249, 40);
+            this.MetaDataActionsPanel.Size = new System.Drawing.Size(252, 40);
             this.MetaDataActionsPanel.TabIndex = 12;
             // 
             // BtnRemoveMetaData
@@ -1273,10 +1322,10 @@ namespace Win_CBZ
             this.BtnRemoveMetaData.Enabled = false;
             this.BtnRemoveMetaData.ImageIndex = 1;
             this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.BtnRemoveMetaData.Location = new System.Drawing.Point(127, 3);
+            this.BtnRemoveMetaData.Location = new System.Drawing.Point(129, 3);
             this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnRemoveMetaData.Size = new System.Drawing.Size(119, 34);
+            this.BtnRemoveMetaData.Size = new System.Drawing.Size(120, 34);
             this.BtnRemoveMetaData.TabIndex = 8;
             this.BtnRemoveMetaData.UseVisualStyleBackColor = true;
             this.BtnRemoveMetaData.Click += new System.EventHandler(this.BtnRemoveMetaData_Click);
@@ -1296,7 +1345,7 @@ namespace Win_CBZ
             this.BtnAddMetaData.Location = new System.Drawing.Point(3, 3);
             this.BtnAddMetaData.Name = "BtnAddMetaData";
             this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnAddMetaData.Size = new System.Drawing.Size(118, 34);
+            this.BtnAddMetaData.Size = new System.Drawing.Size(120, 34);
             this.BtnAddMetaData.TabIndex = 7;
             this.BtnAddMetaData.UseVisualStyleBackColor = true;
             this.BtnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);
@@ -1310,7 +1359,7 @@ namespace Win_CBZ
             this.ComboBoxSelectMetadataFileName.FormattingEnabled = true;
             this.ComboBoxSelectMetadataFileName.Items.AddRange(new object[] {
             "ComicInfo.xml"});
-            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(202, 8);
+            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(201, 8);
             this.ComboBoxSelectMetadataFileName.Name = "ComboBoxSelectMetadataFileName";
             this.ComboBoxSelectMetadataFileName.Size = new System.Drawing.Size(652, 24);
             this.ComboBoxSelectMetadataFileName.TabIndex = 2;
@@ -1339,7 +1388,7 @@ namespace Win_CBZ
             this.MessageLogListView.HideSelection = false;
             this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
             this.MessageLogListView.Name = "MessageLogListView";
-            this.MessageLogListView.Size = new System.Drawing.Size(1558, 181);
+            this.MessageLogListView.Size = new System.Drawing.Size(1558, 182);
             this.MessageLogListView.SmallImageList = this.LogMessageImageList;
             this.MessageLogListView.TabIndex = 0;
             this.MessageLogListView.UseCompatibleStateImageBehavior = false;
@@ -1442,55 +1491,6 @@ namespace Win_CBZ
             this.SizeFormatedPageCol.Text = "Size";
             this.SizeFormatedPageCol.Width = 160;
             // 
-            // GroupBoxDimensions
-            // 
-            this.GroupBoxDimensions.Controls.Add(this.LabelH);
-            this.GroupBoxDimensions.Controls.Add(this.LabelW);
-            this.GroupBoxDimensions.Controls.Add(this.LabelHeight);
-            this.GroupBoxDimensions.Controls.Add(this.LabelWidth);
-            this.GroupBoxDimensions.Location = new System.Drawing.Point(6, 10);
-            this.GroupBoxDimensions.Name = "GroupBoxDimensions";
-            this.GroupBoxDimensions.Size = new System.Drawing.Size(334, 62);
-            this.GroupBoxDimensions.TabIndex = 4;
-            this.GroupBoxDimensions.TabStop = false;
-            this.GroupBoxDimensions.Text = "Dimensions";
-            // 
-            // LabelWidth
-            // 
-            this.LabelWidth.AutoSize = true;
-            this.LabelWidth.Location = new System.Drawing.Point(21, 27);
-            this.LabelWidth.Name = "LabelWidth";
-            this.LabelWidth.Size = new System.Drawing.Size(44, 16);
-            this.LabelWidth.TabIndex = 0;
-            this.LabelWidth.Text = "Width:";
-            // 
-            // LabelHeight
-            // 
-            this.LabelHeight.AutoSize = true;
-            this.LabelHeight.Location = new System.Drawing.Point(176, 27);
-            this.LabelHeight.Name = "LabelHeight";
-            this.LabelHeight.Size = new System.Drawing.Size(49, 16);
-            this.LabelHeight.TabIndex = 1;
-            this.LabelHeight.Text = "Height:";
-            // 
-            // LabelW
-            // 
-            this.LabelW.AutoSize = true;
-            this.LabelW.Location = new System.Drawing.Point(71, 27);
-            this.LabelW.Name = "LabelW";
-            this.LabelW.Size = new System.Drawing.Size(14, 16);
-            this.LabelW.TabIndex = 2;
-            this.LabelW.Text = "0";
-            // 
-            // LabelH
-            // 
-            this.LabelH.AutoSize = true;
-            this.LabelH.Location = new System.Drawing.Point(231, 27);
-            this.LabelH.Name = "LabelH";
-            this.LabelH.Size = new System.Drawing.Size(14, 16);
-            this.LabelH.TabIndex = 3;
-            this.LabelH.Text = "0";
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -1532,6 +1532,8 @@ namespace Win_CBZ
             this.SplitBoxPageView.ResumeLayout(false);
             this.TabControlPageSettings.ResumeLayout(false);
             this.TabPagePageSettings.ResumeLayout(false);
+            this.GroupBoxDimensions.ResumeLayout(false);
+            this.GroupBoxDimensions.PerformLayout();
             this.GroupBoxImageQuality.ResumeLayout(false);
             this.GroupBoxImageQuality.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).EndInit();
@@ -1552,8 +1554,6 @@ namespace Win_CBZ
             this.MetaDataHeaderPanel.ResumeLayout(false);
             this.MetaDataHeaderPanel.PerformLayout();
             this.MetaDataActionsPanel.ResumeLayout(false);
-            this.GroupBoxDimensions.ResumeLayout(false);
-            this.GroupBoxDimensions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

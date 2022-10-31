@@ -56,6 +56,62 @@ namespace Win_CBZ
             return newProjectModel;
         }
 
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (!WindowShown)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+
+                TextboxStoryPageRenamingPattern.Text = Win_CBZSettings.Default.StoryPageRenamePattern;
+                TextboxSpecialPageRenamingPattern.Text = Win_CBZSettings.Default.SpecialPageRenamePattern;
+
+                TogglePagePreviewToolbutton.Checked = Win_CBZSettings.Default.PagePreviewEnabled;
+                SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
+                Program.ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
+
+                Label placeholderLabel;
+                foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
+                {
+                    placeholderLabel = new Label();
+                    placeholderLabel.Name = "Label" + placeholder;
+                    placeholderLabel.Text = placeholder;
+                    placeholderLabel.AutoSize = true;
+                    placeholderLabel.Font = new Font(placeholderLabel.Font.Name, 10, placeholderLabel.Font.Style, placeholderLabel.Font.Unit);
+                    PlaceholdersFlowPanel.Controls.Add(placeholderLabel);
+                }
+
+                Label fnLabel;
+                foreach (String fn in Win_CBZSettings.Default.RenamerFunctions)
+                {
+                    fnLabel = new Label();
+                    fnLabel.Name = "Label" + fn;
+                    fnLabel.Text = fn;
+                    fnLabel.AutoSize = true;
+                    fnLabel.Font = new Font(fnLabel.Font.Name, 10, fnLabel.Font.Style, fnLabel.Font.Unit);
+                    FunctionsFlowPanel.Controls.Add(fnLabel);
+                }
+
+                PlaceholdersFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+                PlaceholdersFlowPanel.Refresh();
+
+                FunctionsFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+                FunctionsFlowPanel.Refresh();
+
+                ToolButtonSetPageType.Click += TypeSelectionToolStripMenuItem_Click;
+                ToolButtonSetPageType.Tag = "FrontCover";
+
+                ToolStripItem newPageTypeItem;
+                foreach (String pageType in MetaDataEntryPage.PageTypes)
+                {
+                    newPageTypeItem = ToolButtonSetPageType.DropDownItems.Add(pageType);
+                    newPageTypeItem.Tag = pageType;
+                    newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
+                }
+
+                WindowShown = true;
+            }
+        }
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -513,6 +569,7 @@ namespace Win_CBZ
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    ExtractSelectedPages.Enabled = true;
                     Program.ProjectModel.IsNew = false;
                     Program.ProjectModel.IsSaved = true;
                     break;
@@ -901,7 +958,11 @@ namespace Win_CBZ
         {
             try
             {
-                Program.ProjectModel.Extract();
+                ExtractFilesDialog dlg = new ExtractFilesDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    Program.ProjectModel.Extract();
+                }
             } catch (Exception) { }
         }
 
@@ -920,6 +981,15 @@ namespace Win_CBZ
             {
                 LabelW.Text = ((Page)selectedPages[0].Tag).W.ToString();
                 LabelH.Text = ((Page)selectedPages[0].Tag).H.ToString();
+            }
+
+            ((Page)e.Item.Tag).Selected = e.IsSelected;
+            foreach (ListViewItem item in selectedPages)
+            {
+                if (((Page)item.Tag).Compressed)
+                {
+                    //
+                }
             }
         }
 
@@ -948,62 +1018,7 @@ namespace Win_CBZ
 
                 Program.ProjectModel.UpdatePageIndices();
             }   
-        }
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            if (!WindowShown)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
-
-                TextboxStoryPageRenamingPattern.Text = Win_CBZSettings.Default.StoryPageRenamePattern;
-                TextboxSpecialPageRenamingPattern.Text = Win_CBZSettings.Default.SpecialPageRenamePattern;
-
-                TogglePagePreviewToolbutton.Checked = Win_CBZSettings.Default.PagePreviewEnabled;
-                SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
-                Program.ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
-
-                Label placeholderLabel;
-                foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
-                {
-                    placeholderLabel = new Label();
-                    placeholderLabel.Name = "Label" + placeholder;
-                    placeholderLabel.Text = placeholder;
-                    placeholderLabel.AutoSize = true;
-                    placeholderLabel.Font = new Font(placeholderLabel.Font.Name, 10, placeholderLabel.Font.Style, placeholderLabel.Font.Unit);
-                    PlaceholdersFlowPanel.Controls.Add(placeholderLabel);
-                }
-
-                Label fnLabel;
-                foreach (String fn in Win_CBZSettings.Default.RenamerFunctions)
-                {
-                    fnLabel = new Label();
-                    fnLabel.Name = "Label" + fn;
-                    fnLabel.Text = fn;
-                    fnLabel.AutoSize = true;
-                    fnLabel.Font = new Font(fnLabel.Font.Name, 10, fnLabel.Font.Style, fnLabel.Font.Unit);
-                    FunctionsFlowPanel.Controls.Add(fnLabel);
-                }
-
-                PlaceholdersFlowPanel.FlowDirection = FlowDirection.LeftToRight;
-                PlaceholdersFlowPanel.Refresh();
-
-                FunctionsFlowPanel.FlowDirection = FlowDirection.LeftToRight;
-                FunctionsFlowPanel.Refresh();
-
-                ToolButtonSetPageType.Click += TypeSelectionToolStripMenuItem_Click;
-                ToolButtonSetPageType.Tag = "FrontCover";
-
-                ToolStripItem newPageTypeItem;
-                foreach (String pageType in MetaDataEntryPage.PageTypes) {
-                    newPageTypeItem = ToolButtonSetPageType.DropDownItems.Add(pageType);
-                    newPageTypeItem.Tag = pageType;
-                    newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
-                }
-
-                WindowShown = true;
-            }
-        }
+        }      
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {

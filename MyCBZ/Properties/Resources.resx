@@ -127,6 +127,9 @@
   <data name="box_out" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\box_out.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="box_out_large" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\box_out_large.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="box_surprise" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\box_surprise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

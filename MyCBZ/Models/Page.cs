@@ -46,6 +46,8 @@ namespace Win_CBZ
 
         public bool ReadOnly { get; set; }
 
+        public bool Selected { get; set; }
+
         public int W { get; set; }
 
         public int H { get; set; }
