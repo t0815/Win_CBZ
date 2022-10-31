@@ -34,6 +34,8 @@ namespace Win_CBZ
 
         public String WorkingDir { get; set; }
 
+        public String OutputDirectory { get; set; }
+
         public int ArchiveState { get; set; }
 
         protected String ProjectGUID { get; set; }
@@ -124,6 +126,22 @@ namespace Win_CBZ
                     }
                 }
 
+                if (ExtractArchiveThread != null)
+                {
+                    if (ExtractArchiveThread.IsAlive)
+                    {
+                        ExtractArchiveThread.Abort();
+                    }
+                }
+
+                if (PageUpdateThread != null)
+                {
+                    if (PageUpdateThread.IsAlive)
+                    {
+                        PageUpdateThread.Abort();
+                    }
+                }
+
                 if (CloseArchiveThread != null)
                 {
                     while (CloseArchiveThread.IsAlive)
@@ -153,7 +171,16 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort();
+                    //LoadArchiveThread.Abort();
+                    return null;
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                while (CloseArchiveThread.IsAlive)
+                {
+                    System.Threading.Thread.Sleep(100);
                 }
             }
 
@@ -163,14 +190,14 @@ namespace Win_CBZ
             return LoadArchiveThread;
         }
 
-        public void Save()
+        public Thread Save()
         {
 
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort();
+                    return null;
                 }
             }
 
@@ -178,30 +205,33 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    CloseArchiveThread.Abort();
+                    return null;
                 }
             }
 
             SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
             SaveArchiveThread.Start();
+
+            return SaveArchiveThread;
         }
 
-        public void SaveAs(String path, ZipArchiveMode mode)
+        public Thread SaveAs(String path, ZipArchiveMode mode)
         {
             FileName = path;
             Mode = mode;
 
-            Save();
+            return Save();
         }
 
-        public Thread Extract()
+        public Thread Extract(String outputPath = null)
         {
+            this.OutputDirectory = outputPath;
 
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort();
+                    return null;
                 }
             }
 
@@ -209,7 +239,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    CloseArchiveThread.Abort();
+                    return null;
                 }
             }
 
@@ -286,7 +316,7 @@ namespace Win_CBZ
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
             } finally
             {
-                
+                //
             }
 
             return files;
@@ -390,6 +420,8 @@ namespace Win_CBZ
 
                 this.IsChanged = true;
                 updated++;
+
+                Thread.Sleep(50);
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
@@ -601,6 +633,9 @@ namespace Win_CBZ
                     catch (Exception efile)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath +"] to Archive [" + efile.Message + "]");
+                    } finally
+                    {
+                        Thread.Sleep(50);
                     }
 
                     OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
@@ -735,21 +770,28 @@ namespace Win_CBZ
         {
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTING));
 
-            int count = 0;
+            int count;
             int index = 0;
+            DirectoryInfo di = null;
+
             try
             {
-                Archive = ZipFile.Open(FileName, Mode);
+                Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
                 count = Archive.Entries.Count;
 
                 try
                 {
+                    if (OutputDirectory != null)
+                    {
+                        di = new DirectoryInfo(OutputDirectory);
+                    }
+
                     ZipArchiveEntry metaDataEntry = Archive.GetEntry("ComicInfo.xml");
 
                     if (metaDataEntry != null)
                     {
                         MetaData = new MetaData(metaDataEntry.Open(), metaDataEntry.FullName);
-
+                        count--;
                         OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
                     }
                 }
@@ -765,18 +807,32 @@ namespace Win_CBZ
                         fileEntry = Archive.GetEntry(page.Name);
                         if (fileEntry != null)
                         {
-                            fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
-                            page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
-                            OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
+                            if (di != null)
+                            {
+                                fileEntry.ExtractToFile(PathHelper.ResolvePath(di.FullName) + fileEntry.Name);
+                                OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(di.FullName) + fileEntry.Name));
+                            }
+                            else
+                            {
+                                fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
+                                page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
+                                OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
+                            } 
                             index++;
+                        } else
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + page.Name + "]. File no longer present in Archive!");
                         }
                     } catch (Exception efile)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
+                    } finally
+                    {
+                        Thread.Sleep(50);
                     }
 
                 }
-
+ 
                 /*  Bulk Extract??!?
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
@@ -794,6 +850,9 @@ namespace Win_CBZ
             catch (Exception e)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive [" + e.Message + "]");
+            } finally
+            {
+                OutputDirectory = null;
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTED));
@@ -824,7 +883,8 @@ namespace Win_CBZ
             Name = "";
             FileName = "";
             IsSaved = false;
-            IsNew = true;
+            IsNew = false;
+            IsChanged = false;
             IsClosed = true;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));

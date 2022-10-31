@@ -23,9 +23,13 @@ namespace Win_CBZ
 
         private Thread OpeningTask;
 
+        private Thread SavingTask;
+
         private bool WindowClosed = false;
 
         private bool WindowShown = false;
+
+        private String LastOutputDirectory = "";
 
         // private Thread ThumbnailThread;
 
@@ -142,7 +146,7 @@ namespace Win_CBZ
 
             if (saveDialogResult == DialogResult.OK)
             {
-                Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
+                SavingTask = Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
             }
         }
 
@@ -153,7 +157,7 @@ namespace Win_CBZ
                 saveAsToolStripMenuItem_Click(sender, e);
             } else
             {
-                Program.ProjectModel.Save();
+                SavingTask = Program.ProjectModel.Save();
             }
         }
 
@@ -665,6 +669,14 @@ namespace Win_CBZ
                     }
                 }
 
+                if (SavingTask != null)
+                {
+                    while (ClosingTask.IsAlive)
+                    {
+                        System.Threading.Thread.Sleep(50);
+                    }
+                }
+
                 ClosingTask = Program.ProjectModel.Close();
             });
         }
@@ -673,15 +685,35 @@ namespace Win_CBZ
         {
             if (!WindowClosed && !ArchiveProcessing())
             {
-                PagesList.Items.Clear();
-                PageView.Clear();
+                if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
+                {
+                    DialogResult res = ApplicationMessage.ShowConfirmation("There are unsaved changes to the current CBZ-Archive.\nAre you sure you want to discard them and create a new file?", "Unsaved changes...");
+                    if (res == DialogResult.Yes)
+                    {
+                        PagesList.Items.Clear();
+                        PageView.Clear();
 
-                PageImages.Images.Clear();
+                        PageImages.Images.Clear();
 
-                toolStripProgressBar.Value = 0;
+                        toolStripProgressBar.Value = 0;
+
+                        ClearProject();
+                    }
+                }
+                else
+                {
+                    PagesList.Items.Clear();
+                    PageView.Clear();
+
+                    PageImages.Images.Clear();
+
+                    toolStripProgressBar.Value = 0;
+
+                    ClearProject();
+                }
+
+               
             }
-
-            ClearProject();
         }
 
         private void PageView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -782,9 +814,9 @@ namespace Win_CBZ
                     }
                     catch (Exception ex)
                     {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                         e.CancelEdit = true;
-                    }
-                   
+                    }             
                 }
             }
         }
@@ -959,9 +991,12 @@ namespace Win_CBZ
             try
             {
                 ExtractFilesDialog dlg = new ExtractFilesDialog();
+                dlg.TargetFolder = LastOutputDirectory;
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    Program.ProjectModel.Extract();
+                    ExtractSelectedPages.Enabled = false;
+                    Program.ProjectModel.Extract(dlg.TargetFolder);
+                    LastOutputDirectory = dlg.TargetFolder;
                 }
             } catch (Exception) { }
         }
@@ -972,8 +1007,8 @@ namespace Win_CBZ
             bool buttonState = selectedPages.Count > 0;
 
             ToolButtonRemoveFiles.Enabled = buttonState;
-            ToolButtonMovePageDown.Enabled = buttonState;
-            ToolButtonMovePageUp.Enabled = buttonState;
+            ToolButtonMovePageDown.Enabled = buttonState && selectedPages.Count != PagesList.Items.Count;
+            ToolButtonMovePageUp.Enabled = buttonState && selectedPages.Count != PagesList.Items.Count;
 
             ToolButtonSetPageType.Enabled = buttonState;
 
@@ -993,7 +1028,7 @@ namespace Win_CBZ
             }
         }
 
-        private void toolStripButton4_Click(object sender, EventArgs e)
+        private void ToolButtonRemoveFiles_Click(object sender, EventArgs e)
         {
             ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
 

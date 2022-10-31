@@ -16,7 +16,7 @@ namespace Win_CBZ.Forms
     {
 
         public String TargetFolder;
-
+        private bool FormShown = false;
         private bool CanClose;
 
         public ExtractFilesDialog()
@@ -37,7 +37,7 @@ namespace Win_CBZ.Forms
          
             try
             {
-                
+                TargetFolder = TextBoxOutputFolder.Text;
             }
             catch (MetaDataValidationException mv)
             {
@@ -59,7 +59,19 @@ namespace Win_CBZ.Forms
 
         private void ButtonBrowse_Click(object sender, EventArgs e)
         {
-            OpenTargetDirectory.ShowDialog();
+            if (FolderBrowserDialog.ShowDialog() == DialogResult.OK)
+            {
+                TextBoxOutputFolder.Text = FolderBrowserDialog.SelectedPath.ToString();
+            }
+        }
+
+        private void ExtractFilesDialog_Shown(object sender, EventArgs e)
+        {
+            if (!FormShown)
+            {
+                TextBoxOutputFolder.Text = TargetFolder;
+                FormShown = true;
+            }
         }
     }
 }

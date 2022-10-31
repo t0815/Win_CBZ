@@ -104,7 +104,7 @@ namespace Win_CBZ
                 }
                 ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
                 ReadOnly = ImageStream.CanWrite;
-            } catch (UnauthorizedAccessException uae)
+            } catch (UnauthorizedAccessException)
             {
                 ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                 ReadOnly = true;
