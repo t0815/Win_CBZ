@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,13 @@ namespace Win_CBZ.Forms
          
             try
             {
+                DirectoryInfo di = new DirectoryInfo(TextBoxOutputFolder.Text);
+                if (!di.Exists)
+                {
+                    CanClose = false;
+                    ApplicationMessage.ShowWarning("Selected Path does not exist! Please choose an other one!", "Extract Files");
+                    return;
+                }
                 TargetFolder = TextBoxOutputFolder.Text;
             }
             catch (MetaDataValidationException mv)
