@@ -158,7 +158,7 @@ namespace Win_CBZ
 
         private void ToolButtonSave_Click(object sender, EventArgs e)
         {
-            if (!Program.ProjectModel.IsNew && !Program.ProjectModel.IsSaved)
+            if (Program.ProjectModel.IsNew && !Program.ProjectModel.IsSaved)
             {
                 saveAsToolStripMenuItem_Click(sender, e);
             } else

@@ -32,29 +32,6 @@ namespace Win_CBZ.Forms
             CanClose = true;
         }
 
-        private void ButtonOk_Click(object sender, EventArgs e)
-        {
-            CanClose = true;
-         
-            try
-            {
-                DirectoryInfo di = new DirectoryInfo(TextBoxOutputFolder.Text);
-                if (!di.Exists)
-                {
-                    CanClose = false;
-                    ApplicationMessage.ShowWarning("Selected Path does not exist! Please choose an other one!", "Extract Files");
-                    return;
-                }
-                TargetFolder = TextBoxOutputFolder.Text;
-            }
-            catch (MetaDataValidationException mv)
-            {
-                CanClose = false;
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
-                ApplicationMessage.ShowException(mv);
-            }          
-        }
-
         private void ExtractFilesDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !CanClose;
@@ -79,6 +56,29 @@ namespace Win_CBZ.Forms
             {
                 TextBoxOutputFolder.Text = TargetFolder;
                 FormShown = true;
+            }
+        }
+
+        private void ButtonOk_Click(object sender, EventArgs e)
+        {
+            
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(TextBoxOutputFolder.Text);
+                if (!di.Exists)
+                {
+                    CanClose = false;
+                    ApplicationMessage.ShowWarning("Selected Path does not exist! Please choose an other one!", "Extract Files");
+                    return;
+                }
+                TargetFolder = TextBoxOutputFolder.Text;
+                CanClose = true;
+            }
+            catch (Exception mv)
+            {
+                CanClose = false;
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
+                ApplicationMessage.ShowException(mv);
             }
         }
     }
