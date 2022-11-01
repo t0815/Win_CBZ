@@ -15,6 +15,7 @@
   &lt;string&gt;{title}&lt;/string&gt;
   &lt;string&gt;{page}&lt;/string&gt;
   &lt;string&gt;{pages}&lt;/string&gt;
+  &lt;string&gt;{index}&lt;/string&gt;
   &lt;string&gt;{size}&lt;/string&gt;
   &lt;string&gt;{number}&lt;/string&gt;
   &lt;string&gt;{month}&lt;/string&gt;

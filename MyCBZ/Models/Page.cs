@@ -24,6 +24,8 @@ namespace Win_CBZ
 
         public String Name { get; set; }
 
+        public String OriginalName { get; set; }
+
         public String EntryName { get; set; } 
 
         public String ImageType { get; set; } = "Story";

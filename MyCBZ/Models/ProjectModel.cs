@@ -443,9 +443,36 @@ namespace Win_CBZ
             return null;
         }
 
+        public void AutoRenameAllPages()
+        {
+            foreach (Page page in Pages)
+            {
+                PageScriptRename(page);
+
+                OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
+            }
+
+            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+        }
+
+        public void RestoreOriginalNames()
+        {
+            foreach (Page page in Pages)
+            {
+                if (page.OriginalName != null && page.OriginalName != "")
+                {
+                    RenamePage(page, page.OriginalName);
+                   
+                    OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
+                }
+            }
+
+            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+        }
+
         public void RenamePage(Page page, String name)
         {
-            if (name == null)
+            if (name == null || name == "")
             {
                 throw new PageException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! The new name must not be NULL.");
             }
@@ -458,16 +485,18 @@ namespace Win_CBZ
                 }
             }
 
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-
             page.Name = name;
+            this.IsChanged = true;
+
+            OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));            
         }
 
-        public String RenameEntryScript(Page page)
+        public String PageScriptRename(Page page)
         {
             string oldName = page.Name;
             string newName = page.Name;
-            string pattern = "";
+            string pattern;
 
             switch (page.ImageType)
             {
@@ -483,19 +512,20 @@ namespace Win_CBZ
             {
                 if (pattern.Length > 0)
                 {
+                    newName = pattern;
                     foreach(String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
                     {
-                        newName += newName.Replace(placeholder, ValueForPlaceholder(placeholder, page));
+                        newName = newName.Replace(placeholder, ValueForPlaceholder(placeholder, page));
                     }
 
                     if (newName != oldName)
                     {
-                        page.Name = newName;
-                        page.Changed = true;
+                        if (page.OriginalName == null || page.OriginalName == "")
+                        {
+                            page.OriginalName = oldName;
+                        }
 
-                        OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
-
-                        this.IsChanged = true;
+                        RenamePage(page, newName);
                     }
                 }
             }
@@ -515,7 +545,7 @@ namespace Win_CBZ
                     return page.Index.ToString();
 
                 case "{page}":
-                    return (page.Index + 1).ToString();
+                    return FormatLeadingZeros(page.Index + 1, Pages.Count).ToString();
 
                 case "{pages}":
                     return Pages.Count.ToString();
@@ -532,6 +562,20 @@ namespace Win_CBZ
                     /*
                         { type} */
             }
+        }
+
+
+        public string FormatLeadingZeros(int value, int max)
+        {
+            String stringValue = value.ToString();
+            String stringMax = max.ToString();
+
+            int numDigits = stringValue.Length;
+            int maxDigits = stringMax.Length;
+
+            //String.Format("{0,:D3}", value)
+
+            return String.Format("{0,-" + maxDigits + ":D" + maxDigits +"}", value);
         }
 
 
@@ -765,10 +809,8 @@ namespace Win_CBZ
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RenamePageScript(Page page)
         {
-            String newName = RenameEntryScript(page);
+            String newName = PageScriptRename(page);
             MetaData.UpdatePageIndexMetaDataEntry(newName, page);
-            page.Name = newName;
-            page.Changed = true;
         }
 
 

@@ -52,6 +52,7 @@ namespace Win_CBZ {
   <string>{title}</string>
   <string>{page}</string>
   <string>{pages}</string>
+  <string>{index}</string>
   <string>{size}</string>
   <string>{number}</string>
   <string>{month}</string>

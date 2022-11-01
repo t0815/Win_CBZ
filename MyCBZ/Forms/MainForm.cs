@@ -61,6 +61,10 @@ namespace Win_CBZ
             newProjectModel.FileOperation += FileOperationHandler;
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
 
+            newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
+            newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
+
+
             this.Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
@@ -189,6 +193,7 @@ namespace Win_CBZ
                     else
                     {
                         item = existingItem;
+                        item.Text = e.Image.Name;
                         item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
                         item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
                         item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
@@ -196,6 +201,7 @@ namespace Win_CBZ
                     }
 
                     item.Tag = e.Image;
+                    item.BackColor = Color.White;
 
                     if (!e.Image.Compressed)
                     {
@@ -1351,6 +1357,28 @@ namespace Win_CBZ
             {
 
             }
+        }
+
+        private void CheckBoxPreview_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckBoxPreview.Checked)
+            {
+                Program.ProjectModel.AutoRenameAllPages();
+            } else
+            {
+                Program.ProjectModel.RestoreOriginalNames();
+            }
+        }
+
+        private void TextboxStoryPageRenamingPattern_TextChanged_1(object sender, EventArgs e)
+        {
+            Program.ProjectModel.RenameStoryPagePattern = TextboxStoryPageRenamingPattern.Text;
+        }
+
+        private void TextboxSpecialPageRenamingPattern_TextChanged_1(object sender, EventArgs e)
+        {
+            Program.ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
+
         }
 
 
