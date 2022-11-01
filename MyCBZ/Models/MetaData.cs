@@ -220,6 +220,32 @@ namespace Win_CBZ
             return false;
         }
 
+        public String ValueForKey(String key)
+        {
+            foreach (MetaDataEntry entry in Values)
+            {
+                if (entry.Key.ToLower().Equals(key.ToLower()))
+                {
+                    return entry.Value;
+                }
+            }
+
+            return "";
+        }
+
+        public MetaDataEntry EntryByKey(String key)
+        {
+            foreach (MetaDataEntry entry in Values)
+            {
+                if (entry.Key.ToLower().Equals(key.ToLower()))
+                {
+                    return entry;
+                }
+            }
+
+            return null;
+        }
+
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
             MetaDataEntryPage pageMeta;

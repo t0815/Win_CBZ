@@ -17,6 +17,9 @@ using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using File = System.IO.File;
+using System.Drawing;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.VisualStyles;
 
 namespace Win_CBZ
 {
@@ -427,6 +430,19 @@ namespace Win_CBZ
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
         }
 
+        public Page GetPageById(String id)
+        {
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Id == id)
+                {
+                    return page1;
+                }
+            }
+
+            return null;
+        }
+
         public void RenamePage(Page page, String name)
         {
             if (name == null)
@@ -449,6 +465,7 @@ namespace Win_CBZ
 
         public String RenameEntryScript(Page page)
         {
+            string oldName = page.Name;
             string newName = page.Name;
             string pattern = "";
 
@@ -466,14 +483,57 @@ namespace Win_CBZ
             {
                 if (pattern.Length > 0)
                 {
-                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                    foreach(String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
+                    {
+                        newName += newName.Replace(placeholder, ValueForPlaceholder(placeholder, page));
+                    }
 
-                    this.IsChanged = true;
+                    if (newName != oldName)
+                    {
+                        page.Name = newName;
+                        page.Changed = true;
+
+                        OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
+
+                        this.IsChanged = true;
+                    }
                 }
             }
 
             return newName;
         }
+
+
+        public String ValueForPlaceholder(String placeholder, Page page)
+        {
+            switch (placeholder.ToLower())
+            {
+                case "{name}":
+                    return page.EntryName;
+
+                case "{index}":
+                    return page.Index.ToString();
+
+                case "{page}":
+                    return (page.Index + 1).ToString();
+
+                case "{pages}":
+                    return Pages.Count.ToString();
+
+                case "{size}":
+                    return page.Size.ToString();
+
+                case "{type}":
+                    return page.ImageType.ToString();
+
+                default:
+                    return MetaData.ValueForKey(placeholder.ToLower().Trim('{', '}'));
+
+                    /*
+                        { type} */
+            }
+        }
+
 
         public String RequestTemporaryFile(Page page)
         {

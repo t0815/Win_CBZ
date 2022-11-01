@@ -12,6 +12,7 @@ namespace Win_CBZ
         public const int LOGMESSAGE_TYPE_ERROR = 1;
         public const int LOGMESSAGE_TYPE_WARNING = 2;
         public const int LOGMESSAGE_TYPE_INFO = 3;
+        public const int LOGMESSAGE_TYPE_DEBUG = 4;
 
 
         public int Type { get; set; }

@@ -48,6 +48,10 @@ namespace Win_CBZ
 
         public bool Selected { get; set; }
 
+        public bool Invalidated { get; set; }
+
+        public bool ThumbnailInvalidated { get; set; }
+
         public int W { get; set; }
 
         public int H { get; set; }

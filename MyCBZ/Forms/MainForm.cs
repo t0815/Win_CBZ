@@ -320,8 +320,11 @@ namespace Win_CBZ
                         }
                         else
                         {
-                            //PageImages.Images.RemoveByKey(page.Name);
-                            //PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                            if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
+                            {
+                                PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
+                                page.ThumbnailInvalidated = false;
+                            }
                         }
                     }
                     catch (Exception e)
