@@ -781,6 +781,7 @@ namespace Win_CBZ
                         toolStripProgressBar.Value = 0;
 
                         ClearProject();
+                        NewProject();
                     }
                 }
                 else
@@ -793,6 +794,7 @@ namespace Win_CBZ
                     toolStripProgressBar.Value = 0;
 
                     ClearProject();
+                    NewProject();
                 }
 
                

@@ -117,6 +117,9 @@ namespace Win_CBZ
             {
                 ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                 ReadOnly = true;
+            } finally
+            {
+
             }
 
             Filename = ImageFileInfo.FullName;

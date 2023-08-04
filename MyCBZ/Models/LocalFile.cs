@@ -10,6 +10,8 @@ namespace Win_CBZ
     internal class LocalFile
     {
 
+        public String Name {  get; set; }
+
         public String FileName { get; set; }
 
         public String FilePath { get; set; }
@@ -19,8 +21,6 @@ namespace Win_CBZ
         public long FileSize { get; set; }
 
         public DateTimeOffset LastModified { get; set; }
-
-        public FileInfo FileInfo { get; set; }
 
 
         public LocalFile(String fileName)

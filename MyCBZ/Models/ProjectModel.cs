@@ -255,23 +255,27 @@ namespace Win_CBZ
         public void AddImages(List<LocalFile> fileList, int maxIndex = 0)
         {
             int index = maxIndex + 1;
+            String targetPath = "";
 
             foreach (LocalFile fileObject in fileList)
             {
                 try
                 {
-                    FileInfo localCopyInfo = fileObject.FileInfo.CopyTo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileInfo.Name);
-                    
-                    Page page = new Page(localCopyInfo, FileAccess.ReadWrite);
+                    targetPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileName;
+
+                    this.CopyFile(fileObject.FullPath, targetPath);
+
+                    FileInfo fi = new FileInfo(targetPath);
+                                      
+                    Page page = new Page(fi, FileAccess.ReadWrite);
                     page.Size = fileObject.FileSize;
                     page.Number = index + 1;
                     page.Index = index;
                     page.LocalPath = fileObject.FullPath;
                     page.Compressed = false;
-                    page.LastModified = fileObject.FileInfo.LastWriteTime;
-                    page.Name = fileObject.FileInfo.Name;
-                    page.TempPath = localCopyInfo.FullName;
-                    fileObject.FileInfo = localCopyInfo;
+                    page.LastModified = fileObject.LastModified;
+                    page.Name = fileObject.FileName;
+                    page.TempPath = fi.FullName;
 
                     Pages.Add(page);
 
@@ -309,8 +313,9 @@ namespace Win_CBZ
                 {
                     LocalFile localFile = new LocalFile(fi.FullName);
                     localFile.FilePath = di.FullName;
-                    localFile.FileName = fi.FullName;
+                    localFile.FileName = fi.Name;
                     localFile.FileSize = fi.Length;
+                    localFile.LastModified = fi.LastWriteTime;
 
                     files.Add(localFile);
                 }
@@ -329,27 +334,32 @@ namespace Win_CBZ
         {
             List<LocalFile> filesObjects = new List<LocalFile>();
 
-            try
+
+            foreach (String fname in files)
             {
-                foreach (String fname in files)
+
+                try
                 {
                     var fi = new FileInfo(fname);
-                     
+
                     LocalFile localFile = new LocalFile(fi.FullName);
                     localFile.FilePath = fi.Directory.FullName;
                     localFile.FileName = fi.Name;
                     localFile.FileSize = fi.Length;
-                    localFile.FileInfo = fi;
+                    localFile.LastModified = fi.LastWriteTime;
 
                     filesObjects.Add(localFile);
-                }
 
-            } catch (Exception ex)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
-            } finally
-            {
-                //
+
+                }
+                catch (Exception ex)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                }
+                finally
+                {
+                    //
+                }
             }
 
             return filesObjects;
@@ -723,11 +733,13 @@ namespace Win_CBZ
 
                         if (!page.Deleted)
                         {
+                            page.FreeImage();
                             if (ApplyRenaming)
                             {
                                 RenamePageScript(page);
                             }
                             BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
+                            OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         } else
                         {
                             // collect all deleted items
@@ -854,7 +866,7 @@ namespace Win_CBZ
 
             using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
             {
-                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.ReadWrite);
+                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);
                 fileStream.SetLength(fs.Length);
                 int bytesRead = -1;
                 byte[] bytes = new byte[bufferSize];
