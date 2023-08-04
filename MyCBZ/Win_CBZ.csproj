@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
+    <Compile Include="Models\ImageTask.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Win_CBZSettings.cs" />
     <Compile Include="Models\MetaDataEntryPage.cs" />

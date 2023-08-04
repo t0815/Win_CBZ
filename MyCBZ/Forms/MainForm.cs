@@ -570,10 +570,7 @@ namespace Win_CBZ
                     }));
                 }
             }
-            catch (Exception)
-            {
-
-            }
+            catch (Exception) {}
         }
 
 
@@ -589,6 +586,7 @@ namespace Win_CBZ
         {
             switch (state)
             {
+                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
                 case CBZArchiveStatusEvent.ARCHIVE_OPENING:
                     newToolStripMenuItem.Enabled = false;
                     openToolStripMenuItem.Enabled = false;
@@ -599,12 +597,12 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
-                    ToolButtonAddFolder.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -627,27 +625,6 @@ namespace Win_CBZ
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
                     Program.ProjectModel.IsNew = false; 
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
-                    newToolStripMenuItem.Enabled = false;
-                    openToolStripMenuItem.Enabled = false;
-                    ToolButtonNew.Enabled = false;
-                    ToolButtonOpen.Enabled = false;
-                    addFilesToolStripMenuItem.Enabled = false;
-                    ToolButtonAddFiles.Enabled = false;
-                    BtnAddMetaData.Enabled = false;
-                    BtnRemoveMetaData.Enabled = false;
-                    ToolButtonExtractArchive.Enabled = false;
-                    ExtractSelectedPages.Enabled = false;
-                    ToolButtonAddFolder.Enabled = false;
-                    BtnAddMetaData.Enabled = false;
-                    BtnRemoveMetaData.Enabled = false;
-                    CheckBoxDoRenamePages.Enabled = false;
-                    TextboxStoryPageRenamingPattern.Enabled = false;
-                    TextboxSpecialPageRenamingPattern.Enabled = false;
-                    ToolButtonSave.Enabled = false;
-                    saveToolStripMenuItem.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVED:
@@ -734,12 +711,14 @@ namespace Win_CBZ
                     saveToolStripMenuItem.Enabled = false;
                     RemoveMetaData();
                     break;
+
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                     CheckBoxDoRenamePages.Enabled = true;
                     CheckBoxDoRenamePages.Checked = false;
                     ToolButtonSave.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
                     break;
+
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
@@ -1320,10 +1299,18 @@ namespace Win_CBZ
             ListView owner = sender as ListView;
             ListViewItem item = e.Item as ListViewItem;
             Page page = (Page)item.Tag;
-            Pen borderPen = new Pen(Color.LightGray, 2);
+            Pen borderPen;
+            if (e.Item.Selected)
+            {
+                borderPen = new Pen(Color.DodgerBlue, 2);
+            }
+            else
+            {
+                borderPen = new Pen(Color.LightGray, 2);
+            }
             int center = ((e.Bounds.Width + 4) / 2) - ((owner.LargeImageList.ImageSize.Width + 4) / 2);
 
-            Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, owner.LargeImageList.ImageSize.Width + 2, owner.LargeImageList.ImageSize.Height + 2);
+            Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, owner.LargeImageList.ImageSize.Width + 4, owner.LargeImageList.ImageSize.Height + 4);
 
 
             int customItemBoundsW = owner.LargeImageList.ImageSize.Width;
@@ -1337,7 +1324,7 @@ namespace Win_CBZ
                 e.Graphics.DrawRectangle(borderPen, rectangle);
                 if (owner.LargeImageList.Images.IndexOfKey(page.Id) >= 0)
                 {
-                    e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 2));
+                    e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
                 } else
                 {
                     ThumbnailPagesSlice.Add(page);
@@ -1379,6 +1366,14 @@ namespace Win_CBZ
         {
             Program.ProjectModel.RenameSpecialPagePattern = TextboxSpecialPageRenamingPattern.Text;
 
+        }
+
+        private void PictureBoxColorSelect_Click(object sender, EventArgs e)
+        {
+            if (SelectColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                PictureBoxColorSelect.BackColor = SelectColorDialog.Color;
+            }
         }
 
 

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Win_CBZ.Models;
 
 namespace Win_CBZ
 {
@@ -29,6 +30,8 @@ namespace Win_CBZ
         public String EntryName { get; set; } 
 
         public String ImageType { get; set; } = "Story";
+
+        public ImageTask ImageTask { get; set; }
 
         public int Number { get; set; }
 
