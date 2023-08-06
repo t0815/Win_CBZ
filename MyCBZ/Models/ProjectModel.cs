@@ -183,6 +183,7 @@ namespace Win_CBZ
             if (e.State == PipelineEvent.PIPELINE_PAGES_ADDED)
             {
                 FileNamesToAdd.Clear();
+                Files.Clear();
                 Task.Factory.StartNew(() =>
                 {
                     UpdatePageIndices();

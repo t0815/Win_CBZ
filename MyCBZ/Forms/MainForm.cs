@@ -746,7 +746,7 @@ namespace Win_CBZ
 
                 if (SavingTask != null)
                 {
-                    while (ClosingTask.IsAlive)
+                    while (SavingTask.IsAlive)
                     {
                         System.Threading.Thread.Sleep(50);
                     }
