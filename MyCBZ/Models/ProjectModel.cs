@@ -20,6 +20,7 @@ using File = System.IO.File;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.VisualStyles;
+using System.Collections;
 
 namespace Win_CBZ
 {
@@ -61,6 +62,12 @@ namespace Win_CBZ
 
         public BindingList<Page> Pages { get; set; }
 
+        private ArrayList FileNamesToAdd { get; set; }
+
+        private BindingList<LocalFile> Files { get; set; }
+
+        private int MaxFileIndex = 0;
+
         public MetaData MetaData { get; set; }
 
         public long TotalSize { get; set; }
@@ -99,19 +106,90 @@ namespace Win_CBZ
 
         private Random RandomProvider;
 
+        private Thread ProcessAddedFiles;
+
+        private Thread ParseAddedFileNames;
+
 
         public ProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
             Pages = new BindingList<Page>();
+            Files = new BindingList<LocalFile>();
             MetaData = new MetaData(false);
             RandomProvider = new Random();
+            FileNamesToAdd = new ArrayList();
+
+            //Pipeline += HandlePipelene;
 
             ProjectGUID = Guid.NewGuid().ToString();
             if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
             {
-                DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
+                try
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
+                } catch ( Exception e )
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
+                }
             }
+        }
+
+        private void HandlePipelene(PipelineEvent e)
+        {
+            if (e.State == PipelineEvent.PIPELINE_FILES_PARSED)
+            {
+                Task.Factory.StartNew(() =>
+                {
+
+                    if (LoadArchiveThread != null)
+                    {
+                        if (LoadArchiveThread.IsAlive)
+                        {
+                            LoadArchiveThread.Abort();
+                        }
+                    }
+
+                    if (ExtractArchiveThread != null)
+                    {
+                        if (ExtractArchiveThread.IsAlive)
+                        {
+                            ExtractArchiveThread.Abort();
+                        }
+                    }
+
+                    if (PageUpdateThread != null)
+                    {
+                        if (PageUpdateThread.IsAlive)
+                        {
+                            PageUpdateThread.Abort();
+                        }
+                    }
+
+                    if (CloseArchiveThread != null)
+                    {
+                        while (CloseArchiveThread.IsAlive)
+                        {
+                            System.Threading.Thread.Sleep(100);
+                        }
+                    }
+
+                    ProcessAddedFiles = new Thread(new ThreadStart(AddImagesProc));
+                    ProcessAddedFiles.Start();
+
+                });
+            }
+
+            if (e.State == PipelineEvent.PIPELINE_PAGES_ADDED)
+            {
+                FileNamesToAdd.Clear();
+                Task.Factory.StartNew(() =>
+                {
+                    UpdatePageIndices();
+                });
+            }
+
+
         }
 
 
@@ -155,11 +233,22 @@ namespace Win_CBZ
 
                 Pages.Clear();
                 MetaData.Free();
+                MaxFileIndex = 0;
+                Files.Clear();
+                FileNamesToAdd.Clear();
+
 
                 ProjectGUID = Guid.NewGuid().ToString();
                 if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
                 {
-                    DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
+                    try
+                    {
+                        DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
+                    }
                 }
             });
         }
@@ -252,12 +341,13 @@ namespace Win_CBZ
             return ExtractArchiveThread;
         } 
 
-        public void AddImages(List<LocalFile> fileList, int maxIndex = 0)
+        
+        public void AddImagesProc()
         {
-            int index = maxIndex + 1;
+            int index = MaxFileIndex + 1;
             String targetPath = "";
 
-            foreach (LocalFile fileObject in fileList)
+            foreach (LocalFile fileObject in Files)
             {
                 try
                 {
@@ -266,7 +356,7 @@ namespace Win_CBZ
                     this.CopyFile(fileObject.FullPath, targetPath);
 
                     FileInfo fi = new FileInfo(targetPath);
-                                      
+
                     Page page = new Page(fi, FileAccess.ReadWrite);
                     page.Size = fileObject.FileSize;
                     page.Number = index + 1;
@@ -280,14 +370,17 @@ namespace Win_CBZ
                     Pages.Add(page);
 
                     OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
-                    
+                    OnTaskProgress(new TaskProgressEvent(page, index, Files.Count));
+
                     index++;
-                } catch (Exception ef)
+                }
+                catch (Exception ef)
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
-                } finally
+                }
+                finally
                 {
-                    if (index > maxIndex)
+                    if (index > MaxFileIndex)
                     {
                         OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
 
@@ -297,8 +390,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
-
-            UpdatePageIndices();
+            HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
         }
 
         public List<LocalFile> LoadDirectory(String path)
@@ -318,6 +410,7 @@ namespace Win_CBZ
                     localFile.LastModified = fi.LastWriteTime;
 
                     files.Add(localFile);
+
                 }
             } catch (Exception ex)
             {
@@ -330,12 +423,29 @@ namespace Win_CBZ
             return files;
         }
 
-        public List<LocalFile> ParseFiles(List<String> files)
+        public void ParseFiles(List<String> files)
         {
-            List<LocalFile> filesObjects = new List<LocalFile>();
+            
 
+            if (ParseAddedFileNames != null)
+            {
+                if (ParseAddedFileNames.IsAlive)
+                {
+                    ParseAddedFileNames.Abort();
+                }
+            }
 
-            foreach (String fname in files)
+            FileNamesToAdd.Clear();
+            FileNamesToAdd.AddRange(files);
+
+            ParseAddedFileNames = new Thread(new ThreadStart(ParseFilesProc));
+            ParseAddedFileNames.Start();
+        }
+
+        public void ParseFilesProc()
+        {
+            int index = 0;
+            foreach (String fname in FileNamesToAdd)
             {
 
                 try
@@ -348,9 +458,11 @@ namespace Win_CBZ
                     localFile.FileSize = fi.Length;
                     localFile.LastModified = fi.LastWriteTime;
 
-                    filesObjects.Add(localFile);
+                    Files.Add(localFile);
 
+                    index++;
 
+                    OnTaskProgress(new TaskProgressEvent(null, index, FileNamesToAdd.Count));
                 }
                 catch (Exception ex)
                 {
@@ -362,7 +474,7 @@ namespace Win_CBZ
                 }
             }
 
-            return filesObjects;
+            HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
         }
 
         public int RemoveDeletedPages()
@@ -400,7 +512,8 @@ namespace Win_CBZ
             {
                 if (PageUpdateThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort(); ;
+                    //PageUpdateThread.Abort();
+                    return;
                 }
             }
 
@@ -607,6 +720,14 @@ namespace Win_CBZ
                 if (LoadArchiveThread.IsAlive)
                 {
                     LoadArchiveThread.Abort();
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+                    return null;
                 }
             }
 

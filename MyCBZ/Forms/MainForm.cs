@@ -860,17 +860,16 @@ namespace Win_CBZ
         {
 
             DialogResult openImageResult = OpenImagesDialog.ShowDialog();
-            List<LocalFile> files = new List<LocalFile>();
 
             if (openImageResult == DialogResult.OK)
             {
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
-                files = Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
-                if (files.Count > 0)
-                {
-                    Program.ProjectModel.AddImages(files, newIndex);
-                }
+                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
+                //if (files.Count > 0)
+                //{
+                //    Program.ProjectModel.AddImages(files, newIndex);
+                //}
 
             }
         }
