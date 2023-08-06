@@ -203,6 +203,19 @@ namespace Win_CBZ
                     item.Tag = e.Image;
                     item.BackColor = Color.White;
 
+                    switch (e.State)
+                    {
+                        case PageChangedEvent.IMAGE_STATUS_DELETED:
+                            e.Image.Deleted = true; 
+                            break;
+                        case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
+                            e.Image.Compressed = true; 
+                            break;
+                        case PageChangedEvent.IMAGE_STATUS_CHANGED:
+                            e.Image.Changed = true;
+                            break;
+                    }
+
                     if (!e.Image.Compressed)
                     {
                         item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
@@ -478,7 +491,10 @@ namespace Win_CBZ
                 {
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
-                        toolStripProgressBar.Value = 0;
+                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED)
+                        {
+                            toolStripProgressBar.Value = 0;
+                        }
                     }));
                 }
             } catch (Exception)
@@ -514,6 +530,7 @@ namespace Win_CBZ
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
+                    info = "Adding image...";
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
@@ -530,7 +547,7 @@ namespace Win_CBZ
                         applicationStatusLabel.Text = info;
                         Program.ProjectModel.ArchiveState = e.State;
 
-                        DisableControllsForArchiveState(e.State);
+                        DisableControllsForArchiveState(e.ArchiveInfo, e.State);
                     }));
                 //}
             } catch (Exception)
@@ -582,7 +599,7 @@ namespace Win_CBZ
             }
         }
 
-        private void DisableControllsForArchiveState(int state) 
+        private void DisableControllsForArchiveState(ProjectModel project, int state) 
         {
             switch (state)
             {
@@ -715,8 +732,11 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                     CheckBoxDoRenamePages.Enabled = true;
                     CheckBoxDoRenamePages.Checked = false;
-                    ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
+                    if (project.FileName != null)
+                    {
+                        ToolButtonSave.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                    }
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
@@ -725,8 +745,11 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
                 case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
                 case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
-                    ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;                   
+                    if (project.FileName != null)
+                    {
+                        ToolButtonSave.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                    }
                     break;
 
             }

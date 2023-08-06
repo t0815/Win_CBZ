@@ -18,9 +18,10 @@ namespace Win_CBZ
 {
     internal class MetaData
     {
-        protected static readonly String[] DefaultProperties = { "Series", "Number", "Web",
+        protected static readonly String[] DefaultProperties = { "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "Web",
         "Summary", "Notes", "Publisher", "Imprint", "Genre", "PageCount", "LanguageISO",
-        "Author", "Title", "Year", "Month", "Day", "AgeRating", "Characters"};
+        "Author", "Writer", "Imprint", "Title", "Year", "Month", "Day", "AgeRating", "Characters", "BlackAndWhite", "SeriesGroup",
+        "Review", "CommunityRating"};
 
         public List<String> CustomDefaultProperties { get; set; }
 

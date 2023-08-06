@@ -68,6 +68,8 @@ namespace Win_CBZ
 
         private int MaxFileIndex = 0;
 
+        private bool InitialPageIndexRebuild = false;
+
         public MetaData MetaData { get; set; }
 
         public long TotalSize { get; set; }
@@ -184,6 +186,7 @@ namespace Win_CBZ
             {
                 FileNamesToAdd.Clear();
                 Files.Clear();
+                InitialPageIndexRebuild = true;
                 Task.Factory.StartNew(() =>
                 {
                     UpdatePageIndices();
@@ -541,7 +544,10 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
-                OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                if (!InitialPageIndexRebuild)
+                {
+                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                }
                 OnTaskProgress(new TaskProgressEvent(page, updated, Pages.Count));
                 OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
@@ -552,6 +558,8 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+
+            InitialPageIndexRebuild = false;
         }
 
         public Page GetPageById(String id)
