@@ -10,6 +10,7 @@ namespace Win_CBZ
     {
         public const int PIPELINE_FILES_PARSED = 0;
         public const int PIPELINE_PAGES_ADDED = 1;
+        public const int PIPELINE_SAVE_REQUESTED = 2;
 
 
         public ProjectModel ArchiveInfo { get; set; }

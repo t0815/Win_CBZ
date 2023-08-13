@@ -212,6 +212,7 @@ namespace Win_CBZ
                             e.Image.Compressed = true; 
                             break;
                         case PageChangedEvent.IMAGE_STATUS_CHANGED:
+                        case PageChangedEvent.IMAGE_STATUS_RENAMED:
                             e.Image.Changed = true;
                             break;
                     }
@@ -250,7 +251,7 @@ namespace Win_CBZ
         {
             foreach (ListViewItem item in owner.Items)
             {
-                if (item.Tag.Equals(page))
+                if (((Page) item.Tag).Id.Equals(page.Id))
                 {
                     return item;
                 }
@@ -467,7 +468,7 @@ namespace Win_CBZ
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
                         toolStripProgressBar.Maximum = e.Total;
-                        if (e.Current > -1)
+                        if (e.Current > -1 && e.Current <= e.Total)
                         {
                             toolStripProgressBar.Value = e.Current;
                         }
@@ -546,6 +547,7 @@ namespace Win_CBZ
                         fileNameLabel.Text = filename;
                         applicationStatusLabel.Text = info;
                         Program.ProjectModel.ArchiveState = e.State;
+                        pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
 
                         DisableControllsForArchiveState(e.ArchiveInfo, e.State);
                     }));
@@ -908,6 +910,7 @@ namespace Win_CBZ
                     {
                         Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
                         PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), PageChangedEvent.IMAGE_STATUS_RENAMED));
+                        ArchiveStateChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
                     }
                     catch (PageDuplicateNameException eduplicate)
                     {                      
@@ -957,37 +960,46 @@ namespace Win_CBZ
                 newItem = item;
                 pageOriginal = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
                 pageNew = FindListViewItemForPage(PageView, (Page)item.Tag);
+                
                 IndexOldItem = item.Index;
                 PagesList.Items.Remove(originalItem);
                 PagesList.Items.Remove(item);
-                PageView.Items.Remove(pageOriginal);
-                PageView.Items.Remove(pageNew);
+                if (pageNew != null && pageOriginal != null)
+                {
+                    PageView.Items.Remove(pageOriginal);
+                    PageView.Items.Remove(pageNew);
+                }
+
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
                 Program.ProjectModel.Pages.Remove((Page)item.Tag);
                 if (direction == 1)
                 {
                     PagesList.Items.Insert(newIndex, item);
                     PagesList.Items.Insert(IndexOldItem, originalItem);
-                    PageView.Items.Insert(newIndex, pageNew);
-                    PageView.Items.Insert(IndexOldItem, pageOriginal);
+                    if (pageNew != null && pageOriginal != null)
+                    {
+                        PageView.Items.Insert(newIndex, pageNew);
+                        PageView.Items.Insert(IndexOldItem, pageOriginal);
+                    }
                     Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
                     Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                } else
+                }
+                else
                 {
                     PagesList.Items.Insert(IndexOldItem, originalItem);
                     PagesList.Items.Insert(newIndex, item);
                     PageView.Items.Insert(IndexOldItem, pageOriginal);
                     PageView.Items.Insert(newIndex, pageNew);
                     Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                    Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);             
+                    Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
                 }
-              
+
                 //Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
                 //Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
                 newIndex += direction;
             }
 
-            Program.ProjectModel.UpdatePageIndices();
+            //Program.ProjectModel.UpdatePageIndices();
             Program.ProjectModel.IsChanged = true;
         }
 
@@ -1158,7 +1170,7 @@ namespace Win_CBZ
                     img.BackColor = Color.Transparent;
                 }
 
-                Program.ProjectModel.UpdatePageIndices();
+                //Program.ProjectModel.UpdatePageIndices();
             }   
         }      
 
@@ -1398,6 +1410,20 @@ namespace Win_CBZ
             {
                 PictureBoxColorSelect.BackColor = SelectColorDialog.Color;
             }
+        }
+
+        private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try { 
+                FileInfo fi = new FileInfo(Program.ProjectModel.FileName);
+                Program.ProjectModel.IsChanged = true;
+
+                if (fi.Exists)
+                {
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                }
+            } catch (Exception) {  }
         }
 
 

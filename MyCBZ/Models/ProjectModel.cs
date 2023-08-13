@@ -348,8 +348,9 @@ namespace Win_CBZ
         
         public void AddImagesProc()
         {
-            int index = MaxFileIndex + 1;
+            int index = MaxFileIndex;
             String targetPath = "";
+            Page page = null;
 
             foreach (LocalFile fileObject in Files)
             {
@@ -360,18 +361,29 @@ namespace Win_CBZ
                     this.CopyFile(fileObject.FullPath, targetPath);
 
                     FileInfo fi = new FileInfo(targetPath);
+                    page = GetPageByName(fileObject.FileName);
 
-                    Page page = new Page(fi, FileAccess.ReadWrite);
-                    page.Size = fileObject.FileSize;
-                    page.Number = index + 1;
-                    page.Index = index;
+                    if (page == null)
+                    {
+                        page = new Page(fi, FileAccess.ReadWrite);
+                        page.Number = index + 1;
+                        page.Index = index;
+                    } else
+                    {
+                        page.Changed = true;
+                    }
+                     
+                    page.Size = fileObject.FileSize;                 
                     page.LocalPath = fileObject.FullPath;
                     page.Compressed = false;
                     page.LastModified = fileObject.LastModified;
                     page.Name = fileObject.FileName;
                     page.TempPath = fi.FullName;
 
-                    Pages.Add(page);
+                    if (!page.Changed)
+                    {
+                        Pages.Add(page);
+                    }
 
                     OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
                     OnTaskProgress(new TaskProgressEvent(page, index, Files.Count));
@@ -389,6 +401,7 @@ namespace Win_CBZ
                         OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
 
                         this.IsChanged = true;
+                        MaxFileIndex = index;
                     }
                 }
             }
@@ -474,7 +487,7 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    //
+                    //MaxFileIndex = index;
                 }
             }
 
@@ -531,20 +544,26 @@ namespace Win_CBZ
         {
             int newIndex = 0;
             int updated = 1;
+            bool isUpdated = false;
             foreach (Page page in Pages)
             {
                 if (page.Deleted)
                 {
                     page.Index = -1;
                     page.Number = -1;
+                    isUpdated = true;
                 } else
                 {
+                    if (page.Index != newIndex)
+                    {
+                        isUpdated = true;
+                    }
                     page.Index = newIndex;
                     page.Number = newIndex + 1;
                     newIndex++;
                 }
 
-                if (!InitialPageIndexRebuild)
+                if (!InitialPageIndexRebuild && isUpdated)
                 {
                     OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
@@ -552,10 +571,13 @@ namespace Win_CBZ
                 OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                 this.IsChanged = true;
+                isUpdated = false;
                 updated++;
 
                 Thread.Sleep(50);
             }
+
+            MaxFileIndex = newIndex;
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
 
@@ -567,6 +589,19 @@ namespace Win_CBZ
             foreach (Page page1 in Pages)
             {
                 if (page1.Id == id)
+                {
+                    return page1;
+                }
+            }
+
+            return null;
+        }
+
+        public Page GetPageByName(String name)
+        {
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Name == name)
                 {
                     return page1;
                 }
@@ -815,6 +850,7 @@ namespace Win_CBZ
             }
 
             FileSize = totalSize;
+            MaxFileIndex = index;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
         }
@@ -839,6 +875,7 @@ namespace Win_CBZ
             TemporaryFileName = MakeNewTempFileName("", ".cbz").FullName;
 
             ZipArchive BuildingArchive = null;
+            ZipArchiveEntry updatedEntry = null;
             try
             {
                 BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
@@ -868,7 +905,10 @@ namespace Win_CBZ
                             {
                                 RenamePageScript(page);
                             }
-                            BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
+                            updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
+                            page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
+                            page.Changed = false;
+                          
                             OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         } else
                         {
@@ -881,7 +921,7 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath +"] to Archive [" + efile.Message + "]");
                     } finally
                     {
-                        Thread.Sleep(50);
+                        Thread.Sleep(10);
                     }
 
                     OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
@@ -1072,7 +1112,7 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
                     } finally
                     {
-                        Thread.Sleep(50);
+                        Thread.Sleep(10);
                     }
 
                 }

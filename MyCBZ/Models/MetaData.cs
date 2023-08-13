@@ -19,7 +19,7 @@ namespace Win_CBZ
     internal class MetaData
     {
         protected static readonly String[] DefaultProperties = { "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "Web",
-        "Summary", "Notes", "Publisher", "Imprint", "Genre", "PageCount", "LanguageISO",
+        "Summary", "Notes", "Publisher", "Imprint", "Genre", "Tags", "PageCount", "LanguageISO",
         "Author", "Writer", "Imprint", "Title", "Year", "Month", "Day", "AgeRating", "Characters", "BlackAndWhite", "SeriesGroup",
         "Review", "CommunityRating"};
 

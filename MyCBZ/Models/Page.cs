@@ -150,6 +150,7 @@ namespace Win_CBZ
             ImageStream = fileInputStream;
             Name = name;
             EntryName = name;
+            Size = fileInputStream.Length;
             Id = Guid.NewGuid().ToString();
         }
 
@@ -159,9 +160,33 @@ namespace Win_CBZ
             Name = name;
             EntryName = name;
             Compressed = true;
+            Size = zipInputStream.Length;
             Id = Guid.NewGuid().ToString();
         }
 
+        public void UpdatePage(Page page)
+        {
+            Compressed = page.Compressed;
+            Filename = page.Filename;
+            Name = page.Name;
+            EntryName = page.EntryName;
+            Size = page.Size;
+            Id = Guid.NewGuid().ToString();
+            TemporaryFileId = page.TemporaryFileId;
+        }
+
+        public void UpdateImageEntry(ZipArchiveEntry entry, String randomId)
+        {
+            ImageEntry = entry;
+            Compressed = true;
+
+            Filename = entry.FullName;
+            Name = entry.Name;
+            //Size = entry.Length;
+            LastModified = entry.LastWriteTime;
+            Id = Guid.NewGuid().ToString();
+            TemporaryFileId = randomId;
+        }
 
         protected bool RemoveReadOnlyAttribute(ref FileInfo ImageFileInfo)
         {
