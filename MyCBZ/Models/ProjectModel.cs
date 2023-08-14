@@ -911,6 +911,22 @@ namespace Win_CBZ
             {
                 BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
+                // Apply renaming rules
+                if (ApplyRenaming)
+                {
+                    foreach (Page page in Pages)
+                    {
+                        try
+                        {
+                            RenamePageScript(page);
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
+                    }
+                }
+
                 // Rebuild ComicInfo.xml's PageIndex
                 MetaData.RebuildPageMetaData(Pages.ToList<Page>());
 
@@ -932,10 +948,7 @@ namespace Win_CBZ
                         if (!page.Deleted)
                         {
                             page.FreeImage();
-                            if (ApplyRenaming)
-                            {
-                                RenamePageScript(page);
-                            }
+                            
                             updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
                             page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
                             page.Changed = false;
