@@ -13,6 +13,8 @@ using Win_CBZ.Forms;
 using System.Threading;
 using System.IO;
 using System.Collections.Specialized;
+using System.Net.NetworkInformation;
+using System.Collections;
 
 namespace Win_CBZ
 {
@@ -403,6 +405,7 @@ namespace Win_CBZ
 
                 BtnAddMetaData.Enabled = false;
                 BtnRemoveMetaData.Enabled = true;
+                toolStripButtonShowRawMetadata.Enabled = true;
                 DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
                 if (firstCol != null)
                 {
@@ -622,6 +625,7 @@ namespace Win_CBZ
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    toolStripButtonShowRawMetadata.Enabled = false;
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -637,6 +641,7 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                    toolStripButtonShowRawMetadata.Enabled = true;
                     //TextboxStoryPageRenamingPattern.Enabled = true;
                     //TextboxSpecialPageRenamingPattern.Enabled = true;
                     CheckBoxDoRenamePages.Enabled = true;
@@ -661,6 +666,7 @@ namespace Win_CBZ
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    toolStripButtonShowRawMetadata.Enabled = true;
                     ExtractSelectedPages.Enabled = true;
                     Program.ProjectModel.IsNew = false;
                     Program.ProjectModel.IsSaved = true;
@@ -705,6 +711,7 @@ namespace Win_CBZ
                     ExtractSelectedPages.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    toolStripButtonShowRawMetadata.Enabled = false;
                     RemoveMetaData();
                     break;
 
@@ -728,6 +735,7 @@ namespace Win_CBZ
                     CheckBoxDoRenamePages.Checked = false;
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
+                    toolStripButtonShowRawMetadata.Enabled = false;
                     RemoveMetaData();
                     break;
 
@@ -1028,6 +1036,7 @@ namespace Win_CBZ
             BtnRemoveMetaData.Enabled = true;
             AddMetaDataRowBtn.Enabled = true;
             RemoveMetadataRowBtn.Enabled = false;
+            toolStripButtonShowRawMetadata.Enabled = true;
         }
 
         private void RemoveMetaData() 
@@ -1041,6 +1050,7 @@ namespace Win_CBZ
                 BtnRemoveMetaData.Enabled = false;
                 AddMetaDataRowBtn.Enabled = false;
                 RemoveMetadataRowBtn.Enabled = false;
+                toolStripButtonShowRawMetadata.Enabled = false;
             }
         }
 
@@ -1424,6 +1434,17 @@ namespace Win_CBZ
                     saveToolStripMenuItem.Enabled = true;
                 }
             } catch (Exception) {  }
+        }
+
+        private void toolStripButtonShowRawMetadata_Click(object sender, EventArgs e)
+        {
+            MemoryStream ms = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
+            var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+            String metaData = utf8WithoutBom.GetString(ms.ToArray());
+       
+            MetaDataForm metaDataDialog = new MetaDataForm(metaData);
+            metaDataDialog.ShowDialog();
+
         }
 
 

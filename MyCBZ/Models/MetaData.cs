@@ -121,12 +121,15 @@ namespace Win_CBZ
         }
 
 
-        public MemoryStream BuildComicInfoXMLStream()
+        public MemoryStream BuildComicInfoXMLStream(bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();
-            XmlWriter xmlWriter = XmlWriter.Create(ms);
-
-            xmlWriter.WriteStartDocument();
+            XmlWriterSettings writerSettings = new XmlWriterSettings();
+            writerSettings.OmitXmlDeclaration = withoutXMLHeaderTag;
+            XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
+             
+                xmlWriter.WriteStartDocument();
+            
             xmlWriter.WriteStartElement("ComicInfo");
             foreach (MetaDataEntry entry in Values)
             {
@@ -142,8 +145,14 @@ namespace Win_CBZ
                 }
                 xmlWriter.WriteEndElement();
             }
+
             xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndDocument();
+
+            //if (!withoutXMLHeaderTag)
+            //{
+                xmlWriter.WriteEndDocument();
+            //}
+
             xmlWriter.Close();
 
             ms.Position = 0;

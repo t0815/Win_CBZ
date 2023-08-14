@@ -630,7 +630,10 @@ namespace Win_CBZ
             {
                 if (page.OriginalName != null && page.OriginalName != "")
                 {
-                    RenamePage(page, page.OriginalName);
+                    try
+                    {
+                        RenamePage(page, page.OriginalName);
+                    } catch (PageDuplicateNameException) { }
                    
                     OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
                 }
@@ -694,7 +697,12 @@ namespace Win_CBZ
                             page.OriginalName = oldName;
                         }
 
-                        RenamePage(page, newName);
+                        try
+                        {
+                            RenamePage(page, newName);
+                        } catch (PageDuplicateNameException) {
+                            return oldName;
+                        }
                     }
                 }
             }
@@ -741,8 +749,13 @@ namespace Win_CBZ
             switch (imageType.ToLower())
             {
                 case "frontcover":
-
                     return "cover";
+
+                case "backcover":
+                    return "cover_b_";
+
+                case "innercover":
+                    return "cover_i_";
 
                 default:
                     return imageType;

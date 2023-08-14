@@ -82,7 +82,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{type}_{index}.{ext}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{type}_{page}.{ext}")]
         public string SpecialPageRenamePattern {
             get {
                 return ((string)(this["SpecialPageRenamePattern"]));
