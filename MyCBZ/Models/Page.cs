@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Models;
+using System.Xml.Linq;
 
 namespace Win_CBZ
 {
@@ -28,6 +29,8 @@ namespace Win_CBZ
         public String OriginalName { get; set; }
 
         public String EntryName { get; set; } 
+
+        public String FileExtension { get; set; }
 
         public String ImageType { get; set; } = "Story";
 
@@ -54,6 +57,8 @@ namespace Win_CBZ
         public bool Selected { get; set; }
 
         public bool Invalidated { get; set; }
+
+        public bool Closed { get; set; }
 
         public bool ThumbnailInvalidated { get; set; }
 
@@ -92,7 +97,8 @@ namespace Win_CBZ
                 RemoveReadOnlyAttribute(ref ImageFileInfo);
             }
             FileStream ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
-            Filename = ImageFileInfo.Name;       
+            Filename = ImageFileInfo.Name;
+            FileExtension = ImageFileInfo.Extension;
             LocalPath = ImageFileInfo.Directory.FullName;               
             Name = ImageFileInfo.Name;
             LastModified = ImageFileInfo.LastWriteTime;
@@ -123,6 +129,7 @@ namespace Win_CBZ
             }
 
             Filename = ImageFileInfo.FullName;
+            FileExtension = ImageFileInfo.Extension;
             LocalPath = ImageFileInfo.Directory.FullName;
             Name = ImageFileInfo.Name;
             Size = ImageFileInfo.Length;
@@ -136,6 +143,7 @@ namespace Win_CBZ
             Compressed = true;
 
             Filename = entry.FullName;
+            FileExtension = ExtractFileExtension(entry.Name);
             Name = entry.Name;
             Size = entry.Length;
             LastModified = entry.LastWriteTime;
@@ -147,12 +155,26 @@ namespace Win_CBZ
 
         public Page(Stream fileInputStream, String name)
         {
+            string[] entryExtensionParts = name.Split('.');
+
             ImageStream = fileInputStream;
             Name = name;
             EntryName = name;
+            FileExtension = ExtractFileExtension(name);
             Size = fileInputStream.Length;
             Id = Guid.NewGuid().ToString();
         }
+
+
+        public string ExtractFileExtension(String fileName)
+        {
+            string[] entryExtensionParts = fileName.Split('.');
+
+            if (entryExtensionParts.Length == 0) return null;
+
+            else return entryExtensionParts.Last<string>();
+        }
+
 
         public Page(GZipStream zipInputStream, String name)
         {
@@ -197,6 +219,15 @@ namespace Win_CBZ
             return !ImageFileInfo.IsReadOnly;
         }
 
+        public void Close()
+        {
+            FreeImage();
+            DeleteTemporaryFile();
+            
+            ImageFileInfo = null;
+            this.Closed = true;
+        }
+
         protected void RequestTemporaryFile()
         {
             if (Compressed)
@@ -239,7 +270,10 @@ namespace Win_CBZ
                     
                 }
 
-                ImageStream.Close();
+                if (ImageStream != null)
+                {
+                    ImageStream.Close();
+                }
                 File.Delete(TempPath);
             }
         }
@@ -254,14 +288,20 @@ namespace Win_CBZ
 
         public Image GetImage()
         {
-            this.LoadImage();
+            if (!Closed)
+            {
+                this.LoadImage();
+            }
 
             return Image;
         }
 
         public Image GetThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
         {
-            this.LoadImage();
+            if (!Closed)
+            {
+                this.LoadImage();
+            }
 
             Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
 
@@ -320,30 +360,34 @@ namespace Win_CBZ
 
         private void LoadImage()
         {
-            if (Image == null && ImageStream != null && ImageStream.CanRead)
+            if (!Closed)
             {
-                Image = Image.FromStream(ImageStream);
-            }
-
-            if (Image == null)
-            {
-                RequestTemporaryFile();
-                ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
-                Image = Image.FromStream(ImageStream);  
-            }
-
-            if (Image != null)
-            {
-                if (!Image.Size.IsEmpty)
+                if (Image == null && ImageStream != null && ImageStream.CanRead)
                 {
-                    W = Image.Width;
-                    H = Image.Height;
+                    Image = Image.FromStream(ImageStream);
                 }
 
-                ImageStream.Close();
-            } else
-            {
-                throw new Exception("Failed to load/extract image!");
+                if (Image == null)
+                {
+                    RequestTemporaryFile();
+                    ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
+                    Image = Image.FromStream(ImageStream);
+                }
+
+                if (Image != null)
+                {
+                    if (!Image.Size.IsEmpty)
+                    {
+                        W = Image.Width;
+                        H = Image.Height;
+                    }
+
+                    ImageStream.Close();
+                }
+                else
+                {
+                    throw new Exception("Failed to load/extract image!");
+                }
             }
         }
 

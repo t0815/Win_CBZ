@@ -480,6 +480,8 @@ namespace Win_CBZ
                     index++;
 
                     OnTaskProgress(new TaskProgressEvent(null, index, FileNamesToAdd.Count));
+
+                    Thread.Sleep(10);
                 }
                 catch (Exception ex)
                 {
@@ -708,6 +710,9 @@ namespace Win_CBZ
                 case "{name}":
                     return page.EntryName;
 
+                case "{ext}":
+                    return page.FileExtension;
+
                 case "{index}":
                     return page.Index.ToString();
 
@@ -721,13 +726,26 @@ namespace Win_CBZ
                     return page.Size.ToString();
 
                 case "{type}":
-                    return page.ImageType.ToString();
+                    return TransformImageType(page.ImageType.ToString());
 
                 default:
                     return MetaData.ValueForKey(placeholder.ToLower().Trim('{', '}'));
 
                     /*
                         { type} */
+            }
+        }
+
+        protected String TransformImageType(String imageType)
+        {
+            switch (imageType.ToLower())
+            {
+                case "frontcover":
+
+                    return "cover";
+
+                default:
+                    return imageType;
             }
         }
 
@@ -842,7 +860,7 @@ namespace Win_CBZ
                         index++;
                     }
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(10);
                 }
             } catch (Exception e)
             {
@@ -1155,12 +1173,13 @@ namespace Win_CBZ
 
             FileSize = 0;
             FileName = "";
+            MaxFileIndex = 0;
             foreach (Page page in Pages)
             {
-                page.FreeImage();
+                page.Close();
                 OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
                 OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
 
             Pages.Clear();

@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.8.14b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.8.17b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -50,6 +50,7 @@ namespace Win_CBZ {
 <ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
   <string>{name}</string>
   <string>{title}</string>
+  <string>{ext}</string>
   <string>{page}</string>
   <string>{pages}</string>
   <string>{index}</string>
@@ -69,7 +70,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{title}_p{page}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("p_{page}.{ext}")]
         public string StoryPageRenamePattern {
             get {
                 return ((string)(this["StoryPageRenamePattern"]));
@@ -81,7 +82,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{type}_{index}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{type}_{index}.{ext}")]
         public string SpecialPageRenamePattern {
             get {
                 return ((string)(this["SpecialPageRenamePattern"]));
