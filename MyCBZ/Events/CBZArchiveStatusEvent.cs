@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Win_CBZ
+﻿namespace Win_CBZ
 {
     internal class CBZArchiveStatusEvent
     {
@@ -24,8 +18,7 @@ namespace Win_CBZ
         public const int ARCHIVE_METADATA_ADDED = 13;
         public const int ARCHIVE_METADATA_CHANGED = 14;
         public const int ARCHIVE_METADATA_DELETED = 15;
-        public const int ARCHIVE_RENAME_SCRIPT_RUNNING = 16;
-        public const int ARCHIVE_RENAME_SCRIPT_COMPLETED = 17;
+        
 
         public ProjectModel ArchiveInfo { get; set; }
 

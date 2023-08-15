@@ -12,6 +12,7 @@ using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Models;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Win_CBZ
 {
@@ -219,6 +220,7 @@ namespace Win_CBZ
             return !ImageFileInfo.IsReadOnly;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Close()
         {
             FreeImage();
@@ -274,6 +276,7 @@ namespace Win_CBZ
                 {
                     ImageStream.Close();
                 }
+
                 File.Delete(TempPath);
             }
         }

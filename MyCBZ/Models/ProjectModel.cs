@@ -84,6 +84,8 @@ namespace Win_CBZ
 
         public event EventHandler<PageChangedEvent> PageChanged;
 
+        public event EventHandler<ApplicationStatusEvent> ApplicationStateChanged;
+
         public event EventHandler<CBZArchiveStatusEvent> ArchiveStatusChanged;
 
         public event EventHandler<MetaDataLoadEvent> MetaDataLoaded;
@@ -517,6 +519,8 @@ namespace Win_CBZ
 
         public void ParseFilesProc()
         {
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
+
             int index = 0;
             foreach (String fname in FileNamesToAdd)
             {
@@ -722,7 +726,8 @@ namespace Win_CBZ
 
         public void AutoRenameAllPagesProc()
         {
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
+
             foreach (Page page in Pages)
             {
                 if (RenamerExcludes.IndexOf(page.Name) == -1)
@@ -734,7 +739,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         public Thread RestoreOriginalNames()
@@ -791,7 +796,7 @@ namespace Win_CBZ
 
         public void RestoreOriginalNamesProc()
         {
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
 
             foreach (Page page in Pages)
             {
@@ -811,7 +816,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -1063,7 +1068,7 @@ namespace Win_CBZ
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RunRenameScriptsForPages()
         {
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
 
             foreach (Page page in Pages)
             {
@@ -1377,13 +1382,17 @@ namespace Win_CBZ
             MaxFileIndex = 0;
             foreach (Page page in Pages)
             {
-                page.Close();
+                try { 
+                    page.Close();
+                } catch (Exception e) 
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error freeing page [" + page.Name + "] with message [" + e.Message + "]");
+                }
                 OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
                 OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
                 Thread.Sleep(10);
             }
 
-            Pages.Clear();
             Name = "";
             FileName = "";
             IsSaved = false;
@@ -1474,6 +1483,11 @@ namespace Win_CBZ
         protected virtual void OnArchiveStatusChanged(CBZArchiveStatusEvent e)
         {
             ArchiveStatusChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnApplicationStateChanged(ApplicationStatusEvent e)
+        {
+            ApplicationStateChanged?.Invoke(this, e);
         }
 
         protected virtual void OnMetaDataLoaded(MetaDataLoadEvent e)

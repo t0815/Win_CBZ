@@ -62,6 +62,7 @@ namespace Win_CBZ
             newProjectModel.OperationFinished += OperationFinished;
             newProjectModel.FileOperation += FileOperationHandler;
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
+            newProjectModel.ApplicationStateChanged += ApplicationStateChanged;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -486,89 +487,7 @@ namespace Win_CBZ
             }
         }
 
-        private void ArchiveStateChanged(object sender, CBZArchiveStatusEvent e)
-        {
-            String info = "Ready.";
-            String filename = e.ArchiveInfo.FileName;
-
-            try
-            {
-                if (!WindowClosed)
-                {
-                    toolStripProgressBar.Control.Invoke(new Action(() =>
-                    {
-                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED)
-                        {
-                            toolStripProgressBar.Value = 0;
-                        }
-                    }));
-                }
-            } catch (Exception)
-            {
-                //
-            }
-
-            switch (e.State)
-            {
-                case CBZArchiveStatusEvent.ARCHIVE_OPENED:
-                    info = "Ready.";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_OPENING:
-                    info = "Reading archive...";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
-                    filename = "";
-                    info = "Ready.";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
-                    info = "Closing file...";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_SAVED:
-                    info = "Ready.";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
-                    info = "Writing archive...";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
-                    info = "Adding image...";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
-                    info = "Renaming image...";
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED:
-                    info = "Ready.";
-                    break;
-            }
-          
-            try
-            {
-                //if (this.InvokeRequired)
-                //{
-                    this.Invoke(new Action(() =>
-                    {
-                        fileNameLabel.Text = filename;
-                        applicationStatusLabel.Text = info;
-                        Program.ProjectModel.ArchiveState = e.State;
-                        pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
-
-                        DisableControllsForArchiveState(e.ArchiveInfo, e.State);
-                    }));
-                //}
-            } catch (Exception)
-            {
-
-            }
-        }
-
-
+        
         private void MessageLogged(object sender, LogMessageEvent e)
         {
             try
@@ -610,6 +529,161 @@ namespace Win_CBZ
                 Program.ProjectModel.New();
             }
         }
+
+
+        private void ApplicationStateChanged(object sender, ApplicationStatusEvent e)
+        {
+            String info = "Ready.";
+            String filename = e.ArchiveInfo.FileName;
+
+            switch (e.State)
+            {
+                case ApplicationStatusEvent.STATE_ANALYZING:
+                    info = "Analyzing images...";
+                    break;
+
+                default:
+                    break;
+            }
+
+                    try
+            {
+                //if (this.InvokeRequired)
+                //{
+                this.Invoke(new Action(() =>
+                {
+                    fileNameLabel.Text = filename;
+                    applicationStatusLabel.Text = info;
+                    Program.ProjectModel.ArchiveState = e.State;
+                    pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+
+                    DisableControllsForApplicationState(e.ArchiveInfo, e.State);
+                }));
+                //}
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
+        private void DisableControllsForApplicationState(ProjectModel project, int state)
+        {
+            switch (state)
+            {
+                case ApplicationStatusEvent.STATE_READY:
+
+                    break;
+
+                case ApplicationStatusEvent.STATE_OPENING:
+                    
+                    break;
+
+                case ApplicationStatusEvent.STATE_CLOSING:
+                    
+                    break;
+
+                case ApplicationStatusEvent.STATE_ADDING:
+                    
+                    break;
+
+                case ApplicationStatusEvent.STATE_DELETING:
+                    
+                    break;
+
+                case ApplicationStatusEvent.STATE_RENAMING:
+                    
+                    break;
+
+                case ApplicationStatusEvent.STATE_ANALYZING:
+                    
+                    break;
+
+            }
+        }
+
+
+        private void ArchiveStateChanged(object sender, CBZArchiveStatusEvent e)
+        {
+            String info = "Ready.";
+            String filename = e.ArchiveInfo.FileName;
+
+            try
+            {
+                if (!WindowClosed)
+                {
+                    toolStripProgressBar.Control.Invoke(new Action(() =>
+                    {
+                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED)
+                        {
+                            toolStripProgressBar.Value = 0;
+                        }
+                    }));
+                }
+            }
+            catch (Exception)
+            {
+                //
+            }
+
+            switch (e.State)
+            {
+                case CBZArchiveStatusEvent.ARCHIVE_OPENED:
+                    info = "Ready.";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_OPENING:
+                    info = "Reading archive...";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
+                    filename = "";
+                    info = "Ready.";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
+                    info = "Closing file...";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_SAVED:
+                    info = "Ready.";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
+                    info = "Writing archive...";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
+                    info = "Adding image...";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
+                    info = "Renaming page...";
+                    break;
+            }
+
+            try
+            {
+                //if (this.InvokeRequired)
+                //{
+                this.Invoke(new Action(() =>
+                {
+                    fileNameLabel.Text = filename;
+                    applicationStatusLabel.Text = info;
+                    Program.ProjectModel.ArchiveState = e.State;
+                    pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+
+                    DisableControllsForArchiveState(e.ArchiveInfo, e.State);
+                }));
+                //}
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+     
 
         private void DisableControllsForArchiveState(ProjectModel project, int state) 
         {
@@ -768,14 +842,6 @@ namespace Win_CBZ
                         saveToolStripMenuItem.Enabled = true;
                     }
                     break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING:
-
-                    break;
-                case CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED:
-
-                    break;
-
             }
         }
 
