@@ -96,6 +96,7 @@ namespace Win_CBZ
                     PlaceholdersFlowPanel.Controls.Add(placeholderLabel);
                 }
 
+                /*
                 Label fnLabel;
                 foreach (String fn in Win_CBZSettings.Default.RenamerFunctions)
                 {
@@ -106,12 +107,13 @@ namespace Win_CBZ
                     fnLabel.Font = new Font(fnLabel.Font.Name, 10, fnLabel.Font.Style, fnLabel.Font.Unit);
                     FunctionsFlowPanel.Controls.Add(fnLabel);
                 }
+                */
 
                 PlaceholdersFlowPanel.FlowDirection = FlowDirection.LeftToRight;
                 PlaceholdersFlowPanel.Refresh();
 
-                FunctionsFlowPanel.FlowDirection = FlowDirection.LeftToRight;
-                FunctionsFlowPanel.Refresh();
+                //FunctionsFlowPanel.FlowDirection = FlowDirection.LeftToRight;
+                //FunctionsFlowPanel.Refresh();
 
                 ToolButtonSetPageType.Click += TypeSelectionToolStripMenuItem_Click;
                 ToolButtonSetPageType.Tag = "FrontCover";
@@ -495,7 +497,7 @@ namespace Win_CBZ
                 {
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
-                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED)
+                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED)
                         {
                             toolStripProgressBar.Value = 0;
                         }
@@ -538,6 +540,11 @@ namespace Win_CBZ
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
+                    info = "Renaming image...";
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED:
+                    info = "Ready.";
                     break;
             }
           
@@ -760,6 +767,13 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
                     }
+                    break;
+
+                case CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING:
+
+                    break;
+                case CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED:
+
                     break;
 
             }
@@ -1231,6 +1245,21 @@ namespace Win_CBZ
             TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
             ToolButtonSave.Enabled = true;
             saveToolStripMenuItem.Enabled = true;
+           
+
+            if (CheckBoxDoRenamePages.Checked == false)
+            {
+                CheckBoxPreview.Enabled = false;
+                if (CheckBoxPreview.Checked)
+                {
+                    Program.ProjectModel.RestoreOriginalNames();
+                    
+                }
+            } else
+            {
+                CheckBoxPreview.Enabled = true;
+            }
+           
         }
 
         private void TextboxStoryPageRenamingPattern_TextChanged(object sender, EventArgs e)
@@ -1445,6 +1474,23 @@ namespace Win_CBZ
             MetaDataForm metaDataDialog = new MetaDataForm(metaData);
             metaDataDialog.ShowDialog();
 
+        }
+
+        private void btnGetExcludesFromSelectedPages_Click(object sender, EventArgs e)
+        {
+            List<String> excludes = new List<String>();
+            foreach (ListViewItem item in PagesList.SelectedItems)
+            {
+                excludes.Add(((Page)item.Tag).Name);
+            }
+
+            RenamerExcludePages.Lines = excludes.ToArray<String>();
+        }
+
+        private void RenamerExcludePages_TextChanged(object sender, EventArgs e)
+        {
+            Program.ProjectModel.RenamerExcludes.Clear();
+            Program.ProjectModel.RenamerExcludes.AddRange(RenamerExcludePages.Lines);
         }
 
 

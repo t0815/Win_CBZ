@@ -58,6 +58,8 @@ namespace Win_CBZ
 
         public String RenameSpecialPagePattern { get; set; }
 
+        public ArrayList RenamerExcludes { get; set; }
+
         public bool PreloadPageImages { get; set; }
 
         public BindingList<Page> Pages { get; set; }
@@ -112,6 +114,10 @@ namespace Win_CBZ
 
         private Thread ParseAddedFileNames;
 
+        private Thread RenamingThread;
+
+        private Thread RestoreRenamingThread;
+
 
         public ProjectModel(String workingDir)
         {
@@ -121,6 +127,7 @@ namespace Win_CBZ
             MetaData = new MetaData(false);
             RandomProvider = new Random();
             FileNamesToAdd = new ArrayList();
+            RenamerExcludes = new ArrayList();
 
             //Pipeline += HandlePipelene;
 
@@ -193,7 +200,56 @@ namespace Win_CBZ
                 });
             }
 
+            if (e.State == PipelineEvent.PIPELINE_SAVE_REQUESTED)
+            {
+                if (e.payload != null)
+                {
+                    String value = e.payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
+                }
+            }
 
+            if (e.State == PipelineEvent.PIPELINE_SAVE_RUN_RENAMING)
+            {
+                Task.Factory.StartNew(() =>
+                {
+
+                    if (LoadArchiveThread != null)
+                    {
+                        if (LoadArchiveThread.IsAlive)
+                        {
+                            LoadArchiveThread.Abort();
+                        }
+                    }
+
+                    if (ExtractArchiveThread != null)
+                    {
+                        if (ExtractArchiveThread.IsAlive)
+                        {
+                            ExtractArchiveThread.Abort();
+                        }
+                    }
+
+                    if (PageUpdateThread != null)
+                    {
+                        if (PageUpdateThread.IsAlive)
+                        {
+                            PageUpdateThread.Abort();
+                        }
+                    }
+
+                    if (RenamingThread != null)
+                    {
+                        while (RenamingThread.IsAlive)
+                        {
+                            System.Threading.Thread.Sleep(100);
+                        }
+                    }
+
+                    RenamingThread = new Thread(new ThreadStart(AutoRenameAllPagesProc));
+                    RenamingThread.Start();
+
+                });
+            }
         }
 
 
@@ -612,37 +668,154 @@ namespace Win_CBZ
             return null;
         }
 
-        public void AutoRenameAllPages()
+        public Thread AutoRenameAllPages()
         {
-            foreach (Page page in Pages)
+            if (LoadArchiveThread != null)
             {
-                PageScriptRename(page);
-
-                OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
+                if (LoadArchiveThread.IsAlive)
+                {
+                    //LoadArchiveThread.Abort();
+                    return null;
+                }
             }
 
-            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+            if (SaveArchiveThread != null)
+            {
+                if (SaveArchiveThread.IsAlive)
+                {
+    
+                    return null;
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+  
+                    return null;
+                }
+            }
+
+            if (RestoreRenamingThread != null)
+            {
+                if (RestoreRenamingThread.IsAlive)
+                {
+
+                    return null;
+                }
+            }
+
+            if (RenamingThread != null)
+            {
+                while (RenamingThread.IsAlive)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+
+            RenamingThread = new Thread(new ThreadStart(AutoRenameAllPagesProc));
+            RenamingThread.Start();
+
+            return RenamingThread;
         }
 
-        public void RestoreOriginalNames()
+        public void AutoRenameAllPagesProc()
         {
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING));
             foreach (Page page in Pages)
             {
-                if (page.OriginalName != null && page.OriginalName != "")
+                if (RenamerExcludes.IndexOf(page.Name) == -1)
                 {
-                    try
-                    {
-                        RenamePage(page, page.OriginalName);
-                    } catch (PageDuplicateNameException) { }
-                   
+                    PageScriptRename(page);
+
                     OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
                 }
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED));
         }
 
-        public void RenamePage(Page page, String name)
+        public Thread RestoreOriginalNames()
+        {
+            if (LoadArchiveThread != null)
+            {
+                if (LoadArchiveThread.IsAlive)
+                {
+                    //LoadArchiveThread.Abort();
+                    return null;
+                }
+            }
+
+            if (SaveArchiveThread != null)
+            {
+                if (SaveArchiveThread.IsAlive)
+                {
+
+                    return null;
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+
+                    return null;
+                }
+            }
+
+            if (RenamingThread != null)
+            {
+                if (RenamingThread.IsAlive)
+                {
+
+                    return null;
+                }
+            }
+
+            if (RestoreRenamingThread != null)
+            {
+                while (RestoreRenamingThread.IsAlive)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+
+            RestoreRenamingThread = new Thread(new ThreadStart(RestoreOriginalNamesProc));
+            RestoreRenamingThread.Start();
+
+            return RestoreRenamingThread;
+        }
+
+        public void RestoreOriginalNamesProc()
+        {
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING));
+
+            foreach (Page page in Pages)
+            {
+                if (RenamerExcludes.IndexOf(page.Name) == -1)
+                {
+                    if (page.OriginalName != null && page.OriginalName != "")
+                    {
+                        try
+                        {
+                            RenamePage(page, page.OriginalName);
+                        }
+                        catch (PageDuplicateNameException) { }
+
+                        OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
+                    }
+                }
+            }
+
+            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_COMPLETED));
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void RenamePage(Page page, String name, bool isRestored = false)
         {
             if (name == null || name == "")
             {
@@ -664,6 +837,7 @@ namespace Win_CBZ
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));            
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public String PageScriptRename(Page page)
         {
             string oldName = page.Name;
@@ -740,7 +914,7 @@ namespace Win_CBZ
                     return MetaData.ValueForKey(placeholder.ToLower().Trim('{', '}'));
 
                     /*
-                        { type} */
+                        */
             }
         }
 
@@ -886,19 +1060,28 @@ namespace Win_CBZ
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RunRenameScriptsForPages()
         {
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_RENAME_SCRIPT_RUNNING));
+
             foreach (Page page in Pages)
             {
-                RenamePageScript(page);
+                if (RenamerExcludes.IndexOf(page.Name) == -1)
+                {
+                    RenamePageScript(page);
 
-                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+                    OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
+
+                    OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+
+                    Thread.Sleep(10);
+                }
             }
         }
 
         protected void SaveArchiveProc()
-        {
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+        {            
 
             int index = 0;
             List<Page> deletedPages = new List<Page>();
@@ -914,18 +1097,10 @@ namespace Win_CBZ
                 // Apply renaming rules
                 if (ApplyRenaming)
                 {
-                    foreach (Page page in Pages)
-                    {
-                        try
-                        {
-                            RenamePageScript(page);
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-                    }
+                    RunRenameScriptsForPages();
                 }
+
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
                 // Rebuild ComicInfo.xml's PageIndex
                 MetaData.RebuildPageMetaData(Pages.ToList<Page>());
