@@ -43,7 +43,21 @@ namespace Win_CBZ
             "X18+"
         };
 
-        protected static readonly string[] Manga = { "Yes", "YesAndRightToLeft", "No", "Unknown" };
+        protected static readonly string[] Manga = 
+        { 
+            "Yes", 
+            "YesAndRightToLeft", 
+            "No", 
+            "Unknown" 
+        };
+
+
+        protected static readonly Dictionary<String, string[]> CustomEditorValueMappings = new Dictionary<String, string[]>()
+        {
+            { "Manga", Manga },
+            { "AgeRating", Ratings },
+            { "ParentalRating", Ratings }
+        };
 
 
 
@@ -77,15 +91,16 @@ namespace Win_CBZ
             Defaults = new List<MetaDataEntry>();
             Values = new BindingList<MetaDataEntry>();
             PageIndex = new BindingList<MetaDataEntryPage>();
+            
             Document = new XmlDocument();
 
             MakeDefaultKeys();
 
             if (createDefault)
             {
-                foreach (var key in Defaults)
+                foreach (var entry in Defaults)
                 {
-                    Values.Add(key);
+                    Values.Add(HandleNewEntry(entry.Key, entry.Value));
                 }
             }
         }
@@ -118,7 +133,7 @@ namespace Win_CBZ
                                 HandlePageMetaData(subNode);
                                 break;
                             default:
-                                Values.Add(new MetaDataEntry(subNode.Name, subNode.InnerText));
+                                Values.Add(HandleNewEntry(subNode.Name, subNode.InnerText));
                                 break;
                         }   
                     }
@@ -128,6 +143,18 @@ namespace Win_CBZ
             MetaDataFileName = name;
 
             FillMissingDefaultProps();
+        }
+
+        protected MetaDataEntry HandleNewEntry(String key, String value = null, bool readOnly = false)
+        {
+            if (CustomEditorValueMappings.ContainsKey(key))
+            {
+                CustomEditorValueMappings.TryGetValue(key, out var mapping);
+
+                return new MetaDataEntry(key, value, mapping, readOnly);
+            }
+
+            return new MetaDataEntry(key, value, readOnly);
         }
 
         public void Save(String path)
@@ -285,14 +312,14 @@ namespace Win_CBZ
 
         public int Add(MetaDataEntry entry)
         {
-            Values.Add(entry);
+            Values.Add(HandleNewEntry(entry.Key, entry.Value));
 
             return Values.Count - 1;
         }
 
         public int Add(String key, String value = null)
         {
-            Values.Add(new MetaDataEntry(key, value));
+            Values.Add(HandleNewEntry(key, value));
 
             return Values.Count - 1;
         }
@@ -329,6 +356,19 @@ namespace Win_CBZ
             {
                 existing.Key = entry.Key;
                 existing.Value = entry.Value;
+
+                if (CustomEditorValueMappings.ContainsKey(entry.Key))
+                {
+                    CustomEditorValueMappings.TryGetValue(entry.Key, out var mapping);
+
+                    existing.Options = mapping;
+                } else
+                {
+                    if (existing.Options.Length > 0)
+                    {
+                        existing.Options = new string[] { };
+                    }
+                }
 
                 return true;
             }
@@ -374,7 +414,9 @@ namespace Win_CBZ
                     {
                         try
                         {
-                            Defaults.Add(ParseDefaultProp(prop));
+                            MetaDataEntry defaultEntry = ParseDefaultProp(prop);
+
+                            Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
                         } catch (Exception)
                         {
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata-prop->" + prop + "!");
@@ -387,7 +429,9 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        Defaults.Add(ParseDefaultProp(prop));
+                        MetaDataEntry defaultEntry = ParseDefaultProp(prop);
+
+                        Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
                     }
                     catch (Exception)
                     {
@@ -440,7 +484,7 @@ namespace Win_CBZ
 
                 if (!valueExists)
                 {
-                    Values.Add(entry);
+                    Values.Add(HandleNewEntry(entry.Key, entry.Value));
                     i++;
                 }
 

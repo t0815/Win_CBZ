@@ -324,17 +324,22 @@ namespace Win_CBZ
                 {
                     foreach (MetaDataEntry entry in e.MetaData)
                     {
-                        if (entry.Options.Count > 0)
+                        var key = MetaDataGrid.Rows[i].Cells[0].Value;
+                        if (key != null)
                         {
-                            DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                            c.Items.AddRange(entry.Options);
-                            c.Value = entry.Options.IndexOf(entry.Value);
+                            if (entry.Key == key.ToString() && entry.Options.Length > 0)
+                            {
+                                int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
+                                DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                c.Items.AddRange(entry.Options);
+                                c.Value = selectedIndex > -1 ? selectedIndex : 0;
 
-                            MetaDataGrid.Rows[i].Cells[1] = c;
-                        }
-                        else
-                        {
+                                MetaDataGrid.Rows[i].Cells[1] = c;
+                            }
+                            else
+                            {
 
+                            }
                         }
                     }
                 }
@@ -1396,6 +1401,12 @@ namespace Win_CBZ
             catch (Exception) { }
         }
 
+        private void MetaDataGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            if (e.Exception != null) { 
+            }
+        }
+
         private void ExtractAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -1746,7 +1757,7 @@ namespace Win_CBZ
             Program.ProjectModel.RenamerExcludes.AddRange(RenamerExcludePages.Lines);
         }
 
-        
+
         /*
         /// <summary>
         /// 
