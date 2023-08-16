@@ -151,6 +151,8 @@ namespace Win_CBZ
             {
                 CustomEditorValueMappings.TryGetValue(key, out var mapping);
 
+                value = mapping[0] ?? (value ?? "???");
+
                 return new MetaDataEntry(key, value, mapping, readOnly);
             }
 
@@ -362,6 +364,10 @@ namespace Win_CBZ
                     CustomEditorValueMappings.TryGetValue(entry.Key, out var mapping);
 
                     existing.Options = mapping;
+                    if (entry.Value == null || entry.Value == "")
+                    {
+                        existing.Value = mapping[0] ?? "???";
+                    }
                 } else
                 {
                     if (existing.Options.Length > 0)
