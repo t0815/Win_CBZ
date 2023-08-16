@@ -351,7 +351,7 @@ namespace Win_CBZ
             }
         }
 
-        public bool UpdateEntry(int index, MetaDataEntry entry)
+        public MetaDataEntry UpdateEntry(int index, MetaDataEntry entry)
         {
             MetaDataEntry existing = EntryByIndex(index);
             if (existing != null)
@@ -376,10 +376,10 @@ namespace Win_CBZ
                     }
                 }
 
-                return true;
+                return existing;
             }
 
-            return false;
+            return entry;
         }
 
         protected void HandlePageMetaData(XmlNode pageNodes)

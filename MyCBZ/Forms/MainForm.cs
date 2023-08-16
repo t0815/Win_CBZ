@@ -1394,8 +1394,30 @@ namespace Win_CBZ
                         }
                     }
 
-                    Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
+                    MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
 
+                    var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
+                    if (key != null)
+                    {
+                        if (updatedEntry.Key == key.ToString())
+                        {
+                            if (updatedEntry.Options.Length > 0)
+                            {
+                                int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.Value);
+                                DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                c.Items.AddRange(updatedEntry.Options);
+                                c.Value = selectedIndex > -1 ? selectedIndex : 0;
+
+                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                            } else
+                            {
+                                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                                c.Value = updatedEntry.Value;
+
+                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception) { }
