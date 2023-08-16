@@ -58,6 +58,8 @@ namespace Win_CBZ
             newProjectModel.TaskProgress += TaskProgress;
             newProjectModel.PageChanged += PageChanged;
             newProjectModel.MetaDataLoaded += MetaDataLoaded;
+            newProjectModel.MetaDataChanged += MetaDataChanged;
+            newProjectModel.MetaDataEntryChanged += MetaDataEntryChanged;
             // newProjectModel.ItemExtracted += ItemExtracted;
             newProjectModel.OperationFinished += OperationFinished;
             newProjectModel.FileOperation += FileOperationHandler;
@@ -66,8 +68,7 @@ namespace Win_CBZ
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
-
-
+            
             this.Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
@@ -130,6 +131,16 @@ namespace Win_CBZ
                 WindowShown = true;
             }
         }
+
+
+        private void NewProject()
+        {
+            if (Program.ProjectModel != null)
+            {
+                Program.ProjectModel.New();
+            }
+        }
+
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -261,6 +272,139 @@ namespace Win_CBZ
                     }));
                 }
             }
+        }
+
+        private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
+        {
+            MetaDataGrid.Invoke(new Action(() =>
+            {
+                //MetaDataGrid.DataSource = e.MetaData;
+
+                BtnAddMetaData.Enabled = false;
+                BtnRemoveMetaData.Enabled = true;
+                toolStripButtonShowRawMetadata.Enabled = true;
+                DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
+                if (firstCol != null)
+                {
+                    DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
+                    if (secondCol != null)
+                    {
+                        firstCol.Width = 150;
+                        secondCol.Width = 250;
+                    }
+                }
+                else
+                {
+                    MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                    {
+                        DataPropertyName = "Key",
+                        HeaderText = "Key",
+                        CellTemplate = new DataGridViewTextBoxCell(),
+                        Width = 150,
+                        SortMode = DataGridViewColumnSortMode.Automatic,
+                    });
+
+                    MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                    {
+                        DataPropertyName = "Value",
+                        HeaderText = "Value",
+                        CellTemplate = new DataGridViewTextBoxCell(),
+                        Width = 250,
+                        SortMode = DataGridViewColumnSortMode.NotSortable,
+                    });
+                }
+
+                MetaDataGrid.Rows.Clear();
+                foreach (MetaDataEntry entry in e.MetaData)
+                {
+                    MetaDataGrid.Rows.Add(entry.Key, entry.Value);
+                }
+
+                for (int i = 0; i < MetaDataGrid.RowCount; i++)
+                {
+                    foreach (MetaDataEntry entry in e.MetaData)
+                    {
+                        if (entry.Options.Count > 0)
+                        {
+                            DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                            c.Items.AddRange(entry.Options);
+                            c.Value = entry.Options.IndexOf(entry.Value);
+
+                            MetaDataGrid.Rows[i].Cells[1] = c;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+            }));
+        }
+
+        private void MetaDataChanged(object sender, MetaDataChangedEvent e)
+        {
+            MetaDataGrid.Invoke(new Action(() =>
+            {
+                
+                    Program.ProjectModel.IsChanged = true;
+
+                    if (Program.ProjectModel.FileName != null)
+                    {
+                        ToolButtonSave.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                    }
+                
+            }));
+        }
+
+        private void MetaDataEntryChanged(object sender, MetaDataEntryChangedEvent e)
+        {
+            MetaDataGrid.Invoke(new Action(() =>
+            {
+                Program.ProjectModel.IsChanged = true;
+
+                if (Program.ProjectModel.FileName != null)
+                {
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                }
+            }));
+        }
+
+        private void OperationFinished(object sender, OperationFinishedEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = 100;
+                toolStripProgressBar.Value = 0;
+            }));
+        }
+
+        private void FileOperationHandler(object sender, FileOperationEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = 100;
+                toolStripProgressBar.Value = 0;
+            }));
+        }
+
+        private void ArchiveOperationHandler(object sender, ArchiveOperationEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = e.Total;
+                toolStripProgressBar.Value = e.Completed;
+            }));
+        }
+
+        private void PageOperationHandler(object sender, ArchiveOperationEvent e)
+        {
+            toolStripProgressBar.Control.Invoke(new Action(() =>
+            {
+                toolStripProgressBar.Maximum = e.Total;
+                toolStripProgressBar.Value = e.Completed;
+            }));
         }
 
         private ListViewItem FindListViewItemForPage(ExtendetListView owner, Page page)
@@ -411,64 +555,6 @@ namespace Win_CBZ
             return itemPage;
         }
 
-        private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
-        {
-            MetaDataGrid.Invoke(new Action(() =>
-            {
-                MetaDataGrid.DataSource = e.MetaData;
-
-                BtnAddMetaData.Enabled = false;
-                BtnRemoveMetaData.Enabled = true;
-                toolStripButtonShowRawMetadata.Enabled = true;
-                DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
-                if (firstCol != null)
-                {
-                    DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
-                    if (secondCol != null)
-                    {
-                        firstCol.Width = 150;
-                        secondCol.Width = 250;
-                    }
-                }         
-            }));
-        }
-
-        private void OperationFinished(object sender, OperationFinishedEvent e)
-        {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
-            {
-                toolStripProgressBar.Maximum = 100;
-                toolStripProgressBar.Value = 0;
-            }));
-        }
-
-        private void FileOperationHandler(object sender, FileOperationEvent e)
-        {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
-            {
-                toolStripProgressBar.Maximum = 100;
-                toolStripProgressBar.Value = 0;
-            }));
-        }
-
-        private void ArchiveOperationHandler(object sender, ArchiveOperationEvent e)
-        {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
-            {
-                toolStripProgressBar.Maximum = e.Total;
-                toolStripProgressBar.Value = e.Completed;
-            }));
-        }
-
-        private void PageOperationHandler(object sender, ArchiveOperationEvent e)
-        {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
-            {
-                toolStripProgressBar.Maximum = e.Total;
-                toolStripProgressBar.Value = e.Completed;
-            }));
-        }
-
 
         private bool ThumbAbort()
         {
@@ -533,15 +619,6 @@ namespace Win_CBZ
         }
 
 
-        private void NewProject()
-        {
-            if (Program.ProjectModel != null)
-            {
-                Program.ProjectModel.New();
-            }
-        }
-
-
         private void ApplicationStateChanged(object sender, ApplicationStatusEvent e)
         {
             String info = applicationStatusLabel.Text;
@@ -557,7 +634,7 @@ namespace Win_CBZ
                     break;
             }
 
-                    try
+            try
             {
                 //if (this.InvokeRequired)
                 //{
@@ -1144,10 +1221,10 @@ namespace Win_CBZ
 
         private void AddMetaData()
         {
-            if (Program.ProjectModel.MetaData == null)
-            {
-                Program.ProjectModel.MetaData = new MetaData(true);
-            }
+            //if (Program.ProjectModel.MetaData == null)
+            //{
+                Program.ProjectModel.NewMetaData(true);
+            //}
 
             Program.ProjectModel.MetaData.FillMissingDefaultProps();
 
@@ -1165,6 +1242,8 @@ namespace Win_CBZ
             if (Program.ProjectModel.MetaData != null)
             {
                 MetaDataGrid.DataSource = null;
+                MetaDataGrid.Rows.Clear();
+                MetaDataGrid.Columns.Clear();
 
                 Program.ProjectModel.MetaData.Values.Clear();
                 BtnAddMetaData.Enabled = true;
@@ -1198,7 +1277,7 @@ namespace Win_CBZ
 
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
-            Program.ProjectModel.MetaData.Values.Add(new MetaDataEntry(""));
+            Program.ProjectModel.MetaData.Add("");
             MetaDataGrid.Refresh();
         }
 
@@ -1215,7 +1294,7 @@ namespace Win_CBZ
                 {
                     if (row.DataBoundItem is MetaDataEntry)
                     {
-                        Program.ProjectModel.MetaData.Values.Remove((MetaDataEntry)row.DataBoundItem);
+                        Program.ProjectModel.MetaData.Remove(((MetaDataEntry)row.DataBoundItem));
                     }
                 }
             }
@@ -1227,13 +1306,94 @@ namespace Win_CBZ
             {
                 if (e.ColumnIndex == 0)
                 {
-                    Program.ProjectModel.MetaData.Validate((MetaDataEntry)MetaDataGrid.Rows[e.RowIndex].DataBoundItem, e.FormattedValue.ToString());
+                    object key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
+                    object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
+
+                    String keyStr = "";
+                    String valStr = "";
+
+                    if (key != null)
+                    {
+                        keyStr = key.ToString();
+                    }
+
+                    if (value != null)
+                    {
+                        valStr = value.ToString();
+                    }
+
+                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), e.FormattedValue.ToString());
                 }
             } catch (MetaDataValidationException ve)
             {
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
                 //e.Cancel = true;
             }
+        }
+
+        private void MetaDataGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            //
+            DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle();
+            DataGridViewComboBoxCell cbc1 = new DataGridViewComboBoxCell();
+            cbc1.Items.Add("item 1");
+            cbc1.Items.Add("item 2");
+
+            dataGridViewCellStyle.ForeColor = e.CellStyle.ForeColor;
+            dataGridViewCellStyle.BackColor = e.CellStyle.BackColor;
+            dataGridViewCellStyle.SelectionForeColor = Color.White;
+            dataGridViewCellStyle.SelectionBackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+
+            e.CellStyle = dataGridViewCellStyle;
+        }
+
+        private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                //FileInfo fi = new FileInfo(Program.ProjectModel.FileName);
+                Program.ProjectModel.IsChanged = true;
+
+                //if (fi.Exists)
+                //{
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                //}
+
+                string Key = "";
+                string Val = "";
+
+                object value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+                if (value != null)
+                {
+                    if (e.ColumnIndex == 0)
+                    {
+                        Key = value.ToString();
+                        value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
+
+                        if (value != null)
+                        {
+                            Val = value.ToString();
+                        }
+                    }
+
+                    if (e.ColumnIndex == 1)
+                    {
+                        Val = value.ToString();
+                        value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
+
+                        if (value != null)
+                        {
+                            Key = value.ToString();
+                        }
+                    }
+
+                    Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
+
+                }
+            }
+            catch (Exception) { }
         }
 
         private void ExtractAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1558,20 +1718,6 @@ namespace Win_CBZ
             }
         }
 
-        private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            try { 
-                FileInfo fi = new FileInfo(Program.ProjectModel.FileName);
-                Program.ProjectModel.IsChanged = true;
-
-                if (fi.Exists)
-                {
-                    ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
-                }
-            } catch (Exception) {  }
-        }
-
         private void toolStripButtonShowRawMetadata_Click(object sender, EventArgs e)
         {
             MemoryStream ms = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
@@ -1600,7 +1746,7 @@ namespace Win_CBZ
             Program.ProjectModel.RenamerExcludes.AddRange(RenamerExcludePages.Lines);
         }
 
-
+        
         /*
         /// <summary>
         /// 

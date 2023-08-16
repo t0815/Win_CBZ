@@ -90,6 +90,10 @@ namespace Win_CBZ
 
         public event EventHandler<MetaDataLoadEvent> MetaDataLoaded;
 
+        public event EventHandler<MetaDataChangedEvent> MetaDataChanged;
+
+        public event EventHandler<MetaDataEntryChangedEvent> MetaDataEntryChanged;
+
         public event EventHandler<OperationFinishedEvent> OperationFinished;
 
         public event EventHandler<ItemExtractedEvent> ItemExtracted;
@@ -126,10 +130,19 @@ namespace Win_CBZ
             WorkingDir = workingDir;
             Pages = new List<Page>();
             Files = new BindingList<LocalFile>();
-            MetaData = new MetaData(false);
             RandomProvider = new Random();
             FileNamesToAdd = new ArrayList();
             RenamerExcludes = new ArrayList();
+
+            MaxFileIndex = 0;
+            Name = "";
+            FileName = "";
+            IsSaved = false;
+            IsNew = true;
+            IsChanged = false;
+            IsClosed = false;
+
+            NewMetaData();
 
             //Pipeline += HandlePipelene;
 
@@ -144,6 +157,26 @@ namespace Win_CBZ
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
                 }
             }
+        }
+
+        public MetaData NewMetaData(bool createDefaultValues = false)
+        {
+            MetaData = new MetaData(createDefaultValues);  
+            MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
+
+            OnMetaDataChanged(new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_NEW, MetaData));
+
+            return MetaData;
+        }
+
+        public MetaData NewMetaData(Stream fileInputStream, String name)
+        {
+            MetaData = new MetaData(fileInputStream, name);
+            MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
+
+            OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
+
+            return MetaData;
         }
 
         private void HandlePipelene(PipelineEvent e)
@@ -254,7 +287,6 @@ namespace Win_CBZ
             }
         }
 
-
         public Task New()
         {
             CloseArchiveThread = Close();
@@ -315,7 +347,6 @@ namespace Win_CBZ
                 }
             });
         }
-
 
         public Thread Open(String path, ZipArchiveMode mode)
         {
@@ -503,7 +534,6 @@ namespace Win_CBZ
         public void ParseFiles(List<String> files)
         {
             
-
             if (ParseAddedFileNames != null)
             {
                 if (ParseAddedFileNames.IsAlive)
@@ -1014,9 +1044,7 @@ namespace Win_CBZ
 
                     if (metaDataEntry != null)
                     {
-                        MetaData = new MetaData(metaDataEntry.Open(), metaDataEntry.FullName);
-
-                        OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
+                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);                  
                     } else
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!");
@@ -1305,9 +1333,9 @@ namespace Win_CBZ
 
                     if (metaDataEntry != null)
                     {
-                        MetaData = new MetaData(metaDataEntry.Open(), metaDataEntry.FullName);
+                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
                         count--;
-                        OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
+
                     }
                 }
                 catch (Exception)
@@ -1501,6 +1529,11 @@ namespace Win_CBZ
         protected virtual void OnMetaDataLoaded(MetaDataLoadEvent e)
         {
             MetaDataLoaded?.Invoke(this, e);
+        }
+
+        protected virtual void OnMetaDataChanged(MetaDataChangedEvent e)
+        {
+            MetaDataChanged?.Invoke(this, e);
         }
 
         protected virtual void OnOperationFinished(OperationFinishedEvent e)

@@ -18,11 +18,34 @@ namespace Win_CBZ
 {
     internal class MetaData
     {
-        protected static readonly String[] DefaultProperties = { "AgeRating", "Title", "AlternateTitles", 
-            "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "Web",
-            "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO",
+        protected static readonly String[] DefaultProperties = { "AgeRating", "Title", "Titles", 
+            "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "StoryArc", "StoryArcNumber", 
+            "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO",
             "Author", "Writer", "Imprint", "Year", "Month", "Day", "Characters", "BlackAndWhite",
-            "Review", "CommunityRating", "Notes", "PageCount" };
+            "Review", "CommunityRating", "Notes", "PageCount", "GTIN" };
+
+        protected static readonly string[] Ratings =
+        {
+            "Unknown",
+            "Adults Only 18+",
+            "Early Childhood",
+            "Everyone",
+            "Everyone 10+",
+            "G",
+            "Kids to Adults",
+            "M",
+            "MA15+",
+            "Mature 17+",
+            "PG",
+            "R18+",
+            "Rating Pending",
+            "Teen",
+            "X18+"
+        };
+
+        protected static readonly string[] Manga = { "Yes", "YesAndRightToLeft", "No", "Unknown" };
+
+
 
         public List<String> CustomDefaultProperties { get; set; }
 
@@ -45,7 +68,10 @@ namespace Win_CBZ
 
         private readonly Stream InputStream;
 
-       
+
+        public event EventHandler<MetaDataEntryChangedEvent> MetaDataEntryChanged;
+
+
         public MetaData(bool createDefault = false)
         {
             Defaults = new List<MetaDataEntry>();
@@ -257,6 +283,59 @@ namespace Win_CBZ
             return null;
         }
 
+        public int Add(MetaDataEntry entry)
+        {
+            Values.Add(entry);
+
+            return Values.Count - 1;
+        }
+
+        public int Add(String key, String value = null)
+        {
+            Values.Add(new MetaDataEntry(key, value));
+
+            return Values.Count - 1;
+        }
+
+        public int Remove(MetaDataEntry entry)
+        {
+            int index = Values.IndexOf(entry);
+
+            bool success = Values.Remove(entry);
+
+            if (success)
+            {
+                return index;
+            }
+
+            return -1;
+        }
+
+        public MetaDataEntry EntryByIndex(int index)
+        {
+            try
+            {
+                return Values[index];
+            } catch
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateEntry(int index, MetaDataEntry entry)
+        {
+            MetaDataEntry existing = EntryByIndex(index);
+            if (existing != null)
+            {
+                existing.Key = entry.Key;
+                existing.Value = entry.Value;
+
+                return true;
+            }
+
+            return false;
+        }
+
         protected void HandlePageMetaData(XmlNode pageNodes)
         {
             MetaDataEntryPage pageMeta;
@@ -422,5 +501,11 @@ namespace Win_CBZ
                 MetaDataReader.Dispose();
             }
         }
+
+        protected virtual void OnMetaDataEntryChanged(MetaDataEntryChangedEvent e)
+        {
+            MetaDataEntryChanged?.Invoke(this, e);
+        }
+
     }
 }

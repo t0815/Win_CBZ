@@ -14,6 +14,8 @@ namespace Win_CBZ
 
         protected bool ReadOnly { get; set; }
 
+        public List<string> Options { get; set; } = new List<string>();
+
         public MetaDataEntry(String key)
         {
             Key = key;
@@ -30,6 +32,14 @@ namespace Win_CBZ
         {
             Key = key;
             Value = value;
+            ReadOnly = readOnly;
+        }
+
+        public MetaDataEntry(String key, String value, List<String> options, bool readOnly = false)
+        {
+            Key = key;
+            Value = value;
+            Options = options;
             ReadOnly = readOnly;
         }
     }

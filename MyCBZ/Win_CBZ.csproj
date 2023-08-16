@@ -66,6 +66,8 @@
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
     <Compile Include="Events\ArchiveOperationEvent.cs" />
     <Compile Include="Events\ApplicationStatusEvent.cs" />
+    <Compile Include="Events\MetaDataChangedEvent.cs" />
+    <Compile Include="Events\MetaDataLoadEvent.cs" />
     <Compile Include="Events\PipelineEvent.cs" />
     <Compile Include="Events\TaskProgressEvent.cs" />
     <Compile Include="Exceptions\ApplicationException.cs" />
@@ -130,7 +132,7 @@
     <Compile Include="Events\FileOperationEvent.cs" />
     <Compile Include="Events\PageChangedEvent.cs" />
     <Compile Include="Events\CBZArchiveStatusEvent.cs" />
-    <Compile Include="Events\MetaDataLoadEvent.cs" />
+    <Compile Include="Events\MetaDataEntryChangedEvent.cs" />
     <Compile Include="Events\ItemFailedEvent.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
