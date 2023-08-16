@@ -237,11 +237,22 @@ namespace Win_CBZ
                         item.ForeColor = Color.Silver;
                         item.BackColor = Color.Transparent;
                     }
+                } else
+                {
+                    if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
+                    {
+                        ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+                        if (existingItem != null)
+                        {
+                            PagesList.Items.Remove(existingItem);
+                        }
+                    }
                 }
             }));
 
             if (TogglePagePreviewToolbutton.Checked)
             {
+                
                 if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
                 {
                     PageView.Invoke(new Action(() =>
@@ -533,7 +544,7 @@ namespace Win_CBZ
 
         private void ApplicationStateChanged(object sender, ApplicationStatusEvent e)
         {
-            String info = "Ready.";
+            String info = applicationStatusLabel.Text;
             String filename = e.ArchiveInfo.FileName;
 
             switch (e.State)
@@ -573,15 +584,31 @@ namespace Win_CBZ
             switch (state)
             {
                 case ApplicationStatusEvent.STATE_READY:
+                    PagesList.Enabled = true;
+                    PageView.Enabled = true;
+                    MetaDataGrid.Enabled = true;
 
                     break;
 
                 case ApplicationStatusEvent.STATE_OPENING:
-                    
+                    PagesList.Enabled = false;
+                    PageView.Enabled = false;
+                    MetaDataGrid.Enabled = false;
+
+                    break;
+
+                case ApplicationStatusEvent.STATE_SAVING:
+                    PagesList.Enabled = false;
+                    PageView.Enabled = false;
+                    MetaDataGrid.Enabled = false;
+
                     break;
 
                 case ApplicationStatusEvent.STATE_CLOSING:
-                    
+                    PagesList.Enabled = false;
+                    PageView.Enabled = false;
+                    MetaDataGrid.Enabled = false;
+
                     break;
 
                 case ApplicationStatusEvent.STATE_ADDING:
@@ -589,7 +616,9 @@ namespace Win_CBZ
                     break;
 
                 case ApplicationStatusEvent.STATE_DELETING:
-                    
+                    PagesList.Enabled = false;
+                    PageView.Enabled = false;
+
                     break;
 
                 case ApplicationStatusEvent.STATE_RENAMING:
@@ -597,7 +626,10 @@ namespace Win_CBZ
                     break;
 
                 case ApplicationStatusEvent.STATE_ANALYZING:
-                    
+                    PagesList.Enabled = false;
+                    PageView.Enabled = false;
+                    MetaDataGrid.Enabled = false;
+
                     break;
 
             }
@@ -638,6 +670,15 @@ namespace Win_CBZ
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
+                    
+                    this.Invoke(new Action(() =>
+                    {
+                        Program.ProjectModel.Pages.Clear();
+                        //PagesList.Clear();
+                        PageView.Clear();
+                        PageImages.Images.Clear();
+                    }));
+                    
                     filename = "";
                     info = "Ready.";
                     break;
@@ -886,10 +927,10 @@ namespace Win_CBZ
                     DialogResult res = ApplicationMessage.ShowConfirmation("There are unsaved changes to the current CBZ-Archive.\nAre you sure you want to discard them and create a new file?", "Unsaved changes...");
                     if (res == DialogResult.Yes)
                     {
-                        PagesList.Items.Clear();
-                        PageView.Clear();
+                        //PagesList.Items.Clear();
+                        //PageView.Clear();
 
-                        PageImages.Images.Clear();
+                        //PageImages.Images.Clear();
 
                         toolStripProgressBar.Value = 0;
 
@@ -899,10 +940,10 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    PagesList.Items.Clear();
-                    PageView.Clear();
+                    //PagesList.Items.Clear();
+                    //PageView.Clear();
 
-                    PageImages.Images.Clear();
+                    //PageImages.Images.Clear();
 
                     toolStripProgressBar.Value = 0;
 

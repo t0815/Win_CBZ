@@ -306,10 +306,13 @@ namespace Win_CBZ
                 this.LoadImage();
             }
 
-            Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
+            if (Image != null)
+            {
+                Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
 
-            Image.Dispose();
-            Image = null;
+                Image.Dispose();
+                Image = null;
+            }
 
             return Thumbnail;
         }

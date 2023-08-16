@@ -62,7 +62,7 @@ namespace Win_CBZ
 
         public bool PreloadPageImages { get; set; }
 
-        public BindingList<Page> Pages { get; set; }
+        public List<Page> Pages { get; set; }
 
         private ArrayList FileNamesToAdd { get; set; }
 
@@ -124,7 +124,7 @@ namespace Win_CBZ
         public ProjectModel(String workingDir)
         {
             WorkingDir = workingDir;
-            Pages = new BindingList<Page>();
+            Pages = new List<Page>();
             Files = new BindingList<LocalFile>();
             MetaData = new MetaData(false);
             RandomProvider = new Random();
@@ -287,13 +287,14 @@ namespace Win_CBZ
 
                 if (CloseArchiveThread != null)
                 {
+                    CloseArchiveThread.Join();
                     while (CloseArchiveThread.IsAlive)
                     {
-                        System.Threading.Thread.Sleep(100);
+                        Thread.Sleep(100);
                     }
                 }
 
-                Pages.Clear();
+                //Pages.Clear();
                 MetaData.Free();
                 MaxFileIndex = 0;
                 Files.Clear();
@@ -466,6 +467,7 @@ namespace Win_CBZ
 
             OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
             HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         public List<LocalFile> LoadDirectory(String path)
@@ -981,7 +983,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    return null;
+                    return CloseArchiveThread;
                 }
             }
 
@@ -998,6 +1000,7 @@ namespace Win_CBZ
             long totalSize = 0;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
 
             int count = 0;
             try
@@ -1063,6 +1066,7 @@ namespace Win_CBZ
             MaxFileIndex = index;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -1083,6 +1087,8 @@ namespace Win_CBZ
                     Thread.Sleep(10);
                 }
             }
+
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         protected void SaveArchiveProc()
@@ -1210,6 +1216,7 @@ namespace Win_CBZ
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -1387,10 +1394,11 @@ namespace Win_CBZ
                 } catch (Exception e) 
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error freeing page [" + page.Name + "] with message [" + e.Message + "]");
+                } finally {
+                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                    OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
+                    Thread.Sleep(10);
                 }
-                OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
-                OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
-                Thread.Sleep(10);
             }
 
             Name = "";
@@ -1453,7 +1461,7 @@ namespace Win_CBZ
                 Page[] copyPages = new Page[this.Pages.Count];
 
                 this.Pages.CopyTo(copyPages, 0);
-                destination.Pages = new BindingList<Page>(copyPages);
+                destination.Pages = new List<Page>(copyPages);
                 destination.MetaData = this.MetaData;
                 destination.Name = this.Name;
                 destination.ProjectGUID = this.ProjectGUID;
