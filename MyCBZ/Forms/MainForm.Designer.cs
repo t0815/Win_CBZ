@@ -110,7 +110,6 @@ namespace Win_CBZ
             this.MainPanel = new System.Windows.Forms.Panel();
             this.MainSplitBox = new System.Windows.Forms.SplitContainer();
             this.SplitBoxPageView = new System.Windows.Forms.SplitContainer();
-            this.PageView = new Win_CBZ.ExtendetListView();
             this.TabControlPageSettings = new System.Windows.Forms.TabControl();
             this.TabPagePageSettings = new System.Windows.Forms.TabPage();
             this.GroupBoxDoublePages = new System.Windows.Forms.GroupBox();
@@ -154,12 +153,6 @@ namespace Win_CBZ
             this.btnGetExcludesFromSelectedPages = new System.Windows.Forms.Button();
             this.TabPageArchiveSettings = new System.Windows.Forms.TabPage();
             this.SplitBoxItemsList = new System.Windows.Forms.SplitContainer();
-            this.PagesList = new Win_CBZ.ExtendetListView();
-            this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.IndexPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.TypePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ModifiedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.SizeFormatedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MetadataPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.AddMetaDataRowBtn = new System.Windows.Forms.Button();
@@ -181,6 +174,13 @@ namespace Win_CBZ
             this.SaveArchiveDialog = new System.Windows.Forms.SaveFileDialog();
             this.Tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SelectColorDialog = new System.Windows.Forms.ColorDialog();
+            this.PageView = new Win_CBZ.ExtendetListView();
+            this.PagesList = new Win_CBZ.ExtendetListView();
+            this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IndexPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TypePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ModifiedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SizeFormatedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -255,7 +255,7 @@ namespace Win_CBZ
             this.ToolBarSearchLabel,
             this.ToolBarSearchInput,
             this.toolStripButton1});
-            this.ToolBar.Location = new System.Drawing.Point(0, 28);
+            this.ToolBar.Location = new System.Drawing.Point(0, 30);
             this.ToolBar.Name = "ToolBar";
             this.ToolBar.Size = new System.Drawing.Size(1431, 31);
             this.ToolBar.TabIndex = 0;
@@ -529,7 +529,7 @@ namespace Win_CBZ
             this.MenuBar.Location = new System.Drawing.Point(0, 0);
             this.MenuBar.Name = "MenuBar";
             this.MenuBar.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.MenuBar.Size = new System.Drawing.Size(1431, 28);
+            this.MenuBar.Size = new System.Drawing.Size(1431, 30);
             this.MenuBar.TabIndex = 1;
             this.MenuBar.Text = "menuStrip1";
             // 
@@ -545,7 +545,7 @@ namespace Win_CBZ
             this.toolStripMenuItem3,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // newToolStripMenuItem
@@ -616,7 +616,7 @@ namespace Win_CBZ
             this.toolStripMenuItem10,
             this.settingsToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 26);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // copyToolStripMenuItem
@@ -669,7 +669,7 @@ namespace Win_CBZ
             this.toolStripMenuItem8,
             this.ExtractSelectedPages});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(61, 26);
             this.projectToolStripMenuItem.Text = "Pages";
             // 
             // addFolderToolStripMenuItem
@@ -714,7 +714,7 @@ namespace Win_CBZ
             this.ClearTemporaryFolderToolStripMenuItem,
             this.toolStripMenuItem9});
             this.extrasToolStripMenuItem.Name = "extrasToolStripMenuItem";
-            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.extrasToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.extrasToolStripMenuItem.Text = "Extras";
             // 
             // ClearTemporaryFolderToolStripMenuItem
@@ -734,7 +734,7 @@ namespace Win_CBZ
             this.toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AboutToolStripMenuItem});
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 24);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(30, 26);
             this.toolStripMenuItem4.Text = "?";
             // 
             // AboutToolStripMenuItem
@@ -862,7 +862,7 @@ namespace Win_CBZ
             // PrimarySplitBox
             // 
             this.PrimarySplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PrimarySplitBox.Location = new System.Drawing.Point(0, 59);
+            this.PrimarySplitBox.Location = new System.Drawing.Point(0, 61);
             this.PrimarySplitBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PrimarySplitBox.Name = "PrimarySplitBox";
             this.PrimarySplitBox.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -874,8 +874,8 @@ namespace Win_CBZ
             // PrimarySplitBox.Panel2
             // 
             this.PrimarySplitBox.Panel2.Controls.Add(this.MessageLogListView);
-            this.PrimarySplitBox.Size = new System.Drawing.Size(1431, 663);
-            this.PrimarySplitBox.SplitterDistance = 519;
+            this.PrimarySplitBox.Size = new System.Drawing.Size(1431, 661);
+            this.PrimarySplitBox.SplitterDistance = 518;
             this.PrimarySplitBox.TabIndex = 4;
             // 
             // MainPanel
@@ -886,7 +886,7 @@ namespace Win_CBZ
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1431, 519);
+            this.MainPanel.Size = new System.Drawing.Size(1431, 518);
             this.MainPanel.TabIndex = 4;
             // 
             // MainSplitBox
@@ -904,7 +904,7 @@ namespace Win_CBZ
             // MainSplitBox.Panel2
             // 
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1431, 519);
+            this.MainSplitBox.Size = new System.Drawing.Size(1431, 518);
             this.MainSplitBox.SplitterDistance = 402;
             this.MainSplitBox.TabIndex = 6;
             // 
@@ -923,27 +923,9 @@ namespace Win_CBZ
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.TabControlPageSettings);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(400, 517);
-            this.SplitBoxPageView.SplitterDistance = 183;
+            this.SplitBoxPageView.Size = new System.Drawing.Size(400, 516);
+            this.SplitBoxPageView.SplitterDistance = 182;
             this.SplitBoxPageView.TabIndex = 6;
-            // 
-            // PageView
-            // 
-            this.PageView.AutoArrange = false;
-            this.PageView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
-            this.PageView.HideSelection = false;
-            this.PageView.LabelWrap = false;
-            this.PageView.LargeImageList = this.PageImages;
-            this.PageView.Location = new System.Drawing.Point(0, 0);
-            this.PageView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.PageView.Name = "PageView";
-            this.PageView.OwnerDraw = true;
-            this.PageView.Size = new System.Drawing.Size(400, 183);
-            this.PageView.TabIndex = 6;
-            this.PageView.UseCompatibleStateImageBehavior = false;
-            this.PageView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.PageView_DrawItem);
-            this.PageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PageView_ItemSelectionChanged);
             // 
             // TabControlPageSettings
             // 
@@ -1267,7 +1249,7 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(392, 297);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(392, 301);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -1282,7 +1264,7 @@ namespace Win_CBZ
             this.GroupBoxImageRenaming.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GroupBoxImageRenaming.Name = "GroupBoxImageRenaming";
             this.GroupBoxImageRenaming.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(379, 287);
+            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(379, 291);
             this.GroupBoxImageRenaming.TabIndex = 5;
             this.GroupBoxImageRenaming.TabStop = false;
             this.GroupBoxImageRenaming.Text = "Renaming";
@@ -1320,7 +1302,7 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-            this.FileSettingsTablePanel.Size = new System.Drawing.Size(373, 268);
+            this.FileSettingsTablePanel.Size = new System.Drawing.Size(373, 272);
             this.FileSettingsTablePanel.TabIndex = 1;
             // 
             // PlaceholdersInfoLabel
@@ -1460,7 +1442,7 @@ namespace Win_CBZ
             this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(392, 297);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(392, 301);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;
@@ -1481,9 +1463,300 @@ namespace Win_CBZ
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(1025, 519);
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(1025, 518);
             this.SplitBoxItemsList.SplitterDistance = 182;
             this.SplitBoxItemsList.TabIndex = 7;
+            // 
+            // MetadataPanel
+            // 
+            this.MetadataPanel.ColumnCount = 1;
+            this.MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.MetadataPanel.Controls.Add(this.MetaDataTableActionsPanel, 0, 2);
+            this.MetadataPanel.Controls.Add(this.MetaDataGrid, 0, 1);
+            this.MetadataPanel.Controls.Add(this.panel1, 0, 0);
+            this.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MetadataPanel.Location = new System.Drawing.Point(0, 0);
+            this.MetadataPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MetadataPanel.Name = "MetadataPanel";
+            this.MetadataPanel.RowCount = 3;
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.22222F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.77778F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.MetadataPanel.Size = new System.Drawing.Size(1023, 330);
+            this.MetadataPanel.TabIndex = 10;
+            // 
+            // MetaDataTableActionsPanel
+            // 
+            this.MetaDataTableActionsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MetaDataTableActionsPanel.AutoSize = true;
+            this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
+            this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
+            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 285);
+            this.MetaDataTableActionsPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
+            this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(1017, 43);
+            this.MetaDataTableActionsPanel.TabIndex = 13;
+            // 
+            // AddMetaDataRowBtn
+            // 
+            this.AddMetaDataRowBtn.Enabled = false;
+            this.AddMetaDataRowBtn.Image = global::Win_CBZ.Properties.Resources.add;
+            this.AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AddMetaDataRowBtn.Location = new System.Drawing.Point(3, 2);
+            this.AddMetaDataRowBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
+            this.AddMetaDataRowBtn.Size = new System.Drawing.Size(165, 39);
+            this.AddMetaDataRowBtn.TabIndex = 0;
+            this.AddMetaDataRowBtn.Text = "Add Property";
+            this.AddMetaDataRowBtn.UseVisualStyleBackColor = true;
+            this.AddMetaDataRowBtn.Click += new System.EventHandler(this.AddMetaDataRowBtn_Click);
+            // 
+            // RemoveMetadataRowBtn
+            // 
+            this.RemoveMetadataRowBtn.Enabled = false;
+            this.RemoveMetadataRowBtn.Image = global::Win_CBZ.Properties.Resources.delete;
+            this.RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(174, 2);
+            this.RemoveMetadataRowBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
+            this.RemoveMetadataRowBtn.Size = new System.Drawing.Size(157, 39);
+            this.RemoveMetadataRowBtn.TabIndex = 1;
+            this.RemoveMetadataRowBtn.Text = "Remove";
+            this.RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
+            this.RemoveMetadataRowBtn.Click += new System.EventHandler(this.RemoveMetadataRowBtn_Click);
+            // 
+            // MetaDataGrid
+            // 
+            this.MetaDataGrid.AllowUserToAddRows = false;
+            this.MetaDataGrid.AllowUserToOrderColumns = true;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MetaDataGrid.Location = new System.Drawing.Point(3, 53);
+            this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MetaDataGrid.MultiSelect = false;
+            this.MetaDataGrid.Name = "MetaDataGrid";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.MetaDataGrid.RowHeadersWidth = 51;
+            this.MetaDataGrid.RowTemplate.Height = 24;
+            this.MetaDataGrid.Size = new System.Drawing.Size(1017, 226);
+            this.MetaDataGrid.TabIndex = 12;
+            this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
+            this.MetaDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellValueChanged);
+            this.MetaDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MetaDataGrid_DataError);
+            this.MetaDataGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.MetaDataGrid_EditingControlShowing);
+            this.MetaDataGrid.SelectionChanged += new System.EventHandler(this.MetaDataGrid_SelectionChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.MetaDataHeaderPanel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1017, 47);
+            this.panel1.TabIndex = 14;
+            // 
+            // MetaDataHeaderPanel
+            // 
+            this.MetaDataHeaderPanel.AutoSize = true;
+            this.MetaDataHeaderPanel.ColumnCount = 3;
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
+            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 368F));
+            this.MetaDataHeaderPanel.Controls.Add(this.MetaDataActionsPanel, 2, 0);
+            this.MetaDataHeaderPanel.Controls.Add(this.ComboBoxSelectMetadataFileName, 1, 0);
+            this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
+            this.MetaDataHeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MetaDataHeaderPanel.Location = new System.Drawing.Point(0, 0);
+            this.MetaDataHeaderPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.MetaDataHeaderPanel.MaximumSize = new System.Drawing.Size(0, 39);
+            this.MetaDataHeaderPanel.Name = "MetaDataHeaderPanel";
+            this.MetaDataHeaderPanel.RowCount = 1;
+            this.MetaDataHeaderPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.MetaDataHeaderPanel.Size = new System.Drawing.Size(1017, 39);
+            this.MetaDataHeaderPanel.TabIndex = 17;
+            // 
+            // MetaDataActionsPanel
+            // 
+            this.MetaDataActionsPanel.ColumnCount = 2;
+            this.MetaDataActionsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.MetaDataActionsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.MetaDataActionsPanel.Controls.Add(this.BtnRemoveMetaData, 0, 0);
+            this.MetaDataActionsPanel.Controls.Add(this.BtnAddMetaData, 0, 0);
+            this.MetaDataActionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MetaDataActionsPanel.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.MetaDataActionsPanel.Location = new System.Drawing.Point(648, 0);
+            this.MetaDataActionsPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.MetaDataActionsPanel.Name = "MetaDataActionsPanel";
+            this.MetaDataActionsPanel.RowCount = 1;
+            this.MetaDataActionsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.MetaDataActionsPanel.Size = new System.Drawing.Size(369, 60);
+            this.MetaDataActionsPanel.TabIndex = 12;
+            // 
+            // BtnRemoveMetaData
+            // 
+            this.BtnRemoveMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.BtnRemoveMetaData.Enabled = false;
+            this.BtnRemoveMetaData.ImageIndex = 1;
+            this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
+            this.BtnRemoveMetaData.Location = new System.Drawing.Point(187, 2);
+            this.BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
+            this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.BtnRemoveMetaData.Size = new System.Drawing.Size(179, 37);
+            this.BtnRemoveMetaData.TabIndex = 8;
+            this.BtnRemoveMetaData.UseVisualStyleBackColor = true;
+            this.BtnRemoveMetaData.Click += new System.EventHandler(this.BtnRemoveMetaData_Click);
+            // 
+            // SmallIconsImages
+            // 
+            this.SmallIconsImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SmallIconsImages.ImageStream")));
+            this.SmallIconsImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.SmallIconsImages.Images.SetKeyName(0, "add.png");
+            this.SmallIconsImages.Images.SetKeyName(1, "delete.png");
+            // 
+            // BtnAddMetaData
+            // 
+            this.BtnAddMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            this.BtnAddMetaData.ImageIndex = 0;
+            this.BtnAddMetaData.ImageList = this.SmallIconsImages;
+            this.BtnAddMetaData.Location = new System.Drawing.Point(3, 2);
+            this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.BtnAddMetaData.Name = "BtnAddMetaData";
+            this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.BtnAddMetaData.Size = new System.Drawing.Size(178, 37);
+            this.BtnAddMetaData.TabIndex = 7;
+            this.BtnAddMetaData.UseVisualStyleBackColor = true;
+            this.BtnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);
+            // 
+            // ComboBoxSelectMetadataFileName
+            // 
+            this.ComboBoxSelectMetadataFileName.AutoCompleteCustomSource.AddRange(new string[] {
+            "ComicInfo.xml",
+            "ComicRack.xml"});
+            this.ComboBoxSelectMetadataFileName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ComboBoxSelectMetadataFileName.FormattingEnabled = true;
+            this.ComboBoxSelectMetadataFileName.Items.AddRange(new object[] {
+            "ComicInfo.xml"});
+            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(89, 2);
+            this.ComboBoxSelectMetadataFileName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ComboBoxSelectMetadataFileName.Name = "ComboBoxSelectMetadataFileName";
+            this.ComboBoxSelectMetadataFileName.Size = new System.Drawing.Size(556, 24);
+            this.ComboBoxSelectMetadataFileName.TabIndex = 2;
+            this.ComboBoxSelectMetadataFileName.Text = "ComicInfo.xml";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 60);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Metadata";
+            // 
+            // MessageLogListView
+            // 
+            this.MessageLogListView.AutoArrange = false;
+            this.MessageLogListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.messageLogColumnIcon,
+            this.messageLogColumnTime,
+            this.messageLogColumnMessage});
+            this.MessageLogListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MessageLogListView.FullRowSelect = true;
+            this.MessageLogListView.GridLines = true;
+            this.MessageLogListView.HideSelection = false;
+            this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
+            this.MessageLogListView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MessageLogListView.Name = "MessageLogListView";
+            this.MessageLogListView.Size = new System.Drawing.Size(1431, 139);
+            this.MessageLogListView.SmallImageList = this.LogMessageImageList;
+            this.MessageLogListView.TabIndex = 0;
+            this.MessageLogListView.UseCompatibleStateImageBehavior = false;
+            this.MessageLogListView.View = System.Windows.Forms.View.Details;
+            // 
+            // messageLogColumnIcon
+            // 
+            this.messageLogColumnIcon.Text = "";
+            // 
+            // messageLogColumnTime
+            // 
+            this.messageLogColumnTime.Text = "Time";
+            this.messageLogColumnTime.Width = 120;
+            // 
+            // messageLogColumnMessage
+            // 
+            this.messageLogColumnMessage.Text = "Message";
+            this.messageLogColumnMessage.Width = 917;
+            // 
+            // LogMessageImageList
+            // 
+            this.LogMessageImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("LogMessageImageList.ImageStream")));
+            this.LogMessageImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.LogMessageImageList.Images.SetKeyName(0, "information.png");
+            this.LogMessageImageList.Images.SetKeyName(1, "sign_warning.png");
+            this.LogMessageImageList.Images.SetKeyName(2, "error.png");
+            this.LogMessageImageList.Images.SetKeyName(3, "speech_balloon_answer.png");
+            // 
+            // SaveArchiveDialog
+            // 
+            this.SaveArchiveDialog.CreatePrompt = true;
+            this.SaveArchiveDialog.Filter = "ComicBookArchive (*.cbz)|*.cbz";
+            // 
+            // Tooltip
+            // 
+            this.Tooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.Tooltip.ToolTipTitle = "Win_CBZ";
+            // 
+            // SelectColorDialog
+            // 
+            this.SelectColorDialog.AnyColor = true;
+            // 
+            // PageView
+            // 
+            this.PageView.AutoArrange = false;
+            this.PageView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.PageView.HideSelection = false;
+            this.PageView.LabelWrap = false;
+            this.PageView.LargeImageList = this.PageImages;
+            this.PageView.Location = new System.Drawing.Point(0, 0);
+            this.PageView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PageView.Name = "PageView";
+            this.PageView.OwnerDraw = true;
+            this.PageView.Size = new System.Drawing.Size(400, 182);
+            this.PageView.TabIndex = 6;
+            this.PageView.UseCompatibleStateImageBehavior = false;
+            this.PageView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.PageView_DrawItem);
+            this.PageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PageView_ItemSelectionChanged);
             // 
             // PagesList
             // 
@@ -1532,277 +1805,6 @@ namespace Win_CBZ
             // 
             this.SizeFormatedPageCol.Text = "Size";
             this.SizeFormatedPageCol.Width = 160;
-            // 
-            // MetadataPanel
-            // 
-            this.MetadataPanel.ColumnCount = 1;
-            this.MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MetadataPanel.Controls.Add(this.MetaDataTableActionsPanel, 0, 2);
-            this.MetadataPanel.Controls.Add(this.MetaDataGrid, 0, 1);
-            this.MetadataPanel.Controls.Add(this.panel1, 0, 0);
-            this.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetadataPanel.Location = new System.Drawing.Point(0, 0);
-            this.MetadataPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetadataPanel.Name = "MetadataPanel";
-            this.MetadataPanel.RowCount = 3;
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.22222F));
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.77778F));
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MetadataPanel.Size = new System.Drawing.Size(1023, 331);
-            this.MetadataPanel.TabIndex = 10;
-            // 
-            // MetaDataTableActionsPanel
-            // 
-            this.MetaDataTableActionsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MetaDataTableActionsPanel.AutoSize = true;
-            this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
-            this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
-            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 286);
-            this.MetaDataTableActionsPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
-            this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(1017, 43);
-            this.MetaDataTableActionsPanel.TabIndex = 13;
-            // 
-            // AddMetaDataRowBtn
-            // 
-            this.AddMetaDataRowBtn.Enabled = false;
-            this.AddMetaDataRowBtn.Image = global::Win_CBZ.Properties.Resources.add;
-            this.AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.AddMetaDataRowBtn.Location = new System.Drawing.Point(3, 2);
-            this.AddMetaDataRowBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
-            this.AddMetaDataRowBtn.Size = new System.Drawing.Size(165, 39);
-            this.AddMetaDataRowBtn.TabIndex = 0;
-            this.AddMetaDataRowBtn.Text = "Add Property";
-            this.AddMetaDataRowBtn.UseVisualStyleBackColor = true;
-            this.AddMetaDataRowBtn.Click += new System.EventHandler(this.AddMetaDataRowBtn_Click);
-            // 
-            // RemoveMetadataRowBtn
-            // 
-            this.RemoveMetadataRowBtn.Enabled = false;
-            this.RemoveMetadataRowBtn.Image = global::Win_CBZ.Properties.Resources.delete;
-            this.RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(174, 2);
-            this.RemoveMetadataRowBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
-            this.RemoveMetadataRowBtn.Size = new System.Drawing.Size(157, 39);
-            this.RemoveMetadataRowBtn.TabIndex = 1;
-            this.RemoveMetadataRowBtn.Text = "Remove";
-            this.RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
-            this.RemoveMetadataRowBtn.Click += new System.EventHandler(this.RemoveMetadataRowBtn_Click);
-            // 
-            // MetaDataGrid
-            // 
-            this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
-            this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataGrid.Location = new System.Drawing.Point(3, 53);
-            this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.MetaDataGrid.RowHeadersWidth = 51;
-            this.MetaDataGrid.RowTemplate.Height = 24;
-            this.MetaDataGrid.Size = new System.Drawing.Size(1017, 227);
-            this.MetaDataGrid.TabIndex = 12;
-            this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
-            this.MetaDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellValueChanged);
-            this.MetaDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MetaDataGrid_DataError);
-            this.MetaDataGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.MetaDataGrid_EditingControlShowing);
-            this.MetaDataGrid.SelectionChanged += new System.EventHandler(this.MetaDataGrid_SelectionChanged);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.MetaDataHeaderPanel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1017, 47);
-            this.panel1.TabIndex = 14;
-            // 
-            // MetaDataHeaderPanel
-            // 
-            this.MetaDataHeaderPanel.AutoSize = true;
-            this.MetaDataHeaderPanel.ColumnCount = 3;
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.35227F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.64773F));
-            this.MetaDataHeaderPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 360F));
-            this.MetaDataHeaderPanel.Controls.Add(this.MetaDataActionsPanel, 2, 0);
-            this.MetaDataHeaderPanel.Controls.Add(this.ComboBoxSelectMetadataFileName, 1, 0);
-            this.MetaDataHeaderPanel.Controls.Add(this.label1, 0, 0);
-            this.MetaDataHeaderPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.MetaDataHeaderPanel.Location = new System.Drawing.Point(0, 0);
-            this.MetaDataHeaderPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.MetaDataHeaderPanel.MaximumSize = new System.Drawing.Size(0, 39);
-            this.MetaDataHeaderPanel.Name = "MetaDataHeaderPanel";
-            this.MetaDataHeaderPanel.RowCount = 1;
-            this.MetaDataHeaderPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.MetaDataHeaderPanel.Size = new System.Drawing.Size(1017, 39);
-            this.MetaDataHeaderPanel.TabIndex = 17;
-            // 
-            // MetaDataActionsPanel
-            // 
-            this.MetaDataActionsPanel.ColumnCount = 2;
-            this.MetaDataActionsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.MetaDataActionsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.MetaDataActionsPanel.Controls.Add(this.BtnRemoveMetaData, 0, 0);
-            this.MetaDataActionsPanel.Controls.Add(this.BtnAddMetaData, 0, 0);
-            this.MetaDataActionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataActionsPanel.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.MetaDataActionsPanel.Location = new System.Drawing.Point(656, 0);
-            this.MetaDataActionsPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.MetaDataActionsPanel.Name = "MetaDataActionsPanel";
-            this.MetaDataActionsPanel.RowCount = 1;
-            this.MetaDataActionsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.MetaDataActionsPanel.Size = new System.Drawing.Size(361, 60);
-            this.MetaDataActionsPanel.TabIndex = 12;
-            // 
-            // BtnRemoveMetaData
-            // 
-            this.BtnRemoveMetaData.Dock = System.Windows.Forms.DockStyle.Top;
-            this.BtnRemoveMetaData.Enabled = false;
-            this.BtnRemoveMetaData.ImageIndex = 1;
-            this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.BtnRemoveMetaData.Location = new System.Drawing.Point(183, 2);
-            this.BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
-            this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnRemoveMetaData.Size = new System.Drawing.Size(175, 37);
-            this.BtnRemoveMetaData.TabIndex = 8;
-            this.BtnRemoveMetaData.UseVisualStyleBackColor = true;
-            this.BtnRemoveMetaData.Click += new System.EventHandler(this.BtnRemoveMetaData_Click);
-            // 
-            // SmallIconsImages
-            // 
-            this.SmallIconsImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SmallIconsImages.ImageStream")));
-            this.SmallIconsImages.TransparentColor = System.Drawing.Color.Transparent;
-            this.SmallIconsImages.Images.SetKeyName(0, "add.png");
-            this.SmallIconsImages.Images.SetKeyName(1, "delete.png");
-            // 
-            // BtnAddMetaData
-            // 
-            this.BtnAddMetaData.Dock = System.Windows.Forms.DockStyle.Top;
-            this.BtnAddMetaData.ImageIndex = 0;
-            this.BtnAddMetaData.ImageList = this.SmallIconsImages;
-            this.BtnAddMetaData.Location = new System.Drawing.Point(3, 2);
-            this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.BtnAddMetaData.Name = "BtnAddMetaData";
-            this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnAddMetaData.Size = new System.Drawing.Size(174, 37);
-            this.BtnAddMetaData.TabIndex = 7;
-            this.BtnAddMetaData.UseVisualStyleBackColor = true;
-            this.BtnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);
-            // 
-            // ComboBoxSelectMetadataFileName
-            // 
-            this.ComboBoxSelectMetadataFileName.AutoCompleteCustomSource.AddRange(new string[] {
-            "ComicInfo.xml",
-            "ComicRack.xml"});
-            this.ComboBoxSelectMetadataFileName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ComboBoxSelectMetadataFileName.FormattingEnabled = true;
-            this.ComboBoxSelectMetadataFileName.Items.AddRange(new object[] {
-            "ComicInfo.xml"});
-            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(90, 2);
-            this.ComboBoxSelectMetadataFileName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ComboBoxSelectMetadataFileName.Name = "ComboBoxSelectMetadataFileName";
-            this.ComboBoxSelectMetadataFileName.Size = new System.Drawing.Size(563, 24);
-            this.ComboBoxSelectMetadataFileName.TabIndex = 2;
-            this.ComboBoxSelectMetadataFileName.Text = "ComicInfo.xml";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(81, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Metadata";
-            // 
-            // MessageLogListView
-            // 
-            this.MessageLogListView.AutoArrange = false;
-            this.MessageLogListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.messageLogColumnIcon,
-            this.messageLogColumnTime,
-            this.messageLogColumnMessage});
-            this.MessageLogListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MessageLogListView.FullRowSelect = true;
-            this.MessageLogListView.GridLines = true;
-            this.MessageLogListView.HideSelection = false;
-            this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
-            this.MessageLogListView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MessageLogListView.Name = "MessageLogListView";
-            this.MessageLogListView.Size = new System.Drawing.Size(1431, 140);
-            this.MessageLogListView.SmallImageList = this.LogMessageImageList;
-            this.MessageLogListView.TabIndex = 0;
-            this.MessageLogListView.UseCompatibleStateImageBehavior = false;
-            this.MessageLogListView.View = System.Windows.Forms.View.Details;
-            // 
-            // messageLogColumnIcon
-            // 
-            this.messageLogColumnIcon.Text = "";
-            // 
-            // messageLogColumnTime
-            // 
-            this.messageLogColumnTime.Text = "Time";
-            this.messageLogColumnTime.Width = 120;
-            // 
-            // messageLogColumnMessage
-            // 
-            this.messageLogColumnMessage.Text = "Message";
-            this.messageLogColumnMessage.Width = 917;
-            // 
-            // LogMessageImageList
-            // 
-            this.LogMessageImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("LogMessageImageList.ImageStream")));
-            this.LogMessageImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.LogMessageImageList.Images.SetKeyName(0, "information.png");
-            this.LogMessageImageList.Images.SetKeyName(1, "sign_warning.png");
-            this.LogMessageImageList.Images.SetKeyName(2, "error.png");
-            this.LogMessageImageList.Images.SetKeyName(3, "speech_balloon_answer.png");
-            // 
-            // SaveArchiveDialog
-            // 
-            this.SaveArchiveDialog.CreatePrompt = true;
-            this.SaveArchiveDialog.Filter = "ComicBookArchive (*.cbz)|*.cbz";
-            // 
-            // Tooltip
-            // 
-            this.Tooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.Tooltip.ToolTipTitle = "Win_CBZ";
-            // 
-            // SelectColorDialog
-            // 
-            this.SelectColorDialog.AnyColor = true;
             // 
             // MainForm
             // 

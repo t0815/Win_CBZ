@@ -359,6 +359,7 @@ namespace Win_CBZ
                         saveToolStripMenuItem.Enabled = true;
                     }
                 
+                    
             }));
         }
 
@@ -372,6 +373,24 @@ namespace Win_CBZ
                 {
                     ToolButtonSave.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
+                }
+
+                if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
+                {
+
+                    foreach (DataGridViewRow r in  MetaDataGrid.SelectedRows)
+                    {
+                        r.Selected = false;
+                    }
+
+                    MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value);
+
+                    if (e.Entry.Key == "" && e.Entry.Value == null)
+                    {
+                        //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
+                        MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
+                        MetaDataGrid.BeginEdit(false);
+                    }
                 }
             }));
         }
@@ -1283,7 +1302,6 @@ namespace Win_CBZ
         private void AddMetaDataRowBtn_Click(object sender, EventArgs e)
         {
             Program.ProjectModel.MetaData.Add("");
-            MetaDataGrid.Refresh();
         }
 
         private void MetaDataGrid_SelectionChanged(object sender, EventArgs e)
@@ -1339,17 +1357,16 @@ namespace Win_CBZ
         private void MetaDataGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             //
+            /*
             DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle();
-            DataGridViewComboBoxCell cbc1 = new DataGridViewComboBoxCell();
-            cbc1.Items.Add("item 1");
-            cbc1.Items.Add("item 2");
-
+            
             dataGridViewCellStyle.ForeColor = e.CellStyle.ForeColor;
             dataGridViewCellStyle.BackColor = e.CellStyle.BackColor;
             dataGridViewCellStyle.SelectionForeColor = Color.White;
             dataGridViewCellStyle.SelectionBackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
 
             e.CellStyle = dataGridViewCellStyle;
+            */
         }
 
         private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -1395,6 +1412,8 @@ namespace Win_CBZ
                     }
 
                     MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
+                    MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
+                    MetaDataGrid.Invalidate();
 
                     if (e.ColumnIndex == 0) { 
                         var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
@@ -1756,12 +1775,18 @@ namespace Win_CBZ
 
         private void toolStripButtonShowRawMetadata_Click(object sender, EventArgs e)
         {
-            MemoryStream ms = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
-            var utf8WithoutBom = new System.Text.UTF8Encoding(false);
-            String metaData = utf8WithoutBom.GetString(ms.ToArray());
-       
-            MetaDataForm metaDataDialog = new MetaDataForm(metaData);
-            metaDataDialog.ShowDialog();
+            try
+            {
+                MemoryStream ms = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
+                var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+                String metaData = utf8WithoutBom.GetString(ms.ToArray());
+
+                MetaDataForm metaDataDialog = new MetaDataForm(metaData);
+                metaDataDialog.ShowDialog();
+            } catch (Exception ex)
+            {
+                ApplicationMessage.ShowException(ex);
+            }
 
         }
 

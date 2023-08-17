@@ -29,7 +29,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.10.27b released!
+v0.10.28b released!
 
 ## Third party components
 
@@ -41,3 +41,6 @@ https://devblog.cyotek.com/post/dragging-items-in-a-listview-control-with-visual
 ### Icon Experience O-Collection (c) INCORS GmbH
 
 https://www.iconexperience.com/o_collection/
+
+
+### Web View XSL Sheet (c) Jonathan Marsh, Steve Muench

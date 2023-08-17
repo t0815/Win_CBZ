@@ -197,7 +197,7 @@ namespace Win_CBZ
             xmlWriter.WriteStartElement("ComicInfo");
             foreach (MetaDataEntry entry in Values)
             {
-                xmlWriter.WriteElementString(entry.Key, entry.Value);
+                    xmlWriter.WriteElementString(entry.Key, entry.Value);
             }
             xmlWriter.WriteStartElement("Pages");
             foreach (MetaDataEntryPage page in PageIndex)
@@ -329,7 +329,11 @@ namespace Win_CBZ
 
         public int Add(String key, String value = null)
         {
-            Values.Add(HandleNewEntry(key, value));
+            MetaDataEntry newEntry = HandleNewEntry(key, value);
+
+            Values.Add(newEntry);
+
+            OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_NEW, Values.Count - 1, newEntry));
 
             return Values.Count - 1;
         }
