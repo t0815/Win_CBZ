@@ -433,7 +433,18 @@ namespace Win_CBZ
             ExtractArchiveThread.Start();
 
             return ExtractArchiveThread;
-        } 
+        }
+
+        public bool Exists()
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(FileName);
+
+                return fileInfo.Exists;
+            }
+            catch (Exception) { return false; }
+        }
 
         
         public void AddImagesProc()

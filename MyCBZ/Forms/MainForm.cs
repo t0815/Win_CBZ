@@ -1292,7 +1292,7 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel != null && Program.ProjectModel.MetaData != null)
             {
-                if (Program.ProjectModel.MetaData.HasValues()) {
+                if (Program.ProjectModel.MetaData.HasValues() && Program.ProjectModel.Exists()) {
                     if (ApplicationMessage.ShowConfirmation("Are you sure you want to remove existing Metadata from Archive?", "Remove existing Meta-Data") == DialogResult.Yes)
                     {
                         RemoveMetaData();
@@ -1617,6 +1617,14 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.PagePreviewEnabled && PageView.Items.Count == 0) 
             {
+                PageView.Invoke(new Action(() =>
+                {
+                    foreach (ListViewItem pageItem in PagesList.Items)
+                    {
+                        CreatePagePreviewFromItem((Page)pageItem.Tag);
+                    }
+                }));
+
                 /*
                 if (ThumbnailThread != null)
                 {
@@ -1628,16 +1636,6 @@ namespace Win_CBZ
 
                 ThumbnailThread = new Thread(new ThreadStart(ReloadPreviewThumbs));
                 ThumbnailThread.Start();
-                */
-
-                /*
-                PageView.Invoke(new Action(() =>
-                {
-                    foreach (ListViewItem pageItem in PagesList.Items)
-                    {
-                        CreatePagePreviewFromItem((Page)pageItem.Tag);
-                    }
-                }));
                 */
             }
         }

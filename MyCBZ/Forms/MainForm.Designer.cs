@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -1494,8 +1494,8 @@ namespace Win_CBZ
             this.MetadataPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetadataPanel.Name = "MetadataPanel";
             this.MetadataPanel.RowCount = 3;
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.11111F));
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.88889F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.66667F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.33334F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
             this.MetadataPanel.Size = new System.Drawing.Size(778, 265);
@@ -1552,7 +1552,7 @@ namespace Win_CBZ
             this.MetaDataHeaderPanel.Location = new System.Drawing.Point(2, 2);
             this.MetaDataHeaderPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataHeaderPanel.Name = "MetaDataHeaderPanel";
-            this.MetaDataHeaderPanel.Size = new System.Drawing.Size(774, 39);
+            this.MetaDataHeaderPanel.Size = new System.Drawing.Size(774, 29);
             this.MetaDataHeaderPanel.TabIndex = 14;
             // 
             // BtnRemoveMetaData
@@ -1561,7 +1561,7 @@ namespace Win_CBZ
             this.BtnRemoveMetaData.Enabled = false;
             this.BtnRemoveMetaData.ImageIndex = 1;
             this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.BtnRemoveMetaData.Location = new System.Drawing.Point(728, 9);
+            this.BtnRemoveMetaData.Location = new System.Drawing.Point(728, 0);
             this.BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(0);
             this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1582,7 +1582,7 @@ namespace Win_CBZ
             this.BtnAddMetaData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAddMetaData.ImageIndex = 0;
             this.BtnAddMetaData.ImageList = this.SmallIconsImages;
-            this.BtnAddMetaData.Location = new System.Drawing.Point(691, 9);
+            this.BtnAddMetaData.Location = new System.Drawing.Point(691, 0);
             this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
             this.BtnAddMetaData.Name = "BtnAddMetaData";
             this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1593,7 +1593,7 @@ namespace Win_CBZ
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(4, 9);
+            this.label1.Location = new System.Drawing.Point(4, 3);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 18);
@@ -1610,7 +1610,7 @@ namespace Win_CBZ
             this.ComboBoxSelectMetadataFileName.FormattingEnabled = true;
             this.ComboBoxSelectMetadataFileName.Items.AddRange(new object[] {
             "ComicInfo.xml"});
-            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(78, 9);
+            this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(78, 0);
             this.ComboBoxSelectMetadataFileName.Margin = new System.Windows.Forms.Padding(2);
             this.ComboBoxSelectMetadataFileName.Name = "ComboBoxSelectMetadataFileName";
             this.ComboBoxSelectMetadataFileName.Size = new System.Drawing.Size(609, 21);
@@ -1621,41 +1621,41 @@ namespace Win_CBZ
             // 
             this.MetaDataGrid.AllowUserToAddRows = false;
             this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle11;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataGrid.Location = new System.Drawing.Point(2, 45);
+            this.MetaDataGrid.Location = new System.Drawing.Point(2, 35);
             this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataGrid.MultiSelect = false;
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
-            this.MetaDataGrid.Size = new System.Drawing.Size(774, 178);
+            this.MetaDataGrid.Size = new System.Drawing.Size(774, 188);
             this.MetaDataGrid.TabIndex = 12;
             this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
             this.MetaDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellValueChanged);
