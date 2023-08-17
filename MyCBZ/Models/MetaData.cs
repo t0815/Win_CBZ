@@ -45,10 +45,17 @@ namespace Win_CBZ
 
         protected static readonly string[] Manga = 
         { 
+            "Unknown",
             "Yes", 
             "YesAndRightToLeft", 
-            "No", 
-            "Unknown" 
+            "No",            
+        };
+
+        protected static readonly string[] BlackAndWhite =
+        {
+            "Unknown",
+            "Yes",
+            "No",           
         };
 
 
@@ -56,7 +63,8 @@ namespace Win_CBZ
         {
             { "Manga", Manga },
             { "AgeRating", Ratings },
-            { "ParentalRating", Ratings }
+            { "ParentalRating", Ratings },
+            { "BlackAndWhite", BlackAndWhite }
         };
 
 
