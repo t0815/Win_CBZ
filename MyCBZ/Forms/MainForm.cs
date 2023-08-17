@@ -1153,7 +1153,7 @@ namespace Win_CBZ
                         e.CancelEdit = true;
                         ApplicationMessage.ShowException(eduplicate, ApplicationMessage.MT_ERROR);
                     }
-                    catch (PageException ep)
+                    catch (PageException)
                     {
                         e.CancelEdit = true;
                     }
