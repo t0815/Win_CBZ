@@ -648,26 +648,15 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        if (!PageImages.Images.ContainsKey(page.Id))
-                        {
-                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
-                        }
-                        else
-                        {
-                            if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
-                            {
-                                PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
-                                page.ThumbnailInvalidated = false;
-                            }
-                        }
+                        page.LoadImageInfo();
                     }
                     catch (Exception e)
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
                     }
                 }
 
-                ThumbnailPagesSlice.Clear();
+                ImageInfoPagesSlice.Clear();
             }));
         }
 
