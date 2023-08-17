@@ -157,13 +157,13 @@ namespace Win_CBZ
             this.MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.AddMetaDataRowBtn = new System.Windows.Forms.Button();
             this.RemoveMetadataRowBtn = new System.Windows.Forms.Button();
-            this.MetaDataGrid = new System.Windows.Forms.DataGridView();
             this.MetaDataHeaderPanel = new System.Windows.Forms.Panel();
             this.BtnRemoveMetaData = new System.Windows.Forms.Button();
             this.SmallIconsImages = new System.Windows.Forms.ImageList(this.components);
             this.BtnAddMetaData = new System.Windows.Forms.Button();
-            this.ComboBoxSelectMetadataFileName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.ComboBoxSelectMetadataFileName = new System.Windows.Forms.ComboBox();
+            this.MetaDataGrid = new System.Windows.Forms.DataGridView();
             this.MessageLogListView = new System.Windows.Forms.ListView();
             this.messageLogColumnIcon = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.messageLogColumnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -214,8 +214,8 @@ namespace Win_CBZ
             this.SplitBoxItemsList.SuspendLayout();
             this.MetadataPanel.SuspendLayout();
             this.MetaDataTableActionsPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MetaDataGrid)).BeginInit();
             this.MetaDataHeaderPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MetaDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // ToolBar
@@ -859,7 +859,7 @@ namespace Win_CBZ
             // 
             this.PrimarySplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PrimarySplitBox.Location = new System.Drawing.Point(0, 55);
-            this.PrimarySplitBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PrimarySplitBox.Margin = new System.Windows.Forms.Padding(2);
             this.PrimarySplitBox.Name = "PrimarySplitBox";
             this.PrimarySplitBox.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -881,7 +881,7 @@ namespace Win_CBZ
             this.MainPanel.Controls.Add(this.MainSplitBox);
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
-            this.MainPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MainPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(1088, 416);
             this.MainPanel.TabIndex = 4;
@@ -891,7 +891,7 @@ namespace Win_CBZ
             this.MainSplitBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.MainSplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainSplitBox.Location = new System.Drawing.Point(0, 0);
-            this.MainSplitBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MainSplitBox.Margin = new System.Windows.Forms.Padding(2);
             this.MainSplitBox.Name = "MainSplitBox";
             // 
             // MainSplitBox.Panel1
@@ -910,7 +910,7 @@ namespace Win_CBZ
             // 
             this.SplitBoxPageView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitBoxPageView.Location = new System.Drawing.Point(0, 0);
-            this.SplitBoxPageView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SplitBoxPageView.Margin = new System.Windows.Forms.Padding(2);
             this.SplitBoxPageView.Name = "SplitBoxPageView";
             this.SplitBoxPageView.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -934,7 +934,7 @@ namespace Win_CBZ
             this.TabControlPageSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabControlPageSettings.ImageList = this.TabImages;
             this.TabControlPageSettings.Location = new System.Drawing.Point(0, 0);
-            this.TabControlPageSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabControlPageSettings.Margin = new System.Windows.Forms.Padding(2);
             this.TabControlPageSettings.Name = "TabControlPageSettings";
             this.TabControlPageSettings.SelectedIndex = 0;
             this.TabControlPageSettings.Size = new System.Drawing.Size(303, 265);
@@ -949,9 +949,9 @@ namespace Win_CBZ
             this.TabPagePageSettings.Controls.Add(this.GroupBoxImageQuality);
             this.TabPagePageSettings.ImageIndex = 0;
             this.TabPagePageSettings.Location = new System.Drawing.Point(4, 23);
-            this.TabPagePageSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabPagePageSettings.Margin = new System.Windows.Forms.Padding(2);
             this.TabPagePageSettings.Name = "TabPagePageSettings";
-            this.TabPagePageSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabPagePageSettings.Padding = new System.Windows.Forms.Padding(2);
             this.TabPagePageSettings.Size = new System.Drawing.Size(295, 238);
             this.TabPagePageSettings.TabIndex = 0;
             this.TabPagePageSettings.Text = "Page Adjustments";
@@ -967,10 +967,10 @@ namespace Win_CBZ
             this.GroupBoxDoublePages.Controls.Add(this.textBox1);
             this.GroupBoxDoublePages.Controls.Add(this.CheckBoxSplitDoublePages);
             this.GroupBoxDoublePages.Location = new System.Drawing.Point(4, 250);
-            this.GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2);
             this.GroupBoxDoublePages.Name = "GroupBoxDoublePages";
-            this.GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.GroupBoxDoublePages.Size = new System.Drawing.Size(282, 122);
+            this.GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2);
+            this.GroupBoxDoublePages.Size = new System.Drawing.Size(265, 122);
             this.GroupBoxDoublePages.TabIndex = 6;
             this.GroupBoxDoublePages.TabStop = false;
             this.GroupBoxDoublePages.Text = "Split Double-Pages";
@@ -980,7 +980,7 @@ namespace Win_CBZ
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.PictureBoxColorSelect);
             this.panel2.Location = new System.Drawing.Point(36, 87);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(30, 29);
             this.panel2.TabIndex = 6;
@@ -990,7 +990,7 @@ namespace Win_CBZ
             this.PictureBoxColorSelect.BackColor = System.Drawing.Color.Black;
             this.PictureBoxColorSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PictureBoxColorSelect.Location = new System.Drawing.Point(0, 0);
-            this.PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(2);
             this.PictureBoxColorSelect.Name = "PictureBoxColorSelect";
             this.PictureBoxColorSelect.Size = new System.Drawing.Size(28, 27);
             this.PictureBoxColorSelect.TabIndex = 5;
@@ -1015,7 +1015,7 @@ namespace Win_CBZ
             "%",
             "px"});
             this.ComboBoxSplitUnit.Location = new System.Drawing.Point(95, 50);
-            this.ComboBoxSplitUnit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ComboBoxSplitUnit.Margin = new System.Windows.Forms.Padding(2);
             this.ComboBoxSplitUnit.Name = "ComboBoxSplitUnit";
             this.ComboBoxSplitUnit.Size = new System.Drawing.Size(38, 21);
             this.ComboBoxSplitUnit.TabIndex = 2;
@@ -1023,7 +1023,7 @@ namespace Win_CBZ
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(36, 51);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(46, 20);
             this.textBox1.TabIndex = 1;
@@ -1032,7 +1032,7 @@ namespace Win_CBZ
             // 
             this.CheckBoxSplitDoublePages.AutoSize = true;
             this.CheckBoxSplitDoublePages.Location = new System.Drawing.Point(20, 24);
-            this.CheckBoxSplitDoublePages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CheckBoxSplitDoublePages.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBoxSplitDoublePages.Name = "CheckBoxSplitDoublePages";
             this.CheckBoxSplitDoublePages.Size = new System.Drawing.Size(58, 17);
             this.CheckBoxSplitDoublePages.TabIndex = 0;
@@ -1052,10 +1052,10 @@ namespace Win_CBZ
             this.GroupBoxResize.Controls.Add(this.TextBoxResizeH);
             this.GroupBoxResize.Controls.Add(this.TextBoxResizeW);
             this.GroupBoxResize.Location = new System.Drawing.Point(4, 130);
-            this.GroupBoxResize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GroupBoxResize.Margin = new System.Windows.Forms.Padding(2);
             this.GroupBoxResize.Name = "GroupBoxResize";
-            this.GroupBoxResize.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.GroupBoxResize.Size = new System.Drawing.Size(329, 114);
+            this.GroupBoxResize.Padding = new System.Windows.Forms.Padding(2);
+            this.GroupBoxResize.Size = new System.Drawing.Size(312, 114);
             this.GroupBoxResize.TabIndex = 5;
             this.GroupBoxResize.TabStop = false;
             this.GroupBoxResize.Text = "Resize";
@@ -1094,7 +1094,7 @@ namespace Win_CBZ
             // 
             this.RadioButtonResizeIfLarger.AutoSize = true;
             this.RadioButtonResizeIfLarger.Location = new System.Drawing.Point(20, 38);
-            this.RadioButtonResizeIfLarger.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RadioButtonResizeIfLarger.Margin = new System.Windows.Forms.Padding(2);
             this.RadioButtonResizeIfLarger.Name = "RadioButtonResizeIfLarger";
             this.RadioButtonResizeIfLarger.Size = new System.Drawing.Size(107, 17);
             this.RadioButtonResizeIfLarger.TabIndex = 4;
@@ -1106,7 +1106,7 @@ namespace Win_CBZ
             // 
             this.RadioButtonResizeNever.AutoSize = true;
             this.RadioButtonResizeNever.Location = new System.Drawing.Point(20, 17);
-            this.RadioButtonResizeNever.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RadioButtonResizeNever.Margin = new System.Windows.Forms.Padding(2);
             this.RadioButtonResizeNever.Name = "RadioButtonResizeNever";
             this.RadioButtonResizeNever.Size = new System.Drawing.Size(89, 17);
             this.RadioButtonResizeNever.TabIndex = 3;
@@ -1118,7 +1118,7 @@ namespace Win_CBZ
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Location = new System.Drawing.Point(20, 62);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(69, 17);
             this.radioButton1.TabIndex = 2;
@@ -1129,7 +1129,7 @@ namespace Win_CBZ
             // TextBoxResizeH
             // 
             this.TextBoxResizeH.Location = new System.Drawing.Point(113, 83);
-            this.TextBoxResizeH.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TextBoxResizeH.Margin = new System.Windows.Forms.Padding(2);
             this.TextBoxResizeH.Name = "TextBoxResizeH";
             this.TextBoxResizeH.Size = new System.Drawing.Size(50, 20);
             this.TextBoxResizeH.TabIndex = 1;
@@ -1137,7 +1137,7 @@ namespace Win_CBZ
             // TextBoxResizeW
             // 
             this.TextBoxResizeW.Location = new System.Drawing.Point(36, 83);
-            this.TextBoxResizeW.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TextBoxResizeW.Margin = new System.Windows.Forms.Padding(2);
             this.TextBoxResizeW.Name = "TextBoxResizeW";
             this.TextBoxResizeW.Size = new System.Drawing.Size(46, 20);
             this.TextBoxResizeW.TabIndex = 0;
@@ -1149,9 +1149,9 @@ namespace Win_CBZ
             this.GroupBoxDimensions.Controls.Add(this.LabelHeight);
             this.GroupBoxDimensions.Controls.Add(this.LabelWidth);
             this.GroupBoxDimensions.Location = new System.Drawing.Point(4, 8);
-            this.GroupBoxDimensions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GroupBoxDimensions.Margin = new System.Windows.Forms.Padding(2);
             this.GroupBoxDimensions.Name = "GroupBoxDimensions";
-            this.GroupBoxDimensions.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GroupBoxDimensions.Padding = new System.Windows.Forms.Padding(2);
             this.GroupBoxDimensions.Size = new System.Drawing.Size(250, 50);
             this.GroupBoxDimensions.TabIndex = 4;
             this.GroupBoxDimensions.TabStop = false;
@@ -1207,10 +1207,10 @@ namespace Win_CBZ
             this.GroupBoxImageQuality.Controls.Add(this.ImageQualitySliderMinLabel);
             this.GroupBoxImageQuality.Controls.Add(this.ImageQualityTrackBar);
             this.GroupBoxImageQuality.Location = new System.Drawing.Point(4, 70);
-            this.GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(2);
             this.GroupBoxImageQuality.Name = "GroupBoxImageQuality";
-            this.GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.GroupBoxImageQuality.Size = new System.Drawing.Size(332, 57);
+            this.GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(2);
+            this.GroupBoxImageQuality.Size = new System.Drawing.Size(315, 57);
             this.GroupBoxImageQuality.TabIndex = 3;
             this.GroupBoxImageQuality.TabStop = false;
             this.GroupBoxImageQuality.Text = "Image Quality";
@@ -1219,7 +1219,7 @@ namespace Win_CBZ
             // 
             this.ImageQualitySliderMaxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageQualitySliderMaxLabel.AutoSize = true;
-            this.ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(306, 54);
+            this.ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(289, 54);
             this.ImageQualitySliderMaxLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
             this.ImageQualitySliderMaxLabel.Size = new System.Drawing.Size(29, 13);
@@ -1242,11 +1242,11 @@ namespace Win_CBZ
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageQualityTrackBar.BackColor = System.Drawing.SystemColors.Window;
             this.ImageQualityTrackBar.Location = new System.Drawing.Point(9, 15);
-            this.ImageQualityTrackBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ImageQualityTrackBar.Margin = new System.Windows.Forms.Padding(2);
             this.ImageQualityTrackBar.Maximum = 100;
             this.ImageQualityTrackBar.Minimum = 10;
             this.ImageQualityTrackBar.Name = "ImageQualityTrackBar";
-            this.ImageQualityTrackBar.Size = new System.Drawing.Size(241, 45);
+            this.ImageQualityTrackBar.Size = new System.Drawing.Size(224, 45);
             this.ImageQualityTrackBar.TabIndex = 3;
             this.ImageQualityTrackBar.Value = 85;
             // 
@@ -1255,10 +1255,10 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Controls.Add(this.GroupBoxImageRenaming);
             this.TabPageGlobalSettings.ImageIndex = 1;
             this.TabPageGlobalSettings.Location = new System.Drawing.Point(4, 23);
-            this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(2);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
-            this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(359, 238);
+            this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(2);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(295, 238);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -1270,10 +1270,10 @@ namespace Win_CBZ
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBoxImageRenaming.Controls.Add(this.FileSettingsTablePanel);
             this.GroupBoxImageRenaming.Location = new System.Drawing.Point(5, 5);
-            this.GroupBoxImageRenaming.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GroupBoxImageRenaming.Margin = new System.Windows.Forms.Padding(2);
             this.GroupBoxImageRenaming.Name = "GroupBoxImageRenaming";
-            this.GroupBoxImageRenaming.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(351, 235);
+            this.GroupBoxImageRenaming.Padding = new System.Windows.Forms.Padding(2);
+            this.GroupBoxImageRenaming.Size = new System.Drawing.Size(287, 235);
             this.GroupBoxImageRenaming.TabIndex = 5;
             this.GroupBoxImageRenaming.TabStop = false;
             this.GroupBoxImageRenaming.Text = "Renaming";
@@ -1297,7 +1297,7 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.Controls.Add(this.btnGetExcludesFromSelectedPages, 0, 9);
             this.FileSettingsTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FileSettingsTablePanel.Location = new System.Drawing.Point(2, 15);
-            this.FileSettingsTablePanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FileSettingsTablePanel.Margin = new System.Windows.Forms.Padding(2);
             this.FileSettingsTablePanel.Name = "FileSettingsTablePanel";
             this.FileSettingsTablePanel.RowCount = 11;
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
@@ -1311,7 +1311,7 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
-            this.FileSettingsTablePanel.Size = new System.Drawing.Size(347, 218);
+            this.FileSettingsTablePanel.Size = new System.Drawing.Size(283, 218);
             this.FileSettingsTablePanel.TabIndex = 1;
             // 
             // PlaceholdersInfoLabel
@@ -1331,7 +1331,7 @@ namespace Win_CBZ
             this.CheckBoxDoRenamePages.AutoSize = true;
             this.CheckBoxDoRenamePages.Enabled = false;
             this.CheckBoxDoRenamePages.Location = new System.Drawing.Point(2, 3);
-            this.CheckBoxDoRenamePages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CheckBoxDoRenamePages.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBoxDoRenamePages.Name = "CheckBoxDoRenamePages";
             this.CheckBoxDoRenamePages.Size = new System.Drawing.Size(99, 17);
             this.CheckBoxDoRenamePages.TabIndex = 1;
@@ -1357,9 +1357,9 @@ namespace Win_CBZ
             this.TextboxStoryPageRenamingPattern.Enabled = false;
             this.TextboxStoryPageRenamingPattern.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextboxStoryPageRenamingPattern.Location = new System.Drawing.Point(2, 41);
-            this.TextboxStoryPageRenamingPattern.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TextboxStoryPageRenamingPattern.Margin = new System.Windows.Forms.Padding(2);
             this.TextboxStoryPageRenamingPattern.Name = "TextboxStoryPageRenamingPattern";
-            this.TextboxStoryPageRenamingPattern.Size = new System.Drawing.Size(369, 21);
+            this.TextboxStoryPageRenamingPattern.Size = new System.Drawing.Size(343, 21);
             this.TextboxStoryPageRenamingPattern.TabIndex = 8;
             this.TextboxStoryPageRenamingPattern.Text = "{title}_p{page}.{ext}";
             this.TextboxStoryPageRenamingPattern.TextChanged += new System.EventHandler(this.TextboxStoryPageRenamingPattern_TextChanged_1);
@@ -1382,9 +1382,9 @@ namespace Win_CBZ
             this.TextboxSpecialPageRenamingPattern.Enabled = false;
             this.TextboxSpecialPageRenamingPattern.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextboxSpecialPageRenamingPattern.Location = new System.Drawing.Point(2, 85);
-            this.TextboxSpecialPageRenamingPattern.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TextboxSpecialPageRenamingPattern.Margin = new System.Windows.Forms.Padding(2);
             this.TextboxSpecialPageRenamingPattern.Name = "TextboxSpecialPageRenamingPattern";
-            this.TextboxSpecialPageRenamingPattern.Size = new System.Drawing.Size(369, 21);
+            this.TextboxSpecialPageRenamingPattern.Size = new System.Drawing.Size(343, 21);
             this.TextboxSpecialPageRenamingPattern.TabIndex = 10;
             this.TextboxSpecialPageRenamingPattern.Text = "{type}_{index}.{ext}";
             this.TextboxSpecialPageRenamingPattern.TextChanged += new System.EventHandler(this.TextboxSpecialPageRenamingPattern_TextChanged_1);
@@ -1396,10 +1396,10 @@ namespace Win_CBZ
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FileSettingsTablePanel.SetColumnSpan(this.PlaceholdersFlowPanel, 2);
             this.PlaceholdersFlowPanel.Location = new System.Drawing.Point(2, 129);
-            this.PlaceholdersFlowPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.PlaceholdersFlowPanel.Margin = new System.Windows.Forms.Padding(2);
             this.PlaceholdersFlowPanel.Name = "PlaceholdersFlowPanel";
-            this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(369, 77);
+            this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(3);
+            this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(343, 77);
             this.PlaceholdersFlowPanel.TabIndex = 12;
             // 
             // label2
@@ -1416,8 +1416,8 @@ namespace Win_CBZ
             // 
             this.CheckBoxPreview.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CheckBoxPreview.AutoSize = true;
-            this.CheckBoxPreview.Location = new System.Drawing.Point(225, 3);
-            this.CheckBoxPreview.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CheckBoxPreview.Location = new System.Drawing.Point(210, 3);
+            this.CheckBoxPreview.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBoxPreview.Name = "CheckBoxPreview";
             this.CheckBoxPreview.Size = new System.Drawing.Size(64, 17);
             this.CheckBoxPreview.TabIndex = 15;
@@ -1430,17 +1430,17 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.SetColumnSpan(this.RenamerExcludePages, 2);
             this.RenamerExcludePages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.RenamerExcludePages.Location = new System.Drawing.Point(2, 230);
-            this.RenamerExcludePages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RenamerExcludePages.Margin = new System.Windows.Forms.Padding(2);
             this.RenamerExcludePages.Multiline = true;
             this.RenamerExcludePages.Name = "RenamerExcludePages";
-            this.RenamerExcludePages.Size = new System.Drawing.Size(369, 77);
+            this.RenamerExcludePages.Size = new System.Drawing.Size(343, 77);
             this.RenamerExcludePages.TabIndex = 16;
             this.RenamerExcludePages.TextChanged += new System.EventHandler(this.RenamerExcludePages_TextChanged);
             // 
             // btnGetExcludesFromSelectedPages
             // 
             this.btnGetExcludesFromSelectedPages.Location = new System.Drawing.Point(2, 311);
-            this.btnGetExcludesFromSelectedPages.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGetExcludesFromSelectedPages.Margin = new System.Windows.Forms.Padding(2);
             this.btnGetExcludesFromSelectedPages.Name = "btnGetExcludesFromSelectedPages";
             this.btnGetExcludesFromSelectedPages.Size = new System.Drawing.Size(108, 19);
             this.btnGetExcludesFromSelectedPages.TabIndex = 17;
@@ -1452,10 +1452,10 @@ namespace Win_CBZ
             // 
             this.TabPageArchiveSettings.ImageIndex = 2;
             this.TabPageArchiveSettings.Location = new System.Drawing.Point(4, 23);
-            this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(2);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
-            this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(359, 238);
+            this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(2);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(295, 238);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;
@@ -1465,7 +1465,7 @@ namespace Win_CBZ
             this.SplitBoxItemsList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SplitBoxItemsList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitBoxItemsList.Location = new System.Drawing.Point(0, 0);
-            this.SplitBoxItemsList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SplitBoxItemsList.Margin = new System.Windows.Forms.Padding(2);
             this.SplitBoxItemsList.Name = "SplitBoxItemsList";
             this.SplitBoxItemsList.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -1491,7 +1491,7 @@ namespace Win_CBZ
             this.MetadataPanel.Controls.Add(this.MetaDataGrid, 0, 1);
             this.MetadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetadataPanel.Location = new System.Drawing.Point(0, 0);
-            this.MetadataPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MetadataPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetadataPanel.Name = "MetadataPanel";
             this.MetadataPanel.RowCount = 3;
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.11111F));
@@ -1509,7 +1509,7 @@ namespace Win_CBZ
             this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
             this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
             this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(2, 227);
-            this.MetaDataTableActionsPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MetaDataTableActionsPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
             this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(774, 36);
             this.MetaDataTableActionsPanel.TabIndex = 13;
@@ -1520,7 +1520,7 @@ namespace Win_CBZ
             this.AddMetaDataRowBtn.Image = global::Win_CBZ.Properties.Resources.add;
             this.AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.AddMetaDataRowBtn.Location = new System.Drawing.Point(2, 2);
-            this.AddMetaDataRowBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddMetaDataRowBtn.Margin = new System.Windows.Forms.Padding(2);
             this.AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
             this.AddMetaDataRowBtn.Size = new System.Drawing.Size(124, 32);
             this.AddMetaDataRowBtn.TabIndex = 0;
@@ -1534,59 +1534,13 @@ namespace Win_CBZ
             this.RemoveMetadataRowBtn.Image = global::Win_CBZ.Properties.Resources.delete;
             this.RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.RemoveMetadataRowBtn.Location = new System.Drawing.Point(130, 2);
-            this.RemoveMetadataRowBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RemoveMetadataRowBtn.Margin = new System.Windows.Forms.Padding(2);
             this.RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
             this.RemoveMetadataRowBtn.Size = new System.Drawing.Size(118, 32);
             this.RemoveMetadataRowBtn.TabIndex = 1;
             this.RemoveMetadataRowBtn.Text = "Remove";
             this.RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
             this.RemoveMetadataRowBtn.Click += new System.EventHandler(this.RemoveMetadataRowBtn_Click);
-            // 
-            // MetaDataGrid
-            // 
-            this.MetaDataGrid.AllowUserToAddRows = false;
-            this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
-            this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataGrid.Location = new System.Drawing.Point(2, 45);
-            this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.MetaDataGrid.MultiSelect = false;
-            this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.MetaDataGrid.RowHeadersWidth = 51;
-            this.MetaDataGrid.RowTemplate.Height = 24;
-            this.MetaDataGrid.Size = new System.Drawing.Size(774, 178);
-            this.MetaDataGrid.TabIndex = 12;
-            this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
-            this.MetaDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellValueChanged);
-            this.MetaDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MetaDataGrid_DataError);
-            this.MetaDataGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.MetaDataGrid_EditingControlShowing);
-            this.MetaDataGrid.SelectionChanged += new System.EventHandler(this.MetaDataGrid_SelectionChanged);
             // 
             // MetaDataHeaderPanel
             // 
@@ -1596,7 +1550,7 @@ namespace Win_CBZ
             this.MetaDataHeaderPanel.Controls.Add(this.ComboBoxSelectMetadataFileName);
             this.MetaDataHeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataHeaderPanel.Location = new System.Drawing.Point(2, 2);
-            this.MetaDataHeaderPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MetaDataHeaderPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataHeaderPanel.Name = "MetaDataHeaderPanel";
             this.MetaDataHeaderPanel.Size = new System.Drawing.Size(774, 39);
             this.MetaDataHeaderPanel.TabIndex = 14;
@@ -1629,13 +1583,22 @@ namespace Win_CBZ
             this.BtnAddMetaData.ImageIndex = 0;
             this.BtnAddMetaData.ImageList = this.SmallIconsImages;
             this.BtnAddMetaData.Location = new System.Drawing.Point(691, 9);
-            this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
             this.BtnAddMetaData.Name = "BtnAddMetaData";
             this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.BtnAddMetaData.Size = new System.Drawing.Size(35, 24);
             this.BtnAddMetaData.TabIndex = 7;
             this.BtnAddMetaData.UseVisualStyleBackColor = true;
             this.BtnAddMetaData.Click += new System.EventHandler(this.BtnAddMetaData_Click);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(4, 9);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 18);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Metadata";
             // 
             // ComboBoxSelectMetadataFileName
             // 
@@ -1648,20 +1611,57 @@ namespace Win_CBZ
             this.ComboBoxSelectMetadataFileName.Items.AddRange(new object[] {
             "ComicInfo.xml"});
             this.ComboBoxSelectMetadataFileName.Location = new System.Drawing.Point(78, 9);
-            this.ComboBoxSelectMetadataFileName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ComboBoxSelectMetadataFileName.Margin = new System.Windows.Forms.Padding(2);
             this.ComboBoxSelectMetadataFileName.Name = "ComboBoxSelectMetadataFileName";
             this.ComboBoxSelectMetadataFileName.Size = new System.Drawing.Size(609, 21);
             this.ComboBoxSelectMetadataFileName.TabIndex = 2;
             this.ComboBoxSelectMetadataFileName.Text = "ComicInfo.xml";
             // 
-            // label1
+            // MetaDataGrid
             // 
-            this.label1.Location = new System.Drawing.Point(4, 9);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 18);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Metadata";
+            this.MetaDataGrid.AllowUserToAddRows = false;
+            this.MetaDataGrid.AllowUserToOrderColumns = true;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MetaDataGrid.Location = new System.Drawing.Point(2, 45);
+            this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
+            this.MetaDataGrid.MultiSelect = false;
+            this.MetaDataGrid.Name = "MetaDataGrid";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.MetaDataGrid.RowHeadersWidth = 51;
+            this.MetaDataGrid.RowTemplate.Height = 24;
+            this.MetaDataGrid.Size = new System.Drawing.Size(774, 178);
+            this.MetaDataGrid.TabIndex = 12;
+            this.MetaDataGrid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.MetaDataGrid_CellValidating);
+            this.MetaDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellValueChanged);
+            this.MetaDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MetaDataGrid_DataError);
+            this.MetaDataGrid.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.MetaDataGrid_EditingControlShowing);
+            this.MetaDataGrid.SelectionChanged += new System.EventHandler(this.MetaDataGrid_SelectionChanged);
             // 
             // MessageLogListView
             // 
@@ -1675,7 +1675,7 @@ namespace Win_CBZ
             this.MessageLogListView.GridLines = true;
             this.MessageLogListView.HideSelection = false;
             this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
-            this.MessageLogListView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MessageLogListView.Margin = new System.Windows.Forms.Padding(2);
             this.MessageLogListView.Name = "MessageLogListView";
             this.MessageLogListView.Size = new System.Drawing.Size(1088, 113);
             this.MessageLogListView.SmallImageList = this.LogMessageImageList;
@@ -1798,7 +1798,7 @@ namespace Win_CBZ
             this.Controls.Add(this.MenuBar);
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.MenuBar;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(192, 84);
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
@@ -1850,8 +1850,8 @@ namespace Win_CBZ
             this.MetadataPanel.ResumeLayout(false);
             this.MetadataPanel.PerformLayout();
             this.MetaDataTableActionsPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MetaDataGrid)).EndInit();
             this.MetaDataHeaderPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MetaDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

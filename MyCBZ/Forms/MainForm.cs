@@ -392,6 +392,11 @@ namespace Win_CBZ
                         MetaDataGrid.BeginEdit(false);
                     }
                 }
+
+                if (e.State == MetaDataEntryChangedEvent.ENTRY_DELETED)
+                {
+                    MetaDataGrid.Rows.RemoveAt(e.Index);
+                }
             }));
         }
 
@@ -1315,9 +1320,11 @@ namespace Win_CBZ
             {
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
-                    if (row.DataBoundItem is MetaDataEntry)
+                    if (row.Cells[0].Value != null)
                     {
-                        Program.ProjectModel.MetaData.Remove(((MetaDataEntry)row.DataBoundItem));
+                        var key = row.Cells[0].Value.ToString();  
+
+                        Program.ProjectModel.MetaData.Remove(key);
                     }
                 }
             }

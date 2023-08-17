@@ -338,6 +338,26 @@ namespace Win_CBZ
             return Values.Count - 1;
         }
 
+        public int Remove(String key)
+        {
+            MetaDataEntry entry = EntryByKey(key);
+            
+            if (entry != null)
+            {
+                int index = Values.IndexOf(entry);
+                bool success = Values.Remove(entry);
+
+                if (success)
+                {
+                    OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));
+
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
         public int Remove(MetaDataEntry entry)
         {
             int index = Values.IndexOf(entry);
@@ -346,6 +366,8 @@ namespace Win_CBZ
 
             if (success)
             {
+                OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));
+
                 return index;
             }
 
