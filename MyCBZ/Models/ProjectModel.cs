@@ -480,6 +480,7 @@ namespace Win_CBZ
                     page.LastModified = fileObject.LastModified;
                     page.Name = fileObject.FileName;
                     page.TempPath = fi.FullName;
+                    
 
                     if (!page.Changed)
                     {
@@ -1082,6 +1083,9 @@ namespace Win_CBZ
                             page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
                             page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
                         }
+
+                        // too slow
+                        //page.LoadImageInfo();
 
                         // tempFileName = RequestTemporaryFile(page);
 

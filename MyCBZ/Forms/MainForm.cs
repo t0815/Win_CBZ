@@ -15,6 +15,7 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Net.NetworkInformation;
 using System.Collections;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ
 {
@@ -37,7 +38,11 @@ namespace Win_CBZ
 
         private Thread RequestThumbnailThread;
 
+        private Thread RequestImageInfoThread;
+
         private List<Page> ThumbnailPagesSlice;
+
+        private List<Page> ImageInfoPagesSlice;
 
         public MainForm()
         {
@@ -48,6 +53,7 @@ namespace Win_CBZ
             MessageLogger.Instance.SetHandler(MessageLogged);
 
             ThumbnailPagesSlice = new List<Page>();
+            ImageInfoPagesSlice = new List<Page>();
         }
 
         private ProjectModel NewProjectModel()
@@ -490,6 +496,14 @@ namespace Win_CBZ
                     }
                 }
 
+                if (RequestImageInfoThread != null)
+                {
+                    if (RequestImageInfoThread.IsAlive)
+                    {
+                        RequestImageInfoThread.Abort();
+                    }
+                }
+
                 if (RequestThumbnailThread != null)
                 {
                     if (RequestThumbnailThread.IsAlive)
@@ -589,6 +603,72 @@ namespace Win_CBZ
         {
 
             return true;
+        }
+
+        public void RequestImageInfoSlice()
+        {
+            if (!Win_CBZSettings.Default.PagePreviewEnabled)
+            {
+
+                if (ThumbnailThread != null)
+                {
+                    if (ThumbnailThread.IsAlive)
+                    {
+                        return;
+                    }
+                }
+
+                if (RequestThumbnailThread != null)
+                {
+                    if (RequestThumbnailThread.IsAlive)
+                    {
+                        return;
+                    }
+                }
+
+                if (RequestImageInfoThread != null)
+                {
+                    if (RequestImageInfoThread.IsAlive)
+                    {
+                        RequestImageInfoThread.Abort();
+                    }
+                }
+
+                RequestImageInfoThread = new Thread(new ThreadStart(LoadImageInfoSlice));
+                RequestImageInfoThread.Start();
+            }
+        }
+
+        public void LoadImageInfoSlice()
+        {
+            this.Invoke(new Action(() =>
+            {
+
+                foreach (Page page in ImageInfoPagesSlice)
+                {
+                    try
+                    {
+                        if (!PageImages.Images.ContainsKey(page.Id))
+                        {
+                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                        }
+                        else
+                        {
+                            if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
+                            {
+                                PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
+                                page.ThumbnailInvalidated = false;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                    }
+                }
+
+                ThumbnailPagesSlice.Clear();
+            }));
         }
 
         private void TaskProgress(object sender, TaskProgressEvent e)
@@ -1063,7 +1143,7 @@ namespace Win_CBZ
 
         private void PageView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            ListView.SelectedListViewItemCollection selectedPages = this.PageView.SelectedItems;
+            System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PageView.SelectedItems;
             bool buttonState = selectedPages.Count > 0;
            
             ToolButtonRemoveFiles.Enabled = buttonState;
@@ -1167,7 +1247,7 @@ namespace Win_CBZ
         }
 
 
-        private void MoveItemsTo(int newIndex, ListView.SelectedListViewItemCollection items)
+        private void MoveItemsTo(int newIndex, System.Windows.Forms.ListView.SelectedListViewItemCollection items)
         {
             ListViewItem originalItem;
             ListViewItem newItem;
@@ -1475,7 +1555,7 @@ namespace Win_CBZ
 
         private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
+            System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
             bool buttonState = selectedPages.Count > 0;
 
             ToolButtonRemoveFiles.Enabled = buttonState;
@@ -1486,8 +1566,14 @@ namespace Win_CBZ
 
             if (buttonState)
             {
+                if (((Page)selectedPages[0].Tag).W == 0 && ((Page)selectedPages[0].Tag).H == 0)
+                {
+                    ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
+                }
+                //((Page)selectedPages[0].Tag).LoadImageInfo();
                 LabelW.Text = ((Page)selectedPages[0].Tag).W.ToString();
                 LabelH.Text = ((Page)selectedPages[0].Tag).H.ToString();
+                RequestImageInfoSlice();
             }
 
             ((Page)e.Item.Tag).Selected = e.IsSelected;
@@ -1497,12 +1583,13 @@ namespace Win_CBZ
                 {
                     //
                 }
+                
             }
         }
 
         private void ToolButtonRemoveFiles_Click(object sender, EventArgs e)
         {
-            ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
+            System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
 
             if (selectedPages.Count > 0)
             {
@@ -1698,7 +1785,7 @@ namespace Win_CBZ
 
         private void PageView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-            ListView owner = sender as ListView;
+            System.Windows.Forms.ListView owner = sender as System.Windows.Forms.ListView;
             ListViewItem item = e.Item as ListViewItem;
             Page page = (Page)item.Tag;
             Pen borderPen;

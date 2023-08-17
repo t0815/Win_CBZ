@@ -79,6 +79,8 @@ namespace Win_CBZ
 
         private Image Image;
 
+        private Image ImageInfo;
+
         private Image Thumbnail;
 
         private Stream ImageStream;
@@ -298,6 +300,48 @@ namespace Win_CBZ
 
             return Image;
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void LoadImageInfo()
+        {
+            if (!Closed && W == 0 && H == 0)
+            {
+                if (ImageStream == null)
+                {
+                    if (TempPath != null)
+                    {
+
+                        ImageInfo = Image.FromFile(TempPath);
+                        W = ImageInfo.Width;
+                        H = ImageInfo.Height;
+
+                        ImageInfo.Dispose();
+                        ImageInfo = null;
+                    }
+
+                    if (Compressed)
+                    {
+                        ImageInfo = Image.FromStream(ImageEntry.Open());
+                        W = ImageInfo.Width;
+                        H = ImageInfo.Height;
+
+
+                        ImageInfo.Dispose();
+                        ImageInfo = null;
+                    }
+                } else
+                {
+                    ImageInfo = Image.FromStream(ImageStream);
+                    W = ImageInfo.Width;
+                    H = ImageInfo.Height;
+
+                    ImageInfo.Dispose();
+                    ImageInfo = null;
+
+                }
+            }
+        }
+
 
         public Image GetThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
         {
