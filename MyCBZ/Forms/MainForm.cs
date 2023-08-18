@@ -474,7 +474,7 @@ namespace Win_CBZ
             }));
         }
 
-        private void ExecuteCurrentGlobalAction_Click(object sender, EventArgs e)
+        private void ExecuteCurrentGlobalAction_Click_1(object sender, EventArgs e)
         {
             if (CurrentGlobalAction != null)
             {
@@ -1927,8 +1927,6 @@ namespace Win_CBZ
         {
 
         }
-
-
 
 
         /*
