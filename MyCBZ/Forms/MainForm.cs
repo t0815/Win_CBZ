@@ -227,6 +227,11 @@ namespace Win_CBZ
 
                     switch (e.State)
                     {
+                        case PageChangedEvent.IMAGE_STATUS_NEW:
+                            if (!e.Image.Compressed) { 
+                                ImageInfoPagesSlice.Add(e.Image);
+                            }
+                            break;
                         case PageChangedEvent.IMAGE_STATUS_DELETED:
                             e.Image.Deleted = true; 
                             break;
@@ -630,7 +635,7 @@ namespace Win_CBZ
                 {
                     if (RequestImageInfoThread.IsAlive)
                     {
-                        RequestImageInfoThread.Abort();
+                        return;
                     }
                 }
 
@@ -648,7 +653,10 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        page.LoadImageInfo();
+                        if (!page.ImageInfoRequested)
+                        {
+                            page.LoadImageInfo();
+                        }
                     }
                     catch (Exception e)
                     {
@@ -1235,7 +1243,7 @@ namespace Win_CBZ
             }
         }
 
-
+    
         private void MoveItemsTo(int newIndex, System.Windows.Forms.ListView.SelectedListViewItemCollection items)
         {
             ListViewItem originalItem;
@@ -1555,14 +1563,15 @@ namespace Win_CBZ
 
             if (buttonState)
             {
-                if (((Page)selectedPages[0].Tag).W == 0 && ((Page)selectedPages[0].Tag).H == 0)
+                if (!((Page)selectedPages[0].Tag).ImageInfoRequested &&  ((Page)selectedPages[0].Tag).W == 0 && ((Page)selectedPages[0].Tag).H == 0)
                 {
+                  
                     ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
                 }
                 //((Page)selectedPages[0].Tag).LoadImageInfo();
                 LabelW.Text = ((Page)selectedPages[0].Tag).W.ToString();
                 LabelH.Text = ((Page)selectedPages[0].Tag).H.ToString();
-                RequestImageInfoSlice();
+                //RequestImageInfoSlice();
             }
 
             ((Page)e.Item.Tag).Selected = e.IsSelected;
@@ -1887,6 +1896,8 @@ namespace Win_CBZ
             Program.ProjectModel.RenamerExcludes.Clear();
             Program.ProjectModel.RenamerExcludes.AddRange(RenamerExcludePages.Lines);
         }
+
+        
 
 
         /*

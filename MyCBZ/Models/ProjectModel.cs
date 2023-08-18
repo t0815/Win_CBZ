@@ -473,7 +473,7 @@ namespace Win_CBZ
                     {
                         page.Changed = true;
                     }
-                     
+                    
                     page.Size = fileObject.FileSize;                 
                     page.LocalPath = fileObject.FullPath;
                     page.Compressed = false;
@@ -1086,6 +1086,17 @@ namespace Win_CBZ
 
                         // too slow
                         //page.LoadImageInfo();
+                        MetaDataEntryPage pageMeta = MetaData.FindIndexEntryForPage(page);
+                        if (pageMeta != null)
+                        {
+                            try
+                            {
+                                page.W = int.Parse(pageMeta.GetAttribute("Width"));
+                                page.H = int.Parse(pageMeta.GetAttribute("Height"));
+                            } catch {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadate does not have image dimensions!");
+                            } 
+                        }
 
                         // tempFileName = RequestTemporaryFile(page);
 

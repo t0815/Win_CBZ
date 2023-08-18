@@ -59,6 +59,8 @@ namespace Win_CBZ
 
         public bool Invalidated { get; set; }
 
+        public bool ImageInfoRequested { get; set; }
+
         public bool Closed { get; set; }
 
         public bool ThumbnailInvalidated { get; set; }
@@ -301,11 +303,12 @@ namespace Win_CBZ
             return Image;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void LoadImageInfo()
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        public void LoadImageInfo(bool force = false)
         {
-            if (!Closed && W == 0 && H == 0)
+            if ((!Closed && W == 0 && H == 0 && !ImageInfoRequested) || force)
             {
+                ImageInfoRequested = true;
                 if (ImageStream == null)
                 {
                     if (TempPath != null)
