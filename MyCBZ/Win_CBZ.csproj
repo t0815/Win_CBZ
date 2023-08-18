@@ -64,6 +64,8 @@
     </Compile>
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
+    <Compile Include="Data\TaskResult.cs" />
+    <Compile Include="Events\GlobalActionRequiredEvent.cs" />
     <Compile Include="Events\ArchiveOperationEvent.cs" />
     <Compile Include="Events\ApplicationStatusEvent.cs" />
     <Compile Include="Events\MetaDataChangedEvent.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Models\ImageTask.cs" />
     <Compile Include="Models\PipelinePayload.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Tasks\ReadImageMetaDataTask.cs" />
     <Compile Include="Win_CBZSettings.cs" />
     <Compile Include="Models\MetaDataEntryPage.cs" />
     <Compile Include="Models\ProjectModel.cs" />

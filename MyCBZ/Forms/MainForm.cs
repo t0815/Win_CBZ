@@ -16,6 +16,7 @@ using System.Collections.Specialized;
 using System.Net.NetworkInformation;
 using System.Collections;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Win_CBZ.Data;
 
 namespace Win_CBZ
 {
@@ -44,6 +45,8 @@ namespace Win_CBZ
 
         private List<Page> ImageInfoPagesSlice;
 
+        private Task<TaskResult> CurrentGlobalAction;
+
         public MainForm()
         {
             InitializeComponent();
@@ -71,6 +74,7 @@ namespace Win_CBZ
             newProjectModel.FileOperation += FileOperationHandler;
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
             newProjectModel.ApplicationStateChanged += ApplicationStateChanged;
+            newProjectModel.GlobalActionRequired += HandleGlobalActionRequired;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -458,6 +462,28 @@ namespace Win_CBZ
             }
 
             return null;
+        }
+
+        private void HandleGlobalActionRequired(object sender, GlobalActionRequiredEvent e)
+        {
+            this.Invoke(new Action(() =>
+            {
+                LabelGlobalActionStatusMessage.Text = e.Message;
+                GlobalAlertTableLayout.Visible = true;
+                CurrentGlobalAction = e.Task;
+            }));
+        }
+
+        private void ExecuteCurrentGlobalAction_Click(object sender, EventArgs e)
+        {
+            if (CurrentGlobalAction != null)
+            {
+                if (!CurrentGlobalAction.IsCanceled && !CurrentGlobalAction.IsCompleted && !CurrentGlobalAction.IsFaulted)
+                {
+                    CurrentGlobalAction.Start();
+                    GlobalAlertTableLayout.Visible = false;
+                }
+            }
         }
 
         public void ReloadPreviewThumbs()
@@ -1897,7 +1923,12 @@ namespace Win_CBZ
             Program.ProjectModel.RenamerExcludes.AddRange(RenamerExcludePages.Lines);
         }
 
-        
+        private void PagesList_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+
+        }
+
+
 
 
         /*

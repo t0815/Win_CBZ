@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Win_CBZ.Data;
+
+namespace Win_CBZ
+{
+    internal class GlobalActionRequiredEvent
+    {
+        public const int MESSAGE_TYPE_INFO = 0;
+        public const int MESSAGE_TYPE_WARNING = 1;
+        public const int MESSAGe_TYPE_ERROR = 2;
+
+        public ProjectModel ArchiveInfo { get; set; }
+
+        public int Type { get; set; }
+
+
+        public Task<TaskResult> Task { get; set; }
+
+        public String Message { get; set; }
+
+        public String ButtonText { get; set; }
+
+
+        public GlobalActionRequiredEvent(ProjectModel project, int type, String message, String buttonText)
+        {
+            ArchiveInfo = project;
+            Type = type;
+            Message = message;
+            ButtonText = buttonText;
+        }
+
+        public GlobalActionRequiredEvent(ProjectModel project, int type, String message, String buttonText, Task<TaskResult> task)
+        {
+            ArchiveInfo = project;
+            Type = type;
+            Message = message;
+            Task = task;
+            ButtonText = buttonText;
+        }   
+    }
+}

@@ -21,6 +21,8 @@ using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.VisualStyles;
 using System.Collections;
+using Win_CBZ.Data;
+using Win_CBZ.Tasks;
 
 namespace Win_CBZ
 {
@@ -53,6 +55,8 @@ namespace Win_CBZ
         public Boolean IsClosed = false;
 
         public Boolean ApplyRenaming = false;
+
+        public Boolean MetaDataPageIndexMissingData = false;
 
         public String RenameStoryPagePattern { get; set; }
 
@@ -101,6 +105,8 @@ namespace Win_CBZ
         public event EventHandler<FileOperationEvent> FileOperation;
 
         public event EventHandler<ArchiveOperationEvent> ArchiveOperation;
+
+        public event EventHandler<GlobalActionRequiredEvent> GlobalActionRequired;
 
         private Thread LoadArchiveThread;
 
@@ -152,7 +158,7 @@ namespace Win_CBZ
                 try
                 {
                     DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
-                } catch ( Exception e )
+                } catch (Exception e)
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
                 }
@@ -161,7 +167,7 @@ namespace Win_CBZ
 
         public MetaData NewMetaData(bool createDefaultValues = false)
         {
-            MetaData = new MetaData(createDefaultValues);  
+            MetaData = new MetaData(createDefaultValues);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
 
             OnMetaDataChanged(new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_NEW, MetaData));
@@ -352,7 +358,7 @@ namespace Win_CBZ
         {
             FileName = path;
             Mode = mode;
-            
+
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
@@ -446,7 +452,7 @@ namespace Win_CBZ
             catch (Exception) { return false; }
         }
 
-        
+
         public void AddImagesProc()
         {
             int index = MaxFileIndex;
@@ -473,14 +479,14 @@ namespace Win_CBZ
                     {
                         page.Changed = true;
                     }
-                    
-                    page.Size = fileObject.FileSize;                 
+
+                    page.Size = fileObject.FileSize;
                     page.LocalPath = fileObject.FullPath;
                     page.Compressed = false;
                     page.LastModified = fileObject.LastModified;
                     page.Name = fileObject.FileName;
                     page.TempPath = fi.FullName;
-                    
+
 
                     if (!page.Changed)
                     {
@@ -545,7 +551,7 @@ namespace Win_CBZ
 
         public void ParseFiles(List<String> files)
         {
-            
+
             if (ParseAddedFileNames != null)
             {
                 if (ParseAddedFileNames.IsAlive)
@@ -731,7 +737,7 @@ namespace Win_CBZ
             {
                 if (SaveArchiveThread.IsAlive)
                 {
-    
+
                     return null;
                 }
             }
@@ -740,7 +746,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-  
+
                     return null;
                 }
             }
@@ -883,7 +889,7 @@ namespace Win_CBZ
             this.IsChanged = true;
 
             OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));            
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -908,7 +914,7 @@ namespace Win_CBZ
                 if (pattern.Length > 0)
                 {
                     newName = pattern;
-                    foreach(String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
+                    foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
                     {
                         newName = newName.Replace(placeholder, ValueForPlaceholder(placeholder, page));
                     }
@@ -996,7 +1002,7 @@ namespace Win_CBZ
 
             //String.Format("{0,:D3}", value)
 
-            return String.Format("{0,-" + maxDigits + ":D" + maxDigits +"}", value);
+            return String.Format("{0,-" + maxDigits + ":D" + maxDigits + "}", value);
         }
 
 
@@ -1056,7 +1062,7 @@ namespace Win_CBZ
 
                     if (metaDataEntry != null)
                     {
-                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);                  
+                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
                     } else
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!");
@@ -1094,14 +1100,16 @@ namespace Win_CBZ
                                 page.W = int.Parse(pageMeta.GetAttribute("Width"));
                                 page.H = int.Parse(pageMeta.GetAttribute("Height"));
                             } catch {
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadate does not have image dimensions!");
-                            } 
+
+                                MetaDataPageIndexMissingData = true;
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadate does not have image dimensions for page [" + page.Name + "]!");
+                            }
                         }
 
-                        // tempFileName = RequestTemporaryFile(page);
+                    // tempFileName = RequestTemporaryFile(page);
 
                         Pages.Add(page);
-                        
+
                         OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
                         OnTaskProgress(new TaskProgressEvent(page, index, count));
 
@@ -1118,6 +1126,12 @@ namespace Win_CBZ
 
             FileSize = totalSize;
             MaxFileIndex = index;
+
+            if (MetaDataPageIndexMissingData) 
+            {
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Reload and rebuild pageindex missing image MetaData now?", "Rebuild", ReadImageMetaDataTask.UpdateImageMetadata(Pages)));
+            }
+            
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
@@ -1530,6 +1544,11 @@ namespace Win_CBZ
                 destination.TemporaryFileName = this.TemporaryFileName;
                 destination.TotalSize = this.TotalSize;
             }
+        }
+
+        protected virtual void OnGlobalActionRequired(GlobalActionRequiredEvent e)
+        {
+            GlobalActionRequired?.Invoke(this, e);
         }
 
         protected virtual void OnPageChanged(PageChangedEvent e)
