@@ -434,15 +434,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
-        "ProductCode" = "8:{D8A8D02F-8A52-469F-98B2-8F1E2C908407}"
-        "PackageCode" = "8:{F478E693-D101-4860-B7BA-1B8B561150E3}"
+        "ProductCode" = "8:{C06BDA37-BAF3-4CA3-A149-A4EC3435F828}"
+        "PackageCode" = "8:{4CDDC412-F1EC-4838-8CFA-9F74B519F828}"
         "UpgradeCode" = "8:{813B9659-6DDC-4083-B56B-0400F17E8B45}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.10.33"
+        "ProductVersion" = "8:0.10.34"
         "Manufacturer" = "8:Trash_s0Ft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -980,7 +980,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EF16AE22273449909DAA4542302B11CD"
             {
-            "SourcePath" = "8:..\\MyCBZ\\obj\\Release\\Win_CBZ.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"

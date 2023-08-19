@@ -114,6 +114,7 @@
     <Compile Include="Models\ImageTask.cs" />
     <Compile Include="Models\PipelinePayload.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Tasks\RebuildPageIndexMetaDataTask.cs" />
     <Compile Include="Tasks\ReadImageMetaDataTask.cs" />
     <Compile Include="Win_CBZSettings.cs" />
     <Compile Include="Models\MetaDataEntryPage.cs" />

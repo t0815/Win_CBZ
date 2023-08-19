@@ -17,6 +17,8 @@ using System.Net.NetworkInformation;
 using System.Collections;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Data;
+using System.Windows.Forms.VisualStyles;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
 
 namespace Win_CBZ
 {
@@ -725,7 +727,7 @@ namespace Win_CBZ
                 {
                     if (ThumbnailThread.IsAlive)
                     {
-                        return;
+                        ThumbnailThread.Join();
                     }
                 }
 
@@ -733,7 +735,7 @@ namespace Win_CBZ
                 {
                     if (RequestThumbnailThread.IsAlive)
                     {
-                        return;
+                        RequestThumbnailThread.Join();
                     }
                 }
 
@@ -1136,7 +1138,7 @@ namespace Win_CBZ
                     ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonMovePageDown.Enabled = false;
                     ToolButtonMovePageUp.Enabled = false;
-                    ToolButtonAddFolder.Enabled = false;
+                    ToolButtonAddFolder.Enabled = true;
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                     AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
@@ -1181,26 +1183,38 @@ namespace Win_CBZ
             {
                 if (OpeningTask != null)
                 {
-                    while (OpeningTask.IsAlive)
+                    if (OpeningTask.IsAlive)
                     {
-                        System.Threading.Thread.Sleep(50);
+                        OpeningTask.Join();
                     }
+                    //while (OpeningTask.IsAlive)
+                    //{
+                    //    System.Threading.Thread.Sleep(50);
+                    //}
                 }
 
                 if (SavingTask != null)
                 {
-                    while (SavingTask.IsAlive)
+                    if (SavingTask.IsAlive)
                     {
-                        System.Threading.Thread.Sleep(50);
+                        SavingTask.Join();
                     }
+                    //while (SavingTask.IsAlive)
+                    //{
+                    //    System.Threading.Thread.Sleep(50);
+                    //}
                 }
 
                 if (ThumbnailThread != null)
                 {
-                    while (ThumbnailThread.IsAlive)
+                    if (ThumbnailThread.IsAlive)
                     {
-                        System.Threading.Thread.Sleep(50);
+                        ThumbnailThread.Join();
                     }
+                    //while (ThumbnailThread.IsAlive)
+                    //{
+                    //    System.Threading.Thread.Sleep(50);
+                    //}
                 }
 
                 ClosingTask = Program.ProjectModel.Close();
@@ -1439,6 +1453,10 @@ namespace Win_CBZ
             //}
 
             Program.ProjectModel.MetaData.FillMissingDefaultProps();
+            if (PagesList.Items.Count > 0)
+            {
+                Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>());
+            }
 
             MetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
 

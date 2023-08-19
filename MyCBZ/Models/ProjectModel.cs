@@ -74,11 +74,17 @@ namespace Win_CBZ
 
         private BindingList<LocalFile> Files { get; set; }
 
+
         private int MaxFileIndex = 0;
+
 
         private bool InitialPageIndexRebuild = false;
 
         public MetaData MetaData { get; set; }
+
+        protected Task<TaskResult> imageInfoUpdater;
+
+        private bool ContinuePipelineForIndexBuilder;
 
         public long TotalSize { get; set; }
 
@@ -241,8 +247,26 @@ namespace Win_CBZ
                 InitialPageIndexRebuild = true;
                 Task.Factory.StartNew(() =>
                 {
-                    UpdatePageIndices();
+                    UpdatePageIndices(true);
                 });
+
+            }
+
+            if (e.State == PipelineEvent.PIPELINE_INDICES_UPDATED)
+            {
+                if (imageInfoUpdater == null)
+                {
+                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress);
+                    imageInfoUpdater.Start();
+                }
+                else
+                {
+                    if (imageInfoUpdater.IsCompleted || imageInfoUpdater.IsCanceled)
+                    {
+                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress);
+                        imageInfoUpdater.Start();
+                    }
+                }
             }
 
             if (e.State == PipelineEvent.PIPELINE_SAVE_REQUESTED)
@@ -330,10 +354,10 @@ namespace Win_CBZ
                 if (CloseArchiveThread != null)
                 {
                     CloseArchiveThread.Join();
-                    while (CloseArchiveThread.IsAlive)
-                    {
-                        Thread.Sleep(100);
-                    }
+                    //while (CloseArchiveThread.IsAlive)
+                    //{
+                    //    Thread.Sleep(100);
+                    //}
                 }
 
                 //Pages.Clear();
@@ -374,10 +398,11 @@ namespace Win_CBZ
 
             if (CloseArchiveThread != null)
             {
-                while (CloseArchiveThread.IsAlive)
-                {
-                    System.Threading.Thread.Sleep(100);
-                }
+                CloseArchiveThread.Join();
+                //while (CloseArchiveThread.IsAlive)
+                //{
+                //    System.Threading.Thread.Sleep(100);
+                //}
             }
 
             LoadArchiveThread = new Thread(new ThreadStart(OpenArchiveProc));
@@ -460,6 +485,8 @@ namespace Win_CBZ
         public void AddImagesProc()
         {
             int index = MaxFileIndex;
+            int realNewIndex = MaxFileIndex;
+            int progressIndex = 0;
             String targetPath = "";
             Page page = null;
 
@@ -477,8 +504,9 @@ namespace Win_CBZ
                     if (page == null)
                     {
                         page = new Page(fi, FileAccess.ReadWrite);
-                        page.Number = index + 1;
-                        page.Index = index;
+                        page.Number = realNewIndex + 1;
+                        page.Index = realNewIndex;
+                        realNewIndex++;
                     } else
                     {
                         page.Changed = true;
@@ -498,9 +526,11 @@ namespace Win_CBZ
                     }
 
                     OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
-                    OnTaskProgress(new TaskProgressEvent(page, index, Files.Count));
+                    OnTaskProgress(new TaskProgressEvent(page, progressIndex, Files.Count));
 
                     index++;
+                    progressIndex++;
+                    Thread.Sleep(10);
                 }
                 catch (Exception ef)
                 {
@@ -508,17 +538,17 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    if (index > MaxFileIndex)
+                    if (realNewIndex > MaxFileIndex)
                     {
                         OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
 
                         this.IsChanged = true;
-                        MaxFileIndex = index;
+                        MaxFileIndex = realNewIndex;
                     }
                 }
             }
 
-            OnOperationFinished(new OperationFinishedEvent(index, Pages.Count));
+            OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
             HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
@@ -607,6 +637,7 @@ namespace Win_CBZ
                 }
             }
 
+            OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
             HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
         }
 
@@ -631,13 +662,14 @@ namespace Win_CBZ
             return deletedPagesCount;
         }
 
-        public void UpdatePageIndices()
+        public void UpdatePageIndices(bool continuePipeline = false)
         {
+            ContinuePipelineForIndexBuilder = continuePipeline;
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort();
+                    LoadArchiveThread.Join();
                 }
             }
 
@@ -645,8 +677,7 @@ namespace Win_CBZ
             {
                 if (PageUpdateThread.IsAlive)
                 {
-                    //PageUpdateThread.Abort();
-                    return;
+                    PageUpdateThread.Join();
                 }
             }
 
@@ -686,14 +717,19 @@ namespace Win_CBZ
                 OnTaskProgress(new TaskProgressEvent(page, updated, Pages.Count));
                 OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-                this.IsChanged = true;
+                IsChanged = true;
                 isUpdated = false;
                 updated++;
 
-                Thread.Sleep(50);
+                Thread.Sleep(10);
             }
 
             MaxFileIndex = newIndex;
+
+            if (ContinuePipelineForIndexBuilder)
+            {
+                HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
+            }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
 

@@ -15,8 +15,7 @@ namespace Win_CBZ
         public const int PIPELINE_SAVE_UPDATE_INDICES = 3;
         public const int PIPELINE_SAVE_RUN_RENAMING = 4;
         public const int PIPELINE_SAVE_ARCHIVE = 5;
-
-
+        public const int PIPELINE_INDICES_UPDATED = 6;
 
         public ProjectModel ArchiveInfo { get; set; }
 
