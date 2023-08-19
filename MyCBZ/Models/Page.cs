@@ -109,6 +109,7 @@ namespace Win_CBZ
             LastModified = ImageFileInfo.LastWriteTime;
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
+            ImageTask = new ImageTask();
         }
         
 
@@ -139,6 +140,7 @@ namespace Win_CBZ
             Name = ImageFileInfo.Name;
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
+            ImageTask = new ImageTask();
         }
 
 
@@ -155,6 +157,7 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             TemporaryFileId = randomId;
             WorkingDir = workingDir;
+            ImageTask = new ImageTask();
         }
 
 
@@ -168,18 +171,8 @@ namespace Win_CBZ
             FileExtension = ExtractFileExtension(name);
             Size = fileInputStream.Length;
             Id = Guid.NewGuid().ToString();
+            ImageTask = new ImageTask();
         }
-
-
-        public string ExtractFileExtension(String fileName)
-        {
-            string[] entryExtensionParts = fileName.Split('.');
-
-            if (entryExtensionParts.Length == 0) return null;
-
-            else return entryExtensionParts.Last<string>();
-        }
-
 
         public Page(GZipStream zipInputStream, String name)
         {
@@ -189,6 +182,7 @@ namespace Win_CBZ
             Compressed = true;
             Size = zipInputStream.Length;
             Id = Guid.NewGuid().ToString();
+            ImageTask = new ImageTask();
         }
 
         public void UpdatePage(Page page)
@@ -222,6 +216,15 @@ namespace Win_CBZ
             ImageFileInfo.Attributes = fileAttributes;
 
             return !ImageFileInfo.IsReadOnly;
+        }
+
+        public string ExtractFileExtension(String fileName)
+        {
+            string[] entryExtensionParts = fileName.Split('.');
+
+            if (entryExtensionParts.Length == 0) return null;
+
+            else return entryExtensionParts.Last<string>();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

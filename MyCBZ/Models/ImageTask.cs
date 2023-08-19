@@ -12,6 +12,9 @@ namespace Win_CBZ.Models
 {
     internal class ImageTask
     {
+        public const string TASK_SPLIT_PERCENT = "SplitPercent";
+        public const string TASK_DETECT_SPLIT_BY_COLOR = "DetectAndSplitByColor";
+        public const string TASK_DETECT_RESIZE = "ResizeImage";
 
         public int SplitPagePercent { get; set; }
 
@@ -23,18 +26,40 @@ namespace Win_CBZ.Models
 
         public Image ResultThumbnail { get; set; }
 
+        public String ResultFileName { get; set; }
+
         public String SourceFileName { get; set; }
 
         public string PreviewFileName { get; set; }
 
+        public List<String> CommandsTodo { get; set; }
 
-        public ImageTask(String sourceImage)
+
+        public ImageTask()
+        {
+            CommandsTodo = new List<String>();
+
+
+        }
+
+        public void SetupTasks(String source, List<String> commandsTodo)
         {
             try
             {
-                PreviewFileName = sourceImage + "_0";
-                File.Copy(sourceImage, PreviewFileName, true);
-            } catch (Exception)
+                PreviewFileName = source + "_0";
+                File.Copy(source, PreviewFileName, true);
+                CommandsTodo = commandsTodo;
+            }
+            catch (Exception)
+            {
+
+            }
+            
+        }
+
+        public void PerformCommands()
+        {
+            foreach (var item in CommandsTodo)
             {
 
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,32 +10,42 @@ namespace Win_CBZ
     internal class PipelinePayload
     {
         public const String PAYLOAD_EXECUTE_RENAME_SCRIPT = "RenameAllPages()";
-       
-        public Dictionary<String, String> Attributes;
+        public const String PAYLOAD_EXECUTE_REBUILD_IMAGE_METADATA_INDEX = "RebuildIndex()";
+        public const String PAYLOAD_EXECUTE_IMAGE_PROCESSING = "ProcessImages()";
 
-      
+        public Dictionary<String, Task> Tasks;
+
+        public List<String> SuccessfullTasks;
+
+        public List<String> FailedTasks;
+
 
         public PipelinePayload()
         {
-            Attributes = new Dictionary<String, String>();
+            Tasks = new Dictionary<String, Task>();
         }
 
-        public PipelinePayload SetAttribute(String name, String value)
+        public PipelinePayload SetAttribute(String name, Task task)
         {
-            Attributes.Add(name, value);
+            Tasks.Add(name, task);
 
             return this;
         }
 
-        public String GetAttribute(String key)
+        public Task GetAttribute(String key)
         {
-            if (Attributes.ContainsKey(key))
+            if (Tasks.ContainsKey(key))
             {
-                return Attributes[key];
+                return Tasks[key];
             } else
             {
                 return null;
             }
+        }
+
+        public void Remove(String key)
+        {
+            Tasks.Remove(key);
         }
     }
 }

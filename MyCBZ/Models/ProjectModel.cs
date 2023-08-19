@@ -273,7 +273,11 @@ namespace Win_CBZ
             {
                 if (e.payload != null)
                 {
-                    String value = e.payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
+                    Task task = e.payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
+                    if (task != null)
+                    {
+                        task.Start();
+                    }
                 }
             }
 
@@ -308,9 +312,9 @@ namespace Win_CBZ
 
                     if (RenamingThread != null)
                     {
-                        while (RenamingThread.IsAlive)
+                        if (RenamingThread.IsAlive)
                         {
-                            System.Threading.Thread.Sleep(100);
+                            RenamingThread.Join();
                         }
                     }
 
