@@ -10,6 +10,7 @@ namespace Win_CBZ
     {
 
         public const int STATUS_SUCCESS = 0;
+        public const int STATUS_RUNNING = 1;
         public const int STATUS_FAILED = -1;
 
         public const int OPERATION_DELETE = 1;
@@ -20,18 +21,15 @@ namespace Win_CBZ
 
         public int Status { get; set; }
 
-        public Page Image { get; set; }
-
         public long Completed { get; set; }
 
         public long Total { get; set; }
         
 
-        public FileOperationEvent(int operation, int status, long completed, long total, Page image)
+        public FileOperationEvent(int operation, int status, long completed, long total)
         {
             Operation = operation;
             Status = status;   
-            Image = image;
             Completed = completed;
             Total = total;
         }   

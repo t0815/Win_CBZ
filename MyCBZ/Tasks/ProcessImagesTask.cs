@@ -11,7 +11,7 @@ namespace Win_CBZ.Tasks
     internal class ProcessImagesTask
     {
 
-        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, List<String> commands, EventHandler<GeneralTaskProgressEvent> handler)
         {
             return new Task<TaskResult>(() =>
             {
@@ -21,8 +21,14 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page page in pages)
                 {
-
+                    page.ImageTask.SetupTasks(page.TempPath, commands);
                     page.ImageTask.PerformCommands();
+                    if (page.ImageTask.Success)
+                    {
+                        page.Copy(page.ImageTask.ResultFileName, page.TempPath);
+                    }
+                    page.ImageTask.CommandsTodo.Clear();
+
                     if (handler != null)
                     {
                         handler.Invoke(null, new GeneralTaskProgressEvent(

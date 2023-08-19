@@ -270,6 +270,30 @@ namespace Win_CBZ
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void Copy(string inputFilePath, string outputFilePath)
+        {           
+            int bufferSize = 1024 * 1024;
+
+            using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
+            {
+                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);
+                fileStream.SetLength(fs.Length);
+                int bytesRead = -1;
+                int byesTotal = 0;
+                byte[] bytes = new byte[bufferSize];
+
+                while ((bytesRead = fs.Read(bytes, 0, bufferSize)) > 0)
+                {
+                    fileStream.Write(bytes, 0, bytesRead);
+                    byesTotal += bytesRead;
+                        
+                }
+
+                fs.Close();      
+            }
+        }
+
         public void DeleteTemporaryFile()
         {
             if (TempPath != null)

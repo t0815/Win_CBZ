@@ -500,7 +500,7 @@ namespace Win_CBZ
                 {
                     targetPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileName;
 
-                    this.CopyFile(fileObject.FullPath, targetPath);
+                    CopyFile(fileObject.FullPath, targetPath);
 
                     FileInfo fi = new FileInfo(targetPath);
                     page = GetPageByName(fileObject.FileName);
@@ -1382,14 +1382,20 @@ namespace Win_CBZ
                 FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);
                 fileStream.SetLength(fs.Length);
                 int bytesRead = -1;
+                int byesTotal = 0;
                 byte[] bytes = new byte[bufferSize];
 
                 while ((bytesRead = fs.Read(bytes, 0, bufferSize)) > 0)
                 {
                     fileStream.Write(bytes, 0, bytesRead);
+                    byesTotal += bytesRead;
+                    OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_RUNNING, byesTotal, fs.Length));
                 }
+
                 fs.Close();
             }
+
+            OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_SUCCESS, 0, 100));
         }
 
 

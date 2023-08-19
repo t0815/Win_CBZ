@@ -22,7 +22,7 @@ namespace Win_CBZ.Models
 
         public Point ResizeTo { get; set; }
 
-        public Image Result { get; set; }
+        public Image ResultImage { get; set; }
 
         public Image ResultThumbnail { get; set; }
 
@@ -33,6 +33,8 @@ namespace Win_CBZ.Models
         public string PreviewFileName { get; set; }
 
         public List<String> CommandsTodo { get; set; }
+
+        public bool Success = false;
 
 
         public ImageTask()
@@ -65,6 +67,11 @@ namespace Win_CBZ.Models
             }
         }
 
+        public String Result()
+        {
+            return ResultFileName;
+        }
+
 
         public void Resize()
         {
@@ -75,9 +82,9 @@ namespace Win_CBZ.Models
         public void CutDobulePage()
         {
             FileStream fs = File.Open(PreviewFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            Result = Image.FromStream(fs);
+            ResultImage = Image.FromStream(fs);
             fs.Position = 0;
-            using (Graphics gfxContext = Graphics.FromImage(Result))
+            using (Graphics gfxContext = Graphics.FromImage(ResultImage))
             {
                 //gfxContext.DrawImageUnscaledAndClipped()
             }
