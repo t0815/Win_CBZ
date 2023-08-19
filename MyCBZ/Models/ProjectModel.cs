@@ -1389,13 +1389,14 @@ namespace Win_CBZ
                 {
                     fileStream.Write(bytes, 0, bytesRead);
                     byesTotal += bytesRead;
-                    OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_RUNNING, byesTotal, fs.Length));
+                    // no progres tracking here atm, since this will fuckup the overall progressbar
+                    //OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_RUNNING, byesTotal, fs.Length));
                 }
 
                 fs.Close();
             }
 
-            OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_SUCCESS, 0, 100));
+            //OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_SUCCESS, 0, 100));
         }
 
 
