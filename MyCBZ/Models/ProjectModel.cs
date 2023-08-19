@@ -44,6 +44,8 @@ namespace Win_CBZ
 
         public int ArchiveState { get; set; }
 
+        public int ApplicationState { get; set; }
+
         protected String ProjectGUID { get; set; }
 
         public Boolean IsNew = false;

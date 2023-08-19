@@ -477,6 +477,7 @@ namespace Win_CBZ
 
         private void HandleGlobalTaskProgress(object sender, GeneralTaskProgressEvent e)
         {
+            Program.ProjectModel.ApplicationState = e.Status;
             if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
             {
                 switch (e.Status)
@@ -497,6 +498,7 @@ namespace Win_CBZ
                     ToolButtonSave.Enabled = false;
                     ToolButtonNew.Enabled = false;
                     newToolStripMenuItem.Enabled = false;
+                    applicationStatusLabel.Text = e.Message;
                 }));
 
                 try
@@ -528,6 +530,7 @@ namespace Win_CBZ
                     ToolButtonSave.Enabled = true;
                     ToolButtonNew.Enabled = true;
                     newToolStripMenuItem.Enabled = true;
+                    applicationStatusLabel.Text = e.Message;
                     Program.ProjectModel.IsChanged = true;
                 }));
 
@@ -1289,7 +1292,7 @@ namespace Win_CBZ
             } else
             {
                 ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_OK);
-                e.Cancel = false || ArchiveProcessing();
+                e.Cancel = true;
             }
             
         }
@@ -1422,7 +1425,9 @@ namespace Win_CBZ
             return (Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
                Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
                Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
-               Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING);
+               Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING ||
+               Program.ProjectModel.ApplicationState == GeneralTaskProgressEvent.TASK_STATUS_RUNNING
+               );
         }
 
 
@@ -1999,6 +2004,11 @@ namespace Win_CBZ
         }
 
         private void PagesList_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
 
         }

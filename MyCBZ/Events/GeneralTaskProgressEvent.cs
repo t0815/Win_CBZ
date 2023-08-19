@@ -24,14 +24,17 @@ namespace Win_CBZ
 
         public int Total { get; set; }
 
+        public string Message { get; set; }
 
 
-        public GeneralTaskProgressEvent(int type, int status, int current, int total)
+
+        public GeneralTaskProgressEvent(int type, int status, string message, int current, int total)
         {
             Current = current; 
             Total = total;
             Type = type;
             Status = status;
+            Message = message;
         }   
     }
 }
