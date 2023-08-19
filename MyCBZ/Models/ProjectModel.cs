@@ -1099,8 +1099,8 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                page.W = int.Parse(pageMeta.GetAttribute("Width"));
-                                page.H = int.Parse(pageMeta.GetAttribute("Height"));
+                                page.W = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
+                                page.H = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
                             } catch {
 
                                 MetaDataPageIndexMissingData = true;
