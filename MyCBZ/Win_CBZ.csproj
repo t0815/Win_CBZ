@@ -71,6 +71,7 @@
     <Compile Include="Events\MetaDataChangedEvent.cs" />
     <Compile Include="Events\MetaDataLoadEvent.cs" />
     <Compile Include="Events\PipelineEvent.cs" />
+    <Compile Include="Events\GeneralTaskProgressEvent.cs" />
     <Compile Include="Events\TaskProgressEvent.cs" />
     <Compile Include="Exceptions\ApplicationException.cs" />
     <Compile Include="Exceptions\MetaDataException.cs" />

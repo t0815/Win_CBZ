@@ -108,6 +108,8 @@ namespace Win_CBZ
 
         public event EventHandler<GlobalActionRequiredEvent> GlobalActionRequired;
 
+        public event EventHandler<GeneralTaskProgressEvent> GeneralTaskProgress;
+
         private Thread LoadArchiveThread;
 
         private Thread ExtractArchiveThread;
@@ -1129,7 +1131,7 @@ namespace Win_CBZ
 
             if (MetaDataPageIndexMissingData) 
             {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Reload and rebuild pageindex missing image MetaData now?", "Rebuild", ReadImageMetaDataTask.UpdateImageMetadata(Pages)));
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
             }
             
 

@@ -75,6 +75,7 @@ namespace Win_CBZ
             newProjectModel.ArchiveOperation += ArchiveOperationHandler;
             newProjectModel.ApplicationStateChanged += ApplicationStateChanged;
             newProjectModel.GlobalActionRequired += HandleGlobalActionRequired;
+            newProjectModel.GeneralTaskProgress += HandleGlobalTaskProgress;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -472,6 +473,82 @@ namespace Win_CBZ
                 GlobalAlertTableLayout.Visible = true;
                 CurrentGlobalAction = e.Task;
             }));
+        }
+
+        private void HandleGlobalTaskProgress(object sender, GeneralTaskProgressEvent e)
+        {
+            if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
+            {
+                switch (e.Status)
+                {
+                    case GeneralTaskProgressEvent.TASK_STATUS_COMPLETED:
+                        Program.ProjectModel.MetaDataPageIndexMissingData = false;
+                        Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
+                        break;
+                }
+            }
+
+            if (e.Status == GeneralTaskProgressEvent.TASK_STATUS_RUNNING)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    saveToolStripMenuItem.Enabled = false;
+                    saveAsToolStripMenuItem.Enabled = false;
+                    ToolButtonSave.Enabled = false;
+                    ToolButtonNew.Enabled = false;
+                    newToolStripMenuItem.Enabled = false;
+                }));
+
+                try
+                {
+                    if (!WindowClosed)
+                    {
+                        toolStripProgressBar.Control.Invoke(new Action(() =>
+                        {
+                            toolStripProgressBar.Maximum = e.Total;
+                            if (e.Current > -1 && e.Current <= e.Total)
+                            {
+                                toolStripProgressBar.Value = e.Current;
+                            }
+                        }));
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+
+            if (e.Status == GeneralTaskProgressEvent.TASK_STATUS_COMPLETED)
+            {
+                this.Invoke(new Action(() =>
+                {
+                    saveToolStripMenuItem.Enabled = true;
+                    saveAsToolStripMenuItem.Enabled = true;
+                    ToolButtonSave.Enabled = true;
+                    ToolButtonNew.Enabled = true;
+                    newToolStripMenuItem.Enabled = true;
+                    Program.ProjectModel.IsChanged = true;
+                }));
+
+                try
+                {
+                    if (!WindowClosed)
+                    {
+                        toolStripProgressBar.Control.Invoke(new Action(() =>
+                        {
+                            toolStripProgressBar.Maximum = e.Total;
+                            
+                            toolStripProgressBar.Value = 0;
+                            
+                        }));
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         private void ExecuteCurrentGlobalAction_Click_1(object sender, EventArgs e)
@@ -1158,9 +1235,7 @@ namespace Win_CBZ
 
                     ClearProject();
                     NewProject();
-                }
-
-               
+                }          
             }
         }
 

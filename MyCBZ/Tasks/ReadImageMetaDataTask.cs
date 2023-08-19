@@ -10,17 +10,35 @@ namespace Win_CBZ.Tasks
     internal class ReadImageMetaDataTask
     {
 
-        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages)
+        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler)
         {
             return new Task<TaskResult>(() =>
             {
+                int current = 1;
+                int total = pages.Count;    
                 TaskResult result = new TaskResult();
 
                 foreach (Page p in pages)
                 {
                     p.LoadImageInfo();
+                    if (handler != null)
+                    {
+                        handler.Invoke(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
+                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
+                            current, 
+                            total));
+                    }
+                    current++;
+                    System.Threading.Thread.Sleep(10);
                 }
 
+                if (handler != null)
+                {
+                    handler.Invoke(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA,
+                        GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
+                        current,
+                        total));
+                }
 
                 return result;
             });
