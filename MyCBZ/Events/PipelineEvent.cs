@@ -32,24 +32,24 @@ namespace Win_CBZ
 
         public PipelineEvent(ProjectModel project, int state)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
+            ArchiveInfo = project;
+            State = state;
 
         }
 
         public PipelineEvent(ProjectModel project, int state, PipelinePayload pipelineConfig)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
-            this.payload = pipelineConfig;
+            ArchiveInfo = project;
+            State = state;
+            payload = pipelineConfig;
         }
 
         public PipelineEvent(ProjectModel project, int state, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
-            this.payload = pipelineConfig;
-            this.Callback = callback;
+            ArchiveInfo = project;
+            State = state;
+            payload = pipelineConfig;
+            Callback = callback;
         }   
     }
 }

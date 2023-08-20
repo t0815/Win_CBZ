@@ -16,21 +16,17 @@ namespace Win_CBZ.Models
         public const string TASK_DETECT_SPLIT_BY_COLOR = "DetectAndSplitByColor";
         public const string TASK_DETECT_RESIZE = "ResizeImage";
 
-        public int SplitPagePercent { get; set; }
+        public ImageAdjustments ImageAdjustments { get; set; }
 
-        public Color DetectSplitAtColor { get; set; }
+        public Image[] ResultImage { get; set; }
 
-        public Point ResizeTo { get; set; }
+        public Image[] ResultThumbnail { get; set; }
 
-        public Image ResultImage { get; set; }
-
-        public Image ResultThumbnail { get; set; }
-
-        public String ResultFileName { get; set; }
+        public String[] ResultFileName { get; set; }
 
         public String SourceFileName { get; set; }
 
-        public string PreviewFileName { get; set; }
+        public String[] PreviewFileName { get; set; }
 
         public List<String> CommandsTodo { get; set; }
 
@@ -40,16 +36,20 @@ namespace Win_CBZ.Models
         public ImageTask()
         {
             CommandsTodo = new List<String>();
-
+            ImageAdjustments = new ImageAdjustments();
+            ResultImage = new Image[2];
+            PreviewFileName = new String[2];
+            ResultThumbnail = new Image[2];
+            ResultFileName = new String[2];
 
         }
 
-        public void SetupTasks(String source, List<String> commandsTodo)
+        public void SetupTasks(Page source, List<String> commandsTodo)
         {
             try
             {
-                PreviewFileName = source + "_0";
-                File.Copy(source, PreviewFileName, true);
+                PreviewFileName[0] = source.TempPath + "_0";
+                File.Copy(source.TempPath, PreviewFileName[0], true);
                 CommandsTodo = commandsTodo;
             }
             catch (Exception)
@@ -67,9 +67,13 @@ namespace Win_CBZ.Models
             }
         }
 
-        public String Result()
+        public Page[] Result()
         {
-            return ResultFileName;
+            Page[] result = new Page[2];
+
+            //result.Append();
+
+            return result;
         }
 
 
@@ -81,10 +85,10 @@ namespace Win_CBZ.Models
 
         public void CutDobulePage()
         {
-            FileStream fs = File.Open(PreviewFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            ResultImage = Image.FromStream(fs);
+            FileStream fs = File.Open(PreviewFileName[0], FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            ResultImage[0] = Image.FromStream(fs);
             fs.Position = 0;
-            using (Graphics gfxContext = Graphics.FromImage(ResultImage))
+            using (Graphics gfxContext = Graphics.FromImage(ResultImage[0]))
             {
                 //gfxContext.DrawImageUnscaledAndClipped()
             }

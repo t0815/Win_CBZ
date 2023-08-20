@@ -111,6 +111,7 @@
     </Compile>
     <Compile Include="MessageLogger.cs" />
     <Compile Include="Events\ItemExtractedEvent.cs" />
+    <Compile Include="Models\ImageAdjustments.cs" />
     <Compile Include="Models\ImageTask.cs" />
     <Compile Include="Models\PipelinePayload.cs" />
     <Compile Include="Models\Page.cs" />

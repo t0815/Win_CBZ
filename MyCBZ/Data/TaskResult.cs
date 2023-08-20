@@ -8,16 +8,16 @@ namespace Win_CBZ.Data
 {
     internal class TaskResult
     {
-        int result;
+        int Result;
 
-        string message;
+        string Message;
 
         public TaskResult() { }
 
         public TaskResult(int result, string message) 
         {
-            this.result = result;
-            this.message = message;
+            Result = result;
+            Message = message;
         }
 
 
