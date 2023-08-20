@@ -1298,7 +1298,7 @@ namespace Win_CBZ
                         Archive.Dispose();
                     }
 
-                    CopyFile(TemporaryFileName, FileName);
+                    CopyFile(TemporaryFileName, FileName, true);
 
                     int deletedIndex = 0;
                     foreach (Page deletedPage in deletedPages)
@@ -1373,7 +1373,7 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void CopyFile(string inputFilePath, string outputFilePath)
+        public void CopyFile(string inputFilePath, string outputFilePath, bool propagateEvents = false)
         {
             int bufferSize = 1024 * 1024;
 
@@ -1390,13 +1390,19 @@ namespace Win_CBZ
                     fileStream.Write(bytes, 0, bytesRead);
                     byesTotal += bytesRead;
                     // no progres tracking here atm, since this will fuckup the overall progressbar
-                    //OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_RUNNING, byesTotal, fs.Length));
+                    if (propagateEvents)
+                    {
+                        OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_RUNNING, byesTotal, fs.Length));
+                    }
                 }
 
                 fs.Close();
             }
 
-            //OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_SUCCESS, 0, 100));
+            if (propagateEvents)
+            {
+                OnFileOperation(new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_SUCCESS, 0, 100));
+            }
         }
 
 

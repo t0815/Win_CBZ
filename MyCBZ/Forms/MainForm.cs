@@ -350,7 +350,7 @@ namespace Win_CBZ
                                 int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
                                 DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
                                 c.Items.AddRange(entry.Options);
-                                c.Value = selectedIndex > -1 ? selectedIndex : 0;
+                                c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
 
                                 MetaDataGrid.Rows[i].Cells[1] = c;
                             }
@@ -431,8 +431,22 @@ namespace Win_CBZ
         {
             toolStripProgressBar.Control.Invoke(new Action(() =>
             {
-                toolStripProgressBar.Maximum = 100;
-                toolStripProgressBar.Value = 0;
+                if (e.Status == FileOperationEvent.STATUS_RUNNING)
+                {
+                    toolStripProgressBar.Maximum = 100;
+                    toolStripProgressBar.Value = Convert.ToInt32(100 * e.Completed / e.Total);
+
+                    if (e.Operation == FileOperationEvent.OPERATION_COPY)
+                    {
+                        applicationStatusLabel.Text = "Copying file...";
+                    }
+
+                } else
+                {
+                    toolStripProgressBar.Value = 0;
+                    applicationStatusLabel.Text = "Ready.";
+
+                }
             }));
         }
 
@@ -1149,6 +1163,11 @@ namespace Win_CBZ
                     ToolButtonSave.Enabled = false;
                     saveToolStripMenuItem.Enabled = false;
                     toolStripButtonShowRawMetadata.Enabled = false;
+                    LabelGlobalActionStatusMessage.Text = "";
+                    GlobalAlertTableLayout.Visible = false;
+                    CurrentGlobalAction = null;
+                    MessageLogListView.Items.Clear();
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
                     RemoveMetaData();
                     break;
 
@@ -1634,7 +1653,7 @@ namespace Win_CBZ
                                     int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.Value);
                                     DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
                                     c.Items.AddRange(updatedEntry.Options);
-                                    c.Value = selectedIndex > -1 ? selectedIndex : 0;
+                                    c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
 
                                     MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                 }
@@ -1655,7 +1674,8 @@ namespace Win_CBZ
 
         private void MetaDataGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            if (e.Exception != null) { 
+            if (e.Exception != null) {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Exception.Message);
             }
         }
 
@@ -2026,10 +2046,6 @@ namespace Win_CBZ
 
         }
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-
-        }
 
 
         /*

@@ -23,7 +23,7 @@ namespace Win_CBZ.Tasks
                     p.LoadImageInfo();
                     if (handler != null)
                     {
-                        handler.Invoke(null, new GeneralTaskProgressEvent(
+                        handler.Invoke(p, new GeneralTaskProgressEvent(
                             GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
                             GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
                             "Rebuilding index...",
@@ -36,7 +36,7 @@ namespace Win_CBZ.Tasks
 
                 if (handler != null)
                 {
-                    handler.Invoke(null, new GeneralTaskProgressEvent(
+                    handler.Invoke(pages, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",

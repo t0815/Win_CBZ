@@ -159,7 +159,9 @@ namespace Win_CBZ
             {
                 CustomEditorValueMappings.TryGetValue(key, out var mapping);
 
-                value = mapping[0] ?? (value ?? "???");
+                int index = mapping != null ? Array.IndexOf(mapping, value) : -1;
+
+                value = value != null && index > -1 ? value : (mapping[0] ?? "???");
 
                 return new MetaDataEntry(key, value, mapping, readOnly);
             }
@@ -365,6 +367,22 @@ namespace Win_CBZ
 
                     return index;
                 }
+            }
+
+            return -1;
+        }
+
+        public int Remove(int index)
+        {
+            MetaDataEntry entry = EntryByIndex(index);
+
+            if (entry != null)
+            {
+                Values.RemoveAt(index);
+             
+                OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));
+
+                return index;             
             }
 
             return -1;
@@ -591,7 +609,11 @@ namespace Win_CBZ
                 }
             }
 
-            Document.RemoveAll();
+            if (Document.HasChildNodes)
+            {
+                Document.RemoveAll();
+            }
+
             if (MetaDataReader != null)
             {
                 MetaDataReader.Dispose();

@@ -30,7 +30,7 @@ namespace Win_CBZ.Tasks
 
                     if (handler != null)
                     {
-                        handler.Invoke(null, new GeneralTaskProgressEvent(
+                        handler.Invoke(task, new GeneralTaskProgressEvent(
                             GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, 
                             GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
                             "Rebuilding index...",
@@ -43,7 +43,7 @@ namespace Win_CBZ.Tasks
 
                 if (handler != null)
                 {
-                    handler.Invoke(null, new GeneralTaskProgressEvent(
+                    handler.Invoke(tasks, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
