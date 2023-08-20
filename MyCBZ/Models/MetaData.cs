@@ -18,11 +18,12 @@ namespace Win_CBZ
 {
     internal class MetaData
     {
-        protected static readonly String[] DefaultProperties = { "AgeRating", "Title", "Titles", 
+        protected static readonly String[] DefaultProperties = { "AgeRating", "Title", 
             "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "StoryArc", "StoryArcNumber", 
             "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO",
-            "Author", "Writer", "Imprint", "Year", "Month", "Day", "Characters", "BlackAndWhite",
-            "Review", "CommunityRating", "Notes", "PageCount", "GTIN" };
+            "Artist", "Writer", "Penciller", "Inker", "Colorist", "Cover", "Translator", "Editor", "Letterer", "Imprint", 
+            "Year", "Month", "Day", 
+            "Characters", "BlackAndWhite", "Review", "CommunityRating", "Notes", "PageCount", "GTIN" };
 
         protected static readonly string[] Ratings =
         {
