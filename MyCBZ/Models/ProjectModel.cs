@@ -1523,6 +1523,7 @@ namespace Win_CBZ
             FileSize = 0;
             FileName = "";
             MaxFileIndex = 0;
+            Thread.BeginCriticalRegion();
             foreach (Page page in Pages)
             {
                 try { 
@@ -1536,6 +1537,7 @@ namespace Win_CBZ
                     Thread.Sleep(10);
                 }
             }
+            Thread.EndCriticalRegion();
 
             Name = "";
             FileName = "";
