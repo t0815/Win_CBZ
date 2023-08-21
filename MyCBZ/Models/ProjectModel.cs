@@ -737,6 +737,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
             InitialPageIndexRebuild = false;
         }

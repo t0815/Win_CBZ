@@ -549,6 +549,7 @@ namespace Win_CBZ
                     newToolStripMenuItem.Enabled = true;
                     applicationStatusLabel.Text = e.Message;
                     Program.ProjectModel.IsChanged = true;
+                    Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
                 }));
 
                 try
@@ -852,6 +853,8 @@ namespace Win_CBZ
         {
             String info = applicationStatusLabel.Text;
             String filename = e.ArchiveInfo.FileName;
+
+            Program.ProjectModel.ApplicationState = e.State;
 
             switch (e.State)
             {
@@ -1273,6 +1276,14 @@ namespace Win_CBZ
                     ClearProject();
                     NewProject();
                 }          
+            } else
+            {
+
+                if (ArchiveProcessing())
+                {
+                    ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_OK);
+
+                }
             }
         }
 
