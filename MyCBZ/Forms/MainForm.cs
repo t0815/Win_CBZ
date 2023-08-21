@@ -19,6 +19,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Data;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
+using Win_CBZ.Tasks;
 
 namespace Win_CBZ
 {
@@ -1442,6 +1443,13 @@ namespace Win_CBZ
                     Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
                     Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
                 }
+
+                PageChanged(this, new PageChangedEvent((Page)pageNew.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                PageChanged(this, new PageChangedEvent((Page)originalItem.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+
+                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
 
                 //Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
                 //Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);

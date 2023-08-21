@@ -718,8 +718,9 @@ namespace Win_CBZ
                 {
                     OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
-                OnTaskProgress(new TaskProgressEvent(page, updated, Pages.Count));
-                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+
+                OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Rebuilding index...", updated, Pages.Count));
+                //OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                 IsChanged = true;
                 isUpdated = false;
@@ -1223,6 +1224,9 @@ namespace Win_CBZ
                     RunRenameScriptsForPages();
                 }
 
+                ContinuePipelineForIndexBuilder = false;
+                UpdatePageIndicesProc();
+
                 OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
                 // Rebuild ComicInfo.xml's PageIndex
@@ -1248,7 +1252,10 @@ namespace Win_CBZ
                             page.FreeImage();
                             
                             updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
-                            page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
+                            if (IsNew)
+                            {
+                                page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
+                            }
                             page.Changed = false;
                           
                             OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
@@ -1320,6 +1327,7 @@ namespace Win_CBZ
                         File.Delete(TemporaryFileName);
                         Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
                         IsChanged = false;
+                        IsNew = false;
                     } catch (Exception rex)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
@@ -1656,6 +1664,11 @@ namespace Win_CBZ
         protected virtual void OnArchiveOperation(ArchiveOperationEvent e)
         {
             ArchiveOperation?.Invoke(this, e);
+        }
+
+        protected virtual void OnGeneralTaskProgress(GeneralTaskProgressEvent e)
+        {
+            GeneralTaskProgress?.Invoke(this, e);
         }
     }
 }
