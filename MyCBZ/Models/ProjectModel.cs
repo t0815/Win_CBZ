@@ -1236,6 +1236,7 @@ namespace Win_CBZ
                 MetaData.RebuildPageMetaData(Pages.ToList<Page>());
 
                 // Write files to new temporary archive
+                Thread.BeginCriticalRegion();
                 foreach (Page page in Pages)
                 {
                     try
@@ -1280,6 +1281,7 @@ namespace Win_CBZ
 
                     index++;
                 }
+                Thread.EndCriticalRegion();
 
                 // Create Metadata
                 if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
