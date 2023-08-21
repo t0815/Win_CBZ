@@ -885,7 +885,7 @@ namespace Win_CBZ
                     Program.ProjectModel.ArchiveState = e.State;
                     pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
 
-                    DisableControllsForApplicationState(e.ArchiveInfo, e.State);
+                    //DisableControllsForApplicationState(e.ArchiveInfo, e.State);
                 }));
                 //}
             }
@@ -1052,6 +1052,8 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_OPENING:
                     newToolStripMenuItem.Enabled = false;
                     openToolStripMenuItem.Enabled = false;
+                    saveAsToolStripMenuItem.Enabled = false;
+                    ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonNew.Enabled = false;
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
@@ -1071,6 +1073,7 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_OPENED:
                     newToolStripMenuItem.Enabled = true;
                     openToolStripMenuItem.Enabled = true;
+                    saveAsToolStripMenuItem.Enabled = true; 
                     ToolButtonNew.Enabled = true;
                     ToolButtonOpen.Enabled = true;
                     addFilesToolStripMenuItem.Enabled = true;
@@ -1094,6 +1097,7 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_SAVED:
                     newToolStripMenuItem.Enabled = true;
                     openToolStripMenuItem.Enabled = true;
+                    saveAsToolStripMenuItem.Enabled = true;
                     ToolButtonNew.Enabled = true;
                     ToolButtonOpen.Enabled = true;
                     addFilesToolStripMenuItem.Enabled = true;
@@ -1115,6 +1119,8 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
                     newToolStripMenuItem.Enabled = false;
                     openToolStripMenuItem.Enabled = false;
+                    saveAsToolStripMenuItem.Enabled = false;
+                    ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonNew.Enabled = false;
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
@@ -1123,11 +1129,13 @@ namespace Win_CBZ
                     BtnRemoveMetaData.Enabled = false;
                     ToolButtonExtractArchive.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
+
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
                     newToolStripMenuItem.Enabled = true;
                     openToolStripMenuItem.Enabled = true;
+                    saveAsToolStripMenuItem.Enabled = true;
                     ToolButtonNew.Enabled = true;
                     ToolButtonOpen.Enabled = true;
                     addFilesToolStripMenuItem.Enabled = true;
@@ -1140,6 +1148,8 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
                     newToolStripMenuItem.Enabled = false;
                     openToolStripMenuItem.Enabled = false;
+                    saveAsToolStripMenuItem.Enabled = false;
+                    ToolButtonRemoveFiles.Enabled = false;
                     ToolButtonNew.Enabled = false;
                     ToolButtonOpen.Enabled = false;
                     addFilesToolStripMenuItem.Enabled = false;
@@ -1158,6 +1168,7 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
                     newToolStripMenuItem.Enabled = true;
                     openToolStripMenuItem.Enabled = true;
+                    saveAsToolStripMenuItem.Enabled = false;
                     ToolButtonNew.Enabled = true;
                     ToolButtonOpen.Enabled = true;
                     addFilesToolStripMenuItem.Enabled = true;
@@ -1191,6 +1202,7 @@ namespace Win_CBZ
                     {
                         ToolButtonSave.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
+                        saveAsToolStripMenuItem.Enabled = true;
                     }
                     break;
 
@@ -1204,6 +1216,7 @@ namespace Win_CBZ
                     {
                         ToolButtonSave.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
+                        saveAsToolStripMenuItem.Enabled = true;
                     }
                     break;
             }
