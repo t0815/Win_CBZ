@@ -20,6 +20,7 @@ using Win_CBZ.Data;
 using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
 using Win_CBZ.Tasks;
+using System.Security.Policy;
 
 namespace Win_CBZ
 {
@@ -522,6 +523,10 @@ namespace Win_CBZ
                     saveAsToolStripMenuItem.Enabled = false;
                     ToolButtonSave.Enabled = false;
                     ToolButtonNew.Enabled = false;
+                    ToolButtonAddFiles.Enabled = false;
+                    ToolButtonMovePageDown.Enabled = false;
+                    ToolButtonMovePageUp.Enabled = false;
+                    ToolButtonRemoveFiles.Enabled = false;
                     newToolStripMenuItem.Enabled = false;
                     applicationStatusLabel.Text = e.Message;
                 }));
@@ -554,6 +559,10 @@ namespace Win_CBZ
                     saveAsToolStripMenuItem.Enabled = true;
                     ToolButtonSave.Enabled = true;
                     ToolButtonNew.Enabled = true;
+                    ToolButtonAddFiles.Enabled = true;
+                    ToolButtonMovePageDown.Enabled = true;
+                    ToolButtonMovePageUp.Enabled = true;
+                    ToolButtonRemoveFiles.Enabled = true;
                     newToolStripMenuItem.Enabled = true;
                     applicationStatusLabel.Text = e.Message;
                     Program.ProjectModel.IsChanged = true;

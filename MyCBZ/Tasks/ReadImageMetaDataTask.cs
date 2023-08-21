@@ -26,7 +26,7 @@ namespace Win_CBZ.Tasks
                         handler.Invoke(p, new GeneralTaskProgressEvent(
                             GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
                             GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                            "Rebuilding index...",
+                            "Rebuilding image metadata...",
                             current, 
                             total));
                     }
