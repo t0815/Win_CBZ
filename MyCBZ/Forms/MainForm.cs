@@ -309,7 +309,7 @@ namespace Win_CBZ
                     if (secondCol != null)
                     {
                         firstCol.Width = 150;
-                        secondCol.Width = 250;
+                        secondCol.Width = 350;
                     }
                 }
                 else
