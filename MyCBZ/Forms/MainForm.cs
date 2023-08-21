@@ -197,7 +197,15 @@ namespace Win_CBZ
                 saveAsToolStripMenuItem_Click(sender, e);
             } else
             {
-                SavingTask = Program.ProjectModel.Save();
+                if (Program.ProjectModel.Exists())
+                {
+                    SavingTask = Program.ProjectModel.Save();
+                } else
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Wrong application state. Current File does not exists! [" + Program.ProjectModel.FileName + "]");
+                    saveAsToolStripMenuItem.Enabled = true;
+                    saveAsToolStripMenuItem_Click(sender, e);
+                }
             }
         }
 
@@ -989,6 +997,7 @@ namespace Win_CBZ
                     }));
                     
                     filename = "";
+
                     info = "Ready.";
                     break;
 

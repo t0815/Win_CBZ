@@ -932,7 +932,7 @@ namespace Win_CBZ
             }
 
             page.Name = name;
-            this.IsChanged = true;
+            IsChanged = true;
 
             OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
@@ -1165,6 +1165,8 @@ namespace Win_CBZ
 
                     Thread.Sleep(10);
                 }
+                IsChanged = false;
+                IsNew = false;
             } catch (Exception e)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive\n" + e.Message);
@@ -1538,9 +1540,9 @@ namespace Win_CBZ
             Name = "";
             FileName = "";
             IsSaved = false;
-            IsNew = false;
+            IsNew = true;
             IsChanged = false;
-            IsClosed = true;
+            IsClosed = false;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
         }
