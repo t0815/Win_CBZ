@@ -1613,63 +1613,77 @@ namespace Win_CBZ
                 string Val = "";
 
                 object value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-
-                if (value != null)
+               
+                if (e.ColumnIndex == 0)
                 {
-                    if (e.ColumnIndex == 0)
+                    if (value == null)
                     {
-                        Key = value.ToString();
-                        value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
-
-                        if (value != null)
-                        {
-                            Val = value.ToString();
-                        }
+                        value = "";
                     }
 
-                    if (e.ColumnIndex == 1)
-                    {
-                        Val = value.ToString();
-                        value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
+                    Key = value.ToString();
+                    value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
 
-                        if (value != null)
-                        {
-                            Key = value.ToString();
-                        }
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+                    
+                    Val = value.ToString();                  
+                }
+
+                if (e.ColumnIndex == 1)
+                {
+                    if (value == null)
+                    {
+                        value = "";
                     }
 
-                    MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
-                    MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
-                    MetaDataGrid.Invalidate();
+                    Val = value.ToString();
+                    value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
 
-                    if (e.ColumnIndex == 0) { 
-                        var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
-                        if (key != null)
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Key = value.ToString();
+                }
+
+                MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
+                MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
+                MetaDataGrid.Invalidate();
+
+                if (e.ColumnIndex == 0) { 
+                    var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
+                    if (key != null)
+                    {
+                        if (updatedEntry.Key == key.ToString())
                         {
-                            if (updatedEntry.Key == key.ToString())
+                            if (updatedEntry.Options.Length > 0)
                             {
-                                if (updatedEntry.Options.Length > 0)
-                                {
-                                    int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.Value);
-                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                    c.Items.AddRange(updatedEntry.Options);
-                                    c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
+                                int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.Value);
+                                DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                c.Items.AddRange(updatedEntry.Options);
+                                c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
 
-                                    MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
-                                }
-                                else
-                                {
-                                    DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                                    c.Value = updatedEntry.Value;
+                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                            }
+                            else
+                            {
+                                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                                c.Value = updatedEntry.Value;
 
-                                    MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
-                                }
+                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                             }
                         }
                     }
                 }
+                
             }
-            catch (Exception) { }
+            catch (Exception) 
+            { 
+            }
         }
 
         private void MetaDataGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
