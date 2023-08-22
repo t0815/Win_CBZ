@@ -1760,12 +1760,14 @@ namespace Win_CBZ
 
         private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
+            System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = PagesList.SelectedItems;
             bool buttonState = selectedPages.Count > 0;
+            bool propsButtonAvailable = selectedPages.Count == 1;
 
             ToolButtonRemoveFiles.Enabled = buttonState;
             ToolButtonMovePageDown.Enabled = buttonState && selectedPages.Count != PagesList.Items.Count;
             ToolButtonMovePageUp.Enabled = buttonState && selectedPages.Count != PagesList.Items.Count;
+            ToolButtonEditImageProps.Enabled = propsButtonAvailable;
 
             ToolButtonSetPageType.Enabled = buttonState;
 
@@ -1848,7 +1850,10 @@ namespace Win_CBZ
 
         private void ToolButtonEditImageProps_Click(object sender, EventArgs e)
         {
+            Page page = (Page)PagesList.SelectedItem.Tag;
 
+            PageSettingsForm pageSettingsForm = new PageSettingsForm(page);
+            pageSettingsForm.ShowDialog();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)

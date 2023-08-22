@@ -59,6 +59,8 @@ namespace Win_CBZ
 
         public bool Invalidated { get; set; }
 
+        public bool IsMemoryCopy { get; set; }
+
         public bool ImageInfoRequested { get; set; }
 
         public bool Closed { get; set; }
@@ -75,7 +77,7 @@ namespace Win_CBZ
 
         public DateTimeOffset LastModified { get; set; }
 
-        protected int ThumbW { get; set; } = 128;
+        protected int ThumbW { get; set; } = 212;
 
         protected int ThumbH { get; set; } = 256;
 
@@ -86,6 +88,8 @@ namespace Win_CBZ
         private Image Thumbnail;
 
         private Stream ImageStream;
+
+        private MemoryStream ImageStreamMemoryCopy;
 
         private FileInfo ImageFileInfo;
 
@@ -182,6 +186,46 @@ namespace Win_CBZ
             Compressed = true;
             Size = zipInputStream.Length;
             Id = Guid.NewGuid().ToString();
+            ImageTask = new ImageTask();
+        }
+
+        public Page(Page sourcePage, String name, int ThumbWidth = 212, int ThumbHeight = 256)
+        {
+            if (ImageStream != null)
+            {
+                if (ImageStream.CanRead)
+                {
+                    ImageStreamMemoryCopy = new MemoryStream();
+                    sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
+                    IsMemoryCopy = true;
+                }
+            }
+            
+            Filename = sourcePage.Filename;
+            LocalPath = sourcePage.LocalPath;   
+            ImageStream = sourcePage.ImageStream;
+            Name = name;
+            EntryName = name;
+            Compressed = true;
+            Changed = sourcePage.Changed;
+            ReadOnly = sourcePage.ReadOnly;
+            Size = sourcePage.Size;
+            Id = sourcePage.Id;
+            Index = sourcePage.Index;
+            Closed = sourcePage.Closed;
+            TemporaryFileId = sourcePage.TemporaryFileId;
+            TempPath = sourcePage.TempPath;          
+            Compressed = sourcePage.Compressed;
+            Deleted = sourcePage.Deleted;
+            OriginalName = sourcePage.OriginalName;
+            W = sourcePage.W;
+            H = sourcePage.H;
+            Key = sourcePage.Key;
+            ThumbH = ThumbHeight;
+            ThumbW = ThumbWidth;
+            Thumbnail = sourcePage.Thumbnail;
+            ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
+            
             ImageTask = new ImageTask();
         }
 
@@ -377,7 +421,7 @@ namespace Win_CBZ
         {
             if (!Closed)
             {
-                this.LoadImage();
+                LoadImage();
             }
 
             if (Image != null)
@@ -442,9 +486,22 @@ namespace Win_CBZ
         {
             if (!Closed)
             {
-                if (Image == null && ImageStream != null && ImageStream.CanRead)
+                if (Image == null)
                 {
-                    Image = Image.FromStream(ImageStream);
+                    if (IsMemoryCopy)
+                    {
+                        if (ImageStreamMemoryCopy != null && ImageStreamMemoryCopy.CanRead)
+                        {
+                            Image = Image.FromStream(ImageStreamMemoryCopy);
+                        }
+                    }
+                    else
+                    {
+                        if (ImageStream != null && ImageStream.CanRead)
+                        {
+                            Image = Image.FromStream(ImageStream);
+                        }
+                    }
                 }
 
                 if (Image == null)
@@ -483,6 +540,14 @@ namespace Win_CBZ
             {
                 ImageStream.Close();
                 ImageStream.Dispose();
+            }
+
+            if (IsMemoryCopy)
+            {
+                if (ImageStreamMemoryCopy != null)
+                {
+                    ImageStreamMemoryCopy.Close();
+                }
             }
         }
     }

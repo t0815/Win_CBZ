@@ -10,11 +10,36 @@ using System.Windows.Forms;
 
 namespace Win_CBZ.Forms
 {
-    public partial class PageSettingsForm : Form
+    internal partial class PageSettingsForm : Form
     {
-        public PageSettingsForm()
+
+        Page Page;
+        Image PreviewThumb;
+
+        public PageSettingsForm(Page page)
         {
             InitializeComponent();
+
+            Page = new Page(page, page.Name);
+          
+            PreviewThumb = Page.GetThumbnail(ThumbAbort, Handle);
+
+            PreviewThumbPictureBox.Image = PreviewThumb;
+
+            TextBoxFileLocation.Text = Page.Filename;
+            PageNameTextBox.Text = Page.Name;
+            PageIndexTextbox.Text = Page.Index.ToString();
+        }
+
+        private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Page.FreeImage();
+            Page = null;
+        }
+
+        private bool ThumbAbort()
+        {
+            return true;
         }
     }
 }
