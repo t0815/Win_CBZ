@@ -97,6 +97,12 @@
     <Compile Include="Forms\ExtractFilesDialog.Designer.cs">
       <DependentUpon>ExtractFilesDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PageSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PageSettingsForm.Designer.cs">
+      <DependentUpon>PageSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MetaDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +168,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ApplicationDialog.resx">
       <DependentUpon>ApplicationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PageSettingsForm.resx">
+      <DependentUpon>PageSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImagePreviewForm.resx">
       <DependentUpon>ImagePreviewForm.cs</DependentUpon>
@@ -357,6 +366,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\defaults.xsl" />
+    <Content Include="Resources\edit_large.png" />
+    <None Include="Resources\edit_large1.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
