@@ -13,6 +13,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Models;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Win_CBZ
 {
@@ -189,8 +190,20 @@ namespace Win_CBZ
             ImageTask = new ImageTask();
         }
 
-        public Page(Page sourcePage, String name, int ThumbWidth = 212, int ThumbHeight = 256)
+        public Page(Page sourcePage, String RandomId, int ThumbWidth = 212, int ThumbHeight = 256)
         {
+            WorkingDir = sourcePage.WorkingDir;
+            Name = sourcePage.Name;
+            EntryName = sourcePage.EntryName;
+            //TempPath = sourcePage.TempPath;
+            Filename = sourcePage.Filename;
+            LocalPath = sourcePage.LocalPath;
+            ImageStream = sourcePage.ImageStream;
+            Compressed = sourcePage.Compressed;
+            TemporaryFileId = RandomId;
+            EntryName = sourcePage.EntryName;
+            ImageEntry = sourcePage.ImageEntry;
+
             if (ImageStream != null)
             {
                 if (ImageStream.CanRead)
@@ -200,22 +213,16 @@ namespace Win_CBZ
                     IsMemoryCopy = true;
                 }
             }
+                
             
-            Filename = sourcePage.Filename;
-            LocalPath = sourcePage.LocalPath;   
-            ImageStream = sourcePage.ImageStream;
-            Name = name;
-            EntryName = name;
-            Compressed = true;
+            
             Changed = sourcePage.Changed;
             ReadOnly = sourcePage.ReadOnly;
             Size = sourcePage.Size;
             Id = sourcePage.Id;
             Index = sourcePage.Index;
             Closed = sourcePage.Closed;
-            TemporaryFileId = sourcePage.TemporaryFileId;
-            TempPath = sourcePage.TempPath;          
-            Compressed = sourcePage.Compressed;
+                      
             Deleted = sourcePage.Deleted;
             OriginalName = sourcePage.OriginalName;
             W = sourcePage.W;
@@ -281,6 +288,11 @@ namespace Win_CBZ
             this.Closed = true;
         }
 
+        public void MakeNewTemporaryFileId()
+        {
+            TemporaryFileId = "";
+        }
+
         protected void RequestTemporaryFile()
         {
             if (Compressed)
@@ -302,6 +314,11 @@ namespace Win_CBZ
             {
                 if (ReadOnly)
                 {
+                    if (TempPath == null)
+                    {
+                        TempPath = WorkingDir + TemporaryFileId;
+                    }
+
                     FileInfo tempFileInfo = new FileInfo(TempPath);
                     FileStream ImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     FileStream localFile = File.OpenRead(LocalPath);
@@ -507,8 +524,12 @@ namespace Win_CBZ
                 if (Image == null)
                 {
                     RequestTemporaryFile();
-                    ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
-                    Image = Image.FromStream(ImageStream);
+                    if (TempPath != null) {
+                        ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
+                        Image = Image.FromStream(ImageStream);
+                    } else {
+                        throw new Exception("Failed to extract image [" + Name + "] from Archive!");
+                    } 
                 }
 
                 if (Image != null)

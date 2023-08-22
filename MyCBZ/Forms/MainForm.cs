@@ -1000,7 +1000,7 @@ namespace Win_CBZ
                     this.Invoke(new Action(() =>
                     {
                         Program.ProjectModel.Pages.Clear();
-                        PagesList.Clear();
+                        //PagesList.Clear();    !DONT CLEAR, it will break the binding
                         PageView.Clear();
                         PageImages.Images.Clear();
                     }));

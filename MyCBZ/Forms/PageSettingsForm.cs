@@ -15,24 +15,27 @@ namespace Win_CBZ.Forms
 
         Page Page;
         Image PreviewThumb;
+        Random RandomProvider;
 
         public PageSettingsForm(Page page)
         {
             InitializeComponent();
 
-            Page = new Page(page, page.Name);
+            RandomProvider = new Random();
+            Page = new Page(page, RandomProvider.Next().ToString("X"));
           
             PreviewThumb = Page.GetThumbnail(ThumbAbort, Handle);
 
             PreviewThumbPictureBox.Image = PreviewThumb;
 
-            TextBoxFileLocation.Text = Page.Filename;
+            TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.Filename;
             PageNameTextBox.Text = Page.Name;
             PageIndexTextbox.Text = Page.Index.ToString();
         }
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Page.DeleteTemporaryFile();
             Page.FreeImage();
             Page = null;
         }
