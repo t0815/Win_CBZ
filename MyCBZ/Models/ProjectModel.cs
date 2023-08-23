@@ -1069,7 +1069,15 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort();
+                    LoadArchiveThread.Join();
+                }
+            }
+
+            if (SaveArchiveThread != null)
+            {
+                if (SaveArchiveThread.IsAlive)
+                {
+                    SaveArchiveThread.Join();
                 }
             }
 
