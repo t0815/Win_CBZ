@@ -1330,7 +1330,16 @@ namespace Win_CBZ
                     try
                     {
                         File.Delete(TemporaryFileName);
+                        // Reopen source file and update image entries
                         Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
+                        foreach (ZipArchiveEntry entry in Archive.Entries)
+                        {
+                            Page page = GetPageByName(entry.Name);
+                            if (page != null)
+                            {
+                                page.UpdateImageEntry(entry, MakeNewRandomId());
+                            }
+                        }
                         IsChanged = false;
                         IsNew = false;
                     } catch (Exception rex)
