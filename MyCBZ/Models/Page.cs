@@ -208,6 +208,8 @@ namespace Win_CBZ
             {
                 if (ImageStream.CanRead)
                 {
+                    sourcePage.ImageStream.Position = 0;
+
                     ImageStreamMemoryCopy = new MemoryStream();
                     sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
                     IsMemoryCopy = true;

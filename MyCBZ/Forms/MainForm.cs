@@ -258,6 +258,7 @@ namespace Win_CBZ
                         case PageChangedEvent.IMAGE_STATUS_CHANGED:
                         case PageChangedEvent.IMAGE_STATUS_RENAMED:
                             e.Image.Changed = true;
+                            e.Image.Invalidated = true;
                             break;
                     }
 
@@ -726,7 +727,7 @@ namespace Win_CBZ
 
             if (existingItem == null)
             {
-                itemPage = PageView.Items.Add("");
+                itemPage = PageView.Items.Add(page.Name);
                 itemPage.ImageKey = page.Id;
                 itemPage.SubItems.Add(page.Name);
                 itemPage.SubItems.Add(page.Index.ToString());
@@ -1514,46 +1515,44 @@ namespace Win_CBZ
             }
 
             originalItem = PagesList.Items[newIndex];
-            originalPage = FindListViewItemForPage(PageView, page);
+            originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
 
             int IndexItemToMove = updateItem.Index;
-            int direction = 0;
-
-            
+                       
             if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
             {
                 return;
             }
 
-            if (newIndex > IndexItemToMove)
-            {
-                direction = -1;
-            }
-            else
-            {
-                direction = 1;
-            }
-
-            Program.ProjectModel.Pages.Remove(page);
+            PagesList.Items.Remove(originalItem);
             PagesList.Items.Remove(updateItem);
-            if (updatePage != null)
+            if (updatePage != null && originalPage != null)
             {
+                PageView.Items.Remove(originalPage);
                 PageView.Items.Remove(updatePage);
-                //PageImages.Images.RemoveAt(pageImageIndexToUpdate);
-
             }
 
-            Program.ProjectModel.Pages.Insert(newIndex, page);
+            Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
+            Program.ProjectModel.Pages.Remove((Page)updateItem.Tag);
+
             PagesList.Items.Insert(newIndex, updateItem);
-            if (updatePage != null)
+            PagesList.Items.Insert(newIndex + 1, originalItem);
+            if (updatePage != null && originalPage != null)
             {
                 PageView.Items.Insert(newIndex, updatePage);
-                
+                PageView.Items.Insert(newIndex + 1, originalPage);
             }
+            Program.ProjectModel.Pages.Insert(newIndex, (Page)updateItem.Tag);
+            Program.ProjectModel.Pages.Insert(newIndex + 1, (Page)originalItem.Tag);
+                     
 
             PageChanged(this, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+            PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+            ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+
             HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
+            Program.ProjectModel.IsChanged = true;
         }
 
 
@@ -2069,6 +2068,10 @@ namespace Win_CBZ
             ListViewItem item = e.Item as ListViewItem;
             Page page = (Page)item.Tag;
             Pen borderPen;
+            Pen captionPen = new Pen(Color.Black, 1);
+            Brush textBrush = Brushes.Black;
+            Brush textBGBrush = Brushes.White;
+            Font textFont = SystemFonts.CaptionFont;
             if (e.Item.Selected)
             {
                 borderPen = new Pen(Color.DodgerBlue, 2);
@@ -2083,7 +2086,9 @@ namespace Win_CBZ
 
 
             int customItemBoundsW = owner.LargeImageList.ImageSize.Width;
-            int customItemBoundsH = owner.LargeImageList.ImageSize.Height;
+            int customItemBoundsH = 16; //owner.LargeImageList.ImageSize.Height;
+
+            Rectangle textBox = new Rectangle(center, rectangle.Height - 16, customItemBoundsW, customItemBoundsH);
 
             // e.Bounds.Width = customItemBoundsW + 4;
 
@@ -2108,6 +2113,10 @@ namespace Win_CBZ
                         RequestThumbnailSlice();
                     }
                 }
+
+                //e.Graphics.DrawRectangle(captionPen, textBox);
+                //e.Graphics.FillRectangle(textBGBrush, textBox);
+                //e.Graphics.DrawString(page.Name + "-> " + item.Index.ToString(), textFont, textBrush, new Point(center + 20, e.Bounds.Y + rectangle.Height - 14));
             }
             else
             {
