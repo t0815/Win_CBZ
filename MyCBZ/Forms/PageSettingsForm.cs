@@ -30,19 +30,39 @@ namespace Win_CBZ.Forms
 
             TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.Filename;
             PageNameTextBox.Text = Page.Name;
-            PageIndexTextbox.Text = Page.Index.ToString();
+            PageIndexTextbox.Text = (Page.Index + 1).ToString();
         }
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+        }
+
+        private bool ThumbAbort()
+        {
+            return true;
+        }
+
+        public Page GetResult()
+        {
+            return Page;
+        }
+
+        public void FreeResult()
         {
             Page.DeleteTemporaryFile();
             Page.FreeImage();
             Page = null;
         }
 
-        private bool ThumbAbort()
+        private void PageNameTextBox_TextChanged(object sender, EventArgs e)
         {
-            return true;
+            Page.Name = PageNameTextBox.Text;
+        }
+
+        private void PageIndexTextbox_TextChanged(object sender, EventArgs e)
+        {
+            Page.Index = Convert.ToInt32(PageIndexTextbox.Text) - 1;
         }
     }
 }

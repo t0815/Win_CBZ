@@ -170,9 +170,9 @@ namespace Win_CBZ
                 {
                     if (ClosingTask != null)
                     {
-                        while (ClosingTask.IsAlive)
+                        if (ClosingTask.IsAlive)
                         {
-                            System.Threading.Thread.Sleep(100);
+                            ClosingTask.Join();
                         }
                     }
 
@@ -1241,10 +1241,6 @@ namespace Win_CBZ
                     {
                         OpeningTask.Join();
                     }
-                    //while (OpeningTask.IsAlive)
-                    //{
-                    //    System.Threading.Thread.Sleep(50);
-                    //}
                 }
 
                 if (SavingTask != null)
@@ -1253,10 +1249,6 @@ namespace Win_CBZ
                     {
                         SavingTask.Join();
                     }
-                    //while (SavingTask.IsAlive)
-                    //{
-                    //    System.Threading.Thread.Sleep(50);
-                    //}
                 }
 
                 if (ThumbnailThread != null)
@@ -1265,10 +1257,6 @@ namespace Win_CBZ
                     {
                         ThumbnailThread.Join();
                     }
-                    //while (ThumbnailThread.IsAlive)
-                    //{
-                    //    System.Threading.Thread.Sleep(50);
-                    //}
                 }
 
                 ClosingTask = Program.ProjectModel.Close();
@@ -1430,6 +1418,7 @@ namespace Win_CBZ
             ListViewItem newItem;
             ListViewItem pageOriginal;
             ListViewItem pageNew;
+
             int IndexOldItem = 0;
             int direction = 0;
 
@@ -1500,6 +1489,71 @@ namespace Win_CBZ
 
             //Program.ProjectModel.UpdatePageIndices();
             Program.ProjectModel.IsChanged = true;
+        }
+
+        private void MovePageTo(Page page, int newIndex)
+        {
+            ListViewItem originalPage;
+            ListViewItem originalItem;
+            ListViewItem updatePage;
+            ListViewItem updateItem;
+            Image updateImage;
+            int pageImageIndexToUpdate = -1;
+
+
+            updateItem = FindListViewItemForPage(PagesList, page);
+            updatePage = FindListViewItemForPage(PageView, page);
+            if (updatePage != null)
+            {
+                if (PageImages.Images.IndexOfKey(page.Id) > -1) 
+                {
+                    pageImageIndexToUpdate = PageImages.Images.IndexOfKey(page.Id);
+                    updateImage = PageImages.Images[pageImageIndexToUpdate];
+                }
+                
+            }
+
+            originalItem = PagesList.Items[newIndex];
+            originalPage = FindListViewItemForPage(PageView, page);
+
+            int IndexItemToMove = updateItem.Index;
+            int direction = 0;
+
+            
+            if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
+            {
+                return;
+            }
+
+            if (newIndex > IndexItemToMove)
+            {
+                direction = -1;
+            }
+            else
+            {
+                direction = 1;
+            }
+
+            Program.ProjectModel.Pages.Remove(page);
+            PagesList.Items.Remove(updateItem);
+            if (updatePage != null)
+            {
+                PageView.Items.Remove(updatePage);
+                //PageImages.Images.RemoveAt(pageImageIndexToUpdate);
+
+            }
+
+            Program.ProjectModel.Pages.Insert(newIndex, page);
+            PagesList.Items.Insert(newIndex, updateItem);
+            if (updatePage != null)
+            {
+                PageView.Items.Insert(newIndex, updatePage);
+                
+            }
+
+            PageChanged(this, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
         }
 
 
@@ -1853,7 +1907,22 @@ namespace Win_CBZ
             Page page = (Page)PagesList.SelectedItem.Tag;
 
             PageSettingsForm pageSettingsForm = new PageSettingsForm(page);
-            pageSettingsForm.ShowDialog();
+            DialogResult dlgResult = pageSettingsForm.ShowDialog();
+
+            if (dlgResult == DialogResult.OK) 
+            {
+                Page pageResult = pageSettingsForm.GetResult();
+                Page pageToUpdate = Program.ProjectModel.GetPageById(pageResult.Id);
+                if (pageToUpdate != null)
+                {
+                    pageToUpdate.UpdatePage(pageResult);
+                    MovePageTo(pageToUpdate, pageResult.Index);
+                    
+                }
+            }
+
+            pageSettingsForm.FreeResult();
+            pageSettingsForm.Dispose();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)

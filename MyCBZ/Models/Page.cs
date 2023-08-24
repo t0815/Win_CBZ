@@ -213,9 +213,7 @@ namespace Win_CBZ
                     IsMemoryCopy = true;
                 }
             }
-                
-            
-            
+                          
             Changed = sourcePage.Changed;
             ReadOnly = sourcePage.ReadOnly;
             Size = sourcePage.Size;
@@ -236,15 +234,20 @@ namespace Win_CBZ
             ImageTask = new ImageTask();
         }
 
-        public void UpdatePage(Page page)
+        public void UpdatePage(Page page, bool skipIndex = true)
         {
             Compressed = page.Compressed;
             Filename = page.Filename;
             Name = page.Name;
             EntryName = page.EntryName;
             Size = page.Size;
-            Id = Guid.NewGuid().ToString();
+            Id = page.Id;
+            if (!skipIndex)
+            {
+                Index = page.Index;
+            }
             TemporaryFileId = page.TemporaryFileId;
+            Changed = page.Changed;
         }
 
         public void UpdateImageEntry(ZipArchiveEntry entry, String randomId)

@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             this.SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.HeaderPanel = new System.Windows.Forms.Panel();
-            this.HeaderLabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ButtonOk = new System.Windows.Forms.Button();
-            this.ButtonCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,11 +36,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.TextBoxFileLocation = new System.Windows.Forms.TextBox();
             this.PageIndexTextbox = new System.Windows.Forms.TextBox();
+            this.HeaderPanel = new System.Windows.Forms.Panel();
+            this.HeaderLabel = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.ButtonOk = new System.Windows.Forms.Button();
+            this.ButtonCancel = new System.Windows.Forms.Button();
             this.PreviewThumbPictureBox = new System.Windows.Forms.PictureBox();
             this.SettingsTablePanel.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PreviewThumbPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,57 +69,6 @@
             this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.SettingsTablePanel.Size = new System.Drawing.Size(767, 381);
             this.SettingsTablePanel.TabIndex = 1;
-            // 
-            // HeaderPanel
-            // 
-            this.HeaderPanel.BackColor = System.Drawing.Color.White;
-            this.SettingsTablePanel.SetColumnSpan(this.HeaderPanel, 3);
-            this.HeaderPanel.Controls.Add(this.HeaderLabel);
-            this.HeaderPanel.Controls.Add(this.pictureBox1);
-            this.HeaderPanel.Location = new System.Drawing.Point(3, 3);
-            this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(761, 64);
-            this.HeaderPanel.TabIndex = 0;
-            // 
-            // HeaderLabel
-            // 
-            this.HeaderLabel.AutoSize = true;
-            this.HeaderLabel.Location = new System.Drawing.Point(97, 27);
-            this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(89, 16);
-            this.HeaderLabel.TabIndex = 1;
-            this.HeaderLabel.Text = "Page settings";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Win_CBZ.Properties.Resources.edit_large;
-            this.pictureBox1.Location = new System.Drawing.Point(24, 7);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(62, 55);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // ButtonOk
-            // 
-            this.ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOk.Location = new System.Drawing.Point(519, 334);
-            this.ButtonOk.Name = "ButtonOk";
-            this.ButtonOk.Size = new System.Drawing.Size(111, 33);
-            this.ButtonOk.TabIndex = 2;
-            this.ButtonOk.Text = "Ok";
-            this.ButtonOk.UseVisualStyleBackColor = true;
-            // 
-            // ButtonCancel
-            // 
-            this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ButtonCancel.Location = new System.Drawing.Point(645, 334);
-            this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
-            this.ButtonCancel.TabIndex = 3;
-            this.ButtonCancel.Text = "Cancel";
-            this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -173,6 +122,7 @@
             this.PageNameTextBox.Name = "PageNameTextBox";
             this.PageNameTextBox.Size = new System.Drawing.Size(199, 22);
             this.PageNameTextBox.TabIndex = 2;
+            this.PageNameTextBox.TextChanged += new System.EventHandler(this.PageNameTextBox_TextChanged);
             // 
             // label3
             // 
@@ -202,6 +152,58 @@
             this.PageIndexTextbox.Name = "PageIndexTextbox";
             this.PageIndexTextbox.Size = new System.Drawing.Size(70, 22);
             this.PageIndexTextbox.TabIndex = 0;
+            this.PageIndexTextbox.TextChanged += new System.EventHandler(this.PageIndexTextbox_TextChanged);
+            // 
+            // HeaderPanel
+            // 
+            this.HeaderPanel.BackColor = System.Drawing.Color.White;
+            this.SettingsTablePanel.SetColumnSpan(this.HeaderPanel, 3);
+            this.HeaderPanel.Controls.Add(this.HeaderLabel);
+            this.HeaderPanel.Controls.Add(this.pictureBox1);
+            this.HeaderPanel.Location = new System.Drawing.Point(3, 3);
+            this.HeaderPanel.Name = "HeaderPanel";
+            this.HeaderPanel.Size = new System.Drawing.Size(761, 64);
+            this.HeaderPanel.TabIndex = 0;
+            // 
+            // HeaderLabel
+            // 
+            this.HeaderLabel.AutoSize = true;
+            this.HeaderLabel.Location = new System.Drawing.Point(97, 27);
+            this.HeaderLabel.Name = "HeaderLabel";
+            this.HeaderLabel.Size = new System.Drawing.Size(89, 16);
+            this.HeaderLabel.TabIndex = 1;
+            this.HeaderLabel.Text = "Page settings";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Win_CBZ.Properties.Resources.edit_large;
+            this.pictureBox1.Location = new System.Drawing.Point(24, 7);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(62, 55);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // ButtonOk
+            // 
+            this.ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.ButtonOk.Location = new System.Drawing.Point(519, 334);
+            this.ButtonOk.Name = "ButtonOk";
+            this.ButtonOk.Size = new System.Drawing.Size(111, 33);
+            this.ButtonOk.TabIndex = 2;
+            this.ButtonOk.Text = "Ok";
+            this.ButtonOk.UseVisualStyleBackColor = true;
+            // 
+            // ButtonCancel
+            // 
+            this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.ButtonCancel.Location = new System.Drawing.Point(645, 334);
+            this.ButtonCancel.Name = "ButtonCancel";
+            this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
+            this.ButtonCancel.TabIndex = 3;
+            this.ButtonCancel.Text = "Cancel";
+            this.ButtonCancel.UseVisualStyleBackColor = true;
             // 
             // PreviewThumbPictureBox
             // 
@@ -222,11 +224,11 @@
             this.Text = "Page Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PageSettingsForm_FormClosing);
             this.SettingsTablePanel.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PreviewThumbPictureBox)).EndInit();
             this.ResumeLayout(false);
 
