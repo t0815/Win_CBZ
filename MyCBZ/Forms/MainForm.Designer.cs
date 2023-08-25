@@ -47,9 +47,9 @@ namespace Win_CBZ
             this.ToolButtonRemoveFiles = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonMovePageUp = new System.Windows.Forms.ToolStripButton();
-            this.ToolButtonBuild = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonMovePageDown = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolButtonBuild = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolButtonEditImageProps = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -180,6 +180,7 @@ namespace Win_CBZ
             this.Tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SelectColorDialog = new System.Windows.Forms.ColorDialog();
             this.PageView = new Win_CBZ.ExtendetListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PagesList = new Win_CBZ.ExtendetListView();
             this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IndexPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -366,23 +367,6 @@ namespace Win_CBZ
             this.ToolButtonMovePageUp.ToolTipText = "Move selected Page(s) up";
             this.ToolButtonMovePageUp.Click += new System.EventHandler(this.ToolButtonMovePageUp_Click);
             // 
-            // ToolButtonBuild
-            // 
-            this.ToolButtonBuild.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonBuild.Enabled = false;
-            this.ToolButtonBuild.Image = global::Win_CBZ.Properties.Resources.box_into;
-            this.ToolButtonBuild.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolButtonBuild.Name = "ToolButtonBuild";
-            this.ToolButtonBuild.Size = new System.Drawing.Size(29, 28);
-            this.ToolButtonBuild.Text = "toolStripButton1";
-            this.ToolButtonBuild.ToolTipText = "Build CBZ";
-            this.ToolButtonBuild.Visible = false;
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
-            // 
             // ToolButtonMovePageDown
             // 
             this.ToolButtonMovePageDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -394,6 +378,23 @@ namespace Win_CBZ
             this.ToolButtonMovePageDown.Text = "toolStripButton5";
             this.ToolButtonMovePageDown.ToolTipText = "Move selected Page(s) down";
             this.ToolButtonMovePageDown.Click += new System.EventHandler(this.ToolButtonMovePageDown_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            // 
+            // ToolButtonBuild
+            // 
+            this.ToolButtonBuild.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolButtonBuild.Enabled = false;
+            this.ToolButtonBuild.Image = global::Win_CBZ.Properties.Resources.box_into;
+            this.ToolButtonBuild.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolButtonBuild.Name = "ToolButtonBuild";
+            this.ToolButtonBuild.Size = new System.Drawing.Size(29, 28);
+            this.ToolButtonBuild.Text = "toolStripButton1";
+            this.ToolButtonBuild.ToolTipText = "Build CBZ";
+            this.ToolButtonBuild.Visible = false;
             // 
             // toolStripSeparator3
             // 
@@ -880,7 +881,7 @@ namespace Win_CBZ
             // 
             this.PrimarySplitBox.Panel2.Controls.Add(this.MessageLogListView);
             this.PrimarySplitBox.Size = new System.Drawing.Size(1924, 962);
-            this.PrimarySplitBox.SplitterDistance = 774;
+            this.PrimarySplitBox.SplitterDistance = 773;
             this.PrimarySplitBox.SplitterWidth = 5;
             this.PrimarySplitBox.TabIndex = 4;
             // 
@@ -892,7 +893,7 @@ namespace Win_CBZ
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1924, 774);
+            this.MainPanel.Size = new System.Drawing.Size(1924, 773);
             this.MainPanel.TabIndex = 4;
             // 
             // tableLayoutPanel1
@@ -910,7 +911,7 @@ namespace Win_CBZ
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1924, 774);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1924, 773);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // GlobalAlertTableLayout
@@ -920,7 +921,7 @@ namespace Win_CBZ
             this.GlobalAlertTableLayout.ColumnCount = 3;
             this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.9819F));
             this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.0181F));
-            this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 265F));
+            this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 269F));
             this.GlobalAlertTableLayout.Controls.Add(this.LabelGlobalActionStatusMessage, 1, 0);
             this.GlobalAlertTableLayout.Controls.Add(this.ExecuteCurrentGlobalAction, 2, 0);
             this.GlobalAlertTableLayout.Controls.Add(this.GlobalAlertMessageIcon, 0, 0);
@@ -987,7 +988,7 @@ namespace Win_CBZ
             // 
             this.MainSplitBox.Panel2.AutoScroll = true;
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1916, 719);
+            this.MainSplitBox.Size = new System.Drawing.Size(1916, 718);
             this.MainSplitBox.SplitterDistance = 571;
             this.MainSplitBox.SplitterWidth = 5;
             this.MainSplitBox.TabIndex = 6;
@@ -1007,8 +1008,8 @@ namespace Win_CBZ
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.TabControlPageSettings);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(569, 717);
-            this.SplitBoxPageView.SplitterDistance = 238;
+            this.SplitBoxPageView.Size = new System.Drawing.Size(569, 716);
+            this.SplitBoxPageView.SplitterDistance = 237;
             this.SplitBoxPageView.SplitterWidth = 5;
             this.SplitBoxPageView.TabIndex = 6;
             // 
@@ -1602,8 +1603,8 @@ namespace Win_CBZ
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(1340, 719);
-            this.SplitBoxItemsList.SplitterDistance = 238;
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(1340, 718);
+            this.SplitBoxItemsList.SplitterDistance = 237;
             this.SplitBoxItemsList.SplitterWidth = 5;
             this.SplitBoxItemsList.TabIndex = 7;
             // 
@@ -1802,7 +1803,7 @@ namespace Win_CBZ
             this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
             this.MessageLogListView.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.MessageLogListView.Name = "MessageLogListView";
-            this.MessageLogListView.Size = new System.Drawing.Size(1924, 183);
+            this.MessageLogListView.Size = new System.Drawing.Size(1924, 184);
             this.MessageLogListView.SmallImageList = this.LogMessageImageList;
             this.MessageLogListView.TabIndex = 0;
             this.MessageLogListView.UseCompatibleStateImageBehavior = false;
@@ -1847,8 +1848,13 @@ namespace Win_CBZ
             // 
             // PageView
             // 
+            this.PageView.Alignment = System.Windows.Forms.ListViewAlignment.Default;
+            this.PageView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
             this.PageView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.PageView.FullRowSelect = true;
+            this.PageView.GridLines = true;
+            this.PageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.PageView.HideSelection = false;
             this.PageView.LabelWrap = false;
             this.PageView.LargeImageList = this.PageImages;
@@ -1856,11 +1862,16 @@ namespace Win_CBZ
             this.PageView.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.PageView.Name = "PageView";
             this.PageView.OwnerDraw = true;
-            this.PageView.Size = new System.Drawing.Size(569, 238);
+            this.PageView.Size = new System.Drawing.Size(569, 237);
             this.PageView.TabIndex = 6;
             this.PageView.UseCompatibleStateImageBehavior = false;
             this.PageView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.PageView_DrawItem);
             this.PageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PageView_ItemSelectionChanged);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Page";
+            this.columnHeader1.Width = 455;
             // 
             // PagesList
             // 
@@ -1879,7 +1890,7 @@ namespace Win_CBZ
             this.PagesList.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.PagesList.Name = "PagesList";
             this.PagesList.ShowItemToolTips = true;
-            this.PagesList.Size = new System.Drawing.Size(1338, 236);
+            this.PagesList.Size = new System.Drawing.Size(1338, 235);
             this.PagesList.TabIndex = 5;
             this.PagesList.UseCompatibleStateImageBehavior = false;
             this.PagesList.View = System.Windows.Forms.View.Details;
@@ -2139,6 +2150,7 @@ namespace Win_CBZ
         private System.Windows.Forms.Label ImageQualitySliderMinLabel;
         private System.Windows.Forms.TrackBar ImageQualityTrackBar;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }
 
