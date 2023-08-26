@@ -214,184 +214,188 @@ namespace Win_CBZ
 
         private void PageChanged(object sender, PageChangedEvent e)
         {
-            
-            PagesList.Invoke(new Action(() =>
+            if (!WindowClosed)
             {
-                if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
+                PagesList.Invoke(new Action(() =>
                 {
-                    ListViewItem item;
-                    ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
-
-                    if (existingItem == null)
+                    if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
                     {
-                        item = PagesList.Items.Add(e.Image.Name);
-                        item.ImageKey = e.Image.Id;
-                        item.SubItems.Add(e.Image.Number.ToString());
-                        item.SubItems.Add(e.Image.ImageType.ToString());
-                        item.SubItems.Add(e.Image.LastModified.ToString());
-                        item.SubItems.Add(e.Image.Size.ToString());
+                        ListViewItem item;
+                        ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+
+                        if (existingItem == null)
+                        {
+                            item = PagesList.Items.Add(e.Image.Name);
+                            item.ImageKey = e.Image.Id;
+                            item.SubItems.Add(e.Image.Number.ToString());
+                            item.SubItems.Add(e.Image.ImageType.ToString());
+                            item.SubItems.Add(e.Image.LastModified.ToString());
+                            item.SubItems.Add(e.Image.Size.ToString());
+                        }
+                        else
+                        {
+                            item = existingItem;
+                            item.Text = e.Image.Name;
+                            item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
+                            item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
+                            item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
+                            item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Image.Size.ToString());
+                        }
+
+                        item.Tag = e.Image;
+                        item.BackColor = Color.White;
+
+                        switch (e.State)
+                        {
+                            case PageChangedEvent.IMAGE_STATUS_NEW:
+                                if (!e.Image.Compressed)
+                                {
+                                    ImageInfoPagesSlice.Add(e.Image);
+                                }
+                                break;
+                            case PageChangedEvent.IMAGE_STATUS_DELETED:
+                                e.Image.Deleted = true;
+                                break;
+                            case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
+                                e.Image.Compressed = true;
+                                break;
+                            case PageChangedEvent.IMAGE_STATUS_CHANGED:
+                            case PageChangedEvent.IMAGE_STATUS_RENAMED:
+                                e.Image.Changed = true;
+                                e.Image.Invalidated = true;
+                                e.Image.ThumbnailInvalidated = true;
+                                break;
+                        }
+
+                        if (!e.Image.Compressed)
+                        {
+                            item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
+                        }
+
+                        if (e.Image.Changed)
+                        {
+                            item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+                        }
+
+                        if (e.Image.Deleted)
+                        {
+                            item.ForeColor = Color.Silver;
+                            item.BackColor = Color.Transparent;
+                        }
                     }
                     else
                     {
-                        item = existingItem;
-                        item.Text = e.Image.Name;
-                        item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
-                        item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
-                        item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
-                        item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Image.Size.ToString());
-                    }
-
-                    item.Tag = e.Image;
-                    item.BackColor = Color.White;
-
-                    switch (e.State)
-                    {
-                        case PageChangedEvent.IMAGE_STATUS_NEW:
-                            if (!e.Image.Compressed) { 
-                                ImageInfoPagesSlice.Add(e.Image);
-                            }
-                            break;
-                        case PageChangedEvent.IMAGE_STATUS_DELETED:
-                            e.Image.Deleted = true; 
-                            break;
-                        case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
-                            e.Image.Compressed = true; 
-                            break;
-                        case PageChangedEvent.IMAGE_STATUS_CHANGED:
-                        case PageChangedEvent.IMAGE_STATUS_RENAMED:
-                            e.Image.Changed = true;
-                            e.Image.Invalidated = true;
-                            e.Image.ThumbnailInvalidated = true;
-                            break;
-                    }
-
-                    if (!e.Image.Compressed)
-                    {
-                        item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
-                    }
-
-                    if (e.Image.Changed)
-                    {
-                        item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
-                    }
-
-                    if (e.Image.Deleted)
-                    {
-                        item.ForeColor = Color.Silver;
-                        item.BackColor = Color.Transparent;
-                    }
-                } else
-                {
-                    if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
-                    {
-                        ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
-                        if (existingItem != null)
+                        if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
                         {
-                            PagesList.Items.Remove(existingItem);
+                            ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+                            if (existingItem != null)
+                            {
+                                PagesList.Items.Remove(existingItem);
+                            }
                         }
                     }
-                }
-            }));
+                }));
 
-            if (TogglePagePreviewToolbutton.Checked)
-            {
-                
-                if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
+                if (TogglePagePreviewToolbutton.Checked)
                 {
-                    PageView.Invoke(new Action(() =>
+
+                    if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
                     {
-                        CreatePagePreviewFromItem(e.Image);
-                    }));
+                        PageView.Invoke(new Action(() =>
+                        {
+                            CreatePagePreviewFromItem(e.Image);
+                        }));
+                    }
                 }
             }
         }
 
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
         {
-            MetaDataGrid.Invoke(new Action(() =>
+            if (!WindowClosed)
             {
-                //MetaDataGrid.DataSource = e.MetaData;
-
-                BtnAddMetaData.Enabled = false;
-                BtnRemoveMetaData.Enabled = true;
-                toolStripButtonShowRawMetadata.Enabled = true;
-                DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
-                if (firstCol != null)
+                MetaDataGrid.Invoke(new Action(() =>
                 {
-                    DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
-                    if (secondCol != null)
+                    //MetaDataGrid.DataSource = e.MetaData;
+
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = true;
+                    toolStripButtonShowRawMetadata.Enabled = true;
+                    DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
+                    if (firstCol != null)
                     {
-                        firstCol.Width = 150;
-                        secondCol.Width = 350;
+                        DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
+                        if (secondCol != null)
+                        {
+                            firstCol.Width = 150;
+                            secondCol.Width = 350;
+                        }
                     }
-                }
-                else
-                {
-                    MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                    else
                     {
-                        DataPropertyName = "Key",
-                        HeaderText = "Key",
-                        CellTemplate = new DataGridViewTextBoxCell(),
-                        Width = 150,
-                        SortMode = DataGridViewColumnSortMode.Automatic,
-                    });
+                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        {
+                            DataPropertyName = "Key",
+                            HeaderText = "Key",
+                            CellTemplate = new DataGridViewTextBoxCell(),
+                            Width = 150,
+                            SortMode = DataGridViewColumnSortMode.Automatic,
+                        });
 
-                    MetaDataGrid.Columns.Add(new DataGridViewColumn()
-                    {
-                        DataPropertyName = "Value",
-                        HeaderText = "Value",
-                        CellTemplate = new DataGridViewTextBoxCell(),
-                        Width = 250,
-                        SortMode = DataGridViewColumnSortMode.NotSortable,
-                    });
-                }
+                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        {
+                            DataPropertyName = "Value",
+                            HeaderText = "Value",
+                            CellTemplate = new DataGridViewTextBoxCell(),
+                            Width = 250,
+                            SortMode = DataGridViewColumnSortMode.NotSortable,
+                        });
+                    }
 
-                MetaDataGrid.Rows.Clear();
-                foreach (MetaDataEntry entry in e.MetaData)
-                {
-                    MetaDataGrid.Rows.Add(entry.Key, entry.Value);
-                }
-
-                for (int i = 0; i < MetaDataGrid.RowCount; i++)
-                {
+                    MetaDataGrid.Rows.Clear();
                     foreach (MetaDataEntry entry in e.MetaData)
                     {
-                        var key = MetaDataGrid.Rows[i].Cells[0].Value;
-                        if (key != null)
+                        MetaDataGrid.Rows.Add(entry.Key, entry.Value);
+                    }
+
+                    for (int i = 0; i < MetaDataGrid.RowCount; i++)
+                    {
+                        foreach (MetaDataEntry entry in e.MetaData)
                         {
-                            if (entry.Key == key.ToString() && entry.Options.Length > 0)
+                            var key = MetaDataGrid.Rows[i].Cells[0].Value;
+                            if (key != null)
                             {
-                                int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
-                                DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                c.Items.AddRange(entry.Options);
-                                c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
+                                if (entry.Key == key.ToString() && entry.Options.Length > 0)
+                                {
+                                    int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
+                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                    c.Items.AddRange(entry.Options);
+                                    c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
 
-                                MetaDataGrid.Rows[i].Cells[1] = c;
-                            }
-                            else
-                            {
+                                    MetaDataGrid.Rows[i].Cells[1] = c;
+                                }
+                                else
+                                {
 
+                                }
                             }
                         }
                     }
-                }
-            }));
+                }));
+            }
         }
 
         private void MetaDataChanged(object sender, MetaDataChangedEvent e)
         {
             MetaDataGrid.Invoke(new Action(() =>
-            {
-                
-                    Program.ProjectModel.IsChanged = true;
+            {         
+                Program.ProjectModel.IsChanged = true;
 
-                    if (Program.ProjectModel.FileName != null)
-                    {
-                        ToolButtonSave.Enabled = true;
-                        saveToolStripMenuItem.Enabled = true;
-                    }
-                
-                    
+                if (Program.ProjectModel.FileName != null)
+                {
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                }                 
             }));
         }
 
@@ -521,19 +525,22 @@ namespace Win_CBZ
 
             if (e.Status == GeneralTaskProgressEvent.TASK_STATUS_RUNNING)
             {
-                this.Invoke(new Action(() =>
+                if (!WindowClosed)
                 {
-                    saveToolStripMenuItem.Enabled = false;
-                    saveAsToolStripMenuItem.Enabled = false;
-                    ToolButtonSave.Enabled = false;
-                    ToolButtonNew.Enabled = false;
-                    ToolButtonAddFiles.Enabled = false;
-                    ToolButtonMovePageDown.Enabled = false;
-                    ToolButtonMovePageUp.Enabled = false;
-                    ToolButtonRemoveFiles.Enabled = false;
-                    newToolStripMenuItem.Enabled = false;
-                    applicationStatusLabel.Text = e.Message;
-                }));
+                    this.Invoke(new Action(() =>
+                    {
+                        saveToolStripMenuItem.Enabled = false;
+                        saveAsToolStripMenuItem.Enabled = false;
+                        ToolButtonSave.Enabled = false;
+                        ToolButtonNew.Enabled = false;
+                        ToolButtonAddFiles.Enabled = false;
+                        ToolButtonMovePageDown.Enabled = false;
+                        ToolButtonMovePageUp.Enabled = false;
+                        ToolButtonRemoveFiles.Enabled = false;
+                        newToolStripMenuItem.Enabled = false;
+                        applicationStatusLabel.Text = e.Message;
+                    }));
+                }
 
                 try
                 {
@@ -557,38 +564,41 @@ namespace Win_CBZ
 
             if (e.Status == GeneralTaskProgressEvent.TASK_STATUS_COMPLETED)
             {
-                this.Invoke(new Action(() =>
+                if (!WindowClosed)
                 {
-                    saveToolStripMenuItem.Enabled = true;
-                    saveAsToolStripMenuItem.Enabled = true;
-                    ToolButtonSave.Enabled = true;
-                    ToolButtonNew.Enabled = true;
-                    ToolButtonAddFiles.Enabled = true;
-                    ToolButtonMovePageDown.Enabled = true;
-                    ToolButtonMovePageUp.Enabled = true;
-                    ToolButtonRemoveFiles.Enabled = true;
-                    newToolStripMenuItem.Enabled = true;
-                    applicationStatusLabel.Text = e.Message;
-                    Program.ProjectModel.IsChanged = true;
-                    Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
-                }));
-
-                try
-                {
-                    if (!WindowClosed)
+                    this.Invoke(new Action(() =>
                     {
-                        toolStripProgressBar.Control.Invoke(new Action(() =>
-                        {
-                            toolStripProgressBar.Maximum = e.Total;
-                            
-                            toolStripProgressBar.Value = 0;
-                            
-                        }));
-                    }
-                }
-                catch (Exception)
-                {
+                        saveToolStripMenuItem.Enabled = true;
+                        saveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonSave.Enabled = true;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonMovePageDown.Enabled = true;
+                        ToolButtonMovePageUp.Enabled = true;
+                        ToolButtonRemoveFiles.Enabled = true;
+                        newToolStripMenuItem.Enabled = true;
+                        applicationStatusLabel.Text = e.Message;
+                        Program.ProjectModel.IsChanged = true;
+                        Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
+                    }));
 
+                    try
+                    {
+                        if (!WindowClosed)
+                        {
+                            toolStripProgressBar.Control.Invoke(new Action(() =>
+                            {
+                                toolStripProgressBar.Maximum = e.Total;
+
+                                toolStripProgressBar.Value = 0;
+
+                            }));
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
             }
         }
@@ -1125,178 +1135,181 @@ namespace Win_CBZ
 
         private void DisableControllsForArchiveState(ProjectModel project, int state) 
         {
-            switch (state)
+            if (!WindowClosed)
             {
-                case CBZArchiveStatusEvent.ARCHIVE_SAVING:
-                case CBZArchiveStatusEvent.ARCHIVE_OPENING:
-                    newToolStripMenuItem.Enabled = false;
-                    openToolStripMenuItem.Enabled = false;
-                    saveAsToolStripMenuItem.Enabled = false;
-                    ToolButtonRemoveFiles.Enabled = false;
-                    ToolButtonNew.Enabled = false;
-                    ToolButtonOpen.Enabled = false;
-                    addFilesToolStripMenuItem.Enabled = false;
-                    ToolButtonAddFiles.Enabled = false;
-                    BtnAddMetaData.Enabled = false;
-                    BtnRemoveMetaData.Enabled = false;
-                    ToolButtonExtractArchive.Enabled = false;
-                    ToolButtonAddFolder.Enabled = false;
-                    ExtractSelectedPages.Enabled = false;
-                    BtnRemoveMetaData.Enabled = false;
-                    ToolButtonSave.Enabled = false;
-                    saveToolStripMenuItem.Enabled = false;
-                    toolStripButtonShowRawMetadata.Enabled = false;
-                    break;
+                switch (state)
+                {
+                    case CBZArchiveStatusEvent.ARCHIVE_SAVING:
+                    case CBZArchiveStatusEvent.ARCHIVE_OPENING:
+                        newToolStripMenuItem.Enabled = false;
+                        openToolStripMenuItem.Enabled = false;
+                        saveAsToolStripMenuItem.Enabled = false;
+                        ToolButtonRemoveFiles.Enabled = false;
+                        ToolButtonNew.Enabled = false;
+                        ToolButtonOpen.Enabled = false;
+                        addFilesToolStripMenuItem.Enabled = false;
+                        ToolButtonAddFiles.Enabled = false;
+                        BtnAddMetaData.Enabled = false;
+                        BtnRemoveMetaData.Enabled = false;
+                        ToolButtonExtractArchive.Enabled = false;
+                        ToolButtonAddFolder.Enabled = false;
+                        ExtractSelectedPages.Enabled = false;
+                        BtnRemoveMetaData.Enabled = false;
+                        ToolButtonSave.Enabled = false;
+                        saveToolStripMenuItem.Enabled = false;
+                        toolStripButtonShowRawMetadata.Enabled = false;
+                        break;
 
-                case CBZArchiveStatusEvent.ARCHIVE_OPENED:
-                    newToolStripMenuItem.Enabled = true;
-                    openToolStripMenuItem.Enabled = true;
-                    saveAsToolStripMenuItem.Enabled = true; 
-                    ToolButtonNew.Enabled = true;
-                    ToolButtonOpen.Enabled = true;
-                    addFilesToolStripMenuItem.Enabled = true;
-                    ToolButtonAddFiles.Enabled = true;
-                    ToolButtonExtractArchive.Enabled = true;
-                    ExtractSelectedPages.Enabled = true;
-                    ToolButtonAddFolder.Enabled = true;
-                    BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
-                    BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
-                    AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
-                    toolStripButtonShowRawMetadata.Enabled = true;
-                    //TextboxStoryPageRenamingPattern.Enabled = true;
-                    //TextboxSpecialPageRenamingPattern.Enabled = true;
-                    CheckBoxDoRenamePages.Enabled = true;
-                    CheckBoxDoRenamePages.Checked = false;
-                    ToolButtonSave.Enabled = false;
-                    saveToolStripMenuItem.Enabled = false;
-                    Program.ProjectModel.IsNew = false; 
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_SAVED:
-                    newToolStripMenuItem.Enabled = true;
-                    openToolStripMenuItem.Enabled = true;
-                    saveAsToolStripMenuItem.Enabled = true;
-                    ToolButtonNew.Enabled = true;
-                    ToolButtonOpen.Enabled = true;
-                    addFilesToolStripMenuItem.Enabled = true;
-                    ToolButtonAddFiles.Enabled = true;
-                    ToolButtonExtractArchive.Enabled = true;
-                    ExtractSelectedPages.Enabled = true;
-                    CheckBoxDoRenamePages.Enabled = true;
-                    ToolButtonAddFolder.Enabled = true;
-                    TextboxStoryPageRenamingPattern.Enabled = true;
-                    TextboxSpecialPageRenamingPattern.Enabled = true;
-                    ToolButtonSave.Enabled = false;
-                    saveToolStripMenuItem.Enabled = false;
-                    toolStripButtonShowRawMetadata.Enabled = true;
-                    ExtractSelectedPages.Enabled = true;
-                    Program.ProjectModel.IsNew = false;
-                    Program.ProjectModel.IsSaved = true;
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
-                    newToolStripMenuItem.Enabled = false;
-                    openToolStripMenuItem.Enabled = false;
-                    saveAsToolStripMenuItem.Enabled = false;
-                    ToolButtonRemoveFiles.Enabled = false;
-                    ToolButtonNew.Enabled = false;
-                    ToolButtonOpen.Enabled = false;
-                    addFilesToolStripMenuItem.Enabled = false;
-                    ToolButtonAddFiles.Enabled = false;
-                    ToolButtonAddFolder.Enabled = false;
-                    BtnRemoveMetaData.Enabled = false;
-                    ToolButtonExtractArchive.Enabled = false;
-                    ExtractSelectedPages.Enabled = false;
-
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
-                    newToolStripMenuItem.Enabled = true;
-                    openToolStripMenuItem.Enabled = true;
-                    saveAsToolStripMenuItem.Enabled = true;
-                    ToolButtonNew.Enabled = true;
-                    ToolButtonOpen.Enabled = true;
-                    addFilesToolStripMenuItem.Enabled = true;
-                    ToolButtonAddFolder.Enabled = true;
-                    ToolButtonAddFiles.Enabled = true;
-                    ToolButtonExtractArchive.Enabled = true;
-                    ExtractSelectedPages.Enabled = true;
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
-                    newToolStripMenuItem.Enabled = false;
-                    openToolStripMenuItem.Enabled = false;
-                    saveAsToolStripMenuItem.Enabled = false;
-                    ToolButtonRemoveFiles.Enabled = false;
-                    ToolButtonNew.Enabled = false;
-                    ToolButtonOpen.Enabled = false;
-                    addFilesToolStripMenuItem.Enabled = false;
-                    ToolButtonAddFiles.Enabled = false;
-                    BtnAddMetaData.Enabled = false;
-                    BtnRemoveMetaData.Enabled = false;
-                    ToolButtonAddFolder.Enabled = false;
-                    ToolButtonExtractArchive.Enabled = false;
-                    ExtractSelectedPages.Enabled = false;
-                    ToolButtonSave.Enabled = false;
-                    saveToolStripMenuItem.Enabled = false;
-                    toolStripButtonShowRawMetadata.Enabled = false;
-                    RemoveMetaData();
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
-                    newToolStripMenuItem.Enabled = true;
-                    openToolStripMenuItem.Enabled = true;
-                    saveAsToolStripMenuItem.Enabled = false;
-                    ToolButtonNew.Enabled = true;
-                    ToolButtonOpen.Enabled = true;
-                    addFilesToolStripMenuItem.Enabled = true;
-                    ToolButtonAddFiles.Enabled = true;
-                    ToolButtonRemoveFiles.Enabled = false;
-                    ToolButtonMovePageDown.Enabled = false;
-                    ToolButtonMovePageUp.Enabled = false;
-                    ToolButtonAddFolder.Enabled = true;
-                    BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
-                    AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
-                    BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
-                    TextboxStoryPageRenamingPattern.Enabled = false;
-                    TextboxSpecialPageRenamingPattern.Enabled = false;
-                    CheckBoxDoRenamePages.Enabled = false;
-                    CheckBoxDoRenamePages.Checked = false;
-                    ToolButtonSave.Enabled = false;
-                    saveToolStripMenuItem.Enabled = false;
-                    toolStripButtonShowRawMetadata.Enabled = false;
-                    LabelGlobalActionStatusMessage.Text = "";
-                    GlobalAlertTableLayout.Visible = false;
-                    CurrentGlobalAction = null;
-                    MessageLogListView.Items.Clear();
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
-                    RemoveMetaData();
-                    break;
-
-                case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
-                    CheckBoxDoRenamePages.Enabled = true;
-                    CheckBoxDoRenamePages.Checked = false;
-                    if (project.FileName != null)
-                    {
-                        ToolButtonSave.Enabled = true;
-                        saveToolStripMenuItem.Enabled = true;
+                    case CBZArchiveStatusEvent.ARCHIVE_OPENED:
+                        newToolStripMenuItem.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
                         saveAsToolStripMenuItem.Enabled = true;
-                    }
-                    break;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonOpen.Enabled = true;
+                        addFilesToolStripMenuItem.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonExtractArchive.Enabled = true;
+                        ExtractSelectedPages.Enabled = true;
+                        ToolButtonAddFolder.Enabled = true;
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        toolStripButtonShowRawMetadata.Enabled = true;
+                        //TextboxStoryPageRenamingPattern.Enabled = true;
+                        //TextboxSpecialPageRenamingPattern.Enabled = true;
+                        CheckBoxDoRenamePages.Enabled = true;
+                        CheckBoxDoRenamePages.Checked = false;
+                        ToolButtonSave.Enabled = false;
+                        saveToolStripMenuItem.Enabled = false;
+                        Program.ProjectModel.IsNew = false;
+                        break;
 
-                case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
-                case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
-                case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
-                case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
-                case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
-                case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
-                    if (project.FileName != null)
-                    {
-                        ToolButtonSave.Enabled = true;
-                        saveToolStripMenuItem.Enabled = true;
+                    case CBZArchiveStatusEvent.ARCHIVE_SAVED:
+                        newToolStripMenuItem.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
                         saveAsToolStripMenuItem.Enabled = true;
-                    }
-                    break;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonOpen.Enabled = true;
+                        addFilesToolStripMenuItem.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonExtractArchive.Enabled = true;
+                        ExtractSelectedPages.Enabled = true;
+                        CheckBoxDoRenamePages.Enabled = true;
+                        ToolButtonAddFolder.Enabled = true;
+                        TextboxStoryPageRenamingPattern.Enabled = true;
+                        TextboxSpecialPageRenamingPattern.Enabled = true;
+                        ToolButtonSave.Enabled = false;
+                        saveToolStripMenuItem.Enabled = false;
+                        toolStripButtonShowRawMetadata.Enabled = true;
+                        ExtractSelectedPages.Enabled = true;
+                        Program.ProjectModel.IsNew = false;
+                        Program.ProjectModel.IsSaved = true;
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
+                        newToolStripMenuItem.Enabled = false;
+                        openToolStripMenuItem.Enabled = false;
+                        saveAsToolStripMenuItem.Enabled = false;
+                        ToolButtonRemoveFiles.Enabled = false;
+                        ToolButtonNew.Enabled = false;
+                        ToolButtonOpen.Enabled = false;
+                        addFilesToolStripMenuItem.Enabled = false;
+                        ToolButtonAddFiles.Enabled = false;
+                        ToolButtonAddFolder.Enabled = false;
+                        BtnRemoveMetaData.Enabled = false;
+                        ToolButtonExtractArchive.Enabled = false;
+                        ExtractSelectedPages.Enabled = false;
+
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
+                        newToolStripMenuItem.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        saveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonOpen.Enabled = true;
+                        addFilesToolStripMenuItem.Enabled = true;
+                        ToolButtonAddFolder.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonExtractArchive.Enabled = true;
+                        ExtractSelectedPages.Enabled = true;
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
+                        newToolStripMenuItem.Enabled = false;
+                        openToolStripMenuItem.Enabled = false;
+                        saveAsToolStripMenuItem.Enabled = false;
+                        ToolButtonRemoveFiles.Enabled = false;
+                        ToolButtonNew.Enabled = false;
+                        ToolButtonOpen.Enabled = false;
+                        addFilesToolStripMenuItem.Enabled = false;
+                        ToolButtonAddFiles.Enabled = false;
+                        BtnAddMetaData.Enabled = false;
+                        BtnRemoveMetaData.Enabled = false;
+                        ToolButtonAddFolder.Enabled = false;
+                        ToolButtonExtractArchive.Enabled = false;
+                        ExtractSelectedPages.Enabled = false;
+                        ToolButtonSave.Enabled = false;
+                        saveToolStripMenuItem.Enabled = false;
+                        toolStripButtonShowRawMetadata.Enabled = false;
+                        RemoveMetaData();
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
+                        newToolStripMenuItem.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        saveAsToolStripMenuItem.Enabled = false;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonOpen.Enabled = true;
+                        addFilesToolStripMenuItem.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonRemoveFiles.Enabled = false;
+                        ToolButtonMovePageDown.Enabled = false;
+                        ToolButtonMovePageUp.Enabled = false;
+                        ToolButtonAddFolder.Enabled = true;
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        TextboxStoryPageRenamingPattern.Enabled = false;
+                        TextboxSpecialPageRenamingPattern.Enabled = false;
+                        CheckBoxDoRenamePages.Enabled = false;
+                        CheckBoxDoRenamePages.Checked = false;
+                        ToolButtonSave.Enabled = false;
+                        saveToolStripMenuItem.Enabled = false;
+                        toolStripButtonShowRawMetadata.Enabled = false;
+                        LabelGlobalActionStatusMessage.Text = "";
+                        GlobalAlertTableLayout.Visible = false;
+                        CurrentGlobalAction = null;
+                        MessageLogListView.Items.Clear();
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+                        RemoveMetaData();
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
+                        CheckBoxDoRenamePages.Enabled = true;
+                        CheckBoxDoRenamePages.Checked = false;
+                        if (project.FileName != null)
+                        {
+                            ToolButtonSave.Enabled = true;
+                            saveToolStripMenuItem.Enabled = true;
+                            saveAsToolStripMenuItem.Enabled = true;
+                        }
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
+                    case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
+                    case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
+                    case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
+                    case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
+                    case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
+                        if (project.FileName != null)
+                        {
+                            ToolButtonSave.Enabled = true;
+                            saveToolStripMenuItem.Enabled = true;
+                            saveAsToolStripMenuItem.Enabled = true;
+                        }
+                        break;
+                }
             }
         }
 
@@ -1411,6 +1424,7 @@ namespace Win_CBZ
                         {
                             Win_CBZSettings.Default.Save();
                             WindowClosed = true;
+                            Application.ExitThread();
                         }
                     } else
                     {
@@ -1421,14 +1435,67 @@ namespace Win_CBZ
                 {
                     Win_CBZSettings.Default.Save();
                     WindowClosed = true;
+                    Application.ExitThread();
                 }
             } else
             {
-                ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_OK);
-                e.Cancel = true;
+                DialogResult res = ApplicationMessage.ShowWarning("Warning, there are currently still Tasks running in the Background. It is advised to wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_QUIT | ApplicationMessage.DialogButtons.MB_CANCEL);
+                if (res == DialogResult.Yes)
+                {
+                    WindowClosed = true;
+                    Win_CBZSettings.Default.Save();
+                    CancelAllThreads();
+                    Program.ProjectModel.CancelAllThreads();
+                    Application.ExitThread();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
             }
             
         }
+
+
+        private void CancelAllThreads()
+        {
+            Task.Factory.StartNew(() =>
+            {
+
+                if (ThumbnailThread != null)
+                {
+                    if (ThumbnailThread.IsAlive)
+                    {
+                        ThumbnailThread.Abort();
+                    }
+                }
+
+                if (RequestThumbnailThread != null)
+                {
+                    if (RequestThumbnailThread.IsAlive)
+                    {
+                        RequestThumbnailThread.Abort();
+                    }
+                }
+
+                if (RequestImageInfoThread != null)
+                {
+                    if (RequestImageInfoThread.IsAlive)
+                    {
+                        RequestImageInfoThread.Abort();
+                    }
+                }
+
+                if (UpdatePageViewThread != null)
+                {
+                    if (UpdatePageViewThread.IsAlive)
+                    {
+                        UpdatePageViewThread.Abort();
+                    }
+                }
+            });
+        }
+
 
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2286,6 +2353,11 @@ namespace Win_CBZ
         }
 
         private void PagesList_DoubleClick(object sender, EventArgs e)
+        {
+            ToolButtonEditImageProps_Click(this, e);
+        }
+
+        private void PageView_DoubleClick(object sender, EventArgs e)
         {
             ToolButtonEditImageProps_Click(this, e);
         }

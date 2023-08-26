@@ -26,6 +26,7 @@ namespace Win_CBZ
             MB_ABORT = 16,
             MB_RETRY = 32,
             MB_IGNORE = 64,
+            MB_QUIT = 128
         };
 
         public static DialogResult Show(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK | DialogButtons.MB_CANCEL)

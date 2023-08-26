@@ -87,6 +87,12 @@ namespace Win_CBZ.Forms
                     index--;
                 }
 
+                if(value.HasFlag(DialogButtons.MB_QUIT) && !_existingButtons.HasFlag(DialogButtons.MB_OK))
+                {
+                    MakeBtn("Quit", DialogButtons.MB_QUIT, DialogResult.Yes, index);
+                    index--;
+                }
+
                 _buttons = value;
             }
         }

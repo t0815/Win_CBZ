@@ -485,6 +485,93 @@ namespace Win_CBZ
             catch (Exception) { return false; }
         }
 
+        public void CancelAllThreads()
+        {
+            Task.Factory.StartNew(() =>
+            {
+
+                if (LoadArchiveThread != null)
+                {
+                    if (LoadArchiveThread.IsAlive)
+                    {
+                        LoadArchiveThread.Abort();
+                    }
+                }
+
+                if (ExtractArchiveThread != null)
+                {
+                    if (ExtractArchiveThread.IsAlive)
+                    {
+                        ExtractArchiveThread.Abort();
+                    }
+                }
+
+                if (PageUpdateThread != null)
+                {
+                    if (PageUpdateThread.IsAlive)
+                    {
+                        PageUpdateThread.Abort();
+                    }
+                }
+
+                if (RenamingThread != null)
+                {
+                    if (RenamingThread.IsAlive)
+                    {
+                        RenamingThread.Abort();
+                    }
+                }
+
+                if (CloseArchiveThread != null)
+                {
+                    if (CloseArchiveThread.IsAlive)
+                    {
+                        CloseArchiveThread.Abort();
+                    }
+                }
+
+                if (SaveArchiveThread != null)
+                {
+                    if (SaveArchiveThread.IsAlive)
+                    {
+                        SaveArchiveThread.Abort();
+                    }
+                }
+
+                if (PageUpdateThread != null)
+                {
+                    if (PageUpdateThread.IsAlive)
+                    {
+                        PageUpdateThread.Abort();
+                    }
+                }
+
+                if (ProcessAddedFiles != null)
+                {
+                    if (ProcessAddedFiles.IsAlive)
+                    {
+                            ProcessAddedFiles.Abort();
+                    }
+                }
+
+                if (ParseAddedFileNames != null)
+                {
+                    if (ParseAddedFileNames.IsAlive)
+                    {
+                            ParseAddedFileNames.Abort();
+                    }
+                }
+
+                if (RestoreRenamingThread != null)
+                {
+                    if (RestoreRenamingThread.IsAlive)
+                    {
+                            RestoreRenamingThread.Abort();
+                    }
+                }
+            });
+        }
+
 
         public void AddImagesProc()
         {
