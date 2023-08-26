@@ -62,7 +62,10 @@ namespace Win_CBZ.Forms
 
         private void PageIndexTextbox_TextChanged(object sender, EventArgs e)
         {
-            Page.Index = Convert.ToInt32(PageIndexTextbox.Text) - 1;
+            int newIndex = Convert.ToInt32(PageIndexTextbox.Text);
+
+            Page.Index = newIndex - 1;
+            Page.Number = newIndex;
         }
     }
 }

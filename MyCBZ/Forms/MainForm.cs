@@ -871,6 +871,8 @@ namespace Win_CBZ
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
                     }
+
+                    Thread.Sleep(1);
                 }
 
                
@@ -1595,6 +1597,12 @@ namespace Win_CBZ
                 return;
             }
 
+            if (newIndex == IndexItemToMove)
+            {
+                //ApplicationMessage.ShowWarning("Unable to move Page! Page already at index " + IndexItemToMove.ToString() + "!", "Unable to move Page", 2, ApplicationMessage.DialogButtons.MB_OK);
+                return;
+            }
+
             PagesList.Items.Remove(originalItem);
             PagesList.Items.Remove(updateItem);
             if (updatePage != null && originalPage != null)
@@ -2275,6 +2283,11 @@ namespace Win_CBZ
         private void PagesList_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
 
+        }
+
+        private void PagesList_DoubleClick(object sender, EventArgs e)
+        {
+            ToolButtonEditImageProps_Click(this, e);
         }
 
 

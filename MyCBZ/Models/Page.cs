@@ -221,6 +221,7 @@ namespace Win_CBZ
             Size = sourcePage.Size;
             Id = sourcePage.Id;
             Index = sourcePage.Index;
+            Number = sourcePage.Number;
             Closed = sourcePage.Closed;
                       
             Deleted = sourcePage.Deleted;
@@ -236,7 +237,7 @@ namespace Win_CBZ
             ImageTask = new ImageTask();
         }
 
-        public void UpdatePage(Page page, bool skipIndex = true)
+        public void UpdatePage(Page page, bool skipIndex = false)
         {
             Compressed = page.Compressed;
             Filename = page.Filename;
@@ -244,6 +245,11 @@ namespace Win_CBZ
             EntryName = page.EntryName;
             Size = page.Size;
             Id = page.Id;
+            W = page.W; 
+            H = page.H;
+            Key = page.Key;
+            Number = page.Number;
+
             if (!skipIndex)
             {
                 Index = page.Index;
