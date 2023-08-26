@@ -433,12 +433,17 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    ImageInfo = Image.FromStream(ImageStream);
-                    W = ImageInfo.Width;
-                    H = ImageInfo.Height;
+                    try
+                    {
+                        ImageInfo = Image.FromStream(ImageStream);
+                        W = ImageInfo.Width;
+                        H = ImageInfo.Height;
 
-                    ImageInfo.Dispose();
-                    ImageInfo = null;
+                        ImageInfo.Dispose();
+                        ImageInfo = null;
+                    } catch {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to read image [" + Filename + "]");
+                    }
 
                 }
             }
@@ -520,14 +525,25 @@ namespace Win_CBZ
                     {
                         if (ImageStreamMemoryCopy != null && ImageStreamMemoryCopy.CanRead)
                         {
-                            Image = Image.FromStream(ImageStreamMemoryCopy);
+                            try
+                            {
+                                Image = Image.FromStream(ImageStreamMemoryCopy);
+                            } catch {
+                                throw new Exception("Error loading image [" + Name + "]! Invalid or corrupted image");
+                            }
                         }
                     }
                     else
                     {
                         if (ImageStream != null && ImageStream.CanRead)
                         {
-                            Image = Image.FromStream(ImageStream);
+                            try
+                            {
+                                Image = Image.FromStream(ImageStream);
+                            }
+                            catch {
+                                throw new Exception("Error loading image [" + Name + "]! Invalid or corrupted image");
+                            }
                         }
                     }
                 }

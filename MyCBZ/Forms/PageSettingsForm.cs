@@ -23,8 +23,13 @@ namespace Win_CBZ.Forms
 
             RandomProvider = new Random();
             Page = new Page(page, RandomProvider.Next().ToString("X"));
-          
-            PreviewThumb = Page.GetThumbnail(ThumbAbort, Handle);
+
+            try
+            {
+                PreviewThumb = Page.GetThumbnail(ThumbAbort, Handle);
+            } catch (Exception e) { 
+                ApplicationMessage.ShowException(e);
+            }
 
             PreviewThumbPictureBox.Image = PreviewThumb;
 
