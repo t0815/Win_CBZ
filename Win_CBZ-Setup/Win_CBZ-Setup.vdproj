@@ -15,14 +15,8 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_21250EDA18031E8ED0CFB15A8472A9AE"
-        "OwnerKey" = "8:_595754BF4690E92D9448D6DF6252D88D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_21250EDA18031E8ED0CFB15A8472A9AE"
-        "OwnerKey" = "8:_EF16AE22273449909DAA4542302B11CD"
+        "MsmKey" = "8:_1AC0C29ABDDF3D33A9058A8AC9AD9DE4"
+        "OwnerKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -33,68 +27,74 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_522FBD9C30287BB243D3D32B61CCAC5C"
-        "OwnerKey" = "8:_EF16AE22273449909DAA4542302B11CD"
+        "MsmKey" = "8:_29826960DF444F467C65AB38732BD3F1"
+        "OwnerKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_595754BF4690E92D9448D6DF6252D88D"
-        "OwnerKey" = "8:_EF16AE22273449909DAA4542302B11CD"
+        "MsmKey" = "8:_4174C39A02BE5ADBB55517BE1D9313AE"
+        "OwnerKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BA9B01E1080406F9E9C6600E9A53D754"
-        "OwnerKey" = "8:_EF16AE22273449909DAA4542302B11CD"
+        "MsmKey" = "8:_59B1106DE22E1227AB8E4975442D3FDF"
+        "OwnerKey" = "8:_29826960DF444F467C65AB38732BD3F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C8269EE9A09F1705B5616045A1F67C6C"
-        "OwnerKey" = "8:_21250EDA18031E8ED0CFB15A8472A9AE"
+        "MsmKey" = "8:_59B1106DE22E1227AB8E4975442D3FDF"
+        "OwnerKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_EF16AE22273449909DAA4542302B11CD"
+        "MsmKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EF16AE22273449909DAA4542302B11CD"
+        "MsmKey" = "8:_EB9F76B042E2DBD2D758F828FEF30405"
+        "OwnerKey" = "8:_59B1106DE22E1227AB8E4975442D3FDF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_522FBD9C30287BB243D3D32B61CCAC5C"
+        "OwnerKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BA9B01E1080406F9E9C6600E9A53D754"
+        "OwnerKey" = "8:_4174C39A02BE5ADBB55517BE1D9313AE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_595754BF4690E92D9448D6DF6252D88D"
+        "OwnerKey" = "8:_1AC0C29ABDDF3D33A9058A8AC9AD9DE4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_21250EDA18031E8ED0CFB15A8472A9AE"
+        "OwnerKey" = "8:_29826960DF444F467C65AB38732BD3F1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C8269EE9A09F1705B5616045A1F67C6C"
+        "OwnerKey" = "8:_59B1106DE22E1227AB8E4975442D3FDF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EB9F76B042E2DBD2D758F828FEF30405"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -192,23 +192,23 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_21250EDA18031E8ED0CFB15A8472A9AE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1AC0C29ABDDF3D33A9058A8AC9AD9DE4"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
-                    "_21250EDA18031E8ED0CFB15A8472A9AE"
+                    "_1AC0C29ABDDF3D33A9058A8AC9AD9DE4"
                     {
-                    "Name" = "8:System.IO.Compression.FileSystem.dll"
+                    "Name" = "8:System.IO.Compression.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:System.IO.Compression.FileSystem.dll"
+            "SourcePath" = "8:System.IO.Compression.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
+            "Folder" = "8:_75783053DDA04020B7DE2452742D1BB5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -243,45 +243,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_522FBD9C30287BB243D3D32B61CCAC5C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
-                "ScatterAssemblies"
-                {
-                    "_522FBD9C30287BB243D3D32B61CCAC5C"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:System.Net.Http.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_595754BF4690E92D9448D6DF6252D88D"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_29826960DF444F467C65AB38732BD3F1"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.IO.Compression.ZipFile, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
-                    "_595754BF4690E92D9448D6DF6252D88D"
+                    "_29826960DF444F467C65AB38732BD3F1"
                     {
                     "Name" = "8:System.IO.Compression.ZipFile.dll"
                     "Attributes" = "3:512"
@@ -305,20 +274,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BA9B01E1080406F9E9C6600E9A53D754"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4174C39A02BE5ADBB55517BE1D9313AE"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_BA9B01E1080406F9E9C6600E9A53D754"
+                    "_4174C39A02BE5ADBB55517BE1D9313AE"
                     {
-                    "Name" = "8:System.IO.Compression.dll"
+                    "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:System.IO.Compression.dll"
+            "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
@@ -336,14 +305,45 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C8269EE9A09F1705B5616045A1F67C6C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_59B1106DE22E1227AB8E4975442D3FDF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                "ScatterAssemblies"
+                {
+                    "_59B1106DE22E1227AB8E4975442D3FDF"
+                    {
+                    "Name" = "8:System.IO.Compression.FileSystem.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.IO.Compression.FileSystem.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EB9F76B042E2DBD2D758F828FEF30405"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:TRUE"
             "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C8269EE9A09F1705B5616045A1F67C6C"
+                    "_EB9F76B042E2DBD2D758F828FEF30405"
                     {
                     "Name" = "8:System.IO.Compression.dll"
                     "Attributes" = "3:512"
@@ -352,7 +352,7 @@
             "SourcePath" = "8:System.IO.Compression.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
+            "Folder" = "8:_75783053DDA04020B7DE2452742D1BB5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -386,7 +386,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_381C2AC7AD384E1488C6014F95032920"
             {
-            "DefaultLocation" = "8:[ProgramFilesFolder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -434,15 +434,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
-        "ProductCode" = "8:{2903F014-73E6-4743-9161-55D74882980E}"
-        "PackageCode" = "8:{79109276-16CB-4FA1-8EEF-6822975C6207}"
+        "ProductCode" = "8:{9F4DF522-3BCB-4E1C-AD95-394F83FD23DC}"
+        "PackageCode" = "8:{90006A19-4D60-4A30-9591-D453DDAD15ED}"
         "UpgradeCode" = "8:{813B9659-6DDC-4083-B56B-0400F17E8B45}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.11.45"
+        "ProductVersion" = "8:0.11.46"
         "Manufacturer" = "8:Trash_s0Ft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -456,7 +456,7 @@
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -555,20 +555,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6EB4C9470183411A873614EEAFE20CE7"
-            {
-            "Name" = "8:Shortcut to Primäre Ausgabe from Win_CBZ (Release Any CPU)"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_EF16AE22273449909DAA4542302B11CD"
-            "Folder" = "8:_75783053DDA04020B7DE2452742D1BB5"
-            "WorkingFolder" = "8:_381C2AC7AD384E1488C6014F95032920"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
@@ -978,9 +964,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EF16AE22273449909DAA4542302B11CD"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6396FCEA903E4B85AEBC5E3B127481F0"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Release\\Win_CBZ.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
@@ -998,7 +984,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|Any CPU"
+            "OutputConfiguration" = "8:Release|x64"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}"
             "ShowKeyOutput" = "11:TRUE"

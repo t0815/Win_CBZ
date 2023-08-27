@@ -682,6 +682,7 @@ namespace Win_CBZ
                         page = new Page(fi, FileAccess.ReadWrite);
                         page.Number = realNewIndex + 1;
                         page.Index = realNewIndex;
+                        page.OriginalIndex = realNewIndex;
                         realNewIndex++;
                     } else
                     {
@@ -882,6 +883,7 @@ namespace Win_CBZ
                         isUpdated = true;
                     }
                     page.Index = newIndex;
+                    page.OriginalIndex = newIndex;
                     page.Number = newIndex + 1;
                     newIndex++;
                 }
@@ -1308,6 +1310,7 @@ namespace Win_CBZ
 
                         page.Number = index + 1;
                         page.Index = index;
+                        page.OriginalIndex = index;
 
                         pageIndexEntry = MetaData.FindIndexEntryForPage(page);
                         if (pageIndexEntry != null)

@@ -1692,9 +1692,15 @@ namespace Win_CBZ
             updatePage = FindListViewItemForPage(PageView, page);
             //updateImage = PageImages.Images[PageImages.Images.IndexOfKey(page.Id)];
 
-            originalItem = PagesList.Items[newIndex];
-            originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+            if (newIndex > -1) 
+            { 
+                originalItem = PagesList.Items[newIndex];
+                originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
             //originalImage = PageImages.Images[PageImages.Images.IndexOfKey(((Page)originalItem.Tag).Id)];
+            } else
+            {
+                return;
+            }
 
             int IndexItemToMove = updateItem.Index;
                        
@@ -1743,10 +1749,11 @@ namespace Win_CBZ
             }
 
             PageChanged(this, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
-            PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+            if (originalPage != null)
+            {
+                PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+            }
             ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-
-            
 
             HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
@@ -2107,8 +2114,9 @@ namespace Win_CBZ
         private void ToolButtonEditImageProps_Click(object sender, EventArgs e)
         {
             Page page = (Page)PagesList.SelectedItem.Tag;
+            Page editPage = new Page(page);
 
-            PageSettingsForm pageSettingsForm = new PageSettingsForm(page);
+            PageSettingsForm pageSettingsForm = new PageSettingsForm(editPage);
             DialogResult dlgResult = pageSettingsForm.ShowDialog();
 
             if (dlgResult == DialogResult.OK) 
@@ -2118,7 +2126,16 @@ namespace Win_CBZ
                 if (pageToUpdate != null)
                 {
                     pageToUpdate.UpdatePage(pageResult);
-                    MovePageTo(pageToUpdate, pageResult.Index);
+                    if (!pageResult.Deleted)
+                    {
+                        MovePageTo(pageToUpdate, pageResult.Index);
+                    }
+
+                    if (pageResult.Deleted != editPage.Deleted)
+                    {
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                    }
+
                     if (pageToUpdate.Deleted)
                     {
                         try

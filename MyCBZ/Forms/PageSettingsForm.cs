@@ -82,6 +82,18 @@ namespace Win_CBZ.Forms
         private void CheckBoxPageDeleted_CheckedChanged(object sender, EventArgs e)
         {
             Page.Deleted = CheckBoxPageDeleted.Checked;
+            if (Page.Deleted)
+            {
+                Page.Index = -1;
+                PageIndexTextbox.Text = "-1";
+               
+            } else
+            {
+                Page.Index = Page.OriginalIndex;
+                PageIndexTextbox.Text = (Page.OriginalIndex + 1).ToString();
+            }
+
+            PageIndexTextbox.Enabled = !Page.Deleted;
         }
     }
 }

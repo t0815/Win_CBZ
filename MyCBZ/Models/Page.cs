@@ -74,6 +74,8 @@ namespace Win_CBZ
 
         public int Index { get; set; }
 
+        public int OriginalIndex { get; set; }
+
         public String Key { get; set; }
 
         public DateTimeOffset LastModified { get; set; }
@@ -221,6 +223,7 @@ namespace Win_CBZ
             Size = sourcePage.Size;
             Id = sourcePage.Id;
             Index = sourcePage.Index;
+            OriginalIndex = sourcePage.OriginalIndex;
             Number = sourcePage.Number;
             Closed = sourcePage.Closed;
                       
@@ -235,6 +238,45 @@ namespace Win_CBZ
             ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
             
             ImageTask = new ImageTask();
+        }
+
+        public Page(Page sourcePage)
+        {
+            WorkingDir = sourcePage.WorkingDir;
+            Name = sourcePage.Name;
+            EntryName = sourcePage.EntryName;
+            TempPath = sourcePage.TempPath;
+            Filename = sourcePage.Filename;
+            LocalPath = sourcePage.LocalPath;
+            ImageStream = sourcePage.ImageStream;
+            Compressed = sourcePage.Compressed;
+            TemporaryFileId = sourcePage.TemporaryFileId;
+            EntryName = sourcePage.EntryName;
+            ImageEntry = sourcePage.ImageEntry;
+            ImageStream = sourcePage.ImageStream;
+            IsMemoryCopy = sourcePage.IsMemoryCopy;
+            ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
+
+            Changed = sourcePage.Changed;
+            ReadOnly = sourcePage.ReadOnly;
+            Size = sourcePage.Size;
+            Id = sourcePage.Id;
+            Index = sourcePage.Index;
+            OriginalIndex = sourcePage.OriginalIndex;
+            Number = sourcePage.Number;
+            Closed = sourcePage.Closed;
+
+            Deleted = sourcePage.Deleted;
+            OriginalName = sourcePage.OriginalName;
+            W = sourcePage.W;
+            H = sourcePage.H;
+            Key = sourcePage.Key;
+            ThumbH = sourcePage.ThumbH;
+            ThumbW = sourcePage.ThumbW;
+            Thumbnail = sourcePage.Thumbnail;
+            ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
+
+            ImageTask = sourcePage.ImageTask;
         }
 
         public void UpdatePage(Page page, bool skipIndex = false)
@@ -255,6 +297,7 @@ namespace Win_CBZ
             {
                 Index = page.Index;
             }
+            //OriginalIndex = page.OriginalIndex;
             TemporaryFileId = page.TemporaryFileId;
             Changed = page.Changed;
         }
