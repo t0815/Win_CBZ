@@ -485,6 +485,91 @@ namespace Win_CBZ
             catch (Exception) { return false; }
         }
 
+        public bool ThreadRunning()
+        {
+            if (LoadArchiveThread != null)
+            {
+                if (LoadArchiveThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (ExtractArchiveThread != null)
+            {
+                if (ExtractArchiveThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (PageUpdateThread != null)
+            {
+                if (PageUpdateThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (RenamingThread != null)
+            {
+                if (RenamingThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (SaveArchiveThread != null)
+            {
+                if (SaveArchiveThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (PageUpdateThread != null)
+            {
+                if (PageUpdateThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (ProcessAddedFiles != null)
+            {
+                if (ProcessAddedFiles.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (ParseAddedFileNames != null)
+            {
+                if (ParseAddedFileNames.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (RestoreRenamingThread != null)
+            {
+                if (RestoreRenamingThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public void CancelAllThreads()
         {
             Task.Factory.StartNew(() =>
@@ -550,7 +635,7 @@ namespace Win_CBZ
                 {
                     if (ProcessAddedFiles.IsAlive)
                     {
-                            ProcessAddedFiles.Abort();
+                        ProcessAddedFiles.Abort();
                     }
                 }
 
@@ -558,7 +643,7 @@ namespace Win_CBZ
                 {
                     if (ParseAddedFileNames.IsAlive)
                     {
-                            ParseAddedFileNames.Abort();
+                        ParseAddedFileNames.Abort();
                     }
                 }
 
@@ -566,7 +651,7 @@ namespace Win_CBZ
                 {
                     if (RestoreRenamingThread.IsAlive)
                     {
-                            RestoreRenamingThread.Abort();
+                        RestoreRenamingThread.Abort();
                     }
                 }
             });

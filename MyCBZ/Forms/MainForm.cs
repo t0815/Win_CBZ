@@ -1412,6 +1412,39 @@ namespace Win_CBZ
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (ArchiveProcessing())
+            {
+                DialogResult res = ApplicationMessage.ShowWarning("Warning, there are currently still Tasks running in the Background.\nIt is advised to wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_QUIT | ApplicationMessage.DialogButtons.MB_CANCEL);
+                if (res == DialogResult.Yes)
+                {
+                    if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
+                    {
+                        res = ApplicationMessage.ShowConfirmation("There are unsaved changes to the current CBZ-Archive.\nAre you sure you want to quit anyway?", "Unsaved changes...");
+                        if (res == DialogResult.Yes)
+                        {
+                            e.Cancel = false || ArchiveProcessing();
+                            if (!e.Cancel)
+                            {
+                                QuitApplication();
+                            }
+                        }
+                        else
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+
+                    QuitApplication();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+
             if (!ArchiveProcessing())
             {
                 if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
@@ -1422,9 +1455,7 @@ namespace Win_CBZ
                         e.Cancel = false || ArchiveProcessing();
                         if (!e.Cancel)
                         {
-                            Win_CBZSettings.Default.Save();
-                            WindowClosed = true;
-                            Application.ExitThread();
+                            QuitApplication();
                         }
                     } else
                     {
@@ -1433,11 +1464,10 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    Win_CBZSettings.Default.Save();
-                    WindowClosed = true;
-                    Application.ExitThread();
+                    QuitApplication();
                 }
-            } else
+            } 
+            /* else
             {
                 DialogResult res = ApplicationMessage.ShowWarning("Warning, there are currently still Tasks running in the Background. It is advised to wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_QUIT | ApplicationMessage.DialogButtons.MB_CANCEL);
                 if (res == DialogResult.Yes)
@@ -1452,8 +1482,7 @@ namespace Win_CBZ
                 {
                     e.Cancel = true;
                 }
-            }
-            
+            }   */       
         }
 
 
@@ -1494,6 +1523,15 @@ namespace Win_CBZ
                     }
                 }
             });
+        }
+
+        private void QuitApplication()
+        {
+            Win_CBZSettings.Default.Save();
+            WindowClosed = true;
+            CancelAllThreads();
+            Program.ProjectModel.CancelAllThreads();
+            Application.ExitThread();
         }
 
 
@@ -1721,7 +1759,8 @@ namespace Win_CBZ
                Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_OPENING ||
                Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_EXTRACTING ||
                Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_CLOSING ||
-               Program.ProjectModel.ApplicationState == GeneralTaskProgressEvent.TASK_STATUS_RUNNING
+               Program.ProjectModel.ApplicationState == GeneralTaskProgressEvent.TASK_STATUS_RUNNING ||
+               Program.ProjectModel.ThreadRunning()
                );
         }
 
