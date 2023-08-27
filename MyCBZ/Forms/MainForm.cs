@@ -218,7 +218,7 @@ namespace Win_CBZ
             {
                 PagesList.Invoke(new Action(() =>
                 {
-                    if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
+                    if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED)
                     {
                         ListViewItem item;
                         ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
@@ -244,6 +244,7 @@ namespace Win_CBZ
 
                         item.Tag = e.Image;
                         item.BackColor = Color.White;
+                        item.ForeColor = Color.Black;
 
                         switch (e.State)
                         {
@@ -269,7 +270,7 @@ namespace Win_CBZ
 
                         if (!e.Image.Compressed)
                         {
-                            item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
+                            item.BackColor = Color.Gold;
                         }
 
                         if (e.Image.Changed)
@@ -299,7 +300,7 @@ namespace Win_CBZ
                 if (TogglePagePreviewToolbutton.Checked)
                 {
 
-                    if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED && e.State != PageChangedEvent.IMAGE_STATUS_DELETED)
+                    if (!e.Image.Closed && !e.Image.Deleted)
                     {
                         PageView.Invoke(new Action(() =>
                         {
@@ -2067,10 +2068,14 @@ namespace Win_CBZ
                     }
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
+
+                    PageChanged(null, new PageChangedEvent((Page)img.Tag, PageChangedEvent.IMAGE_STATUS_DELETED));
                 }
 
+                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
                 //Program.ProjectModel.UpdatePageIndices();
-            }   
+            }
         }      
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2114,7 +2119,21 @@ namespace Win_CBZ
                 {
                     pageToUpdate.UpdatePage(pageResult);
                     MovePageTo(pageToUpdate, pageResult.Index);
-                    
+                    if (pageToUpdate.Deleted)
+                    {
+                        try
+                        {
+                            pageToUpdate.DeleteTemporaryFile();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                        }
+
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                    }
+
+                    PageChanged(this, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
             }
 

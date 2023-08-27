@@ -36,6 +36,7 @@ namespace Win_CBZ.Forms
             TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.Filename;
             PageNameTextBox.Text = Page.Name;
             PageIndexTextbox.Text = (Page.Index + 1).ToString();
+            CheckBoxPageDeleted.Checked = Page.Deleted;
         }
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -71,6 +72,16 @@ namespace Win_CBZ.Forms
 
             Page.Index = newIndex - 1;
             Page.Number = newIndex;
+        }
+
+        private void ButtonOk_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckBoxPageDeleted_CheckedChanged(object sender, EventArgs e)
+        {
+            Page.Deleted = CheckBoxPageDeleted.Checked;
         }
     }
 }

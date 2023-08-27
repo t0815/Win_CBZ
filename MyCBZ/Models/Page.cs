@@ -249,6 +249,7 @@ namespace Win_CBZ
             H = page.H;
             Key = page.Key;
             Number = page.Number;
+            Deleted = page.Deleted;
 
             if (!skipIndex)
             {
