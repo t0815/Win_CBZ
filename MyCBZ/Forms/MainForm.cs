@@ -2242,6 +2242,19 @@ namespace Win_CBZ
 
         private void ToolButtonSetPageType_ButtonClick(object sender, EventArgs e)
         {
+            if (!Program.ProjectModel.MetaData.HasValues())
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (comicinfo.xml) in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", 4, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                if (res == DialogResult.Yes)
+                {
+                    BtnAddMetaData_Click(sender, null);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
                 ((Page)item.Tag).ImageType = (String)((ToolStripSplitButton)sender).Tag;
