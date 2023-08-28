@@ -28,7 +28,7 @@ namespace Win_CBZ.Forms
             
             // Load the xslt used by IE to render the xml
             XslCompiledTransform xTrans = new XslCompiledTransform();
-            xTrans.Load(Path.Combine(new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.FullName, @"resources\defaults.xsl"));
+            xTrans.Load(Path.Combine(new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.FullName, @"resources\defaults.xsl"));
 
             // Read the xml string.
             XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
