@@ -435,7 +435,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
         "ProductCode" = "8:{7FC8ADB3-B365-4EA9-9158-32157972189C}"
-        "PackageCode" = "8:{DA94FA2B-938C-431D-BA51-7D2752760465}"
+        "PackageCode" = "8:{D729DA39-A7B5-4255-95F9-05FD07EE6433}"
         "UpgradeCode" = "8:{66FAEF81-1CAE-4971-9E0F-796310EFEA5E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -557,7 +557,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E17DE2DDDB0348D2A509E9B26814C8FC"
             {
-            "Name" = "8:Shortcut to Primäre Ausgabe from Win_CBZ (Release x64)"
+            "Name" = "8:Win_CBZ"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
