@@ -1692,22 +1692,17 @@ namespace Win_CBZ
             updatePage = FindListViewItemForPage(PageView, page);
             //updateImage = PageImages.Images[PageImages.Images.IndexOfKey(page.Id)];
 
-            if (newIndex > -1) 
-            { 
-                originalItem = PagesList.Items[newIndex];
-                originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+
+            originalItem = PagesList.Items[newIndex];
+            originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
             //originalImage = PageImages.Images[PageImages.Images.IndexOfKey(((Page)originalItem.Tag).Id)];
-            } else
-            {
-                return;
-            }
 
             int IndexItemToMove = updateItem.Index;
                        
-            if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
-            {
-                return;
-            }
+            //if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
+           // {
+            //    return;
+            //}
 
             if (newIndex == IndexItemToMove)
             {
@@ -2128,7 +2123,15 @@ namespace Win_CBZ
                     pageToUpdate.UpdatePage(pageResult);
                     if (!pageResult.Deleted)
                     {
-                        MovePageTo(pageToUpdate, pageResult.Index);
+                        try
+                        {
+                            MovePageTo(pageToUpdate, pageResult.Index);
+                        } catch (Exception ex) {
+                            RestoreIndex(pageToUpdate, editPage);
+                            RestoreIndex(page, editPage);   
+                            
+                            ApplicationMessage.ShowException(ex);
+                        }
                     }
 
                     if (pageResult.Deleted != editPage.Deleted)
@@ -2150,12 +2153,18 @@ namespace Win_CBZ
                         HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
                     }
 
-                    PageChanged(this, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    PageChanged(this, new PageChangedEvent(pageToUpdate, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
             }
 
             pageSettingsForm.FreeResult();
             pageSettingsForm.Dispose();
+        }
+
+        private void RestoreIndex(Page updatedPage, Page originalPage)
+        {
+            updatedPage.Index = originalPage.Index;
+            updatedPage.Number = originalPage.Index + 1;
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)

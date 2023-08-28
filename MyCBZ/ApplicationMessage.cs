@@ -29,7 +29,7 @@ namespace Win_CBZ
             MB_QUIT = 128
         };
 
-        public static DialogResult Show(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK | DialogButtons.MB_CANCEL)
+        public static DialogResult Show(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
@@ -62,7 +62,18 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowException(Exception exception, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_OK)
+        public static DialogResult ShowError(String message, String title, short type = MT_ERROR, DialogButtons buttons = DialogButtons.MB_OK)
+        {
+            ApplicationDialog errorDialog = new ApplicationDialog();
+            errorDialog.Buttons = buttons;
+            errorDialog.DialogType = type;
+            errorDialog.DialogTitle = title;
+            errorDialog.Message = message;
+
+            return errorDialog.ShowDialog();
+        }
+
+        public static DialogResult ShowException(Exception exception, short type = MT_ERROR, DialogButtons buttons = DialogButtons.MB_OK)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
