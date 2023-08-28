@@ -435,7 +435,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
         "ProductCode" = "8:{7FC8ADB3-B365-4EA9-9158-32157972189C}"
-        "PackageCode" = "8:{0EB38867-E482-49E8-97A8-2466F0DE78F3}"
+        "PackageCode" = "8:{DD12B38E-E9D7-4DF4-BE21-CBA17A72F128}"
         "UpgradeCode" = "8:{813B9659-6DDC-4083-B56B-0400F17E8B45}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -555,6 +555,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E17DE2DDDB0348D2A509E9B26814C8FC"
+            {
+            "Name" = "8:Shortcut to Primäre Ausgabe from Win_CBZ (Release x64)"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
+            "Folder" = "8:_75783053DDA04020B7DE2452742D1BB5"
+            "WorkingFolder" = "8:_381C2AC7AD384E1488C6014F95032920"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -966,7 +980,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6396FCEA903E4B85AEBC5E3B127481F0"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Release\\Win_CBZ.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
