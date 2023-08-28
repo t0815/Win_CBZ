@@ -156,6 +156,7 @@
     <Compile Include="Models\ImageTask.cs" />
     <Compile Include="Models\PipelinePayload.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="ResourceLoader.cs" />
     <Compile Include="Tasks\ProcessImagesTask.cs" />
     <Compile Include="Tasks\RebuildPageIndexMetaDataTask.cs" />
     <Compile Include="Tasks\ReadImageMetaDataTask.cs" />

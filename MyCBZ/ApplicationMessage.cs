@@ -62,7 +62,7 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowException(Exception exception, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_OK | DialogButtons.MB_CANCEL)
+        public static DialogResult ShowException(Exception exception, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_OK)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;

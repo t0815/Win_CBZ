@@ -167,6 +167,29 @@ namespace Win_CBZ.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;!--
+        /// |
+        /// | XSLT REC Compliant Version of IE5 Default Stylesheet
+        /// |
+        /// | Original version by Jonathan Marsh (jmarsh@xxxxxxxxxxxxx)
+        /// | http://msdn.microsoft.com/xml/samples/defaultss/defaultss.xsl
+        /// |
+        /// | Conversion to XSLT 1.0 REC Syntax by Steve Muench (smuench@xxxxxxxxxx)
+        /// |
+        /// +--&gt;
+        ///&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;&gt;
+        ///  &lt;!-- Add doctype attributes to keep IE happy --&gt;
+        ///  &lt;xsl:output indent=&quot;no&quot;
+        ///                method=&quot;html&quot;
+        ///                doctype-public=&quot; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        internal static string defaults {
+            get {
+                return ResourceManager.GetString("defaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap delete {

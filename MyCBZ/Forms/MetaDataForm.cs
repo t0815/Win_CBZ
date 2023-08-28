@@ -25,10 +25,13 @@ namespace Win_CBZ.Forms
             MetaData = metaData;
 
             //MetaData = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><Test><mykey>test</mykey><value>omg</value></Test>";
-            
+
             // Load the xslt used by IE to render the xml
+
+            StringReader xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeUriString("defaults").ToLowerInvariant()));
+            XmlReader xslReader = XmlReader.Create(xsltManifest);
             XslCompiledTransform xTrans = new XslCompiledTransform();
-            xTrans.Load(Path.Combine(new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.FullName, @"resources\defaults.xsl"));
+            xTrans.Load(xslReader);
 
             // Read the xml string.
             XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
@@ -44,6 +47,11 @@ namespace Win_CBZ.Forms
             ms.Position = 0;
             // Set to the document stream
             metaDataView.DocumentStream = ms;
+
+        }
+
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
 
         }
     }
