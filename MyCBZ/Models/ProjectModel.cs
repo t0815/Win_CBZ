@@ -60,6 +60,8 @@ namespace Win_CBZ
 
         public Boolean MetaDataPageIndexMissingData = false;
 
+        public Boolean MetaDataPageIndexFileMissing = false;
+
         public String RenameStoryPagePattern { get; set; }
 
         public String RenameSpecialPagePattern { get; set; }
@@ -195,7 +197,7 @@ namespace Win_CBZ
             return MetaData;
         }
 
-        private void HandlePipelene(PipelineEvent e)
+        private void HandlePipeline(PipelineEvent e)
         {
             if (e.State == PipelineEvent.PIPELINE_FILES_PARSED)
             {
@@ -726,7 +728,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
+            HandlePipeline(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -815,7 +817,7 @@ namespace Win_CBZ
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
-            HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
+            HandlePipeline(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
         }
 
         public int RemoveDeletedPages()
@@ -907,7 +909,7 @@ namespace Win_CBZ
 
             if (ContinuePipelineForIndexBuilder)
             {
-                HandlePipelene(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
+                HandlePipeline(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
@@ -1331,11 +1333,15 @@ namespace Win_CBZ
                             } catch {
 
                                 MetaDataPageIndexMissingData = true;
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadate does not have image dimensions for page [" + page.Name + "]!");
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
                             }
+                        } else
+                        {
+                            MetaDataPageIndexFileMissing = true;
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                         }
 
-                    // tempFileName = RequestTemporaryFile(page);
+                        // tempFileName = RequestTemporaryFile(page);
 
                         Pages.Add(page);
 
@@ -1362,7 +1368,12 @@ namespace Win_CBZ
             {
                 OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
             }
-            
+
+            if (MetaDataPageIndexFileMissing)
+            {
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
+            }
+
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));

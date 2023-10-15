@@ -21,6 +21,7 @@ using System.Windows.Forms.VisualStyles;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
 using Win_CBZ.Tasks;
 using System.Security.Policy;
+using Win_CBZ.Models;
 
 namespace Win_CBZ
 {
@@ -51,7 +52,9 @@ namespace Win_CBZ
 
         private List<Page> ImageInfoPagesSlice;
 
-        private Task<TaskResult> CurrentGlobalAction;
+        private GlobalAction CurrentGlobalAction;
+
+        private List<GlobalAction> CurrentGlobalActions;
 
         public MainForm()
         {
@@ -63,6 +66,7 @@ namespace Win_CBZ
 
             ThumbnailPagesSlice = new List<Page>();
             ImageInfoPagesSlice = new List<Page>();
+            CurrentGlobalActions = new List<GlobalAction>();
         }
 
         private ProjectModel NewProjectModel()
@@ -256,6 +260,20 @@ namespace Win_CBZ
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_DELETED:
                                 e.Image.Deleted = true;
+                                existingItem = FindListViewItemForPage(PagesList, e.Image);
+
+                                if (existingItem == null)
+                                {
+                                    PagesList.Items.Remove(existingItem);
+                                }
+
+                                existingItem = FindListViewItemForPage(PageView, e.Image);
+
+                                if (existingItem == null)
+                                {
+                                    PageView.Items.Remove(existingItem);
+                                }
+
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
                                 e.Image.Compressed = true;
@@ -504,9 +522,18 @@ namespace Win_CBZ
         {
             this.Invoke(new Action(() =>
             {
-                LabelGlobalActionStatusMessage.Text = e.Message;
-                GlobalAlertTableLayout.Visible = true;
-                CurrentGlobalAction = e.Task;
+                GlobalAction action = new GlobalAction();
+                action.Message = e.Message;
+                action.Action = e.Task;
+
+                CurrentGlobalActions.Add(action);
+
+                if (CurrentGlobalAction == null)
+                {
+                    LabelGlobalActionStatusMessage.Text = e.Message;
+                    GlobalAlertTableLayout.Visible = true;
+                    CurrentGlobalAction = action;
+                }
             }));
         }
 
@@ -520,6 +547,18 @@ namespace Win_CBZ
                     case GeneralTaskProgressEvent.TASK_STATUS_COMPLETED:
                         Program.ProjectModel.MetaDataPageIndexMissingData = false;
                         Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
+                        CurrentGlobalActions.Remove(CurrentGlobalAction);
+                        if (CurrentGlobalActions.Count > 0)
+                        {
+                            CurrentGlobalAction = CurrentGlobalActions[0];
+
+                            this.Invoke(new Action(() =>
+                            {
+                                LabelGlobalActionStatusMessage.Text = CurrentGlobalAction.Message;
+                                GlobalAlertTableLayout.Visible = true;
+                            }));
+                }
+
                         break;
                 }
             }
@@ -608,9 +647,9 @@ namespace Win_CBZ
         {
             if (CurrentGlobalAction != null)
             {
-                if (!CurrentGlobalAction.IsCanceled && !CurrentGlobalAction.IsCompleted && !CurrentGlobalAction.IsFaulted)
+                if (!CurrentGlobalAction.Action.IsCanceled && !CurrentGlobalAction.Action.IsCompleted && !CurrentGlobalAction.Action.IsFaulted)
                 {
-                    CurrentGlobalAction.Start();
+                    CurrentGlobalAction.Action.Start();
                     GlobalAlertTableLayout.Visible = false;
                 }
             }

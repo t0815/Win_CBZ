@@ -23,6 +23,7 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page page in pages)
                 {
+                    
                     if (page.Deleted)
                     {
                         page.Index = -1;
@@ -46,6 +47,7 @@ namespace Win_CBZ.Tasks
                         pageChangedHandler.Invoke(null, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     }
 
+                    metaData.RebuildPageMetaData(pages);
 
                     if (handler != null)
                     {

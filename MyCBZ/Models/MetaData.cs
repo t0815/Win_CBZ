@@ -21,9 +21,8 @@ namespace Win_CBZ
         protected static readonly String[] DefaultProperties = { "AgeRating", "Title", 
             "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "StoryArc", "StoryArcNumber", 
             "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO",
-            "Artist", "Writer", "Penciller", "Inker", "Colorist", "Cover", "Translator", "Editor", "Letterer", "Imprint", 
-            "Year", "Month", "Day", 
-            "Characters", "BlackAndWhite", "Review", "CommunityRating", "Notes", "PageCount", "GTIN" };
+            "Artist", "Writer", "Penciller", "Inker", "Colorist", "Cover", "Translator", "Editor", "Letterer", 
+            "Year", "Month", "Day", "Characters", "BlackAndWhite", "Review", "CommunityRating", "Notes", "PageCount", "GTIN" };
 
         protected static readonly string[] Ratings =
         {
@@ -195,7 +194,7 @@ namespace Win_CBZ
             writerSettings.OmitXmlDeclaration = withoutXMLHeaderTag;
             XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
              
-                xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartDocument();
             
             xmlWriter.WriteStartElement("ComicInfo");
             foreach (MetaDataEntry entry in Values)

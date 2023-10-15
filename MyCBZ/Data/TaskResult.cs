@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class TaskResult
+    public class TaskResult
     {
         int Result;
 
