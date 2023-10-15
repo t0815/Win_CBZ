@@ -260,20 +260,6 @@ namespace Win_CBZ
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_DELETED:
                                 e.Image.Deleted = true;
-                                existingItem = FindListViewItemForPage(PagesList, e.Image);
-
-                                if (existingItem == null)
-                                {
-                                    PagesList.Items.Remove(existingItem);
-                                }
-
-                                existingItem = FindListViewItemForPage(PageView, e.Image);
-
-                                if (existingItem == null)
-                                {
-                                    PageView.Items.Remove(existingItem);
-                                }
-
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
                                 e.Image.Compressed = true;
@@ -307,9 +293,17 @@ namespace Win_CBZ
                         if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
                         {
                             ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+
                             if (existingItem != null)
                             {
                                 PagesList.Items.Remove(existingItem);
+                            }
+
+                            existingItem = FindListViewItemForPage(PageView, e.Image);
+
+                            if (existingItem != null)
+                            {
+                                PageView.Items.Remove(existingItem);
                             }
                         }
                     }
@@ -2111,6 +2105,7 @@ namespace Win_CBZ
                     img.BackColor = Color.Transparent;
 
                     PageChanged(null, new PageChangedEvent((Page)img.Tag, PageChangedEvent.IMAGE_STATUS_DELETED));
+                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
                 HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));

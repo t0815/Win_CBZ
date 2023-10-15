@@ -1435,18 +1435,18 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        if (page.Compressed)
-                        {
-                            FileInfo NewTemporaryFileName = MakeNewTempFileName(page.Name);
-                            page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
-                            if (page.TempPath == null)
-                            {
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
-                            }
-                        } 
-
                         if (!page.Deleted)
                         {
+                            if (page.Compressed)
+                            {
+                                FileInfo NewTemporaryFileName = MakeNewTempFileName(page.Name);
+                                page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
+                                if (page.TempPath == null)
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
+                                }
+                            }
+
                             page.FreeImage();
                             
                             updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
@@ -1511,7 +1511,7 @@ namespace Win_CBZ
                     {
                         Pages.Remove(deletedPage);
 
-                        OnPageChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_DELETED));
+                        OnPageChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_CLOSED));
                         OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
                         deletedIndex++;
                     }
