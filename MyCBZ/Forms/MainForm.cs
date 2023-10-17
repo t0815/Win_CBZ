@@ -290,6 +290,7 @@ namespace Win_CBZ
                     }
                     else
                     {
+                        /*
                         if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
                         {
                             ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
@@ -306,6 +307,7 @@ namespace Win_CBZ
                                 PageView.Items.Remove(existingItem);
                             }
                         }
+                        */
                     }
                 }));
 
@@ -723,35 +725,43 @@ namespace Win_CBZ
 
         public void LoadThumbnailSlice()
         {
-            this.Invoke(new Action(() =>
-            {
-                //PageImages.Images.Clear();
-
-                foreach (Page page in ThumbnailPagesSlice)
+            if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING) { 
+                this.Invoke(new Action(() =>
                 {
-                    try
+                    //PageImages.Images.Clear();
+
+                    foreach (Page page in ThumbnailPagesSlice)
                     {
-                        if (!PageImages.Images.ContainsKey(page.Id))
+                        try
                         {
-                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
-                        }
-                        else
-                        {
-                            if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
+                            if (!page.Closed)
                             {
-                                PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
+                                if (!PageImages.Images.ContainsKey(page.Id))
+                                {
+                                    PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                                }
+                                else
+                                {
+                                    if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
+                                    {
+                                        PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
+                                        page.ThumbnailInvalidated = false;
+                                    }
+                                }
+                            } else
+                            {
                                 page.ThumbnailInvalidated = false;
                             }
                         }
+                        catch (Exception e)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                    }
-                }
 
-                ThumbnailPagesSlice.Clear();
-            }));
+                    ThumbnailPagesSlice.Clear();
+                }));
+            }
         }
 
 
@@ -1008,7 +1018,7 @@ namespace Win_CBZ
                     Program.ProjectModel.ArchiveState = e.State;
                     pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
 
-                    //DisableControllsForApplicationState(e.ArchiveInfo, e.State);
+                    DisableControllsForApplicationState(e.State);
                 }));
                 //}
             }
@@ -1019,7 +1029,7 @@ namespace Win_CBZ
         }
 
 
-        private void DisableControllsForApplicationState(ProjectModel project, int state)
+        private void DisableControllsForApplicationState(int state)
         {
             switch (state)
             {
@@ -1087,7 +1097,7 @@ namespace Win_CBZ
                 {
                     toolStripProgressBar.Control.Invoke(new Action(() =>
                     {
-                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED)
+                        if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED && e.State != CBZArchiveStatusEvent.ARCHIVE_CLOSING)
                         {
                             toolStripProgressBar.Value = 0;
                         }
@@ -1114,8 +1124,8 @@ namespace Win_CBZ
                     this.Invoke(new Action(() =>
                     {
                         Program.ProjectModel.Pages.Clear();
-                        //PagesList.Clear();    !DONT CLEAR, it will break the binding
-                        PageView.Clear();
+                        PagesList.Items.Clear();
+                        PageView.Items.Clear();
                         PageImages.Images.Clear();
                     }));
                     
@@ -1192,6 +1202,9 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
                         toolStripButtonShowRawMetadata.Enabled = false;
+                        PagesList.Enabled = false;
+                        PageView.Enabled = false;
+                        MetaDataGrid.Enabled = false;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -1216,6 +1229,9 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
                         Program.ProjectModel.IsNew = false;
+                        PagesList.Enabled = true;
+                        PageView.Enabled = true;
+                        MetaDataGrid.Enabled = true;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_SAVED:
@@ -1238,6 +1254,9 @@ namespace Win_CBZ
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsNew = false;
                         Program.ProjectModel.IsSaved = true;
+                        PagesList.Enabled = true;
+                        PageView.Enabled = true;
+                        MetaDataGrid.Enabled = true;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
@@ -1286,6 +1305,9 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
                         toolStripButtonShowRawMetadata.Enabled = false;
+                        PagesList.Enabled = false;
+                        PageView.Enabled = false;
+                        MetaDataGrid.Enabled = false;
                         RemoveMetaData();
                         break;
 
@@ -1313,9 +1335,13 @@ namespace Win_CBZ
                         toolStripButtonShowRawMetadata.Enabled = false;
                         LabelGlobalActionStatusMessage.Text = "";
                         GlobalAlertTableLayout.Visible = false;
+                        PagesList.Enabled = true;
+                        PageView.Enabled = true;
+                        MetaDataGrid.Enabled = true;
                         CurrentGlobalAction = null;
-                        MessageLogListView.Items.Clear();
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+                        //MessageLogListView.Items.Clear();
+                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
+                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
                         RemoveMetaData();
                         break;
 
@@ -2391,16 +2417,20 @@ namespace Win_CBZ
                     e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
                 } else
                 {
-                    ThumbnailPagesSlice.Add(page);
-                    if (RequestThumbnailThread != null)
+                    if (!page.Closed)
                     {
-                        if (!RequestThumbnailThread.IsAlive)
+                        ThumbnailPagesSlice.Add(page);
+                        if (RequestThumbnailThread != null)
+                        {
+                            if (!RequestThumbnailThread.IsAlive)
+                            {
+                                RequestThumbnailSlice();
+                            }
+                        }
+                        else
                         {
                             RequestThumbnailSlice();
                         }
-                    } else
-                    {
-                        RequestThumbnailSlice();
                     }
                 }
 

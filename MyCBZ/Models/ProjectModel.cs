@@ -1718,30 +1718,37 @@ namespace Win_CBZ
         {
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
 
-            if (Archive != null)
-            {
-                Archive.Dispose();
-            }
-
             MetaData.Free();
 
             FileSize = 0;
             FileName = "";
             MaxFileIndex = 0;
             Thread.BeginCriticalRegion();
-            foreach (Page page in Pages)
+            try
             {
-                try { 
-                    page.Close();
-                } catch (Exception e) 
+                foreach (Page page in Pages)
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error freeing page [" + page.Name + "] with message [" + e.Message + "]");
-                } finally {
-                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
-                    OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
-                    Thread.Sleep(10);
+                    try
+                    {
+                        page.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error freeing page [" + page.Name + "] with message [" + e.Message + "]");
+                    }
+                    finally
+                    {
+                        OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                        OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
+                        OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
+                        Thread.Sleep(10);
+                    }
                 }
+            } catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
             }
+
             Thread.EndCriticalRegion();
 
             Name = "";
@@ -1750,6 +1757,11 @@ namespace Win_CBZ
             IsNew = true;
             IsChanged = false;
             IsClosed = false;
+
+            if (Archive != null)
+            {
+                Archive.Dispose();
+            }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
         }

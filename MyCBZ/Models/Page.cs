@@ -338,9 +338,11 @@ namespace Win_CBZ
         {
             FreeImage();
             DeleteTemporaryFile();
-            
-            ImageFileInfo = null;
-            this.Closed = true;
+
+            Closed = true;
+            Invalidated = false;
+            ImageInfoRequested = false;
+            ImageFileInfo = null;           
         }
 
         public void MakeNewTemporaryFileId()
