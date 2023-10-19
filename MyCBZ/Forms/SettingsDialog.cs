@@ -65,5 +65,10 @@ namespace Win_CBZ.Forms
         {
             e.Cancel = !CanClose;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CustomDefaultKeys.Text = Program.ProjectModel.MetaData.GetDefaultKeys();
+        }
     }
 }

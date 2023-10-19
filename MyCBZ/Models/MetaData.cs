@@ -525,6 +525,18 @@ namespace Win_CBZ
         }
 
 
+        public String GetDefaultKeys()
+        {
+            var result = new StringBuilder();
+
+            foreach (String prop in DefaultProperties) {
+                result.AppendLine(prop);
+            }
+
+            return result.ToString();
+        }
+
+
         public MetaDataEntry ParseDefaultProp(String prop)
         {
             MetaDataEntry entry = new MetaDataEntry(prop, "");

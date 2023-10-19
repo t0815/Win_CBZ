@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.CustomDefaultKeys = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -132,6 +133,7 @@
             // SettingsGroup1Panel
             // 
             this.SettingsTablePanel.SetColumnSpan(this.SettingsGroup1Panel, 2);
+            this.SettingsGroup1Panel.Controls.Add(this.button1);
             this.SettingsGroup1Panel.Controls.Add(this.label2);
             this.SettingsGroup1Panel.Controls.Add(this.label1);
             this.SettingsGroup1Panel.Controls.Add(this.CustomDefaultKeys);
@@ -168,6 +170,16 @@
             this.CustomDefaultKeys.Size = new System.Drawing.Size(573, 171);
             this.CustomDefaultKeys.TabIndex = 0;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(463, 228);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(101, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Fill Predifined";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -201,5 +213,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox CustomDefaultKeys;
+        private System.Windows.Forms.Button button1;
     }
 }

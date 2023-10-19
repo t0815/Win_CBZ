@@ -1339,6 +1339,7 @@ namespace Win_CBZ
                         PageView.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         CurrentGlobalAction = null;
+                        CurrentGlobalActions.Clear();
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
