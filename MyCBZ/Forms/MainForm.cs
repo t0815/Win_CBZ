@@ -1401,6 +1401,8 @@ namespace Win_CBZ
                         MetaDataGrid.Enabled = true;
                         AddMetaDataRowBtn.Enabled = false;
                         CurrentGlobalAction = null;
+                        LabelW.Text = "0";
+                        LabelH.Text = "0";
                         CurrentGlobalActions.Clear();
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
