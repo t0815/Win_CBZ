@@ -1759,29 +1759,34 @@ namespace Win_CBZ
             FileName = "";
             MaxFileIndex = 0;
             Thread.BeginCriticalRegion();
-            try
+
+            lock (Pages)
             {
-                foreach (Page page in Pages)
+                try
                 {
-                    try
+                    foreach (Page page in Pages)
                     {
-                        page.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error freeing page [" + page.Name + "] with message [" + e.Message + "]");
-                    }
-                    finally
-                    {
-                        OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
-                        OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
-                        OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
-                        Thread.Sleep(10);
+                        try
+                        {
+                            page.Close();
+                        }
+                        catch (Exception e)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error freeing page [" + page.Name + "] with message [" + e.Message + "]");
+                        }
+                        finally
+                        {
+                            OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
+                            OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
+                            Thread.Sleep(10);
+                        }
                     }
                 }
-            } catch (Exception e)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
+                catch (Exception e)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
+                }               
             }
 
             Thread.EndCriticalRegion();
@@ -1796,14 +1801,6 @@ namespace Win_CBZ
             if (Archive != null)
             {
                 Archive.Dispose();
-            }
-
-            try
-            {
-                Directory.Delete(PathHelper.ResolvePath(WorkingDir) + ProjectGUID, true);
-            } catch (Exception e)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
@@ -1848,8 +1845,17 @@ namespace Win_CBZ
             
             DirectoryInfo dir = new DirectoryInfo(path);
             var folders = dir.EnumerateDirectories();
-           
 
+            /*
+            try
+            {
+                Directory.Delete(PathHelper.ResolvePath(WorkingDir) + ProjectGUID, true);
+            }
+            catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
+            }
+            */
         }
 
         public void CopyTo(ProjectModel destination)

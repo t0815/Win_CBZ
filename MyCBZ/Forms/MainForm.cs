@@ -1266,6 +1266,7 @@ namespace Win_CBZ
                         PageView.Enabled = false;
                         MetaDataGrid.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
+                        ToolButtonEditImageProps.Enabled = false;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -1370,6 +1371,7 @@ namespace Win_CBZ
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
                         MetaDataGrid.Enabled = false;
+                        ToolButtonEditImageProps.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
                         RemoveMetaData();
                         break;
@@ -1402,6 +1404,7 @@ namespace Win_CBZ
                         PageView.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         AddMetaDataRowBtn.Enabled = false;
+                        ToolButtonEditImageProps.Enabled = false;
                         CurrentGlobalAction = null;
                         LabelW.Text = "0";
                         LabelH.Text = "0";
@@ -2259,65 +2262,70 @@ namespace Win_CBZ
 
         private void ToolButtonEditImageProps_Click(object sender, EventArgs e)
         {
-            Page page = (Page)PagesList.SelectedItem.Tag;
-            Page editPage = new Page(page);
-
-            PageSettingsForm pageSettingsForm = new PageSettingsForm(editPage);
-            DialogResult dlgResult = pageSettingsForm.ShowDialog();
-
-            if (dlgResult == DialogResult.OK) 
+            if (PagesList.SelectedItem != null)
             {
-                Page pageResult = pageSettingsForm.GetResult();
-                Page pageToUpdate = Program.ProjectModel.GetPageById(pageResult.Id);
-                if (pageToUpdate != null)
+                Page page = (Page)PagesList.SelectedItem.Tag;
+                Page editPage = new Page(page);
+
+                PageSettingsForm pageSettingsForm = new PageSettingsForm(editPage);
+                DialogResult dlgResult = pageSettingsForm.ShowDialog();
+
+                if (dlgResult == DialogResult.OK)
                 {
-                    pageToUpdate.UpdatePage(pageResult);
-                    if (!pageResult.Deleted)
+                    Page pageResult = pageSettingsForm.GetResult();
+                    Page pageToUpdate = Program.ProjectModel.GetPageById(pageResult.Id);
+                    if (pageToUpdate != null)
                     {
-                        if (editPage.Name != pageResult.Name)
+                        pageToUpdate.UpdatePage(pageResult);
+                        if (!pageResult.Deleted)
                         {
-                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                            if (editPage.Name != pageResult.Name)
+                            {
+                                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
-                            PageChanged(null, new PageChangedEvent(pageResult, PageChangedEvent.IMAGE_STATUS_RENAMED));
-                            ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                                PageChanged(null, new PageChangedEvent(pageResult, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                                ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                            }
+
+                            try
+                            {
+                                MovePageTo(pageToUpdate, pageResult.Index);
+                            }
+                            catch (Exception ex)
+                            {
+                                RestoreIndex(pageToUpdate, editPage);
+                                RestoreIndex(page, editPage);
+
+                                ApplicationMessage.ShowException(ex);
+                            }
                         }
 
-                        try
+                        if (pageResult.Deleted != editPage.Deleted)
                         {
-                            MovePageTo(pageToUpdate, pageResult.Index);
-                        } catch (Exception ex) {
-                            RestoreIndex(pageToUpdate, editPage);
-                            RestoreIndex(page, editPage);   
-                            
-                            ApplicationMessage.ShowException(ex);
+                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
                         }
+
+                        if (pageToUpdate.Deleted)
+                        {
+                            try
+                            {
+                                pageToUpdate.DeleteTemporaryFile();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                            }
+
+                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                        }
+
+                        PageChanged(this, new PageChangedEvent(pageToUpdate, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     }
-
-                    if (pageResult.Deleted != editPage.Deleted)
-                    {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-                    }
-
-                    if (pageToUpdate.Deleted)
-                    {
-                        try
-                        {
-                            pageToUpdate.DeleteTemporaryFile();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
-                        }
-
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-                    }
-
-                    PageChanged(this, new PageChangedEvent(pageToUpdate, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
-            }
 
-            pageSettingsForm.FreeResult();
-            pageSettingsForm.Dispose();
+                pageSettingsForm.FreeResult();
+                pageSettingsForm.Dispose();
+            }
         }
 
         private void RestoreIndex(Page updatedPage, Page originalPage)
