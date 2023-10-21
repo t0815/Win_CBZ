@@ -91,6 +91,7 @@
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ImagePreviewForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Preview";
             this.ImagePreviewPanel.ResumeLayout(false);
             this.ImagePreviewPanel.PerformLayout();
