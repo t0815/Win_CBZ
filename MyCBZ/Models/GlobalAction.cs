@@ -12,6 +12,8 @@ namespace Win_CBZ.Models
 
         public GlobalAction() { }
 
+        public String Key { get; set; } 
+
         public GlobalAction(string name) { }
 
         public string Name { get; set; }    

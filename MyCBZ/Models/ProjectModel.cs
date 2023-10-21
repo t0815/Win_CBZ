@@ -871,6 +871,9 @@ namespace Win_CBZ
             int newIndex = 0;
             int updated = 1;
             bool isUpdated = false;
+
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_UPDATING_INDEX));
+
             foreach (Page page in Pages)
             {
                 if (page.Deleted)
@@ -1366,12 +1369,12 @@ namespace Win_CBZ
 
             if (MetaDataPageIndexMissingData) 
             {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
             }
 
             if (MetaDataPageIndexFileMissing)
             {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
             }
 
 
