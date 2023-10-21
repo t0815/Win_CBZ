@@ -30,11 +30,11 @@ namespace Win_CBZ
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -160,7 +160,7 @@ namespace Win_CBZ
             this.RenamerExcludePages = new System.Windows.Forms.TextBox();
             this.btnGetExcludesFromSelectedPages = new System.Windows.Forms.Button();
             this.TabPageArchiveSettings = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.ArchiveBuildSettingsTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.ComboBoxCompressionLevel = new System.Windows.Forms.ComboBox();
             this.SplitBoxItemsList = new System.Windows.Forms.SplitContainer();
@@ -189,6 +189,7 @@ namespace Win_CBZ
             this.SaveArchiveDialog = new System.Windows.Forms.SaveFileDialog();
             this.Tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SelectColorDialog = new System.Windows.Forms.ColorDialog();
+            this.ToolButtonImagePreview = new System.Windows.Forms.ToolStripButton();
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -222,7 +223,7 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.SuspendLayout();
             this.FileSettingsTablePanel.SuspendLayout();
             this.TabPageArchiveSettings.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
+            this.ArchiveBuildSettingsTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitBoxItemsList)).BeginInit();
             this.SplitBoxItemsList.Panel1.SuspendLayout();
             this.SplitBoxItemsList.Panel2.SuspendLayout();
@@ -253,6 +254,7 @@ namespace Win_CBZ
             this.ToolButtonBuild,
             this.toolStripSeparator3,
             this.ToolButtonEditImageProps,
+            this.ToolButtonImagePreview,
             this.toolStripSeparator5,
             this.ToolButtonSetPageType,
             this.ToolButtonExtractArchive,
@@ -404,6 +406,7 @@ namespace Win_CBZ
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
+            this.toolStripSeparator3.Visible = false;
             // 
             // ToolButtonEditImageProps
             // 
@@ -924,13 +927,13 @@ namespace Win_CBZ
             this.GlobalAlertTableLayout.ColumnCount = 3;
             this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.9819F));
             this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.0181F));
-            this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 255F));
+            this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 256F));
             this.GlobalAlertTableLayout.Controls.Add(this.LabelGlobalActionStatusMessage, 1, 0);
             this.GlobalAlertTableLayout.Controls.Add(this.ExecuteCurrentGlobalAction, 2, 0);
             this.GlobalAlertTableLayout.Controls.Add(this.GlobalAlertMessageIcon, 0, 0);
             this.GlobalAlertTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GlobalAlertTableLayout.Location = new System.Drawing.Point(4, 4);
-            this.GlobalAlertTableLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.GlobalAlertTableLayout.Margin = new System.Windows.Forms.Padding(4);
             this.GlobalAlertTableLayout.Name = "GlobalAlertTableLayout";
             this.GlobalAlertTableLayout.RowCount = 1;
             this.GlobalAlertTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -954,7 +957,7 @@ namespace Win_CBZ
             // 
             this.ExecuteCurrentGlobalAction.Dock = System.Windows.Forms.DockStyle.Right;
             this.ExecuteCurrentGlobalAction.Location = new System.Drawing.Point(915, 4);
-            this.ExecuteCurrentGlobalAction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ExecuteCurrentGlobalAction.Margin = new System.Windows.Forms.Padding(4);
             this.ExecuteCurrentGlobalAction.Name = "ExecuteCurrentGlobalAction";
             this.ExecuteCurrentGlobalAction.Size = new System.Drawing.Size(128, 25);
             this.ExecuteCurrentGlobalAction.TabIndex = 1;
@@ -1084,7 +1087,7 @@ namespace Win_CBZ
             this.TablePanePageAdjustments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TablePanePageAdjustments.Location = new System.Drawing.Point(3, 2);
             this.TablePanePageAdjustments.Name = "TablePanePageAdjustments";
-            this.TablePanePageAdjustments.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TablePanePageAdjustments.Padding = new System.Windows.Forms.Padding(5);
             this.TablePanePageAdjustments.RowCount = 6;
             this.TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
             this.TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -1410,13 +1413,15 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(302, 244);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(301, 239);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
             // 
             // FileSettingsTablePanel
             // 
+            this.FileSettingsTablePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.FileSettingsTablePanel.ColumnCount = 2;
             this.FileSettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.FileSettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
@@ -1530,7 +1535,7 @@ namespace Win_CBZ
             this.PlaceholdersFlowPanel.Location = new System.Drawing.Point(3, 160);
             this.PlaceholdersFlowPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PlaceholdersFlowPanel.Name = "PlaceholdersFlowPanel";
-            this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(4);
             this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(259, 96);
             this.PlaceholdersFlowPanel.TabIndex = 12;
             // 
@@ -1582,39 +1587,42 @@ namespace Win_CBZ
             // 
             // TabPageArchiveSettings
             // 
-            this.TabPageArchiveSettings.Controls.Add(this.tableLayoutPanel2);
+            this.TabPageArchiveSettings.Controls.Add(this.ArchiveBuildSettingsTableLayout);
             this.TabPageArchiveSettings.ImageIndex = 2;
             this.TabPageArchiveSettings.Location = new System.Drawing.Point(4, 23);
             this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(302, 244);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(301, 239);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;
             // 
-            // tableLayoutPanel2
+            // ArchiveBuildSettingsTableLayout
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.07042F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.92958F));
-            this.tableLayoutPanel2.Controls.Add(this.label7, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.ComboBoxCompressionLevel, 0, 1);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 5);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.93939F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.06061F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(213, 137);
-            this.tableLayoutPanel2.TabIndex = 0;
+            this.ArchiveBuildSettingsTableLayout.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ArchiveBuildSettingsTableLayout.ColumnCount = 2;
+            this.ArchiveBuildSettingsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.07042F));
+            this.ArchiveBuildSettingsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.92958F));
+            this.ArchiveBuildSettingsTableLayout.Controls.Add(this.label7, 0, 0);
+            this.ArchiveBuildSettingsTableLayout.Controls.Add(this.ComboBoxCompressionLevel, 0, 1);
+            this.ArchiveBuildSettingsTableLayout.Location = new System.Drawing.Point(6, 5);
+            this.ArchiveBuildSettingsTableLayout.Name = "ArchiveBuildSettingsTableLayout";
+            this.ArchiveBuildSettingsTableLayout.Padding = new System.Windows.Forms.Padding(2);
+            this.ArchiveBuildSettingsTableLayout.RowCount = 3;
+            this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.93939F));
+            this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.06061F));
+            this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(289, 137);
+            this.ArchiveBuildSettingsTableLayout.TabIndex = 0;
             // 
             // label7
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.tableLayoutPanel2.SetColumnSpan(this.label7, 2);
-            this.label7.Location = new System.Drawing.Point(3, 8);
+            this.ArchiveBuildSettingsTableLayout.SetColumnSpan(this.label7, 2);
+            this.label7.Location = new System.Drawing.Point(5, 9);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(96, 13);
             this.label7.TabIndex = 1;
@@ -1622,16 +1630,18 @@ namespace Win_CBZ
             // 
             // ComboBoxCompressionLevel
             // 
-            this.tableLayoutPanel2.SetColumnSpan(this.ComboBoxCompressionLevel, 2);
+            this.ComboBoxCompressionLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ArchiveBuildSettingsTableLayout.SetColumnSpan(this.ComboBoxCompressionLevel, 2);
             this.ComboBoxCompressionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxCompressionLevel.FormattingEnabled = true;
             this.ComboBoxCompressionLevel.Items.AddRange(new object[] {
             "Optimal",
             "Fastest",
             "None"});
-            this.ComboBoxCompressionLevel.Location = new System.Drawing.Point(3, 32);
+            this.ComboBoxCompressionLevel.Location = new System.Drawing.Point(5, 32);
             this.ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
-            this.ComboBoxCompressionLevel.Size = new System.Drawing.Size(183, 21);
+            this.ComboBoxCompressionLevel.Size = new System.Drawing.Size(279, 21);
             this.ComboBoxCompressionLevel.TabIndex = 0;
             this.ComboBoxCompressionLevel.SelectedIndexChanged += new System.EventHandler(this.ComboBoxCompressionLevel_SelectedIndexChanged);
             // 
@@ -1731,7 +1741,7 @@ namespace Win_CBZ
             this.flowLayoutPanel1.Controls.Add(this.BtnAddMetaData);
             this.flowLayoutPanel1.Controls.Add(this.BtnRemoveMetaData);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 4);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(345, 29);
             this.flowLayoutPanel1.TabIndex = 9;
@@ -1943,6 +1953,17 @@ namespace Win_CBZ
             // 
             this.SelectColorDialog.AnyColor = true;
             // 
+            // ToolButtonImagePreview
+            // 
+            this.ToolButtonImagePreview.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolButtonImagePreview.Enabled = false;
+            this.ToolButtonImagePreview.Image = ((System.Drawing.Image)(resources.GetObject("ToolButtonImagePreview.Image")));
+            this.ToolButtonImagePreview.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolButtonImagePreview.Name = "ToolButtonImagePreview";
+            this.ToolButtonImagePreview.Size = new System.Drawing.Size(28, 28);
+            this.ToolButtonImagePreview.Text = "View Page";
+            this.ToolButtonImagePreview.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -2005,8 +2026,8 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.ResumeLayout(false);
             this.FileSettingsTablePanel.PerformLayout();
             this.TabPageArchiveSettings.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
+            this.ArchiveBuildSettingsTableLayout.ResumeLayout(false);
+            this.ArchiveBuildSettingsTableLayout.PerformLayout();
             this.SplitBoxItemsList.Panel1.ResumeLayout(false);
             this.SplitBoxItemsList.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitBoxItemsList)).EndInit();
@@ -2174,9 +2195,10 @@ namespace Win_CBZ
         private System.Windows.Forms.TrackBar ImageQualityTrackBar;
         private System.Windows.Forms.ComboBox ComboBoxApplyPageAdjustmentsTo;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel ArchiveBuildSettingsTableLayout;
         private System.Windows.Forms.ComboBox ComboBoxCompressionLevel;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripButton ToolButtonImagePreview;
     }
 }
 

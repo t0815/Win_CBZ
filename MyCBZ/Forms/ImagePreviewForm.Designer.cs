@@ -28,30 +28,84 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImagePreviewForm));
+            this.ImagePreviewPanel = new System.Windows.Forms.Panel();
+            this.PageImagePreview = new System.Windows.Forms.PictureBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.ImagePreviewPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PageImagePreview)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // ImagePreviewPanel
             // 
-            this.panel1.Location = new System.Drawing.Point(92, 81);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(355, 292);
-            this.panel1.TabIndex = 0;
+            this.ImagePreviewPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ImagePreviewPanel.AutoScroll = true;
+            this.ImagePreviewPanel.Controls.Add(this.PageImagePreview);
+            this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 27);
+            this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.ImagePreviewPanel.Name = "ImagePreviewPanel";
+            this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 455);
+            this.ImagePreviewPanel.TabIndex = 0;
+            // 
+            // PageImagePreview
+            // 
+            this.PageImagePreview.Location = new System.Drawing.Point(3, 3);
+            this.PageImagePreview.Name = "PageImagePreview";
+            this.PageImagePreview.Size = new System.Drawing.Size(157, 94);
+            this.PageImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.PageImagePreview.TabIndex = 0;
+            this.PageImagePreview.TabStop = false;
+            this.PageImagePreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.PageImagePreview_LoadCompleted);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(777, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // ImagePreviewForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1036, 706);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(777, 482);
+            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.ImagePreviewPanel);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ImagePreviewForm";
             this.Text = "Preview";
+            this.ImagePreviewPanel.ResumeLayout(false);
+            this.ImagePreviewPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PageImagePreview)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel ImagePreviewPanel;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.PictureBox PageImagePreview;
     }
 }
