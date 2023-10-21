@@ -23,6 +23,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Collections;
 using Win_CBZ.Data;
 using Win_CBZ.Tasks;
+using System.Security.Principal;
 
 namespace Win_CBZ
 {
@@ -37,6 +38,10 @@ namespace Win_CBZ
         public long FileSize { get; set; } = 0;
 
         public String Description { get; set; }
+
+        public CompressionLevel CompressionLevel { get; set; }
+
+        public Encoding FileEncoding { get; set; }
 
         public String WorkingDir { get; set; }
 
@@ -151,6 +156,8 @@ namespace Win_CBZ
             RandomProvider = new Random();
             FileNamesToAdd = new ArrayList();
             RenamerExcludes = new ArrayList();
+            CompressionLevel = CompressionLevel.Optimal;
+            FileEncoding = Encoding.UTF8;
 
             MaxFileIndex = 0;
             Name = "";
@@ -1452,7 +1459,7 @@ namespace Win_CBZ
 
                             page.FreeImage();
                             
-                            updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name);
+                            updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name, CompressionLevel);
                             if (IsNew)
                             {
                                 page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
@@ -1584,6 +1591,31 @@ namespace Win_CBZ
         protected FileInfo MakeNewTempFileName(String entryName, String extension = "")
         {
             return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
+        }
+
+        protected DirectoryInfo MakeTempDirectory(String name = "_tmp")
+        {
+            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir) + ProjectGUID, name, MakeNewRandomId()));
+
+            //return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
+        }
+
+        protected bool RemoveDirectoryReadOnlyAttribute(ref DirectoryInfo directoryInfo)
+        {
+            FileAttributes fileAttributes = directoryInfo.Attributes & ~FileAttributes.ReadOnly;
+            //Directory.SetAttributes(fileAttributes);
+            directoryInfo.Attributes = fileAttributes;
+
+            return !directoryInfo.Attributes.HasFlag(FileAttributes.ReadOnly);
+        }
+
+        protected void SetDirectoryAccessControl(ref DirectoryInfo directoryInfo)
+        {
+            DirectorySecurity dSecurity = directoryInfo.GetAccessControl();
+            dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.AuthenticatedUserSid, null), FileSystemRights.FullControl,
+                                                             InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit,
+                                                             PropagationFlags.InheritOnly, AccessControlType.Allow));
+            directoryInfo.SetAccessControl(dSecurity);
         }
 
         protected String MakeNewRandomId()
@@ -1764,6 +1796,14 @@ namespace Win_CBZ
             if (Archive != null)
             {
                 Archive.Dispose();
+            }
+
+            try
+            {
+                Directory.Delete(PathHelper.ResolvePath(WorkingDir) + ProjectGUID, true);
+            } catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));

@@ -114,6 +114,7 @@
     <Compile Include="Exceptions\MetaDataEntryException.cs" />
     <Compile Include="Exceptions\PageException.cs" />
     <Compile Include="Exceptions\PageDuplicateNameException.cs" />
+    <Compile Include="Extensions\ZipArchiveExtensions.cs" />
     <Compile Include="Forms\AboutDialogForm.cs">
       <SubType>Form</SubType>
     </Compile>

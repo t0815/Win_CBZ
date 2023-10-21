@@ -108,6 +108,8 @@ namespace Win_CBZ
                 SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
                 Program.ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
 
+                ComboBoxCompressionLevel.SelectedIndex = 0;
+
                 Label placeholderLabel;
                 foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
                 {
@@ -2623,6 +2625,27 @@ namespace Win_CBZ
         {
             ToolButtonEditImageProps_Click(this, e);
         }
+
+        private void ComboBoxCompressionLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = ComboBoxCompressionLevel.SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    Program.ProjectModel.CompressionLevel = CompressionLevel.Optimal;
+                    break;
+                case 1:
+                    Program.ProjectModel.CompressionLevel = CompressionLevel.Fastest;
+                    break;
+                case 2:
+                    Program.ProjectModel.CompressionLevel = CompressionLevel.NoCompression;
+                    break;
+
+            }
+        }
+
+
 
 
 
