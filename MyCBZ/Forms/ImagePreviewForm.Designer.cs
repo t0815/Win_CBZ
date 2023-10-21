@@ -48,7 +48,7 @@
             this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 27);
             this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(2);
             this.ImagePreviewPanel.Name = "ImagePreviewPanel";
-            this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 455);
+            this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 609);
             this.ImagePreviewPanel.TabIndex = 0;
             // 
             // PageImagePreview
@@ -85,9 +85,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(777, 482);
+            this.ClientSize = new System.Drawing.Size(777, 636);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.ImagePreviewPanel);
+            this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ImagePreviewForm";
             this.Text = "Preview";
