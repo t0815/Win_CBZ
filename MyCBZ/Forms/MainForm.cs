@@ -343,7 +343,7 @@ namespace Win_CBZ
                         if (secondCol != null)
                         {
                             firstCol.Width = 150;
-                            secondCol.Width = 350;
+                            secondCol.Width = 380;
                         }
                     }
                     else
@@ -1205,6 +1205,7 @@ namespace Win_CBZ
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
                         MetaDataGrid.Enabled = false;
+                        AddMetaDataRowBtn.Enabled = false;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -1256,7 +1257,8 @@ namespace Win_CBZ
                         Program.ProjectModel.IsSaved = true;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
-                        MetaDataGrid.Enabled = true;
+                        MetaDataGrid.Enabled = true;   
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
@@ -1308,6 +1310,7 @@ namespace Win_CBZ
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
                         MetaDataGrid.Enabled = false;
+                        AddMetaDataRowBtn.Enabled = false;
                         RemoveMetaData();
                         break;
 
@@ -1338,6 +1341,7 @@ namespace Win_CBZ
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         MetaDataGrid.Enabled = true;
+                        AddMetaDataRowBtn.Enabled = false;
                         CurrentGlobalAction = null;
                         CurrentGlobalActions.Clear();
                         //MessageLogListView.Items.Clear();
@@ -1360,7 +1364,22 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
+                        if (project.FileName != null)
+                        {
+                            ToolButtonSave.Enabled = true;
+                            saveToolStripMenuItem.Enabled = true;
+                            saveAsToolStripMenuItem.Enabled = true;
+                        }
+                        break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
+                        if (project.FileName != null)
+                        {
+                            ToolButtonSave.Enabled = true;
+                            saveToolStripMenuItem.Enabled = true;
+                            saveAsToolStripMenuItem.Enabled = true;
+                        }
+                        break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
                         if (project.FileName != null)
