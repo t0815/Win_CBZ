@@ -1319,9 +1319,10 @@ namespace Win_CBZ
                         Program.ProjectModel.IsSaved = true;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
-                        MetaDataGrid.Enabled = true;  
-                        BtnAddMetaData.Enabled = true;
-                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
+                        MetaDataGrid.Enabled = true;
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                         PageView.Refresh();
                         break;
 
@@ -2286,6 +2287,8 @@ namespace Win_CBZ
                         {
                             if (editPage.Name != pageResult.Name)
                             {
+                                Program.ProjectModel.RenamePage(pageToUpdate, editPage.Name);
+
                                 HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
                                 PageChanged(null, new PageChangedEvent(pageResult, PageChangedEvent.IMAGE_STATUS_RENAMED));
