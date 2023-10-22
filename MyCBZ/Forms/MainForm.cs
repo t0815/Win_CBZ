@@ -161,7 +161,15 @@ namespace Win_CBZ
             if (Program.ProjectModel != null)
             {
                 Program.ProjectModel.New();
+
+                ClearLog();
             }
+        }
+
+        private void ClearLog()
+        {
+            MessageLogListView.Items.Clear();
+            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
         }
 
 
@@ -173,6 +181,8 @@ namespace Win_CBZ
             if (openCBFResult == DialogResult.OK)
             {
                 ClosingTask = Program.ProjectModel.Close();
+
+                ClearLog();
 
                 Task.Factory.StartNew(() =>
                 {
