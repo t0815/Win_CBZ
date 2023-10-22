@@ -25,13 +25,13 @@ namespace Win_CBZ
 
         public int State { get; set; }
 
-        public Page Image { get; set; }
+        public Page Page { get; set; }
 
 
         public PageChangedEvent(Page page, int state = PageChangedEvent.IMAGE_STATUS_NEW)
         {
             this.State = state; 
-            this.Image = page;
+            this.Page = page;
         }   
     }
 }

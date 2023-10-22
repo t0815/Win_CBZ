@@ -228,6 +228,25 @@ namespace Win_CBZ
             }
         }
 
+        private void addFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult openImageResult = AddPagesDirDialog.ShowDialog();
+
+            if (openImageResult == DialogResult.OK)
+            {
+
+                var maxIndex = PagesList.Items.Count - 1;
+                var newIndex = maxIndex < 0 ? 0 : maxIndex;
+                var files = Program.ProjectModel.LoadDirectory(AddPagesDirDialog.SelectedPath);
+                Program.ProjectModel.ParseFiles(files);
+                //if (files.Count > 0)
+                //{
+                //    Program.ProjectModel.AddImages(files, newIndex);
+                //}
+
+            }
+        }
+
         private void PageChanged(object sender, PageChangedEvent e)
         {
             if (!WindowClosed)
@@ -237,64 +256,70 @@ namespace Win_CBZ
                     if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED)
                     {
                         ListViewItem item;
-                        ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+                        ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Page);
 
                         if (existingItem == null)
                         {
-                            item = PagesList.Items.Add(e.Image.Name);
-                            item.ImageKey = e.Image.Id;
-                            item.SubItems.Add(e.Image.Number.ToString());
-                            item.SubItems.Add(e.Image.ImageType.ToString());
-                            item.SubItems.Add(e.Image.LastModified.ToString());
-                            item.SubItems.Add(e.Image.Size.ToString());
+                            item = PagesList.Items.Add(e.Page.Name);
+                            item.ImageKey = e.Page.Id;
+                            item.SubItems.Add(e.Page.Number.ToString());
+                            item.SubItems.Add(e.Page.ImageType.ToString());
+                            item.SubItems.Add(e.Page.LastModified.ToString());
+                            item.SubItems.Add(e.Page.SizeFormat());
                         }
                         else
                         {
                             item = existingItem;
-                            item.Text = e.Image.Name;
-                            item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Image.Deleted ? e.Image.Number.ToString() : "-");
-                            item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Image.ImageType.ToString());
-                            item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Image.LastModified.ToString());
-                            item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Image.Size.ToString());
+                            item.Text = e.Page.Name;
+                            item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Page.Deleted ? e.Page.Number.ToString() : "-");
+                            item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Page.ImageType.ToString());
+                            item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Page.LastModified.ToString());
+                            item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Page.SizeFormat());
                         }
 
-                        item.Tag = e.Image;
+                        item.Tag = e.Page;
                         item.BackColor = Color.White;
                         item.ForeColor = Color.Black;
 
                         switch (e.State)
                         {
                             case PageChangedEvent.IMAGE_STATUS_NEW:
-                                if (!e.Image.Compressed)
+                                if (!e.Page.Compressed)
                                 {
-                                    ImageInfoPagesSlice.Add(e.Image);
+                                    ImageInfoPagesSlice.Add(e.Page);
                                 }
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_DELETED:
-                                e.Image.Deleted = true;
+                                e.Page.Deleted = true;
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
-                                e.Image.Compressed = true;
+                                e.Page.Compressed = true;
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_CHANGED:
                             case PageChangedEvent.IMAGE_STATUS_RENAMED:
-                                e.Image.Changed = true;
-                                e.Image.Invalidated = true;
-                                e.Image.ThumbnailInvalidated = true;
+                                e.Page.Changed = true;
+                                e.Page.Invalidated = true;
+                                e.Page.ThumbnailInvalidated = true;
                                 break;
                         }
 
-                        if (!e.Image.Compressed)
+                        if (!e.Page.Compressed)
                         {
-                            item.BackColor = Color.Gold;
+                            item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
                         }
 
-                        if (e.Image.Changed)
+                        if (e.Page.Changed)
                         {
-                            item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+                            if (e.Page.Compressed)
+                            {
+                                item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+                            } else
+                            {
+                                item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_PURPLE);
+                            }
                         }
 
-                        if (e.Image.Deleted)
+                        if (e.Page.Deleted)
                         {
                             item.ForeColor = Color.Silver;
                             item.BackColor = Color.Transparent;
@@ -326,11 +351,11 @@ namespace Win_CBZ
                 if (TogglePagePreviewToolbutton.Checked)
                 {
 
-                    if (!e.Image.Closed && !e.Image.Deleted)
+                    if (!e.Page.Closed && !e.Page.Deleted)
                     {
                         PageView.Invoke(new Action(() =>
                         {
-                            CreatePagePreviewFromItem(e.Image);
+                            CreatePagePreviewFromItem(e.Page);
                         }));
                     }
                 }
@@ -2683,7 +2708,7 @@ namespace Win_CBZ
             }
         }
 
-
+        
 
 
 

@@ -333,6 +333,26 @@ namespace Win_CBZ
             else return entryExtensionParts.Last<string>();
         }
 
+        public string SizeFormat()
+        {
+            double size = Size;
+            string[] units = new string[] { "Bytes", "KB", "MB", "GB" };
+            string selectedUnit = "Bytes";
+
+            foreach (string unit in units)
+            {
+                if (size > 1024)
+                    size /= 1024;
+                else
+                {
+                    selectedUnit = unit;
+                    break;
+                }
+            }
+
+            return size.ToString("n2") + " " + selectedUnit;
+        }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Close()
         {

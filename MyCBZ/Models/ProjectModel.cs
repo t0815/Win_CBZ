@@ -739,9 +739,9 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
-        public List<LocalFile> LoadDirectory(String path)
+        public List<String> LoadDirectory(String path)
         {
-            List<LocalFile> files = new List<LocalFile>();
+            List<String> files = new List<String>();
 
             DirectoryInfo di = new DirectoryInfo(path);
 
@@ -749,13 +749,7 @@ namespace Win_CBZ
             {
                 foreach (var fi in di.EnumerateFiles())
                 {
-                    LocalFile localFile = new LocalFile(fi.FullName);
-                    localFile.FilePath = di.FullName;
-                    localFile.FileName = fi.Name;
-                    localFile.FileSize = fi.Length;
-                    localFile.LastModified = fi.LastWriteTime;
-
-                    files.Add(localFile);
+                    files.Add(fi.FullName);
 
                 }
             } catch (Exception ex)
