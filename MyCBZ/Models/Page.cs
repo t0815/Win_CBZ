@@ -345,22 +345,29 @@ namespace Win_CBZ
             ImageFileInfo = null;           
         }
 
-        public void MakeNewTemporaryFileId()
+        protected void RequestTemporaryFile(String destination = null)
         {
-            TemporaryFileId = "";
-        }
+            if (TemporaryFileId == null)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Cant create new temporary file for page [" + Name + "]! No FileID available/set.");
 
-        protected void RequestTemporaryFile()
-        {
+                return;
+            }
+
             if (Compressed)
             {
                 if (ImageEntry != null)
                 {
                     if (TempPath == null)
                     {
-                        ImageEntry.ExtractToFile(WorkingDir + TemporaryFileId);
-
-                        TempPath = WorkingDir + TemporaryFileId;
+                        if (destination == null)
+                        {
+                            destination = WorkingDir + TemporaryFileId + ".tmp";
+                        }
+                       
+                        ImageEntry.ExtractToFile(destination);
+                        
+                        TempPath = destination;
                     }
                 }
                 else
@@ -373,7 +380,12 @@ namespace Win_CBZ
                 {
                     if (TempPath == null)
                     {
-                        TempPath = WorkingDir + TemporaryFileId;
+                        if (destination == null)
+                        {
+                            destination = WorkingDir + TemporaryFileId + ".tmp";
+                        }
+
+                        TempPath = destination;
                     }
 
                     FileInfo tempFileInfo = new FileInfo(TempPath);
@@ -384,6 +396,9 @@ namespace Win_CBZ
 
                     ImageStream.Close();
                     localFile.Close();
+
+                    ImageStream.Dispose();
+                    localFile.Dispose();
                 }
             }
         }
@@ -515,19 +530,40 @@ namespace Win_CBZ
         }
 
 
-        public String CreateLocalWorkingCopy(String destination)
+        public String CreateLocalWorkingCopy(String destination = null)
         {
+            bool tempFileExists = false;
+
             if (Compressed)
             {
-                RequestTemporaryFile();
-
-                if (TempPath != null)
+                try
                 {
-                    return TempPath;
+                    FileInfo temporaryFileInfo = new FileInfo(TempPath);
+                    tempFileExists = temporaryFileInfo.Exists;
+                } catch {
+                    tempFileExists = false;
+                }
+
+                if (!tempFileExists)
+                {
+                    RequestTemporaryFile(destination);
+
+                    if (TempPath != null)
+                    {
+                        return TempPath;
+                    }
+                } else
+                {
+                    
                 }
             }
             else
             {
+                if (destination == null)
+                {
+                    destination = WorkingDir + TemporaryFileId + ".tmp";
+                }
+
                 FileInfo copyFileInfo = new FileInfo(destination);
                 if (ImageStream != null)
                 {
@@ -557,7 +593,7 @@ namespace Win_CBZ
                 }
             }
 
-            return "";
+            return TempPath;
         }
 
 

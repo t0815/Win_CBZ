@@ -947,8 +947,6 @@ namespace Win_CBZ
             {
                 if (page1.Index == index)
                 {
-
-
                     return page1;
                 }
             }
@@ -1027,7 +1025,7 @@ namespace Win_CBZ
 
             foreach (Page page in Pages)
             {
-                if (RenamerExcludes.IndexOf(page.Name) == -1)
+                if (RenamerExcludes.IndexOf(page.Name) == -1 && !page.Deleted)
                 {
                     PageScriptRename(page);
 
@@ -1259,6 +1257,9 @@ namespace Win_CBZ
             if (page.Compressed)
             {
                 ExtractSingleFile(page, tempFileName);
+            } else
+            {
+                page.CreateLocalWorkingCopy(tempFileName);
             }
 
             return page.TempPath;
@@ -1338,6 +1339,7 @@ namespace Win_CBZ
                         page.Number = index + 1;
                         page.Index = index;
                         page.OriginalIndex = index;
+                        page.EntryName = entry.Name;
 
                         pageIndexEntry = MetaData.FindIndexEntryForPage(page);
                         if (pageIndexEntry != null)
@@ -1443,7 +1445,14 @@ namespace Win_CBZ
                 // Apply renaming rules
                 if (ApplyRenaming)
                 {
-                    RunRenameScriptsForPages();
+                    try
+                    {
+                        RunRenameScriptsForPages();
+                    } catch (Exception ee)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
+
+                    }
                 }
 
                 ContinuePipelineForIndexBuilder = false;

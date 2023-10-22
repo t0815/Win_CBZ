@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
 
             PreviewThumbPictureBox.Image = PreviewThumb;
 
-            TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.Filename;
+            TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.LocalPath;
             PageNameTextBox.Text = Page.Name;
             PageIndexTextbox.Text = (Page.Index + 1).ToString();
             CheckBoxPageDeleted.Checked = Page.Deleted;

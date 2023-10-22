@@ -87,12 +87,14 @@ namespace Win_CBZ
         {
             if (e.KeyCode == Keys.Left)
             {
+                e.SuppressKeyPress = true;
                 HandlePageNavigation(-1);
                    
             }
 
             if (e.KeyCode == Keys.Right)
             {
+                e.SuppressKeyPress = true;
                 HandlePageNavigation(1);
             } 
         }
@@ -106,12 +108,14 @@ namespace Win_CBZ
         {
             if (e.KeyCode == Keys.Down)
             {
+                e.SuppressKeyPress = true;
                 ImagePreviewPanel.VerticalScroll.Value = ImagePreviewPanel.VerticalScroll.Value + 50;
 
             }
 
             if (e.KeyCode == Keys.Up)
             {
+                e.SuppressKeyPress = true;
                 if (ImagePreviewPanel.VerticalScroll.Value - 50 < 0)
                 {
                     ImagePreviewPanel.VerticalScroll.Value = 0;
