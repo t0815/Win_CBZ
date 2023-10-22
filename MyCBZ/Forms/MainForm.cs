@@ -1319,8 +1319,10 @@ namespace Win_CBZ
                         Program.ProjectModel.IsSaved = true;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
-                        MetaDataGrid.Enabled = true;   
+                        MetaDataGrid.Enabled = true;  
+                        BtnAddMetaData.Enabled = true;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
+                        PageView.Refresh();
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:

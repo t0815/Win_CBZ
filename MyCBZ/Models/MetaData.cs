@@ -300,11 +300,27 @@ namespace Win_CBZ
 
         public bool HasValues()
         {
+            bool defaultValueChanged = true;
+            bool keyChanged = false;
             foreach (MetaDataEntry entry in Values)
             {
+                defaultValueChanged = false;
+                keyChanged = true;
                 if (entry.Value != null && entry.Value != "")
                 {
-                    return true;
+                    foreach (var defaultEntry in Defaults)
+                    {
+                        if (defaultEntry.Key == entry.Key)
+                        {
+                            keyChanged = false;
+                            defaultValueChanged = !defaultEntry.Value.Equals(entry.Value);
+                        }
+                    }
+
+                    if (defaultValueChanged || keyChanged)
+                    {
+                        return true;
+                    }
                 }
             }
 
