@@ -18,6 +18,14 @@ namespace Win_CBZ.Forms
     {
         String MetaData;
 
+        MemoryStream ms;
+        StringReader xsltManifest;
+        XmlReader xslReader;
+        XslCompiledTransform xTrans;
+        XmlReader xReader;
+        StringReader sr;
+        XmlReaderSettings xmlReaderSettings;
+
         public MetaDataForm(string metaData)
         {
             InitializeComponent();
@@ -28,19 +36,19 @@ namespace Win_CBZ.Forms
 
             // Load the xslt used by IE to render the xml
 
-            StringReader xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeUriString("defaults").ToLowerInvariant()));
-            XmlReader xslReader = XmlReader.Create(xsltManifest);
-            XslCompiledTransform xTrans = new XslCompiledTransform();
+            xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeUriString("defaults").ToLowerInvariant()));
+            xslReader = XmlReader.Create(xsltManifest);
+            xTrans = new XslCompiledTransform();
             xTrans.Load(xslReader);
 
             // Read the xml string.
-            XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
+            xmlReaderSettings = new XmlReaderSettings();
             xmlReaderSettings.ConformanceLevel = ConformanceLevel.Fragment;
-            StringReader sr = new StringReader(MetaData);
-            XmlReader xReader = XmlReader.Create(sr, xmlReaderSettings);
+            sr = new StringReader(MetaData);
+            xReader = XmlReader.Create(sr, xmlReaderSettings);
 
             // Transform the XML data
-            MemoryStream ms = new MemoryStream();
+            ms = new MemoryStream();
             //xTrans.OutputSettings.
             xTrans.Transform(xReader, null, ms);
 
@@ -53,6 +61,24 @@ namespace Win_CBZ.Forms
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void MetaDataForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ms.Close();
+            ms.Dispose();
+
+            xsltManifest.Close();
+            xslReader.Close();
+
+            xTrans.TemporaryFiles.Delete();
+            
+            xReader.Close();
+            xReader.Dispose();
+
+            sr.Close();
+            sr.Dispose();
+            xmlReaderSettings.CloseInput = false;
         }
     }
 }

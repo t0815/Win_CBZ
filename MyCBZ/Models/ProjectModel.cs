@@ -941,6 +941,21 @@ namespace Win_CBZ
             return null;
         }
 
+        public Page GetPageByIndex(int index)
+        {
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Index == index)
+                {
+
+
+                    return page1;
+                }
+            }
+
+            return null;
+        }
+
         public Page GetPageByName(String name)
         {
             foreach (Page page1 in Pages)

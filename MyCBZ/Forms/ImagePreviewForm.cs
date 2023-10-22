@@ -13,7 +13,8 @@ namespace Win_CBZ
 {
     internal partial class ImagePreviewForm : Form
     {
-        private Random RandomProvider;
+        int currentIndex = 0;
+        string currentId = null;
 
         public ImagePreviewForm(Page page)
         {
@@ -21,6 +22,8 @@ namespace Win_CBZ
 
             try
             {
+                currentIndex = page.Index;
+                currentId = page.Id;
                 if (page.LocalPath == null)
                 {
                    page.LocalPath = Program.ProjectModel.RequestTemporaryFile(page);                  
@@ -44,7 +47,80 @@ namespace Win_CBZ
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            this.Width = PageImagePreview.Width + 40;
+            Width = PageImagePreview.Width + 40;
+        }
+
+        private void ImagePreviewForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PageImagePreview.Image.Dispose();
+            PageImagePreview.Dispose();
+        }
+
+        protected void HandlePageNavigation(int direction)
+        {
+            Page page = Program.ProjectModel.GetPageById(currentId);
+            Page nextPage = null;
+            int newIndex = currentIndex;
+
+            if (page != null)
+            {               
+               nextPage = Program.ProjectModel.GetPageByIndex(newIndex + direction);              
+            }
+
+            if (nextPage != null)
+            {
+                if (nextPage.LocalPath == null)
+                {
+                    nextPage.LocalPath = Program.ProjectModel.RequestTemporaryFile(nextPage);
+                }
+
+                PageImagePreview.ImageLocation = nextPage.LocalPath;
+
+                currentId = nextPage.Id;
+                currentIndex = nextPage.Index;
+
+                ImagePreviewPanel.VerticalScroll.Value = 0;
+            }
+        }
+
+        private void ImagePreviewForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Left)
+            {
+                HandlePageNavigation(-1);
+                   
+            }
+
+            if (e.KeyCode == Keys.Right)
+            {
+                HandlePageNavigation(1);
+            } 
+        }
+
+        private void ImagePreviewForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ImagePreviewForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Down)
+            {
+                ImagePreviewPanel.VerticalScroll.Value = ImagePreviewPanel.VerticalScroll.Value + 50;
+
+            }
+
+            if (e.KeyCode == Keys.Up)
+            {
+                if (ImagePreviewPanel.VerticalScroll.Value - 50 < 0)
+                {
+                    ImagePreviewPanel.VerticalScroll.Value = 0;
+                }
+                else
+                {
+                    ImagePreviewPanel.VerticalScroll.Value = ImagePreviewPanel.VerticalScroll.Value - 50;
+                }
+            }
         }
     }
 }

@@ -53,7 +53,7 @@
             this.MetaDataTablePanel.Controls.Add(this.SettingsGroup1Panel, 1, 1);
             this.MetaDataTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataTablePanel.Location = new System.Drawing.Point(0, 0);
-            this.MetaDataTablePanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MetaDataTablePanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataTablePanel.Name = "MetaDataTablePanel";
             this.MetaDataTablePanel.RowCount = 3;
             this.MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.41223F));
@@ -70,7 +70,7 @@
             this.HeaderPanel.Controls.Add(this.pictureBox1);
             this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.HeaderPanel.Location = new System.Drawing.Point(2, 2);
-            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(2);
             this.HeaderPanel.Name = "HeaderPanel";
             this.HeaderPanel.Size = new System.Drawing.Size(651, 64);
             this.HeaderPanel.TabIndex = 0;
@@ -89,7 +89,7 @@
             // 
             this.pictureBox1.Image = global::Win_CBZ.Properties.Resources.info_dialog;
             this.pictureBox1.Location = new System.Drawing.Point(14, 5);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(50, 50);
             this.pictureBox1.TabIndex = 0;
@@ -101,7 +101,7 @@
             this.ButtonCancel.Location = new System.Drawing.Point(544, 523);
             this.ButtonCancel.Margin = new System.Windows.Forms.Padding(8, 16, 2, 2);
             this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ButtonCancel.Padding = new System.Windows.Forms.Padding(4);
             this.ButtonCancel.Size = new System.Drawing.Size(89, 27);
             this.ButtonCancel.TabIndex = 3;
             this.ButtonCancel.Text = "Close";
@@ -115,7 +115,7 @@
             this.SettingsGroup1Panel.Controls.Add(this.label1);
             this.SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SettingsGroup1Panel.Location = new System.Drawing.Point(9, 70);
-            this.SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(2);
             this.SettingsGroup1Panel.Name = "SettingsGroup1Panel";
             this.SettingsGroup1Panel.Size = new System.Drawing.Size(644, 435);
             this.SettingsGroup1Panel.TabIndex = 4;
@@ -124,7 +124,7 @@
             // 
             this.metaDataView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metaDataView.Location = new System.Drawing.Point(0, 0);
-            this.metaDataView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.metaDataView.Margin = new System.Windows.Forms.Padding(2);
             this.metaDataView.MinimumSize = new System.Drawing.Size(15, 16);
             this.metaDataView.Name = "metaDataView";
             this.metaDataView.Size = new System.Drawing.Size(644, 435);
@@ -146,10 +146,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(655, 558);
             this.Controls.Add(this.MetaDataTablePanel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MetaDataForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MetaDataForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MetaDataForm_FormClosed);
             this.MetaDataTablePanel.ResumeLayout(false);
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();

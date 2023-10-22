@@ -960,6 +960,7 @@ namespace Win_CBZ
             this.Invoke(new Action(() =>
             {
                 PageView.Items.Clear();
+                PageImages.Images.Clear();
 
                 foreach (Page page in Program.ProjectModel.Pages)
                 {
@@ -2660,12 +2661,10 @@ namespace Win_CBZ
             if (PagesList.SelectedItem != null)
             {
                 Page page = (Page)PagesList.SelectedItem.Tag;
-                Page editPage = new Page(page);
 
-                ImagePreviewForm pagePreviewForm = new ImagePreviewForm(editPage);
+                ImagePreviewForm pagePreviewForm = new ImagePreviewForm(page);
                 DialogResult dlgResult = pagePreviewForm.ShowDialog();
-
-                
+                pagePreviewForm.Dispose();
             }
         }
 
