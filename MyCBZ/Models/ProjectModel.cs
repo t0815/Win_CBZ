@@ -1713,21 +1713,22 @@ namespace Win_CBZ
                     try
                     {
                         
-                        fileEntry = Archive.GetEntry(page.Name);
+                        fileEntry = Archive.GetEntry(page.EntryName);  // use original entry name only
                         if (fileEntry != null)
                         {
                             if (di != null)
                             {
-                                fileEntry.ExtractToFile(PathHelper.ResolvePath(di.FullName) + fileEntry.Name);
+                                fileEntry.ExtractToFile(PathHelper.ResolvePath(di.FullName) + fileEntry.Name, true);
                                 OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(di.FullName) + fileEntry.Name));
                             }
                             else
                             {
-                                fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name);
+                                fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name, true);
                                 page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
                                 OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
                             } 
-                            index++;
+                            
+                            
                         } else
                         {
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + page.Name + "]. File no longer present in Archive!");
@@ -1737,6 +1738,8 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
                     } finally
                     {
+                        OnTaskProgress(new TaskProgressEvent(page, index, Pages.Count));
+                        index++;
                         Thread.Sleep(10);
                     }
 

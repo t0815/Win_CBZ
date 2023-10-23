@@ -1249,6 +1249,9 @@ namespace Win_CBZ
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
                     //
                     break;
+                case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
+                    info = "Extracting file...";
+                    break;
             }
 
             try
