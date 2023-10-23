@@ -35,6 +35,7 @@ namespace Win_CBZ.Forms
 
             TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.LocalPath;
             PageNameTextBox.Text = Page.Name;
+            LabelSize.Text = Page.SizeFormat();
             PageIndexTextbox.Text = (Page.Index + 1).ToString();
             CheckBoxPageDeleted.Checked = Page.Deleted;
         }
