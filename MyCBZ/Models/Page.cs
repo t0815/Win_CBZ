@@ -14,6 +14,7 @@ using Win_CBZ.Models;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
+using System.Windows.Media.Imaging;
 
 namespace Win_CBZ
 {
