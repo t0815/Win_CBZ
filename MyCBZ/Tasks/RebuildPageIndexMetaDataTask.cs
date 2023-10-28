@@ -44,7 +44,7 @@ namespace Win_CBZ.Tasks
 
                     if (pageChangedHandler != null && isUpdated)
                     {
-                        pageChangedHandler.Invoke(null, new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        pageChangedHandler.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     }
 
                     metaData.RebuildPageMetaData(pages);

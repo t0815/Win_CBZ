@@ -716,7 +716,7 @@ namespace Win_CBZ
                         Pages.Add(page);
                     }
 
-                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
+                    OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
                     OnTaskProgress(new TaskProgressEvent(page, progressIndex, Files.Count));
 
                     index++;
@@ -901,7 +901,7 @@ namespace Win_CBZ
 
                 if (!InitialPageIndexRebuild && isUpdated)
                 {
-                    OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
 
                 OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Rebuilding index...", updated, Pages.Count));
@@ -1121,19 +1121,23 @@ namespace Win_CBZ
                 throw new PageException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! The new name must not be NULL.");
             }
 
-            foreach (Page oldPage in Pages)
+            foreach (Page existingPage in Pages)
             {
-                if (oldPage.Name.ToLower().Equals(name.ToLower()))
+                if (existingPage.Name.ToLower().Equals(name.ToLower()))
                 {
-                    throw new PageDuplicateNameException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! A different page with the same name already exists.");
+                    throw new PageDuplicateNameException(page, "Failed to rename page '" + page.Name + "' (" + page.Id + ")! A different page with the same name already exists at Index " + existingPage.Index + ".");
                 }
             }
+
+            Page oldPage = new Page(page);
 
             page.Name = name;
             IsChanged = true;
 
-            OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_RENAMED));
+            OnPageChanged(new PageChangedEvent(page, oldPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+
+            oldPage.Close();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -1252,7 +1256,7 @@ namespace Win_CBZ
 
         public String RequestTemporaryFile(Page page)
         {
-            String tempFileName = MakeNewTempFileName(page.Name).FullName;
+            String tempFileName = MakeNewTempFileName().FullName;
             if (page.Compressed)
             {
                 ExtractSingleFile(page, tempFileName);
@@ -1371,7 +1375,7 @@ namespace Win_CBZ
 
                         Pages.Add(page);
 
-                        OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_NEW));
+                        OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
                         OnTaskProgress(new TaskProgressEvent(page, index, count));
 
                         totalSize += itemSize;
@@ -1434,7 +1438,7 @@ namespace Win_CBZ
             bool tagValidationFailed = false;
             List<Page> deletedPages = new List<Page>();
 
-            TemporaryFileName = MakeNewTempFileName("", ".cbz").FullName;
+            TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
 
             ZipArchive BuildingArchive = null;
             ZipArchiveEntry updatedEntry = null;
@@ -1487,7 +1491,7 @@ namespace Win_CBZ
                         {
                             if (page.Compressed)
                             {
-                                FileInfo NewTemporaryFileName = MakeNewTempFileName(page.Name);
+                                FileInfo NewTemporaryFileName = MakeNewTempFileName();
                                 page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
                                 if (page.TempPath == null)
                                 {
@@ -1504,7 +1508,7 @@ namespace Win_CBZ
                             }
                             page.Changed = false;
 
-                            OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
+                            OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         }
                         else
                         {
@@ -1565,7 +1569,7 @@ namespace Win_CBZ
                         {
                             Pages.Remove(deletedPage);
 
-                            OnPageChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                            OnPageChanged(new PageChangedEvent(deletedPage, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
                             OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
                             deletedIndex++;
                         }
@@ -1621,10 +1625,10 @@ namespace Win_CBZ
         {
             try
             {
-                ZipArchiveEntry fileEntry = Archive.GetEntry(page.Name);
+                ZipArchiveEntry fileEntry = Archive.GetEntry(page.EntryName);
                 if (fileEntry != null)
                 {
-                    FileInfo NewTemporaryFileName = MakeNewTempFileName(fileEntry.Name);
+                    FileInfo NewTemporaryFileName = MakeNewTempFileName();
                     fileEntry.ExtractToFile(NewTemporaryFileName.FullName);
                     page.TempPath = NewTemporaryFileName.FullName;
                     OnItemExtracted(new ItemExtractedEvent(1, 1, NewTemporaryFileName.FullName));
@@ -1639,7 +1643,7 @@ namespace Win_CBZ
             }
         }
 
-        protected FileInfo MakeNewTempFileName(String entryName, String extension = "")
+        protected FileInfo MakeNewTempFileName(String extension = "")
         {
             return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
         }
@@ -1830,7 +1834,7 @@ namespace Win_CBZ
                         }
                         finally
                         {
-                            OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                            OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
                             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
                             OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
                             Thread.Sleep(10);

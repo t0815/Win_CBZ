@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -1117,7 +1117,6 @@ namespace Win_CBZ
             this.GroupBoxImageQuality.Controls.Add(this.ImageQualitySliderMinLabel);
             this.GroupBoxImageQuality.Controls.Add(this.ImageQualityTrackBar);
             this.GroupBoxImageQuality.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBoxImageQuality.Enabled = false;
             this.GroupBoxImageQuality.Location = new System.Drawing.Point(8, 108);
             this.GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GroupBoxImageQuality.Name = "GroupBoxImageQuality";
@@ -1160,6 +1159,7 @@ namespace Win_CBZ
             this.ImageQualityTrackBar.Size = new System.Drawing.Size(258, 45);
             this.ImageQualityTrackBar.TabIndex = 3;
             this.ImageQualityTrackBar.Value = 85;
+            this.ImageQualityTrackBar.ValueChanged += new System.EventHandler(this.ImageQualityTrackBar_ValueChanged);
             // 
             // GroupBoxDoublePages
             // 
@@ -1169,7 +1169,6 @@ namespace Win_CBZ
             this.GroupBoxDoublePages.Controls.Add(this.TextBoxSplitPageAt);
             this.GroupBoxDoublePages.Controls.Add(this.CheckBoxSplitDoublePages);
             this.GroupBoxDoublePages.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBoxDoublePages.Enabled = false;
             this.GroupBoxDoublePages.Location = new System.Drawing.Point(8, 340);
             this.GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GroupBoxDoublePages.Name = "GroupBoxDoublePages";
@@ -1310,7 +1309,6 @@ namespace Win_CBZ
             this.GroupBoxResize.Controls.Add(this.TextBoxResizeH);
             this.GroupBoxResize.Controls.Add(this.TextBoxResizeW);
             this.GroupBoxResize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GroupBoxResize.Enabled = false;
             this.GroupBoxResize.Location = new System.Drawing.Point(8, 197);
             this.GroupBoxResize.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GroupBoxResize.Name = "GroupBoxResize";
@@ -1358,6 +1356,7 @@ namespace Win_CBZ
             this.RadioButtonResizeIfLarger.TabIndex = 4;
             this.RadioButtonResizeIfLarger.Text = "Only if larger than";
             this.RadioButtonResizeIfLarger.UseVisualStyleBackColor = true;
+            this.RadioButtonResizeIfLarger.CheckedChanged += new System.EventHandler(this.ImageResizeRadioChanged);
             // 
             // RadioButtonResizeNever
             // 
@@ -1372,6 +1371,7 @@ namespace Win_CBZ
             this.RadioButtonResizeNever.TabStop = true;
             this.RadioButtonResizeNever.Text = "Never Resize";
             this.RadioButtonResizeNever.UseVisualStyleBackColor = true;
+            this.RadioButtonResizeNever.CheckedChanged += new System.EventHandler(this.ImageResizeRadioChanged);
             // 
             // RadioButtonResizeTo
             // 
@@ -1384,6 +1384,7 @@ namespace Win_CBZ
             this.RadioButtonResizeTo.TabIndex = 2;
             this.RadioButtonResizeTo.Text = "Resize to";
             this.RadioButtonResizeTo.UseVisualStyleBackColor = true;
+            this.RadioButtonResizeTo.CheckedChanged += new System.EventHandler(this.ImageResizeRadioChanged);
             // 
             // TextBoxResizeH
             // 
@@ -1867,39 +1868,39 @@ namespace Win_CBZ
             // 
             this.MetaDataGrid.AllowUserToAddRows = false;
             this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle23.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle23;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataGrid.Location = new System.Drawing.Point(3, 39);
             this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataGrid.MultiSelect = false;
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
             this.MetaDataGrid.Size = new System.Drawing.Size(714, 132);

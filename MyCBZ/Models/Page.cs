@@ -280,11 +280,10 @@ namespace Win_CBZ
             ImageTask = sourcePage.ImageTask;
         }
 
-        public void UpdatePage(Page page, bool skipIndex = false)
+        public void UpdatePage(Page page, bool skipIndex = false, bool skipName = false)
         {
             Compressed = page.Compressed;
             Filename = page.Filename;
-            Name = page.Name;
             EntryName = page.EntryName;
             Size = page.Size;
             Id = page.Id;
@@ -293,6 +292,11 @@ namespace Win_CBZ
             Key = page.Key;
             Number = page.Number;
             Deleted = page.Deleted;
+
+            if (!skipName)
+            {
+                Name = page.Name;
+            }
 
             if (!skipIndex)
             {
@@ -379,7 +383,7 @@ namespace Win_CBZ
             {
                 if (ImageEntry != null)
                 {
-                    if (TempPath == null)
+                    if (TempPath == null || destination != null)
                     {
                         if (destination == null)
                         {
@@ -399,7 +403,7 @@ namespace Win_CBZ
             {
                 if (ReadOnly)
                 {
-                    if (TempPath == null)
+                    if (TempPath == null || destination != null)
                     {
                         if (destination == null)
                         {
