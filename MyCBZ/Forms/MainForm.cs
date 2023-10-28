@@ -400,7 +400,17 @@ namespace Win_CBZ
                             HeaderText = "Value",
                             CellTemplate = new DataGridViewTextBoxCell(),
                             Width = 250,
+                            SortMode = DataGridViewColumnSortMode.Automatic,
+                        });
+
+                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        {
+                            DataPropertyName = "",
+                            HeaderText = "",
+                            CellTemplate = new DataGridViewTextBoxCell(),
+                            Width = 30,
                             SortMode = DataGridViewColumnSortMode.NotSortable,
+                            Resizable = DataGridViewTriState.False
                         });
                     }
 
@@ -425,6 +435,13 @@ namespace Win_CBZ
                                     c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
 
                                     MetaDataGrid.Rows[i].Cells[1] = c;
+                                }
+                                else if (key.ToString() == "Tags")
+                                {
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell();
+                                    bc.Value = "...";
+                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ");
+                                    MetaDataGrid.Rows[i].Cells[2] = bc;
                                 }
                                 else
                                 {
@@ -2725,7 +2742,41 @@ namespace Win_CBZ
             }
         }
 
-        
+        private void MetaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell &&
+                e.RowIndex >= 0)
+            {
+                EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
+                String value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value.ToString();
+
+                if (editorConfig != null)
+                {
+                    editorConfig.Value = value;
+                    switch (editorConfig.Type)
+                    {
+                        case "MultiLineTextEditor":
+                            {
+                                TextEditorForm textEditor = new TextEditorForm(editorConfig);
+                                DialogResult r = textEditor.ShowDialog();
+                                if (r == DialogResult.OK)
+                                {
+                                    if (textEditor.config.Result != null)
+                                    {
+                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                    }
+                                }
+                            }
+                            break;
+
+                    }
+                }
+            }
+        }
+
+
 
 
 

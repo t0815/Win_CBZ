@@ -38,6 +38,8 @@ namespace Win_CBZ.Forms
             }
 
             CheckBoxValidateTags.Checked = Win_CBZSettings.Default.ValidateTags;
+
+            CanClose = true;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
