@@ -558,13 +558,22 @@ namespace Win_CBZ
 
                         if (pageMeta != null)
                         {
-                            String metaSize = pageMeta.GetAttribute("Size");
+                            String metaSize = pageMeta.GetAttribute("ImageSize");
+                            String metaName = pageMeta.GetAttribute("Image");
 
+                            if (metaName != page.Name)
+                            {
+                                problems.Add("Metadata->PageIndex entry name mismatch for page [" + page.Name + "]");
+                            }
 
+                            if (metaSize == null || long.Parse(metaSize) != page.Size)
+                            {
+                                problems.Add("Metadata->PageIndex entry filesize mismatch for page [" + page.Name + "]");
+                            }
                         }
                         else
                         {
-                            problems.Add("Metadata PageIndex entry missing for page [" + page.Name + "]");
+                            problems.Add("Metadata->PageIndex entry missing for page [" + page.Name + "]");
                             metaDataValid = false;
                         }
                     }
@@ -615,7 +624,20 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    problems.Add("Metadata->Title missing!");
+                    problems.Add("Metadata->Writer missing!");
+                }
+
+                String lang = Program.ProjectModel.MetaData.ValueForKey("LanguageISO");
+                if (lang != null)
+                {
+                    if (lang.Length == 0)
+                    {
+                        problems.Add("Metadata->LanguageISO: Value missing!");
+                    }
+                }
+                else
+                {
+                    problems.Add("Metadata->LanguageISO missing!");
                 }
 
                 String tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
