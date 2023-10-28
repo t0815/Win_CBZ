@@ -1438,44 +1438,14 @@ namespace Win_CBZ
             {
                 if (Win_CBZSettings.Default.ValidateTags)
                 {
-                    MetaDataEntry tagEntry = MetaData.EntryByKey("Tags");
-                    System.Collections.Specialized.StringCollection validTags = Win_CBZSettings.Default.ValidKnownTags;
-                    ArrayList unknownTags = new ArrayList();
+                    tagValidationFailed = DataValidation.validateTags();
 
-                    if (tagEntry != null && validTags.Count > 0)
+                    if (tagValidationFailed)
                     {
-                        String[] tags = tagEntry.Value.Split(',').Select(s => s.Trim()).ToArray();
-                        foreach (String tag in tags)
-                        {
-                            if (!validTags.Contains(tag))
-                            {
-                                unknownTags.Add(tag);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Tag Validation: No Tags to validate.");
-                    }
+                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-                    if (unknownTags.Count > 0)
-                    {
-                        String lines = string.Join("\r\n", unknownTags.ToArray());
-                        String errorText = string.Join(", ", unknownTags.ToArray());
-                        tagValidationFailed = true;
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Tag Validation: Failed to validate Tags. Invalid Tags ["+ errorText + "] found.");
-                        DialogResult r = ApplicationMessage.ShowWarning("Tag Validation failed!\r\nThe folliwing tags where not found in known list of tags:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
-
-                        if (r == DialogResult.OK)
-                        {
-                            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                            return;
-                        } else
-                        {
-                            tagValidationFailed = false;
-                        }
-                    }
+                        return;
+                    }           
                 }
 
 
