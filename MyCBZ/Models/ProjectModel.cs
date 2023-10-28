@@ -448,6 +448,17 @@ namespace Win_CBZ
                 }
             }
 
+            /*
+            string[] cbzProblems = new string[1];
+            if (Validate(ref cbzProblems, true)) 
+            { 
+                SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
+                SaveArchiveThread.Start();
+
+                return SaveArchiveThread;
+            }
+            */
+
             SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
             SaveArchiveThread.Start();
 
@@ -1588,7 +1599,7 @@ namespace Win_CBZ
         }
 
         protected void SaveArchiveProc()
-        {            
+        {
 
             int index = 0;
             bool tagValidationFailed = false;

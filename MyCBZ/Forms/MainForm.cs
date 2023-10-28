@@ -2821,7 +2821,9 @@ namespace Win_CBZ
 
         private void ToolButtonValidateCBZ_Click(object sender, EventArgs e)
         {
-            Program.ProjectModel.Validate();
+            string[] errors = new string[1];
+
+            Program.ProjectModel.Validate(ref errors, true);
         }
 
         private void ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted(object sender, EventArgs e)
