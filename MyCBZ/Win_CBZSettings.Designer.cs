@@ -136,5 +136,40 @@ namespace Win_CBZ {
                 this["CustomDefaultProperties"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection ValidKnownTags {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["ValidKnownTags"]));
+            }
+            set {
+                this["ValidKnownTags"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ResizeAlgorithm {
+            get {
+                return ((int)(this["ResizeAlgorithm"]));
+            }
+            set {
+                this["ResizeAlgorithm"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ValidateTags {
+            get {
+                return ((bool)(this["ValidateTags"]));
+            }
+            set {
+                this["ValidateTags"] = value;
+            }
+        }
     }
 }

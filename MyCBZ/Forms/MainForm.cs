@@ -2513,6 +2513,19 @@ namespace Win_CBZ
                         }
                     }
                 }
+
+                if (settingsDialog.NewValidTagList != null)
+                {
+                    foreach (String line in settingsDialog.NewValidTagList)
+                    {
+                        if (line != null && line != "")
+                        {
+                            Win_CBZSettings.Default.ValidKnownTags.Add(line);
+                        }
+                    }
+                }
+
+                Win_CBZSettings.Default.ValidateTags = settingsDialog.ValidateTagsSetting;
             }
         }
 

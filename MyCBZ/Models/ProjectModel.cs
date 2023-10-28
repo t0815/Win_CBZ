@@ -24,6 +24,7 @@ using System.Collections;
 using Win_CBZ.Data;
 using Win_CBZ.Tasks;
 using System.Security.Principal;
+using System.Windows.Controls;
 
 namespace Win_CBZ
 {
@@ -1434,6 +1435,42 @@ namespace Win_CBZ
             ZipArchiveEntry updatedEntry = null;
             try
             {
+                if (Win_CBZSettings.Default.ValidateTags)
+                {
+                    MetaDataEntry tagEntry = MetaData.EntryByKey("Tags");
+                    System.Collections.Specialized.StringCollection validTags = Win_CBZSettings.Default.ValidKnownTags;
+                    ArrayList unknownTags = new ArrayList();
+
+                    if (tagEntry != null && validTags.Count > 0)
+                    {
+                        String[] tags = tagEntry.Value.Split(',').Select(s => s.Trim()).ToArray();
+                        foreach (String tag in tags)
+                        {
+                            if (!validTags.Contains(tag))
+                            {
+                                unknownTags.Add(tag);
+                            }
+                        }
+                    } else
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Tag Validation: No Tags to validate.");
+                    }
+
+                    if (unknownTags.Count > 0)
+                    {
+                        String lines = string.Join("\r\n", unknownTags.ToArray());
+
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Tag Validation: Failed to validate Tags. Invalid Tags found.");
+
+                        ApplicationMessage.ShowWarning("Tag Validation failed!\r\nThe folliwing tags where not found in known Tags- List:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK);
+
+                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                        return;
+                    }
+                }
+
+
                 BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
                 // Apply renaming rules

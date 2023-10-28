@@ -48,6 +48,7 @@ namespace Win_CBZ
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             Width = PageImagePreview.Width + 40;
+            ImagePreviewPanel.VerticalScroll.Value = 0;
         }
 
         private void ImagePreviewForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -79,7 +80,7 @@ namespace Win_CBZ
                 currentId = nextPage.Id;
                 currentIndex = nextPage.Index;
 
-                ImagePreviewPanel.VerticalScroll.Value = 0;
+                
             }
         }
 

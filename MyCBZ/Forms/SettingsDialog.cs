@@ -17,6 +17,10 @@ namespace Win_CBZ.Forms
 
         public String[] NewDefaults;
 
+        public String[] NewValidTagList;
+
+        public bool ValidateTagsSetting;
+
         private bool CanClose;
 
         public SettingsDialog()
@@ -27,6 +31,13 @@ namespace Win_CBZ.Forms
             {
                 CustomDefaultKeys.Lines = Win_CBZSettings.Default.CustomDefaultProperties.OfType<String>().ToArray();
             }
+
+            if (Win_CBZSettings.Default.ValidKnownTags != null)
+            {
+                ValidTags.Lines = Win_CBZSettings.Default.ValidKnownTags.OfType<String>().ToArray();
+            }
+
+            CheckBoxValidateTags.Checked = Win_CBZSettings.Default.ValidateTags;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
@@ -51,7 +62,18 @@ namespace Win_CBZ.Forms
                     Win_CBZSettings.Default.CustomDefaultProperties = new StringCollection();
                 }
 
+                if (Win_CBZSettings.Default.ValidKnownTags != null)
+                {
+                    Win_CBZSettings.Default.ValidKnownTags.Clear();
+                }
+                else
+                {
+                    Win_CBZSettings.Default.ValidKnownTags = new StringCollection();
+                }
+
                 NewDefaults = CustomDefaultKeys.Lines.ToArray<String>();
+                NewValidTagList = ValidTags.Lines.ToArray<String>();
+                ValidateTagsSetting = CheckBoxValidateTags.Checked;
             }
             catch (MetaDataValidationException mv)
             {
@@ -69,6 +91,11 @@ namespace Win_CBZ.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             CustomDefaultKeys.Text = Program.ProjectModel.MetaData.GetDefaultKeys();
+        }
+
+        private void SettingsTablePanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
