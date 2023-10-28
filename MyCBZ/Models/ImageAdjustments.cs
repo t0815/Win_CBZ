@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Models
 {
-    internal class ImageAdjustments
+    public class ImageAdjustments
     {
         public const int ADJUSTMENT_SPLIT_TYPE_PERCENT = 0;
         public const int ADJUSTMENT_SPLIT_TYPE_PX = 1;
+
+        public bool SplitPage { get; set; }
 
         public int SplitPageAt { get; set; }
 
@@ -22,6 +24,6 @@ namespace Win_CBZ.Models
 
         public int ResizeMode { get; set; }
 
-        public int Quality { get; set; }
+        public int Quality { get; set; } = 100;
     }
 }

@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -116,6 +116,8 @@ namespace Win_CBZ
             this.GlobalAlertMessageIcon = new System.Windows.Forms.PictureBox();
             this.MainSplitBox = new System.Windows.Forms.SplitContainer();
             this.SplitBoxPageView = new System.Windows.Forms.SplitContainer();
+            this.PageView = new Win_CBZ.ExtendetListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TabControlPageSettings = new System.Windows.Forms.TabControl();
             this.TabPagePageSettings = new System.Windows.Forms.TabPage();
             this.TablePanePageAdjustments = new System.Windows.Forms.TableLayoutPanel();
@@ -127,8 +129,8 @@ namespace Win_CBZ
             this.panel2 = new System.Windows.Forms.Panel();
             this.PictureBoxColorSelect = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.ComboBoxSplitUnit = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.ComboBoxSplitAtType = new System.Windows.Forms.ComboBox();
+            this.TextBoxSplitPageAt = new System.Windows.Forms.TextBox();
             this.CheckBoxSplitDoublePages = new System.Windows.Forms.CheckBox();
             this.GroupBoxDimensions = new System.Windows.Forms.GroupBox();
             this.LabelH = new System.Windows.Forms.Label();
@@ -141,7 +143,7 @@ namespace Win_CBZ
             this.label3 = new System.Windows.Forms.Label();
             this.RadioButtonResizeIfLarger = new System.Windows.Forms.RadioButton();
             this.RadioButtonResizeNever = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.RadioButtonResizeTo = new System.Windows.Forms.RadioButton();
             this.TextBoxResizeH = new System.Windows.Forms.TextBox();
             this.TextBoxResizeW = new System.Windows.Forms.TextBox();
             this.ComboBoxApplyPageAdjustmentsTo = new System.Windows.Forms.ComboBox();
@@ -163,6 +165,12 @@ namespace Win_CBZ
             this.label7 = new System.Windows.Forms.Label();
             this.ComboBoxCompressionLevel = new System.Windows.Forms.ComboBox();
             this.SplitBoxItemsList = new System.Windows.Forms.SplitContainer();
+            this.PagesList = new Win_CBZ.ExtendetListView();
+            this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IndexPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TypePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ModifiedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SizeFormatedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MetadataPanel = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
@@ -183,14 +191,6 @@ namespace Win_CBZ
             this.Tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SelectColorDialog = new System.Windows.Forms.ColorDialog();
             this.AddPagesDirDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.PageView = new Win_CBZ.ExtendetListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.PagesList = new Win_CBZ.ExtendetListView();
-            this.NamePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.IndexPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.TypePageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ModifiedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.SizeFormatedPageCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -940,7 +940,7 @@ namespace Win_CBZ
             this.GlobalAlertTableLayout.ColumnCount = 3;
             this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.9819F));
             this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.0181F));
-            this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 295F));
+            this.GlobalAlertTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 296F));
             this.GlobalAlertTableLayout.Controls.Add(this.LabelGlobalActionStatusMessage, 1, 0);
             this.GlobalAlertTableLayout.Controls.Add(this.ExecuteCurrentGlobalAction, 2, 0);
             this.GlobalAlertTableLayout.Controls.Add(this.GlobalAlertMessageIcon, 0, 0);
@@ -1029,6 +1029,34 @@ namespace Win_CBZ
             this.SplitBoxPageView.Size = new System.Drawing.Size(321, 396);
             this.SplitBoxPageView.SplitterDistance = 126;
             this.SplitBoxPageView.TabIndex = 6;
+            // 
+            // PageView
+            // 
+            this.PageView.Alignment = System.Windows.Forms.ListViewAlignment.Default;
+            this.PageView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.PageView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PageView.FullRowSelect = true;
+            this.PageView.GridLines = true;
+            this.PageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.PageView.HideSelection = false;
+            this.PageView.LabelWrap = false;
+            this.PageView.LargeImageList = this.PageImages;
+            this.PageView.Location = new System.Drawing.Point(0, 0);
+            this.PageView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PageView.Name = "PageView";
+            this.PageView.OwnerDraw = true;
+            this.PageView.Size = new System.Drawing.Size(321, 126);
+            this.PageView.TabIndex = 6;
+            this.PageView.UseCompatibleStateImageBehavior = false;
+            this.PageView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.PageView_DrawItem);
+            this.PageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PageView_ItemSelectionChanged);
+            this.PageView.DoubleClick += new System.EventHandler(this.PageView_DoubleClick);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Page";
+            this.columnHeader1.Width = 455;
             // 
             // TabControlPageSettings
             // 
@@ -1137,8 +1165,8 @@ namespace Win_CBZ
             // 
             this.GroupBoxDoublePages.Controls.Add(this.panel2);
             this.GroupBoxDoublePages.Controls.Add(this.label6);
-            this.GroupBoxDoublePages.Controls.Add(this.ComboBoxSplitUnit);
-            this.GroupBoxDoublePages.Controls.Add(this.textBox1);
+            this.GroupBoxDoublePages.Controls.Add(this.ComboBoxSplitAtType);
+            this.GroupBoxDoublePages.Controls.Add(this.TextBoxSplitPageAt);
             this.GroupBoxDoublePages.Controls.Add(this.CheckBoxSplitDoublePages);
             this.GroupBoxDoublePages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupBoxDoublePages.Enabled = false;
@@ -1182,28 +1210,28 @@ namespace Win_CBZ
             this.label6.TabIndex = 5;
             this.label6.Text = "Try to detect from color";
             // 
-            // ComboBoxSplitUnit
+            // ComboBoxSplitAtType
             // 
-            this.ComboBoxSplitUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxSplitUnit.Enabled = false;
-            this.ComboBoxSplitUnit.FormattingEnabled = true;
-            this.ComboBoxSplitUnit.Items.AddRange(new object[] {
+            this.ComboBoxSplitAtType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxSplitAtType.Enabled = false;
+            this.ComboBoxSplitAtType.FormattingEnabled = true;
+            this.ComboBoxSplitAtType.Items.AddRange(new object[] {
             "%",
             "px"});
-            this.ComboBoxSplitUnit.Location = new System.Drawing.Point(127, 62);
-            this.ComboBoxSplitUnit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ComboBoxSplitUnit.Name = "ComboBoxSplitUnit";
-            this.ComboBoxSplitUnit.Size = new System.Drawing.Size(49, 21);
-            this.ComboBoxSplitUnit.TabIndex = 2;
+            this.ComboBoxSplitAtType.Location = new System.Drawing.Point(127, 62);
+            this.ComboBoxSplitAtType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ComboBoxSplitAtType.Name = "ComboBoxSplitAtType";
+            this.ComboBoxSplitAtType.Size = new System.Drawing.Size(49, 21);
+            this.ComboBoxSplitAtType.TabIndex = 2;
             // 
-            // textBox1
+            // TextBoxSplitPageAt
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(48, 63);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(60, 20);
-            this.textBox1.TabIndex = 1;
+            this.TextBoxSplitPageAt.Enabled = false;
+            this.TextBoxSplitPageAt.Location = new System.Drawing.Point(48, 63);
+            this.TextBoxSplitPageAt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TextBoxSplitPageAt.Name = "TextBoxSplitPageAt";
+            this.TextBoxSplitPageAt.Size = new System.Drawing.Size(60, 20);
+            this.TextBoxSplitPageAt.TabIndex = 1;
             // 
             // CheckBoxSplitDoublePages
             // 
@@ -1278,7 +1306,7 @@ namespace Win_CBZ
             this.GroupBoxResize.Controls.Add(this.label3);
             this.GroupBoxResize.Controls.Add(this.RadioButtonResizeIfLarger);
             this.GroupBoxResize.Controls.Add(this.RadioButtonResizeNever);
-            this.GroupBoxResize.Controls.Add(this.radioButton1);
+            this.GroupBoxResize.Controls.Add(this.RadioButtonResizeTo);
             this.GroupBoxResize.Controls.Add(this.TextBoxResizeH);
             this.GroupBoxResize.Controls.Add(this.TextBoxResizeW);
             this.GroupBoxResize.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1345,17 +1373,17 @@ namespace Win_CBZ
             this.RadioButtonResizeNever.Text = "Never Resize";
             this.RadioButtonResizeNever.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // RadioButtonResizeTo
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Enabled = false;
-            this.radioButton1.Location = new System.Drawing.Point(27, 76);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(69, 17);
-            this.radioButton1.TabIndex = 2;
-            this.radioButton1.Text = "Resize to";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.RadioButtonResizeTo.AutoSize = true;
+            this.RadioButtonResizeTo.Enabled = false;
+            this.RadioButtonResizeTo.Location = new System.Drawing.Point(27, 76);
+            this.RadioButtonResizeTo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RadioButtonResizeTo.Name = "RadioButtonResizeTo";
+            this.RadioButtonResizeTo.Size = new System.Drawing.Size(69, 17);
+            this.RadioButtonResizeTo.TabIndex = 2;
+            this.RadioButtonResizeTo.Text = "Resize to";
+            this.RadioButtonResizeTo.UseVisualStyleBackColor = true;
             // 
             // TextBoxResizeH
             // 
@@ -1387,7 +1415,7 @@ namespace Win_CBZ
             this.ComboBoxApplyPageAdjustmentsTo.Name = "ComboBoxApplyPageAdjustmentsTo";
             this.ComboBoxApplyPageAdjustmentsTo.Size = new System.Drawing.Size(274, 21);
             this.ComboBoxApplyPageAdjustmentsTo.TabIndex = 7;
-            this.ComboBoxApplyPageAdjustmentsTo.Visible = false;
+            this.ComboBoxApplyPageAdjustmentsTo.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted);
             // 
             // TabPageGlobalSettings
             // 
@@ -1561,10 +1589,11 @@ namespace Win_CBZ
             // 
             // btnGetExcludesFromSelectedPages
             // 
+            this.btnGetExcludesFromSelectedPages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnGetExcludesFromSelectedPages.Location = new System.Drawing.Point(3, 385);
             this.btnGetExcludesFromSelectedPages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGetExcludesFromSelectedPages.Name = "btnGetExcludesFromSelectedPages";
-            this.btnGetExcludesFromSelectedPages.Size = new System.Drawing.Size(123, 36);
+            this.btnGetExcludesFromSelectedPages.Size = new System.Drawing.Size(164, 37);
             this.btnGetExcludesFromSelectedPages.TabIndex = 17;
             this.btnGetExcludesFromSelectedPages.Text = "Get From selected Pages";
             this.btnGetExcludesFromSelectedPages.UseVisualStyleBackColor = true;
@@ -1649,6 +1678,55 @@ namespace Win_CBZ
             this.SplitBoxItemsList.Size = new System.Drawing.Size(722, 398);
             this.SplitBoxItemsList.SplitterDistance = 171;
             this.SplitBoxItemsList.TabIndex = 7;
+            // 
+            // PagesList
+            // 
+            this.PagesList.AllowItemDrag = true;
+            this.PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.NamePageCol,
+            this.IndexPageCol,
+            this.TypePageCol,
+            this.ModifiedPageCol,
+            this.SizeFormatedPageCol});
+            this.PagesList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PagesList.FullRowSelect = true;
+            this.PagesList.HideSelection = false;
+            this.PagesList.LabelEdit = true;
+            this.PagesList.Location = new System.Drawing.Point(0, 0);
+            this.PagesList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.PagesList.Name = "PagesList";
+            this.PagesList.ShowItemToolTips = true;
+            this.PagesList.Size = new System.Drawing.Size(720, 169);
+            this.PagesList.TabIndex = 5;
+            this.PagesList.UseCompatibleStateImageBehavior = false;
+            this.PagesList.View = System.Windows.Forms.View.Details;
+            this.PagesList.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.PagesList_AfterLabelEdit);
+            this.PagesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PagesList_ItemSelectionChanged);
+            this.PagesList.DoubleClick += new System.EventHandler(this.PagesList_DoubleClick);
+            // 
+            // NamePageCol
+            // 
+            this.NamePageCol.Text = "Filename";
+            this.NamePageCol.Width = 189;
+            // 
+            // IndexPageCol
+            // 
+            this.IndexPageCol.Text = "Index";
+            this.IndexPageCol.Width = 195;
+            // 
+            // TypePageCol
+            // 
+            this.TypePageCol.Text = "Type";
+            // 
+            // ModifiedPageCol
+            // 
+            this.ModifiedPageCol.Text = "Modified";
+            this.ModifiedPageCol.Width = 147;
+            // 
+            // SizeFormatedPageCol
+            // 
+            this.SizeFormatedPageCol.Text = "Size";
+            this.SizeFormatedPageCol.Width = 160;
             // 
             // MetadataPanel
             // 
@@ -1789,39 +1867,39 @@ namespace Win_CBZ
             // 
             this.MetaDataGrid.AllowUserToAddRows = false;
             this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataGrid.Location = new System.Drawing.Point(3, 39);
             this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataGrid.MultiSelect = false;
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
             this.MetaDataGrid.Size = new System.Drawing.Size(714, 132);
@@ -1894,83 +1972,6 @@ namespace Win_CBZ
             // 
             this.AddPagesDirDialog.Description = "Select a Folder containing images to add";
             this.AddPagesDirDialog.ShowNewFolderButton = false;
-            // 
-            // PageView
-            // 
-            this.PageView.Alignment = System.Windows.Forms.ListViewAlignment.Default;
-            this.PageView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.PageView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PageView.FullRowSelect = true;
-            this.PageView.GridLines = true;
-            this.PageView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.PageView.HideSelection = false;
-            this.PageView.LabelWrap = false;
-            this.PageView.LargeImageList = this.PageImages;
-            this.PageView.Location = new System.Drawing.Point(0, 0);
-            this.PageView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.PageView.Name = "PageView";
-            this.PageView.OwnerDraw = true;
-            this.PageView.Size = new System.Drawing.Size(321, 126);
-            this.PageView.TabIndex = 6;
-            this.PageView.UseCompatibleStateImageBehavior = false;
-            this.PageView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.PageView_DrawItem);
-            this.PageView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PageView_ItemSelectionChanged);
-            this.PageView.DoubleClick += new System.EventHandler(this.PageView_DoubleClick);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Page";
-            this.columnHeader1.Width = 455;
-            // 
-            // PagesList
-            // 
-            this.PagesList.AllowItemDrag = true;
-            this.PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.NamePageCol,
-            this.IndexPageCol,
-            this.TypePageCol,
-            this.ModifiedPageCol,
-            this.SizeFormatedPageCol});
-            this.PagesList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PagesList.FullRowSelect = true;
-            this.PagesList.HideSelection = false;
-            this.PagesList.LabelEdit = true;
-            this.PagesList.Location = new System.Drawing.Point(0, 0);
-            this.PagesList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.PagesList.Name = "PagesList";
-            this.PagesList.ShowItemToolTips = true;
-            this.PagesList.Size = new System.Drawing.Size(720, 169);
-            this.PagesList.TabIndex = 5;
-            this.PagesList.UseCompatibleStateImageBehavior = false;
-            this.PagesList.View = System.Windows.Forms.View.Details;
-            this.PagesList.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.PagesList_AfterLabelEdit);
-            this.PagesList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.PagesList_ItemSelectionChanged);
-            this.PagesList.DoubleClick += new System.EventHandler(this.PagesList_DoubleClick);
-            // 
-            // NamePageCol
-            // 
-            this.NamePageCol.Text = "Filename";
-            this.NamePageCol.Width = 189;
-            // 
-            // IndexPageCol
-            // 
-            this.IndexPageCol.Text = "Index";
-            this.IndexPageCol.Width = 195;
-            // 
-            // TypePageCol
-            // 
-            this.TypePageCol.Text = "Type";
-            // 
-            // ModifiedPageCol
-            // 
-            this.ModifiedPageCol.Text = "Modified";
-            this.ModifiedPageCol.Width = 147;
-            // 
-            // SizeFormatedPageCol
-            // 
-            this.SizeFormatedPageCol.Text = "Size";
-            this.SizeFormatedPageCol.Width = 160;
             // 
             // MainForm
             // 
@@ -2177,13 +2178,13 @@ namespace Win_CBZ
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton RadioButtonResizeIfLarger;
         private System.Windows.Forms.RadioButton RadioButtonResizeNever;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton RadioButtonResizeTo;
         private System.Windows.Forms.TextBox TextBoxResizeH;
         private System.Windows.Forms.TextBox TextBoxResizeW;
         private System.Windows.Forms.CheckBox CheckBoxSplitDoublePages;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox ComboBoxSplitUnit;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox ComboBoxSplitAtType;
+        private System.Windows.Forms.TextBox TextBoxSplitPageAt;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox PictureBoxColorSelect;
         private System.Windows.Forms.ColorDialog SelectColorDialog;

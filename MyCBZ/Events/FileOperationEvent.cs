@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ
 {
-    internal class FileOperationEvent
+    public class FileOperationEvent
     {
 
         public const int STATUS_SUCCESS = 0;

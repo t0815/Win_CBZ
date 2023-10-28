@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 
 namespace Win_CBZ
 {
-    internal class Page
+    public class Page
     {
 
         public String Id { get; set; }

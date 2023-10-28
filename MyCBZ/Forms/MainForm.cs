@@ -56,6 +56,8 @@ namespace Win_CBZ
 
         private List<GlobalAction> CurrentGlobalActions;
 
+        private ImageTask selectedImageTask;
+
         public MainForm()
         {
             InitializeComponent();
@@ -2915,6 +2917,55 @@ namespace Win_CBZ
             } else
             {
                ApplicationMessage.Show("Success!\r\nCBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", 1, ApplicationMessage.DialogButtons.MB_OK);
+            }
+        }
+
+        private void ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
+            String selected = cb.SelectedItem as String;
+            ImageTask selectedTask = null;
+            Page page = null;
+
+            if (selected != null)
+            {
+                if (selected == "<Global>")
+                {
+                    selectedTask = Program.ProjectModel.GlobalImageTask;
+                    
+                } else
+                {
+                    page = Program.ProjectModel.GetPageByName(selected);
+
+                    if (page != null)
+                    {
+                        selectedTask = page.ImageTask;
+                    }
+                }
+
+                if (selectedTask != null)
+                {
+                    ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
+                    switch (selectedTask.ImageAdjustments.ResizeMode)
+                    {
+                        case 0:
+                            RadioButtonResizeNever.Checked = true;
+                            break;
+                        case 1:
+                            RadioButtonResizeIfLarger.Checked = true;
+                            break;
+                        case 2:
+                            RadioButtonResizeTo.Checked = true;
+                            break;
+
+                    }
+
+                    CheckBoxSplitDoublePages.Checked = selectedTask.ImageAdjustments.SplitPage;
+                    TextBoxSplitPageAt.Text = selectedTask.ImageAdjustments.SplitPageAt.ToString();
+                    ComboBoxSplitAtType.SelectedIndex = selectedTask.ImageAdjustments.SplitType;
+
+                    selectedImageTask = selectedTask;
+                }
             }
         }
 

@@ -25,6 +25,7 @@ using Win_CBZ.Data;
 using Win_CBZ.Tasks;
 using System.Security.Principal;
 using System.Windows.Controls;
+using Win_CBZ.Models;
 
 namespace Win_CBZ
 {
@@ -89,6 +90,8 @@ namespace Win_CBZ
         private bool InitialPageIndexRebuild = false;
 
         public MetaData MetaData { get; set; }
+
+        public ImageTask GlobalImageTask { get; set; }
 
         protected Task<TaskResult> imageInfoUpdater;
 
@@ -157,6 +160,7 @@ namespace Win_CBZ
             RandomProvider = new Random();
             FileNamesToAdd = new ArrayList();
             RenamerExcludes = new ArrayList();
+            GlobalImageTask = new ImageTask();
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
 

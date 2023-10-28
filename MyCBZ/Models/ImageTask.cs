@@ -10,7 +10,7 @@ using Image = System.Drawing.Image;
 
 namespace Win_CBZ.Models
 {
-    internal class ImageTask
+    public class ImageTask
     {
         public const string TASK_SPLIT_PERCENT = "SplitPercent";
         public const string TASK_DETECT_SPLIT_BY_COLOR = "DetectAndSplitByColor";
