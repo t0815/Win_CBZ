@@ -2854,7 +2854,7 @@ namespace Win_CBZ
 
             if (hasMetaData)
             {
-                String title = Program.ProjectModel.MetaData.ValueForKey("title");
+                String title = Program.ProjectModel.MetaData.ValueForKey("Title");
                 if (title != null)
                 {
                     if (title.Length == 0)
@@ -2862,6 +2862,19 @@ namespace Win_CBZ
                         problems.Add("Metadata->Title: Value missing!");
                     }
                 } else
+                {
+                    problems.Add("Metadata->Title missing!");
+                }
+
+                String writer = Program.ProjectModel.MetaData.ValueForKey("Writer");
+                if (writer != null)
+                {
+                    if (writer.Length == 0)
+                    {
+                        problems.Add("Metadata->Writer: Value missing!");
+                    }
+                }
+                else
                 {
                     problems.Add("Metadata->Title missing!");
                 }
