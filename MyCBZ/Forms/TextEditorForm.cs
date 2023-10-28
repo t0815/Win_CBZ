@@ -48,18 +48,58 @@ namespace Win_CBZ.Forms
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            String result = "";
+            DialogResult = DialogResult.OK;
+        }
 
-            if (ItemsText.Lines.Length > 0) 
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void TextEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            object result = null;
+            List<String> duplicates = new List<String>();
+
+            if (DialogResult == DialogResult.OK)
             {
-                if (config != null)
+                if (ItemsText.Lines.Length > 0)
                 {
-                    if (config.ResultType == "String")
+                    if (config != null)
                     {
-                        result = String.Join(config.Separator + config.Append, ItemsText.Lines);
-                    }
+                        if (!config.AllowDuplicateValues)
+                        {
+                            duplicates.AddRange(Validation.hasDuplicates(ItemsText.Lines));
 
-                    config.Result = result;
+                            if (duplicates.Count > 0)
+                            {
+                                ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.", "Invalid Value", 3, ApplicationMessage.DialogButtons.MB_OK);
+
+                                DialogResult = DialogResult.None;
+
+                                e.Cancel = true;
+                            }
+                            else
+                            {
+
+                            }
+                        }
+
+
+                        if (config.ResultType == "String")
+                        {
+                            result = String.Join(config.Separator ?? "" + config.Append ?? "", ItemsText.Lines);
+                        }
+
+                        if (config.ResultType == "String[]")
+                        {
+                            result = ItemsText.Lines;
+                        }
+
+                        config.Result = result;
+
+                        DialogResult = DialogResult.OK;
+                    }
                 }
             }
         }

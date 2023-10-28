@@ -32,9 +32,9 @@
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.HeaderPicture = new System.Windows.Forms.PictureBox();
+            this.ItemsText = new System.Windows.Forms.TextBox();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.ItemsText = new System.Windows.Forms.TextBox();
             this.InfoLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
@@ -97,6 +97,16 @@
             this.HeaderPicture.TabIndex = 0;
             this.HeaderPicture.TabStop = false;
             // 
+            // ItemsText
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.ItemsText, 2);
+            this.ItemsText.Location = new System.Drawing.Point(3, 59);
+            this.ItemsText.Multiline = true;
+            this.ItemsText.Name = "ItemsText";
+            this.ItemsText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ItemsText.Size = new System.Drawing.Size(386, 99);
+            this.ItemsText.TabIndex = 5;
+            // 
             // OkButton
             // 
             this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -119,16 +129,7 @@
             this.CancelButton.TabIndex = 4;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
-            // 
-            // ItemsText
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.ItemsText, 2);
-            this.ItemsText.Location = new System.Drawing.Point(3, 59);
-            this.ItemsText.Multiline = true;
-            this.ItemsText.Name = "ItemsText";
-            this.ItemsText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ItemsText.Size = new System.Drawing.Size(386, 99);
-            this.ItemsText.TabIndex = 5;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // InfoLabel
             // 
@@ -147,9 +148,13 @@
             this.ClientSize = new System.Drawing.Size(404, 246);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MinimizeBox = false;
             this.Name = "TextEditorForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Item Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TextEditorForm_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.HeaderPanel.ResumeLayout(false);

@@ -440,7 +440,7 @@ namespace Win_CBZ
                                 {
                                     DataGridViewButtonCell bc = new DataGridViewButtonCell();
                                     bc.Value = "...";
-                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ");
+                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false);
                                     MetaDataGrid.Rows[i].Cells[2] = bc;
                                 }
                                 else

@@ -21,8 +21,6 @@ namespace Win_CBZ.Forms
 
         public bool ValidateTagsSetting;
 
-        private bool CanClose;
-
         public SettingsDialog()
         {
             InitializeComponent();
@@ -38,56 +36,56 @@ namespace Win_CBZ.Forms
             }
 
             CheckBoxValidateTags.Checked = Win_CBZSettings.Default.ValidateTags;
-
-            CanClose = true;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            CanClose = true;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void ButtonOk_Click(object sender, EventArgs e)
         {
-            CanClose = true;
-            Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());
-            Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
-            try
-            {
-                Program.ProjectModel.MetaData.ValidateDefaults();
-                if (Win_CBZSettings.Default.CustomDefaultProperties != null)
-                {
-                    Win_CBZSettings.Default.CustomDefaultProperties.Clear();
-                }
-                else
-                {
-                    Win_CBZSettings.Default.CustomDefaultProperties = new StringCollection();
-                }
-
-                if (Win_CBZSettings.Default.ValidKnownTags != null)
-                {
-                    Win_CBZSettings.Default.ValidKnownTags.Clear();
-                }
-                else
-                {
-                    Win_CBZSettings.Default.ValidKnownTags = new StringCollection();
-                }
-
-                NewDefaults = CustomDefaultKeys.Lines.ToArray<String>();
-                NewValidTagList = ValidTags.Lines.ToArray<String>();
-                ValidateTagsSetting = CheckBoxValidateTags.Checked;
-            }
-            catch (MetaDataValidationException mv)
-            {
-                CanClose = false;
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
-                ApplicationMessage.ShowException(mv);
-            }          
+            DialogResult = DialogResult.OK;  
         }
 
         private void SettingsDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = !CanClose;
+            if (DialogResult == DialogResult.OK)
+            {
+                Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());
+                Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
+                try
+                {
+                    Program.ProjectModel.MetaData.ValidateDefaults();
+                    if (Win_CBZSettings.Default.CustomDefaultProperties != null)
+                    {
+                        Win_CBZSettings.Default.CustomDefaultProperties.Clear();
+                    }
+                    else
+                    {
+                        Win_CBZSettings.Default.CustomDefaultProperties = new StringCollection();
+                    }
+
+                    if (Win_CBZSettings.Default.ValidKnownTags != null)
+                    {
+                        Win_CBZSettings.Default.ValidKnownTags.Clear();
+                    }
+                    else
+                    {
+                        Win_CBZSettings.Default.ValidKnownTags = new StringCollection();
+                    }
+
+                    NewDefaults = CustomDefaultKeys.Lines.ToArray<String>();
+                    NewValidTagList = ValidTags.Lines.ToArray<String>();
+                    ValidateTagsSetting = CheckBoxValidateTags.Checked;
+                }
+                catch (MetaDataValidationException mv)
+                {
+                    e.Cancel = true;
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
+                    ApplicationMessage.ShowException(mv);
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
