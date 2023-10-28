@@ -27,7 +27,7 @@ namespace Win_CBZ.Data
                     }
                 }
 
-                if (occurence > 1)
+                if (occurence > 1 && duplicates.IndexOf(entryA) == -1)
                 {
                     duplicates.Add(entryA);
                 }

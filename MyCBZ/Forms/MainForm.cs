@@ -2791,10 +2791,13 @@ namespace Win_CBZ
         private void ToolButtonValidateCBZ_Click(object sender, EventArgs e)
         {
             List<String> problems = new List<String>();
+            ArrayList unknownTags = new ArrayList();
+            string[] duplicateTags = new string[0];
             bool hasFiles = Program.ProjectModel.Pages.Count > 0;
             bool hasMetaData = Program.ProjectModel.MetaData.Values.Count > 0;
             bool pagesValid = true;
             bool metaDataValid = true;
+            bool tagValidationFailed = false;
 
             if (hasFiles)
             {
@@ -2856,13 +2859,38 @@ namespace Win_CBZ
                 {
                     if (title.Length == 0)
                     {
-                        problems.Add("Metadata->Title missing!");
+                        problems.Add("Metadata->Title: Value missing!");
                     }
                 } else
                 {
                     problems.Add("Metadata->Title missing!");
                 }
 
+                String tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
+                if (tags != null)
+                {
+
+                    tagValidationFailed = DataValidation.validateTags(ref unknownTags, false);
+                    if (tagValidationFailed)
+                    {
+                        foreach (String tag in unknownTags)
+                        {
+                            problems.Add("[Tags->Unknown Tag: " + tag + "]");
+                        }
+                        
+                    }
+
+                    string[] tagList = tags.Split(',');
+                    duplicateTags = DataValidation.validateDuplicateStrings(tagList);
+
+                    if (duplicateTags != null)
+                    {
+                        foreach (String duplicateTag in duplicateTags)
+                        {
+                            problems.Add("[Tags->duplicate Tag: " + duplicateTag + "]");
+                        }
+                    }
+                }
             } else 
             {
                 problems.Add("Metadata missing!");
