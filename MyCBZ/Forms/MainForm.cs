@@ -298,9 +298,9 @@ namespace Win_CBZ
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_DELETED:
                                 e.Page.Deleted = true;
-                                if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name) > -1)
+                                if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.Page).Name) > -1)
                                 {
-                                    ComboBoxApplyPageAdjustmentsTo.Items.RemoveAt(ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name));
+                                    ComboBoxApplyPageAdjustmentsTo.Items.RemoveAt(ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.Page).Name));
                                 }
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
@@ -2312,7 +2312,7 @@ namespace Win_CBZ
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
 
-                    PageChanged(null, new PageChangedEvent((Page)img.Tag, null, PageChangedEvent.IMAGE_STATUS_DELETED));
+                    PageChanged(this, new PageChangedEvent((Page)img.Tag, null, PageChangedEvent.IMAGE_STATUS_DELETED));
                     ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
