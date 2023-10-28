@@ -69,7 +69,7 @@ namespace Win_CBZ.Forms
                     {
                         if (!config.AllowDuplicateValues)
                         {
-                            duplicates.AddRange(DataValidation.validateDuplicateStrings(ItemsText.Lines));
+                            duplicates.AddRange(DataValidation.ValidateDuplicateStrings(ItemsText.Lines));
 
                             if (duplicates.Count > 0)
                             {

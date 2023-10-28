@@ -1446,7 +1446,7 @@ namespace Win_CBZ
             {
                 if (Win_CBZSettings.Default.ValidateTags)
                 {
-                    tagValidationFailed = DataValidation.validateTags();
+                    tagValidationFailed = DataValidation.ValidateTags();
 
                     if (tagValidationFailed)
                     {

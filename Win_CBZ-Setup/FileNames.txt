@@ -1,2 +1,2 @@
- Release: Win_CBZ_Setup_Win64.zip 
+ Release: Win_CBZ_Setup_Win64
  Title: Win_CBZ Beta release 0.xx.xxb

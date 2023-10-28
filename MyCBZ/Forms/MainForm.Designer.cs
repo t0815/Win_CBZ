@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -1427,7 +1427,7 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(313, 244);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(312, 239);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -1465,7 +1465,7 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.FileSettingsTablePanel.Size = new System.Drawing.Size(250, 428);
+            this.FileSettingsTablePanel.Size = new System.Drawing.Size(283, 428);
             this.FileSettingsTablePanel.TabIndex = 1;
             // 
             // PlaceholdersInfoLabel
@@ -1511,7 +1511,7 @@ namespace Win_CBZ
             this.TextboxStoryPageRenamingPattern.Location = new System.Drawing.Point(3, 52);
             this.TextboxStoryPageRenamingPattern.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TextboxStoryPageRenamingPattern.Name = "TextboxStoryPageRenamingPattern";
-            this.TextboxStoryPageRenamingPattern.Size = new System.Drawing.Size(244, 21);
+            this.TextboxStoryPageRenamingPattern.Size = new System.Drawing.Size(277, 21);
             this.TextboxStoryPageRenamingPattern.TabIndex = 8;
             this.TextboxStoryPageRenamingPattern.Text = "{title}_p{page}.{ext}";
             this.TextboxStoryPageRenamingPattern.TextChanged += new System.EventHandler(this.TextboxStoryPageRenamingPattern_TextChanged_1);
@@ -1535,7 +1535,7 @@ namespace Win_CBZ
             this.TextboxSpecialPageRenamingPattern.Location = new System.Drawing.Point(3, 107);
             this.TextboxSpecialPageRenamingPattern.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TextboxSpecialPageRenamingPattern.Name = "TextboxSpecialPageRenamingPattern";
-            this.TextboxSpecialPageRenamingPattern.Size = new System.Drawing.Size(244, 21);
+            this.TextboxSpecialPageRenamingPattern.Size = new System.Drawing.Size(277, 21);
             this.TextboxSpecialPageRenamingPattern.TabIndex = 10;
             this.TextboxSpecialPageRenamingPattern.Text = "{type}_{index}.{ext}";
             this.TextboxSpecialPageRenamingPattern.TextChanged += new System.EventHandler(this.TextboxSpecialPageRenamingPattern_TextChanged_1);
@@ -1550,7 +1550,7 @@ namespace Win_CBZ
             this.PlaceholdersFlowPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PlaceholdersFlowPanel.Name = "PlaceholdersFlowPanel";
             this.PlaceholdersFlowPanel.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(244, 96);
+            this.PlaceholdersFlowPanel.Size = new System.Drawing.Size(277, 96);
             this.PlaceholdersFlowPanel.TabIndex = 12;
             // 
             // label2
@@ -1567,7 +1567,7 @@ namespace Win_CBZ
             this.CheckBoxPreview.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.CheckBoxPreview.AutoSize = true;
             this.CheckBoxPreview.Enabled = false;
-            this.CheckBoxPreview.Location = new System.Drawing.Point(153, 6);
+            this.CheckBoxPreview.Location = new System.Drawing.Point(172, 6);
             this.CheckBoxPreview.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CheckBoxPreview.Name = "CheckBoxPreview";
             this.CheckBoxPreview.Size = new System.Drawing.Size(64, 17);
@@ -1584,7 +1584,7 @@ namespace Win_CBZ
             this.RenamerExcludePages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RenamerExcludePages.Multiline = true;
             this.RenamerExcludePages.Name = "RenamerExcludePages";
-            this.RenamerExcludePages.Size = new System.Drawing.Size(244, 96);
+            this.RenamerExcludePages.Size = new System.Drawing.Size(277, 96);
             this.RenamerExcludePages.TabIndex = 16;
             this.RenamerExcludePages.TextChanged += new System.EventHandler(this.RenamerExcludePages_TextChanged);
             // 
@@ -1594,7 +1594,7 @@ namespace Win_CBZ
             this.btnGetExcludesFromSelectedPages.Location = new System.Drawing.Point(3, 385);
             this.btnGetExcludesFromSelectedPages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGetExcludesFromSelectedPages.Name = "btnGetExcludesFromSelectedPages";
-            this.btnGetExcludesFromSelectedPages.Size = new System.Drawing.Size(144, 37);
+            this.btnGetExcludesFromSelectedPages.Size = new System.Drawing.Size(163, 37);
             this.btnGetExcludesFromSelectedPages.TabIndex = 17;
             this.btnGetExcludesFromSelectedPages.Text = "Get From selected Pages";
             this.btnGetExcludesFromSelectedPages.UseVisualStyleBackColor = true;
@@ -1608,7 +1608,7 @@ namespace Win_CBZ
             this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(313, 244);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(312, 239);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;
@@ -1629,7 +1629,7 @@ namespace Win_CBZ
             this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.93939F));
             this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.06061F));
             this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(301, 137);
+            this.ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(300, 137);
             this.ArchiveBuildSettingsTableLayout.TabIndex = 0;
             // 
             // label7
@@ -1656,7 +1656,7 @@ namespace Win_CBZ
             "None"});
             this.ComboBoxCompressionLevel.Location = new System.Drawing.Point(5, 32);
             this.ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
-            this.ComboBoxCompressionLevel.Size = new System.Drawing.Size(291, 21);
+            this.ComboBoxCompressionLevel.Size = new System.Drawing.Size(290, 21);
             this.ComboBoxCompressionLevel.TabIndex = 0;
             this.ComboBoxCompressionLevel.SelectedIndexChanged += new System.EventHandler(this.ComboBoxCompressionLevel_SelectedIndexChanged);
             // 
@@ -1868,39 +1868,39 @@ namespace Win_CBZ
             // 
             this.MetaDataGrid.AllowUserToAddRows = false;
             this.MetaDataGrid.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle23.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle23;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataGrid.Location = new System.Drawing.Point(3, 39);
             this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataGrid.MultiSelect = false;
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle24.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle24.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle24.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle24.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle24;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
             this.MetaDataGrid.Size = new System.Drawing.Size(715, 132);

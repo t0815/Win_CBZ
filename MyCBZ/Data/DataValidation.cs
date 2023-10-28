@@ -11,7 +11,7 @@ namespace Win_CBZ.Data
     public class DataValidation
     {
 
-        public static string[] validateDuplicateStrings(string[] values)
+        public static string[] ValidateDuplicateStrings(string[] values)
         {
             List<String> duplicates = new List<String>();
 
@@ -36,7 +36,50 @@ namespace Win_CBZ.Data
             return duplicates.ToArray();
         }
 
-        public static bool validateTags(ref ArrayList unknownTagsList, bool showError = true)
+        public static bool ValidateMetaData(ref ArrayList metaDataEntryErrors, bool showError = true)
+        {
+            int occurence = 0;
+            bool error = false;
+            foreach (MetaDataEntry entryA in Program.ProjectModel.MetaData.Values)
+            {
+                occurence = 0;
+                foreach (MetaDataEntry entryB in Program.ProjectModel.MetaData.Values)
+                {
+
+                    if (entryA.Key.ToLower().Equals(entryB.Key.ToLower()))
+                    {
+                        occurence++;
+                    }
+                }
+
+                if (occurence > 1 && metaDataEntryErrors.IndexOf(entryA.Key) == -1)
+                {
+                    metaDataEntryErrors.Add(entryA.Key);
+                    error = true;
+                }
+            }
+
+            if (error)
+            {
+                String lines = string.Join("\r\n", metaDataEntryErrors.ToArray());
+                String errorText = string.Join(", ", metaDataEntryErrors.ToArray());
+
+                if (showError)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Metadata Validation failed! Invalid Keys [" + errorText + "] found.");
+                    DialogResult r = ApplicationMessage.ShowWarning("Metadata Validation failed! The folliwing keys are invalid:\r\n\r\n" + lines, "Metadata Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
+
+                    if (r == DialogResult.Ignore)
+                    {
+                        error = false;
+                    }
+                }
+            }
+
+            return error;
+        }
+
+        public static bool ValidateTags(ref ArrayList unknownTagsList, bool showError = true)
         {
             bool tagValidationFailed = false;
 
@@ -86,14 +129,14 @@ namespace Win_CBZ.Data
             return tagValidationFailed;
         }
 
-        public static bool validateTags(bool showError = true)
+        public static bool ValidateTags(bool showError = true)
         {
             ArrayList unknownTagList = new ArrayList();
 
-            return DataValidation.validateTags(ref unknownTagList, showError);
+            return DataValidation.ValidateTags(ref unknownTagList, showError);
         }
 
-        public static bool validateCBZ(bool showError = true) 
+        public static bool ValidateCBZ(bool showError = true) 
         {
             MetaData metaData = Program.ProjectModel.MetaData;
 

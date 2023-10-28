@@ -2823,12 +2823,14 @@ namespace Win_CBZ
         {
             List<String> problems = new List<String>();
             ArrayList unknownTags = new ArrayList();
+            ArrayList invalidKeys = new ArrayList();
             string[] duplicateTags = new string[0];
             bool hasFiles = Program.ProjectModel.Pages.Count > 0;
             bool hasMetaData = Program.ProjectModel.MetaData.Values.Count > 0;
             bool pagesValid = true;
             bool metaDataValid = true;
             bool tagValidationFailed = false;
+            bool keyValidationFailed = false;
 
             if (hasFiles)
             {
@@ -2885,6 +2887,17 @@ namespace Win_CBZ
 
             if (hasMetaData)
             {
+
+                keyValidationFailed = DataValidation.ValidateMetaData(ref invalidKeys, false);
+
+                if (keyValidationFailed)
+                {
+                    foreach (String key in invalidKeys)
+                    {
+                        problems.Add("Metadata->Invalid Key: " + key + "");
+                    }
+                }
+
                 String title = Program.ProjectModel.MetaData.ValueForKey("Title");
                 if (title != null)
                 {
@@ -2914,7 +2927,7 @@ namespace Win_CBZ
                 if (tags != null)
                 {
 
-                    tagValidationFailed = DataValidation.validateTags(ref unknownTags, false);
+                    tagValidationFailed = DataValidation.ValidateTags(ref unknownTags, false);
                     if (tagValidationFailed)
                     {
                         foreach (String tag in unknownTags)
@@ -2925,7 +2938,7 @@ namespace Win_CBZ
                     }
 
                     string[] tagList = tags.Split(',');
-                    duplicateTags = DataValidation.validateDuplicateStrings(tagList);
+                    duplicateTags = DataValidation.ValidateDuplicateStrings(tagList);
 
                     if (duplicateTags != null)
                     {
