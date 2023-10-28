@@ -16,12 +16,18 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
             AppNameLabel.Text = Win_CBZSettings.Default.AppName;
+            AppVersionLabel.Text = "v" + Win_CBZSettings.Default.Version;
             LicenseInfoRichtextBox.Rtf = global::Win_CBZ.Properties.Resources.CBZMageAboutMessage;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void AboutDialogForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
