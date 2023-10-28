@@ -499,6 +499,162 @@ namespace Win_CBZ
             catch (Exception) { return false; }
         }
 
+        public bool Validate(ref string[] validationErrors, bool showErrorsDialog = false)
+        {
+            List<String> problems = new List<String>();
+            ArrayList unknownTags = new ArrayList();
+            ArrayList invalidKeys = new ArrayList();
+            string[] duplicateTags = new string[0];
+            bool hasFiles = Pages.Count > 0;
+            bool hasMetaData = MetaData.Values.Count > 0;
+            bool pagesValid = true;
+            bool metaDataValid = true;
+            bool tagValidationFailed = false;
+            bool keyValidationFailed = false;
+
+            if (hasFiles)
+            {
+                foreach (Page page in Pages)
+                {
+                    if (page.H == 0 || page.W == 0)
+                    {
+                        problems.Add("Invalid dimensions for page [" + page.Id + "] (" + page.W + "x" + page.H + ")");
+                        pagesValid = false;
+                    }
+
+                    if (page.LocalPath != null)
+                    {
+                        FileInfo fileInfo = new FileInfo(page.LocalPath);
+                        if (!fileInfo.Exists)
+                        {
+                            problems.Add("Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            pagesValid = false;
+                        }
+                        //fileInfo.
+                    }
+                    else
+                    {
+                        if (!page.Compressed)
+                        {
+                            problems.Add("Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            pagesValid = false;
+                        }
+                    }
+
+                    if (hasMetaData)
+                    {
+                        MetaDataEntryPage pageMeta = MetaData.FindIndexEntryForPage(page);
+
+                        if (pageMeta != null)
+                        {
+                            String metaSize = pageMeta.GetAttribute("Size");
+
+
+                        }
+                        else
+                        {
+                            problems.Add("Metadata PageIndex entry missing for page [" + page.Name + "]");
+                            metaDataValid = false;
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                problems.Add("No pages found in Archive! Nothing to display.");
+            }
+
+            if (hasMetaData)
+            {
+
+                keyValidationFailed = DataValidation.ValidateMetaData(ref invalidKeys, false);
+
+                if (keyValidationFailed)
+                {
+                    foreach (String key in invalidKeys)
+                    {
+                        problems.Add("Metadata->Invalid Key: " + key + "");
+                    }
+                }
+
+                String title = Program.ProjectModel.MetaData.ValueForKey("Title");
+                if (title != null)
+                {
+                    if (title.Length == 0)
+                    {
+                        problems.Add("Metadata->Title: Value missing!");
+                    }
+                }
+                else
+                {
+                    problems.Add("Metadata->Title missing!");
+                }
+
+                String writer = Program.ProjectModel.MetaData.ValueForKey("Writer");
+                if (writer != null)
+                {
+                    if (writer.Length == 0)
+                    {
+                        problems.Add("Metadata->Writer: Value missing!");
+                    }
+                }
+                else
+                {
+                    problems.Add("Metadata->Title missing!");
+                }
+
+                String tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
+                if (tags != null)
+                {
+
+                    tagValidationFailed = DataValidation.ValidateTags(ref unknownTags, false);
+                    if (tagValidationFailed)
+                    {
+                        foreach (String tag in unknownTags)
+                        {
+                            problems.Add("[Tags->Unknown Tag: " + tag + "]");
+                        }
+
+                    }
+
+                    string[] tagList = tags.Split(',');
+                    duplicateTags = DataValidation.ValidateDuplicateStrings(tagList);
+
+                    if (duplicateTags != null)
+                    {
+                        foreach (String duplicateTag in duplicateTags)
+                        {
+                            problems.Add("[Tags->duplicate Tag: " + duplicateTag + "]");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                problems.Add("Metadata missing!");
+            }
+
+            if (showErrorsDialog)
+            {
+                if (problems.Count > 0)
+                {
+                    ApplicationMessage.Show("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", 1, ApplicationMessage.DialogButtons.MB_OK);
+                }
+                else
+                {
+                    ApplicationMessage.Show("Success!\r\nCBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", 1, ApplicationMessage.DialogButtons.MB_OK);
+                }
+            }
+
+            validationErrors = problems.ToArray();
+
+            return problems.Count > 0;
+        }
+
         public bool ThreadRunning()
         {
             if (LoadArchiveThread != null)
