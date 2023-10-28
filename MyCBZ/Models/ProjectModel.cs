@@ -1427,6 +1427,7 @@ namespace Win_CBZ
         {            
 
             int index = 0;
+            bool tagValidationFailed = false;
             List<Page> deletedPages = new List<Page>();
 
             TemporaryFileName = MakeNewTempFileName("", ".cbz").FullName;
@@ -1459,13 +1460,13 @@ namespace Win_CBZ
                     if (unknownTags.Count > 0)
                     {
                         String lines = string.Join("\r\n", unknownTags.ToArray());
-
+                        tagValidationFailed = true;
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Tag Validation: Failed to validate Tags. Invalid Tags found.");
-
-                        ApplicationMessage.ShowWarning("Tag Validation failed!\r\nThe folliwing tags where not found in known Tags- List:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK);
+                        ApplicationMessage.ShowWarning("Tag Validation failed!\r\nThe folliwing tags where not found in Knowntags- List:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK);
 
                         OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
+                        
                         return;
                     }
                 }
@@ -1586,24 +1587,28 @@ namespace Win_CBZ
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
                 } finally
                 {
-                    try
+                    if (!tagValidationFailed)
                     {
-                        File.Delete(TemporaryFileName);
-                        // Reopen source file and update image entries
-                        Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
-                        foreach (ZipArchiveEntry entry in Archive.Entries)
+                        try
                         {
-                            Page page = GetPageByName(entry.Name);
-                            if (page != null)
+                            File.Delete(TemporaryFileName);
+                            // Reopen source file and update image entries
+                            Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
+                            foreach (ZipArchiveEntry entry in Archive.Entries)
                             {
-                                page.UpdateImageEntry(entry, MakeNewRandomId());
+                                Page page = GetPageByName(entry.Name);
+                                if (page != null)
+                                {
+                                    page.UpdateImageEntry(entry, MakeNewRandomId());
+                                }
                             }
+                            IsChanged = false;
+                            IsNew = false;
                         }
-                        IsChanged = false;
-                        IsNew = false;
-                    } catch (Exception rex)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
+                        catch (Exception rex)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
+                        }
                     }
                 }
             }

@@ -1362,6 +1362,7 @@ namespace Win_CBZ
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                         PageView.Refresh();
+                        PageView.Invalidate();
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
