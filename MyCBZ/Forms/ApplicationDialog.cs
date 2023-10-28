@@ -62,6 +62,12 @@ namespace Win_CBZ.Forms
                     index--;
                 }
 
+                if (value.HasFlag(DialogButtons.MB_IGNORE))
+                {
+                    MakeBtn("Ignore", DialogButtons.MB_IGNORE, DialogResult.Ignore, index);
+                    index--;
+                }
+
                 if (value.HasFlag(DialogButtons.MB_CANCEL) && !_existingButtons.HasFlag(DialogButtons.MB_ABORT))
                 {
 

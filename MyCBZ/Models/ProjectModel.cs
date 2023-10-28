@@ -1452,7 +1452,8 @@ namespace Win_CBZ
                                 unknownTags.Add(tag);
                             }
                         }
-                    } else
+                    }
+                    else
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Tag Validation: No Tags to validate.");
                     }
@@ -1460,14 +1461,20 @@ namespace Win_CBZ
                     if (unknownTags.Count > 0)
                     {
                         String lines = string.Join("\r\n", unknownTags.ToArray());
+                        String errorText = string.Join(", ", unknownTags.ToArray());
                         tagValidationFailed = true;
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Tag Validation: Failed to validate Tags. Invalid Tags found.");
-                        ApplicationMessage.ShowWarning("Tag Validation failed!\r\nThe folliwing tags where not found in Knowntags- List:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK);
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Tag Validation: Failed to validate Tags. Invalid Tags ["+ errorText + "] found.");
+                        DialogResult r = ApplicationMessage.ShowWarning("Tag Validation failed!\r\nThe folliwing tags where not found in known list of tags:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
 
-                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+                        if (r == DialogResult.OK)
+                        {
+                            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-                        
-                        return;
+                            return;
+                        } else
+                        {
+                            tagValidationFailed = false;
+                        }
                     }
                 }
 
@@ -1480,7 +1487,8 @@ namespace Win_CBZ
                     try
                     {
                         RunRenameScriptsForPages();
-                    } catch (Exception ee)
+                    }
+                    catch (Exception ee)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
 
@@ -1514,16 +1522,17 @@ namespace Win_CBZ
                             }
 
                             page.FreeImage();
-                            
+
                             updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name, CompressionLevel);
                             if (IsNew)
                             {
                                 page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
                             }
                             page.Changed = false;
-                          
+
                             OnPageChanged(new PageChangedEvent(page, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
-                        } else
+                        }
+                        else
                         {
                             // collect all deleted items
                             deletedPages.Add(page);
@@ -1531,8 +1540,9 @@ namespace Win_CBZ
                     }
                     catch (Exception efile)
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath +"] to Archive [" + efile.Message + "]");
-                    } finally
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath + "] to Archive [" + efile.Message + "]");
+                    }
+                    finally
                     {
                         Thread.Sleep(10);
                     }
@@ -1553,61 +1563,68 @@ namespace Win_CBZ
                     entryStream.Close();
                     ms.Close();
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
-            } finally
+            }
+            finally
             {
-                try
+                if (!tagValidationFailed)
                 {
-                    if (BuildingArchive != null)
+                    try
                     {
-                        BuildingArchive.Dispose();
-                    }
-
-                    if (Archive != null)
-                    {
-                        Archive.Dispose();
-                    }
-
-                    CopyFile(TemporaryFileName, FileName, true);
-
-                    int deletedIndex = 0;
-                    foreach (Page deletedPage in deletedPages)
-                    {
-                        Pages.Remove(deletedPage);
-
-                        OnPageChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_CLOSED));
-                        OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
-                        deletedIndex++;
-                    }
-
-                } catch (Exception mvex)
-                {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
-                } finally
-                {
-                    if (!tagValidationFailed)
-                    {
-                        try
+                        if (BuildingArchive != null)
                         {
-                            File.Delete(TemporaryFileName);
-                            // Reopen source file and update image entries
-                            Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
-                            foreach (ZipArchiveEntry entry in Archive.Entries)
-                            {
-                                Page page = GetPageByName(entry.Name);
-                                if (page != null)
-                                {
-                                    page.UpdateImageEntry(entry, MakeNewRandomId());
-                                }
-                            }
-                            IsChanged = false;
-                            IsNew = false;
+                            BuildingArchive.Dispose();
                         }
-                        catch (Exception rex)
+
+                        if (Archive != null)
                         {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
+                            Archive.Dispose();
+                        }
+
+                        CopyFile(TemporaryFileName, FileName, true);
+
+                        int deletedIndex = 0;
+                        foreach (Page deletedPage in deletedPages)
+                        {
+                            Pages.Remove(deletedPage);
+
+                            OnPageChanged(new PageChangedEvent(deletedPage, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                            OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
+                            deletedIndex++;
+                        }
+
+                    }
+                    catch (Exception mvex)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
+                    }
+                    finally
+                    {
+                        if (!tagValidationFailed)
+                        {
+                            try
+                            {
+                                File.Delete(TemporaryFileName);
+                                // Reopen source file and update image entries
+                                Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
+                                foreach (ZipArchiveEntry entry in Archive.Entries)
+                                {
+                                    Page page = GetPageByName(entry.Name);
+                                    if (page != null)
+                                    {
+                                        page.UpdateImageEntry(entry, MakeNewRandomId());
+                                    }
+                                }
+                                IsChanged = false;
+                                IsNew = false;
+                            }
+                            catch (Exception rex)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
+                            }
                         }
                     }
                 }
