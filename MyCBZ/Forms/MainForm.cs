@@ -2788,6 +2788,95 @@ namespace Win_CBZ
             }
         }
 
+        private void ToolButtonValidateCBZ_Click(object sender, EventArgs e)
+        {
+            List<String> problems = new List<String>();
+            bool hasFiles = Program.ProjectModel.Pages.Count > 0;
+            bool hasMetaData = Program.ProjectModel.MetaData.Values.Count > 0;
+            bool pagesValid = true;
+            bool metaDataValid = true;
+
+            if (hasFiles)
+            {
+                foreach (Page page in Program.ProjectModel.Pages) 
+                {
+                    if (page.H == 0 || page.W == 0) 
+                    {
+                        problems.Add("Invalid dimensions for page [" + page.Id + "] (" + page.W +"x" + page.H + ")");
+                        pagesValid = false;
+                    }
+
+                    if (page.LocalPath != null)
+                    {
+                        FileInfo fileInfo = new FileInfo(page.LocalPath);
+                        if (!fileInfo.Exists)
+                        {
+                            problems.Add("Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            pagesValid = false;
+                        }
+                        //fileInfo.
+                    } else
+                    {
+                        if (!page.Compressed)
+                        {
+                            problems.Add("Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            pagesValid = false;
+                        }
+                    }
+
+                    if (hasMetaData)
+                    {
+                        MetaDataEntryPage pageMeta = Program.ProjectModel.MetaData.FindIndexEntryForPage(page);
+
+                        if (pageMeta != null) 
+                        {
+                            String metaSize = pageMeta.GetAttribute("Size");
+
+
+                        } else
+                        {
+                            problems.Add("Metadata PageIndex entry missing for page [" + page.Name + "]");
+                            metaDataValid = false;
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+            } else
+            {
+                problems.Add("No pages found in Archive! Nothing to display.");
+            }
+
+            if (hasMetaData)
+            {
+                String title = Program.ProjectModel.MetaData.ValueForKey("title");
+                if (title != null)
+                {
+                    if (title.Length == 0)
+                    {
+                        problems.Add("Metadata->Title missing!");
+                    }
+                } else
+                {
+                    problems.Add("Metadata->Title missing!");
+                }
+
+            } else 
+            {
+                problems.Add("Metadata missing!");
+            }
+
+            if (problems.Count > 0)
+            {
+                ApplicationMessage.Show("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", 1, ApplicationMessage.DialogButtons.MB_OK);
+            } else
+            {
+               ApplicationMessage.Show("Success!\r\nCBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", 1, ApplicationMessage.DialogButtons.MB_OK);
+            }
+        }
+
 
 
 
