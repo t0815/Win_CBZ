@@ -422,6 +422,7 @@ namespace Win_CBZ
 
                     for (int i = 0; i < MetaDataGrid.RowCount; i++)
                     {
+                        MetaDataGrid.Rows[i].Cells[2].ReadOnly = true;
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
                             var key = MetaDataGrid.Rows[i].Cells[0].Value;
@@ -2169,6 +2170,7 @@ namespace Win_CBZ
                     {
                         if (updatedEntry.Key == key.ToString())
                         {
+                            MetaDataGrid.Rows[e.RowIndex].Cells[2].ReadOnly = true;
                             if (updatedEntry.Options.Length > 0)
                             {
                                 int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.Value);
@@ -2180,18 +2182,28 @@ namespace Win_CBZ
                             }
                             else
                             {
+                                if (key.ToString() == "Tags")
+                                {
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell();
+                                    bc.Value = "...";
+                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false);
+                                    MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+                                }
+                              
                                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                                 c.Value = updatedEntry.Value;
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                                
                             }
                         }
                     }
                 }
                 
             }
-            catch (Exception) 
-            { 
+            catch (Exception ex) 
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
             }
         }
 
