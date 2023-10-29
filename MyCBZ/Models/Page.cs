@@ -359,10 +359,14 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Close()
+        public void Close(bool dontDeleteTemporaryFiles = false)
         {
             FreeImage();
-            DeleteTemporaryFile();
+
+            if (dontDeleteTemporaryFiles)
+            {
+                DeleteTemporaryFile();
+            }
 
             Closed = true;
             Invalidated = false;

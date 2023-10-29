@@ -1349,7 +1349,7 @@ namespace Win_CBZ
             OnPageChanged(new PageChangedEvent(page, oldPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
 
-            oldPage.Close();
+            oldPage.Close(true);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

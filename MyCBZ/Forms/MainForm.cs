@@ -110,6 +110,8 @@ namespace Win_CBZ
                 SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
                 Program.ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
 
+                CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
+
                 ComboBoxCompressionLevel.SelectedIndex = 0;
 
                 Label placeholderLabel;
@@ -2903,6 +2905,11 @@ namespace Win_CBZ
                         break;
                 }
             }
+        }
+
+        private void CheckBoxCompatibilityMode_CheckedChanged(object sender, EventArgs e)
+        {
+            Win_CBZSettings.Default.CompatMode = CheckBoxCompatibilityMode.Checked;
         }
 
 
