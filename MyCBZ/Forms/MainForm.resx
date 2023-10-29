@@ -533,7 +533,7 @@
 </value>
   </data>
   <data name="CompatInfoText.Text" xml:space="preserve">
-    <value>Most CBZ-Readers ignore the ComicInfo Page-Index and rely on filename ordering instead. If enabled, any renaiming options are ignored and the files are automatically renamed according to their index. The Page with Type 'FrontCover' should be at index 1.</value>
+    <value>Most CBZ-Readers ignore the ComicInfo Page-Index and rely on filename ordering instead. If enabled, any renaming options are ignored and the files are automatically renamed according to their index. The Page with Type 'FrontCover' should be at index 1.</value>
   </data>
   <metadata name="SmallIconsImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1118, 21</value>
