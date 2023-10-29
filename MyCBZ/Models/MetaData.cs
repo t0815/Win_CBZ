@@ -298,6 +298,11 @@ namespace Win_CBZ
             return null;
         }
 
+        public bool Exists() 
+        { 
+            return Values.Count > 0; 
+        }
+
         public bool HasValues()
         {
             bool defaultValueChanged = true;

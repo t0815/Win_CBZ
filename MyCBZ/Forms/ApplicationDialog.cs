@@ -137,6 +137,11 @@ namespace Win_CBZ.Forms
             return DialogButton;
         }
 
+        public void ShowMessageScrollbars(ScrollBars show)
+        {
+           TextBoxMessage.ScrollBars = show;
+        }
+
 
         public ApplicationDialog()
         {

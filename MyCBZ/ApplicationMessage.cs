@@ -29,35 +29,53 @@ namespace Win_CBZ
             MB_QUIT = 128
         };
 
-        public static DialogResult Show(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK)
+        public static DialogResult Show(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
             errorDialog.DialogType = type;
             errorDialog.DialogTitle = title;
             errorDialog.Message = message;
+            errorDialog.ShowMessageScrollbars(ShowScrollBars);
+            
 
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowWarning(String message, String title, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL)
+        public static DialogResult ShowCustom(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None, int width = 441, int height = 350)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
             errorDialog.DialogType = type;
             errorDialog.DialogTitle = title;
             errorDialog.Message = message;
+            errorDialog.ShowMessageScrollbars(ShowScrollBars);
+            errorDialog.Width = width;
 
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowConfirmation(String message, String title, short type = MT_CONFIRMATION, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL)
+        public static DialogResult ShowWarning(String message, String title, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL, ScrollBars ShowScrollBars = ScrollBars.None)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
             errorDialog.DialogType = type;
             errorDialog.DialogTitle = title;
             errorDialog.Message = message;
+            errorDialog.ShowMessageScrollbars(ShowScrollBars);
+
+
+            return errorDialog.ShowDialog();
+        }
+
+        public static DialogResult ShowConfirmation(String message, String title, short type = MT_CONFIRMATION, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL, ScrollBars ShowScrollBars = ScrollBars.None)
+        {
+            ApplicationDialog errorDialog = new ApplicationDialog();
+            errorDialog.Buttons = buttons;
+            errorDialog.DialogType = type;
+            errorDialog.DialogTitle = title;
+            errorDialog.Message = message;
+            errorDialog.ShowMessageScrollbars(ShowScrollBars);
 
             return errorDialog.ShowDialog();
         }
@@ -83,5 +101,7 @@ namespace Win_CBZ
 
             return errorDialog.ShowDialog();
         }
+
+
     }
 }

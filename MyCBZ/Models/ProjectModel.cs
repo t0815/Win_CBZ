@@ -66,6 +66,8 @@ namespace Win_CBZ
 
         public Boolean ApplyRenaming = false;
 
+        public Boolean CompatibilityMode = false;
+
         public Boolean MetaDataPageIndexMissingData = false;
 
         public Boolean MetaDataPageIndexFileMissing = false;
@@ -531,7 +533,7 @@ namespace Win_CBZ
                 {
                     if (page.H == 0 || page.W == 0)
                     {
-                        problems.Add("Invalid dimensions for page [" + page.Id + "] (" + page.W + "x" + page.H + ")");
+                        problems.Add("Project->Pages->Page: Invalid dimensions for page [" + page.Id + "] (" + page.W + "x" + page.H + ")");
                         pagesValid = false;
                     }
 
@@ -540,7 +542,7 @@ namespace Win_CBZ
                         FileInfo fileInfo = new FileInfo(page.LocalPath);
                         if (!fileInfo.Exists)
                         {
-                            problems.Add("Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            problems.Add("Project->Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
                             pagesValid = false;
                         }
                         //fileInfo.
@@ -549,7 +551,7 @@ namespace Win_CBZ
                     {
                         if (!page.Compressed)
                         {
-                            problems.Add("Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            problems.Add("Project->Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
                             pagesValid = false;
                         }
                     }
@@ -566,17 +568,17 @@ namespace Win_CBZ
 
                             if (metaName != page.Name)
                             {
-                                problems.Add("Metadata->PageIndex entry name mismatch for page [" + page.Name + "]");
+                                problems.Add("Project->Metadata->PageIndex->Image: value mismatch for page [" + page.Name + "]");
                             }
 
                             if (metaSize == null || long.Parse(metaSize) != page.Size)
                             {
-                                problems.Add("Metadata->PageIndex entry filesize mismatch for page [" + page.Name + "]");
+                                problems.Add("Project->Metadata->PageIndex->ImageSize: value mismatch for page [" + page.Name + "]");
                             }
 
                             if (metaType == null) 
                             {
-                                problems.Add("Metadata->PageIndex entry type missing for page [" + page.Name + "]");
+                                problems.Add("Project->Metadata->PageIndex->Type: value type missing for page [" + page.Name + "]");
                             } else 
                             { 
                                 if (metaType == "FrontCover")
@@ -584,14 +586,14 @@ namespace Win_CBZ
                                     coverDefined = true;
                                     if (page.Index > 0)
                                     {
-                                        problems.Add("Metadata->PageIndex entry of type 'FrontCover' should be at index 0 (page 1) for page [" + page.Name + "]");
+                                        problems.Add("Project->Metadata->PageIndex->Type: value of type 'FrontCover' should be at index 0 (page 1) for page [" + page.Name + "]");
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            problems.Add("Metadata->PageIndex entry missing for page [" + page.Name + "]");
+                            problems.Add("Project->Metadata->PageIndex: entry missing for page [" + page.Name + "]");
                             metaDataValid = false;
                         }
                     }
@@ -603,14 +605,14 @@ namespace Win_CBZ
             }
             else
             {
-                problems.Add("No pages found in Archive! Nothing to display.");
+                problems.Add("Project->Pages: No pages found in Archive [count = 0]! Nothing to display.");
             }
 
             if (hasMetaData)
             {
                 if (!coverDefined)
                 {
-                    problems.Add("Metadata->PageIndex no Page of type 'FrontCover' defined!");
+                    problems.Add("Project->Metadata->PageIndex: no Page of type 'FrontCover' defined!");
                 }
 
 
@@ -620,7 +622,7 @@ namespace Win_CBZ
                 {
                     foreach (String key in invalidKeys)
                     {
-                        problems.Add("Metadata->Invalid Key: " + key + "");
+                        problems.Add("Project->Metadata->Values: Invalid Key '" + key + "'");
                     }
                 }
 
@@ -629,12 +631,12 @@ namespace Win_CBZ
                 {
                     if (title.Length == 0)
                     {
-                        problems.Add("Metadata->Title: Value missing!");
+                        problems.Add("Project->Metadata->Values->Title: Value missing!");
                     }
                 }
                 else
                 {
-                    problems.Add("Metadata->Title missing!");
+                    problems.Add("Project->Metadata->Values->Title: Value missing!");
                 }
 
                 String writer = Program.ProjectModel.MetaData.ValueForKey("Writer");
@@ -642,12 +644,12 @@ namespace Win_CBZ
                 {
                     if (writer.Length == 0)
                     {
-                        problems.Add("Metadata->Writer: Value missing!");
+                        problems.Add("Project->Metadata->Values->Writer: Value missing!");
                     }
                 }
                 else
                 {
-                    problems.Add("Metadata->Writer missing!");
+                    problems.Add("Project->Metadata->Values->Writer: Value missing!");
                 }
 
                 String lang = Program.ProjectModel.MetaData.ValueForKey("LanguageISO");
@@ -655,16 +657,16 @@ namespace Win_CBZ
                 {
                     if (lang.Length == 0)
                     {
-                        problems.Add("Metadata->LanguageISO: Value missing!");
+                        problems.Add("Project->Metadata->Values->LanguageISO: Value missing!");
                     }
                 }
                 else
                 {
-                    problems.Add("Metadata->LanguageISO missing!");
+                    problems.Add("Project->Metadata->Values->LanguageISO missing!");
                 }
 
                 String tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
-                if (tags != null)
+                if (tags != null && tags.Length > 0)
                 {
 
                     tagValidationFailed = DataValidation.ValidateTags(ref unknownTags, false);
@@ -672,7 +674,7 @@ namespace Win_CBZ
                     {
                         foreach (String tag in unknownTags)
                         {
-                            problems.Add("[Tags->Unknown Tag: " + tag + "]");
+                            problems.Add("[Project->Metadata->Values->Tags->Unknown Tag: " + tag + "]");
                         }
 
                     }
@@ -684,21 +686,21 @@ namespace Win_CBZ
                     {
                         foreach (String duplicateTag in duplicateTags)
                         {
-                            problems.Add("[Tags->duplicate Tag: " + duplicateTag + "]");
+                            problems.Add("[Project->Metadata->Values->Tags->duplicate Tag: " + duplicateTag + "]");
                         }
                     }
                 }
             }
             else
             {
-                problems.Add("Metadata missing!");
+                problems.Add("Project->Metadata->Values: Metadata missing!");
             }
 
             if (showErrorsDialog)
             {
                 if (problems.Count > 0)
                 {
-                    ApplicationMessage.Show("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", 1, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.ShowCustom("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", 1, ApplicationMessage.DialogButtons.MB_OK, ScrollBars.Both, 560);
                 }
                 else
                 {
@@ -1628,7 +1630,7 @@ namespace Win_CBZ
 
             foreach (Page page in Pages)
             {
-                if (RenamerExcludes.IndexOf(page.Name) == -1)
+                if (CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
                 {
                     RenamePageScript(page);
 
@@ -1672,7 +1674,7 @@ namespace Win_CBZ
                 BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
                 // Apply renaming rules
-                if (ApplyRenaming)
+                if (ApplyRenaming && !CompatibilityMode)
                 {
                     try
                     {
@@ -1682,6 +1684,30 @@ namespace Win_CBZ
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
 
+                    }
+                }
+
+                // Force renaming every page to its index in compatibility mode
+                if (CompatibilityMode)
+                {
+                    String restoreOriginalPatternPage = RenameSpecialPagePattern;
+                    String restoreOriginalPatternSpecialPage = RenameSpecialPagePattern;
+
+                    RenameStoryPagePattern = "{page}.{ext}";
+                    RenameSpecialPagePattern = "{page}.{ext}";
+
+                    try
+                    {
+                        RunRenameScriptsForPages();
+                    }
+                    catch (Exception ee)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
+
+                    } finally
+                    {
+                        RenameStoryPagePattern = restoreOriginalPatternPage;
+                        RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
                     }
                 }
 

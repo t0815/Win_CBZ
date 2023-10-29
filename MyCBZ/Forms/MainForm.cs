@@ -91,7 +91,9 @@ namespace Win_CBZ
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
-            
+            newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
+
+
             this.Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
@@ -2453,27 +2455,42 @@ namespace Win_CBZ
 
         private void CheckBoxDoRenamePages_CheckedChanged(object sender, EventArgs e)
         {
-            Program.ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
-            Program.ProjectModel.IsChanged = true;
-            TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
-            TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
-            ToolButtonSave.Enabled = true;
-            saveToolStripMenuItem.Enabled = true;
-           
-
-            if (CheckBoxDoRenamePages.Checked == false)
+            if (sender != null)
             {
-                CheckBoxPreview.Enabled = false;
-                if (CheckBoxPreview.Checked)
+                if (Win_CBZSettings.Default.CompatMode)
                 {
-                    Program.ProjectModel.RestoreOriginalNames();
-                    
+                    if (CheckBoxDoRenamePages.CheckState == CheckState.Checked)
+                    {
+                        DialogResult res = ApplicationMessage.Show("Remaming is not supported in compatibility mode!\r\nPages are renamed automatically according to their respective indices.", "Not supported", 1, ApplicationMessage.DialogButtons.MB_OK);
+                        Program.ProjectModel.ApplyRenaming = false;
+                        CheckBoxDoRenamePages.CheckState = CheckState.Unchecked;
+                    }
                 }
-            } else
-            {
-                CheckBoxPreview.Enabled = true;
+                else
+                {
+                    Program.ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
+                    Program.ProjectModel.IsChanged = true;
+                    TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
+                    TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+
+
+                    if (CheckBoxDoRenamePages.Checked == false)
+                    {
+                        CheckBoxPreview.Enabled = false;
+                        if (CheckBoxPreview.Checked)
+                        {
+                            Program.ProjectModel.RestoreOriginalNames();
+
+                        }
+                    }
+                    else
+                    {
+                        CheckBoxPreview.Enabled = true;
+                    }
+                }
             }
-           
         }
 
         private void TextboxStoryPageRenamingPattern_TextChanged(object sender, EventArgs e)
@@ -2527,7 +2544,7 @@ namespace Win_CBZ
 
         private void ToolButtonSetPageType_ButtonClick(object sender, EventArgs e)
         {
-            if (!Program.ProjectModel.MetaData.HasValues())
+            if (!Program.ProjectModel.MetaData.Exists())
             {
                 DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (comicinfo.xml) in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", 4, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
                 if (res == DialogResult.Yes)
@@ -2910,6 +2927,8 @@ namespace Win_CBZ
         private void CheckBoxCompatibilityMode_CheckedChanged(object sender, EventArgs e)
         {
             Win_CBZSettings.Default.CompatMode = CheckBoxCompatibilityMode.Checked;
+
+            Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
         }
 
 
