@@ -256,7 +256,19 @@ namespace Win_CBZ
             ImageEntry = sourcePage.ImageEntry;
             ImageStream = sourcePage.ImageStream;
             IsMemoryCopy = sourcePage.IsMemoryCopy;
-            ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
+            //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
+
+            if (ImageStream != null)
+            {
+                if (ImageStream.CanRead)
+                {
+                    sourcePage.ImageStream.Position = 0;
+
+                    ImageStreamMemoryCopy = new MemoryStream();
+                    sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
+                    IsMemoryCopy = true;
+                }
+            }
 
             Changed = sourcePage.Changed;
             ReadOnly = sourcePage.ReadOnly;
@@ -419,29 +431,66 @@ namespace Win_CBZ
 
                     FileInfo tempFileInfo = new FileInfo(TempPath);
 
-                    FileStream localFile = File.OpenRead(LocalPath);
-                    try
+                    if (!IsMemoryCopy)
                     {
-                        FileStream ImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                        FileStream localFile = File.OpenRead(LocalPath);
                         try
                         {
-                            localFile.CopyTo(ImageStream);
-                        } catch (Exception ewr)
-                        {
-                            throw ewr;
-                        } finally 
-                        { 
-                            ImageStream.Close(); 
-                            ImageStream.Dispose();
-                        }
 
-                    } catch (Exception e)
+                            FileStream CopyImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                            try
+                            {
+                                localFile.CopyTo(CopyImageStream);
+                            }
+                            catch (Exception ewr)
+                            {
+                                throw ewr;
+                            }
+                            finally
+                            {
+                                CopyImageStream.Close();
+                                CopyImageStream.Dispose();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                        finally
+                        {
+                            localFile.Close();
+                            localFile.Dispose();
+                        }
+                    } else
                     {
-                        throw e;
-                    } finally
-                    {
-                        localFile.Close();
-                        localFile.Dispose();
+                        try
+                        {
+
+                            FileStream CopyImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                            try
+                            {
+                                ImageStreamMemoryCopy.CopyTo(CopyImageStream);
+                            }
+                            catch (Exception ewr)
+                            {
+                                throw ewr;
+                            }
+                            finally
+                            {
+                                CopyImageStream.Close();
+                                CopyImageStream.Dispose();
+                            }
+
+
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                        finally
+                        {
+
+                        }
                     }
                     
                 }

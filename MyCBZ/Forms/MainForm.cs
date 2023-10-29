@@ -318,9 +318,24 @@ namespace Win_CBZ
 
                                 if (e.OldValue != null)
                                 {
+                                    int backupIndex = -1;
                                     if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name) > -1)
                                     {
+                                        if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name) > -1)
+                                        {
+                                            backupIndex = ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name);
+                                            string backupName = ComboBoxApplyPageAdjustmentsTo.Items[backupIndex].ToString();
+
+                                            ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = Program.ProjectModel.MakeNewRandomId();
+                                        }
+
                                         ComboBoxApplyPageAdjustmentsTo.Items[ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name)] = e.Page.Name;
+                                    
+                                        if (backupIndex > -1)
+                                        {
+                                            ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = ((Page)e.OldValue).Name;
+
+                                        }
                                     }
                                 }
 

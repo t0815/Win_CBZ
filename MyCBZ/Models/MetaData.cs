@@ -264,11 +264,11 @@ namespace Win_CBZ
             }
         }
 
-        public void UpdatePageIndexMetaDataEntry(String name, Page page)
+        public void UpdatePageIndexMetaDataEntry(Page page, String oldName, String newName)
         {
             foreach (MetaDataEntryPage entry in PageIndex)
             {
-                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
+                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(oldName))
                 {
                     entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)

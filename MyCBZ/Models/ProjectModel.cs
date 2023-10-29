@@ -100,6 +100,8 @@ namespace Win_CBZ
 
         private bool ContinuePipelineForIndexBuilder;
 
+        private bool IgnorePageNameDuplicates = false;
+
         public long TotalSize { get; set; }
 
         private System.IO.Compression.ZipArchive Archive { get; set; }
@@ -1344,18 +1346,21 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RenamePage(Page page, String name, bool isRestored = false)
+        public void RenamePage(Page page, String name, bool ignoreDuplicates = false)
         {
             if (name == null || name == "")
             {
                 throw new PageException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! The new name must not be NULL.");
             }
 
-            foreach (Page existingPage in Pages)
+            if (!ignoreDuplicates)
             {
-                if (existingPage.Name.ToLower().Equals(name.ToLower()))
+                foreach (Page existingPage in Pages)
                 {
-                    throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".");
+                    if (existingPage.Name.ToLower().Equals(name.ToLower()))
+                    {
+                        throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".");
+                    }
                 }
             }
 
@@ -1369,7 +1374,7 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public String PageScriptRename(Page page)
+        public String PageScriptRename(Page page, bool ignoreDuplicates = false)
         {
             string oldName = page.Name;
             string newName = page.Name;
@@ -1404,7 +1409,7 @@ namespace Win_CBZ
 
                         try
                         {
-                            RenamePage(page, newName);
+                            RenamePage(page, newName, ignoreDuplicates);
                         } catch (PageDuplicateNameException) {
                             return oldName;
                         }
@@ -1646,7 +1651,7 @@ namespace Win_CBZ
             {
                 if (CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
                 {
-                    RenamePageScript(page);
+                    RenamePageScript(page, IgnorePageNameDuplicates);
 
                     OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
 
@@ -1709,6 +1714,7 @@ namespace Win_CBZ
 
                     RenameStoryPagePattern = "{page}.{ext}";
                     RenameSpecialPagePattern = "{page}.{ext}";
+                    IgnorePageNameDuplicates = true;
 
                     try
                     {
@@ -1720,6 +1726,7 @@ namespace Win_CBZ
 
                     } finally
                     {
+                        IgnorePageNameDuplicates = false;
                         RenameStoryPagePattern = restoreOriginalPatternPage;
                         RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
                     }
@@ -1795,6 +1802,7 @@ namespace Win_CBZ
                     }
                     catch (Exception efile)
                     {
+                        page.Compressed = false;
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath + "] to Archive [" + efile.Message + "]");
                     }
                     finally
@@ -1890,10 +1898,18 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RenamePageScript(Page page)
+        public void RenamePageScript(Page page, bool ignoreDuplicates = false)
         {
-            String newName = PageScriptRename(page);
-            MetaData.UpdatePageIndexMetaDataEntry(newName, page);
+            String oldName = page.Name;
+            String newName = PageScriptRename(page, ignoreDuplicates);
+
+            try
+            {
+                MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
+            } catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error updating PageIndex for page [" + newName + "]. " + ex.Message);
+            }
         }
 
 
@@ -1950,7 +1966,7 @@ namespace Win_CBZ
             directoryInfo.SetAccessControl(dSecurity);
         }
 
-        protected String MakeNewRandomId()
+        public String MakeNewRandomId()
         {
             return RandomProvider.Next().ToString("X");
         }

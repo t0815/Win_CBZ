@@ -70,7 +70,13 @@ namespace Win_CBZ
 
         public MetaDataEntryPage SetAttribute(String name, String value)
         {
-            Attributes.Add(name, value);
+            try
+            {
+                Attributes.Add(name, value);
+            } catch (Exception e)
+            {
+                Attributes[name] = value;
+            }
 
             return this;
         }
