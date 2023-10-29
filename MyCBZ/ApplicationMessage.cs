@@ -11,10 +11,14 @@ namespace Win_CBZ
 {
     public class ApplicationMessage
     {
-        public const short MT_INFORMATION = 1;
-        public const short MT_WARNING = 2;
-        public const short MT_ERROR = 3;
-        public const short MT_CONFIRMATION = 4;
+
+        public enum DialogType : ushort
+        {
+            MT_INFORMATION = 1,
+            MT_WARNING = 2,
+            MT_ERROR = 3,
+            MT_CONFIRMATION = 4,
+        };
 
         [Flags]
         public enum DialogButtons : ushort
@@ -29,7 +33,7 @@ namespace Win_CBZ
             MB_QUIT = 128
         };
 
-        public static DialogResult Show(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None)
+        public static DialogResult Show(String message, String title, DialogType type = DialogType.MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
@@ -42,7 +46,7 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowCustom(String message, String title, short type = MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None, int width = 441, int height = 350)
+        public static DialogResult ShowCustom(String message, String title, DialogType type = DialogType.MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None, int width = 441, int height = 350)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
@@ -55,7 +59,7 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowWarning(String message, String title, short type = MT_WARNING, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL, ScrollBars ShowScrollBars = ScrollBars.None)
+        public static DialogResult ShowWarning(String message, String title, DialogType type = DialogType.MT_WARNING, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL, ScrollBars ShowScrollBars = ScrollBars.None)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
@@ -68,7 +72,7 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowConfirmation(String message, String title, short type = MT_CONFIRMATION, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL, ScrollBars ShowScrollBars = ScrollBars.None)
+        public static DialogResult ShowConfirmation(String message, String title, DialogType type = DialogType.MT_CONFIRMATION, DialogButtons buttons = DialogButtons.MB_YES | DialogButtons.MB_CANCEL, ScrollBars ShowScrollBars = ScrollBars.None)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
@@ -80,7 +84,7 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowError(String message, String title, short type = MT_ERROR, DialogButtons buttons = DialogButtons.MB_OK)
+        public static DialogResult ShowError(String message, String title, DialogType type = DialogType.MT_ERROR, DialogButtons buttons = DialogButtons.MB_OK)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;
@@ -91,7 +95,7 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
-        public static DialogResult ShowException(Exception exception, short type = MT_ERROR, DialogButtons buttons = DialogButtons.MB_OK)
+        public static DialogResult ShowException(Exception exception, DialogType type = DialogType.MT_ERROR, DialogButtons buttons = DialogButtons.MB_OK)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();
             errorDialog.Buttons = buttons;

@@ -14,30 +14,30 @@ namespace Win_CBZ.Forms
 {
     public partial class ApplicationDialog : Form
     {
-        private short _type;
+        private DialogType _type;
         private String _message;
         private DialogButtons _buttons;
         private String _title;
 
         private DialogButtons _existingButtons;
 
-        public short DialogType 
+        public DialogType DialogType 
         { 
             set 
             {
                 switch (value)
                 {
-                    case MT_INFORMATION:
+                    case DialogType.MT_INFORMATION:
                         Text = "Information";
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.info_dialog;
                         break;
 
-                    case MT_WARNING:
+                    case DialogType.MT_WARNING:
                         Text = "WARNING!";
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.warning_dialog;
                         break;
 
-                    case MT_CONFIRMATION:
+                    case DialogType.MT_CONFIRMATION:
                         Text = "Please confirm";
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.question_dialog;
                         break;

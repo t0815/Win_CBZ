@@ -1613,7 +1613,7 @@ namespace Win_CBZ
 
                 if (ArchiveProcessing())
                 {
-                    ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
 
                 }
             }
@@ -1646,7 +1646,7 @@ namespace Win_CBZ
         {
             if (ArchiveProcessing())
             {
-                DialogResult res = ApplicationMessage.ShowWarning("Warning, there are currently still Tasks running in the Background.\nIt is advised to wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_QUIT | ApplicationMessage.DialogButtons.MB_CANCEL);
+                DialogResult res = ApplicationMessage.ShowWarning("Warning, there are currently still Tasks running in the Background.\nIt is advised to wait until current operation has finished.", "Still operations in progress", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_QUIT | ApplicationMessage.DialogButtons.MB_CANCEL);
                 if (res == DialogResult.Yes)
                 {
                     if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
@@ -1804,7 +1804,7 @@ namespace Win_CBZ
                     {                      
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, eduplicate.Message);
                         e.CancelEdit = true;
-                        ApplicationMessage.ShowException(eduplicate, ApplicationMessage.MT_ERROR);
+                        ApplicationMessage.ShowException(eduplicate, ApplicationMessage.DialogType.MT_ERROR);
                     }
                     catch (PageException)
                     {
@@ -2461,7 +2461,7 @@ namespace Win_CBZ
                 {
                     if (CheckBoxDoRenamePages.CheckState == CheckState.Checked)
                     {
-                        DialogResult res = ApplicationMessage.Show("Remaming is not supported in compatibility mode!\r\nPages are renamed automatically according to their respective indices.", "Not supported", 1, ApplicationMessage.DialogButtons.MB_OK);
+                        DialogResult res = ApplicationMessage.Show("Remaming is not supported in compatibility mode!\r\nPages are renamed automatically according to their respective indices.", "Not supported", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
                         Program.ProjectModel.ApplyRenaming = false;
                         CheckBoxDoRenamePages.CheckState = CheckState.Unchecked;
                     }
@@ -2546,7 +2546,7 @@ namespace Win_CBZ
         {
             if (!Program.ProjectModel.MetaData.Exists())
             {
-                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (comicinfo.xml) in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", 4, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (comicinfo.xml) in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
                 if (res == DialogResult.Yes)
                 {
                     BtnAddMetaData_Click(sender, null);
