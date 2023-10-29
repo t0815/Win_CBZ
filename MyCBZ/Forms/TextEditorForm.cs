@@ -73,7 +73,7 @@ namespace Win_CBZ.Forms
 
                             if (duplicates.Count > 0)
                             {
-                                ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.", "Invalid Value", 3, ApplicationMessage.DialogButtons.MB_OK);
+                                ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.", "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
                                 DialogResult = DialogResult.None;
 
