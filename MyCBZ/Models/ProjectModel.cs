@@ -911,6 +911,7 @@ namespace Win_CBZ
                         page.Number = realNewIndex + 1;
                         page.Index = realNewIndex;
                         page.OriginalIndex = realNewIndex;
+                        page.TemporaryFileId = MakeNewRandomId();
                         realNewIndex++;
                     } else
                     {
@@ -1350,8 +1351,6 @@ namespace Win_CBZ
 
             OnPageChanged(new PageChangedEvent(page, oldPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
-
-            oldPage.Close(true);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -1410,7 +1409,7 @@ namespace Win_CBZ
                     return page.EntryName;
 
                 case "{ext}":
-                    return page.FileExtension;
+                    return page.FileExtension.TrimStart('.');
 
                 case "{index}":
                     return page.Index.ToString();
@@ -1723,6 +1722,7 @@ namespace Win_CBZ
                 Thread.BeginCriticalRegion();
                 foreach (Page page in Pages)
                 {
+                    String sourceFileName = "";
                     try
                     {
                         if (!page.Deleted)
@@ -1737,9 +1737,33 @@ namespace Win_CBZ
                                 }
                             }
 
-                            page.FreeImage();
+                            //page.FreeImage();  // Dont delete any temporary files here!
 
-                            updatedEntry = BuildingArchive.CreateEntryFromFile(page.TempPath, page.Name, CompressionLevel);
+                            if (page.Changed || page.Compressed) 
+                            {
+                                sourceFileName = page.TempPath;
+                                try
+                                {
+                                    FileInfo validateTemporaryFileName = new FileInfo(sourceFileName);
+                                    if (!validateTemporaryFileName.Exists)
+                                    {
+                                        page.CreateLocalWorkingCopy(validateTemporaryFileName.FullName);
+
+                                        
+                                    }
+                                } catch (Exception ex)
+                                {
+
+                                    sourceFileName = page.LocalPath;
+
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! Compressing original file [" + page.LocalPath + "] instead of [" + page.TempPath + "]");
+                                }
+                            } else
+                            {
+                                sourceFileName = page.LocalPath;
+                            }          
+
+                            updatedEntry = BuildingArchive.CreateEntryFromFile(sourceFileName, page.Name, CompressionLevel);
                             if (IsNew)
                             {
                                 page.UpdateImageEntry(updatedEntry, MakeNewRandomId());

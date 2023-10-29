@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.13.63b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.13.64b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));

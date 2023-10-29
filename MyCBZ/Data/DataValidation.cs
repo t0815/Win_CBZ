@@ -92,7 +92,7 @@ namespace Win_CBZ.Data
                 unknownTagsList = new ArrayList();
             }
 
-            if (tagEntry != null && validTags.Count > 0)
+            if (tagEntry != null && tagEntry.Value != null && tagEntry.Value.Length > 0 && validTags.Count > 0)
             {
                 String[] tags = tagEntry.Value.Split(',').Select(s => s.Trim()).ToArray();
                 foreach (String tag in tags)

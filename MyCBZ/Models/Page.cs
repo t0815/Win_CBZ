@@ -418,16 +418,32 @@ namespace Win_CBZ
                     }
 
                     FileInfo tempFileInfo = new FileInfo(TempPath);
-                    FileStream ImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
                     FileStream localFile = File.OpenRead(LocalPath);
+                    try
+                    {
+                        FileStream ImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                        try
+                        {
+                            localFile.CopyTo(ImageStream);
+                        } catch (Exception ewr)
+                        {
+                            throw ewr;
+                        } finally 
+                        { 
+                            ImageStream.Close(); 
+                            ImageStream.Dispose();
+                        }
 
-                    localFile.CopyTo(ImageStream);
-
-                    ImageStream.Close();
-                    localFile.Close();
-
-                    ImageStream.Dispose();
-                    localFile.Dispose();
+                    } catch (Exception e)
+                    {
+                        throw e;
+                    } finally
+                    {
+                        localFile.Close();
+                        localFile.Dispose();
+                    }
+                    
                 }
             }
         }
@@ -468,6 +484,7 @@ namespace Win_CBZ
                 if (ImageStream != null)
                 {
                     ImageStream.Close();
+                    ImageStream.Dispose();
                 }
 
                 File.Delete(TempPath);
@@ -596,21 +613,89 @@ namespace Win_CBZ
                 FileInfo copyFileInfo = new FileInfo(destination);
                 if (ImageStream != null)
                 {
+                    if (ImageStream.CanSeek && ImageStream.Position == copyFileInfo.Length)
+                    {
+                        ImageStream.Seek(0, SeekOrigin.Begin);  
+                    }
+
                     if (ImageStream.CanRead)
                     {
+                        
                         FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+                        try
+                        {
+                            ImageStream.CopyTo(localCopyStream);
+                        } catch (Exception ce) {
+                            throw ce;
+                        } finally
+                        {                          
+                            localCopyStream.Close();
+                            localCopyStream.Dispose();
+                        }
+                                          
+                    } else
+                    {
+                        if (LocalPath != null)
+                        {
+                            FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+                            try
+                            {
+                                FileStream destinationStream = File.Create(destination);
 
-                        ImageStream.CopyTo(localCopyStream);
-                        localCopyStream.Close();                     
+                                try
+                                {
+                                    localCopyStream.CopyTo(destinationStream);
+                                } catch (Exception fwe)
+                                {
+                                    throw fwe;
+                                } finally 
+                                { 
+                                    destinationStream.Close();
+                                    destinationStream.Dispose();
+                                }
+                                
+                            }
+                            catch (Exception ce)
+                            {
+                                throw ce;
+                            }
+                            finally
+                            {
+                                localCopyStream.Close();
+                                localCopyStream.Dispose();
+                            }
+                        }
                     }
                 } else
                 {
                     if (LocalPath != null)
                     {
                         FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
-                        FileStream destinationStream = File.Create(destination);
-
-                        localCopyStream.CopyTo(destinationStream);
+                        
+                        try
+                        {
+                            FileStream destinationStream = File.Create(destination);
+                            try
+                            {
+                                localCopyStream.CopyTo(destinationStream);
+                            }
+                            catch (Exception fwe)
+                            {
+                                throw fwe;
+                            }
+                            finally
+                            {
+                                destinationStream.Close();
+                                destinationStream.Dispose();
+                            }
+                        } catch (Exception fwe)
+                        {
+                            throw fwe;
+                        } finally
+                        {
+                            localCopyStream.Close();
+                            localCopyStream.Dispose();
+                        }
                     }
                 }
 
