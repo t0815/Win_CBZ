@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
 
             PreviewThumbPictureBox.Image = PreviewThumb;
 
-            TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.LocalPath;
+            TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.LocalFile.FullPath;
             PageNameTextBox.Text = Page.Name;
             LabelSize.Text = Page.SizeFormat();
             PageIndexTextbox.Text = (Page.Index + 1).ToString();

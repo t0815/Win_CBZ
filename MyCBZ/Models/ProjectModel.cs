@@ -541,12 +541,12 @@ namespace Win_CBZ
                         pagesValid = false;
                     }
 
-                    if (page.LocalPath != null)
+                    if (page.LocalFile != null)
                     {
-                        FileInfo fileInfo = new FileInfo(page.LocalPath);
+                        FileInfo fileInfo = new FileInfo(page.LocalFile.FullPath);
                         if (!fileInfo.Exists)
                         {
-                            problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalFile.FullPath + ")");
                             pagesValid = false;
                         }
                         //fileInfo.
@@ -555,7 +555,7 @@ namespace Win_CBZ
                     {
                         if (!page.Compressed)
                         {
-                            problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalPath + ")");
+                            problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalFile.FullPath + ")");
                             pagesValid = false;
                         }
                     }
@@ -908,23 +908,23 @@ namespace Win_CBZ
             int index = MaxFileIndex;
             int realNewIndex = MaxFileIndex;
             int progressIndex = 0;
-            String targetPath = "";
+            FileInfo targetPath = null;
+            FileInfo localPath = null;
             Page page = null;
 
             foreach (LocalFile fileObject in Files)
             {
                 try
                 {
-                    targetPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileObject.FileName;
+                    localPath = new FileInfo(fileObject.FileName);
+                    targetPath = MakeNewTempFileName();
 
-                    CopyFile(fileObject.FullPath, targetPath);
-
-                    FileInfo fi = new FileInfo(targetPath);
+                    //CopyFile(fileObject.FullPath, targetPath.FullName);
                     page = GetPageByName(fileObject.FileName);
 
                     if (page == null)
                     {
-                        page = new Page(fi, FileAccess.ReadWrite);
+                        page = new Page(fileObject, targetPath, FileAccess.ReadWrite);
                         page.Number = realNewIndex + 1;
                         page.Index = realNewIndex;
                         page.OriginalIndex = realNewIndex;
@@ -932,16 +932,9 @@ namespace Win_CBZ
                         realNewIndex++;
                     } else
                     {
+                        page.UpdateLocalWorkingCopy(fileObject, targetPath);
                         page.Changed = true;
                     }
-
-                    page.Size = fileObject.FileSize;
-                    page.LocalPath = fileObject.FullPath;
-                    page.Compressed = false;
-                    page.LastModified = fileObject.LastModified;
-                    page.Name = fileObject.FileName;
-                    page.TempPath = fi.FullName;
-
 
                     if (!page.Changed)
                     {
@@ -1028,16 +1021,7 @@ namespace Win_CBZ
 
                 try
                 {
-                    var fi = new FileInfo(fname);
-
-                    LocalFile localFile = new LocalFile(fi.FullName);
-                    localFile.FilePath = fi.Directory.FullName;
-                    localFile.FileName = fi.Name;
-                    localFile.FileSize = fi.Length;
-                    localFile.LastModified = fi.LastWriteTime;
-
-                    Files.Add(localFile);
-
+                    Files.Add(new LocalFile(fname));
                     index++;
 
                     OnTaskProgress(new TaskProgressEvent(null, index, FileNamesToAdd.Count));
@@ -1357,9 +1341,12 @@ namespace Win_CBZ
             {
                 foreach (Page existingPage in Pages)
                 {
-                    if (existingPage.Name.ToLower().Equals(name.ToLower()))
+                    if (existingPage.Name != name)
                     {
-                        throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".");
+                        if (existingPage.Name.ToLower().Equals(name.ToLower()))
+                        {
+                            throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".");
+                        }
                     }
                 }
             }
@@ -1776,13 +1763,13 @@ namespace Win_CBZ
                                 } catch (Exception ex)
                                 {
 
-                                    sourceFileName = page.LocalPath;
+                                    sourceFileName = page.LocalFile.FullPath;
 
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! Compressing original file [" + page.LocalPath + "] instead of [" + page.TempPath + "]");
                                 }
                             } else
                             {
-                                sourceFileName = page.LocalPath;
+                                sourceFileName = page.LocalFile.FullPath;
                             }          
 
                             updatedEntry = BuildingArchive.CreateEntryFromFile(sourceFileName, page.Name, CompressionLevel);

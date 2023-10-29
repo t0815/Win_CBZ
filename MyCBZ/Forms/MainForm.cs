@@ -319,22 +319,31 @@ namespace Win_CBZ
                                 if (e.OldValue != null)
                                 {
                                     int backupIndex = -1;
-                                    if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name) > -1)
+                                    string backupName = "";
+                                    if (e.OldValue != null && ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name) > -1)
                                     {
-                                        if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name) > -1)
+                                        try
                                         {
-                                            backupIndex = ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name);
-                                            string backupName = ComboBoxApplyPageAdjustmentsTo.Items[backupIndex].ToString();
+                                            /*
+                                            if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name) > -1)
+                                            {
+                                                backupIndex = ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name);
+                                                backupName = ComboBoxApplyPageAdjustmentsTo.Items[backupIndex].ToString();
 
-                                            ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = Program.ProjectModel.MakeNewRandomId();
-                                        }
+                                                ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = Program.ProjectModel.MakeNewRandomId();
+                                            }
+                                            */
 
-                                        ComboBoxApplyPageAdjustmentsTo.Items[ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name)] = e.Page.Name;
-                                    
-                                        if (backupIndex > -1)
+                                            ComboBoxApplyPageAdjustmentsTo.Items[ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name)] = e.Page.Name;
+
+                                            //if (backupIndex > -1)
+                                            //{
+                                            //    ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = backupName;
+                                            //
+                                            //}
+                                        } catch (Exception ex) 
                                         {
-                                            ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = ((Page)e.OldValue).Name;
-
+                                            //ApplicationMessage.ShowException(ex);
                                         }
                                     }
                                 }
@@ -1510,6 +1519,8 @@ namespace Win_CBZ
                         LabelW.Text = "0";
                         LabelH.Text = "0";
                         CurrentGlobalActions.Clear();
+                        ComboBoxApplyPageAdjustmentsTo.Items.Clear();
+                        ComboBoxApplyPageAdjustmentsTo.Items.Add("<Global>");
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
@@ -1991,10 +2002,10 @@ namespace Win_CBZ
                 //}
             }
 
-            PageChanged(this, new PageChangedEvent(page, originalPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
+            PageChanged(this, new PageChangedEvent(page, originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
             if (originalPage != null)
             {
-                PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, page, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
             }
             ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 

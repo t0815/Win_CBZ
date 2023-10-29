@@ -5,16 +5,10 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Models;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
-using System.Diagnostics.Eventing.Reader;
-using System.Windows.Media.Imaging;
+
 
 namespace Win_CBZ
 {
@@ -44,6 +38,8 @@ namespace Win_CBZ
         public long Size { get; set; }
 
         public String WorkingDir { get; set; }
+
+        public LocalFile LocalFile { get; set; }
 
         public String LocalPath { get; set; }
 
@@ -103,12 +99,14 @@ namespace Win_CBZ
         
         public Page(String fileName, FileAccess mode = FileAccess.Read)
         {
+            LocalFile = new LocalFile(fileName);
             ImageFileInfo = new FileInfo(fileName);
             ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
             if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
             {
                 RemoveReadOnlyAttribute(ref ImageFileInfo);
             }
+
             FileStream ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
             Filename = ImageFileInfo.Name;
             FileExtension = ImageFileInfo.Extension;
@@ -119,33 +117,49 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
         }
-        
 
-        public Page(FileInfo ImageFileInfo, FileAccess mode = FileAccess.Read)
+
+        public Page(LocalFile localFile, FileInfo tempFileName, FileAccess mode = FileAccess.Read)
         {
-            this.ImageFileInfo = ImageFileInfo;
-            ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
-            try
-            {
-                if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+            try {
+                Copy(localFile.FullPath, tempFileName.FullName);
+
+                ImageFileInfo = new FileInfo(tempFileName.FullName);
+                ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
+                try
                 {
-                    RemoveReadOnlyAttribute(ref ImageFileInfo);
+                    if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+                    {
+                        RemoveReadOnlyAttribute(ref ImageFileInfo);
+                    }
+                    ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
+                    ReadOnly = !ImageStream.CanWrite;
                 }
-                ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
-                ReadOnly = ImageStream.CanWrite;
-            } catch (UnauthorizedAccessException)
-            {
-                ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
-                ReadOnly = true;
-            } finally
-            {
+                catch (UnauthorizedAccessException)
+                {
+                    ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                    ReadOnly = true;
+                }
+                finally
+                {
+                    LocalFile = localFile;
+                    WorkingDir = tempFileName.Directory.FullName;
+                    if (ReadOnly)
+                    {
+                        String newTempFileName = CreateLocalWorkingCopy();
+                        TempPath = new FileInfo(newTempFileName).FullName;
+                    }
+                }
 
+
+            } catch { 
+                
             }
-
+          
             Filename = ImageFileInfo.FullName;
-            FileExtension = ImageFileInfo.Extension;
+            FileExtension = localFile.FileExtension;
             LocalPath = ImageFileInfo.Directory.FullName;
-            Name = ImageFileInfo.Name;
+            Name = localFile.FileName;
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
@@ -202,6 +216,8 @@ namespace Win_CBZ
             Filename = sourcePage.Filename;
             LocalPath = sourcePage.LocalPath;
             ImageStream = sourcePage.ImageStream;
+            LocalFile = sourcePage.LocalFile;
+            FileExtension = sourcePage.FileExtension;
             Compressed = sourcePage.Compressed;
             TemporaryFileId = RandomId;
             EntryName = sourcePage.EntryName;
@@ -249,6 +265,7 @@ namespace Win_CBZ
             TempPath = sourcePage.TempPath;
             Filename = sourcePage.Filename;
             LocalPath = sourcePage.LocalPath;
+            LocalFile = sourcePage.LocalFile;   
             ImageStream = sourcePage.ImageStream;
             Compressed = sourcePage.Compressed;
             TemporaryFileId = sourcePage.TemporaryFileId;
@@ -304,6 +321,7 @@ namespace Win_CBZ
             Key = page.Key;
             Number = page.Number;
             Deleted = page.Deleted;
+            LocalFile = page.LocalFile;
 
             if (!skipName)
             {
@@ -330,6 +348,25 @@ namespace Win_CBZ
             LastModified = entry.LastWriteTime;
             Id = Guid.NewGuid().ToString();
             TemporaryFileId = randomId;
+        }
+
+        public void UpdateLocalWorkingCopy(LocalFile localFile, FileInfo tempFileName = null)
+        {
+            Copy(localFile.FullPath, tempFileName.FullName);
+
+            ImageFileInfo = new FileInfo(tempFileName.FullName);
+
+            LocalFile = new LocalFile(localFile.FullPath);
+            Size = ImageFileInfo.Length;
+            LocalPath = localFile.FullPath;
+            Compressed = false;
+            LastModified = localFile.LastModified;
+            Name = localFile.FileName;
+
+            //String newTempFileName = CreateLocalWorkingCopy(ExtractFileExtension(localFile.FullPath));
+            //TempPath = new FileInfo(newTempFileName).FullName;
+
+            
         }
 
         protected bool RemoveReadOnlyAttribute(ref FileInfo ImageFileInfo)
@@ -403,7 +440,7 @@ namespace Win_CBZ
                     {
                         if (destination == null)
                         {
-                            destination = WorkingDir + TemporaryFileId + ".tmp";
+                            destination = Path.Combine(WorkingDir, TemporaryFileId + ".tmp");
                         }
                        
                         ImageEntry.ExtractToFile(destination);
@@ -417,13 +454,13 @@ namespace Win_CBZ
                 }
             } else
             {
-                if (ReadOnly)
+                if (ReadOnly || TempPath == null)
                 {
                     if (TempPath == null || destination != null)
                     {
                         if (destination == null)
                         {
-                            destination = WorkingDir + TemporaryFileId + ".tmp";
+                            destination = Path.Combine(WorkingDir, TemporaryFileId + ".tmp");
                         }
 
                         TempPath = destination;
@@ -433,7 +470,7 @@ namespace Win_CBZ
 
                     if (!IsMemoryCopy)
                     {
-                        FileStream localFile = File.OpenRead(LocalPath);
+                        FileStream localFile = File.OpenRead(LocalFile.FullPath);
                         try
                         {
 
@@ -544,7 +581,7 @@ namespace Win_CBZ
         {
             if (!ReadOnly)
             {
-                File.Delete(LocalPath);
+                File.Delete(LocalFile.FileName);
             }           
         }
 
@@ -656,13 +693,13 @@ namespace Win_CBZ
             {
                 if (destination == null)
                 {
-                    destination = WorkingDir + TemporaryFileId + ".tmp";
+                    destination = Path.Combine(WorkingDir, TemporaryFileId + ".tmp");
                 }
 
-                FileInfo copyFileInfo = new FileInfo(destination);
+                FileInfo copyFileInfo = new FileInfo(destination);   // Target
                 if (ImageStream != null)
                 {
-                    if (ImageStream.CanSeek && ImageStream.Position == copyFileInfo.Length)
+                    if (ImageStream.CanSeek && ImageStream.Position > 0)
                     {
                         ImageStream.Seek(0, SeekOrigin.Begin);  
                     }
@@ -717,7 +754,7 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    if (LocalPath != null)
+                    if (LocalFile != null)
                     {
                         FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
                         
@@ -752,9 +789,13 @@ namespace Win_CBZ
                 {
                     TempPath = destination;
 
+                    LocalFile = new LocalFile(TempPath);
+
                     return destination;
                 }
             }
+
+            LocalFile = new LocalFile(TempPath);
 
             return TempPath;
         }

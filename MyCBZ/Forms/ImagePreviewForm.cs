@@ -24,12 +24,12 @@ namespace Win_CBZ
             {
                 currentIndex = page.Index;
                 currentId = page.Id;
-                if (page.LocalPath == null)
+                if (page.LocalFile == null)
                 {
-                   page.LocalPath = Program.ProjectModel.RequestTemporaryFile(page);                  
+                   page.LocalFile = new LocalFile(Program.ProjectModel.RequestTemporaryFile(page));                  
                 }
 
-                PageImagePreview.ImageLocation = page.LocalPath;
+                PageImagePreview.ImageLocation = page.LocalFile.FullPath;
                 
             }
             catch (Exception e)
