@@ -66,8 +66,8 @@ namespace Win_CBZ.Data
 
                 if (showError)
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Metadata Validation failed! Invalid Keys [" + errorText + "] found.");
-                    DialogResult r = ApplicationMessage.ShowWarning("Metadata Validation failed! The folliwing keys are invalid:\r\n\r\n" + lines, "Metadata Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Metadata Validation failed! Duplicate Keys [" + errorText + "] found.");
+                    DialogResult r = ApplicationMessage.ShowWarning("Metadata Validation failed! The folliwing keys are duplicated:\r\n\r\n" + lines, "Metadata Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
 
                     if (r == DialogResult.Ignore)
                     {
@@ -117,7 +117,7 @@ namespace Win_CBZ.Data
                 if (showError)
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Tag Validation: Failed to validate Tags. Invalid Tags [" + errorText + "] found.");
-                    DialogResult r = ApplicationMessage.ShowWarning("Tag Validation failed! The folliwing tags where not found in known list of tags:\r\n\r\n" + lines, "Tag Validation Error", 2, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
+                    DialogResult r = ApplicationMessage.ShowWarning("Tag Validation failed! The folliwing tags where not found in known list of tags:\r\n\r\n" + lines, "Tag Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
 
                     if (r == DialogResult.Ignore)
                     {

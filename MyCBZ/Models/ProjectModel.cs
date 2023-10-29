@@ -154,6 +154,8 @@ namespace Win_CBZ
 
         private Thread RestoreRenamingThread;
 
+        private Thread ValidationThread;
+
 
         public ProjectModel(String workingDir)
         {
@@ -713,11 +715,11 @@ namespace Win_CBZ
             {
                 if (problems.Count > 0)
                 {
-                    ApplicationMessage.ShowCustom("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", 1, ApplicationMessage.DialogButtons.MB_OK, ScrollBars.Both, 560);
+                    ApplicationMessage.ShowCustom("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK, ScrollBars.Both, 560);
                 }
                 else
                 {
-                    ApplicationMessage.Show("Validation Successfull! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", 1, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.Show("Validation Successfull! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
                 }
             }
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.ButtonOk = new System.Windows.Forms.Button();
             this.HeaderPanel = new System.Windows.Forms.Panel();
@@ -47,6 +48,8 @@
             this.ValidTags = new System.Windows.Forms.TextBox();
             this.CheckBoxValidateTags = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.InfoIconTooltip = new System.Windows.Forms.PictureBox();
+            this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -55,6 +58,7 @@
             this.SettingsGroup1Panel.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).BeginInit();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -203,8 +207,8 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(302, 26);
             this.label2.TabIndex = 2;
-            this.label2.Text = "One Key per Line\r\nFor setting a default value for given key use <key>=<value> for" +
-    "mat";
+            this.label2.Text = "One Key per Line\r\nTo set a default value for a given key use <key>=<value> format" +
+    "";
             // 
             // label1
             // 
@@ -242,11 +246,12 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.10619F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 3.893805F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.34906F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.65094F));
             this.tableLayoutPanel1.Controls.Add(this.ValidTags, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.CheckBoxValidateTags, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.InfoIconTooltip, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 5);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -259,6 +264,7 @@
             // 
             // ValidTags
             // 
+            this.tableLayoutPanel1.SetColumnSpan(this.ValidTags, 2);
             this.ValidTags.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValidTags.Location = new System.Drawing.Point(2, 39);
             this.ValidTags.Margin = new System.Windows.Forms.Padding(2);
@@ -290,6 +296,30 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "One Tag per Line";
             // 
+            // InfoIconTooltip
+            // 
+            this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
+            this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
+            this.InfoIconTooltip.Location = new System.Drawing.Point(205, 0);
+            this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
+            this.InfoIconTooltip.Name = "InfoIconTooltip";
+            this.InfoIconTooltip.Padding = new System.Windows.Forms.Padding(5);
+            this.InfoIconTooltip.Size = new System.Drawing.Size(33, 37);
+            this.InfoIconTooltip.TabIndex = 5;
+            this.InfoIconTooltip.TabStop = false;
+            this.TagValidationTooltip.SetToolTip(this.InfoIconTooltip, "This options allows you, to validate matadata tags against your own list of valid" +
+        " tags, \r\npreventing typos and duplicate, invalid tags being generated/shown with" +
+        "in applications.\r\n");
+            // 
+            // TagValidationTooltip
+            // 
+            this.TagValidationTooltip.AutoPopDelay = 30000;
+            this.TagValidationTooltip.InitialDelay = 200;
+            this.TagValidationTooltip.IsBalloon = true;
+            this.TagValidationTooltip.ReshowDelay = 100;
+            this.TagValidationTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.TagValidationTooltip.ToolTipTitle = "Custom Tag Validation";
+            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -312,6 +342,7 @@
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -337,5 +368,7 @@
         private System.Windows.Forms.CheckBox CheckBoxValidateTags;
         private System.Windows.Forms.TextBox ValidTags;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox InfoIconTooltip;
+        private System.Windows.Forms.ToolTip TagValidationTooltip;
     }
 }
