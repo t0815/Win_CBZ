@@ -26,6 +26,7 @@ using Win_CBZ.Tasks;
 using System.Security.Principal;
 using System.Windows.Controls;
 using Win_CBZ.Models;
+using System.Windows.Input;
 
 namespace Win_CBZ
 {
@@ -522,6 +523,7 @@ namespace Win_CBZ
             bool metaDataValid = true;
             bool tagValidationFailed = false;
             bool keyValidationFailed = false;
+            bool coverDefined = false;
 
             if (hasFiles)
             {
@@ -560,6 +562,7 @@ namespace Win_CBZ
                         {
                             String metaSize = pageMeta.GetAttribute("ImageSize");
                             String metaName = pageMeta.GetAttribute("Image");
+                            String metaType = pageMeta.GetAttribute("Type");
 
                             if (metaName != page.Name)
                             {
@@ -569,6 +572,21 @@ namespace Win_CBZ
                             if (metaSize == null || long.Parse(metaSize) != page.Size)
                             {
                                 problems.Add("Metadata->PageIndex entry filesize mismatch for page [" + page.Name + "]");
+                            }
+
+                            if (metaType == null) 
+                            {
+                                problems.Add("Metadata->PageIndex entry type missing for page [" + page.Name + "]");
+                            } else 
+                            { 
+                                if (metaType == "FrontCover")
+                                {
+                                    coverDefined = true;
+                                    if (page.Index > 0)
+                                    {
+                                        problems.Add("Metadata->PageIndex entry of type 'FrontCover' should be at index 0 (page 1) for page [" + page.Name + "]");
+                                    }
+                                }
                             }
                         }
                         else
@@ -590,6 +608,11 @@ namespace Win_CBZ
 
             if (hasMetaData)
             {
+                if (!coverDefined)
+                {
+                    problems.Add("Metadata->PageIndex no Page of type 'FrontCover' defined!");
+                }
+
 
                 keyValidationFailed = DataValidation.ValidateMetaData(ref invalidKeys, false);
 
