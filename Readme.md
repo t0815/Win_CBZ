@@ -9,7 +9,8 @@ t0815, Trash_s0Ft
 ## About
 
 Application for creating and editing .cbz (ComicBookZip)
-(archive) files.
+(archive) files. The application is implementing most of the ComicInfo.xml format
+standard described here: https://github.com/anansi-project/comicinfo
 
 ## Features
 
