@@ -117,6 +117,7 @@ namespace Win_CBZ.Data
 
             MetaDataEntry tagEntry = Program.ProjectModel.MetaData.EntryByKey("Tags");
             System.Collections.Specialized.StringCollection validTags = Win_CBZSettings.Default.ValidKnownTags;
+            System.Collections.Specialized.StringCollection validTagsLcase = new System.Collections.Specialized.StringCollection();
             //ArrayList unknownTags = new ArrayList();
 
             if (unknownTagsList == null)
@@ -124,14 +125,38 @@ namespace Win_CBZ.Data
                 unknownTagsList = new ArrayList();
             }
 
+            if (Win_CBZSettings.Default.TagValidationIgnoreCase) {
+                String[] bufferStrings = new string[validTags.Count];
+                validTags.CopyTo(bufferStrings, 0);
+                validTagsLcase.AddRange(bufferStrings.Select(s => s.ToLower()).ToArray());
+            }
+
             if (tagEntry != null && tagEntry.Value != null && tagEntry.Value.Length > 0 && validTags.Count > 0)
             {
-                String[] tags = tagEntry.Value.Split(',').Select(s => s.Trim()).ToArray();
+                String[] tags = new String[1];
+                if (Win_CBZSettings.Default.TagValidationIgnoreCase)
+                {
+                    tags = tagEntry.Value.Split(',').Select(s => s.Trim().ToLower()).ToArray();
+                } else
+                {
+                    tags = tagEntry.Value.Split(',').Select(s => s.Trim()).ToArray();
+                }
+
                 foreach (String tag in tags)
                 {
-                    if (!validTags.Contains(tag))
+                    if (Win_CBZSettings.Default.TagValidationIgnoreCase)
                     {
-                        unknownTagsList.Add(tag);
+                        if (!validTagsLcase.Contains(tag.ToLower()))
+                        {
+                            unknownTagsList.Add(tag);
+                        }
+                    }
+                    else
+                    {
+                        if (!validTags.Contains(tag))
+                        {
+                            unknownTagsList.Add(tag);
+                        }
                     }
                 }
             }

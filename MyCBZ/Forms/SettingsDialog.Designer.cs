@@ -50,6 +50,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.InfoIconTooltip = new System.Windows.Forms.PictureBox();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.CheckBoxTagValidationIgnoreCase = new System.Windows.Forms.CheckBox();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -246,19 +247,21 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.72641F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.27359F));
-            this.tableLayoutPanel1.Controls.Add(this.ValidTags, 0, 1);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.54717F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.45283F));
             this.tableLayoutPanel1.Controls.Add(this.CheckBoxValidateTags, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.InfoIconTooltip, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.ValidTags, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.CheckBoxTagValidationIgnoreCase, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 5);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.82759F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.17242F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.28302F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 54.71698F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 153F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(424, 236);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -266,12 +269,12 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.ValidTags, 2);
             this.ValidTags.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ValidTags.Location = new System.Drawing.Point(2, 39);
+            this.ValidTags.Location = new System.Drawing.Point(2, 55);
             this.ValidTags.Margin = new System.Windows.Forms.Padding(2);
             this.ValidTags.Multiline = true;
             this.ValidTags.Name = "ValidTags";
             this.ValidTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ValidTags.Size = new System.Drawing.Size(403, 138);
+            this.ValidTags.Size = new System.Drawing.Size(403, 126);
             this.ValidTags.TabIndex = 3;
             // 
             // CheckBoxValidateTags
@@ -281,15 +284,16 @@
             this.CheckBoxValidateTags.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBoxValidateTags.Name = "CheckBoxValidateTags";
             this.CheckBoxValidateTags.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-            this.CheckBoxValidateTags.Size = new System.Drawing.Size(230, 21);
+            this.CheckBoxValidateTags.Size = new System.Drawing.Size(230, 20);
             this.CheckBoxValidateTags.TabIndex = 0;
             this.CheckBoxValidateTags.Text = "Validate Tags against a list of known Tags";
             this.CheckBoxValidateTags.UseVisualStyleBackColor = true;
+            this.CheckBoxValidateTags.CheckStateChanged += new System.EventHandler(this.CheckBoxValidateTags_CheckStateChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(2, 188);
+            this.label3.Location = new System.Drawing.Point(2, 206);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 13);
@@ -300,10 +304,11 @@
             // 
             this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
             this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.Location = new System.Drawing.Point(249, 0);
+            this.InfoIconTooltip.Location = new System.Drawing.Point(244, 0);
             this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             this.InfoIconTooltip.Name = "InfoIconTooltip";
             this.InfoIconTooltip.Padding = new System.Windows.Forms.Padding(5);
+            this.tableLayoutPanel1.SetRowSpan(this.InfoIconTooltip, 2);
             this.InfoIconTooltip.Size = new System.Drawing.Size(33, 37);
             this.InfoIconTooltip.TabIndex = 5;
             this.InfoIconTooltip.TabStop = false;
@@ -319,6 +324,18 @@
             this.TagValidationTooltip.ReshowDelay = 100;
             this.TagValidationTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.TagValidationTooltip.ToolTipTitle = "Custom Tag Validation";
+            // 
+            // CheckBoxTagValidationIgnoreCase
+            // 
+            this.CheckBoxTagValidationIgnoreCase.AutoSize = true;
+            this.CheckBoxTagValidationIgnoreCase.Enabled = false;
+            this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(3, 27);
+            this.CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
+            this.CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(18, 4, 0, 0);
+            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(114, 21);
+            this.CheckBoxTagValidationIgnoreCase.TabIndex = 6;
+            this.CheckBoxTagValidationIgnoreCase.Text = "Case Sensitive";
+            this.CheckBoxTagValidationIgnoreCase.UseVisualStyleBackColor = true;
             // 
             // SettingsDialog
             // 
@@ -370,5 +387,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox InfoIconTooltip;
         private System.Windows.Forms.ToolTip TagValidationTooltip;
+        private System.Windows.Forms.CheckBox CheckBoxTagValidationIgnoreCase;
     }
 }

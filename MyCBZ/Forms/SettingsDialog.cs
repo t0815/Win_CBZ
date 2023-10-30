@@ -21,6 +21,8 @@ namespace Win_CBZ.Forms
 
         public bool ValidateTagsSetting;
 
+        public bool TagValidationIgnoreCase;
+
         public SettingsDialog()
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace Win_CBZ.Forms
             }
 
             CheckBoxValidateTags.Checked = Win_CBZSettings.Default.ValidateTags;
+            CheckBoxTagValidationIgnoreCase.Checked = !Win_CBZSettings.Default.TagValidationIgnoreCase;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
@@ -79,6 +82,7 @@ namespace Win_CBZ.Forms
                     NewDefaults = CustomDefaultKeys.Lines.ToArray<String>();
                     NewValidTagList = ValidTags.Lines.ToArray<String>();
                     ValidateTagsSetting = CheckBoxValidateTags.Checked;
+                    TagValidationIgnoreCase = !CheckBoxTagValidationIgnoreCase.Checked;
                 }
                 catch (MetaDataValidationException mv)
                 {
@@ -97,6 +101,11 @@ namespace Win_CBZ.Forms
         private void SettingsTablePanel_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void CheckBoxValidateTags_CheckStateChanged(object sender, EventArgs e)
+        {
+            CheckBoxTagValidationIgnoreCase.Enabled = CheckBoxValidateTags.CheckState == CheckState.Checked;
         }
     }
 }

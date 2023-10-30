@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.14.69b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.14.70b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -181,6 +181,18 @@ namespace Win_CBZ {
             }
             set {
                 this["CompatMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TagValidationIgnoreCase {
+            get {
+                return ((bool)(this["TagValidationIgnoreCase"]));
+            }
+            set {
+                this["TagValidationIgnoreCase"] = value;
             }
         }
     }
