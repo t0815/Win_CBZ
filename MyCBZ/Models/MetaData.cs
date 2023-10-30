@@ -458,12 +458,12 @@ namespace Win_CBZ
             MetaDataEntry existing = EntryByIndex(index);
             if (existing != null)
             {
+                existing.Key = entry.Key;
                 if (ProtectedKeys.IndexOf(entry.Key.ToLower()) != -1)
                 {
                     throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + entry.Key + "'] is not allowed!", true, true);
                 }
-
-                existing.Key = entry.Key;
+                
                 existing.Value = entry.Value;
 
                 if (CustomEditorValueMappings.ContainsKey(entry.Key))

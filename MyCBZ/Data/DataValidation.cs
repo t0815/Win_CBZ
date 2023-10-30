@@ -36,10 +36,42 @@ namespace Win_CBZ.Data
             return duplicates.ToArray();
         }
 
-        public static bool ValidateMetaData(ref ArrayList metaDataEntryErrors, bool showError = true)
+        public static bool ValidateMetaDataInvalidKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
+        {
+            bool error = false;
+
+            foreach (MetaDataEntry entryA in Program.ProjectModel.MetaData.Values)
+            {
+                if (Program.ProjectModel.MetaData.ProtectedKeys.IndexOf(entryA.Key.ToLower()) != -1 ||
+                    entryA.Key.Length == 0)
+                {
+                    metaDataEntryErrors.Add(entryA.Key);
+                    error = true;
+                }
+            }
+
+            if (error)
+            {
+                String lines = string.Join("\r\n", metaDataEntryErrors.ToArray());
+                String errorText = string.Join(", ", metaDataEntryErrors.ToArray());
+
+                if (showError)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Metadata Validation failed! Invalid Keys [" + errorText + "] found.");
+                    DialogResult r = ApplicationMessage.ShowWarning("Metadata Validation failed! The folliwing keys are no allowed:\r\n\r\n" + lines, "Metadata Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+
+                    
+                }
+            }
+
+            return error;
+        }
+
+        public static bool ValidateMetaDataDuplicateKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
         {
             int occurence = 0;
             bool error = false;
+
             foreach (MetaDataEntry entryA in Program.ProjectModel.MetaData.Values)
             {
                 occurence = 0;

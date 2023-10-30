@@ -626,13 +626,23 @@ namespace Win_CBZ
                 }
 
 
-                keyValidationFailed = DataValidation.ValidateMetaData(ref invalidKeys, false);
+                keyValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys, false);
 
                 if (keyValidationFailed)
                 {
                     foreach (String key in invalidKeys)
                     {
-                        problems.Add("Metadata->Values: Invalid Key '" + key + "'");
+                        problems.Add("Metadata->Values: duplicate Key '" + key + "'");
+                    }
+                }
+
+                keyValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys, false);
+
+                if (keyValidationFailed)
+                {
+                    foreach (String key in invalidKeys)
+                    {
+                        problems.Add("Metadata->Values: invalid Key '" + key + "'");
                     }
                 }
 
@@ -1650,6 +1660,8 @@ namespace Win_CBZ
 
             int index = 0;
             bool tagValidationFailed = false;
+            bool metaDataValidationFailed = false;
+            ArrayList invalidKeys = new ArrayList();
             List<Page> deletedPages = new List<Page>();
 
             TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
@@ -1670,6 +1682,21 @@ namespace Win_CBZ
                     }           
                 }
 
+                metaDataValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
+                if (metaDataValidationFailed)
+                {
+                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                    return;
+                }
+
+                metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
+                if (metaDataValidationFailed)
+                {
+                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                    return;
+                }
 
                 BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
@@ -1814,7 +1841,7 @@ namespace Win_CBZ
             }
             finally
             {
-                if (!tagValidationFailed)
+                if (!tagValidationFailed && !metaDataValidationFailed)
                 {
                     try
                     {
@@ -1847,7 +1874,7 @@ namespace Win_CBZ
                     }
                     finally
                     {
-                        if (!tagValidationFailed)
+                        if (!tagValidationFailed && !metaDataValidationFailed)
                         {
                             try
                             {
