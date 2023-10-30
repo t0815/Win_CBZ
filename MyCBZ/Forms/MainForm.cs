@@ -411,150 +411,6 @@ namespace Win_CBZ
             }
         }
 
-        private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
-        {
-            if (!WindowClosed)
-            {
-                MetaDataGrid.Invoke(new Action(() =>
-                {
-                    //MetaDataGrid.DataSource = e.MetaData;
-
-                    BtnAddMetaData.Enabled = false;
-                    BtnRemoveMetaData.Enabled = true;
-                    toolStripButtonShowRawMetadata.Enabled = true;
-                    DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
-                    if (firstCol != null)
-                    {
-                        DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
-                        if (secondCol != null)
-                        {
-                            firstCol.Width = 150;
-                            secondCol.Width = 380;
-                        }
-                    }
-                    else
-                    {
-                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
-                        {
-                            DataPropertyName = "Key",
-                            HeaderText = "Key",
-                            CellTemplate = new DataGridViewTextBoxCell(),
-                            Width = 150,
-                            SortMode = DataGridViewColumnSortMode.Automatic,
-                        });
-
-                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
-                        {
-                            DataPropertyName = "Value",
-                            HeaderText = "Value",
-                            CellTemplate = new DataGridViewTextBoxCell(),
-                            Width = 250,
-                            SortMode = DataGridViewColumnSortMode.Automatic,
-                        });
-
-                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
-                        {
-                            DataPropertyName = "",
-                            HeaderText = "",
-                            CellTemplate = new DataGridViewTextBoxCell(),
-                            Width = 30,
-                            SortMode = DataGridViewColumnSortMode.NotSortable,
-                            Resizable = DataGridViewTriState.False
-                        });
-                    }
-
-                    MetaDataGrid.Rows.Clear();
-                    foreach (MetaDataEntry entry in e.MetaData)
-                    {
-                        MetaDataGrid.Rows.Add(entry.Key, entry.Value);
-                    }
-
-                    for (int i = 0; i < MetaDataGrid.RowCount; i++)
-                    {
-                        MetaDataGrid.Rows[i].Cells[2].ReadOnly = true;
-                        foreach (MetaDataEntry entry in e.MetaData)
-                        {
-                            var key = MetaDataGrid.Rows[i].Cells[0].Value;
-                            if (key != null)
-                            {
-                                if (entry.Key == key.ToString() && entry.Options.Length > 0)
-                                {
-                                    int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
-                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                    c.Items.AddRange(entry.Options);
-                                    c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-
-                                    MetaDataGrid.Rows[i].Cells[1] = c;
-                                }
-                                else if (key.ToString() == "Tags")
-                                {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell();
-                                    bc.Value = "...";
-                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false);
-                                    MetaDataGrid.Rows[i].Cells[2] = bc;
-                                }
-                                else
-                                {
-
-                                }
-                            }
-                        }
-                    }
-                }));
-            }
-        }
-
-        private void MetaDataChanged(object sender, MetaDataChangedEvent e)
-        {
-            MetaDataGrid.Invoke(new Action(() =>
-            {         
-                Program.ProjectModel.IsChanged = true;
-
-                if (Program.ProjectModel.FileName != null)
-                {
-                    ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
-                }                 
-            }));
-        }
-
-        private void MetaDataEntryChanged(object sender, MetaDataEntryChangedEvent e)
-        {
-            MetaDataGrid.Invoke(new Action(() =>
-            {
-                Program.ProjectModel.IsChanged = true;
-
-                if (Program.ProjectModel.FileName != null)
-                {
-                    ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
-                }
-
-                if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
-                {
-
-                    foreach (DataGridViewRow r in  MetaDataGrid.SelectedRows)
-                    {
-                        r.Selected = false;
-                    }
-
-                    MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value);
-
-                    if (e.Entry.Key == "" && e.Entry.Value == null)
-                    {
-                        //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
-                        MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
-                        MetaDataGrid.BeginEdit(false);
-                    }
-                }
-
-                if (e.State == MetaDataEntryChangedEvent.ENTRY_DELETED)
-                {
-                    MetaDataGrid.Rows.RemoveAt(e.Index);
-                }
-            }));
-        }
-
         private void OperationFinished(object sender, OperationFinishedEvent e)
         {
             toolStripProgressBar.Control.Invoke(new Action(() =>
@@ -2159,6 +2015,234 @@ namespace Win_CBZ
             */
         }
 
+        private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
+        {
+            if (!WindowClosed)
+            {
+                MetaDataGrid.Invoke(new Action(() =>
+                {
+                    //MetaDataGrid.DataSource = e.MetaData;
+
+                    BtnAddMetaData.Enabled = false;
+                    BtnRemoveMetaData.Enabled = true;
+                    toolStripButtonShowRawMetadata.Enabled = true;
+                    DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
+                    if (firstCol != null)
+                    {
+                        DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
+                        if (secondCol != null)
+                        {
+                            firstCol.Width = 150;
+                            secondCol.Width = 380;
+                        }
+                    }
+                    else
+                    {
+                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        {
+                            DataPropertyName = "Key",
+                            HeaderText = "Key",
+                            CellTemplate = new DataGridViewTextBoxCell(),
+                            Width = 150,
+                            SortMode = DataGridViewColumnSortMode.Automatic,
+                        });
+
+                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        {
+                            DataPropertyName = "Value",
+                            HeaderText = "Value",
+                            CellTemplate = new DataGridViewTextBoxCell(),
+                            Width = 250,
+                            SortMode = DataGridViewColumnSortMode.Automatic,
+                        });
+
+                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        {
+                            DataPropertyName = "",
+                            HeaderText = "",
+                            CellTemplate = new DataGridViewTextBoxCell(),
+                            Width = 30,
+                            SortMode = DataGridViewColumnSortMode.NotSortable,
+                            Resizable = DataGridViewTriState.False,
+
+                        });
+                    }
+
+                    MetaDataGrid.Rows.Clear();
+                    foreach (MetaDataEntry entry in e.MetaData)
+                    {
+                        MetaDataGrid.Rows.Add(entry.Key, entry.Value);
+                    }
+
+                   // DataGridViewCellStyle currentStyle = null;
+                    for (int i = 0; i < MetaDataGrid.RowCount; i++)
+                    {
+                        
+                        //currentStyle = new DataGridViewCellStyle(MetaDataGrid.Rows[i].Cells[2].Style);
+                        MetaDataGrid.Rows[i].Cells[2].ReadOnly = true;
+                        /*
+                        MetaDataGrid.Rows[i].Cells[2].Style = new DataGridViewCellStyle()
+                        {
+                            SelectionForeColor = Color.Black,
+                            SelectionBackColor = ((i+1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                        }; */
+
+                        foreach (MetaDataEntry entry in e.MetaData)
+                        {
+                            var key = MetaDataGrid.Rows[i].Cells[0].Value;
+                            if (key != null)
+                            {
+                                if (entry.Key == key.ToString() && entry.Options.Length > 0)
+                                {
+                                    int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
+                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                    c.Items.AddRange(entry.Options);
+                                    c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
+                                    c.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                                    
+                                    /*
+                                    c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                                    c.DisplayStyleForCurrentCellOnly = true;
+                                    c.Style = new DataGridViewCellStyle()
+                                    {
+                                        SelectionForeColor = Color.Black,
+                                        SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                    };
+                                    */
+
+                                    MetaDataGrid.Rows[i].Cells[1] = c;
+                                    //c.ReadOnly = true;
+                                }
+                                else if (key.ToString() == "Tags")
+                                {
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell();
+                                    bc.Value = "...";
+                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false);
+                                    bc.Style = new DataGridViewCellStyle()
+                                    {
+                                        SelectionForeColor = Color.White,
+                                        SelectionBackColor = Color.White,
+                                    };
+                                    MetaDataGrid.Rows[i].Cells[2] = bc;
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        }
+                    }
+                }));
+            }
+        }
+
+        private void MetaDataChanged(object sender, MetaDataChangedEvent e)
+        {
+            MetaDataGrid.Invoke(new Action(() =>
+            {
+                Program.ProjectModel.IsChanged = true;
+
+                if (Program.ProjectModel.FileName != null)
+                {
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                }
+            }));
+        }
+
+        private void MetaDataEntryChanged(object sender, MetaDataEntryChangedEvent e)
+        {
+            MetaDataGrid.Invoke(new Action(() =>
+            {
+                Program.ProjectModel.IsChanged = true;
+
+                if (Program.ProjectModel.FileName != null)
+                {
+                    ToolButtonSave.Enabled = true;
+                    saveToolStripMenuItem.Enabled = true;
+                }
+
+                if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
+                {
+
+                    foreach (DataGridViewRow r in MetaDataGrid.SelectedRows)
+                    {
+                        r.Selected = false;
+                    }
+
+                    MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value);
+
+                    if (e.Entry.Key == "" && e.Entry.Value == null)
+                    {
+                        //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
+                        MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
+                        MetaDataGrid.BeginEdit(false);
+                    }
+                }
+
+                if (e.State == MetaDataEntryChangedEvent.ENTRY_DELETED)
+                {
+                    MetaDataGrid.Rows.RemoveAt(e.Index);
+                }
+            }));
+        }
+
+        private void MetaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if ((senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
+                senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell
+                ) &&
+                e.RowIndex >= 0)
+            {
+                String value = "";
+                EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
+                if (e.ColumnIndex == 2)
+                {
+                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value.ToString();
+                }
+                else
+                {
+                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                }
+
+                if (editorConfig != null)
+                {
+                    editorConfig.Value = value;
+                    switch (editorConfig.Type)
+                    {
+                        case "MultiLineTextEditor":
+                            {
+                                TextEditorForm textEditor = new TextEditorForm(editorConfig);
+                                DialogResult r = textEditor.ShowDialog();
+                                if (r == DialogResult.OK)
+                                {
+                                    if (textEditor.config.Result != null)
+                                    {
+                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                    }
+                                }
+                            }
+                            break;
+                        case "ComboBox":
+                            {
+                                DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                                comboCell.Style = new DataGridViewCellStyle() { 
+                                    SelectionForeColor = Color.Black,
+                                    SelectionBackColor = Color.White,
+                                };
+                                MetaDataGrid.BeginEdit(true);
+
+                            }
+                            break;
+
+
+                    }
+                }
+            }
+        }
+
         private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -2230,8 +2314,13 @@ namespace Win_CBZ
                                 DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
                                 c.Items.AddRange(updatedEntry.Options);
                                 c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
+                                c.Tag = new EditorTypeConfig("ComboBox", "String", "", "", false);
+                                
+                                c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                                //c.DisplayStyleForCurrentCellOnly = true;
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                                //c.ReadOnly = true;
                             }
                             else
                             {
@@ -2827,40 +2916,6 @@ namespace Win_CBZ
                 ImagePreviewForm pagePreviewForm = new ImagePreviewForm(page);
                 DialogResult dlgResult = pagePreviewForm.ShowDialog();
                 pagePreviewForm.Dispose();
-            }
-        }
-
-        private void MetaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var senderGrid = (DataGridView)sender;
-
-            if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell &&
-                e.RowIndex >= 0)
-            {
-                EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
-                String value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value.ToString();
-
-                if (editorConfig != null)
-                {
-                    editorConfig.Value = value;
-                    switch (editorConfig.Type)
-                    {
-                        case "MultiLineTextEditor":
-                            {
-                                TextEditorForm textEditor = new TextEditorForm(editorConfig);
-                                DialogResult r = textEditor.ShowDialog();
-                                if (r == DialogResult.OK)
-                                {
-                                    if (textEditor.config.Result != null)
-                                    {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
-                                    }
-                                }
-                            }
-                            break;
-
-                    }
-                }
             }
         }
 

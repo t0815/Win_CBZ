@@ -26,6 +26,13 @@ namespace Win_CBZ.Data
             Append = " ";
         }
 
+        public EditorTypeConfig(string type)
+        {
+            Type = type;
+            Separator = ",";
+            Append = " ";
+            ResultType = "String";
+        }
 
         public string Type { get; set; }
 
