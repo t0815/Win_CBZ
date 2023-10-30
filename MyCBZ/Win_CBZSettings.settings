@@ -63,5 +63,29 @@
     <Setting Name="TagValidationIgnoreCase" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="WindowW" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1071</Value>
+    </Setting>
+    <Setting Name="WindowH" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">681</Value>
+    </Setting>
+    <Setting Name="Splitter1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">319</Value>
+    </Setting>
+    <Setting Name="Splitter2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">122</Value>
+    </Setting>
+    <Setting Name="Splitter3" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">167</Value>
+    </Setting>
+    <Setting Name="Splitter4" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">439</Value>
+    </Setting>
+    <Setting Name="WindowX" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="WindowY" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -70,6 +70,13 @@ namespace Win_CBZ
             ThumbnailPagesSlice = new List<Page>();
             ImageInfoPagesSlice = new List<Page>();
             CurrentGlobalActions = new List<GlobalAction>();
+
+            Width = Win_CBZSettings.Default.WindowW;
+            Height = Win_CBZSettings.Default.WindowH;
+            MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
+            SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
+            SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
+            PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
         }
 
         private ProjectModel NewProjectModel()
@@ -1598,7 +1605,14 @@ namespace Win_CBZ
 
         private void QuitApplication()
         {
+            Win_CBZSettings.Default.WindowW = Width;
+            Win_CBZSettings.Default.WindowH = Height;
+            Win_CBZSettings.Default.Splitter1 = MainSplitBox.SplitterDistance;
+            Win_CBZSettings.Default.Splitter2 = SplitBoxPageView.SplitterDistance;
+            Win_CBZSettings.Default.Splitter3 = SplitBoxItemsList.SplitterDistance;
+            Win_CBZSettings.Default.Splitter4 = PrimarySplitBox.SplitterDistance;
             Win_CBZSettings.Default.Save();
+
             WindowClosed = true;
             CancelAllThreads();
             Program.ProjectModel.CancelAllThreads();

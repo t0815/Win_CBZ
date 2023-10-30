@@ -195,5 +195,101 @@ namespace Win_CBZ {
                 this["TagValidationIgnoreCase"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1071")]
+        public int WindowW {
+            get {
+                return ((int)(this["WindowW"]));
+            }
+            set {
+                this["WindowW"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("681")]
+        public int WindowH {
+            get {
+                return ((int)(this["WindowH"]));
+            }
+            set {
+                this["WindowH"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("319")]
+        public int Splitter1 {
+            get {
+                return ((int)(this["Splitter1"]));
+            }
+            set {
+                this["Splitter1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("122")]
+        public int Splitter2 {
+            get {
+                return ((int)(this["Splitter2"]));
+            }
+            set {
+                this["Splitter2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("167")]
+        public int Splitter3 {
+            get {
+                return ((int)(this["Splitter3"]));
+            }
+            set {
+                this["Splitter3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("439")]
+        public int Splitter4 {
+            get {
+                return ((int)(this["Splitter4"]));
+            }
+            set {
+                this["Splitter4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WindowX {
+            get {
+                return ((int)(this["WindowX"]));
+            }
+            set {
+                this["WindowX"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WindowY {
+            get {
+                return ((int)(this["WindowY"]));
+            }
+            set {
+                this["WindowY"] = value;
+            }
+        }
     }
 }
