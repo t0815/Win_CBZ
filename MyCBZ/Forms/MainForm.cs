@@ -294,18 +294,9 @@ namespace Win_CBZ
                                 {
                                     ImageInfoPagesSlice.Add(e.Page);
                                 }
-
-                                if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name) == -1)
-                                {
-                                    ComboBoxApplyPageAdjustmentsTo.Items.Add(e.Page.Name);
-                                }
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_DELETED:
                                 e.Page.Deleted = true;
-                                if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.Page).Name) > -1)
-                                {
-                                    ComboBoxApplyPageAdjustmentsTo.Items.RemoveAt(ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.Page).Name));
-                                }
                                 break;
                             case PageChangedEvent.IMAGE_STATUS_COMPRESSED:
                                 e.Page.Compressed = true;
@@ -315,39 +306,6 @@ namespace Win_CBZ
                                 e.Page.Changed = true;
                                 e.Page.Invalidated = true;
                                 e.Page.ThumbnailInvalidated = true;
-
-                                if (e.OldValue != null)
-                                {
-                                    int backupIndex = -1;
-                                    string backupName = "";
-                                    if (e.OldValue != null && ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name) > -1)
-                                    {
-                                        try
-                                        {
-                                            /*
-                                            if (ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(e.Page.Name) > -1)
-                                            {
-                                                backupIndex = ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name);
-                                                backupName = ComboBoxApplyPageAdjustmentsTo.Items[backupIndex].ToString();
-
-                                                ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = Program.ProjectModel.MakeNewRandomId();
-                                            }
-                                            */
-
-                                            ComboBoxApplyPageAdjustmentsTo.Items[ComboBoxApplyPageAdjustmentsTo.Items.IndexOf(((Page)e.OldValue).Name)] = e.Page.Name;
-
-                                            //if (backupIndex > -1)
-                                            //{
-                                            //    ComboBoxApplyPageAdjustmentsTo.Items[backupIndex] = backupName;
-                                            //
-                                            //}
-                                        } catch (Exception ex) 
-                                        {
-                                            //ApplicationMessage.ShowException(ex);
-                                        }
-                                    }
-                                }
-
                                 break;
                         }
 
@@ -1375,8 +1333,6 @@ namespace Win_CBZ
                         LabelW.Text = "0";
                         LabelH.Text = "0";
                         CurrentGlobalActions.Clear();
-                        ComboBoxApplyPageAdjustmentsTo.Items.Clear();
-                        ComboBoxApplyPageAdjustmentsTo.Items.Add("<Global>");
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
@@ -3010,6 +2966,56 @@ namespace Win_CBZ
             Win_CBZSettings.Default.CompatMode = CheckBoxCompatibilityMode.Checked;
 
             Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
+        }
+
+        private void RadioApplyAdjustments_CheckedChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.RadioButton rb = (System.Windows.Forms.RadioButton)sender;
+            String selected = rb.Tag as String;
+            ImageTask selectedTask = null;
+            Page page = null;
+
+            if (selected != null)
+            {
+                if (selected == "<Global>")
+                {
+                    selectedTask = Program.ProjectModel.GlobalImageTask;
+
+                }
+                else
+                {
+                    page = Program.ProjectModel.GetPageById(selected);
+
+                    if (page != null)
+                    {
+                        selectedTask = page.ImageTask;
+                    }
+                }
+
+                if (selectedTask != null)
+                {
+                    ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
+                    switch (selectedTask.ImageAdjustments.ResizeMode)
+                    {
+                        case 0:
+                            RadioButtonResizeNever.Checked = true;
+                            break;
+                        case 1:
+                            RadioButtonResizeIfLarger.Checked = true;
+                            break;
+                        case 2:
+                            RadioButtonResizeTo.Checked = true;
+                            break;
+
+                    }
+
+                    CheckBoxSplitDoublePages.Checked = selectedTask.ImageAdjustments.SplitPage;
+                    TextBoxSplitPageAt.Text = selectedTask.ImageAdjustments.SplitPageAt.ToString();
+                    ComboBoxSplitAtType.SelectedIndex = selectedTask.ImageAdjustments.SplitType;
+
+                    selectedImageTask = selectedTask;
+                }
+            }
         }
 
 
