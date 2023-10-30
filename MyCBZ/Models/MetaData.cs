@@ -76,6 +76,8 @@ namespace Win_CBZ
 
         public List<String> CustomDefaultProperties { get; set; }
 
+        private List<String> RemovedKeys { get; set; }
+
         public List<String> ProtectedKeys { get; }
 
         public String MetaDataFileName { get; set; }
@@ -107,6 +109,7 @@ namespace Win_CBZ
             Values = new BindingList<MetaDataEntry>();
             PageIndex = new BindingList<MetaDataEntryPage>();
             ProtectedKeys = new List<string>(ProtectedProperties);
+            RemovedKeys = new List<string>();
 
             Document = new XmlDocument();
 
@@ -329,10 +332,11 @@ namespace Win_CBZ
                 {
                     foreach (var defaultEntry in Defaults)
                     {
-                        if (defaultEntry.Key == entry.Key)
+                        if (defaultEntry.Key.ToLower().Equals(entry.Key.ToLower()))
                         {
                             keyChanged = false;
                             defaultValueChanged = !defaultEntry.Value.Equals(entry.Value);
+                            break;
                         }
                     }
 
@@ -344,6 +348,11 @@ namespace Win_CBZ
             }
 
             return false;
+        }
+
+        public bool HasRemovedValues()
+        {
+            return RemovedKeys.Count > 0;
         }
 
         public String ValueForKey(String key)
@@ -376,6 +385,11 @@ namespace Win_CBZ
         {
             Values.Add(HandleNewEntry(entry.Key, entry.Value));
 
+            if (RemovedKeys.IndexOf(entry.Key) > -1)
+            {
+                RemovedKeys.Remove(entry.Key);
+            }
+
             return Values.Count - 1;
         }
 
@@ -384,6 +398,11 @@ namespace Win_CBZ
             MetaDataEntry newEntry = HandleNewEntry(key, value);
 
             Values.Add(newEntry);
+
+            if (RemovedKeys.IndexOf(key) > -1)
+            {
+                RemovedKeys.Remove(key);
+            }
 
             OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_NEW, Values.Count - 1, newEntry));
 
@@ -401,6 +420,11 @@ namespace Win_CBZ
 
                 if (success)
                 {
+                    if (RemovedKeys.IndexOf(key) == -1)
+                    {
+                        RemovedKeys.Add(key);
+                    }
+
                     OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));
 
                     return index;
@@ -417,7 +441,12 @@ namespace Win_CBZ
             if (entry != null)
             {
                 Values.RemoveAt(index);
-             
+
+                if (RemovedKeys.IndexOf(entry.Key) == -1)
+                {
+                    RemovedKeys.Add(entry.Key);
+                }
+
                 OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));
 
                 return index;             
@@ -434,6 +463,11 @@ namespace Win_CBZ
 
             if (success)
             {
+                if (RemovedKeys.IndexOf(entry.Key) == -1)
+                {
+                    RemovedKeys.Add(entry.Key);
+                }
+
                 OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));
 
                 return index;
@@ -507,7 +541,7 @@ namespace Win_CBZ
                             {
                                 pageMeta.SetAttribute(attrib.Name, attrib.Value);
                             } catch (Exception) {
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to read page->" + attrib.Name + " from ComicInfo.xml");
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to read value from index for Pages->" + attrib.Name + " from ComicInfo.xml");
                             }
                         }
 
@@ -686,6 +720,7 @@ namespace Win_CBZ
             if (InputStream != null) { 
                 if (InputStream.CanRead) {
                     InputStream.Close();
+                    InputStream.Dispose();
                 }
             }
 
@@ -698,6 +733,11 @@ namespace Win_CBZ
             {
                 MetaDataReader.Dispose();
             }
+
+            RemovedKeys.Clear();
+            Defaults.Clear();
+            Values.Clear();
+            PageIndex.Clear();
         }
 
         protected virtual void OnMetaDataEntryChanged(MetaDataEntryChangedEvent e)

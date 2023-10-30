@@ -22,6 +22,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
 using Win_CBZ.Tasks;
 using System.Security.Policy;
 using Win_CBZ.Models;
+using System.Windows.Input;
 
 namespace Win_CBZ
 {
@@ -1887,7 +1888,7 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel != null && Program.ProjectModel.MetaData != null)
             {
-                if (Program.ProjectModel.MetaData.HasValues() && Program.ProjectModel.Exists()) {
+                if ((Program.ProjectModel.MetaData.HasValues() || Program.ProjectModel.MetaData.HasRemovedValues()) && Program.ProjectModel.Exists()) {
                     if (ApplicationMessage.ShowConfirmation("Are you sure you want to remove existing Metadata from Archive?", "Remove existing Meta-Data") == DialogResult.Yes)
                     {
                         RemoveMetaData();
@@ -1915,12 +1916,15 @@ namespace Win_CBZ
             {
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
+                    int index = Program.ProjectModel.MetaData.Remove(row.Index);
+                    
+                    /*
                     if (row.Cells[0].Value != null)
                     {
                         var key = row.Cells[0].Value.ToString();  
 
                         Program.ProjectModel.MetaData.Remove(key);
-                    }
+                    } */
                 }
             }
         }
@@ -2136,7 +2140,7 @@ namespace Win_CBZ
                         r.Selected = false;
                     }
 
-                    MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value);
+                    MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
 
                     if (e.Entry.Key == "" && e.Entry.Value == null)
                     {
