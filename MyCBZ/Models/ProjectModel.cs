@@ -525,8 +525,6 @@ namespace Win_CBZ
             string[] duplicateTags = new string[0];
             bool hasFiles = Pages.Count > 0;
             bool hasMetaData = MetaData.Values.Count > 0;
-            bool pagesValid = true;
-            bool metaDataValid = true;
             bool tagValidationFailed = false;
             bool keyValidationFailed = false;
             bool coverDefined = false;
@@ -538,7 +536,6 @@ namespace Win_CBZ
                     if (page.H == 0 || page.W == 0)
                     {
                         problems.Add("Pages->Page: Invalid dimensions for page [" + page.Id + "] with [" + page.W + "x" + page.H + "]");
-                        pagesValid = false;
                     }
 
                     if (page.LocalFile != null)
@@ -547,7 +544,6 @@ namespace Win_CBZ
                         if (!fileInfo.Exists)
                         {
                             problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalFile.FullPath + ")");
-                            pagesValid = false;
                         }
                         //fileInfo.
                     }
@@ -556,7 +552,6 @@ namespace Win_CBZ
                         if (!page.Compressed)
                         {
                             problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalFile.FullPath + ")");
-                            pagesValid = false;
                         }
                     }
 
@@ -610,7 +605,6 @@ namespace Win_CBZ
                         else
                         {
                             problems.Add("Metadata->PageIndex: entry missing for page [" + page.Name + "]");
-                            metaDataValid = false;
                         }
                     }
                     else
@@ -1760,7 +1754,7 @@ namespace Win_CBZ
 
                                         
                                     }
-                                } catch (Exception ex)
+                                } catch (Exception)
                                 {
 
                                     sourceFileName = page.LocalFile.FullPath;
