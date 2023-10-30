@@ -18,5 +18,11 @@ namespace Win_CBZ
             Item = item;
             RemoveEntry = removeEntry;
         }
+
+        public MetaDataValidationException(String key, String value, String message, bool showErrorDialog = false, bool removeEntry = false) : base(message, showErrorDialog)
+        {
+            Item = new MetaDataEntry(key, value);
+            RemoveEntry = removeEntry;
+        }
     }
 }

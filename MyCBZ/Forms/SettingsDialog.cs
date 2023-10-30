@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -8,7 +9,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
+using Win_CBZ.Data;
 
 namespace Win_CBZ.Forms
 {
@@ -29,16 +32,26 @@ namespace Win_CBZ.Forms
 
             if (Win_CBZSettings.Default.CustomDefaultProperties != null)
             {
-                CustomDefaultKeys.Lines = Win_CBZSettings.Default.CustomDefaultProperties.OfType<String>().ToArray();
+                NewDefaults = Win_CBZSettings.Default.CustomDefaultProperties.OfType<String>().ToArray();
             }
 
             if (Win_CBZSettings.Default.ValidKnownTags != null)
             {
-                ValidTags.Lines = Win_CBZSettings.Default.ValidKnownTags.OfType<String>().ToArray();
+                NewValidTagList = Win_CBZSettings.Default.ValidKnownTags.OfType<String>().ToArray();
             }
 
-            CheckBoxValidateTags.Checked = Win_CBZSettings.Default.ValidateTags;
-            CheckBoxTagValidationIgnoreCase.Checked = !Win_CBZSettings.Default.TagValidationIgnoreCase;
+            ValidateTagsSetting = Win_CBZSettings.Default.ValidateTags;
+            TagValidationIgnoreCase = Win_CBZSettings.Default.TagValidationIgnoreCase;
+
+            // ----------------------------------------
+
+            ValidTags.Lines = NewValidTagList;
+            CustomDefaultKeys.Lines = NewDefaults;
+
+            CheckBoxValidateTags.Checked = ValidateTagsSetting;
+            CheckBoxTagValidationIgnoreCase.Checked = !TagValidationIgnoreCase;
+
+            DialogResult = DialogResult.Cancel;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
@@ -61,6 +74,23 @@ namespace Win_CBZ.Forms
                     Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
 
                     Program.ProjectModel.MetaData.ValidateDefaults();
+
+                    if (CheckBoxValidateTags.Checked)
+                    {
+                        List<String> test = new List<String>(ValidTags.Lines);
+                        String[] duplicateTags = DataValidation.ValidateDuplicateStrings(test.ToArray());
+                        if (duplicateTags.Length > 0)
+                        {
+                            //ApplicationMessage.ShowWarning("Validateion Error! Duplicate Tags [" + duplicateTags.Select(r => r + ", ") + "] not allowed!", "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
+
+                            throw new MetaDataValidationException("", "", "Validateion Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
+                        }
+                    }
+
+                    // -------------- DANGER!  All validation goes above this line --------------------
+
+
                     if (Win_CBZSettings.Default.CustomDefaultProperties != null)
                     {
                         Win_CBZSettings.Default.CustomDefaultProperties.Clear();
@@ -86,9 +116,10 @@ namespace Win_CBZ.Forms
                 }
                 catch (MetaDataValidationException mv)
                 {
+                    DialogResult = DialogResult.Cancel;
                     e.Cancel = true;
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
-                    ApplicationMessage.ShowException(mv);
+                    ApplicationMessage.ShowWarning(mv.Message, "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                 }
             }
         }

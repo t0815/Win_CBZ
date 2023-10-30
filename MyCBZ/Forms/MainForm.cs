@@ -2692,6 +2692,9 @@ namespace Win_CBZ
 
                 Win_CBZSettings.Default.ValidateTags = settingsDialog.ValidateTagsSetting;
                 Win_CBZSettings.Default.TagValidationIgnoreCase = settingsDialog.TagValidationIgnoreCase;
+            } else
+            {
+               //
             }
         }
 
