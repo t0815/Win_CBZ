@@ -132,6 +132,7 @@ namespace Win_CBZ
             Values = new BindingList<MetaDataEntry>();
             PageIndex = new BindingList<MetaDataEntryPage>();
             ProtectedKeys = new List<string>(ProtectedProperties);
+            RemovedKeys = new List<string>();
 
             MakeDefaultKeys();
 
