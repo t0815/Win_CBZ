@@ -2599,7 +2599,7 @@ namespace Win_CBZ
 
         private void ClearTemporaryFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result = ApplicationMessage.ShowConfirmation("", "Confirm", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+            DialogResult result = ApplicationMessage.ShowConfirmation("This will clear the application cache folder. Continue?", "Confirm Delete", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
         
             if (result == DialogResult.Yes)
             {
