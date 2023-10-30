@@ -9,7 +9,9 @@ using System.Reflection;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -18,6 +20,9 @@ namespace Win_CBZ
 {
     internal class MetaData
     {
+
+        protected static readonly string[] ProtectedProperties = { "pages" };
+
         protected static readonly String[] DefaultProperties = { "AgeRating", "Title", 
             "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "StoryArc", "StoryArcNumber", 
             "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO",
@@ -71,6 +76,8 @@ namespace Win_CBZ
 
         public List<String> CustomDefaultProperties { get; set; }
 
+        public List<String> ProtectedKeys { get; }
+
         public String MetaDataFileName { get; set; }
 
         public XmlNode Root { get; set; }
@@ -99,7 +106,8 @@ namespace Win_CBZ
             Defaults = new List<MetaDataEntry>();
             Values = new BindingList<MetaDataEntry>();
             PageIndex = new BindingList<MetaDataEntryPage>();
-            
+            ProtectedKeys = new List<string>(ProtectedProperties);
+
             Document = new XmlDocument();
 
             MakeDefaultKeys();
@@ -120,6 +128,7 @@ namespace Win_CBZ
             Defaults = new List<MetaDataEntry>();
             Values = new BindingList<MetaDataEntry>();
             PageIndex = new BindingList<MetaDataEntryPage>();
+            ProtectedKeys = new List<string>(ProtectedProperties);
 
             MakeDefaultKeys();
 
@@ -155,6 +164,11 @@ namespace Win_CBZ
 
         protected MetaDataEntry HandleNewEntry(String key, String value = null, bool readOnly = false)
         {
+            if (ProtectedKeys.IndexOf(key.ToLower()) != -1)
+            {
+                throw new MetaDataValidationException(new MetaDataEntry(key, value, readOnly), "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
+            }
+
             if (CustomEditorValueMappings.ContainsKey(key))
             {
                 CustomEditorValueMappings.TryGetValue(key, out var mapping);
@@ -444,6 +458,11 @@ namespace Win_CBZ
             MetaDataEntry existing = EntryByIndex(index);
             if (existing != null)
             {
+                if (ProtectedKeys.IndexOf(entry.Key.ToLower()) != -1)
+                {
+                    throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + entry.Key + "'] is not allowed!", true, true);
+                }
+
                 existing.Key = entry.Key;
                 existing.Value = entry.Value;
 
@@ -511,9 +530,19 @@ namespace Win_CBZ
                             MetaDataEntry defaultEntry = ParseDefaultProp(prop);
 
                             Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
-                        } catch (Exception)
+                        }
+                        catch (MetaDataValidationException ve)
                         {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata-prop->" + prop + "!");
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!  [" + ve.Message + "]");
+
+                            if (ve.ShowErrorDialog)
+                            {
+                                throw ve;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!");
                         }
                     }
                 }
@@ -527,9 +556,18 @@ namespace Win_CBZ
 
                         Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
                     }
-                    catch (Exception)
+                    catch (MetaDataValidationException ve)
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata-prop->" + prop + "!");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!  [" + ve.Message + "]");
+                    
+                        if (ve.ShowErrorDialog)
+                        {
+                            throw ve;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!");
                     }
                 }
             }
@@ -602,6 +640,12 @@ namespace Win_CBZ
         public void Validate(MetaDataEntry entry, String newKey)
         {
             int occurence = 0;
+
+            if (ProtectedKeys.IndexOf(newKey.ToLower()) != -1)
+            {
+                throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + newKey + "'] is not allowed!", true);
+            }
+
             foreach (MetaDataEntry entryA in Values)
             {
                 if (entryA.Key.ToLower().Equals(newKey.ToLower()))

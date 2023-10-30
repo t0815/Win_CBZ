@@ -52,10 +52,11 @@ namespace Win_CBZ.Forms
         {
             if (DialogResult == DialogResult.OK)
             {
-                Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());
-                Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
+                Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());            
                 try
                 {
+                    Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
+
                     Program.ProjectModel.MetaData.ValidateDefaults();
                     if (Win_CBZSettings.Default.CustomDefaultProperties != null)
                     {
