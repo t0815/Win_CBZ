@@ -1952,7 +1952,17 @@ namespace Win_CBZ
             } catch (MetaDataValidationException ve)
             {
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
-                //e.Cancel = true;
+                DialogResult dlgResult = DialogResult.OK;
+
+                if (ve.ShowErrorDialog)
+                {
+                    dlgResult = ApplicationMessage.ShowWarning(ve.Message, "Metadata validation", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE );
+                }
+
+                if (ve.RemoveEntry && dlgResult != DialogResult.Ignore)
+                {
+                    e.Cancel = true;
+                }
             }
         }
 

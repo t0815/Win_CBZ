@@ -643,7 +643,7 @@ namespace Win_CBZ
 
             if (ProtectedKeys.IndexOf(newKey.ToLower()) != -1)
             {
-                throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + newKey + "'] is not allowed!", true);
+                throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + newKey + "'] is not allowed!", true, true);
             }
 
             foreach (MetaDataEntry entryA in Values)
