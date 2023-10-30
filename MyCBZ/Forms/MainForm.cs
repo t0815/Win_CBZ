@@ -1529,7 +1529,7 @@ namespace Win_CBZ
 
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                         CheckBoxDoRenamePages.Enabled = true;
-                        CheckBoxDoRenamePages.Checked = false;
+                        //CheckBoxDoRenamePages.Checked = false;
                         if (project.FileName != null)
                         {
                             ToolButtonSave.Enabled = true;
@@ -2494,15 +2494,15 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    Program.ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.Checked;
+                    Program.ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                     Program.ProjectModel.IsChanged = true;
-                    TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
-                    TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.Checked;
+                    TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
+                    TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                     ToolButtonSave.Enabled = true;
                     saveToolStripMenuItem.Enabled = true;
 
 
-                    if (CheckBoxDoRenamePages.Checked == false)
+                    if (CheckBoxDoRenamePages.CheckState == CheckState.Unchecked)
                     {
                         CheckBoxPreview.Enabled = false;
                         if (CheckBoxPreview.Checked)

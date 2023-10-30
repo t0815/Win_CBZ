@@ -1556,8 +1556,8 @@ namespace Win_CBZ
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
-                    {
-                        Page page = new Page(entry, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\", MakeNewRandomId());
+                    { 
+                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), MakeNewRandomId());
 
                         page.Number = index + 1;
                         page.Index = index;
@@ -1765,7 +1765,7 @@ namespace Win_CBZ
 
                                     sourceFileName = page.LocalFile.FullPath;
 
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! Compressing original file [" + page.LocalPath + "] instead of [" + page.TempPath + "]");
+                                    //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
                                 }
                             } else
                             {

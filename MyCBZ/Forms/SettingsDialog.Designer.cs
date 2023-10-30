@@ -246,8 +246,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.34906F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.65094F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58.72641F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 41.27359F));
             this.tableLayoutPanel1.Controls.Add(this.ValidTags, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.CheckBoxValidateTags, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
@@ -281,9 +281,9 @@
             this.CheckBoxValidateTags.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBoxValidateTags.Name = "CheckBoxValidateTags";
             this.CheckBoxValidateTags.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-            this.CheckBoxValidateTags.Size = new System.Drawing.Size(194, 21);
+            this.CheckBoxValidateTags.Size = new System.Drawing.Size(230, 21);
             this.CheckBoxValidateTags.TabIndex = 0;
-            this.CheckBoxValidateTags.Text = "Validate Tags against known Tags";
+            this.CheckBoxValidateTags.Text = "Validate Tags against a list of known Tags";
             this.CheckBoxValidateTags.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -300,7 +300,7 @@
             // 
             this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
             this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.Location = new System.Drawing.Point(205, 0);
+            this.InfoIconTooltip.Location = new System.Drawing.Point(249, 0);
             this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             this.InfoIconTooltip.Name = "InfoIconTooltip";
             this.InfoIconTooltip.Padding = new System.Windows.Forms.Padding(5);

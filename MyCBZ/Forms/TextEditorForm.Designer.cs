@@ -100,6 +100,7 @@
             // ItemsText
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.ItemsText, 2);
+            this.ItemsText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ItemsText.Location = new System.Drawing.Point(3, 59);
             this.ItemsText.Multiline = true;
             this.ItemsText.Name = "ItemsText";
