@@ -2365,7 +2365,14 @@ namespace Win_CBZ
                 //((Page)selectedPages[0].Tag).LoadImageInfo();
                 LabelW.Text = ((Page)selectedPages[0].Tag).W.ToString();
                 LabelH.Text = ((Page)selectedPages[0].Tag).H.ToString();
+
+                RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
+                RadioApplyAdjustmentsPage.Enabled = true;
                 //RequestImageInfoSlice();
+            } else
+            {
+                RadioApplyAdjustmentsPage.Text = "(no page selected)";
+                RadioApplyAdjustmentsPage.Enabled = false;
             }
 
             ((Page)e.Item.Tag).Selected = e.IsSelected;
@@ -2592,7 +2599,12 @@ namespace Win_CBZ
 
         private void ClearTemporaryFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            DialogResult result = ApplicationMessage.ShowConfirmation("", "Confirm", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+        
+            if (result == DialogResult.Yes)
+            {
+                Program.ProjectModel.DeleteTempFolderItems();
+            }
         }
 
         private void TogglePagePreviewToolbutton_Click(object sender, EventArgs e)

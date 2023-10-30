@@ -2198,23 +2198,94 @@ namespace Win_CBZ
             return DeleteFileThread;
         }
 
+        public string SizeFormat(long value)
+        {
+            double size = value;
+            string[] units = new string[] { "Bytes", "KB", "MB", "GB" };
+            string selectedUnit = "Bytes";
+
+            foreach (string unit in units)
+            {
+                if (size > 1024)
+                    size /= 1024;
+                else
+                {
+                    selectedUnit = unit;
+                    break;
+                }
+            }
+
+            return size.ToString("n2") + " " + selectedUnit;
+        }
+
         public void DeleteTempFolderItems()
         {
+            List<string> filesToDelete = new List<string>();
+            List<string> foldersToDelete = new List<string>();
             String path = PathHelper.ResolvePath(WorkingDir);
-            
-            DirectoryInfo dir = new DirectoryInfo(path);
-            var folders = dir.EnumerateDirectories();
+            int filesDeletedCount = 0;
+            int filesFailed = 0;
+            long totalSize = 0;
 
-            /*
+            List<FileInfo> files = new List<FileInfo>();
+
+            DirectoryInfo dir = new DirectoryInfo(path);
+
+            List<DirectoryInfo> folders = new List<DirectoryInfo>(dir.EnumerateDirectories());
+      
             try
             {
-                Directory.Delete(PathHelper.ResolvePath(WorkingDir) + ProjectGUID, true);
+                if (dir.Exists && ProjectGUID != null && ProjectGUID.Length > 0)
+                {
+                    // fail safe! are we in the right directory? if not we would delete random directories and files!
+                    if (dir.Parent.Name.ToString().ToLower().Equals("cbzmage") && 
+                        dir.Parent.Parent.Name.ToString().ToLower().Equals("roaming"))  
+                    {
+
+                        foreach (DirectoryInfo folder in folders)
+                        {
+                            if (folder.Name != ProjectGUID)
+                            {
+                                files.AddRange(folder.GetFiles());
+                                foldersToDelete.Add(folder.FullName);
+                            }
+                        }
+
+                        foreach (FileInfo file in files)
+                        {
+                            if (file.Exists)
+                            {
+                                try
+                                {
+                                    file.Delete();
+                                    totalSize += file.Length;
+                                    filesDeletedCount++;
+                                }
+                                catch
+                                {
+                                    filesFailed++;
+                                }
+                            }
+                        }
+
+                        foreach (DirectoryInfo folder in folders)
+                        {
+                            if (folder.Name != ProjectGUID)
+                            {
+                                folder.Delete(false);
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception e)
             {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error closing Archive [" + e.Message + "]");
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error deleting cache file [" + e.Message + "]");
             }
-            */
+            finally
+            {
+                ApplicationMessage.Show("Applicaiton cache cleared.\r\nFiles deleted: " + filesDeletedCount.ToString() + ",\r\nFiles failed/skipped: " + filesFailed.ToString() + "\r\nDisk space reclaimed: " + SizeFormat(totalSize), "Application Cache cleared", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+            }
         }
 
         public void CopyTo(ProjectModel destination)
