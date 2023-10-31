@@ -20,6 +20,10 @@ standard described here: https://github.com/anansi-project/comicinfo
 - Extract pages
 - Rename pages using placeholders
 
+## Features to 1.0
+
+- Image processing
+
 ## Build
 
 Microsoft Visual Studio [Community] 2022 (64-Bit) 
@@ -30,7 +34,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.14.72b released!
+v0.14.73b released!
 
 ## Third party components
 
@@ -45,3 +49,5 @@ https://www.iconexperience.com/o_collection/
 
 
 ### Web View XSL Sheet (c) Jonathan Marsh, Steve Muench
+
+***
