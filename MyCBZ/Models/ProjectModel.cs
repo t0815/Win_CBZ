@@ -660,7 +660,7 @@ namespace Win_CBZ
                 problems.Add("Pages: No pages found in Archive [count = 0]! Nothing to display.");
             }
 
-            if (deletedPageCount == Pages.Count)
+            if (deletedPageCount == Pages.Count && deletedPageCount > 0)
             {
                 problems.Add("Pages: All pages have been deleted [0 pages remaining]! Nothing to display.");
             }
