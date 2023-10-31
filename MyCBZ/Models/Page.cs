@@ -835,7 +835,7 @@ namespace Win_CBZ
         }
 
 
-        private void LoadImage()
+        public void LoadImage()
         {
             if (!Closed)
             {

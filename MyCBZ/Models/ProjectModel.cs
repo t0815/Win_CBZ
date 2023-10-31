@@ -62,6 +62,8 @@ namespace Win_CBZ
 
         public Boolean IsChanged = false;
 
+        //public Boolean IndexNeedsUpdate = false;
+
         public Boolean IsClosed = false;
 
         public Boolean ApplyRenaming = false;
@@ -1778,7 +1780,7 @@ namespace Win_CBZ
                                 }
                             }
 
-                            //page.FreeImage();  // Dont delete any temporary files here!
+                            page.FreeImage();  // Dont delete any temporary files here! Free resource
 
                             if (page.Changed || page.Compressed) 
                             {
@@ -1812,6 +1814,7 @@ namespace Win_CBZ
                                 page.Compressed = true;
                             }
                             page.Changed = false;
+                            page.LoadImage();
 
                             OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         }
