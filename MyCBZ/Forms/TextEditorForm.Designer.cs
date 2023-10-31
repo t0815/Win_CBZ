@@ -44,8 +44,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.35025F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.64975F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.15736F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.84264F));
             this.tableLayoutPanel1.Controls.Add(this.HeaderPanel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.ItemsText, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.OkButton, 0, 3);
@@ -56,7 +56,7 @@
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.93939F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.06061F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(394, 246);
             this.tableLayoutPanel1.TabIndex = 0;
@@ -71,7 +71,7 @@
             this.HeaderPanel.Location = new System.Drawing.Point(2, 2);
             this.HeaderPanel.Margin = new System.Windows.Forms.Padding(2);
             this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(390, 52);
+            this.HeaderPanel.Size = new System.Drawing.Size(390, 56);
             this.HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -93,7 +93,7 @@
             this.HeaderPicture.Location = new System.Drawing.Point(18, 0);
             this.HeaderPicture.Margin = new System.Windows.Forms.Padding(2);
             this.HeaderPicture.Name = "HeaderPicture";
-            this.HeaderPicture.Size = new System.Drawing.Size(49, 50);
+            this.HeaderPicture.Size = new System.Drawing.Size(49, 54);
             this.HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.HeaderPicture.TabIndex = 0;
             this.HeaderPicture.TabStop = false;
@@ -102,11 +102,11 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.ItemsText, 2);
             this.ItemsText.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ItemsText.Location = new System.Drawing.Point(3, 59);
+            this.ItemsText.Location = new System.Drawing.Point(3, 63);
             this.ItemsText.Multiline = true;
             this.ItemsText.Name = "ItemsText";
             this.ItemsText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ItemsText.Size = new System.Drawing.Size(386, 99);
+            this.ItemsText.Size = new System.Drawing.Size(386, 111);
             this.ItemsText.TabIndex = 5;
             this.ItemsText.WordWrap = false;
             // 
@@ -114,7 +114,7 @@
             // 
             this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(210, 213);
+            this.OkButton.Location = new System.Drawing.Point(226, 213);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
             this.OkButton.TabIndex = 3;
@@ -137,7 +137,7 @@
             // InfoLabel
             // 
             this.InfoLabel.AutoSize = true;
-            this.InfoLabel.Location = new System.Drawing.Point(8, 173);
+            this.InfoLabel.Location = new System.Drawing.Point(8, 185);
             this.InfoLabel.Margin = new System.Windows.Forms.Padding(8, 8, 3, 0);
             this.InfoLabel.Name = "InfoLabel";
             this.InfoLabel.Size = new System.Drawing.Size(86, 13);
