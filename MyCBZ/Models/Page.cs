@@ -270,56 +270,59 @@ namespace Win_CBZ
 
         public Page(Page sourcePage)
         {
-            WorkingDir = sourcePage.WorkingDir;
-            Name = sourcePage.Name;
-            EntryName = sourcePage.EntryName;
-            TempPath = sourcePage.TempPath;
-            Filename = sourcePage.Filename;
-            LocalPath = sourcePage.LocalPath;
-            LocalFile = sourcePage.LocalFile;   
-            ImageStream = sourcePage.ImageStream;
-            Compressed = sourcePage.Compressed;
-            TemporaryFileId = sourcePage.TemporaryFileId;
-            EntryName = sourcePage.EntryName;
-            CompressedEntry = sourcePage.CompressedEntry;
-            ImageStream = sourcePage.ImageStream;
-            IsMemoryCopy = sourcePage.IsMemoryCopy;
-            //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
-
-            Changed = sourcePage.Changed;
-            ReadOnly = sourcePage.ReadOnly;
-            Size = sourcePage.Size;
-            Id = sourcePage.Id;
-            Index = sourcePage.Index;
-            OriginalIndex = sourcePage.OriginalIndex;
-            Number = sourcePage.Number;
-            Closed = sourcePage.Closed;
-
-            Deleted = sourcePage.Deleted;
-            OriginalName = sourcePage.OriginalName;
-            W = sourcePage.W;
-            H = sourcePage.H;
-            Key = sourcePage.Key;
-            ThumbH = sourcePage.ThumbH;
-            ThumbW = sourcePage.ThumbW;
-            Thumbnail = sourcePage.Thumbnail;
-            ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
-
-            TemporaryFile = sourcePage.TemporaryFile;
-
-            if (ImageStream != null)
+            if (sourcePage != null)
             {
-                if (ImageStream.CanRead)
+                WorkingDir = sourcePage.WorkingDir;
+                Name = sourcePage.Name;
+                EntryName = sourcePage.EntryName;
+                TempPath = sourcePage.TempPath;
+                Filename = sourcePage.Filename;
+                LocalPath = sourcePage.LocalPath;
+                LocalFile = sourcePage.LocalFile;
+                ImageStream = sourcePage.ImageStream;
+                Compressed = sourcePage.Compressed;
+                TemporaryFileId = sourcePage.TemporaryFileId;
+                EntryName = sourcePage.EntryName;
+                CompressedEntry = sourcePage.CompressedEntry;
+                ImageStream = sourcePage.ImageStream;
+                IsMemoryCopy = sourcePage.IsMemoryCopy;
+                //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
+
+                Changed = sourcePage.Changed;
+                ReadOnly = sourcePage.ReadOnly;
+                Size = sourcePage.Size;
+                Id = sourcePage.Id;
+                Index = sourcePage.Index;
+                OriginalIndex = sourcePage.OriginalIndex;
+                Number = sourcePage.Number;
+                Closed = sourcePage.Closed;
+
+                Deleted = sourcePage.Deleted;
+                OriginalName = sourcePage.OriginalName;
+                W = sourcePage.W;
+                H = sourcePage.H;
+                Key = sourcePage.Key;
+                ThumbH = sourcePage.ThumbH;
+                ThumbW = sourcePage.ThumbW;
+                Thumbnail = sourcePage.Thumbnail;
+                ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
+
+                TemporaryFile = sourcePage.TemporaryFile;
+
+                if (ImageStream != null)
                 {
-                    sourcePage.ImageStream.Position = 0;
+                    if (ImageStream.CanRead)
+                    {
+                        sourcePage.ImageStream.Position = 0;
 
-                    ImageStreamMemoryCopy = new MemoryStream();
-                    sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
-                    IsMemoryCopy = true;
+                        ImageStreamMemoryCopy = new MemoryStream();
+                        sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
+                        IsMemoryCopy = true;
+                    }
                 }
-            }
 
-            ImageTask = sourcePage.ImageTask;
+                ImageTask = sourcePage.ImageTask;
+            }
         }
 
         public void UpdatePage(Page page, bool skipIndex = false, bool skipName = false)

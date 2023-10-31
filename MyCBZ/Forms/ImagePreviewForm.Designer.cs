@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImagePreviewForm));
             this.ImagePreviewPanel = new System.Windows.Forms.Panel();
             this.PageImagePreview = new System.Windows.Forms.PictureBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.PreviewToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -41,7 +41,7 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ImagePreviewPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PageImagePreview)).BeginInit();
-            this.toolStrip1.SuspendLayout();
+            this.PreviewToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ImagePreviewPanel
@@ -68,9 +68,9 @@
             this.PageImagePreview.TabStop = false;
             this.PageImagePreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.PageImagePreview_LoadCompleted);
             // 
-            // toolStrip1
+            // PreviewToolStrip
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PreviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
             this.toolStripSeparator1,
@@ -78,11 +78,11 @@
             this.toolStripButton4,
             this.toolStripSeparator2,
             this.toolStripLabel1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(777, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
+            this.PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.PreviewToolStrip.Name = "PreviewToolStrip";
+            this.PreviewToolStrip.Size = new System.Drawing.Size(777, 25);
+            this.PreviewToolStrip.TabIndex = 1;
+            this.PreviewToolStrip.Text = "PreviewToolStrip";
             // 
             // toolStripButton1
             // 
@@ -142,7 +142,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 736);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.PreviewToolStrip);
             this.Controls.Add(this.ImagePreviewPanel);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -157,8 +157,8 @@
             this.ImagePreviewPanel.ResumeLayout(false);
             this.ImagePreviewPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PageImagePreview)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.PreviewToolStrip.ResumeLayout(false);
+            this.PreviewToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,7 +167,7 @@
         #endregion
 
         private System.Windows.Forms.Panel ImagePreviewPanel;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip PreviewToolStrip;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.PictureBox PageImagePreview;
         private System.Windows.Forms.ToolStripButton toolStripButton2;

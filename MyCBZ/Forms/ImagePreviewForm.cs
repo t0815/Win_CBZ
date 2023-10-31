@@ -18,6 +18,9 @@ namespace Win_CBZ
 
         Page displayPage = null;
 
+        private int minW = 0;
+        private int minH = 0;
+
         public ImagePreviewForm(Page page)
         {
             InitializeComponent();
@@ -30,13 +33,20 @@ namespace Win_CBZ
                 currentId = page.Id;
                 if (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists())
                 {
-                    displayPage.CreateLocalWorkingCopy();                 
+                    try
+                    {
+                        displayPage.CreateLocalWorkingCopy();
+                    }
+                    catch ( Exception e)
+                    {
+                        //
+                    }               
                 }
 
                 if (displayPage.TemporaryFile.Exists())
                 {
                     PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
-                    Width = displayPage.W + 40;
+                    HandleWindowSize(displayPage);
                 } else
                 {
                     PageImagePreview.ImageLocation = null;
@@ -58,8 +68,8 @@ namespace Win_CBZ
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Width = PageImagePreview.Image.Width + 40;
-            ImagePreviewPanel.VerticalScroll.Value = 0;
+
+            HandleWindowSize(displayPage);
         }
 
         private void ImagePreviewForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -89,13 +99,26 @@ namespace Win_CBZ
             {
                 if (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists())
                 {
-                    displayPage.CreateLocalWorkingCopy();
+                    try
+                    {
+                        displayPage.CreateLocalWorkingCopy();
+                    } catch (Exception e)
+                    {
+                        if (page != null)
+                        {
+                            currentId = page.Id;
+                            currentIndex = page.Index;
+                        }
+                        
+
+                        return;
+                    }
                 }
 
-                if (displayPage.TemporaryFile.Exists())
+                if (displayPage.TemporaryFile != null && displayPage.TemporaryFile.Exists())
                 {
                     PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
-                    Width = displayPage.W + 40;
+                    HandleWindowSize(displayPage);
                 } else
                 {
                     PageImagePreview.ImageLocation = null;
@@ -105,6 +128,35 @@ namespace Win_CBZ
                 currentIndex = displayPage.Index;
 
                 
+            }
+        }
+
+        private void HandleWindowSize(Page page)
+        {
+            if (page != null)
+            {
+                if (page.W > minW)
+                {
+                    if (page.W + 40 > Screen.FromHandle(this.Handle).WorkingArea.Width)
+                    {
+                        Width = Screen.FromHandle(this.Handle).WorkingArea.Width  - Location.X;
+                    } else
+                    {
+                        Width = page.W + 40;
+                    }
+                }
+
+                if (page.H > minH)
+                {
+                    if (page.H - Location.Y - PreviewToolStrip.Height > Screen.FromHandle(this.Handle).WorkingArea.Height)
+                    {
+                        Height = Screen.FromHandle(this.Handle).WorkingArea.Height - Location.Y - PreviewToolStrip.Height;
+                    }
+                    else
+                    {
+                        Height = page.H - Location.Y - PreviewToolStrip.Height;
+                    }
+                }
             }
         }
 
@@ -122,6 +174,11 @@ namespace Win_CBZ
                 e.SuppressKeyPress = true;
                 HandlePageNavigation(1);
             } 
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
         }
 
         private void ImagePreviewForm_Load(object sender, EventArgs e)
