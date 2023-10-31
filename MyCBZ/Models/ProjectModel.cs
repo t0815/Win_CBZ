@@ -1946,7 +1946,7 @@ namespace Win_CBZ
 
         protected FileInfo MakeNewTempFileName(String extension = "")
         {
-            return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
+            return new FileInfo(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, MakeNewRandomId() + extension + ".tmp"));
         }
 
         protected DirectoryInfo MakeTempDirectory(String name = "_tmp")

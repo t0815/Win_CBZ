@@ -15,16 +15,16 @@ namespace Win_CBZ
         public static String ResolvePath(String path)
         {
             
-            String resolved = "";
+            List<String> resolved = new List<string>();
             String env = "";
             String cnf = "";
 
             if (path == null)
             {
-                throw new ArgumentNullException("path");
+                throw new ArgumentNullException("PathHelper::ResolvePath invalid argument path");
             }
 
-            String[] parts = path.Split('\\');
+            String[] parts = path.Split(Path.PathSeparator);
 
             foreach (String part in parts)
             {
@@ -37,32 +37,32 @@ namespace Win_CBZ
                         env = Environment.GetEnvironmentVariable(part.Trim('%'));
                         if (env != null)
                         {
-                            resolved += "\\" + env;
+                            resolved.Add(env);
                         }
                         else
                         {
                             try
                             {
                                 cnf = Win_CBZSettings.Default[part.Trim('%')].ToString();
-                                resolved += "\\" + cnf;
+                                resolved.Add(cnf);
                             } catch (SettingsPropertyNotFoundException)
                             {
-                                resolved += "\\" + part;
+                                resolved.Add(part);
                             }
                         }
                     } else
                     {
-                        resolved += "\\" + part;
+                        resolved.Add(part);
                     }                 
                 }
             }
 
-            if (resolved.Length == 0)
+            if (resolved.Count == 0)
             {
                 resolved = path;
             }
 
-            return resolved.TrimStart('\\') + "\\";
+            return Path.Combine(resolved.ToArray());
         }
     }
 }
