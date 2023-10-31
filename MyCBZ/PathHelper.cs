@@ -59,7 +59,7 @@ namespace Win_CBZ
 
             if (resolved.Count == 0)
             {
-                resolved = path;
+                return path;
             }
 
             return Path.Combine(resolved.ToArray());
