@@ -24,7 +24,7 @@ namespace Win_CBZ
                 throw new ArgumentNullException("PathHelper::ResolvePath invalid argument path");
             }
 
-            String[] parts = path.Split(Path.PathSeparator);
+            String[] parts = path.Split(Path.DirectorySeparatorChar);
 
             foreach (String part in parts)
             {
@@ -62,7 +62,7 @@ namespace Win_CBZ
                 return path;
             }
 
-            return Path.Combine(resolved.ToArray());
+            return String.Join(new String(Path.DirectorySeparatorChar, 1), resolved.ToArray());
         }
     }
 }

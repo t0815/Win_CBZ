@@ -24,17 +24,23 @@ namespace Win_CBZ
             {
                 currentIndex = page.Index;
                 currentId = page.Id;
-                if (page.LocalFile == null)
+                if (page.TemporaryFile == null || !page.TemporaryFile.Exists())
                 {
-                   page.LocalFile = new LocalFile(Program.ProjectModel.RequestTemporaryFile(page));                  
+                    page.CreateLocalWorkingCopy();                 
                 }
 
-                PageImagePreview.ImageLocation = page.LocalFile.FullPath;
+                if (page.TemporaryFile.Exists())
+                {
+                    PageImagePreview.ImageLocation = page.TemporaryFile.FullPath;
+                } else
+                {
+                    PageImagePreview.ImageLocation = null;
+                }
                 
             }
             catch (Exception e)
             {
-                ApplicationMessage.ShowException(e);
+                
             }
 
            
@@ -70,12 +76,18 @@ namespace Win_CBZ
 
             if (nextPage != null)
             {
-                if (nextPage.LocalPath == null)
+                if (nextPage.TemporaryFile == null || !page.TemporaryFile.Exists())
                 {
-                    nextPage.LocalPath = Program.ProjectModel.RequestTemporaryFile(nextPage);
+                    nextPage.CreateLocalWorkingCopy();
                 }
 
-                PageImagePreview.ImageLocation = nextPage.LocalPath;
+                if (nextPage.TemporaryFile.Exists())
+                {
+                    PageImagePreview.ImageLocation = nextPage.TemporaryFile.FullPath;
+                } else
+                {
+                    PageImagePreview.ImageLocation = null;
+                }
 
                 currentId = nextPage.Id;
                 currentIndex = nextPage.Index;
@@ -107,6 +119,7 @@ namespace Win_CBZ
 
         private void ImagePreviewForm_KeyDown(object sender, KeyEventArgs e)
         {
+            /*
             if (e.KeyCode == Keys.Down)
             {
                 e.SuppressKeyPress = true;
@@ -126,6 +139,12 @@ namespace Win_CBZ
                     ImagePreviewPanel.VerticalScroll.Value = ImagePreviewPanel.VerticalScroll.Value - 50;
                 }
             }
+            */
+        }
+
+        private void ImagePreviewPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

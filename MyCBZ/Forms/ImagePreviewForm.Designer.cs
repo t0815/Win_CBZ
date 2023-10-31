@@ -56,6 +56,7 @@
             this.ImagePreviewPanel.Name = "ImagePreviewPanel";
             this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 709);
             this.ImagePreviewPanel.TabIndex = 0;
+            this.ImagePreviewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ImagePreviewPanel_Paint);
             // 
             // PageImagePreview
             // 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Win_CBZ.Forms
         Page Page;
         Image PreviewThumb;
         Random RandomProvider;
+        String imageLocation;
 
         public PageSettingsForm(Page page)
         {
@@ -33,7 +35,28 @@ namespace Win_CBZ.Forms
 
             PreviewThumbPictureBox.Image = PreviewThumb;
 
-            TextBoxFileLocation.Text = Page.Compressed ? Page.TempPath : Page.LocalFile.FullPath;
+            if (page.LocalFile != null && page.LocalFile.Exists())
+            {
+                imageLocation = page.LocalFile.FilePath;
+            } else
+            {
+                if (page.TemporaryFile != null && page.TemporaryFile.Exists())
+                {
+                    imageLocation = page.TemporaryFile.FilePath;
+                } else
+                {
+                    try
+                    {
+                        ZipArchiveEntry entry = page.GetCompressedEntry();
+                        imageLocation = "\\\\" +entry.Name;
+                    } catch
+                    {
+
+                    }
+                }                
+            }
+
+            TextBoxFileLocation.Text = imageLocation;
             PageNameTextBox.Text = Page.Name;
             LabelSize.Text = Page.SizeFormat();
             PageIndexTextbox.Text = (Page.Index + 1).ToString();

@@ -22,7 +22,7 @@ namespace Win_CBZ
 
         public DateTimeOffset LastModified { get; set; }
 
-
+        
         public LocalFile(String fileName)
         {
             FullPath = fileName;
@@ -35,5 +35,11 @@ namespace Win_CBZ
 
         }
 
+        public bool Exists()
+        {
+            FileInfo localFileInfo = new FileInfo(FullPath);
+
+            return localFileInfo.Exists;
+        }
     }
 }

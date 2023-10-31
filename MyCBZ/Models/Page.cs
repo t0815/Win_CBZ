@@ -8,7 +8,7 @@ using System.Linq;
 using Win_CBZ.Models;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Diagnostics.Eventing.Reader;
 
 namespace Win_CBZ
 {
@@ -40,6 +40,8 @@ namespace Win_CBZ
         public String WorkingDir { get; set; }
 
         public LocalFile LocalFile { get; set; }
+
+        public LocalFile TemporaryFile { get; set; }
 
         public String LocalPath { get; set; }
 
@@ -93,7 +95,7 @@ namespace Win_CBZ
 
         private FileInfo ImageFileInfo;
 
-        private ZipArchiveEntry ImageEntry;
+        private ZipArchiveEntry CompressedEntry;
 
         public delegate EventHandler<FileOperationEvent> FileOperationEventHandler();
         
@@ -124,6 +126,8 @@ namespace Win_CBZ
             try {
                 Copy(localFile.FullPath, tempFileName.FullName);
 
+                TemporaryFile = new LocalFile(tempFileName.FullName);
+
                 ImageFileInfo = new FileInfo(tempFileName.FullName);
                 ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
                 try
@@ -146,8 +150,7 @@ namespace Win_CBZ
                     WorkingDir = tempFileName.Directory.FullName;
                     if (ReadOnly)
                     {
-                        String newTempFileName = CreateLocalWorkingCopy();
-                        TempPath = new FileInfo(newTempFileName).FullName;
+                        TemporaryFile = CreateLocalWorkingCopy();
                     }
                 }
 
@@ -168,7 +171,7 @@ namespace Win_CBZ
 
         public Page(ZipArchiveEntry entry, String workingDir, String randomId)
         {
-            ImageEntry = entry;
+            CompressedEntry = entry;
             Compressed = true;
 
             Filename = entry.FullName;
@@ -185,8 +188,7 @@ namespace Win_CBZ
 
         public Page(Stream fileInputStream, String name)
         {
-            string[] entryExtensionParts = name.Split('.');
-
+            
             ImageStream = fileInputStream;
             Name = name;
             EntryName = name;
@@ -212,20 +214,24 @@ namespace Win_CBZ
             WorkingDir = sourcePage.WorkingDir;
             Name = sourcePage.Name;
             EntryName = sourcePage.EntryName;
-            //TempPath = sourcePage.TempPath;
+ 
             Filename = sourcePage.Filename;
             LocalPath = sourcePage.LocalPath;
-            ImageStream = sourcePage.ImageStream;
+            //ImageStream = sourcePage.ImageStream;
             LocalFile = sourcePage.LocalFile;
+
             FileExtension = sourcePage.FileExtension;
             Compressed = sourcePage.Compressed;
             TemporaryFileId = RandomId;
-            EntryName = sourcePage.EntryName;
-            ImageEntry = sourcePage.ImageEntry;
 
-            if (ImageStream != null)
+            EntryName = sourcePage.EntryName;
+            CompressedEntry = sourcePage.CompressedEntry;
+
+            TemporaryFile = RequestTemporaryFile();
+
+            if (sourcePage.ImageStream != null)
             {
-                if (ImageStream.CanRead)
+                if (sourcePage.ImageStream.CanRead)
                 {
                     sourcePage.ImageStream.Position = 0;
 
@@ -270,10 +276,12 @@ namespace Win_CBZ
             Compressed = sourcePage.Compressed;
             TemporaryFileId = sourcePage.TemporaryFileId;
             EntryName = sourcePage.EntryName;
-            ImageEntry = sourcePage.ImageEntry;
+            CompressedEntry = sourcePage.CompressedEntry;
             ImageStream = sourcePage.ImageStream;
             IsMemoryCopy = sourcePage.IsMemoryCopy;
             //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
+
+            TemporaryFile = sourcePage.TemporaryFile;
 
             if (ImageStream != null)
             {
@@ -322,6 +330,10 @@ namespace Win_CBZ
             Number = page.Number;
             Deleted = page.Deleted;
             LocalFile = page.LocalFile;
+            TemporaryFileId = page.TemporaryFileId;
+            Changed = page.Changed;
+
+            TemporaryFile = page.TemporaryFile;
 
             if (!skipName)
             {
@@ -333,13 +345,11 @@ namespace Win_CBZ
                 Index = page.Index;
             }
             //OriginalIndex = page.OriginalIndex;
-            TemporaryFileId = page.TemporaryFileId;
-            Changed = page.Changed;
         }
 
         public void UpdateImageEntry(ZipArchiveEntry entry, String randomId)
         {
-            ImageEntry = entry;
+            CompressedEntry = entry;
             Compressed = true;
 
             Filename = entry.FullName;
@@ -357,6 +367,7 @@ namespace Win_CBZ
             ImageFileInfo = new FileInfo(tempFileName.FullName);
 
             LocalFile = new LocalFile(localFile.FullPath);
+            TemporaryFile = new LocalFile(tempFileName.FullName);
             Size = ImageFileInfo.Length;
             LocalPath = localFile.FullPath;
             Compressed = false;
@@ -423,29 +434,40 @@ namespace Win_CBZ
             ImageFileInfo = null;           
         }
 
-        protected void RequestTemporaryFile(String destination = null)
+        public ZipArchiveEntry GetCompressedEntry()
         {
+            return CompressedEntry;
+        }
+
+        protected LocalFile RequestTemporaryFile(String destination = null, bool overwrite = false)
+        {
+            String result = null;
+
             if (TemporaryFileId == null)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Cant create new temporary file for page [" + Name + "]! No FileID available/set.");
 
-                return;
+                return null;
             }
 
             if (Compressed)
             {
-                if (ImageEntry != null)
+                if (CompressedEntry != null)
                 {
-                    if (TempPath == null || destination != null)
+                    if ((TemporaryFile == null || !TemporaryFile.Exists()) || destination != null)
                     {
                         if (destination == null)
                         {
-                            destination = Path.Combine(WorkingDir, TemporaryFileId + ".tmp");
+                            destination = Path.Combine(PathHelper.ResolvePath(WorkingDir), TemporaryFileId + ".tmp");
                         }
-                       
-                        ImageEntry.ExtractToFile(destination);
+
+                        if (!File.Exists(destination) || overwrite)
+                        {
+                            CompressedEntry.ExtractToFile(destination, overwrite);
+                        }
                         
-                        TempPath = destination;
+
+                        result = destination;
                     }
                 }
                 else
@@ -454,19 +476,19 @@ namespace Win_CBZ
                 }
             } else
             {
-                if (ReadOnly || TempPath == null)
+                if (ReadOnly || TemporaryFile == null || !TemporaryFile.Exists())
                 {
-                    if (TempPath == null || destination != null)
+                    if (TemporaryFile == null || !TemporaryFile.Exists() || destination != null)
                     {
                         if (destination == null)
                         {
-                            destination = Path.Combine(WorkingDir, TemporaryFileId + ".tmp");
+                            destination = Path.Combine(PathHelper.ResolvePath(WorkingDir), TemporaryFileId + ".tmp");
                         }
 
-                        TempPath = destination;
+                        result = destination;
                     }
 
-                    FileInfo tempFileInfo = new FileInfo(TempPath);
+                    FileInfo tempFileInfo = new FileInfo(result);
 
                     if (!IsMemoryCopy)
                     {
@@ -474,7 +496,7 @@ namespace Win_CBZ
                         try
                         {
 
-                            FileStream CopyImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                            FileStream CopyImageStream = File.Open(result, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                             try
                             {
                                 localFile.CopyTo(CopyImageStream);
@@ -502,8 +524,7 @@ namespace Win_CBZ
                     {
                         try
                         {
-
-                            FileStream CopyImageStream = File.Open(TempPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                            FileStream CopyImageStream = File.Open(result, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                             try
                             {
                                 ImageStreamMemoryCopy.CopyTo(CopyImageStream);
@@ -530,8 +551,13 @@ namespace Win_CBZ
                         }
                     }
                     
+                } else
+                {
+                    return TemporaryFile;
                 }
             }
+
+            return new LocalFile(result);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -616,7 +642,7 @@ namespace Win_CBZ
 
                     if (Compressed)
                     {
-                        ImageInfo = Image.FromStream(ImageEntry.Open());
+                        ImageInfo = Image.FromStream(CompressedEntry.Open());
                         W = ImageInfo.Width;
                         H = ImageInfo.Height;
 
@@ -662,27 +688,28 @@ namespace Win_CBZ
         }
 
 
-        public String CreateLocalWorkingCopy(String destination = null)
+        public LocalFile CreateLocalWorkingCopy(String destination = null)
         {
-            bool tempFileExists = false;
 
             if (Compressed)
             {
-                try
+                if (LocalFile == null || !LocalFile.Exists())
                 {
-                    FileInfo temporaryFileInfo = new FileInfo(TempPath);
-                    tempFileExists = temporaryFileInfo.Exists;
-                } catch {
-                    tempFileExists = false;
+                    LocalFile = RequestTemporaryFile(destination);
+
+                    if (LocalFile != null)
+                    {
+                        return LocalFile;
+                    }
                 }
 
-                if (!tempFileExists)
+                if (TemporaryFile == null || !TemporaryFile.Exists())
                 {
-                    RequestTemporaryFile(destination);
+                    TemporaryFile = RequestTemporaryFile(destination);
 
-                    if (TempPath != null)
+                    if (TemporaryFile != null)
                     {
-                        return TempPath;
+                        return TemporaryFile;
                     }
                 } else
                 {
@@ -693,7 +720,7 @@ namespace Win_CBZ
             {
                 if (destination == null)
                 {
-                    destination = Path.Combine(WorkingDir, TemporaryFileId + ".tmp");
+                    destination = Path.Combine(PathHelper.ResolvePath(WorkingDir), TemporaryFileId + ".tmp");
                 }
 
                 FileInfo copyFileInfo = new FileInfo(destination);   // Target
@@ -789,15 +816,15 @@ namespace Win_CBZ
                 {
                     TempPath = destination;
 
-                    LocalFile = new LocalFile(TempPath);
+                    TemporaryFile = new LocalFile(TempPath);
 
-                    return destination;
+                    return TemporaryFile;
                 }
             }
 
-            LocalFile = new LocalFile(TempPath);
+            TemporaryFile = new LocalFile(TempPath);
 
-            return TempPath;
+            return TemporaryFile;
         }
 
 
@@ -836,9 +863,13 @@ namespace Win_CBZ
 
                 if (Image == null)
                 {
-                    RequestTemporaryFile();
-                    if (TempPath != null) {
-                        ImageStream = File.Open(TempPath, FileMode.Open, FileAccess.ReadWrite);
+                    if (TemporaryFile == null || !TemporaryFile.Exists())
+                    {
+                        TemporaryFile = RequestTemporaryFile();
+                    }
+                    
+                    if (TemporaryFile != null && TemporaryFile.Exists()) {
+                        ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
                         Image = Image.FromStream(ImageStream);
                     } else {
                         throw new Exception("Failed to extract image [" + Name + "] from Archive!");

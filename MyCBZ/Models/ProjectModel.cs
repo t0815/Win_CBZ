@@ -184,15 +184,22 @@ namespace Win_CBZ
             //Pipeline += HandlePipelene;
 
             ProjectGUID = Guid.NewGuid().ToString();
-            if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
-            {
-                try
+            if (ProjectGUID.Length > 0)
+            { 
+                if (!Directory.Exists(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID)))
                 {
-                    DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
-                } catch (Exception e)
-                {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
+                    try
+                    {
+                        DirectoryInfo di = Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID));
+                    }
+                    catch (Exception e)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
+                    }
                 }
+            } else
+            {
+                ApplicationMessage.ShowWarning("System error! Failed to create new GUID", "System error");
             }
         }
 
@@ -393,11 +400,11 @@ namespace Win_CBZ
 
 
                 ProjectGUID = Guid.NewGuid().ToString();
-                if (!Directory.Exists(PathHelper.ResolvePath(WorkingDir) + ProjectGUID))
+                if (!Directory.Exists(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID)))
                 {
                     try
                     {
-                        DirectoryInfo di = Directory.CreateDirectory(PathHelper.ResolvePath(WorkingDir) + ProjectGUID);
+                        DirectoryInfo di = Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID));
                     }
                     catch (Exception e)
                     {
@@ -1951,7 +1958,7 @@ namespace Win_CBZ
 
         protected DirectoryInfo MakeTempDirectory(String name = "_tmp")
         {
-            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir) + ProjectGUID, name, MakeNewRandomId()));
+            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, name, MakeNewRandomId()));
 
             //return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
         }
@@ -2056,14 +2063,14 @@ namespace Win_CBZ
                         {
                             if (di != null)
                             {
-                                fileEntry.ExtractToFile(PathHelper.ResolvePath(di.FullName) + fileEntry.Name, true);
-                                OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(di.FullName) + fileEntry.Name));
+                                fileEntry.ExtractToFile(Path.Combine(PathHelper.ResolvePath(di.FullName), fileEntry.Name), true);
+                                OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, Path.Combine(PathHelper.ResolvePath(di.FullName), fileEntry.Name)));
                             }
                             else
                             {
-                                fileEntry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name, true);
-                                page.TempPath = PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name;
-                                OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + fileEntry.Name));
+                                fileEntry.ExtractToFile(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name), true);
+                                page.TempPath = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name);
+                                OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name)));
                             } 
                             
                             
@@ -2088,8 +2095,8 @@ namespace Win_CBZ
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
-                        entry.ExtractToFile(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + entry.Name);
-                        OnItemExtracted(new ItemExtractedEvent(index, count, PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + entry.Name));
+                        entry.ExtractToFile(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, entry.Name));
+                        OnItemExtracted(new ItemExtractedEvent(index, count, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, entry.Name)));
                         index++;
                     }
 
