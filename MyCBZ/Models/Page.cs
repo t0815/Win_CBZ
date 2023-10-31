@@ -31,6 +31,8 @@ namespace Win_CBZ
 
         public String ImageType { get; set; } = "Story";
 
+        public bool ImageLoaded { get; set; }
+
         public ImageTask ImageTask { get; set; }
 
         public int Number { get; set; }
@@ -848,6 +850,7 @@ namespace Win_CBZ
                             try
                             {
                                 Image = Image.FromStream(ImageStreamMemoryCopy);
+                                ImageLoaded = true;
                             } catch {
                                 throw new Exception("Error loading image [" + Name + "]! Invalid or corrupted image");
                             }
@@ -860,6 +863,7 @@ namespace Win_CBZ
                             try
                             {
                                 Image = Image.FromStream(ImageStream);
+                                ImageLoaded = true;
                             }
                             catch {
                                 throw new Exception("Error loading image [" + Name + "]! Invalid or corrupted image");
@@ -878,6 +882,7 @@ namespace Win_CBZ
                     if (TemporaryFile != null && TemporaryFile.Exists()) {
                         ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
                         Image = Image.FromStream(ImageStream);
+                        ImageLoaded = true;
                     } else {
                         throw new Exception("Failed to extract image [" + Name + "] from Archive!");
                     } 

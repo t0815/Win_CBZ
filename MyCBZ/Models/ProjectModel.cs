@@ -1814,7 +1814,10 @@ namespace Win_CBZ
                                 page.Compressed = true;
                             }
                             page.Changed = false;
-                            page.LoadImage();
+                            if (page.ImageLoaded)
+                            {
+                                page.LoadImage();
+                            }                           
 
                             OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         }
