@@ -622,11 +622,22 @@ namespace Win_CBZ
                             { 
                                 if (metaType == "FrontCover")
                                 {
+                                    pageTypeCounts.TryGetValue(page.ImageType, out pageTypeCountValue);
+                                    
                                     coverDefined = true;
-                                    if (page.Index > 0)
+                                    if (page.Index > 0 && pageTypeCountValue == 1)
                                     {
                                         problems.Add("Metadata->PageIndex->Type: value of type 'FrontCover' should be at index 0 (page 1) for page [" + page.Name + "]");
+                                    } else
+                                    {
+                                        if (pageTypeCountValue > 1)
+                                        {
+                                            problems.Add("Metadata->PageIndex->Type: only 1 page of type 'FrontCover' is allowed! [" + page.Name + "]");
+
+                                        }
                                     }
+
+                                    // todo: check max allowed page types....
                                 }
                             }
                         }
