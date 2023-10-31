@@ -675,7 +675,7 @@ namespace Win_CBZ
                 {
                     if (RequestThumbnailThread.IsAlive)
                     {
-                        return;
+                        RequestThumbnailThread.Join();
                     }
                 }
 
@@ -2828,6 +2828,7 @@ namespace Win_CBZ
                             {
                                 if (!RequestThumbnailThread.IsAlive)
                                 {
+                                    
                                     RequestThumbnailSlice();
                                 }
                             }
