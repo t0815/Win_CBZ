@@ -1122,6 +1122,7 @@ namespace Win_CBZ
                     break;
 
                 case CBZArchiveStatusEvent.ARCHIVE_SAVED:
+                    
                     info = "Ready.";
                     break;
 
@@ -1154,6 +1155,12 @@ namespace Win_CBZ
                 //{
                 this.Invoke(new Action(() =>
                 {
+                    if (PageView.Items.Count > 0)
+                    {
+                        PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                    }
+                    
+
                     fileNameLabel.Text = filename;
                     applicationStatusLabel.Text = info;
                     Program.ProjectModel.ArchiveState = e.State;
