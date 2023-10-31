@@ -1536,6 +1536,8 @@ namespace Win_CBZ
             long itemSize = 0;
             int index = 0;
             long totalSize = 0;
+            MetaDataPageIndexMissingData = false;
+            MetaDataPageIndexMissingData = false;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
@@ -1573,7 +1575,6 @@ namespace Win_CBZ
                         page.Number = index + 1;
                         page.Index = index;
                         page.OriginalIndex = index;
-                        page.EntryName = entry.Name;
 
                         pageIndexEntry = MetaData.FindIndexEntryForPage(page);
                         if (pageIndexEntry != null)
@@ -1668,8 +1669,11 @@ namespace Win_CBZ
             int index = 0;
             bool tagValidationFailed = false;
             bool metaDataValidationFailed = false;
+            bool errorSavingArchive = false;
             ArrayList invalidKeys = new ArrayList();
             List<Page> deletedPages = new List<Page>();
+
+            LocalFile fileToCompress = null;
 
             TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
 
@@ -1768,7 +1772,7 @@ namespace Win_CBZ
                             {
                                 FileInfo NewTemporaryFileName = MakeNewTempFileName();
                                 page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
-                                if (page.TempPath == null)
+                                if (page.TemporaryFile == null || !page.TemporaryFile.Exists())
                                 {
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
                                 }
@@ -1778,20 +1782,19 @@ namespace Win_CBZ
 
                             if (page.Changed || page.Compressed) 
                             {
-                                sourceFileName = page.TempPath;
+                                sourceFileName = page.TemporaryFile.FullPath;
                                 try
                                 {
-                                    FileInfo validateTemporaryFileName = new FileInfo(sourceFileName);
-                                    if (!validateTemporaryFileName.Exists)
+                                    if (!page.TemporaryFile.Exists())
                                     {
-                                        page.CreateLocalWorkingCopy(validateTemporaryFileName.FullName);
+                                        page.CreateLocalWorkingCopy();
 
                                         
                                     }
                                 } catch (Exception)
                                 {
 
-                                    sourceFileName = page.LocalFile.FullPath;
+                                    sourceFileName = page.TemporaryFile.FullPath;
 
                                     //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
                                 }
@@ -1800,10 +1803,13 @@ namespace Win_CBZ
                                 sourceFileName = page.LocalFile.FullPath;
                             }          
 
-                            updatedEntry = BuildingArchive.CreateEntryFromFile(sourceFileName, page.Name, CompressionLevel);
+                            fileToCompress = new LocalFile(sourceFileName);
+
+                            updatedEntry = BuildingArchive.CreateEntryFromFile(fileToCompress.FullPath, page.Name, CompressionLevel);
                             if (IsNew)
                             {
                                 page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
+                                page.Compressed = true;
                             }
                             page.Changed = false;
 
@@ -1817,8 +1823,15 @@ namespace Win_CBZ
                     }
                     catch (Exception efile)
                     {
-                        page.Compressed = false;
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + page.TempPath + "] to Archive [" + efile.Message + "]");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + fileToCompress.FileName + "] to Archive [" + efile.Message + "]");
+
+                        if (!Win_CBZSettings.Default.IgnoreErrorsOnSave)
+                        {
+                            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
+                            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+                            errorSavingArchive = true;
+                            return;
+                        }
                     }
                     finally
                     {
@@ -1848,7 +1861,7 @@ namespace Win_CBZ
             }
             finally
             {
-                if (!tagValidationFailed && !metaDataValidationFailed)
+                if (!tagValidationFailed && !metaDataValidationFailed && !errorSavingArchive)
                 {
                     try
                     {
@@ -1881,7 +1894,7 @@ namespace Win_CBZ
                     }
                     finally
                     {
-                        if (!tagValidationFailed && !metaDataValidationFailed)
+                        if (!tagValidationFailed && !metaDataValidationFailed && !errorSavingArchive)
                         {
                             try
                             {
@@ -1908,7 +1921,7 @@ namespace Win_CBZ
                 }
             }
 
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));           
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 

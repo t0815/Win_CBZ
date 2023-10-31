@@ -119,6 +119,7 @@ namespace Win_CBZ
                 TogglePagePreviewToolbutton.Checked = Win_CBZSettings.Default.PagePreviewEnabled;
                 SplitBoxPageView.Panel1Collapsed = !Win_CBZSettings.Default.PagePreviewEnabled;
                 Program.ProjectModel.PreloadPageImages = Win_CBZSettings.Default.PagePreviewEnabled;
+                CheckBoxIgnoreErrorsOnSave.Checked = Win_CBZSettings.Default.IgnoreErrorsOnSave;
 
                 CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
 
@@ -1124,6 +1125,10 @@ namespace Win_CBZ
                     info = "Ready.";
                     break;
 
+                case CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING:
+                    info = "Ready.";
+                    break;
+
                 case CBZArchiveStatusEvent.ARCHIVE_SAVING:
                     info = "Writing archive...";
                     break;
@@ -1244,6 +1249,35 @@ namespace Win_CBZ
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsNew = false;
                         Program.ProjectModel.IsSaved = true;
+                        PagesList.Enabled = true;
+                        PageView.Enabled = true;
+                        MetaDataGrid.Enabled = true;
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        PageView.Refresh();
+                        PageView.Invalidate();
+                        break;
+
+                    case CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING:
+                        newToolStripMenuItem.Enabled = true;
+                        openToolStripMenuItem.Enabled = true;
+                        saveToolStripMenuItem.Enabled = true;
+                        saveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonOpen.Enabled = true;
+                        addFilesToolStripMenuItem.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonExtractArchive.Enabled = true;
+                        ExtractSelectedPages.Enabled = true;
+                        CheckBoxDoRenamePages.Enabled = true;
+                        ToolButtonAddFolder.Enabled = true;
+                        TextboxStoryPageRenamingPattern.Enabled = true;
+                        TextboxSpecialPageRenamingPattern.Enabled = true;
+                        ToolButtonSave.Enabled = true;
+                        toolStripButtonShowRawMetadata.Enabled = true;
+                        ExtractSelectedPages.Enabled = true;
+                        Program.ProjectModel.IsSaved = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         MetaDataGrid.Enabled = true;
@@ -1611,6 +1645,7 @@ namespace Win_CBZ
             Win_CBZSettings.Default.Splitter2 = SplitBoxPageView.SplitterDistance;
             Win_CBZSettings.Default.Splitter3 = SplitBoxItemsList.SplitterDistance;
             Win_CBZSettings.Default.Splitter4 = PrimarySplitBox.SplitterDistance;
+            Win_CBZSettings.Default.IgnoreErrorsOnSave = CheckBoxIgnoreErrorsOnSave.Checked;
             Win_CBZSettings.Default.Save();
 
             WindowClosed = true;
@@ -2761,52 +2796,57 @@ namespace Win_CBZ
             {
                 borderPen = new Pen(Color.LightGray, 2);
             }
-            int center = ((e.Bounds.Width + 4) / 2) - ((owner.LargeImageList.ImageSize.Width + 4) / 2);
 
-            Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, owner.LargeImageList.ImageSize.Width + 4, owner.LargeImageList.ImageSize.Height + 4);
-
-
-            int customItemBoundsW = owner.LargeImageList.ImageSize.Width;
-            int customItemBoundsH = 16; //owner.LargeImageList.ImageSize.Height;
-
-            Rectangle textBox = new Rectangle(center, rectangle.Height - 16, customItemBoundsW, customItemBoundsH);
-
-            // e.Bounds.Width = customItemBoundsW + 4;
-
-
-            if (page != null)
+            if (owner.LargeImageList != null)
             {
-                e.Graphics.DrawRectangle(borderPen, rectangle);
-                if (owner.LargeImageList.Images.IndexOfKey(page.Id) >= 0)
+                int center = ((e.Bounds.Width + 4) / 2) - ((owner.LargeImageList.ImageSize.Width + 4) / 2);
+
+                Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, owner.LargeImageList.ImageSize.Width + 4, owner.LargeImageList.ImageSize.Height + 4);
+
+
+                int customItemBoundsW = owner.LargeImageList.ImageSize.Width;
+                int customItemBoundsH = 16; //owner.LargeImageList.ImageSize.Height;
+
+                Rectangle textBox = new Rectangle(center, rectangle.Height - 16, customItemBoundsW, customItemBoundsH);
+
+                // e.Bounds.Width = customItemBoundsW + 4;
+
+
+                if (page != null)
                 {
-                    e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
-                } else
-                {
-                    if (!page.Closed)
+                    e.Graphics.DrawRectangle(borderPen, rectangle);
+                    if (owner.LargeImageList.Images.IndexOfKey(page.Id) >= 0)
                     {
-                        ThumbnailPagesSlice.Add(page);
-                        if (RequestThumbnailThread != null)
+                        e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
+                    }
+                    else
+                    {
+                        if (!page.Closed)
                         {
-                            if (!RequestThumbnailThread.IsAlive)
+                            ThumbnailPagesSlice.Add(page);
+                            if (RequestThumbnailThread != null)
+                            {
+                                if (!RequestThumbnailThread.IsAlive)
+                                {
+                                    RequestThumbnailSlice();
+                                }
+                            }
+                            else
                             {
                                 RequestThumbnailSlice();
                             }
                         }
-                        else
-                        {
-                            RequestThumbnailSlice();
-                        }
                     }
+
+                    //e.Graphics.DrawRectangle(captionPen, textBox);
+                    //e.Graphics.FillRectangle(textBGBrush, textBox);
+                    //e.Graphics.DrawString(page.Name + "-> " + item.Index.ToString(), textFont, textBrush, new Point(center + 20, e.Bounds.Y + rectangle.Height - 14));
                 }
+                else
+                {
 
-                //e.Graphics.DrawRectangle(captionPen, textBox);
-                //e.Graphics.FillRectangle(textBGBrush, textBox);
-                //e.Graphics.DrawString(page.Name + "-> " + item.Index.ToString(), textFont, textBrush, new Point(center + 20, e.Bounds.Y + rectangle.Height - 14));
-            }
-            else
-            {
-
-            }
+                }
+            }           
         }
 
         private void CheckBoxPreview_CheckedChanged(object sender, EventArgs e)

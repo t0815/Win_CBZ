@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.14.74b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.14.75b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -289,6 +289,18 @@ namespace Win_CBZ {
             }
             set {
                 this["WindowY"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IgnoreErrorsOnSave {
+            get {
+                return ((bool)(this["IgnoreErrorsOnSave"]));
+            }
+            set {
+                this["IgnoreErrorsOnSave"] = value;
             }
         }
     }

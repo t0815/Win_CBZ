@@ -178,6 +178,7 @@ namespace Win_CBZ
             FileExtension = ExtractFileExtension(entry.Name);
             Name = entry.Name;
             Size = entry.Length;
+            EntryName = entry.Name;
             LastModified = entry.LastWriteTime;
             Id = Guid.NewGuid().ToString();
             TemporaryFileId = randomId;
@@ -227,6 +228,23 @@ namespace Win_CBZ
             EntryName = sourcePage.EntryName;
             CompressedEntry = sourcePage.CompressedEntry;
 
+            Changed = sourcePage.Changed;
+            ReadOnly = sourcePage.ReadOnly;
+            Size = sourcePage.Size;
+            Id = sourcePage.Id;
+            Index = sourcePage.Index;
+            OriginalIndex = sourcePage.OriginalIndex;
+            Number = sourcePage.Number;
+            Closed = sourcePage.Closed;
+
+            Deleted = sourcePage.Deleted;
+            OriginalName = sourcePage.OriginalName;
+            W = sourcePage.W;
+            H = sourcePage.H;
+            Key = sourcePage.Key;
+            ThumbH = ThumbHeight;
+            ThumbW = ThumbWidth;
+
             TemporaryFile = RequestTemporaryFile();
 
             if (sourcePage.ImageStream != null)
@@ -241,22 +259,7 @@ namespace Win_CBZ
                 }
             }
                           
-            Changed = sourcePage.Changed;
-            ReadOnly = sourcePage.ReadOnly;
-            Size = sourcePage.Size;
-            Id = sourcePage.Id;
-            Index = sourcePage.Index;
-            OriginalIndex = sourcePage.OriginalIndex;
-            Number = sourcePage.Number;
-            Closed = sourcePage.Closed;
-                      
-            Deleted = sourcePage.Deleted;
-            OriginalName = sourcePage.OriginalName;
-            W = sourcePage.W;
-            H = sourcePage.H;
-            Key = sourcePage.Key;
-            ThumbH = ThumbHeight;
-            ThumbW = ThumbWidth;
+            
             Thumbnail = sourcePage.Thumbnail;
             ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
             
@@ -281,20 +284,6 @@ namespace Win_CBZ
             IsMemoryCopy = sourcePage.IsMemoryCopy;
             //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
 
-            TemporaryFile = sourcePage.TemporaryFile;
-
-            if (ImageStream != null)
-            {
-                if (ImageStream.CanRead)
-                {
-                    sourcePage.ImageStream.Position = 0;
-
-                    ImageStreamMemoryCopy = new MemoryStream();
-                    sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
-                    IsMemoryCopy = true;
-                }
-            }
-
             Changed = sourcePage.Changed;
             ReadOnly = sourcePage.ReadOnly;
             Size = sourcePage.Size;
@@ -314,6 +303,20 @@ namespace Win_CBZ
             Thumbnail = sourcePage.Thumbnail;
             ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
 
+            TemporaryFile = sourcePage.TemporaryFile;
+
+            if (ImageStream != null)
+            {
+                if (ImageStream.CanRead)
+                {
+                    sourcePage.ImageStream.Position = 0;
+
+                    ImageStreamMemoryCopy = new MemoryStream();
+                    sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
+                    IsMemoryCopy = true;
+                }
+            }
+
             ImageTask = sourcePage.ImageTask;
         }
 
@@ -321,6 +324,7 @@ namespace Win_CBZ
         {
             Compressed = page.Compressed;
             Filename = page.Filename;
+            
             EntryName = page.EntryName;
             Size = page.Size;
             Id = page.Id;
@@ -332,6 +336,9 @@ namespace Win_CBZ
             LocalFile = page.LocalFile;
             TemporaryFileId = page.TemporaryFileId;
             Changed = page.Changed;
+            ImageType = page.ImageType;
+            ImageTask = page.ImageTask;
+
 
             TemporaryFile = page.TemporaryFile;
 
@@ -713,7 +720,7 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    
+                    return TemporaryFile;
                 }
             }
             else
