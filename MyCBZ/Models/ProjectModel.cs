@@ -537,11 +537,31 @@ namespace Win_CBZ
             bool tagValidationFailed = false;
             bool keyValidationFailed = false;
             bool coverDefined = false;
+            int deletedPageCount = 0;
+            Dictionary<String, int> pageTypeCounts = new Dictionary<string, int>();
+            int pageTypeCountValue = 0;
 
             if (hasFiles)
             {
                 foreach (Page page in Pages)
                 {
+                    if (page.Deleted)
+                    {
+                        deletedPageCount++;
+                    }
+
+                    if (!pageTypeCounts.ContainsKey(page.ImageType))
+                    {
+                        pageTypeCounts.Add(page.ImageType, 1);
+                    } else
+                    {
+                        if (pageTypeCounts.TryGetValue(page.ImageType, out pageTypeCountValue))
+                        {
+                            pageTypeCounts[page.ImageType] = pageTypeCountValue + 1;
+                        }
+                    }
+                   
+
                     if (page.H == 0 || page.W == 0)
                     {
                         problems.Add("Pages->Page: Invalid dimensions for page [" + page.Id + "] with [" + page.W + "x" + page.H + "]");
@@ -612,7 +632,10 @@ namespace Win_CBZ
                         }
                         else
                         {
-                            problems.Add("Metadata->PageIndex: entry missing for page [" + page.Name + "]");
+                            if (!page.Deleted)
+                            {
+                                problems.Add("Metadata->PageIndex: entry missing for page [" + page.Name + "]");
+                            }
                         }
                     }
                     else
@@ -624,6 +647,11 @@ namespace Win_CBZ
             else
             {
                 problems.Add("Pages: No pages found in Archive [count = 0]! Nothing to display.");
+            }
+
+            if (deletedPageCount == Pages.Count)
+            {
+                problems.Add("Pages: All pages have been deleted [0 pages remaining]! Nothing to display.");
             }
 
             if (hasMetaData)
