@@ -14,15 +14,18 @@ standard described here: https://github.com/anansi-project/comicinfo
 
 ## Features
 
-- Add, edit and delete pages and meta-data from cbz-files
+- Add, edit and delete pages
+- Add, edit and delete meta-data from cbz-files using inline editor
 - Set page types (FrontCover, BackCover, Story ....)
 - Reorder pages
 - Extract pages
 - Rename pages using placeholders
+- Validate if cbz has minimum required metadata
 
 ## Features to 1.0
 
 - Image processing
+- add missing metadata handling from ComicInfo spec
 
 ## Planned
 
