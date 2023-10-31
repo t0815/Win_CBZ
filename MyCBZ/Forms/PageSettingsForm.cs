@@ -61,11 +61,12 @@ namespace Win_CBZ.Forms
             LabelSize.Text = Page.SizeFormat();
             PageIndexTextbox.Text = (Page.Index + 1).ToString();
             CheckBoxPageDeleted.Checked = Page.Deleted;
+            LabelDimensions.Text = Page.W.ToString() + " x " + Page.H.ToString() + " px";
         }
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+            Page.Close();
         }
 
         private bool ThumbAbort()

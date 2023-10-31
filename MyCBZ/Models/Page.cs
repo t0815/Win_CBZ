@@ -586,7 +586,7 @@ namespace Win_CBZ
 
         public void DeleteTemporaryFile()
         {
-            if (TempPath != null)
+            if (TemporaryFile != null && TemporaryFile.Exists())
             {
                 if (Compressed)
                 {
@@ -599,7 +599,7 @@ namespace Win_CBZ
                     ImageStream.Dispose();
                 }
 
-                File.Delete(TempPath);
+                File.Delete(TemporaryFile.FullPath);
             }
         }
 
@@ -607,7 +607,7 @@ namespace Win_CBZ
         {
             if (!ReadOnly)
             {
-                File.Delete(LocalFile.FileName);
+                File.Delete(LocalFile.FullPath);
             }           
         }
 
@@ -883,8 +883,6 @@ namespace Win_CBZ
                         W = Image.Width;
                         H = Image.Height;
                     }
-
-                    ImageStream.Close();
                 }
                 else
                 {

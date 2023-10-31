@@ -89,10 +89,11 @@
             // HeaderLabel
             // 
             this.HeaderLabel.AutoSize = true;
+            this.HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HeaderLabel.Location = new System.Drawing.Point(83, 15);
             this.HeaderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(177, 13);
+            this.HeaderLabel.Size = new System.Drawing.Size(255, 21);
             this.HeaderLabel.TabIndex = 1;
             this.HeaderLabel.Text = "Extract selected pages from Archive";
             // 
