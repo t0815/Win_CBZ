@@ -121,14 +121,8 @@ namespace Win_CBZ.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1031{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset0 Calibri;}}
-        ///{\colortbl ;\red0\green0\blue255;}
-        ///{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-        ///\pard\sa200\sl276\slmult1\f0\fs22\lang7\par
-        ///\b (c) 2022 TrashSoft\b0\par
-        ///This Software is Freeware and Licensed under the MIT Software license.\par
-        ///\f1{\pict{\*\picprop}\wmetafile8\picw508\pich508\picwgoal288\pichgoal288 
-        ///0100090000036a03000000004103000000000400000003010800050000000b020000000 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff31507\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang1031\deflangfe1031\themelang1031\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
+        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}Calibri;}{\f43\fbidi \fnil\fcharset0\fprq0{\*\panose 00000000000000000000}MS Sans Serif{\ [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string CBZMageAboutMessage {
             get {
@@ -522,6 +516,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Trash {
+            get {
+                object obj = ResourceManager.GetObject("Trash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TrashBannerNew {
             get {
                 object obj = ResourceManager.GetObject("TrashBannerNew", resourceCulture);
@@ -536,6 +540,16 @@ namespace Win_CBZ.Properties {
             get {
                 object obj = ResourceManager.GetObject("TrashInstallerBanner", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+        /// </summary>
+        internal static System.Drawing.Icon TrashSoft {
+            get {
+                object obj = ResourceManager.GetObject("TrashSoft", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

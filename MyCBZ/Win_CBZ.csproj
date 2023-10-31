@@ -67,6 +67,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\TrashSoft.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -424,6 +427,8 @@
     <Content Include="Resources\edit_large.png" />
     <None Include="Resources\edit_large1.png" />
     <None Include="Resources\painting_landscape.png" />
+    <None Include="Resources\Trash.png" />
+    <None Include="Resources\TrashSoft.ico" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
