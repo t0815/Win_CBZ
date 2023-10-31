@@ -24,6 +24,10 @@ standard described here: https://github.com/anansi-project/comicinfo
 
 - Image processing
 
+## Planned
+
+- CBR support
+
 ## Build
 
 Microsoft Visual Studio [Community] 2022 (64-Bit) 
@@ -34,7 +38,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.14.73b released!
+v0.14.74b released!
 
 ## Third party components
 
