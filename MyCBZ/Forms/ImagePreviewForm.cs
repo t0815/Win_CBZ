@@ -16,22 +16,27 @@ namespace Win_CBZ
         int currentIndex = 0;
         string currentId = null;
 
+        Page displayPage = null;
+
         public ImagePreviewForm(Page page)
         {
             InitializeComponent();
 
             try
             {
+                displayPage = new Page(page);
+
                 currentIndex = page.Index;
                 currentId = page.Id;
-                if (page.TemporaryFile == null || !page.TemporaryFile.Exists())
+                if (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists())
                 {
-                    page.CreateLocalWorkingCopy();                 
+                    displayPage.CreateLocalWorkingCopy();                 
                 }
 
-                if (page.TemporaryFile.Exists())
+                if (displayPage.TemporaryFile.Exists())
                 {
-                    PageImagePreview.ImageLocation = page.TemporaryFile.FullPath;
+                    PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
+                    Width = displayPage.W + 40;
                 } else
                 {
                     PageImagePreview.ImageLocation = null;
@@ -53,7 +58,7 @@ namespace Win_CBZ
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            Width = PageImagePreview.Width + 40;
+            Width = PageImagePreview.Image.Width + 40;
             ImagePreviewPanel.VerticalScroll.Value = 0;
         }
 
@@ -61,36 +66,43 @@ namespace Win_CBZ
         {
             PageImagePreview.Image.Dispose();
             PageImagePreview.Dispose();
+
+            displayPage.Close();
         }
 
         protected void HandlePageNavigation(int direction)
         {
             Page page = Program.ProjectModel.GetPageById(currentId);
-            Page nextPage = null;
             int newIndex = currentIndex;
 
-            if (page != null)
-            {               
-               nextPage = Program.ProjectModel.GetPageByIndex(newIndex + direction);              
+            if (displayPage != null)
+            {
+                displayPage.Close();
             }
 
-            if (nextPage != null)
+            if (page != null)
             {
-                if (nextPage.TemporaryFile == null || !page.TemporaryFile.Exists())
+                displayPage = new Page(Program.ProjectModel.GetPageByIndex(newIndex + direction));              
+            }
+
+            if (displayPage != null)
+            {
+                if (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists())
                 {
-                    nextPage.CreateLocalWorkingCopy();
+                    displayPage.CreateLocalWorkingCopy();
                 }
 
-                if (nextPage.TemporaryFile.Exists())
+                if (displayPage.TemporaryFile.Exists())
                 {
-                    PageImagePreview.ImageLocation = nextPage.TemporaryFile.FullPath;
+                    PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
+                    Width = displayPage.W + 40;
                 } else
                 {
                     PageImagePreview.ImageLocation = null;
                 }
 
-                currentId = nextPage.Id;
-                currentIndex = nextPage.Index;
+                currentId = displayPage.Id;
+                currentIndex = displayPage.Index;
 
                 
             }

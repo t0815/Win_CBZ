@@ -621,6 +621,16 @@ namespace Win_CBZ
             return Image;
         }
 
+        public Stream GetImageStream()
+        {
+            if (!Closed)
+            {
+                this.LoadImage();
+            }
+
+            return ImageStream;
+        }
+
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void LoadImageInfo(bool force = false)
         {
@@ -693,16 +703,6 @@ namespace Win_CBZ
 
             if (Compressed)
             {
-                if (LocalFile == null || !LocalFile.Exists())
-                {
-                    LocalFile = RequestTemporaryFile(destination);
-
-                    if (LocalFile != null)
-                    {
-                        return LocalFile;
-                    }
-                }
-
                 if (TemporaryFile == null || !TemporaryFile.Exists())
                 {
                     TemporaryFile = RequestTemporaryFile(destination);
