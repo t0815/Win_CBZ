@@ -73,6 +73,15 @@ namespace Win_CBZ
         };
 
 
+        protected static readonly Dictionary<String, string[]> ValidationRules = new Dictionary<String, string[]>()
+        {
+            { "Manga", Manga },
+            { "AgeRating", Ratings },
+            { "ParentalRating", Ratings },
+            { "BlackAndWhite", BlackAndWhite }
+        };
+
+
 
         public List<String> CustomDefaultProperties { get; set; }
 
@@ -693,6 +702,8 @@ namespace Win_CBZ
             {
                 throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!");
             }
+
+
         }
 
         public void ValidateDefaults()

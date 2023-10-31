@@ -66,7 +66,7 @@
             // 
             this.DialogIconPictureBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.DialogIconPictureBox.Location = new System.Drawing.Point(7, 6);
-            this.DialogIconPictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.DialogIconPictureBox.Margin = new System.Windows.Forms.Padding(2);
             this.DialogIconPictureBox.Name = "DialogIconPictureBox";
             this.DialogIconPictureBox.Size = new System.Drawing.Size(46, 52);
             this.DialogIconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -81,7 +81,7 @@
             this.MessageContainer.Controls.Add(this.TextBoxMessage);
             this.MessageContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MessageContainer.Location = new System.Drawing.Point(2, 67);
-            this.MessageContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MessageContainer.Margin = new System.Windows.Forms.Padding(2);
             this.MessageContainer.Name = "MessageContainer";
             this.MessageContainer.Padding = new System.Windows.Forms.Padding(12, 13, 12, 13);
             this.MessageContainer.Size = new System.Drawing.Size(421, 158);
@@ -104,17 +104,17 @@
             // 
             // ErrorMessageTitle
             // 
-            this.ErrorMessageTitle.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.ErrorMessageTitle.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ErrorMessageTitle.AutoSize = true;
-            this.ErrorDialogTablePanel.SetColumnSpan(this.ErrorMessageTitle, 3);
+            this.ErrorDialogTablePanel.SetColumnSpan(this.ErrorMessageTitle, 4);
             this.ErrorMessageTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ErrorMessageTitle.Location = new System.Drawing.Point(136, 22);
+            this.ErrorMessageTitle.Location = new System.Drawing.Point(62, 22);
             this.ErrorMessageTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ErrorMessageTitle.Name = "ErrorMessageTitle";
             this.ErrorMessageTitle.Size = new System.Drawing.Size(122, 21);
             this.ErrorMessageTitle.TabIndex = 4;
             this.ErrorMessageTitle.Text = "[MessageTitle]";
-            this.ErrorMessageTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ErrorMessageTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ApplicationDialog
             // 
@@ -122,7 +122,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(425, 276);
             this.Controls.Add(this.ErrorDialogTablePanel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ApplicationDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

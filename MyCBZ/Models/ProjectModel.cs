@@ -549,8 +549,7 @@ namespace Win_CBZ
 
                     if (page.LocalFile != null)
                     {
-                        FileInfo fileInfo = new FileInfo(page.LocalFile.FullPath);
-                        if (!fileInfo.Exists)
+                        if (!page.LocalFile.Exists())
                         {
                             problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalFile.FullPath + ")");
                         }

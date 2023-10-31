@@ -179,6 +179,8 @@
     <Compile Include="Tasks\ProcessImagesTask.cs" />
     <Compile Include="Tasks\RebuildPageIndexMetaDataTask.cs" />
     <Compile Include="Tasks\ReadImageMetaDataTask.cs" />
+    <Compile Include="Validation\EntryValidation.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="Win_CBZSettings.cs" />
     <Compile Include="Models\MetaDataEntryPage.cs" />
     <Compile Include="Models\ProjectModel.cs" />
