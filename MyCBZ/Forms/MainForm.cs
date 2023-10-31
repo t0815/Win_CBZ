@@ -1155,7 +1155,7 @@ namespace Win_CBZ
                 //{
                 this.Invoke(new Action(() =>
                 {
-                    if (PageView.Items.Count > 0)
+                    if (TogglePagePreviewToolbutton.Checked && PageView.Items.Count > 0)
                     {
                         PageView.RedrawItems(0, PageView.Items.Count - 1, false);
                     }
