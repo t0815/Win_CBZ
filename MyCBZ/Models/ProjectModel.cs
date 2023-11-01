@@ -1854,7 +1854,13 @@ namespace Win_CBZ
                             page.Changed = false;
                             if (page.ImageLoaded)
                             {
-                                page.LoadImage();
+                                try
+                                {
+                                    page.LoadImage();
+                                } catch (PageException pe) 
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error reloading image [" + fileToCompress.FileName + "] for page [" + pe.Message + "]");
+                                }
                             }                           
 
                             OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));

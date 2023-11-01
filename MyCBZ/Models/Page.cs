@@ -515,7 +515,7 @@ namespace Win_CBZ
                             }
                             catch (Exception ewr)
                             {
-                                throw ewr;
+                                throw new PageException(this, ewr.Message, true, ewr);
                             }
                             finally
                             {
@@ -525,7 +525,7 @@ namespace Win_CBZ
                         }
                         catch (Exception e)
                         {
-                            throw e;
+                            throw new PageException(this, e.Message, true, e);
                         }
                         finally
                         {
@@ -543,7 +543,7 @@ namespace Win_CBZ
                             }
                             catch (Exception ewr)
                             {
-                                throw ewr;
+                                throw new PageException(this, ewr.Message, true, ewr);
                             }
                             finally
                             {
@@ -555,7 +555,7 @@ namespace Win_CBZ
                         }
                         catch (Exception e)
                         {
-                            throw e;
+                            throw new PageException(this, e.Message, true, e);
                         }
                         finally
                         {
@@ -700,10 +700,16 @@ namespace Win_CBZ
 
             if (Image != null)
             {
-                Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
+                try
+                {
+                    Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
 
-                Image.Dispose();
-                Image = null;
+                    Image.Dispose();
+                    Image = null;
+                } catch (Exception ex)
+                {
+                    throw new PageException(this, ex.Message, true, ex);
+                }
             }
 
             return Thumbnail;
@@ -772,7 +778,7 @@ namespace Win_CBZ
                                     localCopyStream.CopyTo(destinationStream);
                                 } catch (Exception fwe)
                                 {
-                                    throw fwe;
+                                    throw new PageException(this, fwe.Message, true, fwe);
                                 } finally 
                                 { 
                                     destinationStream.Close();
@@ -782,7 +788,7 @@ namespace Win_CBZ
                             }
                             catch (Exception ce)
                             {
-                                throw ce;
+                                throw new PageException(this, ce.Message, true, ce);
                             }
                             finally
                             {
@@ -806,7 +812,7 @@ namespace Win_CBZ
                             }
                             catch (Exception fwe)
                             {
-                                throw fwe;
+                                throw new PageException(this, fwe.Message, true, fwe);
                             }
                             finally
                             {
@@ -815,7 +821,7 @@ namespace Win_CBZ
                             }
                         } catch (Exception fwe)
                         {
-                            throw fwe;
+                            throw new PageException(this, fwe.Message, true, fwe);
                         } finally
                         {
                             localCopyStream.Close();
@@ -842,8 +848,18 @@ namespace Win_CBZ
 
         public void LoadImage()
         {
+            bool reloadImageStream =false;
+
             if (!Closed)
             {
+                if (ImageStream != null)
+                {
+                    if (!ImageStream.CanRead)
+                    {
+                        reloadImageStream = true;
+                    }
+                }
+
                 if (Image == null)
                 {
                     if (IsMemoryCopy)
@@ -854,8 +870,8 @@ namespace Win_CBZ
                             {
                                 Image = Image.FromStream(ImageStreamMemoryCopy);
                                 ImageLoaded = true;
-                            } catch {
-                                throw new Exception("Error loading image [" + Name + "]! Invalid or corrupted image");
+                            } catch (Exception ioe) {
+                                throw new PageException(this, "Error loading image [" + Name + "]! Invalid or corrupted image", true, ioe);
                             }
                         }
                     }
@@ -868,14 +884,14 @@ namespace Win_CBZ
                                 Image = Image.FromStream(ImageStream);
                                 ImageLoaded = true;
                             }
-                            catch {
-                                throw new Exception("Error loading image [" + Name + "]! Invalid or corrupted image");
+                            catch (Exception ioi) {
+                                throw new PageException(this, "Error loading image [" + Name + "]! Invalid or corrupted image", true, ioi);
                             }
                         }
                     }
                 }
 
-                if (Image == null)
+                if (Image == null || reloadImageStream)
                 {
                     if (TemporaryFile == null || !TemporaryFile.Exists())
                     {
@@ -887,21 +903,27 @@ namespace Win_CBZ
                         Image = Image.FromStream(ImageStream);
                         ImageLoaded = true;
                     } else {
-                        throw new Exception("Failed to extract image [" + Name + "] from Archive!");
+                        throw new PageException(this, "Failed to extract image [" + Name + "] from Archive!");
                     } 
                 }
 
                 if (Image != null)
                 {
-                    if (!Image.Size.IsEmpty)
+                    try
                     {
-                        W = Image.Width;
-                        H = Image.Height;
+                        if (!Image.Size.IsEmpty)
+                        {
+                            W = Image.Width;
+                            H = Image.Height;
+                        }
+                    } catch (Exception ie)
+                    {
+                        throw new PageException(this, ie.Message);
                     }
                 }
                 else
                 {
-                    throw new Exception("Failed to load/extract image!");
+                    throw new PageException(this, "Failed to load/extract image!");
                 }
             }
         }

@@ -11,10 +11,13 @@ namespace Win_CBZ
 
         public Page Page { get; set; }
 
+        public Exception SourceEx { get; set; }
 
-        public PageException(Page page, String message, bool showErrorDialog = false) : base(message, showErrorDialog)
+
+        public PageException(Page page, String message, bool showErrorDialog = false, Exception source = null) : base(message, showErrorDialog)
         {
-            Page = page;           
+            Page = page;  
+            SourceEx = source != null ? source : base.InnerException;
         }
     }
 }

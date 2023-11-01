@@ -700,37 +700,54 @@ namespace Win_CBZ
                 this.Invoke(new Action(() =>
                 {
                     //PageImages.Images.Clear();
-
-                    foreach (Page page in ThumbnailPagesSlice)
+                    try
                     {
-                        try
+
+                        foreach (Page page in ThumbnailPagesSlice)
                         {
-                            if (!page.Closed)
+                            try
                             {
-                                if (!PageImages.Images.ContainsKey(page.Id))
+                                if (!page.Closed)
                                 {
-                                    PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                                    if (!PageImages.Images.ContainsKey(page.Id))
+                                    {
+                                        PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                                    }
+                                    else
+                                    {
+                                        if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
+                                        {
+                                            PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
+                                            page.ThumbnailInvalidated = false;
+                                        }
+                                    }
                                 }
                                 else
                                 {
-                                    if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
-                                    {
-                                        PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
-                                        page.ThumbnailInvalidated = false;
-                                    }
+                                    page.ThumbnailInvalidated = false;
                                 }
-                            } else
+                            }
+                            catch (Exception e)
                             {
-                                page.ThumbnailInvalidated = false;
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                            }
+                            finally
+                            {
+
                             }
                         }
-                        catch (Exception e)
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                        }
+
+                    } catch (Exception eo) 
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error in thumb-generation thread! [" + eo.Message + "]");
                     }
 
                     ThumbnailPagesSlice.Clear();
+
+                    if (TogglePagePreviewToolbutton.Checked && PageView.Items.Count > 0)
+                    {
+                        PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                    }
                 }));
             }
         }
