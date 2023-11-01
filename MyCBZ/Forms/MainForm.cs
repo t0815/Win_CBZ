@@ -1127,6 +1127,7 @@ namespace Win_CBZ
                         PagesList.Items.Clear();
                         PageView.Items.Clear();
                         PageImages.Images.Clear();
+                        filename = "";
                     }));
                     
                     filename = "";
@@ -1398,6 +1399,8 @@ namespace Win_CBZ
                         CurrentGlobalAction = null;
                         LabelW.Text = "0";
                         LabelH.Text = "0";
+                        RadioApplyAdjustmentsPage.Text = "(no Page selected)";
+                        RadioApplyAdjustmentsPage.Enabled = false;
                         CurrentGlobalActions.Clear();
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
@@ -3126,6 +3129,8 @@ namespace Win_CBZ
                 }
             }
         }
+
+       
 
 
 

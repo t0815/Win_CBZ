@@ -50,6 +50,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ImagePreviewPanel.AutoScroll = true;
+            this.ImagePreviewPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ImagePreviewPanel.Controls.Add(this.PageImagePreview);
             this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 27);
             this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(2);
@@ -66,7 +67,10 @@
             this.PageImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PageImagePreview.TabIndex = 0;
             this.PageImagePreview.TabStop = false;
+            this.PageImagePreview.WaitOnLoad = true;
             this.PageImagePreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.PageImagePreview_LoadCompleted);
+            this.PageImagePreview.BindingContextChanged += new System.EventHandler(this.PageImagePreview_BindingContextChanged);
+            this.PageImagePreview.Paint += new System.Windows.Forms.PaintEventHandler(this.PageImagePreview_Paint);
             // 
             // PreviewToolStrip
             // 

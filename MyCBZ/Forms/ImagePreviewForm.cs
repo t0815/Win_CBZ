@@ -68,7 +68,7 @@ namespace Win_CBZ
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-
+            ImagePreviewPanel.VerticalScroll.Value = 0;
             HandleWindowSize(displayPage);
         }
 
@@ -118,7 +118,9 @@ namespace Win_CBZ
                 if (displayPage.TemporaryFile != null && displayPage.TemporaryFile.Exists())
                 {
                     PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
+                    //PageImagePreview.LoadAsync();
                     HandleWindowSize(displayPage);
+                   
                 } else
                 {
                     PageImagePreview.ImageLocation = null;
@@ -156,7 +158,7 @@ namespace Win_CBZ
                     {
                         Height = page.H - Location.Y - PreviewToolStrip.Height;
                     }
-                }
+                }   
             }
         }
 
@@ -214,6 +216,16 @@ namespace Win_CBZ
         private void ImagePreviewPanel_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void PageImagePreview_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        private void PageImagePreview_BindingContextChanged(object sender, EventArgs e)
+        {
+            ImagePreviewPanel.VerticalScroll.Value = 0;
         }
     }
 }
