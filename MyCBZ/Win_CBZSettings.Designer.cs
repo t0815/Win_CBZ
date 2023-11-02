@@ -303,5 +303,17 @@ namespace Win_CBZ {
                 this["IgnoreErrorsOnSave"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3a1de95ca3e")]
+        public string DebugMode {
+            get {
+                return ((string)(this["DebugMode"]));
+            }
+            set {
+                this["DebugMode"] = value;
+            }
+        }
     }
 }

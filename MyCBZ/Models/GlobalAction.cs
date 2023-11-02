@@ -7,7 +7,7 @@ using Win_CBZ.Data;
 
 namespace Win_CBZ.Models
 {
-    public class GlobalAction
+    internal class GlobalAction
     {
 
         public GlobalAction() { }

@@ -90,5 +90,8 @@
     <Setting Name="IgnoreErrorsOnSave" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="DebugMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3a1de95ca3e</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

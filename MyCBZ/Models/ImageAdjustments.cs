@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Models
 {
-    public class ImageAdjustments
+    internal class ImageAdjustments
     {
         public const int ADJUSTMENT_SPLIT_TYPE_PERCENT = 0;
         public const int ADJUSTMENT_SPLIT_TYPE_PX = 1;

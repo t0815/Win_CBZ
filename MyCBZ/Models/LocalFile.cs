@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ
 {
-    public class LocalFile
+    internal class LocalFile
     {
 
         public String FileName { get; set; }
@@ -22,24 +22,27 @@ namespace Win_CBZ
 
         public DateTimeOffset LastModified { get; set; }
 
+        public FileInfo LocalFileInfo { get; set; }
+
         
         public LocalFile(String fileName)
         {
             FullPath = fileName;
-            FileInfo localFileInfo = new FileInfo(fileName);
-            FileName = localFileInfo.Name;
-            FilePath = localFileInfo.Directory.FullName;
-            FileSize = localFileInfo.Length;
-            LastModified = localFileInfo.LastWriteTime;
-            FileExtension = localFileInfo.Extension;
+            LocalFileInfo = new FileInfo(fileName);
+            FileName = LocalFileInfo.Name;
+            FilePath = LocalFileInfo.Directory.FullName;
+            FileSize = LocalFileInfo.Length;
+            LastModified = LocalFileInfo.LastWriteTime;
+            FileExtension = LocalFileInfo.Extension;
 
         }
 
         public bool Exists()
         {
-            FileInfo localFileInfo = new FileInfo(FullPath);
+            LocalFileInfo.Refresh();
+            
 
-            return localFileInfo.Exists;
+            return LocalFileInfo.Exists;
         }
     }
 }

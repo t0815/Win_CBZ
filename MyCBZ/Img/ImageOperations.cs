@@ -10,7 +10,7 @@ using System.Windows.Media.Media3D;
 
 namespace Win_CBZ.Img
 {
-    public class ImageOperations
+    internal class ImageOperations
     {
         /// <summary>
         /// Resize the image to the specified width and height.

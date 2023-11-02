@@ -3130,7 +3130,13 @@ namespace Win_CBZ
             }
         }
 
-       
+        private void debutToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DebugForm df = new DebugForm();
+            df.ShowDialog();
+        }
+
+
 
 
 

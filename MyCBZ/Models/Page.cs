@@ -12,10 +12,12 @@ using System.Diagnostics.Eventing.Reader;
 
 namespace Win_CBZ
 {
-    public class Page
+    internal class Page
     {
 
         public String Id { get; set; }
+
+        public String Hash { get; set; }
 
         public String TemporaryFileId { get; set; }
 
@@ -947,6 +949,7 @@ namespace Win_CBZ
                 if (ImageStreamMemoryCopy != null)
                 {
                     ImageStreamMemoryCopy.Close();
+                    ImageStreamMemoryCopy.Dispose();
                 }
             }
         }

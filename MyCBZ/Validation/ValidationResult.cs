@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Validation
 {
-    public class ValidationResult
+    internal class ValidationResult
     {
         protected String Key;
 

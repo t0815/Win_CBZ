@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Validation
 {
-    public abstract class EntryValidation
+    internal abstract class EntryValidation
     {
         protected String type;
 
