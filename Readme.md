@@ -26,10 +26,11 @@ standard described here: https://github.com/anansi-project/comicinfo
 
 - Image processing
 - add missing metadata handling from ComicInfo spec
+- Frontend functional complete (i.e. drag&drop page reordering) 
 
-## Planned
+## Planned > 1.0
 
-- CBR support
+- CBR support (meed to replace default system.io zip compression lib)
 
 ## Build
 
