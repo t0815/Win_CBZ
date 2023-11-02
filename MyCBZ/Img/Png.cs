@@ -15,62 +15,52 @@ namespace Win_CBZ.Img
     internal class Png
     {
 
-        public void Encode(Image source)
+        public void Encode(Stream source, ref Stream destination, int w, int h)
         {
-            int stride = source.Width;
+            int stride = w;
 
-            byte[] pixels = new byte[source.Width * source.Height];
+            byte[] pixels = new byte[w * h];
 
-            //Bitmap bitmap = source.
-
-
+            for (int x = 1;x<w + 1; x++)
+            {
+                for (int y = 1;y<h + 1; y++)
+                {
+                    pixels[x * h + y] = (byte)source.ReadByte();
+                }
+            }
+            
             // Define the image palette
             BitmapPalette myPalette = BitmapPalettes.Halftone216;
 
-            // Creates a new empty image with the pre-defined palette
 
             BitmapSource image = BitmapSource.Create(
-                source.Width,
-                source.Height,
+                w,
+                h,
                 96,
                 96,
                 PixelFormats.Indexed8,
                 myPalette,
                 pixels,
                 stride);
-
-            
-
-            FileStream stream = new FileStream("new.png", FileMode.Create);
+         
             PngBitmapEncoder encoder = new PngBitmapEncoder();
             //TextBlock myTextBlock = new TextBlock();
             //myTextBlock.Text = "Codec Author is: " + encoder.CodecInfo.Author.ToString();
             encoder.Interlace = PngInterlaceOption.On;
             encoder.Frames.Add(BitmapFrame.Create(image));
-            encoder.Save(stream);
+            encoder.Save(destination);
 
         }
 
 
-        public Image Decode(string source)
+        public void Decode(Stream source, ref Stream destination)
         {
-            // Open a Stream and decode a PNG image
-            Stream imageStreamSource = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read);
-            PngBitmapDecoder decoder = new PngBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+            PngBitmapDecoder decoder = new PngBitmapDecoder(source, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
             BitmapSource bitmapSource = decoder.Frames[0];
 
-            System.Drawing.Bitmap bitmap;
-            using (MemoryStream outStream = new MemoryStream())
-            {
-                BitmapEncoder enc = new BmpBitmapEncoder();
-                enc.Frames.Add(BitmapFrame.Create(bitmapSource));
-                enc.Save(outStream);
-                bitmap = new System.Drawing.Bitmap(outStream);
-            }
-
-
-            // make Image
-            return Image.FromHbitmap(bitmap.GetHbitmap());
+            BitmapEncoder enc = new BmpBitmapEncoder();
+            enc.Frames.Add(BitmapFrame.Create(bitmapSource));
+            enc.Save(destination);          
         }
     }
 }
