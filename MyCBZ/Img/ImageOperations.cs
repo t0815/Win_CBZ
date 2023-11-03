@@ -8,17 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.IO;
+using Win_CBZ.Models;
 
 namespace Win_CBZ.Img
 {
     internal class ImageOperations
     {
 
-        public static void ConvertImage(Stream source, Stream outputStream, ImageFormat targetFormat)
+        public static void ConvertImage(Stream source, Stream outputStream, PageImageFormat targetFormat)
         {
             Image sourceImage = Image.FromStream(source);
 
-            sourceImage.Save(outputStream, targetFormat);
+            sourceImage.Save(outputStream, targetFormat.Format);
             sourceImage.Dispose();
         }
 
@@ -29,11 +30,11 @@ namespace Win_CBZ.Img
         /// <param name="width">The width to resize to.</param>
         /// <param name="height">The height to resize to.</param>
         /// <returns>The resized image.</returns>
-        public static void ResizeImage(Stream source, ref Stream OutputStream, ImageFormat targetFormat, InterpolationMode interpolation, int width, int height)
+        public static void ResizeImage(Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
         {
             Image sourceImage = Image.FromStream(source);
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
+            var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.W);
+            var destImage = new Bitmap(targetFormat.W, targetFormat.H);
 
             destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
 
@@ -52,16 +53,16 @@ namespace Win_CBZ.Img
                 }
             }
 
-            destImage.Save(OutputStream, targetFormat);
+            destImage.Save(OutputStream, targetFormat.Format);
             destImage.Dispose();
 
             sourceImage.Dispose();
         }
 
-        public static void CutImage(Stream source, ref Stream OutputStream, ImageFormat targetFormat, int px, int py, int w, int h, InterpolationMode interpolation)
+        public static void CutImage(Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
         {
-            var destRect = new Rectangle(0, 0, w, h);
-            var destImage = new Bitmap(w, h);
+            var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.H);
+            var destImage = new Bitmap(targetFormat.W, targetFormat.H);
             Image sourceImage = Image.FromStream(source);
 
             destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
@@ -77,11 +78,11 @@ namespace Win_CBZ.Img
                 using (var wrapMode = new ImageAttributes())
                 {
                     wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(sourceImage, destRect, px, py, w, h, GraphicsUnit.Pixel, wrapMode);
+                    graphics.DrawImage(sourceImage, destRect, targetFormat.X, targetFormat.Y, targetFormat.W, targetFormat.H, GraphicsUnit.Pixel, wrapMode);
                 }
             }
 
-            destImage.Save(OutputStream, targetFormat);
+            destImage.Save(OutputStream, targetFormat.Format);
             destImage.Dispose();
 
             sourceImage.Dispose();

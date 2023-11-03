@@ -2436,14 +2436,14 @@ namespace Win_CBZ
 
             if (buttonState)
             {
-                if (!((Page)selectedPages[0].Tag).ImageInfoRequested &&  ((Page)selectedPages[0].Tag).PageFormat.W == 0 && ((Page)selectedPages[0].Tag).PageFormat.H == 0)
+                if (!((Page)selectedPages[0].Tag).ImageInfoRequested &&  ((Page)selectedPages[0].Tag).Format.W == 0 && ((Page)selectedPages[0].Tag).Format.H == 0)
                 {
                   
                     ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
                 }
                 //((Page)selectedPages[0].Tag).LoadImageInfo();
-                LabelW.Text = ((Page)selectedPages[0].Tag).PageFormat.W.ToString();
-                LabelH.Text = ((Page)selectedPages[0].Tag).PageFormat.H.ToString();
+                LabelW.Text = ((Page)selectedPages[0].Tag).Format.W.ToString();
+                LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
 
                 RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
                 RadioApplyAdjustmentsPage.Enabled = true;

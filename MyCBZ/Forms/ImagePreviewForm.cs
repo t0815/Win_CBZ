@@ -67,7 +67,7 @@ namespace Win_CBZ
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            ImageFormat targetFormat = ImageFormat.Jpeg;
+            PageImageFormat targetFormat = null;
 
             DialogResult r = ExportImageDialog.ShowDialog();
             if (r == DialogResult.OK)
@@ -75,14 +75,13 @@ namespace Win_CBZ
                 using (Stream fis = displayPage.GetImageStream())
                 {
                     LocalFile localFile = new LocalFile(ExportImageDialog.FileName);
-                    targetFormat = PageImageFormat.GuessFormat(localFile.FileExtension);
+                    targetFormat = new PageImageFormat(localFile.FileExtension);
                     using (Stream fos = localFile.LocalFileInfo.OpenWrite())
                     {
                         ImageOperations.ConvertImage(fis, fos, targetFormat);
                         fos.Close();
                     }                       
-                }
-                   
+                }                 
             }
         }
 
@@ -157,26 +156,26 @@ namespace Win_CBZ
         {
             if (page != null)
             {
-                if (page.PageFormat.W > minW)
+                if (page.Format.W > minW)
                 {
-                    if (page.PageFormat.W + 40 > Screen.FromHandle(this.Handle).WorkingArea.Width)
+                    if (page.Format.W + 40 > Screen.FromHandle(this.Handle).WorkingArea.Width)
                     {
                         Width = Screen.FromHandle(this.Handle).WorkingArea.Width  - Location.X;
                     } else
                     {
-                        Width = page.PageFormat.W + 40;
+                        Width = page.Format.W + 40;
                     }
                 }
 
-                if (page.PageFormat.H > minH)
+                if (page.Format.H > minH)
                 {
-                    if (page.PageFormat.H - Location.Y - PreviewToolStrip.Height > Screen.FromHandle(this.Handle).WorkingArea.Height)
+                    if (page.Format.H - Location.Y - PreviewToolStrip.Height > Screen.FromHandle(this.Handle).WorkingArea.Height)
                     {
                         Height = Screen.FromHandle(this.Handle).WorkingArea.Height - Location.Y - PreviewToolStrip.Height;
                     }
                     else
                     {
-                        Height = page.PageFormat.H - Location.Y - PreviewToolStrip.Height;
+                        Height = page.Format.H - Location.Y - PreviewToolStrip.Height;
                     }
                 }   
             }

@@ -565,9 +565,9 @@ namespace Win_CBZ
                     }
                    
 
-                    if (page.PageFormat.H == 0 || page.PageFormat.W == 0)
+                    if (page.Format.H == 0 || page.Format.W == 0)
                     {
-                        problems.Add("Pages->Page: Invalid dimensions for page [" + page.Id + "] with [" + page.PageFormat.W + "x" + page.PageFormat.H + "]");
+                        problems.Add("Pages->Page: Invalid dimensions for page [" + page.Id + "] with [" + page.Format.W + "x" + page.Format.H + "]");
                     }
 
                     if (page.LocalFile != null)
@@ -608,12 +608,12 @@ namespace Win_CBZ
                                 problems.Add("Metadata->PageIndex->ImageSize: value mismatch for page [" + page.Name + "]. Rebuild index to fix.");
                             }
 
-                            if (metaWidth == null || int.Parse(metaWidth) != page.PageFormat.W)
+                            if (metaWidth == null || int.Parse(metaWidth) != page.Format.W)
                             {
                                 problems.Add("Metadata->PageIndex->ImageWidth: value mismatch for page [" + page.Name + "]. Rebuild index to fix.");
                             }
 
-                            if (metaHeight == null || int.Parse(metaHeight) != page.PageFormat.H)
+                            if (metaHeight == null || int.Parse(metaHeight) != page.Format.H)
                             {
                                 problems.Add("Metadata->PageIndex->ImageHeight: value mismatch for page [" + page.Name + "]. Rebuild index to fix.");
                             }
@@ -1633,8 +1633,8 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                page.PageFormat.W = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
-                                page.PageFormat.H = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
+                                page.Format.W = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
+                                page.Format.H = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
                             } catch {
 
                                 MetaDataPageIndexMissingData = true;

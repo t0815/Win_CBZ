@@ -23,6 +23,10 @@ namespace Win_CBZ.Models
 
         public ImageFormat Format { get; set; } 
 
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
         public int W { get; set; }
 
         public int H { get; set; }

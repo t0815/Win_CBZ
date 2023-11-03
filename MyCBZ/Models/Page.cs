@@ -80,7 +80,7 @@ namespace Win_CBZ
 
         public DateTimeOffset LastModified { get; set; }
 
-        public PageImageFormat PageFormat { get; set; }
+        public PageImageFormat Format { get; set; }
 
         protected int ThumbW { get; set; } = 212;
 
@@ -106,7 +106,7 @@ namespace Win_CBZ
         {
             LocalFile = new LocalFile(fileName);
             ImageFileInfo = new FileInfo(fileName);
-            PageFormat = new PageImageFormat(LocalFile.FileExtension);
+            Format = new PageImageFormat(LocalFile.FileExtension);
             ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
             if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
             {
@@ -130,7 +130,7 @@ namespace Win_CBZ
             try {
                 Copy(localFile.FullPath, tempFileName.FullName);
 
-                PageFormat = new PageImageFormat(LocalFile.FileExtension);
+                Format = new PageImageFormat(LocalFile.FileExtension);
                 TemporaryFile = new LocalFile(tempFileName.FullName);
                 ImageFileInfo = new FileInfo(tempFileName.FullName);
                 ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
@@ -188,7 +188,7 @@ namespace Win_CBZ
             TemporaryFileId = randomId;
             WorkingDir = workingDir;
             ImageTask = new ImageTask();
-            PageFormat = new PageImageFormat(FileExtension);
+            Format = new PageImageFormat(FileExtension);
         }
 
 
@@ -202,7 +202,7 @@ namespace Win_CBZ
             Size = fileInputStream.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
-            PageFormat = new PageImageFormat(FileExtension);
+            Format = new PageImageFormat(FileExtension);
         }
 
         public Page(GZipStream zipInputStream, String name)
@@ -226,7 +226,7 @@ namespace Win_CBZ
             LocalPath = sourcePage.LocalPath;
             //ImageStream = sourcePage.ImageStream;
             LocalFile = sourcePage.LocalFile;
-            PageFormat = sourcePage.PageFormat;
+            Format = sourcePage.Format;
 
             FileExtension = sourcePage.FileExtension;
             Compressed = sourcePage.Compressed;
@@ -290,7 +290,7 @@ namespace Win_CBZ
                 ImageStream = sourcePage.ImageStream;
                 IsMemoryCopy = sourcePage.IsMemoryCopy;
                 //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
-                PageFormat = sourcePage.PageFormat;
+                Format = sourcePage.Format;
 
                 Changed = sourcePage.Changed;
                 ReadOnly = sourcePage.ReadOnly;
@@ -343,7 +343,7 @@ namespace Win_CBZ
             Changed = page.Changed;
             ImageType = page.ImageType;
             ImageTask = page.ImageTask;
-            PageFormat = page.PageFormat;
+            Format = page.Format;
 
 
             TemporaryFile = page.TemporaryFile;
@@ -647,7 +647,7 @@ namespace Win_CBZ
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void LoadImageInfo(bool force = false)
         {
-            if ((!Closed && PageFormat.W == 0 && PageFormat.H == 0 && !ImageInfoRequested) || force)
+            if ((!Closed && Format.W == 0 && Format.H == 0 && !ImageInfoRequested) || force)
             {
                 ImageInfoRequested = true;
                 if (ImageStream == null)
@@ -656,7 +656,7 @@ namespace Win_CBZ
                     {
 
                         ImageInfo = Image.FromFile(TempPath);
-                        PageFormat = new PageImageFormat(ImageInfo);
+                        Format = new PageImageFormat(ImageInfo);
 
                         ImageInfo.Dispose();
                         ImageInfo = null;
@@ -665,7 +665,7 @@ namespace Win_CBZ
                     if (Compressed)
                     {
                         ImageInfo = Image.FromStream(CompressedEntry.Open());
-                        PageFormat = new PageImageFormat(ImageInfo);
+                        Format = new PageImageFormat(ImageInfo);
 
 
                         ImageInfo.Dispose();
@@ -676,7 +676,7 @@ namespace Win_CBZ
                     try
                     {
                         ImageInfo = Image.FromStream(ImageStream);
-                        PageFormat = new PageImageFormat(ImageInfo);
+                        Format = new PageImageFormat(ImageInfo);
 
                         ImageInfo.Dispose();
                         ImageInfo = null;
@@ -909,15 +909,15 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        PageFormat.Update(Image);
+                        Format.Update(Image);
                     } catch (Exception ie)
                     {
                         if (LocalFile != null)
                         {
-                            PageFormat = new PageImageFormat(LocalFile.FileExtension);
+                            Format = new PageImageFormat(LocalFile.FileExtension);
                         } else
                         {
-                            PageFormat = new PageImageFormat(TemporaryFile.FileExtension);
+                            Format = new PageImageFormat(TemporaryFile.FileExtension);
                         }
                         
                         throw new PageException(this, ie.Message);
