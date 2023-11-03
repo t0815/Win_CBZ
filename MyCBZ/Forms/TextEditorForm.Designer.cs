@@ -38,7 +38,6 @@
             this.ItemsText = new System.Windows.Forms.TextBox();
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.ItemEditorTableLayout.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
@@ -158,19 +157,17 @@
             // ItemEditorToolBar
             // 
             this.ItemEditorToolBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ItemEditorToolBar.AutoSize = false;
             this.ItemEditorTableLayout.SetColumnSpan(this.ItemEditorToolBar, 2);
             this.ItemEditorToolBar.Dock = System.Windows.Forms.DockStyle.None;
             this.ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(98, 60);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(320, 60);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(6, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(249, 27);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(27, 27);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
@@ -185,13 +182,6 @@
             this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.AutoSize = false;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(200, 27);
-            this.toolStripTextBox1.Visible = false;
             // 
             // TextEditorForm
             // 
@@ -230,6 +220,5 @@
         private System.Windows.Forms.Label InfoLabel;
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;
         private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
