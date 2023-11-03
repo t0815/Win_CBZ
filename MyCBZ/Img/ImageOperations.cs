@@ -13,6 +13,15 @@ namespace Win_CBZ.Img
 {
     internal class ImageOperations
     {
+
+        public static void ConvertImage(Stream source, Stream outputStream, ImageFormat targetFormat)
+        {
+            Image sourceImage = Image.FromStream(source);
+
+            sourceImage.Save(outputStream, targetFormat);
+            sourceImage.Dispose();
+        }
+
         /// <summary>
         /// Resize the image to the specified width and height.
         /// </summary>
@@ -20,11 +29,11 @@ namespace Win_CBZ.Img
         /// <param name="width">The width to resize to.</param>
         /// <param name="height">The height to resize to.</param>
         /// <returns>The resized image.</returns>
-        public static void ResizeImage(Stream source, ref Stream OutputStream, ImageFormat targetFormat, InterpolationMode interpolation)
+        public static void ResizeImage(Stream source, ref Stream OutputStream, ImageFormat targetFormat, InterpolationMode interpolation, int width, int height)
         {
             Image sourceImage = Image.FromStream(source);
-            var destRect = new Rectangle(0, 0, sourceImage.Width, sourceImage.Height);
-            var destImage = new Bitmap(sourceImage.Width, sourceImage.Height);
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
 
             destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
 

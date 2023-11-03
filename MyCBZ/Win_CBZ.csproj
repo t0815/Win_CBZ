@@ -153,6 +153,7 @@
     <Compile Include="Events\GeneralTaskProgressEvent.cs" />
     <Compile Include="Events\TaskProgressEvent.cs" />
     <Compile Include="Exceptions\ApplicationException.cs" />
+    <Compile Include="Exceptions\ImageOperationException.cs" />
     <Compile Include="Exceptions\MetaDataException.cs" />
     <Compile Include="Exceptions\MetaDataPageEntryException.cs" />
     <Compile Include="Exceptions\MetaDataEntryException.cs" />

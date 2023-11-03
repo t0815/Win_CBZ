@@ -9,6 +9,7 @@ using Win_CBZ.Models;
 using System.Xml.Linq;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
+using System.Drawing.Imaging;
 
 namespace Win_CBZ
 {
@@ -82,6 +83,14 @@ namespace Win_CBZ
         public String Key { get; set; }
 
         public DateTimeOffset LastModified { get; set; }
+
+        public ImageFormat Format { get; set; }
+
+        public PixelFormat PixelFormat { get; set; }
+
+        public ColorPalette Palette { get; set; }
+
+        public float DPI { get; set; }
 
         protected int ThumbW { get; set; } = 212;
 
@@ -918,6 +927,10 @@ namespace Win_CBZ
                             W = Image.Width;
                             H = Image.Height;
                         }
+                        Format = Image.RawFormat;
+                        PixelFormat = Image.PixelFormat;
+                        Palette = Image.Palette;
+                        DPI = Image.VerticalResolution;
                     } catch (Exception ie)
                     {
                         throw new PageException(this, ie.Message);

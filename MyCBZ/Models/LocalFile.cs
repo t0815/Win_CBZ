@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,14 @@ namespace Win_CBZ
 {
     internal class LocalFile
     {
+
+        protected Dictionary<string, ImageFormat> ImageFormatMap = new Dictionary<string, ImageFormat>()
+        {
+            { "jpg", ImageFormat.Jpeg },
+            { "png", ImageFormat.Png },
+            { "bmp", ImageFormat.Bmp  },
+            { "tif", ImageFormat.Tiff },
+        };
 
         public String FileName { get; set; }
 
@@ -31,17 +40,32 @@ namespace Win_CBZ
             LocalFileInfo = new FileInfo(fileName);
             FileName = LocalFileInfo.Name;
             FilePath = LocalFileInfo.Directory.FullName;
-            FileSize = LocalFileInfo.Length;
+            try
+            {
+                FileSize = LocalFileInfo.Length;
+            } catch (Exception)
+            {
+                FileSize = 0;
+            }
             LastModified = LocalFileInfo.LastWriteTime;
             FileExtension = LocalFileInfo.Extension;
 
+        }
+
+        public ImageFormat GuessImageFormat()
+        {
+            String ext = FileExtension.ToLower();
+            ImageFormat result = null;
+
+            ImageFormatMap.TryGetValue(ext.ToLower().TrimStart('.'), out result);
+            
+            return result;
         }
 
         public bool Exists()
         {
             LocalFileInfo.Refresh();
             
-
             return LocalFileInfo.Exists;
         }
     }

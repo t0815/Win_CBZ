@@ -33,7 +33,6 @@
             this.PageImagePreview = new System.Windows.Forms.PictureBox();
             this.PreviewToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
@@ -52,11 +51,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ImagePreviewPanel.AutoScroll = true;
             this.ImagePreviewPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ImagePreviewPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImagePreviewPanel.Controls.Add(this.PageImagePreview);
-            this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 27);
+            this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 33);
             this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(2);
             this.ImagePreviewPanel.Name = "ImagePreviewPanel";
-            this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 709);
+            this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 703);
             this.ImagePreviewPanel.TabIndex = 0;
             this.ImagePreviewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ImagePreviewPanel_Paint);
             // 
@@ -75,10 +75,10 @@
             // 
             // PreviewToolStrip
             // 
+            this.PreviewToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.PreviewToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.PreviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
             this.toolStripSeparator1,
             this.toolStripButton3,
             this.toolStripButton4,
@@ -87,7 +87,7 @@
             this.PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PreviewToolStrip.Name = "PreviewToolStrip";
             this.PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.PreviewToolStrip.Size = new System.Drawing.Size(777, 31);
+            this.PreviewToolStrip.Size = new System.Drawing.Size(361, 31);
             this.PreviewToolStrip.TabIndex = 1;
             this.PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -100,15 +100,6 @@
             this.toolStripButton1.Size = new System.Drawing.Size(28, 28);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(28, 28);
-            this.toolStripButton2.Text = "toolStripButton2";
             // 
             // toolStripSeparator1
             // 
@@ -181,7 +172,6 @@
         private System.Windows.Forms.ToolStrip PreviewToolStrip;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.PictureBox PageImagePreview;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private System.Windows.Forms.ToolStripButton toolStripButton4;

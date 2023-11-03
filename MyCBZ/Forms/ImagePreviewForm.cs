@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Img;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ
@@ -63,7 +66,23 @@ namespace Win_CBZ
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            ExportImageDialog.ShowDialog();
+            ImageFormat targetFormat = ImageFormat.Jpeg;
+
+            DialogResult r = ExportImageDialog.ShowDialog();
+            if (r == DialogResult.OK)
+            {
+                using (Stream fis = displayPage.GetImageStream())
+                {
+                    LocalFile localFile = new LocalFile(ExportImageDialog.FileName);
+                    targetFormat = localFile.GuessImageFormat();
+                    using (Stream fos = localFile.LocalFileInfo.OpenWrite())
+                    {
+                        ImageOperations.ConvertImage(fis, fos, targetFormat);
+                        fos.Close();
+                    }                       
+                }
+                   
+            }
         }
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
