@@ -63,7 +63,7 @@ namespace Win_CBZ
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-
+            ExportImageDialog.ShowDialog();
         }
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
