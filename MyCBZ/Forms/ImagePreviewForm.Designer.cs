@@ -74,6 +74,7 @@
             // 
             // PreviewToolStrip
             // 
+            this.PreviewToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.PreviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,

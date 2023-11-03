@@ -478,6 +478,8 @@
     <None Include="Resources\Trash.png" />
     <None Include="Resources\TrashSoft.ico" />
     <None Include="Resources\sort_az_ascending2.png" />
+    <None Include="Resources\nav_left.png" />
+    <None Include="Resources\nav_right.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
