@@ -9,15 +9,7 @@ using System.Threading.Tasks;
 namespace Win_CBZ
 {
     internal class LocalFile
-    {
-
-        protected Dictionary<string, ImageFormat> ImageFormatMap = new Dictionary<string, ImageFormat>()
-        {
-            { "jpg", ImageFormat.Jpeg },
-            { "png", ImageFormat.Png },
-            { "bmp", ImageFormat.Bmp  },
-            { "tif", ImageFormat.Tiff },
-        };
+    {       
 
         public String FileName { get; set; }
 
@@ -49,17 +41,6 @@ namespace Win_CBZ
             }
             LastModified = LocalFileInfo.LastWriteTime;
             FileExtension = LocalFileInfo.Extension;
-
-        }
-
-        public ImageFormat GuessImageFormat()
-        {
-            String ext = FileExtension.ToLower();
-            ImageFormat result = null;
-
-            ImageFormatMap.TryGetValue(ext.ToLower().TrimStart('.'), out result);
-            
-            return result;
         }
 
         public bool Exists()

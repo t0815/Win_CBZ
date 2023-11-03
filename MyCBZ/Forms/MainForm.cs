@@ -126,6 +126,7 @@ namespace Win_CBZ
                 CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
 
                 ComboBoxCompressionLevel.SelectedIndex = 0;
+                ComboBoxConvertPages.SelectedIndex = 0;
 
                 Label placeholderLabel;
                 foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
@@ -2435,14 +2436,14 @@ namespace Win_CBZ
 
             if (buttonState)
             {
-                if (!((Page)selectedPages[0].Tag).ImageInfoRequested &&  ((Page)selectedPages[0].Tag).W == 0 && ((Page)selectedPages[0].Tag).H == 0)
+                if (!((Page)selectedPages[0].Tag).ImageInfoRequested &&  ((Page)selectedPages[0].Tag).PageFormat.W == 0 && ((Page)selectedPages[0].Tag).PageFormat.H == 0)
                 {
                   
                     ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
                 }
                 //((Page)selectedPages[0].Tag).LoadImageInfo();
-                LabelW.Text = ((Page)selectedPages[0].Tag).W.ToString();
-                LabelH.Text = ((Page)selectedPages[0].Tag).H.ToString();
+                LabelW.Text = ((Page)selectedPages[0].Tag).PageFormat.W.ToString();
+                LabelH.Text = ((Page)selectedPages[0].Tag).PageFormat.H.ToString();
 
                 RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
                 RadioApplyAdjustmentsPage.Enabled = true;
@@ -3136,6 +3137,11 @@ namespace Win_CBZ
         {
             DebugForm df = new DebugForm();
             df.ShowDialog();
+        }
+
+        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
 

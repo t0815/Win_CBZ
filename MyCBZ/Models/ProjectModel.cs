@@ -27,6 +27,7 @@ using System.Security.Principal;
 using System.Windows.Controls;
 using Win_CBZ.Models;
 using System.Windows.Input;
+using System.Drawing.Imaging;
 
 namespace Win_CBZ
 {
@@ -105,6 +106,8 @@ namespace Win_CBZ
         private bool IgnorePageNameDuplicates = false;
 
         public long TotalSize { get; set; }
+
+        public ImageFormat OutputFormat { get; set; }
 
         private System.IO.Compression.ZipArchive Archive { get; set; }
 
@@ -562,9 +565,9 @@ namespace Win_CBZ
                     }
                    
 
-                    if (page.H == 0 || page.W == 0)
+                    if (page.PageFormat.H == 0 || page.PageFormat.W == 0)
                     {
-                        problems.Add("Pages->Page: Invalid dimensions for page [" + page.Id + "] with [" + page.W + "x" + page.H + "]");
+                        problems.Add("Pages->Page: Invalid dimensions for page [" + page.Id + "] with [" + page.PageFormat.W + "x" + page.PageFormat.H + "]");
                     }
 
                     if (page.LocalFile != null)
@@ -605,12 +608,12 @@ namespace Win_CBZ
                                 problems.Add("Metadata->PageIndex->ImageSize: value mismatch for page [" + page.Name + "]. Rebuild index to fix.");
                             }
 
-                            if (metaWidth == null || int.Parse(metaWidth) != page.W)
+                            if (metaWidth == null || int.Parse(metaWidth) != page.PageFormat.W)
                             {
                                 problems.Add("Metadata->PageIndex->ImageWidth: value mismatch for page [" + page.Name + "]. Rebuild index to fix.");
                             }
 
-                            if (metaHeight == null || int.Parse(metaHeight) != page.H)
+                            if (metaHeight == null || int.Parse(metaHeight) != page.PageFormat.H)
                             {
                                 problems.Add("Metadata->PageIndex->ImageHeight: value mismatch for page [" + page.Name + "]. Rebuild index to fix.");
                             }
@@ -1630,8 +1633,8 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                page.W = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
-                                page.H = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
+                                page.PageFormat.W = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
+                                page.PageFormat.H = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
                             } catch {
 
                                 MetaDataPageIndexMissingData = true;

@@ -217,6 +217,7 @@
     <Compile Include="Models\GlobalAction.cs" />
     <Compile Include="Models\ImageAdjustments.cs" />
     <Compile Include="Models\ImageTask.cs" />
+    <Compile Include="Models\PageImageFormat.cs" />
     <Compile Include="Models\PipelinePayload.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="ResourceLoader.cs" />

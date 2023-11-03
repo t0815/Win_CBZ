@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Win_CBZ.Img;
+using Win_CBZ.Models;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ
@@ -74,7 +75,7 @@ namespace Win_CBZ
                 using (Stream fis = displayPage.GetImageStream())
                 {
                     LocalFile localFile = new LocalFile(ExportImageDialog.FileName);
-                    targetFormat = localFile.GuessImageFormat();
+                    targetFormat = PageImageFormat.GuessFormat(localFile.FileExtension);
                     using (Stream fos = localFile.LocalFileInfo.OpenWrite())
                     {
                         ImageOperations.ConvertImage(fis, fos, targetFormat);
@@ -156,26 +157,26 @@ namespace Win_CBZ
         {
             if (page != null)
             {
-                if (page.W > minW)
+                if (page.PageFormat.W > minW)
                 {
-                    if (page.W + 40 > Screen.FromHandle(this.Handle).WorkingArea.Width)
+                    if (page.PageFormat.W + 40 > Screen.FromHandle(this.Handle).WorkingArea.Width)
                     {
                         Width = Screen.FromHandle(this.Handle).WorkingArea.Width  - Location.X;
                     } else
                     {
-                        Width = page.W + 40;
+                        Width = page.PageFormat.W + 40;
                     }
                 }
 
-                if (page.H > minH)
+                if (page.PageFormat.H > minH)
                 {
-                    if (page.H - Location.Y - PreviewToolStrip.Height > Screen.FromHandle(this.Handle).WorkingArea.Height)
+                    if (page.PageFormat.H - Location.Y - PreviewToolStrip.Height > Screen.FromHandle(this.Handle).WorkingArea.Height)
                     {
                         Height = Screen.FromHandle(this.Handle).WorkingArea.Height - Location.Y - PreviewToolStrip.Height;
                     }
                     else
                     {
-                        Height = page.H - Location.Y - PreviewToolStrip.Height;
+                        Height = page.PageFormat.H - Location.Y - PreviewToolStrip.Height;
                     }
                 }   
             }
