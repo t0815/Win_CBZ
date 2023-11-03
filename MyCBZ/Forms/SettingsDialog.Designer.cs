@@ -54,6 +54,9 @@
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
+            this.SettingsContentPanel = new System.Windows.Forms.Panel();
+            this.ImageProcessingTabControl = new System.Windows.Forms.TabControl();
+            this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -64,6 +67,8 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).BeginInit();
             this.ItemEditorToolBar.SuspendLayout();
+            this.SettingsContentPanel.SuspendLayout();
+            this.ImageProcessingTabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -76,7 +81,7 @@
             this.SettingsTablePanel.Controls.Add(this.HeaderPanel, 0, 0);
             this.SettingsTablePanel.Controls.Add(this.SettingsSectionList, 0, 1);
             this.SettingsTablePanel.Controls.Add(this.ButtonCancel, 2, 2);
-            this.SettingsTablePanel.Controls.Add(this.MetaDataConfigTabControl, 1, 1);
+            this.SettingsTablePanel.Controls.Add(this.SettingsContentPanel, 1, 1);
             this.SettingsTablePanel.Location = new System.Drawing.Point(2, 2);
             this.SettingsTablePanel.Margin = new System.Windows.Forms.Padding(2);
             this.SettingsTablePanel.Name = "SettingsTablePanel";
@@ -141,12 +146,14 @@
             this.SettingsSectionList.FormattingEnabled = true;
             this.SettingsSectionList.ItemHeight = 17;
             this.SettingsSectionList.Items.AddRange(new object[] {
-            "Meta Data"});
+            "Meta Data",
+            "Image Processing"});
             this.SettingsSectionList.Location = new System.Drawing.Point(2, 88);
             this.SettingsSectionList.Margin = new System.Windows.Forms.Padding(2);
             this.SettingsSectionList.Name = "SettingsSectionList";
             this.SettingsSectionList.Size = new System.Drawing.Size(142, 259);
             this.SettingsSectionList.TabIndex = 1;
+            this.SettingsSectionList.SelectedIndexChanged += new System.EventHandler(this.SettingsSectionList_SelectedIndexChanged);
             // 
             // ButtonCancel
             // 
@@ -163,14 +170,13 @@
             // 
             // MetaDataConfigTabControl
             // 
-            this.SettingsTablePanel.SetColumnSpan(this.MetaDataConfigTabControl, 2);
             this.MetaDataConfigTabControl.Controls.Add(this.tabPage1);
             this.MetaDataConfigTabControl.Controls.Add(this.MetaDataTabPageTags);
-            this.MetaDataConfigTabControl.Location = new System.Drawing.Point(151, 88);
+            this.MetaDataConfigTabControl.Location = new System.Drawing.Point(2, 2);
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(436, 266);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(211, 264);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -180,7 +186,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(428, 240);
+            this.tabPage1.Size = new System.Drawing.Size(203, 238);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -375,9 +381,40 @@
             this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
             this.ToolButtonSortAscending.Size = new System.Drawing.Size(24, 24);
-            this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.ToolButtonSortAscending_Click);
+            // 
+            // SettingsContentPanel
+            // 
+            this.SettingsContentPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SettingsTablePanel.SetColumnSpan(this.SettingsContentPanel, 2);
+            this.SettingsContentPanel.Controls.Add(this.ImageProcessingTabControl);
+            this.SettingsContentPanel.Controls.Add(this.MetaDataConfigTabControl);
+            this.SettingsContentPanel.Location = new System.Drawing.Point(152, 89);
+            this.SettingsContentPanel.Name = "SettingsContentPanel";
+            this.SettingsContentPanel.Size = new System.Drawing.Size(435, 266);
+            this.SettingsContentPanel.TabIndex = 2;
+            // 
+            // ImageProcessingTabControl
+            // 
+            this.ImageProcessingTabControl.Controls.Add(this.ImageProcessingTabPage);
+            this.ImageProcessingTabControl.Location = new System.Drawing.Point(218, 8);
+            this.ImageProcessingTabControl.Name = "ImageProcessingTabControl";
+            this.ImageProcessingTabControl.SelectedIndex = 0;
+            this.ImageProcessingTabControl.Size = new System.Drawing.Size(205, 250);
+            this.ImageProcessingTabControl.TabIndex = 2;
+            // 
+            // ImageProcessingTabPage
+            // 
+            this.ImageProcessingTabPage.Location = new System.Drawing.Point(4, 22);
+            this.ImageProcessingTabPage.Name = "ImageProcessingTabPage";
+            this.ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ImageProcessingTabPage.Size = new System.Drawing.Size(197, 224);
+            this.ImageProcessingTabPage.TabIndex = 0;
+            this.ImageProcessingTabPage.Text = "Image Processing";
+            this.ImageProcessingTabPage.UseVisualStyleBackColor = true;
             // 
             // SettingsDialog
             // 
@@ -405,6 +442,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).EndInit();
             this.ItemEditorToolBar.ResumeLayout(false);
             this.ItemEditorToolBar.PerformLayout();
+            this.SettingsContentPanel.ResumeLayout(false);
+            this.ImageProcessingTabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -435,5 +474,8 @@
         private System.Windows.Forms.CheckBox CheckBoxTagValidationIgnoreCase;
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;
         private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
+        private System.Windows.Forms.Panel SettingsContentPanel;
+        private System.Windows.Forms.TabControl ImageProcessingTabControl;
+        private System.Windows.Forms.TabPage ImageProcessingTabPage;
     }
 }

@@ -113,6 +113,8 @@ namespace Win_CBZ
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
 
+                FileSettingsTablePanel.Width = MainSplitBox.SplitterDistance - 24;
+
                 TextboxStoryPageRenamingPattern.Text = Win_CBZSettings.Default.StoryPageRenamePattern;
                 TextboxSpecialPageRenamingPattern.Text = Win_CBZSettings.Default.SpecialPageRenamePattern;
 

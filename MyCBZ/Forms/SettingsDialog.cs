@@ -51,6 +51,12 @@ namespace Win_CBZ.Forms
             CheckBoxValidateTags.Checked = ValidateTagsSetting;
             CheckBoxTagValidationIgnoreCase.Checked = !TagValidationIgnoreCase;
 
+            MetaDataConfigTabControl.Dock = DockStyle.Fill;
+            ImageProcessingTabControl.Dock = DockStyle.Fill;
+
+            MetaDataConfigTabControl.Visible = true;
+            ImageProcessingTabControl.Visible = false;
+
             DialogResult = DialogResult.Cancel;
         }
 
@@ -147,6 +153,21 @@ namespace Win_CBZ.Forms
         private void ToolButtonSortAscending_Click(object sender, EventArgs e)
         {
             ValidTags.Lines = ValidTags.Lines.OrderBy(s => s).ToArray();
+        }
+
+        private void SettingsSectionList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (SettingsSectionList.SelectedIndex == 0)
+            {
+                MetaDataConfigTabControl.Visible = true;
+                ImageProcessingTabControl.Visible = false;
+            }
+
+            if (SettingsSectionList.SelectedIndex == 1)
+            {
+                MetaDataConfigTabControl.Visible = false;
+                ImageProcessingTabControl.Visible = true;   
+            }
         }
     }
 }
