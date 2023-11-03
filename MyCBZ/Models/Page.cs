@@ -130,7 +130,7 @@ namespace Win_CBZ
             try {
                 Copy(localFile.FullPath, tempFileName.FullName);
 
-                Format = new PageImageFormat(LocalFile.FileExtension);
+                Format = new PageImageFormat(localFile.FileExtension);
                 TemporaryFile = new LocalFile(tempFileName.FullName);
                 ImageFileInfo = new FileInfo(tempFileName.FullName);
                 ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
