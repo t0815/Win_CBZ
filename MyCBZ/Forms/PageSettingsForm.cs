@@ -62,6 +62,9 @@ namespace Win_CBZ.Forms
             PageIndexTextbox.Text = (Page.Index + 1).ToString();
             CheckBoxPageDeleted.Checked = Page.Deleted;
             LabelDimensions.Text = Page.Format.W.ToString() + " x " + Page.Format.H.ToString() + " px";
+            LabelDpi.Text = Page.Format.DPI.ToString();
+            LabelImageFormat.Text = Page.Format.Name;
+            LabelImageColors.Text = Page.Format.ColorPalette.Entries.Length.ToString();
         }
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)

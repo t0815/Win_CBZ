@@ -11,12 +11,28 @@ namespace Win_CBZ.Models
     internal class PageImageFormat
     {
 
-        protected static Dictionary<string, ImageFormat> ImageFormatMap = new Dictionary<string, ImageFormat>()
+        protected static Dictionary<string, ImageFormat> ExtensionToImageFormatMap = new Dictionary<string, ImageFormat>()
         {
             { "jpg", ImageFormat.Jpeg },
             { "png", ImageFormat.Png },
             { "bmp", ImageFormat.Bmp  },
             { "tif", ImageFormat.Tiff },
+        };
+
+        protected static Dictionary<string, string> ExtensionToFormatNameMap = new Dictionary<string, string>()
+        {
+            { "jpg", "Jpeg Image" },
+            { "png", "PNG Image" },
+            { "bmp", "Bitmap Image" },
+            { "tif", "TIFF Image" },
+        };
+
+        protected static Dictionary<ImageFormat, string> ImageFormatToNameMap = new Dictionary<ImageFormat, string>()
+        {
+            { ImageFormat.Jpeg, "Jpeg Image" },
+            { ImageFormat.Png, "PNG Image" },
+            { ImageFormat.Bmp, "Bitmap Image"  },
+            { ImageFormat.Tiff, "TIFF Image" },
         };
 
         public string Name { get; set; }
@@ -44,7 +60,7 @@ namespace Win_CBZ.Models
 
             if (extension != null)
             {
-                ImageFormatMap.TryGetValue(extension.ToLower().TrimStart('.'), out lookupResult);
+                ExtensionToImageFormatMap.TryGetValue(extension.ToLower().TrimStart('.'), out lookupResult);
             }
 
             return lookupResult;
@@ -54,6 +70,7 @@ namespace Win_CBZ.Models
         public PageImageFormat(String extension = null)
         {
             ImageFormat lookupResult = null;
+            String nameResult = null;
 
             W = 0;
             H = 0;
@@ -64,15 +81,17 @@ namespace Win_CBZ.Models
             
             if (extension != null)
             {
-                ImageFormatMap.TryGetValue(extension.ToLower().TrimStart('.'), out lookupResult);
+                ExtensionToImageFormatMap.TryGetValue(extension.ToLower().TrimStart('.'), out lookupResult);
+                ExtensionToFormatNameMap.TryGetValue(extension.ToLower(), out nameResult);
 
                 Format = lookupResult;
+                Name = nameResult;
             }           
         }
 
         public PageImageFormat(Image image)
         {
-            
+            string lookupResult = "";
             if (!image.Size.IsEmpty)
             {
                 W = image.Width;
@@ -82,6 +101,12 @@ namespace Win_CBZ.Models
             PixelFormat = image.PixelFormat;
             ColorPalette = image.Palette;
             DPI = image.VerticalResolution;
+            if (Format != null)
+            {
+                ImageFormatToNameMap.TryGetValue(Format, out lookupResult);
+              
+                Name = lookupResult;
+            }
         }
 
         public void Update(Image image)
