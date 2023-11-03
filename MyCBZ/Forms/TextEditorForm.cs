@@ -113,5 +113,10 @@ namespace Win_CBZ.Forms
         {
 
         }
+
+        private void ItemEditorTableLayout_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

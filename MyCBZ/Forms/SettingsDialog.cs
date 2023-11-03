@@ -138,5 +138,15 @@ namespace Win_CBZ.Forms
         {
             CheckBoxTagValidationIgnoreCase.Enabled = CheckBoxValidateTags.CheckState == CheckState.Checked;
         }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ToolButtonSortAscending_Click(object sender, EventArgs e)
+        {
+            ValidTags.Lines = ValidTags.Lines.OrderBy(s => s).ToArray();
+        }
     }
 }

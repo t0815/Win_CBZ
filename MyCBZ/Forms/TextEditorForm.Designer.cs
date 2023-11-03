@@ -36,13 +36,13 @@
             this.CancelButton = new System.Windows.Forms.Button();
             this.InfoLabel = new System.Windows.Forms.Label();
             this.ItemsText = new System.Windows.Forms.TextBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
+            this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.ItemEditorTableLayout.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
-            this.toolStrip1.SuspendLayout();
+            this.ItemEditorToolBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // ItemEditorTableLayout
@@ -55,7 +55,7 @@
             this.ItemEditorTableLayout.Controls.Add(this.CancelButton, 1, 4);
             this.ItemEditorTableLayout.Controls.Add(this.InfoLabel, 0, 3);
             this.ItemEditorTableLayout.Controls.Add(this.ItemsText, 0, 2);
-            this.ItemEditorTableLayout.Controls.Add(this.toolStrip1, 1, 0);
+            this.ItemEditorTableLayout.Controls.Add(this.ItemEditorToolBar, 1, 0);
             this.ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             this.ItemEditorTableLayout.Name = "ItemEditorTableLayout";
@@ -67,6 +67,7 @@
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.ItemEditorTableLayout.Size = new System.Drawing.Size(347, 274);
             this.ItemEditorTableLayout.TabIndex = 0;
+            this.ItemEditorTableLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.ItemEditorTableLayout_Paint);
             // 
             // HeaderPanel
             // 
@@ -154,34 +155,36 @@
             this.ItemsText.TabIndex = 5;
             this.ItemsText.WordWrap = false;
             // 
-            // toolStrip1
+            // ItemEditorToolBar
             // 
-            this.toolStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ItemEditorTableLayout.SetColumnSpan(this.toolStrip1, 2);
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ItemEditorToolBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ItemEditorToolBar.AutoSize = false;
+            this.ItemEditorTableLayout.SetColumnSpan(this.ItemEditorToolBar, 2);
+            this.ItemEditorToolBar.Dock = System.Windows.Forms.DockStyle.None;
+            this.ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox1,
-            this.toolStripButton1});
-            this.toolStrip1.Location = new System.Drawing.Point(320, 60);
-            this.toolStrip1.Margin = new System.Windows.Forms.Padding(6, 0, 0, 2);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(27, 27);
-            this.toolStrip1.Stretch = true;
-            this.toolStrip1.TabIndex = 7;
-            this.toolStrip1.Text = "toolStrip1";
+            this.ToolButtonSortAscending});
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(98, 60);
+            this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(6, 0, 0, 2);
+            this.ItemEditorToolBar.Name = "ItemEditorToolBar";
+            this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(249, 27);
+            this.ItemEditorToolBar.Stretch = true;
+            this.ItemEditorToolBar.TabIndex = 7;
+            this.ItemEditorToolBar.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // ToolButtonSortAscending
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.ToolButtonSortAscending.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolButtonSortAscending.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
+            this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
+            this.ToolButtonSortAscending.Size = new System.Drawing.Size(24, 24);
+            this.ToolButtonSortAscending.Text = "toolStripButton1";
+            this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
+            this.ToolButtonSortAscending.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripTextBox1
             // 
@@ -209,8 +212,8 @@
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).EndInit();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.ItemEditorToolBar.ResumeLayout(false);
+            this.ItemEditorToolBar.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -225,8 +228,8 @@
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.TextBox ItemsText;
         private System.Windows.Forms.Label InfoLabel;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStrip ItemEditorToolBar;
+        private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
