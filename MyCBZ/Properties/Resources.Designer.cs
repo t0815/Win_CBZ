@@ -506,6 +506,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sort_az_ascending2 {
+            get {
+                object obj = ResourceManager.GetObject("sort_az_ascending2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap speech_balloon_answer {
             get {
                 object obj = ResourceManager.GetObject("speech_balloon_answer", resourceCulture);

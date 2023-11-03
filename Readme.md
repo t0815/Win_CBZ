@@ -20,17 +20,19 @@ standard described here: https://github.com/anansi-project/comicinfo
 - Reorder pages
 - Extract pages
 - Rename pages using placeholders
-- Validate if cbz has minimum required metadata
+- Validate if cbz has minimum required metadata as well as if certain required data is valid
 
 ## Features to 1.0
 
 - Image processing
 - add missing metadata handling from ComicInfo spec
 - Frontend functional complete (i.e. drag&drop page reordering) 
+- Entry Value validation according to definitions in standard
 
 ## Planned > 1.0
 
 - CBR support (meed to replace default system.io zip compression lib)
+- Various UI Improvements
 
 ## Build
 

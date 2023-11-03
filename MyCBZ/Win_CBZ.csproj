@@ -477,6 +477,7 @@
     <None Include="Resources\painting_landscape.png" />
     <None Include="Resources\Trash.png" />
     <None Include="Resources\TrashSoft.ico" />
+    <None Include="Resources\sort_az_ascending2.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>

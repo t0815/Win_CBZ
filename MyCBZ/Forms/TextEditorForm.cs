@@ -103,5 +103,15 @@ namespace Win_CBZ.Forms
                 }
             }
         }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            ItemsText.Lines = ItemsText.Lines.OrderBy(s => s).ToArray();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
