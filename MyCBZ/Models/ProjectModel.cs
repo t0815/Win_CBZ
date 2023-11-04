@@ -307,10 +307,7 @@ namespace Win_CBZ
                 if (e.payload != null)
                 {
                     Task task = e.payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
-                    if (task != null)
-                    {
-                        task.Start();
-                    }
+                    task?.Start();
                 }
             }
 
@@ -388,14 +385,7 @@ namespace Win_CBZ
                     }
                 }
 
-                if (CloseArchiveThread != null)
-                {
-                    CloseArchiveThread.Join();
-                    //while (CloseArchiveThread.IsAlive)
-                    //{
-                    //    Thread.Sleep(100);
-                    //}
-                }
+                CloseArchiveThread?.Join();
 
                 //Pages.Clear();
                 MetaData.Free();
@@ -433,14 +423,7 @@ namespace Win_CBZ
                 }
             }
 
-            if (CloseArchiveThread != null)
-            {
-                CloseArchiveThread.Join();
-                //while (CloseArchiveThread.IsAlive)
-                //{
-                //    System.Threading.Thread.Sleep(100);
-                //}
-            }
+            CloseArchiveThread?.Join();
 
             LoadArchiveThread = new Thread(new ThreadStart(OpenArchiveProc));
             LoadArchiveThread.Start();
@@ -962,9 +945,9 @@ namespace Win_CBZ
             int index = MaxFileIndex;
             int realNewIndex = MaxFileIndex;
             int progressIndex = 0;
-            FileInfo targetPath = null;
-            FileInfo localPath = null;
-            Page page = null;
+            FileInfo targetPath;
+            FileInfo localPath;
+            Page page;
 
             foreach (LocalFile fileObject in Files)
             {
@@ -974,15 +957,18 @@ namespace Win_CBZ
                     targetPath = MakeNewTempFileName();
 
                     //CopyFile(fileObject.FullPath, targetPath.FullName);
+                    
                     page = GetPageByName(fileObject.FileName);
 
                     if (page == null)
                     {
-                        page = new Page(fileObject, targetPath, FileAccess.ReadWrite);
-                        page.Number = realNewIndex + 1;
-                        page.Index = realNewIndex;
-                        page.OriginalIndex = realNewIndex;
-                        page.TemporaryFileId = MakeNewRandomId();
+                        page = new Page(fileObject, targetPath, FileAccess.ReadWrite)
+                        {
+                            Number = realNewIndex + 1,
+                            Index = realNewIndex,
+                            OriginalIndex = realNewIndex,
+                            TemporaryFileId = MakeNewRandomId()
+                        };
                         realNewIndex++;
                     } else
                     {
@@ -1516,10 +1502,10 @@ namespace Win_CBZ
 
         public string FormatLeadingZeros(int value, int max)
         {
-            String stringValue = value.ToString();
+            //String stringValue = value.ToString();
             String stringMax = max.ToString();
 
-            int numDigits = stringValue.Length;
+            //int numDigits = stringValue.Length;
             int maxDigits = stringMax.Length;
 
             //String.Format("{0,:D3}", value)
@@ -1539,7 +1525,7 @@ namespace Win_CBZ
                 page.CreateLocalWorkingCopy(tempFileName);
             }
 
-            return page.TempPath;
+            return tempFileName;
         }
 
         public Thread Close()
@@ -1585,11 +1571,11 @@ namespace Win_CBZ
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
 
-            int count = 0;
+            int countEntries = 0;
             try
             {
                 Archive = ZipFile.Open(FileName, Mode);
-                count = Archive.Entries.Count;
+                countEntries = Archive.Entries.Count;
 
                 try
                 {
@@ -1607,34 +1593,28 @@ namespace Win_CBZ
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
                 }
 
-                // String tempFileName = "";
                 MetaDataEntryPage pageIndexEntry;
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
-                    { 
-                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), MakeNewRandomId());
-
-                        page.Number = index + 1;
-                        page.Index = index;
-                        page.OriginalIndex = index;
-
+                    {
+                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), MakeNewRandomId())
+                        {
+                            Number = index + 1,
+                            Index = index,
+                            OriginalIndex = index
+                        };
+                        // too slow
+                        //page.LoadImageInfo();
                         pageIndexEntry = MetaData.FindIndexEntryForPage(page);
                         if (pageIndexEntry != null)
                         {
-                            page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
-                            page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
-                        }
-
-                        // too slow
-                        //page.LoadImageInfo();
-                        MetaDataEntryPage pageMeta = MetaData.FindIndexEntryForPage(page);
-                        if (pageMeta != null)
-                        {
                             try
                             {
-                                page.Format.W = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
-                                page.Format.H = int.Parse(pageMeta.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
+                                page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
+                                page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                                page.Format.W = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
+                                page.Format.H = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
                             } catch {
 
                                 MetaDataPageIndexMissingData = true;
@@ -1646,12 +1626,10 @@ namespace Win_CBZ
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                         }
 
-                        // tempFileName = RequestTemporaryFile(page);
-
                         Pages.Add(page);
 
                         OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                        OnTaskProgress(new TaskProgressEvent(page, index, count));
+                        OnTaskProgress(new TaskProgressEvent(page, index, countEntries));
 
                         totalSize += itemSize;
                         index++;
@@ -1918,15 +1896,8 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        if (BuildingArchive != null)
-                        {
-                            BuildingArchive.Dispose();
-                        }
-
-                        if (Archive != null)
-                        {
-                            Archive.Dispose();
-                        }
+                        BuildingArchive?.Dispose();
+                        Archive?.Dispose();
 
                         CopyFile(TemporaryFileName, FileName, true);
 
@@ -1957,10 +1928,7 @@ namespace Win_CBZ
                                 foreach (ZipArchiveEntry entry in Archive.Entries)
                                 {
                                     Page page = GetPageByName(entry.Name);
-                                    if (page != null)
-                                    {
-                                        page.UpdateImageEntry(entry, MakeNewRandomId());
-                                    }
+                                    page?.UpdateImageEntry(entry, MakeNewRandomId());
                                 }
                                 IsChanged = false;
                                 IsNew = false;
@@ -2230,10 +2198,7 @@ namespace Win_CBZ
             IsChanged = false;
             IsClosed = false;
 
-            if (Archive != null)
-            {
-                Archive.Dispose();
-            }
+            Archive?.Dispose();
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
         }

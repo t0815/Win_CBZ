@@ -131,10 +131,12 @@ namespace Win_CBZ
                 Label placeholderLabel;
                 foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
                 {
-                    placeholderLabel = new Label();
-                    placeholderLabel.Name = "Label" + placeholder;
-                    placeholderLabel.Text = placeholder;
-                    placeholderLabel.AutoSize = true;
+                    placeholderLabel = new Label
+                    {
+                        Name = "Label" + placeholder,
+                        Text = placeholder,
+                        AutoSize = true
+                    };
                     placeholderLabel.Font = new Font(placeholderLabel.Font.Name, 10, placeholderLabel.Font.Style, placeholderLabel.Font.Unit);
                     PlaceholdersFlowPanel.Controls.Add(placeholderLabel);
                 }
@@ -448,10 +450,12 @@ namespace Win_CBZ
         {
             this.Invoke(new Action(() =>
             {
-                GlobalAction action = new GlobalAction();
-                action.Message = e.Message;
-                action.Action = e.Task;
-                action.Key = e.TaskType;
+                GlobalAction action = new GlobalAction
+                {
+                    Message = e.Message,
+                    Action = e.Task,
+                    Key = e.TaskType
+                };
 
                 if (GetGlobalActionByKey(action.Key) == null)
                 {
@@ -2164,13 +2168,15 @@ namespace Win_CBZ
                                 }
                                 else if (key.ToString() == "Tags")
                                 {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell();
-                                    bc.Value = "...";
-                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false);
-                                    bc.Style = new DataGridViewCellStyle()
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
                                     {
-                                        SelectionForeColor = Color.White,
-                                        SelectionBackColor = Color.White,
+                                        Value = "...",
+                                        Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                                        Style = new DataGridViewCellStyle()
+                                        {
+                                            SelectionForeColor = Color.White,
+                                            SelectionBackColor = Color.White,
+                                        }
                                     };
                                     MetaDataGrid.Rows[i].Cells[2] = bc;
                                 }
@@ -2375,14 +2381,18 @@ namespace Win_CBZ
                             {
                                 if (key.ToString() == "Tags")
                                 {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell();
-                                    bc.Value = "...";
-                                    bc.Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false);
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                    {
+                                        Value = "...",
+                                        Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false)
+                                    };
                                     MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
                                 }
-                              
-                                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                                c.Value = updatedEntry.Value;
+
+                                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
+                                {
+                                    Value = updatedEntry.Value
+                                };
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                 
@@ -2409,8 +2419,11 @@ namespace Win_CBZ
         {
             try
             {
-                ExtractFilesDialog dlg = new ExtractFilesDialog();
-                dlg.TargetFolder = LastOutputDirectory;
+                ExtractFilesDialog dlg = new ExtractFilesDialog
+                {
+                    TargetFolder = LastOutputDirectory
+                };
+
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     ExtractSelectedPages.Enabled = false;
@@ -3004,7 +3017,7 @@ namespace Win_CBZ
             System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
             String selected = cb.SelectedItem as String;
             ImageTask selectedTask = null;
-            Page page = null;
+            Page page;
 
             if (selected != null)
             {

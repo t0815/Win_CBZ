@@ -21,6 +21,8 @@ namespace Win_CBZ.Models
 
         public PageImageFormat[] ImageFormat { get; set; }
 
+        public PageImageFormat SourceFormat { get; set; }
+
         public Image[] ResultImage { get; set; }
 
         public Image[] ResultThumbnail { get; set; }
@@ -37,7 +39,7 @@ namespace Win_CBZ.Models
 
         public Page[] ResultPages { get; set; }
 
-        private Thread TaskRunner;
+        public Page SourcePage { get; set; }
 
 
         public ImageTask()
@@ -49,6 +51,7 @@ namespace Win_CBZ.Models
             ResultThumbnail = new Image[2];
             ResultFileName = new String[2];
             ImageFormat = new PageImageFormat[2];
+            ResultPages = new Page[2];
 
         }
 
@@ -60,49 +63,23 @@ namespace Win_CBZ.Models
                 File.Copy(source.TempPath, PreviewFileName[0], true);
                 CommandsTodo = commandsTodo;
                 ImageFormat[0] = source.Format;
-
-                TaskRunner = new Thread(PerformCommands);
+                SourceFormat = source.Format;
+                SourcePage = source;
             }
             catch (Exception)
             {
 
-            }
-            
+            }           
         }
 
-        public void PerformCommands()
-        {
-            foreach (var item in CommandsTodo)
-            {
-
-            }
+        public int TaskCount()
+        { 
+            return CommandsTodo.Count; 
         }
-
-        public Page[] Result()
-        {
-            Page[] result = new Page[2];
-
-            //result.Append();
-
-            return result;
-        }
-
-
-        public void Resize()
-        {
-
-        }
-
 
         public void CleanUp()
         {
 
         }
-
-        public void CutDobulePage()
-        {
-            
-        }
-
     }
 }

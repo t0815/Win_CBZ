@@ -5,23 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Models;
+using Win_CBZ.Result;
 
 namespace Win_CBZ.Tasks
 {
     internal class ProcessImagesTask
     {
-
-        public static Task<TaskResult> UpdateImageMetadata(List<ImageTask> tasks, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler)
         {
-            return new Task<TaskResult>(() =>
+            return new Task<ImageTaskResult>(() =>
             {
-                int current = 1;
-                int total = tasks.Count;    
-                TaskResult result = new TaskResult();
+                List<ImageTask> collectedTasks = new List<ImageTask>();
+                foreach (Page page in pages)
+                {
+                    if (page.ImageTask.TaskCount() > 0)
+                    {
+                        collectedTasks.Add(page.ImageTask);
+                    }
+                }
 
-                foreach (ImageTask task in tasks)
-                {                   
-                    task.PerformCommands();
+                int current = 1;
+                int total = collectedTasks.Count;    
+                ImageTaskResult result = new ImageTaskResult();
+
+                foreach (ImageTask task in collectedTasks)
+                {             
+                    
+
+                    //task.PerformCommands();
                     if (task.Success)
                     {
                         //page.Copy(page.ImageTask.ResultFileName, page.TempPath);
@@ -33,7 +44,7 @@ namespace Win_CBZ.Tasks
                         handler.Invoke(task, new GeneralTaskProgressEvent(
                             GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, 
                             GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                            "Rebuilding index...",
+                            "Processing image...",
                             current, 
                             total));
                     }
@@ -43,7 +54,7 @@ namespace Win_CBZ.Tasks
 
                 if (handler != null)
                 {
-                    handler.Invoke(tasks, new GeneralTaskProgressEvent(
+                    handler.Invoke(collectedTasks, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
