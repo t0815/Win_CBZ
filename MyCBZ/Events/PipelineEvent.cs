@@ -16,12 +16,13 @@ namespace Win_CBZ
         public const int PIPELINE_SAVE_RUN_RENAMING = 4;
         public const int PIPELINE_SAVE_ARCHIVE = 5;
         public const int PIPELINE_INDICES_UPDATED = 6;
+        public const int PIPELINE_SAVE_PROCESS_IMAGES = 7;
 
         public ProjectModel ArchiveInfo { get; set; }
 
         public int State { get; set; }
 
-        public PipelinePayload payload { get; set; }
+        public PipelinePayload Payload { get; set; }
 
 
         public delegate void Operation();
@@ -41,14 +42,14 @@ namespace Win_CBZ
         {
             ArchiveInfo = project;
             State = state;
-            payload = pipelineConfig;
+            Payload = pipelineConfig;
         }
 
         public PipelineEvent(ProjectModel project, int state, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
         {
             ArchiveInfo = project;
             State = state;
-            payload = pipelineConfig;
+            Payload = pipelineConfig;
             Callback = callback;
         }   
     }

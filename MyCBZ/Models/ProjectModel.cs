@@ -89,9 +89,7 @@ namespace Win_CBZ
 
         private BindingList<LocalFile> Files { get; set; }
 
-
         private int MaxFileIndex = 0;
-
 
         private bool InitialPageIndexRebuild = false;
 
@@ -138,6 +136,8 @@ namespace Win_CBZ
         public event EventHandler<GlobalActionRequiredEvent> GlobalActionRequired;
 
         public event EventHandler<GeneralTaskProgressEvent> GeneralTaskProgress;
+
+        public event EventHandler<PipelineEvent> PipelineEventHandler;
 
         private Thread LoadArchiveThread;
 
@@ -186,7 +186,7 @@ namespace Win_CBZ
 
             NewMetaData();
 
-            //Pipeline += HandlePipelene;
+            PipelineEventHandler += HandlePipeline;
 
             ProjectGUID = Guid.NewGuid().ToString();
             if (ProjectGUID.Length > 0)
@@ -228,7 +228,7 @@ namespace Win_CBZ
             return MetaData;
         }
 
-        private void HandlePipeline(PipelineEvent e)
+        private void HandlePipeline(object sender, PipelineEvent e)
         {
             if (e.State == PipelineEvent.PIPELINE_FILES_PARSED)
             {
@@ -304,9 +304,12 @@ namespace Win_CBZ
 
             if (e.State == PipelineEvent.PIPELINE_SAVE_REQUESTED)
             {
-                if (e.payload != null)
+                if (e.Payload != null)
                 {
-                    Task task = e.payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
+                    Task task = e.Payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
+                    task?.Start();
+
+                    task = e.Payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_IMAGE_PROCESSING);
                     task?.Start();
                 }
             }
@@ -482,6 +485,14 @@ namespace Win_CBZ
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
+                {
+                    return null;
+                }
+            }
+
+            if (SaveArchiveThread != null)
+            {
+                if (SaveArchiveThread.IsAlive)
                 {
                     return null;
                 }
@@ -939,7 +950,6 @@ namespace Win_CBZ
             });
         }
 
-
         public void AddImagesProc()
         {
             int index = MaxFileIndex;
@@ -1005,7 +1015,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            HandlePipeline(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -1079,7 +1089,7 @@ namespace Win_CBZ
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
-            HandlePipeline(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
         }
 
         public int RemoveDeletedPages()
@@ -1110,7 +1120,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Join();
+                    return;
                 }
             }
 
@@ -1174,7 +1184,7 @@ namespace Win_CBZ
 
             if (ContinuePipelineForIndexBuilder)
             {
-                HandlePipeline(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
+                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
@@ -1447,7 +1457,6 @@ namespace Win_CBZ
             return newName;
         }
 
-
         public String ValueForPlaceholder(String placeholder, Page page)
         {
             switch (placeholder.ToLower())
@@ -1499,7 +1508,6 @@ namespace Win_CBZ
             }
         }
 
-
         public string FormatLeadingZeros(int value, int max)
         {
             //String stringValue = value.ToString();
@@ -1512,7 +1520,6 @@ namespace Win_CBZ
 
             return String.Format("{0,-" + maxDigits + ":D" + maxDigits + "}", value);
         }
-
 
         public String RequestTemporaryFile(Page page)
         {
@@ -1613,6 +1620,15 @@ namespace Win_CBZ
                             {
                                 page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
                                 page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                            }
+                            catch
+                            {
+                                //MetaDataPageIndexMissingData = true;
+                                //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
+                            }
+
+                            try
+                            {
                                 page.Format.W = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
                                 page.Format.H = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
                             } catch {
@@ -1686,7 +1702,6 @@ namespace Win_CBZ
 
         protected void SaveArchiveProc()
         {
-
             int index = 0;
             bool tagValidationFailed = false;
             bool metaDataValidationFailed = false;
@@ -2348,6 +2363,11 @@ namespace Win_CBZ
                 destination.TemporaryFileName = this.TemporaryFileName;
                 destination.TotalSize = this.TotalSize;
             }
+        }
+
+        protected virtual void OnPipelineNextTask(PipelineEvent e)
+        {
+            PipelineEventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnGlobalActionRequired(GlobalActionRequiredEvent e)

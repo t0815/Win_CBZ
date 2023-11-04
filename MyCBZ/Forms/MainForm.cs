@@ -23,6 +23,9 @@ using Win_CBZ.Tasks;
 using System.Security.Policy;
 using Win_CBZ.Models;
 using System.Windows.Input;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using SharpCompress;
 
 namespace Win_CBZ
 {
@@ -48,6 +51,10 @@ namespace Win_CBZ
         private Thread RequestImageInfoThread;
 
         private Thread UpdatePageViewThread;
+
+        private Thread MovePagesThread;
+
+        private Thread MoveItemsThread;
 
         private List<Page> ThumbnailPagesSlice;
 
@@ -759,7 +766,7 @@ namespace Win_CBZ
             }
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private ListViewItem CreatePagePreviewFromItem(Page page)
         {
             ListViewItem itemPage;
@@ -779,7 +786,7 @@ namespace Win_CBZ
 
             if (existingItem == null)
             {
-                itemPage = PageView.Items.Add(page.Name);
+                itemPage = PageView.Items.Add(page.Index.ToString());
                 itemPage.ImageKey = page.Id;
                 itemPage.SubItems.Add(page.Name);
                 itemPage.SubItems.Add(page.Index.ToString());
@@ -787,6 +794,7 @@ namespace Win_CBZ
             else
             {
                 itemPage = existingItem;
+                itemPage.Name = page.Name;
                 itemPage.ImageKey = page.Id;
                 itemPage.SubItems[1] = new ListViewItem.ListViewSubItem(itemPage, page.Name);
                 itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Index.ToString());
@@ -866,6 +874,21 @@ namespace Win_CBZ
         {
             if (Win_CBZSettings.Default.PagePreviewEnabled)
             {
+                if (MovePagesThread != null)
+                {
+                    if (MovePagesThread.IsAlive)
+                    {
+                        
+                    }
+                }
+
+                if (MoveItemsThread != null)
+                {
+                    if (MoveItemsThread.IsAlive)
+                    {
+                        
+                    }
+                }
 
                 if (ThumbnailThread != null)
                 {
@@ -879,7 +902,7 @@ namespace Win_CBZ
                 {
                     if (RequestThumbnailThread.IsAlive)
                     {
-                        RequestThumbnailThread.Join();
+                        RequestImageInfoThread.Abort();
                     }
                 }
 
@@ -887,7 +910,7 @@ namespace Win_CBZ
                 {
                     if (RequestImageInfoThread.IsAlive)
                     {
-                        RequestImageInfoThread.Join();
+                        RequestImageInfoThread.Abort();
                     }
                 }
 
@@ -906,7 +929,7 @@ namespace Win_CBZ
 
         public void UpdatePageViewProc()
         {
-            this.Invoke(new Action(() =>
+            PageView.Invoke(new Action(() =>
             {
                 PageView.Items.Clear();
                 PageImages.Images.Clear();
@@ -1741,9 +1764,58 @@ namespace Win_CBZ
             }
         }
 
-    
         private void MoveItemsTo(int newIndex, System.Windows.Forms.ListView.SelectedListViewItemCollection items)
         {
+            if (ThumbnailThread != null)
+            {
+                if (ThumbnailThread.IsAlive)
+                {
+                    ThumbnailThread.Abort();
+                }
+            }
+
+            if (RequestThumbnailThread != null)
+            {
+                if (RequestThumbnailThread.IsAlive)
+                {
+                    RequestThumbnailThread.Abort();
+                }
+            }
+
+            if (RequestImageInfoThread != null)
+            {
+                if (RequestImageInfoThread.IsAlive)
+                {
+                    RequestImageInfoThread.Abort();
+                }
+            }
+
+            if (MovePagesThread != null)
+            {
+                if (MovePagesThread.IsAlive)
+                {
+                    MovePagesThread.Abort();
+                }
+            }
+
+            if (UpdatePageViewThread != null)
+            {
+                if (UpdatePageViewThread.IsAlive)
+                {
+                    UpdatePageViewThread.Abort();
+                }
+            }
+
+            MoveItemsThread = new Thread(MoveItemsToProc);
+            MoveItemsThread.Start(new MoveItemsToThreadParams() { newIndex = newIndex, items = items });
+
+        }
+
+
+        private void MoveItemsToProc(object threadParams)
+        {
+            MoveItemsToThreadParams tparams = threadParams as MoveItemsToThreadParams;
+            
             ListViewItem originalItem;
             ListViewItem newItem;
             ListViewItem pageOriginal;
@@ -1751,163 +1823,253 @@ namespace Win_CBZ
 
             int IndexOldItem = 0;
             int direction = 0;
-
-            if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
+            String pageViewItemNameCopy = "";
+            String pageImageKeyBackup = "";
+            object pageTagBackup = null;
+               
+            PagesList.Invoke(new Action(() =>
             {
-                return;
-            }
-
-            if (newIndex > items[0].Index)
-            {
-                direction = -1;
-            } else
-            {
-                direction = 1;
-            }
-
-            foreach (ListViewItem item in items)
-            {
-                originalItem = PagesList.Items[newIndex];
-                newItem = item;
-                pageOriginal = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
-                pageNew = FindListViewItemForPage(PageView, (Page)item.Tag);
-                
-                IndexOldItem = item.Index;
-                PagesList.Items.Remove(originalItem);
-                PagesList.Items.Remove(item);
-                if (pageNew != null && pageOriginal != null)
+                List<ListViewItem> ItemsSliced = new List<ListViewItem>();
+                if (tparams.newIndex < 0 || tparams.newIndex > PagesList.Items.Count - 1)
                 {
-                    //PageView.Items.Remove(pageOriginal);
-                    //PageView.Items.Remove(pageNew);
+                    return;
                 }
 
-                Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
-                Program.ProjectModel.Pages.Remove((Page)item.Tag);
-                if (direction == 1)
+                if (tparams.newIndex > tparams.items[0].Index)
                 {
-                    PagesList.Items.Insert(newIndex, item);
-                    PagesList.Items.Insert(IndexOldItem, originalItem);
-                    
-                    Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
-                    Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-
-
+                    direction = -1;
                 }
                 else
                 {
-                    PagesList.Items.Insert(IndexOldItem, originalItem);
-                    PagesList.Items.Insert(newIndex, item);
-                    //PageView.Items.Insert(IndexOldItem, pageOriginal);
-                    //PageView.Items.Insert(newIndex, pageNew);
-                    Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                    Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
+                    direction = 1;
                 }
 
-                if (pageNew != null && pageOriginal != null)
+                foreach (ListViewItem item in tparams.items)
+                {
+                    ItemsSliced.Add(item);
+                }
+
+                originalItem = PagesList.Items[tparams.newIndex];
+
+                foreach (ListViewItem item in tparams.items)
+                {
+                    originalItem = PagesList.Items[tparams.newIndex];
+                    newItem = item;
+                    
+                    pageOriginal = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+                    pageNew = FindListViewItemForPage(PageView, (Page)item.Tag);
+
+                    IndexOldItem = item.Index;
+                    PagesList.Items.Remove(originalItem);
+                    PagesList.Items.Remove(item);
+                    if (pageNew != null && pageOriginal != null)
+                    {
+                        //PageView.Items.Remove(pageOriginal);
+                        //PageView.Items.Remove(pageNew);
+                    }
+
+                    Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
+                    Program.ProjectModel.Pages.Remove((Page)item.Tag);
+                    if (direction == 1)
+                    {
+                        PagesList.Items.Insert(tparams.newIndex, item);
+                        PagesList.Items.Insert(IndexOldItem, originalItem);
+
+                        pageViewItemNameCopy = pageOriginal.Text;
+                        pageOriginal.Text = pageNew.Text;
+                        pageNew.Text = pageViewItemNameCopy;
+
+                        pageImageKeyBackup = pageOriginal.ImageKey;
+                        pageOriginal.ImageKey = pageNew.ImageKey;
+                        pageNew.ImageKey = pageViewItemNameCopy;
+
+                        pageTagBackup = pageOriginal.Tag;
+                        pageOriginal.Tag = pageNew.Tag;
+                        pageNew.Tag = pageTagBackup;
+
+                        Program.ProjectModel.Pages.Insert(tparams.newIndex, (Page)item.Tag);
+                        Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                        
+                    }
+                    else
+                    {
+                        PagesList.Items.Insert(IndexOldItem, originalItem);
+                        PagesList.Items.Insert(tparams.newIndex, item);
+
+                        pageViewItemNameCopy = pageOriginal.Text;
+                        pageOriginal.Text = pageNew.Text;
+                        pageNew.Text = pageViewItemNameCopy;
+
+                        pageImageKeyBackup = pageOriginal.ImageKey;
+                        pageOriginal.ImageKey = pageNew.ImageKey;
+                        pageNew.ImageKey = pageViewItemNameCopy;
+
+                        pageTagBackup = pageOriginal.Tag;
+                        pageOriginal.Tag = pageNew.Tag;
+                        pageNew.Tag = pageTagBackup;
+
+                        Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                        Program.ProjectModel.Pages.Insert(tparams.newIndex, (Page)item.Tag);
+                    }
+
+                    if (pageNew != null && pageOriginal != null)
+                    {
+                        //UpdatePageView();
+                        ////PageView.Items.Clear();
+
+                        //foreach (ListViewItem pageItem in PagesList.Items)
+                        //{
+                        //    CreatePagePreviewFromItem((Page)item.Tag);
+                        //CreatePagePreviewFromItem((Page)originalItem.Tag);
+
+
+                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_DEBUG, i.Text + "_index="+i.Index.ToString()+"_page="+((Page)i.Tag).Name+"_pageId="+ ((Page)i.Tag).Id);
+                        //}
+                    }
+
+                    PageChanged(this, new PageChangedEvent((Page)pageNew.Tag, (Page)originalItem.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    PageChanged(this, new PageChangedEvent((Page)originalItem.Tag, (Page)pageNew.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+
+                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
+
+                    //Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
+                    //Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
+                    tparams.newIndex += direction;
+
+                    Thread.Sleep(10);
+                }
+
+                //Program.ProjectModel.UpdatePageIndices();
+                Program.ProjectModel.IsChanged = true;
+            }));
+        }
+
+        private void MovePageTo(Page page, int newIndex)
+        {
+            if (ThumbnailThread != null)
+            {
+                if (ThumbnailThread.IsAlive)
+                {
+                    ThumbnailThread.Abort();
+                }
+            }
+
+            if (RequestThumbnailThread != null)
+            {
+                if (RequestThumbnailThread.IsAlive)
+                {
+                    RequestThumbnailThread.Abort();
+                }
+            }
+
+            if (RequestImageInfoThread != null)
+            {
+                if (RequestImageInfoThread.IsAlive)
+                {
+                    RequestImageInfoThread.Abort();
+                }
+            }
+
+            if (MovePagesThread != null)
+            {
+                if (MovePagesThread.IsAlive)
+                {
+                    MovePagesThread.Join();
+                }
+            }
+
+            if (UpdatePageViewThread != null)
+            {
+                if (UpdatePageViewThread.IsAlive)
+                {
+                    UpdatePageViewThread.Abort();
+                }
+            }
+
+            MovePagesThread = new Thread(MovePageProc);
+            MovePagesThread.Start(new MovePageThreadParams() { newIndex = newIndex, page = page });         
+        }
+
+        private void MovePageProc(object movePagesThreadParams)
+        {
+            MovePageThreadParams tparams = movePagesThreadParams as MovePageThreadParams;
+            this.Invoke(new Action(() =>
+            {
+                ListViewItem originalPage;
+                ListViewItem originalItem;
+                ListViewItem updatePage;
+                ListViewItem updateItem;
+                //Image originalImage;
+                //Image updateImage;
+
+                updateItem = FindListViewItemForPage(PagesList, tparams.page);
+                updatePage = FindListViewItemForPage(PageView, tparams.page);
+                //updateImage = PageImages.Images[PageImages.Images.IndexOfKey(page.Id)];
+
+
+                originalItem = PagesList.Items[tparams.newIndex];
+                originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+                //originalImage = PageImages.Images[PageImages.Images.IndexOfKey(((Page)originalItem.Tag).Id)];
+
+                int IndexItemToMove = updateItem.Index;
+
+                //if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
+                // {
+                //    return;
+                //}
+
+                if (tparams.newIndex == IndexItemToMove)
+                {
+                    //ApplicationMessage.ShowWarning("Unable to move Page! Page already at index " + IndexItemToMove.ToString() + "!", "Unable to move Page", 2, ApplicationMessage.DialogButtons.MB_OK);
+                    return;
+                }
+
+                PagesList.Items.Remove(originalItem);
+                PagesList.Items.Remove(updateItem);
+                if (updatePage != null && originalPage != null)
+                {
+                    //PageView.Items.Remove(originalPage);
+                    //PageView.Items.Remove(updatePage);
+
+                }
+
+                Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
+                Program.ProjectModel.Pages.Remove((Page)updateItem.Tag);
+
+                PagesList.Items.Insert(tparams.newIndex, updateItem);
+                PagesList.Items.Insert(tparams.newIndex + 1, originalItem);
+
+                Program.ProjectModel.Pages.Insert(tparams.newIndex, (Page)updateItem.Tag);
+                Program.ProjectModel.Pages.Insert(tparams.newIndex + 1, (Page)originalItem.Tag);
+
+                if (updatePage != null && originalPage != null)
                 {
                     UpdatePageView();
-                    ////PageView.Items.Clear();
+                    //CreatePagePreviewFromItem(page);
+                    //CreatePagePreviewFromItem((Page)originalItem.Tag);
+                    //PageView.Items.Clear();
 
                     //foreach (ListViewItem pageItem in PagesList.Items)
                     //{
-                    //    CreatePagePreviewFromItem((Page)item.Tag);
-                    //CreatePagePreviewFromItem((Page)originalItem.Tag);
-
+                    //CreatePagePreviewFromItem((Page)pageItem.Tag);
 
                     //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_DEBUG, i.Text + "_index="+i.Index.ToString()+"_page="+((Page)i.Tag).Name+"_pageId="+ ((Page)i.Tag).Id);
                     //}
                 }
 
-                PageChanged(this, new PageChangedEvent((Page)pageNew.Tag, (Page)originalItem.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                PageChanged(this, new PageChangedEvent((Page)originalItem.Tag, (Page)pageNew.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                PageChanged(this, new PageChangedEvent(tparams.page, originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                if (originalPage != null)
+                {
+                    PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                }
                 ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                 HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
-
-                //Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
-                //Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                newIndex += direction;
-            }
-
-            //Program.ProjectModel.UpdatePageIndices();
-            Program.ProjectModel.IsChanged = true;
-        }
-
-        private void MovePageTo(Page page, int newIndex)
-        {
-            ListViewItem originalPage;
-            ListViewItem originalItem;
-            ListViewItem updatePage;
-            ListViewItem updateItem;
-            //Image originalImage;
-            //Image updateImage;
-
-            updateItem = FindListViewItemForPage(PagesList, page);
-            updatePage = FindListViewItemForPage(PageView, page);
-            //updateImage = PageImages.Images[PageImages.Images.IndexOfKey(page.Id)];
-
-
-            originalItem = PagesList.Items[newIndex];
-            originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
-            //originalImage = PageImages.Images[PageImages.Images.IndexOfKey(((Page)originalItem.Tag).Id)];
-
-            int IndexItemToMove = updateItem.Index;
-                       
-            //if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
-           // {
-            //    return;
-            //}
-
-            if (newIndex == IndexItemToMove)
-            {
-                //ApplicationMessage.ShowWarning("Unable to move Page! Page already at index " + IndexItemToMove.ToString() + "!", "Unable to move Page", 2, ApplicationMessage.DialogButtons.MB_OK);
-                return;
-            }
-
-            PagesList.Items.Remove(originalItem);
-            PagesList.Items.Remove(updateItem);
-            if (updatePage != null && originalPage != null)
-            {
-                //PageView.Items.Remove(originalPage);
-                //PageView.Items.Remove(updatePage);
-
-            }
-
-            Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
-            Program.ProjectModel.Pages.Remove((Page)updateItem.Tag);
-
-            PagesList.Items.Insert(newIndex, updateItem);
-            PagesList.Items.Insert(newIndex + 1, originalItem);
-            
-            Program.ProjectModel.Pages.Insert(newIndex, (Page)updateItem.Tag);
-            Program.ProjectModel.Pages.Insert(newIndex + 1, (Page)originalItem.Tag);
-
-            if (updatePage != null && originalPage != null)
-            {
-                UpdatePageView();
-                //CreatePagePreviewFromItem(page);
-                //CreatePagePreviewFromItem((Page)originalItem.Tag);
-                //PageView.Items.Clear();
-
-                //foreach (ListViewItem pageItem in PagesList.Items)
-                //{
-                //CreatePagePreviewFromItem((Page)pageItem.Tag);
-
-                //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_DEBUG, i.Text + "_index="+i.Index.ToString()+"_page="+((Page)i.Tag).Name+"_pageId="+ ((Page)i.Tag).Id);
-                //}
-            }
-
-            PageChanged(this, new PageChangedEvent(page, originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
-            if (originalPage != null)
-            {
-                PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-            }
-            ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-
-            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-
-            Program.ProjectModel.IsChanged = true;
+                Program.ProjectModel.IsChanged = true;
+            }));          
         }
 
 
@@ -2971,7 +3133,14 @@ namespace Win_CBZ
 
         private void PageView_DoubleClick(object sender, EventArgs e)
         {
-            ToolButtonImagePreview_Click(this, e);
+            if (PageView.SelectedItem != null)
+            {
+                Page page = (Page)PageView.SelectedItem.Tag;
+
+                ImagePreviewForm pagePreviewForm = new ImagePreviewForm(page);
+                DialogResult dlgResult = pagePreviewForm.ShowDialog();
+                pagePreviewForm.Dispose();
+            }
         }
 
         private void ComboBoxCompressionLevel_SelectedIndexChanged(object sender, EventArgs e)
@@ -3155,6 +3324,11 @@ namespace Win_CBZ
         }
 
         private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PageView_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

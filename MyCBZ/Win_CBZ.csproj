@@ -142,6 +142,8 @@
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
     <Compile Include="Data\EditorTypeConfig.cs" />
     <Compile Include="Data\MinMaxDimensions.cs" />
+    <Compile Include="Data\MoveItemsToThreadParams.cs" />
+    <Compile Include="Data\MovePageThreadParams.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />
     <Compile Include="Result\TaskResult.cs" />
     <Compile Include="Data\DataValidation.cs" />
