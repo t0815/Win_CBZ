@@ -266,8 +266,8 @@ namespace Win_CBZ
                         }
                     }
 
-                    ProcessAddedFiles = new Thread(new ThreadStart(AddImagesProc));
-                    ProcessAddedFiles.Start();
+                    ProcessAddedFiles = new Thread(AddImagesProc);
+                    ProcessAddedFiles.Start(new AddImagesThreadParams() { localFiles = e.Data as List<LocalFile> });
 
                 });
             }
@@ -433,6 +433,123 @@ namespace Win_CBZ
             return LoadArchiveThread;
         }
 
+        protected void OpenArchiveProc()
+        {
+            long itemSize = 0;
+            int index = 0;
+            long totalSize = 0;
+            MetaDataPageIndexMissingData = false;
+            MetaDataPageIndexMissingData = false;
+
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
+
+            int countEntries = 0;
+            try
+            {
+                Archive = ZipFile.Open(FileName, Mode);
+                countEntries = Archive.Entries.Count;
+
+                try
+                {
+                    ZipArchiveEntry metaDataEntry = Archive.GetEntry("ComicInfo.xml");
+
+                    if (metaDataEntry != null)
+                    {
+                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
+                    }
+                    else
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!");
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
+                }
+
+                MetaDataEntryPage pageIndexEntry;
+                foreach (ZipArchiveEntry entry in Archive.Entries)
+                {
+                    if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
+                    {
+                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), MakeNewRandomId())
+                        {
+                            Number = index + 1,
+                            Index = index,
+                            OriginalIndex = index
+                        };
+                        // too slow
+                        //page.LoadImageInfo();
+                        pageIndexEntry = MetaData.FindIndexEntryForPage(page);
+                        if (pageIndexEntry != null)
+                        {
+                            try
+                            {
+                                page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
+                                page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                            }
+                            catch
+                            {
+                                //MetaDataPageIndexMissingData = true;
+                                //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
+                            }
+
+                            try
+                            {
+                                page.Format.W = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
+                                page.Format.H = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
+                            }
+                            catch
+                            {
+
+                                MetaDataPageIndexMissingData = true;
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
+                            }
+                        }
+                        else
+                        {
+                            MetaDataPageIndexFileMissing = true;
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
+                        }
+
+                        Pages.Add(page);
+
+                        OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                        OnTaskProgress(new TaskProgressEvent(page, index, countEntries));
+
+                        totalSize += itemSize;
+                        index++;
+                    }
+
+                    Thread.Sleep(10);
+                }
+                IsChanged = false;
+                IsNew = false;
+            }
+            catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive\n" + e.Message);
+            }
+
+            FileSize = totalSize;
+            MaxFileIndex = index;
+
+            if (MetaDataPageIndexMissingData)
+            {
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
+            }
+
+            if (MetaDataPageIndexFileMissing)
+            {
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
+            }
+
+
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+        }
+
         public Thread Save()
         {
 
@@ -479,6 +596,295 @@ namespace Win_CBZ
             });
 
             return SaveArchiveThread;
+        }
+
+        protected void SaveArchiveProc(object threadParams)
+        {
+            int index = 0;
+            bool tagValidationFailed = false;
+            bool metaDataValidationFailed = false;
+            bool errorSavingArchive = false;
+            ArrayList invalidKeys = new ArrayList();
+            List<Page> deletedPages = new List<Page>();
+
+            LocalFile fileToCompress = null;
+
+            SaveArchiveThreadParams tParams = threadParams as SaveArchiveThreadParams;
+
+            TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
+
+            ZipArchive BuildingArchive = null;
+            ZipArchiveEntry updatedEntry = null;
+
+            // ----------------------------------------------------------------
+            try
+            {
+                if (Win_CBZSettings.Default.ValidateTags)
+                {
+                    tagValidationFailed = DataValidation.ValidateTags();
+
+                    if (tagValidationFailed)
+                    {
+                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                        return;
+                    }
+                }
+
+                metaDataValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
+                if (metaDataValidationFailed)
+                {
+                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                    return;
+                }
+
+                metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
+                if (metaDataValidationFailed)
+                {
+                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                    return;
+                }
+
+                BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
+
+                // Apply renaming rules
+                if (ApplyRenaming && !CompatibilityMode)
+                {
+                    try
+                    {
+                        RunRenameScriptsForPages();
+                    }
+                    catch (Exception ee)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
+
+                    }
+                }
+
+                // Force renaming every page to its index in compatibility mode
+                if (CompatibilityMode)
+                {
+                    String restoreOriginalPatternPage = RenameSpecialPagePattern;
+                    String restoreOriginalPatternSpecialPage = RenameSpecialPagePattern;
+
+                    RenameStoryPagePattern = "{page}.{ext}";
+                    RenameSpecialPagePattern = "{page}.{ext}";
+                    IgnorePageNameDuplicates = true;
+
+                    try
+                    {
+                        RunRenameScriptsForPages();
+                    }
+                    catch (Exception ee)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
+
+                    }
+                    finally
+                    {
+                        IgnorePageNameDuplicates = false;
+                        RenameStoryPagePattern = restoreOriginalPatternPage;
+                        RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
+                    }
+                }
+
+                UpdatePageIndicesProc();
+
+                // Rebuild ComicInfo.xml's PageIndex
+                MetaData.RebuildPageMetaData(Pages.ToList<Page>());
+
+                // ---- MOVE above stuff out of here!!! -----------
+
+
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+
+                // Write files to new temporary archive
+                Thread.BeginCriticalRegion();
+                foreach (Page page in Pages)
+                {
+                    String sourceFileName = "";
+                    try
+                    {
+                        if (!page.Deleted)
+                        {
+                            if (page.Compressed)
+                            {
+                                FileInfo NewTemporaryFileName = MakeNewTempFileName();
+                                page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
+                                if (page.TemporaryFile == null || !page.TemporaryFile.Exists())
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
+                                }
+                            }
+
+                            page.FreeImage();  // Dont delete any temporary files here! Free resource
+
+                            if (page.Changed || page.Compressed)
+                            {
+                                sourceFileName = page.TemporaryFile.FullPath;
+                                try
+                                {
+                                    if (!page.TemporaryFile.Exists())
+                                    {
+                                        page.CreateLocalWorkingCopy();
+
+
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+                                    sourceFileName = page.TemporaryFile.FullPath;
+
+                                    //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
+                                }
+                            }
+                            else
+                            {
+                                sourceFileName = page.LocalFile.FullPath;
+                            }
+
+                            fileToCompress = new LocalFile(sourceFileName);
+
+                            updatedEntry = BuildingArchive.CreateEntryFromFile(fileToCompress.FullPath, page.Name, CompressionLevel);
+                            if (IsNew)
+                            {
+                                page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
+                                page.Compressed = true;
+                            }
+                            page.Changed = false;
+                            if (page.ImageLoaded)
+                            {
+                                try
+                                {
+                                    page.LoadImage();
+                                }
+                                catch (PageException pe)
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error reloading image [" + fileToCompress.FileName + "] for page [" + pe.Message + "]");
+                                }
+                            }
+
+                            OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
+                        }
+                        else
+                        {
+                            // collect all deleted items
+                            deletedPages.Add(page);
+                        }
+                    }
+                    catch (Exception efile)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + fileToCompress.FileName + "] to Archive [" + efile.Message + "]");
+
+                        if (!Win_CBZSettings.Default.IgnoreErrorsOnSave)
+                        {
+                            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
+                            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+                            errorSavingArchive = true;
+                            return;
+                        }
+                    }
+                    finally
+                    {
+                        Thread.Sleep(10);
+                    }
+
+                    OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
+
+                    index++;
+                }
+                Thread.EndCriticalRegion();
+
+                // Create Metadata
+                if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
+                {
+                    MemoryStream ms = MetaData.BuildComicInfoXMLStream();
+                    ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry("ComicInfo.xml");
+                    using (Stream entryStream = metaDataEntry.Open())
+                    {
+                        ms.CopyTo(entryStream);
+                        entryStream.Close();
+                        ms.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
+            }
+            finally
+            {
+                if (!errorSavingArchive)
+                {
+                    try
+                    {
+                        BuildingArchive?.Dispose();
+                        Archive?.Dispose();
+
+                        CopyFile(TemporaryFileName, FileName, true);
+
+                        int deletedIndex = 0;
+                        foreach (Page deletedPage in deletedPages)
+                        {
+                            Pages.Remove(deletedPage);
+
+                            OnPageChanged(new PageChangedEvent(deletedPage, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
+                            OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
+                            deletedIndex++;
+                        }
+
+                    }
+                    catch (Exception mvex)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
+                    }
+                    finally
+                    {
+                        if (!errorSavingArchive)
+                        {
+                            try
+                            {
+                                File.Delete(TemporaryFileName);
+                                // Reopen source file and update image entries
+                                Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
+                                foreach (ZipArchiveEntry entry in Archive.Entries)
+                                {
+                                    Page page = GetPageByName(entry.Name);
+                                    page?.UpdateImageEntry(entry, MakeNewRandomId());
+                                }
+                                IsChanged = false;
+                                IsNew = false;
+                            }
+                            catch (Exception rex)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
+                            }
+                        }
+                    }
+                }
+            }
+
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void RenamePageScript(Page page, bool ignoreDuplicates = false)
+        {
+            String oldName = page.Name;
+            String newName = PageScriptRename(page, ignoreDuplicates);
+
+            try
+            {
+                MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
+            }
+            catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error updating PageIndex for page [" + newName + "]. " + ex.Message);
+            }
         }
 
         public Thread Extract(String outputPath = null)
@@ -953,7 +1359,7 @@ namespace Win_CBZ
             });
         }
 
-        public void AddImagesProc()
+        public void AddImagesProc(object threadParams)
         {
             int index = MaxFileIndex;
             int realNewIndex = MaxFileIndex;
@@ -962,7 +1368,9 @@ namespace Win_CBZ
             FileInfo localPath;
             Page page;
 
-            foreach (LocalFile fileObject in Files)
+            AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
+
+            foreach (LocalFile fileObject in tParams.localFiles)
             {
                 try
                 {
@@ -1018,7 +1426,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED, null));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -1094,7 +1502,7 @@ namespace Win_CBZ
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED, Files));
         }
 
         public int RemoveDeletedPages()
@@ -1188,7 +1596,7 @@ namespace Win_CBZ
 
             if (tparams.ContinuePipeline)
             {
-                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
+                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED, null));
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
@@ -1539,149 +1947,6 @@ namespace Win_CBZ
             return tempFileName;
         }
 
-        public Thread Close()
-        {
-            if (LoadArchiveThread != null)
-            {
-                if (LoadArchiveThread.IsAlive)
-                {
-                    LoadArchiveThread.Join();
-                }
-            }
-
-            if (SaveArchiveThread != null)
-            {
-                if (SaveArchiveThread.IsAlive)
-                {
-                    SaveArchiveThread.Join();
-                }
-            }
-
-            if (CloseArchiveThread != null)
-            {
-                if (CloseArchiveThread.IsAlive)
-                {
-                    return CloseArchiveThread;
-                }
-            }
-
-            CloseArchiveThread = new Thread(new ThreadStart(CloseArchiveProc));
-            CloseArchiveThread.Start();
-
-            return CloseArchiveThread;
-        }
-
-        protected void OpenArchiveProc()
-        {
-            long itemSize = 0;
-            int index = 0;
-            long totalSize = 0;
-            MetaDataPageIndexMissingData = false;
-            MetaDataPageIndexMissingData = false;
-
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
-            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
-
-            int countEntries = 0;
-            try
-            {
-                Archive = ZipFile.Open(FileName, Mode);
-                countEntries = Archive.Entries.Count;
-
-                try
-                {
-                    ZipArchiveEntry metaDataEntry = Archive.GetEntry("ComicInfo.xml");
-
-                    if (metaDataEntry != null)
-                    {
-                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
-                    } else
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!");
-                    }
-                } catch (Exception)
-                {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
-                }
-
-                MetaDataEntryPage pageIndexEntry;
-                foreach (ZipArchiveEntry entry in Archive.Entries)
-                {
-                    if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
-                    {
-                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), MakeNewRandomId())
-                        {
-                            Number = index + 1,
-                            Index = index,
-                            OriginalIndex = index
-                        };
-                        // too slow
-                        //page.LoadImageInfo();
-                        pageIndexEntry = MetaData.FindIndexEntryForPage(page);
-                        if (pageIndexEntry != null)
-                        {
-                            try
-                            {
-                                page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
-                                page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
-                            }
-                            catch
-                            {
-                                //MetaDataPageIndexMissingData = true;
-                                //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
-                            }
-
-                            try
-                            {
-                                page.Format.W = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH));
-                                page.Format.H = int.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT));
-                            } catch {
-
-                                MetaDataPageIndexMissingData = true;
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
-                            }
-                        } else
-                        {
-                            MetaDataPageIndexFileMissing = true;
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
-                        }
-
-                        Pages.Add(page);
-
-                        OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                        OnTaskProgress(new TaskProgressEvent(page, index, countEntries));
-
-                        totalSize += itemSize;
-                        index++;
-                    }
-
-                    Thread.Sleep(10);
-                }
-                IsChanged = false;
-                IsNew = false;
-            } catch (Exception e)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive\n" + e.Message);
-            }
-
-            FileSize = totalSize;
-            MaxFileIndex = index;
-
-            if (MetaDataPageIndexMissingData) 
-            {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
-            }
-
-            if (MetaDataPageIndexFileMissing)
-            {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
-            }
-
-
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
-            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-        }
-
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RunRenameScriptsForPages()
         {
@@ -1703,291 +1968,6 @@ namespace Win_CBZ
 
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
-
-        protected void SaveArchiveProc(object threadParams)
-        {
-            int index = 0;
-            bool tagValidationFailed = false;
-            bool metaDataValidationFailed = false;
-            bool errorSavingArchive = false;
-            ArrayList invalidKeys = new ArrayList();
-            List<Page> deletedPages = new List<Page>();
-
-            LocalFile fileToCompress = null;
-
-            SaveArchiveThreadParams tParams = threadParams as SaveArchiveThreadParams;
-
-            TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
-
-            ZipArchive BuildingArchive = null;
-            ZipArchiveEntry updatedEntry = null;
-
-            // ----------------------------------------------------------------
-            try
-            {
-                if (Win_CBZSettings.Default.ValidateTags)
-                {
-                    tagValidationFailed = DataValidation.ValidateTags();
-
-                    if (tagValidationFailed)
-                    {
-                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                        return;
-                    }           
-                }
-
-                metaDataValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
-                if (metaDataValidationFailed)
-                {
-                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                    return;
-                }
-
-                metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
-                if (metaDataValidationFailed)
-                {
-                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                    return;
-                }
-
-                BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
-
-                // Apply renaming rules
-                if (ApplyRenaming && !CompatibilityMode)
-                {
-                    try
-                    {
-                        RunRenameScriptsForPages();
-                    }
-                    catch (Exception ee)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
-
-                    }
-                }
-
-                // Force renaming every page to its index in compatibility mode
-                if (CompatibilityMode)
-                {
-                    String restoreOriginalPatternPage = RenameSpecialPagePattern;
-                    String restoreOriginalPatternSpecialPage = RenameSpecialPagePattern;
-
-                    RenameStoryPagePattern = "{page}.{ext}";
-                    RenameSpecialPagePattern = "{page}.{ext}";
-                    IgnorePageNameDuplicates = true;
-
-                    try
-                    {
-                        RunRenameScriptsForPages();
-                    }
-                    catch (Exception ee)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
-
-                    } finally
-                    {
-                        IgnorePageNameDuplicates = false;
-                        RenameStoryPagePattern = restoreOriginalPatternPage;
-                        RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
-                    }
-                }
-
-                UpdatePageIndicesProc();              
-
-                // Rebuild ComicInfo.xml's PageIndex
-                MetaData.RebuildPageMetaData(Pages.ToList<Page>());
-
-                // ---- MOVE above stuff out of here!!! -----------
-
-
-                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
-
-                // Write files to new temporary archive
-                Thread.BeginCriticalRegion();
-                foreach (Page page in Pages)
-                {
-                    String sourceFileName = "";
-                    try
-                    {
-                        if (!page.Deleted)
-                        {
-                            if (page.Compressed)
-                            {
-                                FileInfo NewTemporaryFileName = MakeNewTempFileName();
-                                page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
-                                if (page.TemporaryFile == null || !page.TemporaryFile.Exists())
-                                {
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
-                                }
-                            }
-
-                            page.FreeImage();  // Dont delete any temporary files here! Free resource
-
-                            if (page.Changed || page.Compressed) 
-                            {
-                                sourceFileName = page.TemporaryFile.FullPath;
-                                try
-                                {
-                                    if (!page.TemporaryFile.Exists())
-                                    {
-                                        page.CreateLocalWorkingCopy();
-
-                                        
-                                    }
-                                } catch (Exception)
-                                {
-
-                                    sourceFileName = page.TemporaryFile.FullPath;
-
-                                    //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
-                                }
-                            } else
-                            {
-                                sourceFileName = page.LocalFile.FullPath;
-                            }          
-
-                            fileToCompress = new LocalFile(sourceFileName);
-
-                            updatedEntry = BuildingArchive.CreateEntryFromFile(fileToCompress.FullPath, page.Name, CompressionLevel);
-                            if (IsNew)
-                            {
-                                page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
-                                page.Compressed = true;
-                            }
-                            page.Changed = false;
-                            if (page.ImageLoaded)
-                            {
-                                try
-                                {
-                                    page.LoadImage();
-                                } catch (PageException pe) 
-                                {
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error reloading image [" + fileToCompress.FileName + "] for page [" + pe.Message + "]");
-                                }
-                            }                           
-
-                            OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
-                        }
-                        else
-                        {
-                            // collect all deleted items
-                            deletedPages.Add(page);
-                        }
-                    }
-                    catch (Exception efile)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error compressing File [" + fileToCompress.FileName + "] to Archive [" + efile.Message + "]");
-
-                        if (!Win_CBZSettings.Default.IgnoreErrorsOnSave)
-                        {
-                            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
-                            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-                            errorSavingArchive = true;
-                            return;
-                        }
-                    }
-                    finally
-                    {
-                        Thread.Sleep(10);
-                    }
-
-                    OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
-
-                    index++;
-                }
-                Thread.EndCriticalRegion();
-
-                // Create Metadata
-                if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
-                {
-                    MemoryStream ms = MetaData.BuildComicInfoXMLStream();
-                    ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry("ComicInfo.xml");
-                    using (Stream entryStream = metaDataEntry.Open())
-                    {
-                        ms.CopyTo(entryStream);
-                        entryStream.Close();
-                        ms.Close();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
-            }
-            finally
-            {
-                if (!errorSavingArchive)
-                {
-                    try
-                    {
-                        BuildingArchive?.Dispose();
-                        Archive?.Dispose();
-
-                        CopyFile(TemporaryFileName, FileName, true);
-
-                        int deletedIndex = 0;
-                        foreach (Page deletedPage in deletedPages)
-                        {
-                            Pages.Remove(deletedPage);
-
-                            OnPageChanged(new PageChangedEvent(deletedPage, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
-                            OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
-                            deletedIndex++;
-                        }
-
-                    }
-                    catch (Exception mvex)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
-                    }
-                    finally
-                    {
-                        if (!errorSavingArchive)
-                        {
-                            try
-                            {
-                                File.Delete(TemporaryFileName);
-                                // Reopen source file and update image entries
-                                Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
-                                foreach (ZipArchiveEntry entry in Archive.Entries)
-                                {
-                                    Page page = GetPageByName(entry.Name);
-                                    page?.UpdateImageEntry(entry, MakeNewRandomId());
-                                }
-                                IsChanged = false;
-                                IsNew = false;
-                            }
-                            catch (Exception rex)
-                            {
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
-                            }
-                        }
-                    }
-                }
-            }
-
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));           
-            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RenamePageScript(Page page, bool ignoreDuplicates = false)
-        {
-            String oldName = page.Name;
-            String newName = PageScriptRename(page, ignoreDuplicates);
-
-            try
-            {
-                MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
-            } catch (Exception ex)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error updating PageIndex for page [" + newName + "]. " + ex.Message);
-            }
-        }
-
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ExtractSingleFile(Page page, String path = null)
@@ -2081,9 +2061,11 @@ namespace Win_CBZ
         }
 
 
-        protected void ExtractArchiveProc()
+        protected void ExtractArchiveProc(object threadParams)
         {
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTING));
+
+
 
             int count;
             int index = 0;
@@ -2174,6 +2156,38 @@ namespace Win_CBZ
             }
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTED));
+        }
+
+        public Thread Close()
+        {
+            if (LoadArchiveThread != null)
+            {
+                if (LoadArchiveThread.IsAlive)
+                {
+                    LoadArchiveThread.Join();
+                }
+            }
+
+            if (SaveArchiveThread != null)
+            {
+                if (SaveArchiveThread.IsAlive)
+                {
+                    SaveArchiveThread.Join();
+                }
+            }
+
+            if (CloseArchiveThread != null)
+            {
+                if (CloseArchiveThread.IsAlive)
+                {
+                    return CloseArchiveThread;
+                }
+            }
+
+            CloseArchiveThread = new Thread(new ThreadStart(CloseArchiveProc));
+            CloseArchiveThread.Start();
+
+            return CloseArchiveThread;
         }
 
         protected void CloseArchiveProc()

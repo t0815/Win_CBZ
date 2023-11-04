@@ -24,6 +24,7 @@ namespace Win_CBZ
 
         public PipelinePayload Payload { get; set; }
 
+        public object Data { get; set; }
 
         public delegate void Operation();
 
@@ -31,24 +32,26 @@ namespace Win_CBZ
         public PipelineEvent.Operation Callback;
 
 
-        public PipelineEvent(ProjectModel project, int state)
+        public PipelineEvent(ProjectModel project, int state, object data)
         {
             ArchiveInfo = project;
             State = state;
-
+            Data = Data;
         }
 
-        public PipelineEvent(ProjectModel project, int state, PipelinePayload pipelineConfig)
+        public PipelineEvent(ProjectModel project, int state, object data, PipelinePayload pipelineConfig)
         {
             ArchiveInfo = project;
             State = state;
+            Data = data;
             Payload = pipelineConfig;
         }
 
-        public PipelineEvent(ProjectModel project, int state, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
+        public PipelineEvent(ProjectModel project, int state, object data, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
         {
             ArchiveInfo = project;
             State = state;
+            Data = data;
             Payload = pipelineConfig;
             Callback = callback;
         }   

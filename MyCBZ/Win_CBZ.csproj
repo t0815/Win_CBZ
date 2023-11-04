@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
+    <Compile Include="Data\AddImagesThreadParams.cs" />
     <Compile Include="Data\EditorTypeConfig.cs" />
     <Compile Include="Data\ExtractArchiveThreadParams.cs" />
     <Compile Include="Data\MinMaxDimensions.cs" />
