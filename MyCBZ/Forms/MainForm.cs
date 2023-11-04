@@ -126,7 +126,7 @@ namespace Win_CBZ
                 CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
 
                 ComboBoxCompressionLevel.SelectedIndex = 0;
-                ComboBoxConvertPages.SelectedIndex = 0;
+                
 
                 Label placeholderLabel;
                 foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
@@ -2783,6 +2783,8 @@ namespace Win_CBZ
 
                 Win_CBZSettings.Default.ValidateTags = settingsDialog.ValidateTagsSetting;
                 Win_CBZSettings.Default.TagValidationIgnoreCase = settingsDialog.TagValidationIgnoreCase;
+                Win_CBZSettings.Default.ImageConversionMode = settingsDialog.ConversionModeValue;
+                Win_CBZSettings.Default.ImageConversionQuality = settingsDialog.ConversionQualityValue;
             } else
             {
                //
@@ -3022,7 +3024,7 @@ namespace Win_CBZ
 
                 if (selectedTask != null)
                 {
-                    ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
+                    //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
                     switch (selectedTask.ImageAdjustments.ResizeMode)
                     {
                         case 0:
@@ -3050,7 +3052,7 @@ namespace Win_CBZ
         {
             if (selectedImageTask != null)
             {
-                selectedImageTask.ImageAdjustments.Quality = ImageQualityTrackBar.Value;
+                //selectedImageTask.ImageAdjustments.Quality = ImageQualityTrackBar.Value;
             }
             
         }
@@ -3109,7 +3111,7 @@ namespace Win_CBZ
 
                 if (selectedTask != null)
                 {
-                    ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
+                    //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
                     switch (selectedTask.ImageAdjustments.ResizeMode)
                     {
                         case 0:

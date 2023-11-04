@@ -315,5 +315,29 @@ namespace Win_CBZ {
                 this["DebugMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ImageConversionMode {
+            get {
+                return ((int)(this["ImageConversionMode"]));
+            }
+            set {
+                this["ImageConversionMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int ImageConversionQuality {
+            get {
+                return ((int)(this["ImageConversionQuality"]));
+            }
+            set {
+                this["ImageConversionQuality"] = value;
+            }
+        }
     }
 }

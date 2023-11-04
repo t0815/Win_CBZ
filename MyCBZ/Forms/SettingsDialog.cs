@@ -26,6 +26,10 @@ namespace Win_CBZ.Forms
 
         public bool TagValidationIgnoreCase;
 
+        public int ConversionQualityValue;
+
+        public int ConversionModeValue;
+
         public SettingsDialog()
         {
             InitializeComponent();
@@ -40,6 +44,9 @@ namespace Win_CBZ.Forms
                 NewValidTagList = Win_CBZSettings.Default.ValidKnownTags.OfType<String>().ToArray();
             }
 
+            ConversionQualityValue = Win_CBZSettings.Default.ImageConversionQuality;
+            ConversionModeValue = Win_CBZSettings.Default.ImageConversionMode;
+
             ValidateTagsSetting = Win_CBZSettings.Default.ValidateTags;
             TagValidationIgnoreCase = Win_CBZSettings.Default.TagValidationIgnoreCase;
 
@@ -50,6 +57,9 @@ namespace Win_CBZ.Forms
 
             CheckBoxValidateTags.Checked = ValidateTagsSetting;
             CheckBoxTagValidationIgnoreCase.Checked = !TagValidationIgnoreCase;
+
+            ComboBoxConvertPages.SelectedIndex = ConversionModeValue;
+            ImageQualityTrackBar.Value = ConversionQualityValue;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -119,6 +129,8 @@ namespace Win_CBZ.Forms
                     NewValidTagList = ValidTags.Lines.ToArray<String>();
                     ValidateTagsSetting = CheckBoxValidateTags.Checked;
                     TagValidationIgnoreCase = !CheckBoxTagValidationIgnoreCase.Checked;
+                    ConversionModeValue = ComboBoxConvertPages.SelectedIndex;
+                    ConversionQualityValue = ImageQualityTrackBar.Value;
                 }
                 catch (MetaDataValidationException mv)
                 {
@@ -168,6 +180,11 @@ namespace Win_CBZ.Forms
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = true;   
             }
+        }
+
+        private void GroupBoxImageQuality_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
