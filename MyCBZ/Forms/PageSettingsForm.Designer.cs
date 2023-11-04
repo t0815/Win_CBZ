@@ -35,20 +35,20 @@
             this.TextBoxFileLocation = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.LabelSize = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.LabelDimensions = new System.Windows.Forms.Label();
+            this.LabelFormat = new System.Windows.Forms.Label();
+            this.LabelImageFormat = new System.Windows.Forms.Label();
             this.CheckBoxPageDeleted = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.PageIndexTextbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.PageNameTextBox = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.LabelDimensions = new System.Windows.Forms.Label();
-            this.LabelFormat = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.LabelImageFormat = new System.Windows.Forms.Label();
-            this.LabelBits = new System.Windows.Forms.Label();
             this.LabelDpi = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.LabelBits = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.LabelImageColors = new System.Windows.Forms.Label();
             this.HeaderPanel = new System.Windows.Forms.Panel();
@@ -99,7 +99,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.56041F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.43959F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxFileLocation, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
@@ -124,8 +124,8 @@
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 9;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
@@ -143,7 +143,7 @@
             this.label3.Location = new System.Drawing.Point(52, 0);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.label3.Size = new System.Drawing.Size(93, 35);
+            this.label3.Size = new System.Drawing.Size(93, 38);
             this.label3.TabIndex = 4;
             this.label3.Text = "Location";
             // 
@@ -181,11 +181,59 @@
             this.LabelSize.TabIndex = 9;
             this.LabelSize.Text = "0 Bytes";
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(53, 115);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label6.Size = new System.Drawing.Size(91, 23);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Dimensions";
+            // 
+            // LabelDimensions
+            // 
+            this.LabelDimensions.AutoSize = true;
+            this.LabelDimensions.Location = new System.Drawing.Point(152, 115);
+            this.LabelDimensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelDimensions.Name = "LabelDimensions";
+            this.LabelDimensions.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.LabelDimensions.Size = new System.Drawing.Size(65, 22);
+            this.LabelDimensions.TabIndex = 11;
+            this.LabelDimensions.Text = "0 x 0 Pixel";
+            // 
+            // LabelFormat
+            // 
+            this.LabelFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelFormat.AutoSize = true;
+            this.LabelFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelFormat.Location = new System.Drawing.Point(86, 38);
+            this.LabelFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelFormat.Name = "LabelFormat";
+            this.LabelFormat.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.LabelFormat.Size = new System.Drawing.Size(58, 24);
+            this.LabelFormat.TabIndex = 12;
+            this.LabelFormat.Text = "Format";
+            // 
+            // LabelImageFormat
+            // 
+            this.LabelImageFormat.AutoSize = true;
+            this.LabelImageFormat.Location = new System.Drawing.Point(152, 38);
+            this.LabelImageFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelImageFormat.Name = "LabelImageFormat";
+            this.LabelImageFormat.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.LabelImageFormat.Size = new System.Drawing.Size(59, 23);
+            this.LabelImageFormat.TabIndex = 15;
+            this.LabelImageFormat.Text = "unknown";
+            // 
             // CheckBoxPageDeleted
             // 
             this.CheckBoxPageDeleted.AutoSize = true;
             this.CheckBoxPageDeleted.Location = new System.Drawing.Point(152, 278);
-            this.CheckBoxPageDeleted.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CheckBoxPageDeleted.Margin = new System.Windows.Forms.Padding(4);
             this.CheckBoxPageDeleted.Name = "CheckBoxPageDeleted";
             this.CheckBoxPageDeleted.Size = new System.Drawing.Size(18, 17);
             this.CheckBoxPageDeleted.TabIndex = 7;
@@ -225,6 +273,15 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Index";
             // 
+            // PageNameTextBox
+            // 
+            this.PageNameTextBox.Location = new System.Drawing.Point(153, 198);
+            this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            this.PageNameTextBox.Name = "PageNameTextBox";
+            this.PageNameTextBox.Size = new System.Drawing.Size(199, 22);
+            this.PageNameTextBox.TabIndex = 2;
+            this.PageNameTextBox.TextChanged += new System.EventHandler(this.PageNameTextBox_TextChanged);
+            // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -236,66 +293,6 @@
             this.label2.Size = new System.Drawing.Size(49, 23);
             this.label2.TabIndex = 3;
             this.label2.Text = "Name";
-            // 
-            // PageNameTextBox
-            // 
-            this.PageNameTextBox.Location = new System.Drawing.Point(153, 198);
-            this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
-            this.PageNameTextBox.Name = "PageNameTextBox";
-            this.PageNameTextBox.Size = new System.Drawing.Size(199, 22);
-            this.PageNameTextBox.TabIndex = 2;
-            this.PageNameTextBox.TextChanged += new System.EventHandler(this.PageNameTextBox_TextChanged);
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(53, 115);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.label6.Size = new System.Drawing.Size(91, 23);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Dimensions";
-            // 
-            // LabelDimensions
-            // 
-            this.LabelDimensions.AutoSize = true;
-            this.LabelDimensions.Location = new System.Drawing.Point(152, 115);
-            this.LabelDimensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelDimensions.Name = "LabelDimensions";
-            this.LabelDimensions.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.LabelDimensions.Size = new System.Drawing.Size(65, 22);
-            this.LabelDimensions.TabIndex = 11;
-            this.LabelDimensions.Text = "0 x 0 Pixel";
-            // 
-            // LabelFormat
-            // 
-            this.LabelFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelFormat.AutoSize = true;
-            this.LabelFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelFormat.Location = new System.Drawing.Point(86, 35);
-            this.LabelFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelFormat.Name = "LabelFormat";
-            this.LabelFormat.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.LabelFormat.Size = new System.Drawing.Size(58, 24);
-            this.LabelFormat.TabIndex = 12;
-            this.LabelFormat.Text = "Format";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(392, 35);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.label8.Size = new System.Drawing.Size(22, 41);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "Bits";
-            this.label8.Visible = false;
             // 
             // label9
             // 
@@ -310,29 +307,6 @@
             this.label9.TabIndex = 14;
             this.label9.Text = "DPI";
             // 
-            // LabelImageFormat
-            // 
-            this.LabelImageFormat.AutoSize = true;
-            this.LabelImageFormat.Location = new System.Drawing.Point(152, 35);
-            this.LabelImageFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelImageFormat.Name = "LabelImageFormat";
-            this.LabelImageFormat.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.LabelImageFormat.Size = new System.Drawing.Size(59, 23);
-            this.LabelImageFormat.TabIndex = 15;
-            this.LabelImageFormat.Text = "unknown";
-            // 
-            // LabelBits
-            // 
-            this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(422, 35);
-            this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LabelBits.Name = "LabelBits";
-            this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.LabelBits.Size = new System.Drawing.Size(14, 23);
-            this.LabelBits.TabIndex = 16;
-            this.LabelBits.Text = "0";
-            this.LabelBits.Visible = false;
-            // 
             // LabelDpi
             // 
             this.LabelDpi.AutoSize = true;
@@ -344,12 +318,38 @@
             this.LabelDpi.TabIndex = 17;
             this.LabelDpi.Text = "0";
             // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(391, 38);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.label8.Size = new System.Drawing.Size(22, 40);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Bits";
+            this.label8.Visible = false;
+            // 
+            // LabelBits
+            // 
+            this.LabelBits.AutoSize = true;
+            this.LabelBits.Location = new System.Drawing.Point(421, 38);
+            this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LabelBits.Name = "LabelBits";
+            this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.LabelBits.Size = new System.Drawing.Size(14, 23);
+            this.LabelBits.TabIndex = 16;
+            this.LabelBits.Text = "0";
+            this.LabelBits.Visible = false;
+            // 
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(391, 78);
+            this.label7.Location = new System.Drawing.Point(390, 78);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -361,7 +361,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(422, 78);
+            this.LabelImageColors.Location = new System.Drawing.Point(421, 78);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
