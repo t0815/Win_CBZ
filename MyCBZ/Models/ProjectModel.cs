@@ -100,8 +100,6 @@ namespace Win_CBZ
 
         protected Task<TaskResult> imageInfoUpdater;
 
-        private bool IgnorePageNameDuplicates = false;
-
         public long TotalSize { get; set; }
 
         public ImageFormat OutputFormat { get; set; }
@@ -575,16 +573,37 @@ namespace Win_CBZ
                 }
             }
 
-            /*
-            string[] cbzProblems = new string[1];
-            if (Validate(ref cbzProblems, true)) 
-            { 
-                SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
-                SaveArchiveThread.Start();
+            ArrayList invalidKeys = new ArrayList();
 
-                return SaveArchiveThread;
+            bool tagValidationFailed;
+            bool metaDataValidationFailed;
+            if (Win_CBZSettings.Default.ValidateTags)
+            {
+                tagValidationFailed = DataValidation.ValidateTags();
+
+                if (tagValidationFailed)
+                {
+                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                    return null;
+                }
             }
-            */
+
+            metaDataValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
+            if (metaDataValidationFailed)
+            {
+                OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                return null;
+            }
+
+            metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
+            if (metaDataValidationFailed)
+            {
+                OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                return null;
+            }
 
             SaveArchiveThread = new Thread(SaveArchiveProc);
             SaveArchiveThread.Start(new SaveArchiveThreadParams() 
@@ -601,12 +620,9 @@ namespace Win_CBZ
         protected void SaveArchiveProc(object threadParams)
         {
             int index = 0;
-            bool tagValidationFailed = false;
-            bool metaDataValidationFailed = false;
             bool errorSavingArchive = false;
-            ArrayList invalidKeys = new ArrayList();
+            
             List<Page> deletedPages = new List<Page>();
-
             LocalFile fileToCompress = null;
 
             SaveArchiveThreadParams tParams = threadParams as SaveArchiveThreadParams;
@@ -617,38 +633,10 @@ namespace Win_CBZ
             ZipArchiveEntry updatedEntry = null;
 
             // ----------------------------------------------------------------
-            try
-            {
-                if (Win_CBZSettings.Default.ValidateTags)
-                {
-                    tagValidationFailed = DataValidation.ValidateTags();
+           
+                
 
-                    if (tagValidationFailed)
-                    {
-                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                        return;
-                    }
-                }
-
-                metaDataValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
-                if (metaDataValidationFailed)
-                {
-                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                    return;
-                }
-
-                metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
-                if (metaDataValidationFailed)
-                {
-                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-                    return;
-                }
-
-                BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
-
+               
                 // Apply renaming rules
                 if (ApplyRenaming && !CompatibilityMode)
                 {
@@ -671,7 +659,6 @@ namespace Win_CBZ
 
                     RenameStoryPagePattern = "{page}.{ext}";
                     RenameSpecialPagePattern = "{page}.{ext}";
-                    IgnorePageNameDuplicates = true;
 
                     try
                     {
@@ -684,7 +671,6 @@ namespace Win_CBZ
                     }
                     finally
                     {
-                        IgnorePageNameDuplicates = false;
                         RenameStoryPagePattern = restoreOriginalPatternPage;
                         RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
                     }
@@ -692,13 +678,19 @@ namespace Win_CBZ
 
                 UpdatePageIndicesProc();
 
-                // Rebuild ComicInfo.xml's PageIndex
-                MetaData.RebuildPageMetaData(Pages.ToList<Page>());
+                
 
-                // ---- MOVE above stuff out of here!!! -----------
+                // ----------------- MOVE above stuff out of here!!! -----------
 
 
-                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+
+            // Rebuild ComicInfo.xml's PageIndex
+            MetaData.RebuildPageMetaData(Pages.ToList<Page>());
+
+            try
+            {
+                BuildingArchive = ZipFile.Open(TemporaryFileName, ZipArchiveMode.Create);
 
                 // Write files to new temporary archive
                 Thread.BeginCriticalRegion();
@@ -1947,19 +1939,20 @@ namespace Win_CBZ
             return tempFileName;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RunRenameScriptsForPages()
+        
+        public void RunRenameScriptsForPages(object threadParams)
         {
+            RenamePagesThreadParams tParams = threadParams as RenamePagesThreadParams;
+
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
 
             foreach (Page page in Pages)
             {
                 if (CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
                 {
-                    RenamePageScript(page, IgnorePageNameDuplicates);
+                    RenamePageScript(page, tParams.IgnorePageNameDuplicates);
 
                     OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
-
                     OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
 
                     Thread.Sleep(10);

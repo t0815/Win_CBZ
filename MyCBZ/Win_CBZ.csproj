@@ -142,6 +142,7 @@
     <Compile Include="Data\MoveItemsToThreadParams.cs" />
     <Compile Include="Data\MovePageThreadParams.cs" />
     <Compile Include="Data\ParseFilesThreadParams.cs" />
+    <Compile Include="Data\RenamePagesThreadParams.cs" />
     <Compile Include="Data\SaveArchiveThreadParams.cs" />
     <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />
