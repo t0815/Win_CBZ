@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using File = System.IO.File;
+using Zip = System.IO.Compression.ZipArchive;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.VisualStyles;
@@ -99,15 +100,13 @@ namespace Win_CBZ
 
         protected Task<TaskResult> imageInfoUpdater;
 
-        private bool ContinuePipelineForIndexBuilder;
-
         private bool IgnorePageNameDuplicates = false;
 
         public long TotalSize { get; set; }
 
         public ImageFormat OutputFormat { get; set; }
 
-        private System.IO.Compression.ZipArchive Archive { get; set; }
+        private Zip Archive { get; set; }
 
         private ZipArchiveMode Mode;
 
@@ -437,6 +436,12 @@ namespace Win_CBZ
         public Thread Save()
         {
 
+
+            return SaveAs(FileName, Mode);      
+        }
+
+        public Thread SaveAs(String path, ZipArchiveMode mode, bool continueOnError = false)
+        {
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
@@ -464,18 +469,16 @@ namespace Win_CBZ
             }
             */
 
-            SaveArchiveThread = new Thread(new ThreadStart(SaveArchiveProc));
-            SaveArchiveThread.Start();
+            SaveArchiveThread = new Thread(SaveArchiveProc);
+            SaveArchiveThread.Start(new SaveArchiveThreadParams() 
+            { 
+                FileName = path, 
+                ContinueOnError = continueOnError, 
+                Mode = mode, 
+                CompressionLevel = CompressionLevel 
+            });
 
             return SaveArchiveThread;
-        }
-
-        public Thread SaveAs(String path, ZipArchiveMode mode)
-        {
-            FileName = path;
-            Mode = mode;
-
-            return Save();
         }
 
         public Thread Extract(String outputPath = null)
@@ -506,8 +509,8 @@ namespace Win_CBZ
                 }
             }
 
-            ExtractArchiveThread = new Thread(new ThreadStart(ExtractArchiveProc));
-            ExtractArchiveThread.Start();
+            ExtractArchiveThread = new Thread(ExtractArchiveProc);
+            ExtractArchiveThread.Start(new ExtractArchiveThreadParams() { OutputPath = outputPath });
 
             return ExtractArchiveThread;
         }
@@ -1054,19 +1057,21 @@ namespace Win_CBZ
                 }
             }
 
-            FileNamesToAdd.Clear();
-            FileNamesToAdd.AddRange(files);
+            //FileNamesToAdd.Clear();
+            //FileNamesToAdd.AddRange(files);
 
-            ParseAddedFileNames = new Thread(new ThreadStart(ParseFilesProc));
-            ParseAddedFileNames.Start();
+            ParseAddedFileNames = new Thread(ParseFilesProc);
+            ParseAddedFileNames.Start(new ParseFilesThreadParams() { FileNamesToAdd = files });
         }
 
-        public void ParseFilesProc()
+        public void ParseFilesProc(object tParams)
         {
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
 
+            ParseFilesThreadParams tparams = tParams as ParseFilesThreadParams;
+
             int index = 0;
-            foreach (String fname in FileNamesToAdd)
+            foreach (String fname in tparams.FileNamesToAdd)
             {
 
                 try
@@ -1115,7 +1120,6 @@ namespace Win_CBZ
 
         public void UpdatePageIndices(bool continuePipeline = false)
         {
-            ContinuePipelineForIndexBuilder = continuePipeline;
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
@@ -1132,14 +1136,14 @@ namespace Win_CBZ
                 }
             }
 
-            PageUpdateThread = new Thread(new ThreadStart(UpdatePageIndicesProc));
-            PageUpdateThread.Start();
-
-            //return PageUpdateThread;
+            PageUpdateThread = new Thread(UpdatePageIndicesProc);
+            PageUpdateThread.Start(new UpdatePageIndicesThreadParams() { ContinuePipeline = continuePipeline });
         }
 
-        protected void UpdatePageIndicesProc()
+        protected void UpdatePageIndicesProc(object threadParams)
         {
+            UpdatePageIndicesThreadParams tparams = threadParams as UpdatePageIndicesThreadParams;
+
             int newIndex = 0;
             int updated = 1;
             bool isUpdated = false;
@@ -1182,7 +1186,7 @@ namespace Win_CBZ
 
             MaxFileIndex = newIndex;
 
-            if (ContinuePipelineForIndexBuilder)
+            if (tparams.ContinuePipeline)
             {
                 OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED));
             }
@@ -1700,7 +1704,7 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
-        protected void SaveArchiveProc()
+        protected void SaveArchiveProc(object threadParams)
         {
             int index = 0;
             bool tagValidationFailed = false;
@@ -1711,10 +1715,14 @@ namespace Win_CBZ
 
             LocalFile fileToCompress = null;
 
+            SaveArchiveThreadParams tParams = threadParams as SaveArchiveThreadParams;
+
             TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
 
             ZipArchive BuildingArchive = null;
             ZipArchiveEntry updatedEntry = null;
+
+            // ----------------------------------------------------------------
             try
             {
                 if (Win_CBZSettings.Default.ValidateTags)
@@ -1787,13 +1795,15 @@ namespace Win_CBZ
                     }
                 }
 
-                ContinuePipelineForIndexBuilder = false;
-                UpdatePageIndicesProc();
-
-                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+                UpdatePageIndicesProc();              
 
                 // Rebuild ComicInfo.xml's PageIndex
                 MetaData.RebuildPageMetaData(Pages.ToList<Page>());
+
+                // ---- MOVE above stuff out of here!!! -----------
+
+
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
                 // Write files to new temporary archive
                 Thread.BeginCriticalRegion();
@@ -1895,10 +1905,12 @@ namespace Win_CBZ
                 {
                     MemoryStream ms = MetaData.BuildComicInfoXMLStream();
                     ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry("ComicInfo.xml");
-                    Stream entryStream = metaDataEntry.Open();
-                    ms.CopyTo(entryStream);
-                    entryStream.Close();
-                    ms.Close();
+                    using (Stream entryStream = metaDataEntry.Open())
+                    {
+                        ms.CopyTo(entryStream);
+                        entryStream.Close();
+                        ms.Close();
+                    }
                 }
             }
             catch (Exception ex)
@@ -1907,7 +1919,7 @@ namespace Win_CBZ
             }
             finally
             {
-                if (!tagValidationFailed && !metaDataValidationFailed && !errorSavingArchive)
+                if (!errorSavingArchive)
                 {
                     try
                     {
@@ -1933,7 +1945,7 @@ namespace Win_CBZ
                     }
                     finally
                     {
-                        if (!tagValidationFailed && !metaDataValidationFailed && !errorSavingArchive)
+                        if (!errorSavingArchive)
                         {
                             try
                             {
