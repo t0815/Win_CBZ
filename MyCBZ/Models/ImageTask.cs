@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Drawing.Image;
@@ -17,6 +18,8 @@ namespace Win_CBZ.Models
         public const string TASK_DETECT_RESIZE = "ResizeImage";
 
         public ImageAdjustments ImageAdjustments { get; set; }
+
+        public PageImageFormat[] ImageFormat { get; set; }
 
         public Image[] ResultImage { get; set; }
 
@@ -32,6 +35,10 @@ namespace Win_CBZ.Models
 
         public bool Success = false;
 
+        public Page[] ResultPages { get; set; }
+
+        private Thread TaskRunner;
+
 
         public ImageTask()
         {
@@ -41,6 +48,7 @@ namespace Win_CBZ.Models
             PreviewFileName = new String[2];
             ResultThumbnail = new Image[2];
             ResultFileName = new String[2];
+            ImageFormat = new PageImageFormat[2];
 
         }
 
@@ -48,9 +56,12 @@ namespace Win_CBZ.Models
         {
             try
             {
-                PreviewFileName[0] = source.TempPath + "_0";
+                PreviewFileName[0] = source.TemporaryFile.FullPath + "_0";
                 File.Copy(source.TempPath, PreviewFileName[0], true);
                 CommandsTodo = commandsTodo;
+                ImageFormat[0] = source.Format;
+
+                TaskRunner = new Thread(PerformCommands);
             }
             catch (Exception)
             {
@@ -83,17 +94,14 @@ namespace Win_CBZ.Models
         }
 
 
+        public void CleanUp()
+        {
+
+        }
+
         public void CutDobulePage()
         {
-            FileStream fs = File.Open(PreviewFileName[0], FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            ResultImage[0] = Image.FromStream(fs);
-            fs.Position = 0;
-            using (Graphics gfxContext = Graphics.FromImage(ResultImage[0]))
-            {
-                //gfxContext.DrawImageUnscaledAndClipped()
-            }
-
-            //Result = Image.FromStream(fs);
+            
         }
 
     }

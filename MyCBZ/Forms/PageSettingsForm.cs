@@ -65,6 +65,7 @@ namespace Win_CBZ.Forms
             LabelDpi.Text = Page.Format.DPI.ToString();
             LabelImageFormat.Text = Page.Format.Name;
             LabelImageColors.Text = Page.Format.ColorPalette.Entries.Length.ToString();
+           /// LabelBits.Text = Page.Format.
         }
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
