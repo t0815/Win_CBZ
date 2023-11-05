@@ -8,7 +8,7 @@ namespace Win_CBZ.Data
 {
     internal class RenamePagesThreadParams
     {
-        public bool IgnorePageNameDuplicates {  get; set; }
+        public bool IgnorePageNameDuplicates { get; set; }
 
         public bool CompatibilityMode { get; set; } 
 
@@ -20,8 +20,7 @@ namespace Win_CBZ.Data
 
         public bool ContinuePipeline { get; set; } 
 
-        public List<StackItem> Stack {  get; set; }
-
+        public List<StackItem> Stack { get; set; }
 
     }
 }

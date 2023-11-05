@@ -282,11 +282,13 @@ namespace Win_CBZ
                     ProcessAddedFiles = new Thread(AddImagesProc);
                     ProcessAddedFiles.Start(new AddImagesThreadParams() 
                     { 
-                        LocalFiles = e.Data as List<LocalFile>, 
+                        LocalFiles = new List<LocalFile>((IEnumerable<LocalFile>)e.Data), 
                         Stack = remainingStack
                     });
+
                     currentPerformed = e.Task;
                 });
+
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_INDICES)
@@ -434,6 +436,7 @@ namespace Win_CBZ
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
             {
+                /*
                 Task.Factory.StartNew(() =>
                 {
 
@@ -473,6 +476,7 @@ namespace Win_CBZ
                     RenamingThread.Start();
 
                 });
+                */
             }
         }
 
@@ -1468,63 +1472,66 @@ namespace Win_CBZ
 
             AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
 
-            foreach (LocalFile fileObject in tParams.LocalFiles)
+            if (tParams.LocalFiles != null)
             {
-                try
+                foreach (LocalFile fileObject in tParams?.LocalFiles)
                 {
-                    localPath = new FileInfo(fileObject.FileName);
-                    targetPath = MakeNewTempFileName();
-
-                    //CopyFile(fileObject.FullPath, targetPath.FullName);
-                    
-                    page = GetPageByName(fileObject.FileName);
-
-                    if (page == null)
+                    try
                     {
-                        page = new Page(fileObject, targetPath, FileAccess.ReadWrite)
+                        localPath = new FileInfo(fileObject.FileName);
+                        targetPath = MakeNewTempFileName();
+
+                        //CopyFile(fileObject.FullPath, targetPath.FullName);
+
+                        page = GetPageByName(fileObject.FileName);
+
+                        if (page == null)
                         {
-                            Number = realNewIndex + 1,
-                            Index = realNewIndex,
-                            OriginalIndex = realNewIndex,
-                            TemporaryFileId = MakeNewRandomId()
-                        };
-                        realNewIndex++;
-                    } else
-                    {
-                        page.UpdateLocalWorkingCopy(fileObject, targetPath);
-                        page.Changed = true;
+                            page = new Page(fileObject, targetPath, FileAccess.ReadWrite)
+                            {
+                                Number = realNewIndex + 1,
+                                Index = realNewIndex,
+                                OriginalIndex = realNewIndex,
+                                TemporaryFileId = MakeNewRandomId()
+                            };
+                            realNewIndex++;
+                        } else
+                        {
+                            page.UpdateLocalWorkingCopy(fileObject, targetPath);
+                            page.Changed = true;
+                        }
+
+                        if (!page.Changed)
+                        {
+                            Pages.Add(page);
+                        }
+
+                        OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                        OnTaskProgress(new TaskProgressEvent(page, progressIndex, Files.Count));
+
+                        index++;
+                        progressIndex++;
+                        Thread.Sleep(10);
                     }
-
-                    if (!page.Changed)
+                    catch (Exception ef)
                     {
-                        Pages.Add(page);
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
                     }
-
-                    OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                    OnTaskProgress(new TaskProgressEvent(page, progressIndex, Files.Count));
-
-                    index++;
-                    progressIndex++;
-                    Thread.Sleep(10);
-                }
-                catch (Exception ef)
-                {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
-                }
-                finally
-                {
-                    if (realNewIndex > MaxFileIndex)
+                    finally
                     {
-                        OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
+                        if (realNewIndex > MaxFileIndex)
+                        {
+                            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
 
-                        this.IsChanged = true;
-                        MaxFileIndex = realNewIndex;
+                            this.IsChanged = true;
+                            MaxFileIndex = realNewIndex;
+                        }
                     }
                 }
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, tParams.Stack, null));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, null, tParams.Stack));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -1570,14 +1577,7 @@ namespace Win_CBZ
             ParseAddedFileNames.Start(new ParseFilesThreadParams() 
             { 
                 FileNamesToAdd = files,
-                Stack = new List<StackItem>()
-                {
-                    new StackItem()
-                    {
-                         TaskId = PipelineEvent.PIPELINE_PARSE_FILES,
-                         ThreadParams = null
-                    }
-                }
+                Stack = null,
             });
         }
 
@@ -1585,10 +1585,10 @@ namespace Win_CBZ
         {
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
 
-            ParseFilesThreadParams tparams = threadParams as ParseFilesThreadParams;
+            ParseFilesThreadParams tParams = threadParams as ParseFilesThreadParams;
 
             int index = 0;
-            foreach (String fname in tparams.FileNamesToAdd)
+            foreach (String fname in tParams.FileNamesToAdd)
             {
 
                 try
@@ -1606,12 +1606,23 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    //MaxFileIndex = index;
+                    tParams.Stack = new List<StackItem>()
+                    {
+                        new StackItem
+                        {
+                            TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
+                            ThreadParams = new AddImagesThreadParams
+                            {
+                                LocalFiles = Files.ToList(),
+                            }
+                        }
+                    };
                 }
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, Files, tparams.Stack));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, Files, tParams.Stack));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         public int RemoveDeletedPages()
@@ -1802,8 +1813,17 @@ namespace Win_CBZ
                 }
             }
 
-            RenamingThread = new Thread(new ThreadStart(AutoRenameAllPagesProc));
-            RenamingThread.Start();
+            RenamingThread = new Thread(AutoRenameAllPagesProc);
+            RenamingThread.Start(new RenamePagesThreadParams()
+            {
+                ApplyRenaming = true,
+                CompatibilityMode = false,
+                IgnorePageNameDuplicates = false,
+                RenameStoryPagePattern = RenameStoryPagePattern,
+                RenameSpecialPagePattern = RenameSpecialPagePattern,
+                ContinuePipeline = false,
+                Stack = new List<StackItem> { new StackItem() }
+            });
 
             return RenamingThread;
         }

@@ -859,7 +859,10 @@ namespace Win_CBZ
                 {
                     if (RequestImageInfoThread.IsAlive)
                     {
-                        return;
+                        while (RequestImageInfoThread.IsAlive)
+                        {
+                            Thread.Sleep(5);
+                        }
                     }
                 }
 
@@ -870,7 +873,7 @@ namespace Win_CBZ
 
         public void LoadImageInfoSlice()
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
 
                 foreach (Page page in ImageInfoPagesSlice)

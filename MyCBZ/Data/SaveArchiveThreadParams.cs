@@ -10,7 +10,7 @@ namespace Win_CBZ.Data
     internal class SaveArchiveThreadParams
     {
 
-        public String FileName {  get; set; }
+        public String FileName { get; set; }
 
         public bool ContinueOnError { get; set; }
 

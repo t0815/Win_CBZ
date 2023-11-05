@@ -11,7 +11,5 @@ namespace Win_CBZ.Data
         public int TaskId { get; set; }
 
         public object ThreadParams { get; set; }
-
-        public StackItem() { }
     }
 }

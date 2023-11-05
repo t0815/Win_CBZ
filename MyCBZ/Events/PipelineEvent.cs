@@ -37,7 +37,7 @@ namespace Win_CBZ
         {
             ArchiveInfo = project;
             Task = currentTask;
-            Data = Data;
+            Data = data;
             Stack = stack;
         }
 

@@ -8,7 +8,7 @@ namespace Win_CBZ.Data
 {
     internal class AddImagesThreadParams
     {
-        public List<LocalFile> LocalFiles {  get; set; }
+        public List<LocalFile> LocalFiles { get; set; }
 
         public List<StackItem> Stack { get; set;}
     }
