@@ -29,6 +29,7 @@ using System.Windows.Controls;
 using Win_CBZ.Models;
 using System.Windows.Input;
 using System.Drawing.Imaging;
+using Path = System.IO.Path;
 
 namespace Win_CBZ
 {
@@ -229,13 +230,18 @@ namespace Win_CBZ
 
         private void HandlePipeline(object sender, PipelineEvent e)
         {
-            List<int> remainingStack = e.Stack;
+            StackItem nextTask = null;
+            List<StackItem> remainingStack = e.Stack;
             if (remainingStack.Count > 0)
             {
+                nextTask = remainingStack[0];
                 remainingStack.RemoveAt(0);
-            }           
 
-            if (e.State == PipelineEvent.PIPELINE_FILES_PARSED)
+
+            }  
+            
+          
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_MAKE_PAGES)
             {
                 Task.Factory.StartNew(() =>
                 {
@@ -282,7 +288,7 @@ namespace Win_CBZ
                 });
             }
 
-            if (e.State == PipelineEvent.PIPELINE_PAGES_ADDED)
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_INDICES)
             {
                 FileNamesToAdd.Clear();
                 Files.Clear();
@@ -290,12 +296,12 @@ namespace Win_CBZ
                 
                 Task.Factory.StartNew(() =>
                 {
-                    UpdatePageIndices(true, true);
+                    UpdatePageIndices(true, true, remainingStack);
                 });
 
             }
 
-            if (e.State == PipelineEvent.PIPELINE_INDICES_UPDATED)
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_IMAGE_METADATA)
             {
                 if (imageInfoUpdater == null)
                 {
@@ -312,8 +318,56 @@ namespace Win_CBZ
                 }
             }
 
-            if (e.State == PipelineEvent.PIPELINE_SAVE_REQUESTED)
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
             {
+                RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
+                // Apply renaming rules
+                if (p.ApplyRenaming && !p.CompatibilityMode)
+                {
+                    try
+                    {
+                        RenamingThread = new Thread(RunRenameScriptsForPages);
+                        RenamingThread.Start(p);
+                    }
+                    catch (Exception ee)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
+
+                    }
+                }
+
+                // Force renaming every page to its index in compatibility mode
+                if (p.CompatibilityMode)
+                {
+                    String restoreOriginalPatternPage = RenameSpecialPagePattern;
+                    String restoreOriginalPatternSpecialPage = RenameSpecialPagePattern;
+
+                    p.RenameStoryPagePattern = "{page}.{ext}";
+                    p.RenameSpecialPagePattern = "{page}.{ext}";
+
+                    try
+                    {
+                        RenamingThread = new Thread(RunRenameScriptsForPages);
+                        RenamingThread.Start(p);
+                    }
+                    catch (Exception ee)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
+
+                    }
+                    finally
+                    {
+                        RenameStoryPagePattern = restoreOriginalPatternPage;
+                        RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
+                    }
+                }
+            }
+
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_SAVE_ARCHIVE)
+            {
+                SaveArchiveThread = new Thread(SaveArchiveProc);
+                SaveArchiveThread.Start(nextTask.ThreadParams);
+
                 if (e.Payload != null)
                 {
                     Task task = e.Payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
@@ -324,7 +378,7 @@ namespace Win_CBZ
                 }
             }
 
-            if (e.State == PipelineEvent.PIPELINE_SAVE_RUN_RENAMING)
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
             {
                 Task.Factory.StartNew(() =>
                 {
@@ -361,7 +415,7 @@ namespace Win_CBZ
                         }
                     }
 
-                    RenamingThread = new Thread(new ThreadStart(AutoRenameAllPagesProc));
+                    RenamingThread = new Thread(AutoRenameAllPagesProc);
                     RenamingThread.Start();
 
                 });
@@ -560,14 +614,14 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
-        public Thread Save()
+        public bool Save()
         {
 
 
-            return SaveAs(FileName, Mode);      
+            return SaveAs(FileName, Mode, IgnoreErrors);      
         }
 
-        public Thread SaveAs(String path, ZipArchiveMode mode, bool continueOnError = false)
+        public bool SaveAs(String path, ZipArchiveMode mode, bool continueOnError = false)
         {
             if (LoadArchiveThread != null)
             {
@@ -597,7 +651,7 @@ namespace Win_CBZ
                 {
                     OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-                    return null;
+                    return false;
                 }
             }
 
@@ -606,7 +660,7 @@ namespace Win_CBZ
             {
                 OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-                return null;
+                return false;
             }
 
             metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
@@ -614,19 +668,52 @@ namespace Win_CBZ
             {
                 OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-                return null;
+                return false;
             }
 
-            SaveArchiveThread = new Thread(SaveArchiveProc);
-            SaveArchiveThread.Start(new SaveArchiveThreadParams() 
-            { 
-                FileName = path, 
-                ContinueOnError = continueOnError, 
-                Mode = mode, 
-                CompressionLevel = CompressionLevel 
-            });
+            OnPipelineNextTask(new PipelineEvent(
+                this,
+                PipelineEvent.PIPELINE_RUN_RENAMING,
+                null,
+                new List<StackItem>()
+                {
+                    new StackItem()
+                    {
+                        TaskId = PipelineEvent.PIPELINE_RUN_RENAMING,
+                        ThreadParams = new RenamePagesThreadParams()
+                        {
+                            ApplyRenaming = ApplyRenaming,
+                            CompatibilityMode = CompatibilityMode,
+                            IgnorePageNameDuplicates = CompatibilityMode,
+                            RenameStoryPagePattern = CompatibilityMode ? "" : RenameStoryPagePattern,
+                            RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern
+                        }
+                    },
+                    new StackItem()
+                    {
+                        TaskId = PipelineEvent.PIPELINE_UPDATE_INDICES,
+                        ThreadParams = new UpdatePageIndicesThreadParams() 
+                        {
+                            ContinuePipeline = true,
+                            InitialIndexRebuild = false,
+                            Stack = new List<StackItem>()
+                        }
+                    },
+                    new StackItem()
+                    {
+                        TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE,
+                        ThreadParams = new SaveArchiveThreadParams()
+                        {
+                            FileName = path,
+                            Mode = mode,
+                            ContinueOnError = continueOnError,
+                            CompressionLevel = CompressionLevel
+                        }
+                    }
+                }
+            ));
 
-            return SaveArchiveThread;
+            return true;
         }
 
         protected void SaveArchiveProc(object threadParams)
@@ -643,57 +730,6 @@ namespace Win_CBZ
 
             ZipArchive BuildingArchive = null;
             ZipArchiveEntry updatedEntry = null;
-
-            // ----------------------------------------------------------------
-           
-                
-
-               
-                // Apply renaming rules
-                if (ApplyRenaming && !CompatibilityMode)
-                {
-                    try
-                    {
-                        RunRenameScriptsForPages();
-                    }
-                    catch (Exception ee)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
-
-                    }
-                }
-
-                // Force renaming every page to its index in compatibility mode
-                if (CompatibilityMode)
-                {
-                    String restoreOriginalPatternPage = RenameSpecialPagePattern;
-                    String restoreOriginalPatternSpecialPage = RenameSpecialPagePattern;
-
-                    RenameStoryPagePattern = "{page}.{ext}";
-                    RenameSpecialPagePattern = "{page}.{ext}";
-
-                    try
-                    {
-                        RunRenameScriptsForPages();
-                    }
-                    catch (Exception ee)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
-
-                    }
-                    finally
-                    {
-                        RenameStoryPagePattern = restoreOriginalPatternPage;
-                        RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
-                    }
-                }
-
-                UpdatePageIndicesProc();
-
-                
-
-                // ----------------- MOVE above stuff out of here!!! -----------
-
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
@@ -938,6 +974,14 @@ namespace Win_CBZ
 
         public void Validate(bool showErrorsDialog = false)
         {
+            if (ArchiveValidationThread != null)
+            {
+                if (ArchiveValidationThread.IsAlive)
+                {
+                    throw new ApplicationException("Validation alrady running!", true);
+                }
+            }
+
             ArchiveValidationThread = new Thread(ValidateProc);
             ArchiveValidationThread.Start(new CBZValidationThreadParams() { ShowDialog = showErrorsDialog });
 
@@ -1425,7 +1469,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED, tParams.Stack, null));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, tParams.Stack, null));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -1468,14 +1512,25 @@ namespace Win_CBZ
             //FileNamesToAdd.AddRange(files);
 
             ParseAddedFileNames = new Thread(ParseFilesProc);
-            ParseAddedFileNames.Start(new ParseFilesThreadParams() { FileNamesToAdd = files });
+            ParseAddedFileNames.Start(new ParseFilesThreadParams() 
+            { 
+                FileNamesToAdd = files,
+                Stack = new List<StackItem>()
+                {
+                    new StackItem()
+                    {
+                         TaskId = PipelineEvent.PIPELINE_PARSE_FILES,
+                         ThreadParams = null
+                    }
+                }
+            });
         }
 
-        public void ParseFilesProc(object tParams)
+        public void ParseFilesProc(object threadParams)
         {
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
 
-            ParseFilesThreadParams tparams = tParams as ParseFilesThreadParams;
+            ParseFilesThreadParams tparams = threadParams as ParseFilesThreadParams;
 
             int index = 0;
             foreach (String fname in tparams.FileNamesToAdd)
@@ -1501,7 +1556,7 @@ namespace Win_CBZ
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_FILES_PARSED, Files));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, Files, tparams.Stack));
         }
 
         public int RemoveDeletedPages()
@@ -1525,7 +1580,7 @@ namespace Win_CBZ
             return deletedPagesCount;
         }
 
-        public void UpdatePageIndices(bool initialIndexBulid, bool continuePipeline = false)
+        public void UpdatePageIndices(bool initialIndexBulid, bool continuePipeline = false, List<StackItem> stack = null)
         {
             if (LoadArchiveThread != null)
             {
@@ -1548,6 +1603,7 @@ namespace Win_CBZ
             { 
                 ContinuePipeline = continuePipeline,
                 InitialIndexRebuild = initialIndexBulid,
+                Stack = stack ?? new List<StackItem> { new StackItem() { TaskId = 0, ThreadParams = null } }
             });
         }
 
@@ -1599,7 +1655,7 @@ namespace Win_CBZ
 
             if (tparams.ContinuePipeline)
             {
-                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_INDICES_UPDATED, null));
+                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_UPDATE_INDICES, null, tparams.Stack));
             }
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
@@ -1957,7 +2013,7 @@ namespace Win_CBZ
 
             foreach (Page page in Pages)
             {
-                if (CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
+                if (tParams.CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
                 {
                     RenamePageScript(page, tParams.IgnorePageNameDuplicates);
 

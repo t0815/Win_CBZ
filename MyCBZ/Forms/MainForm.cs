@@ -34,9 +34,9 @@ namespace Win_CBZ
 
         private Thread ClosingTask;
 
-        private Thread OpeningTask;
+        //private Thread OpeningTask;
 
-        private Thread SavingTask;
+        //private Thread SavingTask;
 
         private bool WindowClosed = false;
 
@@ -222,7 +222,7 @@ namespace Win_CBZ
                         }
                     }
 
-                    OpeningTask = Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
+                    Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
                 });
             }
         }
@@ -233,7 +233,10 @@ namespace Win_CBZ
 
             if (saveDialogResult == DialogResult.OK)
             {
-                SavingTask = Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update);
+                if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update))
+                {
+
+                }
             }
         }
 
@@ -246,7 +249,10 @@ namespace Win_CBZ
             {
                 if (Program.ProjectModel.Exists())
                 {
-                    SavingTask = Program.ProjectModel.Save();
+                    if (Program.ProjectModel.Save())
+                    {
+
+                    }
                 } else
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Wrong application state. Current File does not exists! [" + Program.ProjectModel.FileName + "]");
@@ -1501,6 +1507,7 @@ namespace Win_CBZ
         {
             Task.Factory.StartNew(() =>
             {
+                /*
                 if (OpeningTask != null)
                 {
                     if (OpeningTask.IsAlive)
@@ -1516,6 +1523,7 @@ namespace Win_CBZ
                         SavingTask.Join();
                     }
                 }
+                */
 
                 if (ThumbnailThread != null)
                 {

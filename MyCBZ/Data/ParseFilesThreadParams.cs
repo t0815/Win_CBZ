@@ -8,7 +8,8 @@ namespace Win_CBZ.Data
 {
     internal class ParseFilesThreadParams
     {
-
+        public List<StackItem> Stack {  get; set; }
+         
         public List<string> FileNamesToAdd {  get; set; }
     }
 }

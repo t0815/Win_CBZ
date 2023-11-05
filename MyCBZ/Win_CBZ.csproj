@@ -145,6 +145,7 @@
     <Compile Include="Data\ParseFilesThreadParams.cs" />
     <Compile Include="Data\RenamePagesThreadParams.cs" />
     <Compile Include="Data\SaveArchiveThreadParams.cs" />
+    <Compile Include="Data\StackItem.cs" />
     <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />

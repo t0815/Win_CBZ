@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class AddImagesThreadParams
+    internal class StackItem
     {
-        public List<LocalFile> LocalFiles {  get; set; }
+        public int TaskId { get; set; }
 
-        public List<StackItem> Stack { get; set;}
+        public object ThreadParams { get; set; }
+
+        public StackItem() { }
     }
 }
