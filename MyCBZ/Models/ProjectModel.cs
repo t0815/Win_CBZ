@@ -136,6 +136,8 @@ namespace Win_CBZ
 
         public event EventHandler<PipelineEvent> PipelineEventHandler;
 
+        public event EventHandler<ValidationFinishedEvent> CBZValidationEventHandler;
+
         private Thread LoadArchiveThread;
 
         private Thread ExtractArchiveThread;
@@ -158,7 +160,7 @@ namespace Win_CBZ
 
         private Thread RestoreRenamingThread;
 
-        private Thread ValidationThread;
+        private Thread ArchiveValidationThread;
 
 
         public ProjectModel(String workingDir)
@@ -227,6 +229,12 @@ namespace Win_CBZ
 
         private void HandlePipeline(object sender, PipelineEvent e)
         {
+            List<int> remainingStack = e.Stack;
+            if (remainingStack.Count > 0)
+            {
+                remainingStack.RemoveAt(0);
+            }           
+
             if (e.State == PipelineEvent.PIPELINE_FILES_PARSED)
             {
                 Task.Factory.StartNew(() =>
@@ -236,7 +244,7 @@ namespace Win_CBZ
                     {
                         if (LoadArchiveThread.IsAlive)
                         {
-                            LoadArchiveThread.Abort();
+                            throw new ApplicationException("failed to open. thread already running!", true);
                         }
                     }
 
@@ -265,7 +273,11 @@ namespace Win_CBZ
                     }
 
                     ProcessAddedFiles = new Thread(AddImagesProc);
-                    ProcessAddedFiles.Start(new AddImagesThreadParams() { localFiles = e.Data as List<LocalFile> });
+                    ProcessAddedFiles.Start(new AddImagesThreadParams() 
+                    { 
+                        LocalFiles = e.Data as List<LocalFile>, 
+                        Stack = remainingStack
+                    });
 
                 });
             }
@@ -274,10 +286,11 @@ namespace Win_CBZ
             {
                 FileNamesToAdd.Clear();
                 Files.Clear();
-                InitialPageIndexRebuild = true;
+                
+                
                 Task.Factory.StartNew(() =>
                 {
-                    UpdatePageIndices(true);
+                    UpdatePageIndices(true, true);
                 });
 
             }
@@ -418,8 +431,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    //LoadArchiveThread.Abort();
-                    return null;
+                    throw new ApplicationException("failed to open. thread already running!", true);
                 }
             }
 
@@ -561,7 +573,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    return null;
+                    throw new ApplicationException("failed to save. opening already running!", true);
                 }
             }
 
@@ -569,7 +581,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    return null;
+                    throw new ApplicationException("failed to open. thread already running!", true);
                 }
             }
 
@@ -924,7 +936,14 @@ namespace Win_CBZ
             catch (Exception) { return false; }
         }
 
-        public bool Validate(ref string[] validationErrors, bool showErrorsDialog = false)
+        public void Validate(bool showErrorsDialog = false)
+        {
+            ArchiveValidationThread = new Thread(ValidateProc);
+            ArchiveValidationThread.Start(new CBZValidationThreadParams() { ShowDialog = showErrorsDialog });
+
+        }
+
+        public void ValidateProc(object threadParams)
         {
             List<String> problems = new List<String>();
             ArrayList unknownTags = new ArrayList();
@@ -938,6 +957,8 @@ namespace Win_CBZ
             int deletedPageCount = 0;
             Dictionary<String, int> pageTypeCounts = new Dictionary<string, int>();
             int pageTypeCountValue = 0;
+
+            CBZValidationThreadParams tParams = threadParams as CBZValidationThreadParams;
 
             if (hasFiles)
             {
@@ -1162,21 +1183,7 @@ namespace Win_CBZ
                 problems.Add("Metadata->Values: Metadata missing! Manually add new set of Metadata.");
             }
 
-            if (showErrorsDialog)
-            {
-                if (problems.Count > 0)
-                {
-                    ApplicationMessage.ShowCustom("Validation finished with Errors:\r\n\r\n" + problems.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK, ScrollBars.Both, 560);
-                }
-                else
-                {
-                    ApplicationMessage.Show("Validation Successfull! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
-                }
-            }
-
-            validationErrors = problems.ToArray();
-
-            return problems.Count > 0;
+            OnArchiveValidationFinished(new ValidationFinishedEvent(problems.ToArray(), tParams.ShowDialog));
         }
 
         public bool ThreadRunning()
@@ -1362,7 +1369,7 @@ namespace Win_CBZ
 
             AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
 
-            foreach (LocalFile fileObject in tParams.localFiles)
+            foreach (LocalFile fileObject in tParams.LocalFiles)
             {
                 try
                 {
@@ -1418,7 +1425,7 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED, null));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PAGES_ADDED, tParams.Stack, null));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -1518,7 +1525,7 @@ namespace Win_CBZ
             return deletedPagesCount;
         }
 
-        public void UpdatePageIndices(bool continuePipeline = false)
+        public void UpdatePageIndices(bool initialIndexBulid, bool continuePipeline = false)
         {
             if (LoadArchiveThread != null)
             {
@@ -1537,7 +1544,11 @@ namespace Win_CBZ
             }
 
             PageUpdateThread = new Thread(UpdatePageIndicesProc);
-            PageUpdateThread.Start(new UpdatePageIndicesThreadParams() { ContinuePipeline = continuePipeline });
+            PageUpdateThread.Start(new UpdatePageIndicesThreadParams() 
+            { 
+                ContinuePipeline = continuePipeline,
+                InitialIndexRebuild = initialIndexBulid,
+            });
         }
 
         protected void UpdatePageIndicesProc(object threadParams)
@@ -1569,7 +1580,7 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
-                if (!InitialPageIndexRebuild && isUpdated)
+                if (!tparams.InitialIndexRebuild && isUpdated)
                 {
                     OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
@@ -1593,8 +1604,6 @@ namespace Win_CBZ
 
             OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-
-            InitialPageIndexRebuild = false;
         }
 
         public Page GetPageById(String id)
@@ -2382,6 +2391,11 @@ namespace Win_CBZ
                 destination.TemporaryFileName = this.TemporaryFileName;
                 destination.TotalSize = this.TotalSize;
             }
+        }
+
+        protected virtual void OnArchiveValidationFinished(ValidationFinishedEvent e)
+        {
+            CBZValidationEventHandler?.Invoke(this, e);
         }
 
         protected virtual void OnPipelineNextTask(PipelineEvent e)

@@ -136,6 +136,7 @@
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
     <Compile Include="Data\AddImagesThreadParams.cs" />
+    <Compile Include="Data\CBZValidationThreadParams.cs" />
     <Compile Include="Data\EditorTypeConfig.cs" />
     <Compile Include="Data\ExtractArchiveThreadParams.cs" />
     <Compile Include="Data\MinMaxDimensions.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Data\RenamePagesThreadParams.cs" />
     <Compile Include="Data\SaveArchiveThreadParams.cs" />
     <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
+    <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />
     <Compile Include="Result\TaskResult.cs" />
     <Compile Include="Data\DataValidation.cs" />

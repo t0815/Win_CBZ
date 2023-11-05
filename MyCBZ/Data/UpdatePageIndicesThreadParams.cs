@@ -8,6 +8,7 @@ namespace Win_CBZ.Data
 {
     internal class UpdatePageIndicesThreadParams
     {
+        public bool InitialIndexRebuild {  get; set; }
 
         public bool ContinuePipeline {  get; set; }
     }

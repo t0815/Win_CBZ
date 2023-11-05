@@ -93,6 +93,7 @@ namespace Win_CBZ
             newProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
             newProjectModel.TaskProgress += TaskProgress;
             newProjectModel.PageChanged += PageChanged;
+            newProjectModel.CBZValidationEventHandler += ValidationFinished;
             newProjectModel.MetaDataLoaded += MetaDataLoaded;
             newProjectModel.MetaDataChanged += MetaDataChanged;
             newProjectModel.MetaDataEntryChanged += MetaDataEntryChanged;
@@ -271,6 +272,21 @@ namespace Win_CBZ
                 //    Program.ProjectModel.AddImages(files, newIndex);
                 //}
 
+            }
+        }
+
+        private void ValidationFinished(object sender, ValidationFinishedEvent e)
+        {
+            if (e.ShowErrorsDialog)
+            {
+                if (e.ValidationErrors.Length > 0)
+                {
+                    ApplicationMessage.ShowCustom("Validation finished with Errors:\r\n\r\n" + e.ValidationErrors.Select(s => s + "\r\n").Aggregate((a, b) => a + b), "CBZ Archive validation failed!", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK, ScrollBars.Both, 560);
+                }
+                else
+                {
+                    ApplicationMessage.Show("Validation Successfull! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+                }
             }
         }
 
@@ -3176,9 +3192,7 @@ namespace Win_CBZ
 
         private void ToolButtonValidateCBZ_Click(object sender, EventArgs e)
         {
-            string[] errors = new string[1];
-
-            Program.ProjectModel.Validate(ref errors, true);
+            Program.ProjectModel.Validate(true);
         }
 
         private void ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted(object sender, EventArgs e)

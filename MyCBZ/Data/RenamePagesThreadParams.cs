@@ -13,5 +13,11 @@ namespace Win_CBZ.Data
         public bool CompatibilityMode { get; set; } 
 
         public bool ApplyRenaming { get; set; }
+
+        public String RenameStoryPagePattern { get; set; }
+
+        public String RenameSpecialPagePattern { get; set; }
+
+
     }
 }

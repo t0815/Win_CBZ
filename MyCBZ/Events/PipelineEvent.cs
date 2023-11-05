@@ -22,32 +22,35 @@ namespace Win_CBZ
 
         public int State { get; set; }
 
+        public List<int> Stack { get; set; }
+
         public PipelinePayload Payload { get; set; }
 
         public object Data { get; set; }
 
         public delegate void Operation();
 
-
         public PipelineEvent.Operation Callback;
 
 
-        public PipelineEvent(ProjectModel project, int state, object data)
+        public PipelineEvent(ProjectModel project, int state, object data, List<int> stack)
         {
             ArchiveInfo = project;
             State = state;
             Data = Data;
+            Stack = stack;
         }
 
-        public PipelineEvent(ProjectModel project, int state, object data, PipelinePayload pipelineConfig)
+        public PipelineEvent(ProjectModel project, int state, object data, List<int> stack, PipelinePayload pipelineConfig)
         {
             ArchiveInfo = project;
             State = state;
             Data = data;
+            Stack = stack;
             Payload = pipelineConfig;
         }
 
-        public PipelineEvent(ProjectModel project, int state, object data, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
+        public PipelineEvent(ProjectModel project, int state, object data, List<int> stack, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
         {
             ArchiveInfo = project;
             State = state;
