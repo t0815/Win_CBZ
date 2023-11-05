@@ -30,6 +30,7 @@ using Win_CBZ.Models;
 using System.Windows.Input;
 using System.Drawing.Imaging;
 using Path = System.IO.Path;
+using Win_CBZ.Result;
 
 namespace Win_CBZ
 {
@@ -100,6 +101,8 @@ namespace Win_CBZ
         public ImageTask GlobalImageTask { get; set; }
 
         protected Task<TaskResult> imageInfoUpdater;
+
+        protected Task<ImageTaskResult> imageProcessingTask;
 
         public long TotalSize { get; set; }
 
@@ -231,16 +234,14 @@ namespace Win_CBZ
         private void HandlePipeline(object sender, PipelineEvent e)
         {
             StackItem nextTask = null;
+            int currentPerformed = 0;
             List<StackItem> remainingStack = e.Stack;
             if (remainingStack.Count > 0)
             {
                 nextTask = remainingStack[0];
                 remainingStack.RemoveAt(0);
-
-
             }  
-            
-          
+                     
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_MAKE_PAGES)
             {
                 Task.Factory.StartNew(() =>
@@ -284,7 +285,7 @@ namespace Win_CBZ
                         LocalFiles = e.Data as List<LocalFile>, 
                         Stack = remainingStack
                     });
-
+                    currentPerformed = e.Task;
                 });
             }
 
@@ -299,6 +300,7 @@ namespace Win_CBZ
                     UpdatePageIndices(true, true, remainingStack);
                 });
 
+                currentPerformed = e.Task;
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_IMAGE_METADATA)
@@ -307,6 +309,8 @@ namespace Win_CBZ
                 {
                     imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress);
                     imageInfoUpdater.Start();
+
+                    currentPerformed = e.Task;
                 }
                 else
                 {
@@ -314,6 +318,43 @@ namespace Win_CBZ
                     {
                         imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress);
                         imageInfoUpdater.Start();
+
+                        currentPerformed = e.Task;
+                    }
+                }
+            }
+
+            if (nextTask?.TaskId == PipelineEvent.PIPELINE_PROCESS_IMAGES)
+            {
+                RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
+
+                
+
+                if (imageProcessingTask == null)
+                {
+                    imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
+                    imageProcessingTask.Start();
+
+                    currentPerformed = e.Task;
+                }
+                else
+                {
+                    if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
+                    {
+                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
+                        imageProcessingTask.Start();
+
+                        currentPerformed = e.Task;
+                    }
+                }
+
+                if (currentPerformed != e.Task)
+                {
+                    if (remainingStack.Count > 0)
+                    {
+                        nextTask = remainingStack[0];
+
+                        OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
                     }
                 }
             }
@@ -321,6 +362,7 @@ namespace Win_CBZ
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
             {
                 RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
+                p.Stack = remainingStack;
                 // Apply renaming rules
                 if (p.ApplyRenaming && !p.CompatibilityMode)
                 {
@@ -328,6 +370,7 @@ namespace Win_CBZ
                     {
                         RenamingThread = new Thread(RunRenameScriptsForPages);
                         RenamingThread.Start(p);
+                        currentPerformed = e.Task;
                     }
                     catch (Exception ee)
                     {
@@ -349,6 +392,7 @@ namespace Win_CBZ
                     {
                         RenamingThread = new Thread(RunRenameScriptsForPages);
                         RenamingThread.Start(p);
+                        currentPerformed = e.Task;
                     }
                     catch (Exception ee)
                     {
@@ -359,6 +403,16 @@ namespace Win_CBZ
                     {
                         RenameStoryPagePattern = restoreOriginalPatternPage;
                         RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
+                    }
+                }
+
+                if (currentPerformed != e.Task)
+                {
+                    if (remainingStack.Count > 0)
+                    {
+                        nextTask = remainingStack[0];
+
+                        OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
                     }
                 }
             }
@@ -614,11 +668,11 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
-        public bool Save()
+        public bool Save(bool continueOnError = false)
         {
 
 
-            return SaveAs(FileName, Mode, IgnoreErrors);      
+            return SaveAs(FileName, Mode, continueOnError);      
         }
 
         public bool SaveAs(String path, ZipArchiveMode mode, bool continueOnError = false)
@@ -686,7 +740,8 @@ namespace Win_CBZ
                             CompatibilityMode = CompatibilityMode,
                             IgnorePageNameDuplicates = CompatibilityMode,
                             RenameStoryPagePattern = CompatibilityMode ? "" : RenameStoryPagePattern,
-                            RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern
+                            RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern,
+                            ContinuePipeline = true
                         }
                     },
                     new StackItem()
@@ -2022,6 +2077,11 @@ namespace Win_CBZ
 
                     Thread.Sleep(10);
                 }
+            }
+
+            if (tParams.ContinuePipeline)
+            {
+                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_RUN_RENAMING, null, tParams.Stack, null));
             }
 
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));

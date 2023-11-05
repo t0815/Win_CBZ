@@ -18,6 +18,10 @@ namespace Win_CBZ.Data
 
         public String RenameSpecialPagePattern { get; set; }
 
+        public bool ContinuePipeline { get; set; } 
+
+        public List<StackItem> Stack {  get; set; }
+
 
     }
 }
