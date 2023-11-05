@@ -162,6 +162,8 @@ namespace Win_CBZ
 
         private Thread RenamingThread;
 
+        private Thread AutoRenameThread;
+
         private Thread RestoreRenamingThread;
 
         private Thread ArchiveValidationThread;
@@ -974,10 +976,10 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RenamePageScript(Page page, bool ignoreDuplicates = false)
+        public void RenamePageScript(Page page, bool ignoreDuplicates = false, String storyPagePattern = "", String specialPagePattern = "")
         {
             String oldName = page.Name;
-            String newName = PageScriptRename(page, ignoreDuplicates);
+            String newName = PageScriptRename(page, ignoreDuplicates, storyPagePattern, specialPagePattern);
 
             try
             {
@@ -1369,6 +1371,14 @@ namespace Win_CBZ
             if (RestoreRenamingThread != null)
             {
                 if (RestoreRenamingThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
+            if (AutoRenameThread != null)
+            {
+                if (AutoRenameThread.IsAlive)
                 {
                     return true;
                 }
@@ -1824,8 +1834,16 @@ namespace Win_CBZ
                 }
             }
 
-            RenamingThread = new Thread(AutoRenameAllPagesProc);
-            RenamingThread.Start(new RenamePagesThreadParams()
+            if (AutoRenameThread != null)
+            {
+                while (AutoRenameThread.IsAlive)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            }
+
+            AutoRenameThread = new Thread(AutoRenameAllPagesProc);
+            AutoRenameThread.Start(new RenamePagesThreadParams()
             {
                 ApplyRenaming = true,
                 CompatibilityMode = false,
@@ -1839,15 +1857,17 @@ namespace Win_CBZ
             return RenamingThread;
         }
 
-        public void AutoRenameAllPagesProc()
+        public void AutoRenameAllPagesProc(object threadParams)
         {
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
+
+            RenamePagesThreadParams tParams = threadParams as RenamePagesThreadParams;
 
             foreach (Page page in Pages)
             {
                 if (RenamerExcludes.IndexOf(page.Name) == -1 && !page.Deleted)
                 {
-                    PageScriptRename(page);
+                    PageScriptRename(page, tParams.IgnorePageNameDuplicates, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
                     OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
                 }
@@ -1966,7 +1986,7 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public String PageScriptRename(Page page, bool ignoreDuplicates = false)
+        public String PageScriptRename(Page page, bool ignoreDuplicates = false, String renameStoryPattern = "", String renameSpecialPattern = "")
         {
             string oldName = page.Name;
             string newName = page.Name;
@@ -1975,10 +1995,10 @@ namespace Win_CBZ
             switch (page.ImageType)
             {
                 case MetaDataEntryPage.COMIC_PAGE_TYPE_STORY:
-                    pattern = RenameStoryPagePattern;
+                    pattern = renameStoryPattern;
                     break;
                 default:
-                    pattern = RenameSpecialPagePattern;
+                    pattern = renameSpecialPattern;
                     break;
             }
 
@@ -2101,7 +2121,7 @@ namespace Win_CBZ
             {
                 if (tParams.CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
                 {
-                    RenamePageScript(page, tParams.IgnorePageNameDuplicates);
+                    RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
                     OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
                     OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
