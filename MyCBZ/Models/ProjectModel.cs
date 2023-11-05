@@ -477,10 +477,10 @@ namespace Win_CBZ
                 */
             }
 
-            if (remainingStack.Count == 0)
-            {
-                OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-            }
+            //if (remainingStack.Count == 0)
+            //{
+            //    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+            //}
         }
 
         public Task New()
@@ -1502,6 +1502,14 @@ namespace Win_CBZ
                         {
                             page.UpdateLocalWorkingCopy(fileObject, targetPath);
                             page.Changed = true;
+                        }
+
+                        try
+                        {
+                            page.LoadImage(true);
+                        } catch (PageException pe)
+                        {
+
                         }
 
                         if (!page.Changed)

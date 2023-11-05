@@ -36,6 +36,8 @@ namespace Win_CBZ
 
         public bool ImageLoaded { get; set; }
 
+        public bool ImageMetaDataLoaded { get; set; }
+
         public ImageTask ImageTask { get; set; }
 
         public int Number { get; set; }
@@ -843,10 +845,9 @@ namespace Win_CBZ
             return TemporaryFile;
         }
 
-
-        public void LoadImage()
+        public void LoadImage(bool metaDataOnly = false)
         {
-            bool reloadImageStream =false;
+            bool reloadImageStream = false;
 
             if (!Closed)
             {
@@ -866,8 +867,29 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                Image = Image.FromStream(ImageStreamMemoryCopy);
-                                ImageLoaded = true;
+                                if (!metaDataOnly)
+                                {
+                                    Image = Image.FromStream(ImageStreamMemoryCopy);
+                                    ImageLoaded = true;
+                                } else
+                                {
+                                    Image imgMeta = null;
+                                    try
+                                    {
+                                        imgMeta = Image.FromStream(stream: ImageStreamMemoryCopy,
+                                                                            useEmbeddedColorManagement: false,
+                                                                            validateImageData: false);
+                                        Format.W = imgMeta.Width;
+                                        Format.H = imgMeta.Height;
+                                        Format.DPI = imgMeta.VerticalResolution;
+                                    } catch (Exception eim) 
+                                    {
+                                        throw new PageException(this, "Error loading image properties [" + Name + "]! Invalid or corrupted image", true, eim);
+                                    } finally 
+                                    {
+                                        imgMeta?.Dispose();
+                                    }                                  
+                                }
                             } catch (Exception ioe) {
                                 throw new PageException(this, "Error loading image [" + Name + "]! Invalid or corrupted image", true, ioe);
                             }
@@ -879,8 +901,31 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                Image = Image.FromStream(ImageStream);
-                                ImageLoaded = true;
+                                if (!metaDataOnly)
+                                {
+                                    Image = Image.FromStream(ImageStream);
+                                    ImageLoaded = true;
+                                } else
+                                {
+                                    Image imgMeta = null;
+                                    try
+                                    {
+                                        imgMeta = Image.FromStream(stream: ImageStream,
+                                                                   useEmbeddedColorManagement: false,
+                                                                   validateImageData: false);
+                                        Format.W = imgMeta.Width;
+                                        Format.H = imgMeta.Height;
+                                        Format.DPI = imgMeta.VerticalResolution;
+                                    }
+                                    catch (Exception eii)
+                                    {
+                                        throw new PageException(this, "Error loading image properties [" + Name + "]! Invalid or corrupted image", true, eii);
+                                    }
+                                    finally
+                                    {
+                                        imgMeta?.Dispose();
+                                    }
+                                }                               
                             }
                             catch (Exception ioi) {
                                 throw new PageException(this, "Error loading image [" + Name + "]! Invalid or corrupted image", true, ioi);
@@ -889,20 +934,53 @@ namespace Win_CBZ
                     }
                 }
 
-                if (Image == null || reloadImageStream)
+                if (!metaDataOnly)
                 {
-                    if (TemporaryFile == null || !TemporaryFile.Exists())
+                    if (Image == null || reloadImageStream)
                     {
-                        TemporaryFile = RequestTemporaryFile();
+                        if (TemporaryFile == null || !TemporaryFile.Exists())
+                        {
+                            TemporaryFile = RequestTemporaryFile();
+                        }
+
+                        if (TemporaryFile != null && TemporaryFile.Exists())
+                        {
+
+                            if (!metaDataOnly)
+                            {
+                                ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
+                                Image = Image.FromStream(ImageStream);
+                                ImageLoaded = true;
+                            }
+                            else
+                            {
+                                Image imgMeta = null;
+                                try
+                                {
+                                    imgMeta = Image.FromStream(stream: File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.Read),
+                                                                        useEmbeddedColorManagement: false,
+                                                                        validateImageData: false);
+                                    Format.W = imgMeta.Width;
+                                    Format.H = imgMeta.Height;
+                                    Format.DPI = imgMeta.VerticalResolution;
+                                }
+                                catch (Exception eim)
+                                {
+                                    throw new PageException(this, "Error loading image properties [" + Name + "]! Invalid or corrupted image", true, eim);
+                                }
+                                finally
+                                {
+                                    imgMeta?.Dispose();
+                                }
+                            }
+
+
+                        }
+                        else
+                        {
+                            throw new PageException(this, "Failed to extract image [" + Name + "] from Archive!");
+                        }
                     }
-                    
-                    if (TemporaryFile != null && TemporaryFile.Exists()) {
-                        ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
-                        Image = Image.FromStream(ImageStream);
-                        ImageLoaded = true;
-                    } else {
-                        throw new PageException(this, "Failed to extract image [" + Name + "] from Archive!");
-                    } 
                 }
 
                 if (Image != null)
@@ -928,7 +1006,10 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    throw new PageException(this, "Failed to load/extract image!");
+                    if (!metaDataOnly)
+                    {
+                        throw new PageException(this, "Failed to load/extract image!");
+                    }                  
                 }
             }
         }
