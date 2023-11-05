@@ -53,16 +53,17 @@
             this.ImagePreviewPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ImagePreviewPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImagePreviewPanel.Controls.Add(this.PageImagePreview);
-            this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 33);
-            this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 41);
+            this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ImagePreviewPanel.Name = "ImagePreviewPanel";
-            this.ImagePreviewPanel.Size = new System.Drawing.Size(777, 703);
+            this.ImagePreviewPanel.Size = new System.Drawing.Size(1035, 865);
             this.ImagePreviewPanel.TabIndex = 0;
             this.ImagePreviewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ImagePreviewPanel_Paint);
             // 
             // PageImagePreview
             // 
-            this.PageImagePreview.Location = new System.Drawing.Point(3, 3);
+            this.PageImagePreview.Location = new System.Drawing.Point(4, 4);
+            this.PageImagePreview.Margin = new System.Windows.Forms.Padding(4);
             this.PageImagePreview.Name = "PageImagePreview";
             this.PageImagePreview.Size = new System.Drawing.Size(157, 94);
             this.PageImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -87,7 +88,7 @@
             this.PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PreviewToolStrip.Name = "PreviewToolStrip";
             this.PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.PreviewToolStrip.Size = new System.Drawing.Size(361, 31);
+            this.PreviewToolStrip.Size = new System.Drawing.Size(470, 31);
             this.PreviewToolStrip.TabIndex = 1;
             this.PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -97,7 +98,7 @@
             this.toolStripButton1.Image = global::Win_CBZ.Properties.Resources.save_as;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(28, 28);
+            this.toolStripButton1.Size = new System.Drawing.Size(29, 28);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -112,8 +113,9 @@
             this.toolStripButton3.Image = global::Win_CBZ.Properties.Resources.nav_left;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(28, 28);
-            this.toolStripButton3.Text = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButton3.Text = "ToolButtonPreviewNavigateLeft";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripButton4
             // 
@@ -121,8 +123,9 @@
             this.toolStripButton4.Image = global::Win_CBZ.Properties.Resources.nav_right;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(28, 28);
-            this.toolStripButton4.Text = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(29, 28);
+            this.toolStripButton4.Text = "ToolButtonPreviewNavigateRight";
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // toolStripSeparator2
             // 
@@ -132,7 +135,7 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(253, 28);
+            this.toolStripLabel1.Size = new System.Drawing.Size(319, 28);
             this.toolStripLabel1.Text = "Preview Mode (Arrow Left/- Right to Navigate)";
             // 
             // ExportImageDialog
@@ -141,14 +144,14 @@
             // 
             // ImagePreviewForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(777, 736);
+            this.ClientSize = new System.Drawing.Size(1036, 906);
             this.Controls.Add(this.PreviewToolStrip);
             this.Controls.Add(this.ImagePreviewPanel);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ImagePreviewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Preview";

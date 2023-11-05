@@ -246,5 +246,15 @@ namespace Win_CBZ
         {
             ImagePreviewPanel.VerticalScroll.Value = 0;
         }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            HandlePageNavigation(-1);
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            HandlePageNavigation(1);
+        }
     }
 }
