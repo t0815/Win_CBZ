@@ -88,10 +88,6 @@ namespace Win_CBZ
 
         public List<Page> Pages { get; set; }
 
-        private ArrayList FileNamesToAdd { get; set; }
-
-        private BindingList<LocalFile> Files { get; set; }
-
         private int MaxFileIndex = 0;
 
         private bool InitialPageIndexRebuild = false;
@@ -142,6 +138,10 @@ namespace Win_CBZ
 
         public event EventHandler<ValidationFinishedEvent> CBZValidationEventHandler;
 
+
+        private Random RandomProvider;
+
+
         private Thread LoadArchiveThread;
 
         private Thread ExtractArchiveThread;
@@ -153,8 +153,6 @@ namespace Win_CBZ
         private Thread DeleteFileThread;
 
         private Thread PageUpdateThread;
-
-        private Random RandomProvider;
 
         private Thread ProcessAddedFiles;
 
@@ -173,9 +171,7 @@ namespace Win_CBZ
         {
             WorkingDir = workingDir;
             Pages = new List<Page>();
-            Files = new BindingList<LocalFile>();
             RandomProvider = new Random();
-            FileNamesToAdd = new ArrayList();
             RenamerExcludes = new ArrayList();
             GlobalImageTask = new ImageTask();
             CompressionLevel = CompressionLevel.Optimal;
@@ -277,7 +273,7 @@ namespace Win_CBZ
                     {
                         while (CloseArchiveThread.IsAlive)
                         {
-                            System.Threading.Thread.Sleep(100);
+                            CloseArchiveThread.Join();
                         }
                     }
 
@@ -295,10 +291,7 @@ namespace Win_CBZ
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_INDICES)
             {
-                FileNamesToAdd.Clear();
-                Files.Clear();
-                
-                
+           
                 Task.Factory.StartNew(() =>
                 {
                     UpdatePageIndices(true, true, remainingStack);
@@ -520,9 +513,6 @@ namespace Win_CBZ
                 //Pages.Clear();
                 MetaData.Free();
                 MaxFileIndex = 0;
-                Files.Clear();
-                FileNamesToAdd.Clear();
-
 
                 ProjectGUID = Guid.NewGuid().ToString();
                 if (!Directory.Exists(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID)))
@@ -679,8 +669,6 @@ namespace Win_CBZ
 
         public bool Save(bool continueOnError = false)
         {
-
-
             return SaveAs(FileName, Mode, continueOnError);      
         }
 
@@ -782,14 +770,15 @@ namespace Win_CBZ
 
         protected void SaveArchiveProc(object threadParams)
         {
+            SaveArchiveThreadParams tParams = threadParams as SaveArchiveThreadParams;
+
             int index = 0;
             bool errorSavingArchive = false;
             
             List<Page> deletedPages = new List<Page>();
             LocalFile fileToCompress = null;
 
-            SaveArchiveThreadParams tParams = threadParams as SaveArchiveThreadParams;
-
+            
             TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
 
             ZipArchive BuildingArchive = null;
@@ -991,15 +980,13 @@ namespace Win_CBZ
             }
         }
 
-        public Thread Extract(String outputPath = null)
+        public void Extract(String outputPath = null)
         {
-            this.OutputDirectory = outputPath;
-
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    return null;
+                    throw new ApplicationException("Extract::Other threads are currently running", true);
                 }
             }
 
@@ -1007,7 +994,7 @@ namespace Win_CBZ
             {
                 if (SaveArchiveThread.IsAlive)
                 {
-                    return null;
+                    throw new ApplicationException("Extract::Other threads are currently running", true);
                 }
             }
 
@@ -1015,14 +1002,12 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    return null;
+                    throw new ApplicationException("Extract::Other threads are currently running", true);
                 }
             }
 
             ExtractArchiveThread = new Thread(ExtractArchiveProc);
             ExtractArchiveThread.Start(new ExtractArchiveThreadParams() { OutputPath = outputPath });
-
-            return ExtractArchiveThread;
         }
 
         public bool Exists()
@@ -1476,14 +1461,15 @@ namespace Win_CBZ
 
         public void AddImagesProc(object threadParams)
         {
+            AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
+
             int index = MaxFileIndex;
             int realNewIndex = MaxFileIndex;
+            int total = tParams?.LocalFiles.Count ?? 0;
             int progressIndex = 0;
             FileInfo targetPath;
             FileInfo localPath;
             Page page;
-
-            AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
 
             if (tParams.LocalFiles != null)
             {
@@ -1528,7 +1514,7 @@ namespace Win_CBZ
                         }
 
                         OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                        OnTaskProgress(new TaskProgressEvent(page, progressIndex, Files.Count));
+                        OnTaskProgress(new TaskProgressEvent(page, progressIndex, total));
 
                         index++;
                         progressIndex++;
@@ -1587,12 +1573,9 @@ namespace Win_CBZ
             {
                 if (ParseAddedFileNames.IsAlive)
                 {
-                    ParseAddedFileNames.Abort();
+                    throw new ApplicationException("File Analyzer- Thread already running!", true);
                 }
             }
-
-            //FileNamesToAdd.Clear();
-            //FileNamesToAdd.AddRange(files);
 
             ParseAddedFileNames = new Thread(ParseFilesProc);
             ParseAddedFileNames.Start(new ParseFilesThreadParams() 
@@ -1604,20 +1587,21 @@ namespace Win_CBZ
 
         public void ParseFilesProc(object threadParams)
         {
-            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
-
             ParseFilesThreadParams tParams = threadParams as ParseFilesThreadParams;
 
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
+
+            List<LocalFile> files = new List<LocalFile>();
             int index = 0;
             foreach (String fname in tParams.FileNamesToAdd)
             {
 
                 try
                 {
-                    Files.Add(new LocalFile(fname));
+                    files.Add(new LocalFile(fname));
                     index++;
 
-                    OnTaskProgress(new TaskProgressEvent(null, index, FileNamesToAdd.Count));
+                    OnTaskProgress(new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));
 
                     Thread.Sleep(10);
                 }
@@ -1634,16 +1618,16 @@ namespace Win_CBZ
                             TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
                             ThreadParams = new AddImagesThreadParams
                             {
-                                LocalFiles = Files.ToList(),
+                                LocalFiles = files.ToList(),
                             }
                         }
                     };
                 }
             }
 
-            OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
+            OnTaskProgress(new TaskProgressEvent(null, 0, tParams.FileNamesToAdd.Count));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, Files, tParams.Stack));          
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, files, tParams.Stack));          
         }
 
         public int RemoveDeletedPages()
@@ -1788,14 +1772,14 @@ namespace Win_CBZ
             return null;
         }
 
-        public Thread AutoRenameAllPages()
+        public void AutoRenameAllPages()
         {
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
                     //LoadArchiveThread.Abort();
-                    return null;
+                    throw new ApplicationException("Invalid operation", true);
                 }
             }
 
@@ -1804,7 +1788,7 @@ namespace Win_CBZ
                 if (SaveArchiveThread.IsAlive)
                 {
 
-                    return null;
+                    throw new ApplicationException("Invalid operation", true);
                 }
             }
 
@@ -1813,7 +1797,7 @@ namespace Win_CBZ
                 if (CloseArchiveThread.IsAlive)
                 {
 
-                    return null;
+                    throw new ApplicationException("Invalid operation", true);
                 }
             }
 
@@ -1822,7 +1806,7 @@ namespace Win_CBZ
                 if (RestoreRenamingThread.IsAlive)
                 {
 
-                    return null;
+                    throw new ApplicationException("Invalid operation", true);
                 }
             }
 
@@ -1853,8 +1837,6 @@ namespace Win_CBZ
                 ContinuePipeline = false,
                 Stack = new List<StackItem> { new StackItem() }
             });
-
-            return RenamingThread;
         }
 
         public void AutoRenameAllPagesProc(object threadParams)
@@ -2096,6 +2078,12 @@ namespace Win_CBZ
             return String.Format("{0,-" + maxDigits + ":D" + maxDigits + "}", value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>DEPRECATED</remarks>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public String RequestTemporaryFile(Page page)
         {
             String tempFileName = MakeNewTempFileName().FullName;
@@ -2138,6 +2126,12 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>DEPRECATED</remarks>
+        /// <param name="page"></param>
+        /// <param name="path"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ExtractSingleFile(Page page, String path = null)
         {
@@ -2232,9 +2226,9 @@ namespace Win_CBZ
 
         protected void ExtractArchiveProc(object threadParams)
         {
+            ExtractArchiveThreadParams tparams = threadParams as ExtractArchiveThreadParams;
+
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTING));
-
-
 
             int count;
             int index = 0;
@@ -2247,9 +2241,9 @@ namespace Win_CBZ
 
                 try
                 {
-                    if (OutputDirectory != null)
+                    if (tparams.OutputPath != null)
                     {
-                        di = new DirectoryInfo(OutputDirectory);
+                        di = new DirectoryInfo(tparams.OutputPath);
                     }
 
                     ZipArchiveEntry metaDataEntry = Archive.GetEntry("ComicInfo.xml");
