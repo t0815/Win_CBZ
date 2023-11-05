@@ -882,6 +882,8 @@ namespace Win_CBZ
                                         Format.W = imgMeta.Width;
                                         Format.H = imgMeta.Height;
                                         Format.DPI = imgMeta.VerticalResolution;
+                                        Format.Format = imgMeta.RawFormat;
+                                        Format.Update();
                                     } catch (Exception eim) 
                                     {
                                         throw new PageException(this, "Error loading image properties [" + Name + "]! Invalid or corrupted image", true, eim);
@@ -916,6 +918,8 @@ namespace Win_CBZ
                                         Format.W = imgMeta.Width;
                                         Format.H = imgMeta.Height;
                                         Format.DPI = imgMeta.VerticalResolution;
+                                        Format.Format = imgMeta.RawFormat;
+                                        Format.Update();
                                     }
                                     catch (Exception eii)
                                     {
@@ -963,6 +967,8 @@ namespace Win_CBZ
                                     Format.W = imgMeta.Width;
                                     Format.H = imgMeta.Height;
                                     Format.DPI = imgMeta.VerticalResolution;
+                                    Format.Format = imgMeta.RawFormat;
+                                    Format.Update();
                                 }
                                 catch (Exception eim)
                                 {

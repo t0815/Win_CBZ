@@ -109,6 +109,17 @@ namespace Win_CBZ.Models
             }
         }
 
+        public void Update()
+        {
+            String nameResult = "";
+            if (Format != null)
+            {
+                ImageFormatToNameMap.TryGetValue(Format, out nameResult);
+
+                Name = nameResult;
+            }
+        }
+
         public void Update(Image image)
         {
             if (!image.Size.IsEmpty)
