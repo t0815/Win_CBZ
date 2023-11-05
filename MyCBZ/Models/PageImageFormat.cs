@@ -15,7 +15,7 @@ namespace Win_CBZ.Models
         {
             { "jpg", ImageFormat.Jpeg },
             { "png", ImageFormat.Png },
-            { "bmp", ImageFormat.Bmp  },
+            { "bmp", ImageFormat.Bmp },
             { "tif", ImageFormat.Tiff },
         };
 
@@ -31,8 +31,16 @@ namespace Win_CBZ.Models
         {
             { ImageFormat.Jpeg, "Jpeg Image" },
             { ImageFormat.Png, "PNG Image" },
-            { ImageFormat.Bmp, "Bitmap Image"  },
+            { ImageFormat.Bmp, "Bitmap Image" },
             { ImageFormat.Tiff, "TIFF Image" },
+        };
+
+        protected static Dictionary<ImageFormat, string> ImageFormatToExtensionMap = new Dictionary<ImageFormat, string>()
+        {
+            { ImageFormat.Jpeg, "jpg" },
+            { ImageFormat.Png, "png" },
+            { ImageFormat.Bmp, "bmp" },
+            { ImageFormat.Tiff, "tif" },
         };
 
         public string Name { get; set; }
