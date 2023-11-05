@@ -31,6 +31,7 @@ using System.Windows.Input;
 using System.Drawing.Imaging;
 using Path = System.IO.Path;
 using Win_CBZ.Result;
+using Win_CBZ.Exceptions;
 
 namespace Win_CBZ
 {
@@ -1779,7 +1780,7 @@ namespace Win_CBZ
                 if (LoadArchiveThread.IsAlive)
                 {
                     //LoadArchiveThread.Abort();
-                    throw new ApplicationException("Invalid operation", true);
+                    throw new ConcurrentOperationException("Other operations still running!", true);
                 }
             }
 
@@ -1788,7 +1789,7 @@ namespace Win_CBZ
                 if (SaveArchiveThread.IsAlive)
                 {
 
-                    throw new ApplicationException("Invalid operation", true);
+                    throw new ConcurrentOperationException("Other operations still running!", true);
                 }
             }
 
@@ -1797,7 +1798,7 @@ namespace Win_CBZ
                 if (CloseArchiveThread.IsAlive)
                 {
 
-                    throw new ApplicationException("Invalid operation", true);
+                    throw new ConcurrentOperationException("Other operations still running!", true);
                 }
             }
 
@@ -1806,15 +1807,15 @@ namespace Win_CBZ
                 if (RestoreRenamingThread.IsAlive)
                 {
 
-                    throw new ApplicationException("Invalid operation", true);
+                    throw new ConcurrentOperationException("Other operations still running!", true);
                 }
             }
 
             if (RenamingThread != null)
             {
-                while (RenamingThread.IsAlive)
+                if (RenamingThread.IsAlive)
                 {
-                    System.Threading.Thread.Sleep(100);
+                    throw new ConcurrentOperationException("Other operations still running!", true);
                 }
             }
 
@@ -1859,14 +1860,18 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
-        public Thread RestoreOriginalNames()
+        public void RestoreOriginalNames()
         {
+            if (ThreadRunning())
+            {
+                throw new ConcurrentOperationException("Please wait until other operations are finished!", true);
+            }
+
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    //LoadArchiveThread.Abort();
-                    return null;
+                    throw new ConcurrentOperationException("Invalid operation", true);
                 }
             }
 
@@ -1875,7 +1880,7 @@ namespace Win_CBZ
                 if (SaveArchiveThread.IsAlive)
                 {
 
-                    return null;
+                    throw new ConcurrentOperationException("Invalid operation", true);
                 }
             }
 
@@ -1883,8 +1888,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-
-                    return null;
+                    throw new ConcurrentOperationException("Invalid operation", true);
                 }
             }
 
@@ -1892,8 +1896,7 @@ namespace Win_CBZ
             {
                 if (RenamingThread.IsAlive)
                 {
-
-                    return null;
+                    throw new ConcurrentOperationException("Invalid operation", true);
                 }
             }
 
@@ -1907,8 +1910,6 @@ namespace Win_CBZ
 
             RestoreRenamingThread = new Thread(new ThreadStart(RestoreOriginalNamesProc));
             RestoreRenamingThread.Start();
-
-            return RestoreRenamingThread;
         }
 
         public void RestoreOriginalNamesProc()

@@ -26,6 +26,7 @@ using System.Windows.Input;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using SharpCompress;
+using Win_CBZ.Exceptions;
 
 namespace Win_CBZ
 {
@@ -2858,8 +2859,17 @@ namespace Win_CBZ
                         CheckBoxPreview.Enabled = false;
                         if (CheckBoxPreview.Checked)
                         {
-                            Program.ProjectModel.RestoreOriginalNames();
+                            try
+                            {
+                                Program.ProjectModel.RestoreOriginalNames();
+                            }
+                            catch (ConcurrentOperationException c)
+                            { 
+                                if (c.ShowErrorDialog)
+                                {
 
+                                }
+                            }
                         }
                     }
                     else
@@ -3092,10 +3102,31 @@ namespace Win_CBZ
         {
             if (CheckBoxPreview.Checked)
             {
-                Program.ProjectModel.AutoRenameAllPages();
+                try
+                {
+                    Program.ProjectModel.AutoRenameAllPages();
+                }
+                catch (ConcurrentOperationException c)
+                {
+                    if (c.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowWarning(c.Message, "ConcurrentOperationException", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+                }
+                
             } else
             {
-                Program.ProjectModel.RestoreOriginalNames();
+                try
+                {
+                    Program.ProjectModel.RestoreOriginalNames();
+                }
+                catch (ConcurrentOperationException c)
+                {
+                    if (c.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowWarning(c.Message, "ConcurrentOperationException", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+                }
             }
         }
 

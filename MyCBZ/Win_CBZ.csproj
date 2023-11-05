@@ -148,6 +148,7 @@
     <Compile Include="Data\StackItem.cs" />
     <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
+    <Compile Include="Exceptions\ConcurrentOperationException.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />
     <Compile Include="Result\TaskResult.cs" />
     <Compile Include="Data\DataValidation.cs" />
