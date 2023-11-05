@@ -330,8 +330,6 @@ namespace Win_CBZ
             {
                 RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
 
-                
-
                 if (imageProcessingTask == null)
                 {
                     imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
@@ -477,6 +475,11 @@ namespace Win_CBZ
 
                 });
                 */
+            }
+
+            if (remainingStack.Count == 0)
+            {
+                OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
             }
         }
 
@@ -1531,8 +1534,8 @@ namespace Win_CBZ
             }
 
             OnOperationFinished(new OperationFinishedEvent(progressIndex, Pages.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, null, tParams.Stack));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, null, tParams.Stack));            
         }
 
         public List<String> LoadDirectory(String path)
@@ -1621,8 +1624,8 @@ namespace Win_CBZ
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, FileNamesToAdd.Count));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, Files, tParams.Stack));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, Files, tParams.Stack));          
         }
 
         public int RemoveDeletedPages()

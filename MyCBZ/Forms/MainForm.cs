@@ -1058,6 +1058,10 @@ namespace Win_CBZ
                     info = "Analyzing images...";
                     break;
 
+                case ApplicationStatusEvent.STATE_READY:
+                    info = "Ready.";
+                    break;
+
                 default:
                     break;
             }
