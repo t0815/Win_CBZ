@@ -189,9 +189,14 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel != null)
             {
-                Program.ProjectModel.New();
+                try
+                {
+                    Program.ProjectModel.New();
+                    ClearLog();
+                } catch (ConcurrentOperationException c)
+                {
 
-                ClearLog();
+                }              
             }
         }
 
@@ -661,7 +666,7 @@ namespace Win_CBZ
 
         public void ReloadPreviewThumbs()
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
                 PageImages.Images.Clear();
 
@@ -734,7 +739,7 @@ namespace Win_CBZ
         public void LoadThumbnailSlice()
         {
             if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING) { 
-                this.Invoke(new Action(() =>
+                Invoke(new Action(() =>
                 {
                     //PageImages.Images.Clear();
                     try
@@ -1071,7 +1076,7 @@ namespace Win_CBZ
             {
                 //if (this.InvokeRequired)
                 //{
-                this.Invoke(new Action(() =>
+                Invoke(new Action(() =>
                 {
                     fileNameLabel.Text = filename;
                     applicationStatusLabel.Text = info;
@@ -3238,7 +3243,16 @@ namespace Win_CBZ
 
         private void ToolButtonValidateCBZ_Click(object sender, EventArgs e)
         {
-            Program.ProjectModel.Validate(true);
+            try
+            { 
+                Program.ProjectModel.Validate(true);
+            } catch (ConcurrentOperationException c) 
+            {
+                if (c.ShowErrorDialog)
+                {
+                    ApplicationMessage.ShowWarning(c.Message, "Concurrency Exception", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                }
+            }
         }
 
         private void ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted(object sender, EventArgs e)

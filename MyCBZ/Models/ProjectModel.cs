@@ -485,28 +485,9 @@ namespace Win_CBZ
 
             return Task.Factory.StartNew(() =>
             {
-                if (LoadArchiveThread != null)
+                if (ThreadRunning())
                 {
-                    if (LoadArchiveThread.IsAlive)
-                    {
-                        LoadArchiveThread.Abort();
-                    }
-                }
-
-                if (ExtractArchiveThread != null)
-                {
-                    if (ExtractArchiveThread.IsAlive)
-                    {
-                        ExtractArchiveThread.Abort();
-                    }
-                }
-
-                if (PageUpdateThread != null)
-                {
-                    if (PageUpdateThread.IsAlive)
-                    {
-                        PageUpdateThread.Abort();
-                    }
+                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
                 }
 
                 CloseArchiveThread?.Join();
@@ -539,7 +520,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    throw new ApplicationException("failed to open. thread already running!", true);
+                    throw new ConcurrentOperationException("failed to open. thread already running!", true);
                 }
             }
 
@@ -675,22 +656,11 @@ namespace Win_CBZ
 
         public bool SaveAs(String path, ZipArchiveMode mode, bool continueOnError = false)
         {
-            if (LoadArchiveThread != null)
+            if (ThreadRunning())
             {
-                if (LoadArchiveThread.IsAlive)
-                {
-                    throw new ApplicationException("failed to save. opening already running!", true);
-                }
+                throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
             }
-
-            if (CloseArchiveThread != null)
-            {
-                if (CloseArchiveThread.IsAlive)
-                {
-                    throw new ApplicationException("failed to open. thread already running!", true);
-                }
-            }
-
+            
             ArrayList invalidKeys = new ArrayList();
 
             bool tagValidationFailed;
@@ -987,7 +957,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    throw new ApplicationException("Extract::Other threads are currently running", true);
+                    throw new ConcurrentOperationException("Extract::Other threads are currently running", true);
                 }
             }
 
@@ -995,7 +965,7 @@ namespace Win_CBZ
             {
                 if (SaveArchiveThread.IsAlive)
                 {
-                    throw new ApplicationException("Extract::Other threads are currently running", true);
+                    throw new ConcurrentOperationException("Extract::Other threads are currently running", true);
                 }
             }
 
@@ -1028,7 +998,7 @@ namespace Win_CBZ
             {
                 if (ArchiveValidationThread.IsAlive)
                 {
-                    throw new ApplicationException("Validation alrady running!", true);
+                    throw new ConcurrentOperationException("Validation alrady running!", true);
                 }
             }
 
@@ -1370,6 +1340,14 @@ namespace Win_CBZ
                 }
             }
 
+            if (ArchiveValidationThread != null)
+            {
+                if (ArchiveValidationThread.IsAlive)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -1457,6 +1435,14 @@ namespace Win_CBZ
                         RestoreRenamingThread.Abort();
                     }
                 }
+
+                if (ArchiveValidationThread != null)
+                {
+                    if (ArchiveValidationThread.IsAlive)
+                    {
+                        ArchiveValidationThread.Abort();
+                    }
+                }               
             });
         }
 
