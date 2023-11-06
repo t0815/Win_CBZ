@@ -41,7 +41,7 @@ namespace Win_CBZ
                     {
                         displayPage.CreateLocalWorkingCopy();
                     }
-                    catch ( Exception e)
+                    catch (Exception e1)
                     {
                         //
                     }               
@@ -57,12 +57,10 @@ namespace Win_CBZ
                 }
                 
             }
-            catch (Exception e)
+            catch (Exception e2)
             {
                 
-            }
-
-           
+            }       
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
