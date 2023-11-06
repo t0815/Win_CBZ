@@ -46,6 +46,7 @@
             this.ImageQualitySliderMaxLabel = new System.Windows.Forms.Label();
             this.ImageQualitySliderMinLabel = new System.Windows.Forms.Label();
             this.ImageQualityTrackBar = new System.Windows.Forms.TrackBar();
+            this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
             this.MetaDataConfigTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.SettingsGroup1Panel = new System.Windows.Forms.Panel();
@@ -63,7 +64,7 @@
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
+            this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -79,6 +80,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).BeginInit();
             this.ItemEditorToolBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SettingsValidationErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -195,11 +197,11 @@
             // 
             this.ImageProcessingTabControl.Controls.Add(this.ImageConversionTabPage);
             this.ImageProcessingTabControl.Controls.Add(this.ImageProcessingTabPage);
-            this.ImageProcessingTabControl.Location = new System.Drawing.Point(291, 10);
+            this.ImageProcessingTabControl.Location = new System.Drawing.Point(434, 10);
             this.ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4);
             this.ImageProcessingTabControl.Name = "ImageProcessingTabControl";
             this.ImageProcessingTabControl.SelectedIndex = 0;
-            this.ImageProcessingTabControl.Size = new System.Drawing.Size(273, 308);
+            this.ImageProcessingTabControl.Size = new System.Drawing.Size(130, 308);
             this.ImageProcessingTabControl.TabIndex = 2;
             // 
             // ImageConversionTabPage
@@ -211,7 +213,7 @@
             this.ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.ImageConversionTabPage.Name = "ImageConversionTabPage";
             this.ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.ImageConversionTabPage.Size = new System.Drawing.Size(265, 279);
+            this.ImageConversionTabPage.Size = new System.Drawing.Size(122, 279);
             this.ImageConversionTabPage.TabIndex = 0;
             this.ImageConversionTabPage.Text = "Image Conversion";
             this.ImageConversionTabPage.UseVisualStyleBackColor = true;
@@ -243,7 +245,7 @@
             this.ComboBoxConvertPages.Location = new System.Drawing.Point(11, 40);
             this.ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxConvertPages.Name = "ComboBoxConvertPages";
-            this.ComboBoxConvertPages.Size = new System.Drawing.Size(229, 24);
+            this.ComboBoxConvertPages.Size = new System.Drawing.Size(86, 24);
             this.ComboBoxConvertPages.TabIndex = 23;
             // 
             // GroupBoxImageQuality
@@ -258,7 +260,7 @@
             this.GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.GroupBoxImageQuality.Name = "GroupBoxImageQuality";
             this.GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.GroupBoxImageQuality.Size = new System.Drawing.Size(234, 102);
+            this.GroupBoxImageQuality.Size = new System.Drawing.Size(91, 102);
             this.GroupBoxImageQuality.TabIndex = 21;
             this.GroupBoxImageQuality.TabStop = false;
             this.GroupBoxImageQuality.Text = "Image Quality";
@@ -268,7 +270,7 @@
             // 
             this.ImageQualitySliderMaxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ImageQualitySliderMaxLabel.AutoSize = true;
-            this.ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(191, 82);
+            this.ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(48, 82);
             this.ImageQualitySliderMaxLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
             this.ImageQualitySliderMaxLabel.Size = new System.Drawing.Size(35, 16);
@@ -296,9 +298,19 @@
             this.ImageQualityTrackBar.Maximum = 100;
             this.ImageQualityTrackBar.Minimum = 10;
             this.ImageQualityTrackBar.Name = "ImageQualityTrackBar";
-            this.ImageQualityTrackBar.Size = new System.Drawing.Size(214, 56);
+            this.ImageQualityTrackBar.Size = new System.Drawing.Size(71, 56);
             this.ImageQualityTrackBar.TabIndex = 3;
             this.ImageQualityTrackBar.Value = 85;
+            // 
+            // ImageProcessingTabPage
+            // 
+            this.ImageProcessingTabPage.Location = new System.Drawing.Point(4, 25);
+            this.ImageProcessingTabPage.Name = "ImageProcessingTabPage";
+            this.ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ImageProcessingTabPage.Size = new System.Drawing.Size(265, 279);
+            this.ImageProcessingTabPage.TabIndex = 1;
+            this.ImageProcessingTabPage.Text = "Image Processing";
+            this.ImageProcessingTabPage.UseVisualStyleBackColor = true;
             // 
             // MetaDataConfigTabControl
             // 
@@ -308,7 +320,7 @@
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(281, 325);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(387, 325);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -318,7 +330,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(273, 296);
+            this.tabPage1.Size = new System.Drawing.Size(379, 296);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -382,7 +394,7 @@
             this.MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             this.MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTabPageTags.Size = new System.Drawing.Size(273, 296);
+            this.MetaDataTabPageTags.Size = new System.Drawing.Size(379, 296);
             this.MetaDataTabPageTags.TabIndex = 1;
             this.MetaDataTabPageTags.Text = "Tags";
             this.MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -437,9 +449,9 @@
             this.InfoIconTooltip.Size = new System.Drawing.Size(44, 46);
             this.InfoIconTooltip.TabIndex = 5;
             this.InfoIconTooltip.TabStop = false;
-            this.TagValidationTooltip.SetToolTip(this.InfoIconTooltip, "This options allows you, to validate matadata tags against your own list of valid" +
-        " tags, \r\npreventing typos and duplicate, invalid tags being generated/shown with" +
-        "in applications.\r\n");
+            this.TagValidationTooltip.SetToolTip(this.InfoIconTooltip, "This options allow you, to validate matadata tags against your own list of valid " +
+        "tags,\r\npreventing typos, duplicate- and invalid tags, from being generated/shown" +
+        " within applications.\r\n");
             // 
             // CheckBoxTagValidationIgnoreCase
             // 
@@ -514,15 +526,9 @@
             this.TagValidationTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.TagValidationTooltip.ToolTipTitle = "Custom Tag Validation";
             // 
-            // ImageProcessingTabPage
+            // SettingsValidationErrorProvider
             // 
-            this.ImageProcessingTabPage.Location = new System.Drawing.Point(4, 25);
-            this.ImageProcessingTabPage.Name = "ImageProcessingTabPage";
-            this.ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ImageProcessingTabPage.Size = new System.Drawing.Size(265, 279);
-            this.ImageProcessingTabPage.TabIndex = 1;
-            this.ImageProcessingTabPage.Text = "Image Processing";
-            this.ImageProcessingTabPage.UseVisualStyleBackColor = true;
+            this.SettingsValidationErrorProvider.ContainerControl = this;
             // 
             // SettingsDialog
             // 
@@ -557,6 +563,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).EndInit();
             this.ItemEditorToolBar.ResumeLayout(false);
             this.ItemEditorToolBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SettingsValidationErrorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -597,5 +604,6 @@
         private System.Windows.Forms.Label ImageQualitySliderMinLabel;
         private System.Windows.Forms.TrackBar ImageQualityTrackBar;
         private System.Windows.Forms.TabPage ImageProcessingTabPage;
+        private System.Windows.Forms.ErrorProvider SettingsValidationErrorProvider;
     }
 }
