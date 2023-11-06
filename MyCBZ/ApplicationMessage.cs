@@ -18,6 +18,7 @@ namespace Win_CBZ
             MT_WARNING = 2,
             MT_ERROR = 3,
             MT_CONFIRMATION = 4,
+            MT_CHECK = 5,
         };
 
         [Flags]

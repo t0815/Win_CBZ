@@ -482,6 +482,7 @@
     <None Include="Resources\box_out_large.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\checks.png" />
     <Content Include="Resources\defaults.xsl" />
     <Content Include="Resources\edit_large.png" />
     <None Include="Resources\edit_large1.png" />

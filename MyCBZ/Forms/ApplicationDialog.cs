@@ -42,6 +42,11 @@ namespace Win_CBZ.Forms
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.question_dialog;
                         break;
 
+                    case DialogType.MT_CHECK:
+                        Text = "Operation Successfull!";
+                        DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.checks;
+                        break;
+
                     default:
                         Text = "Application Error";
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.error_dialog;
