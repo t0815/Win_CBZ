@@ -263,15 +263,13 @@ namespace Win_CBZ
             List<MetaDataEntryPage> originalPageMetaData = PageIndex.ToList<MetaDataEntryPage>();
             
             PageIndex.Clear();
-
-            MetaDataEntryPage newPageEntry = null;
             foreach (Page page in pages)
             {
                 try
                 {
                     if (!page.Deleted)
                     {
-                        newPageEntry = new MetaDataEntryPage();
+                        MetaDataEntryPage newPageEntry = new MetaDataEntryPage();
                         newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString());

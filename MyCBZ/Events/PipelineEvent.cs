@@ -13,10 +13,11 @@ namespace Win_CBZ
         public const int PIPELINE_PARSE_FILES = 0;
         public const int PIPELINE_MAKE_PAGES = 1;
         public const int PIPELINE_UPDATE_INDICES = 2;
-        public const int PIPELINE_RUN_RENAMING = 3;
-        public const int PIPELINE_PROCESS_IMAGES = 4;
-        public const int PIPELINE_SAVE_ARCHIVE = 5;
-        public const int PIPELINE_UPDATE_IMAGE_METADATA = 6;
+        public const int PIPELINE_UPDATE_META_DATA = 3;
+        public const int PIPELINE_RUN_RENAMING = 4;
+        public const int PIPELINE_PROCESS_IMAGES = 5;
+        public const int PIPELINE_SAVE_ARCHIVE = 6;
+        public const int PIPELINE_UPDATE_IMAGE_METADATA = 7;
 
         public ProjectModel ArchiveInfo { get; set; }
 

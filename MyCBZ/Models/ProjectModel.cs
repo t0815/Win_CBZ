@@ -32,6 +32,7 @@ using System.Drawing.Imaging;
 using Path = System.IO.Path;
 using Win_CBZ.Result;
 using Win_CBZ.Exceptions;
+using Win_CBZ.Helper;
 
 namespace Win_CBZ
 {
@@ -140,8 +141,6 @@ namespace Win_CBZ
         public event EventHandler<ValidationFinishedEvent> CBZValidationEventHandler;
 
 
-        private Random RandomProvider;
-
 
         private Thread LoadArchiveThread;
 
@@ -172,7 +171,6 @@ namespace Win_CBZ
         {
             WorkingDir = workingDir;
             Pages = new List<Page>();
-            RandomProvider = new Random();
             RenamerExcludes = new ArrayList();
             GlobalImageTask = new ImageTask();
             CompressionLevel = CompressionLevel.Optimal;
@@ -295,6 +293,10 @@ namespace Win_CBZ
            
                 Task.Factory.StartNew(() =>
                 {
+                    if (MetaData.Exists())
+                    {
+                        MetaData.RebuildPageMetaData(Pages);
+                    }
                     UpdatePageIndices(true, true, remainingStack);
                 });
 
@@ -572,7 +574,7 @@ namespace Win_CBZ
                 {
                     if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
                     {
-                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), MakeNewRandomId())
+                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), RandomId.getInstance().make())
                         {
                             Number = index + 1,
                             Index = index,
@@ -815,7 +817,7 @@ namespace Win_CBZ
                             updatedEntry = BuildingArchive.CreateEntryFromFile(fileToCompress.FullPath, page.Name, CompressionLevel);
                             if (IsNew)
                             {
-                                page.UpdateImageEntry(updatedEntry, MakeNewRandomId());
+                                page.UpdateImageEntry(updatedEntry, RandomId.getInstance().make());
                                 page.Compressed = true;
                             }
                             page.Changed = false;
@@ -917,7 +919,7 @@ namespace Win_CBZ
                                 foreach (ZipArchiveEntry entry in Archive.Entries)
                                 {
                                     Page page = GetPageByName(entry.Name);
-                                    page?.UpdateImageEntry(entry, MakeNewRandomId());
+                                    page?.UpdateImageEntry(entry, RandomId.getInstance().make());
                                 }
                                 IsChanged = false;
                                 IsNew = false;
@@ -1478,7 +1480,7 @@ namespace Win_CBZ
                                 Number = realNewIndex + 1,
                                 Index = realNewIndex,
                                 OriginalIndex = realNewIndex,
-                                TemporaryFileId = MakeNewRandomId()
+                                TemporaryFileId = RandomId.getInstance().make()
                             };
                             realNewIndex++;
                         } else
@@ -1607,6 +1609,15 @@ namespace Win_CBZ
                             {
                                 LocalFiles = files.ToList(),
                             }
+                        },
+                        new StackItem
+                        {
+                            TaskId = MetaData.Exists() ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
+                            ThreadParams = new UpdatePageIndicesThreadParams()
+                            {
+                                ContinuePipeline = true,
+                                InitialIndexRebuild = false,
+                            }
                         }
                     };
                 }
@@ -1711,13 +1722,15 @@ namespace Win_CBZ
 
             MaxFileIndex = newIndex;
 
+            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+            Thread.Sleep(50);
+
             if (tparams.ContinuePipeline)
             {
                 OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_UPDATE_INDICES, null, tparams.Stack));
-            }
-
-            OnOperationFinished(new OperationFinishedEvent(0, Pages.Count));
-            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+            }         
         }
 
         public Page GetPageById(String id)
@@ -2144,12 +2157,12 @@ namespace Win_CBZ
 
         protected FileInfo MakeNewTempFileName(String extension = "")
         {
-            return new FileInfo(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, MakeNewRandomId() + extension + ".tmp"));
+            return new FileInfo(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, RandomId.getInstance().make() + extension + ".tmp"));
         }
 
         protected DirectoryInfo MakeTempDirectory(String name = "_tmp")
         {
-            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, name, MakeNewRandomId()));
+            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, name, RandomId.getInstance().make()));
 
             //return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
         }
@@ -2170,11 +2183,6 @@ namespace Win_CBZ
                                                              InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit,
                                                              PropagationFlags.InheritOnly, AccessControlType.Allow));
             directoryInfo.SetAccessControl(dSecurity);
-        }
-
-        public String MakeNewRandomId()
-        {
-            return RandomProvider.Next().ToString("X");
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

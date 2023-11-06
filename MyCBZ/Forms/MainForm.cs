@@ -111,7 +111,7 @@ namespace Win_CBZ
             newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
 
 
-            this.Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
+            Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
         }
@@ -423,31 +423,31 @@ namespace Win_CBZ
 
         private void OperationFinished(object sender, OperationFinishedEvent e)
         {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
+            MainToolStripProgressBar.Control.Invoke(new Action(() =>
             {
-                toolStripProgressBar.Maximum = 100;
-                toolStripProgressBar.Value = 0;
+                MainToolStripProgressBar.Maximum = 100;
+                MainToolStripProgressBar.Value = 0;
             }));
         }
 
         private void FileOperationHandler(object sender, FileOperationEvent e)
         {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
+            MainToolStripProgressBar.Control.Invoke(new Action(() =>
             {
                 if (e.Status == FileOperationEvent.STATUS_RUNNING)
                 {
-                    toolStripProgressBar.Maximum = 100;
-                    toolStripProgressBar.Value = Convert.ToInt32(100 * e.Completed / e.Total);
+                    MainToolStripProgressBar.Maximum = 100;
+                    MainToolStripProgressBar.Value = Convert.ToInt32(100 * e.Completed / e.Total);
 
                     if (e.Operation == FileOperationEvent.OPERATION_COPY)
                     {
-                        applicationStatusLabel.Text = "Copying file...";
+                        ApplicationStatusLabel.Text = "Copying file...";
                     }
 
                 } else
                 {
-                    toolStripProgressBar.Value = 0;
-                    applicationStatusLabel.Text = "Ready.";
+                    MainToolStripProgressBar.Value = 0;
+                    ApplicationStatusLabel.Text = "Ready.";
 
                 }
             }));
@@ -455,19 +455,19 @@ namespace Win_CBZ
 
         private void ArchiveOperationHandler(object sender, ArchiveOperationEvent e)
         {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
+            MainToolStripProgressBar.Control.Invoke(new Action(() =>
             {
-                toolStripProgressBar.Maximum = e.Total;
-                toolStripProgressBar.Value = e.Completed;
+                MainToolStripProgressBar.Maximum = e.Total;
+                MainToolStripProgressBar.Value = e.Completed;
             }));
         }
 
         private void PageOperationHandler(object sender, ArchiveOperationEvent e)
         {
-            toolStripProgressBar.Control.Invoke(new Action(() =>
+            MainToolStripProgressBar.Control.Invoke(new Action(() =>
             {
-                toolStripProgressBar.Maximum = e.Total;
-                toolStripProgressBar.Value = e.Completed;
+                MainToolStripProgressBar.Maximum = e.Total;
+                MainToolStripProgressBar.Value = e.Completed;
             }));
         }
 
@@ -563,7 +563,7 @@ namespace Win_CBZ
                 {
                     this.Invoke(new Action(() =>
                     {
-                        saveToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonSave.Enabled = false;
                         ToolButtonNew.Enabled = false;
@@ -571,8 +571,8 @@ namespace Win_CBZ
                         ToolButtonMovePageDown.Enabled = false;
                         ToolButtonMovePageUp.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
-                        newToolStripMenuItem.Enabled = false;
-                        applicationStatusLabel.Text = e.Message;
+                        NewToolStripMenuItem.Enabled = false;
+                        ApplicationStatusLabel.Text = e.Message;
                     }));
                 }
 
@@ -580,12 +580,12 @@ namespace Win_CBZ
                 {
                     if (!WindowClosed)
                     {
-                        toolStripProgressBar.Control.Invoke(new Action(() =>
+                        MainToolStripProgressBar.Control.Invoke(new Action(() =>
                         {
-                            toolStripProgressBar.Maximum = e.Total;
+                            MainToolStripProgressBar.Maximum = e.Total;
                             if (e.Current > -1 && e.Current <= e.Total)
                             {
-                                toolStripProgressBar.Value = e.Current;
+                                MainToolStripProgressBar.Value = e.Current;
                             }
                         }));
                     }
@@ -602,7 +602,7 @@ namespace Win_CBZ
                 {
                     this.Invoke(new Action(() =>
                     {
-                        saveToolStripMenuItem.Enabled = true;
+                        SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonSave.Enabled = true;
                         ToolButtonNew.Enabled = true;
@@ -610,8 +610,8 @@ namespace Win_CBZ
                         ToolButtonMovePageDown.Enabled = true;
                         ToolButtonMovePageUp.Enabled = true;
                         ToolButtonRemoveFiles.Enabled = true;
-                        newToolStripMenuItem.Enabled = true;
-                        applicationStatusLabel.Text = e.Message;
+                        NewToolStripMenuItem.Enabled = true;
+                        ApplicationStatusLabel.Text = e.Message;
                         Program.ProjectModel.IsChanged = true;
                         Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
 
@@ -638,11 +638,11 @@ namespace Win_CBZ
                     {
                         if (!WindowClosed)
                         {
-                            toolStripProgressBar.Control.Invoke(new Action(() =>
+                            MainToolStripProgressBar.Control.Invoke(new Action(() =>
                             {
-                                toolStripProgressBar.Maximum = e.Total;
+                                MainToolStripProgressBar.Maximum = e.Total;
 
-                                toolStripProgressBar.Value = 0;
+                                MainToolStripProgressBar.Value = 0;
 
                             }));
                         }
@@ -992,12 +992,12 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    toolStripProgressBar.Control.Invoke(new Action(() =>
+                    MainToolStripProgressBar.Control.Invoke(new Action(() =>
                     {
-                        toolStripProgressBar.Maximum = e.Total;
+                        MainToolStripProgressBar.Maximum = e.Total;
                         if (e.Current > -1 && e.Current <= e.Total)
                         {
-                            toolStripProgressBar.Value = e.Current;
+                            MainToolStripProgressBar.Value = e.Current;
                         }
                     }));
                 }
@@ -1045,7 +1045,7 @@ namespace Win_CBZ
 
         private void ApplicationStateChanged(object sender, ApplicationStatusEvent e)
         {
-            String info = applicationStatusLabel.Text;
+            String info = ApplicationStatusLabel.Text;
             String filename = e.ArchiveInfo.FileName;
 
             Program.ProjectModel.ApplicationState = e.State;
@@ -1081,10 +1081,10 @@ namespace Win_CBZ
                 //{
                 Invoke(new Action(() =>
                 {
-                    fileNameLabel.Text = filename;
-                    applicationStatusLabel.Text = info;
+                    FileNameLabel.Text = filename;
+                    ApplicationStatusLabel.Text = info;
                     Program.ProjectModel.ArchiveState = e.State;
-                    pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+                    PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
 
                     DisableControllsForApplicationState(e.State);
                 }));
@@ -1163,11 +1163,11 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    toolStripProgressBar.Control.Invoke(new Action(() =>
+                    MainToolStripProgressBar.Control.Invoke(new Action(() =>
                     {
                         if (e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED && e.State != CBZArchiveStatusEvent.ARCHIVE_CLOSING)
                         {
-                            toolStripProgressBar.Value = 0;
+                            MainToolStripProgressBar.Value = 0;
                         }
                     }));
                 }
@@ -1247,10 +1247,10 @@ namespace Win_CBZ
                     }
                     
 
-                    fileNameLabel.Text = filename;
-                    applicationStatusLabel.Text = info;
+                    FileNameLabel.Text = filename;
+                    ApplicationStatusLabel.Text = info;
                     Program.ProjectModel.ArchiveState = e.State;
-                    pageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+                    PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
 
                     DisableControllsForArchiveState(e.ArchiveInfo, e.State);
                 }));
@@ -1271,13 +1271,13 @@ namespace Win_CBZ
                 {
                     case CBZArchiveStatusEvent.ARCHIVE_SAVING:
                     case CBZArchiveStatusEvent.ARCHIVE_OPENING:
-                        newToolStripMenuItem.Enabled = false;
-                        openToolStripMenuItem.Enabled = false;
+                        NewToolStripMenuItem.Enabled = false;
+                        OpenToolStripMenuItem.Enabled = false;
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
-                        addFilesToolStripMenuItem.Enabled = false;
+                        AddFilesToolStripMenuItem.Enabled = false;
                         ToolButtonAddFiles.Enabled = false;
                         BtnAddMetaData.Enabled = false;
                         BtnRemoveMetaData.Enabled = false;
@@ -1286,7 +1286,7 @@ namespace Win_CBZ
                         ExtractSelectedPages.Enabled = false;
                         BtnRemoveMetaData.Enabled = false;
                         ToolButtonSave.Enabled = false;
-                        saveToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = false;
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
@@ -1296,12 +1296,12 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
-                        newToolStripMenuItem.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
+                        NewToolStripMenuItem.Enabled = true;
+                        OpenToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
-                        addFilesToolStripMenuItem.Enabled = true;
+                        AddFilesToolStripMenuItem.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
                         ToolButtonExtractArchive.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
@@ -1315,7 +1315,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Enabled = true;
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonSave.Enabled = false;
-                        saveToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         Program.ProjectModel.IsNew = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
@@ -1323,12 +1323,12 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_SAVED:
-                        newToolStripMenuItem.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
+                        NewToolStripMenuItem.Enabled = true;
+                        OpenToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
-                        addFilesToolStripMenuItem.Enabled = true;
+                        AddFilesToolStripMenuItem.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
                         ToolButtonExtractArchive.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
@@ -1337,7 +1337,7 @@ namespace Win_CBZ
                         TextboxStoryPageRenamingPattern.Enabled = true;
                         TextboxSpecialPageRenamingPattern.Enabled = true;
                         ToolButtonSave.Enabled = false;
-                        saveToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsNew = false;
@@ -1353,13 +1353,13 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING:
-                        newToolStripMenuItem.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
-                        saveToolStripMenuItem.Enabled = true;
+                        NewToolStripMenuItem.Enabled = true;
+                        OpenToolStripMenuItem.Enabled = true;
+                        SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
-                        addFilesToolStripMenuItem.Enabled = true;
+                        AddFilesToolStripMenuItem.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
                         ToolButtonExtractArchive.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
@@ -1382,13 +1382,13 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
-                        newToolStripMenuItem.Enabled = false;
-                        openToolStripMenuItem.Enabled = false;
+                        NewToolStripMenuItem.Enabled = false;
+                        OpenToolStripMenuItem.Enabled = false;
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
-                        addFilesToolStripMenuItem.Enabled = false;
+                        AddFilesToolStripMenuItem.Enabled = false;
                         ToolButtonAddFiles.Enabled = false;
                         ToolButtonAddFolder.Enabled = false;
                         BtnRemoveMetaData.Enabled = false;
@@ -1398,12 +1398,12 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
-                        newToolStripMenuItem.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
+                        NewToolStripMenuItem.Enabled = true;
+                        OpenToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
-                        addFilesToolStripMenuItem.Enabled = true;
+                        AddFilesToolStripMenuItem.Enabled = true;
                         ToolButtonAddFolder.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
                         ToolButtonExtractArchive.Enabled = true;
@@ -1411,13 +1411,13 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
-                        newToolStripMenuItem.Enabled = false;
-                        openToolStripMenuItem.Enabled = false;
+                        NewToolStripMenuItem.Enabled = false;
+                        OpenToolStripMenuItem.Enabled = false;
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
-                        addFilesToolStripMenuItem.Enabled = false;
+                        AddFilesToolStripMenuItem.Enabled = false;
                         ToolButtonAddFiles.Enabled = false;
                         BtnAddMetaData.Enabled = false;
                         BtnRemoveMetaData.Enabled = false;
@@ -1425,7 +1425,7 @@ namespace Win_CBZ
                         ToolButtonExtractArchive.Enabled = false;
                         ExtractSelectedPages.Enabled = false;
                         ToolButtonSave.Enabled = false;
-                        saveToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = false;
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
@@ -1436,12 +1436,12 @@ namespace Win_CBZ
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
-                        newToolStripMenuItem.Enabled = true;
-                        openToolStripMenuItem.Enabled = true;
+                        NewToolStripMenuItem.Enabled = true;
+                        OpenToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
-                        addFilesToolStripMenuItem.Enabled = true;
+                        AddFilesToolStripMenuItem.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonMovePageDown.Enabled = false;
@@ -1455,7 +1455,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Enabled = false;
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonSave.Enabled = false;
-                        saveToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = false;
                         LabelGlobalActionStatusMessage.Text = "";
                         GlobalAlertTableLayout.Visible = false;
@@ -1482,7 +1482,7 @@ namespace Win_CBZ
                         if (project.FileName != null)
                         {
                             ToolButtonSave.Enabled = true;
-                            saveToolStripMenuItem.Enabled = true;
+                            SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
@@ -1493,7 +1493,7 @@ namespace Win_CBZ
                         if (project.FileName != null)
                         {
                             ToolButtonSave.Enabled = true;
-                            saveToolStripMenuItem.Enabled = true;
+                            SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
@@ -1502,7 +1502,7 @@ namespace Win_CBZ
                         if (project.FileName != null)
                         {
                             ToolButtonSave.Enabled = true;
-                            saveToolStripMenuItem.Enabled = true;
+                            SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
@@ -1511,7 +1511,7 @@ namespace Win_CBZ
                         if (project.FileName != null)
                         {
                             ToolButtonSave.Enabled = true;
-                            saveToolStripMenuItem.Enabled = true;
+                            SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
@@ -1567,7 +1567,7 @@ namespace Win_CBZ
 
                         //PageImages.Images.Clear();
 
-                        toolStripProgressBar.Value = 0;
+                        MainToolStripProgressBar.Value = 0;
 
                         ClearProject();
                         NewProject();
@@ -1580,7 +1580,7 @@ namespace Win_CBZ
 
                     //PageImages.Images.Clear();
 
-                    toolStripProgressBar.Value = 0;
+                    MainToolStripProgressBar.Value = 0;
 
                     ClearProject();
                     NewProject();
@@ -2409,7 +2409,7 @@ namespace Win_CBZ
                 if (Program.ProjectModel.FileName != null)
                 {
                     ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
+                    SaveToolStripMenuItem.Enabled = true;
                 }
             }));
         }
@@ -2423,7 +2423,7 @@ namespace Win_CBZ
                 if (Program.ProjectModel.FileName != null)
                 {
                     ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
+                    SaveToolStripMenuItem.Enabled = true;
                 }
 
                 if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
@@ -2517,7 +2517,7 @@ namespace Win_CBZ
                 //if (fi.Exists)
                 //{
                     ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
+                    SaveToolStripMenuItem.Enabled = true;
                 //}
 
                 string Key = "";
@@ -2866,7 +2866,7 @@ namespace Win_CBZ
                     TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                     TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                     ToolButtonSave.Enabled = true;
-                    saveToolStripMenuItem.Enabled = true;
+                    SaveToolStripMenuItem.Enabled = true;
 
 
                     if (CheckBoxDoRenamePages.CheckState == CheckState.Unchecked)
