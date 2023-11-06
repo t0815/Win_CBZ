@@ -2867,7 +2867,7 @@ namespace Win_CBZ
                     TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                     ToolButtonSave.Enabled = true;
                     SaveToolStripMenuItem.Enabled = true;
-
+                    CheckBoxPreview.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
 
                     if (CheckBoxDoRenamePages.CheckState == CheckState.Unchecked)
                     {
@@ -2889,7 +2889,20 @@ namespace Win_CBZ
                     }
                     else
                     {
-                        CheckBoxPreview.Enabled = true;
+                        if (CheckBoxPreview.Checked == true)
+                        {
+                            try
+                            {
+                                Program.ProjectModel.AutoRenameAllPages();
+                            }
+                            catch (ConcurrentOperationException c)
+                            {
+                                if (c.ShowErrorDialog)
+                                {
+                                    ApplicationMessage.ShowWarning(c.Message, "ConcurrentOperationException", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -3349,6 +3362,30 @@ namespace Win_CBZ
             Win_CBZSettings.Default.CompatMode = CheckBoxCompatibilityMode.Checked;
 
             Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
+
+            if (CheckBoxDoRenamePages.CheckState == CheckState.Checked)
+            {
+                CheckBoxDoRenamePages.CheckState = CheckState.Unchecked;
+                Program.ProjectModel.ApplyRenaming = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
+                Program.ProjectModel.IsChanged = true;
+                TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
+                TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
+                ToolButtonSave.Enabled = true;
+                CheckBoxPreview.Enabled = false;
+                SaveToolStripMenuItem.Enabled = true;
+
+                try
+                {
+                    Program.ProjectModel.RestoreOriginalNames();
+                }
+                catch (ConcurrentOperationException c)
+                {
+                    if (c.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowWarning(c.Message, "ConcurrentOperationException", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+                }
+            }
         }
 
         private void RadioApplyAdjustments_CheckedChanged(object sender, EventArgs e)
@@ -3415,6 +3452,11 @@ namespace Win_CBZ
         private void PageView_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void CheckBoxIgnoreErrorsOnSave_CheckedChanged(object sender, EventArgs e)
+        {
+            
         }
 
 
