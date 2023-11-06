@@ -57,7 +57,7 @@ namespace Win_CBZ
             this.ToolButtonSetPageType = new System.Windows.Forms.ToolStripSplitButton();
             this.ToolButtonExtractArchive = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButtonShowRawMetadata = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripButtonShowRawMetadata = new System.Windows.Forms.ToolStripButton();
             this.ToolButtonStatistics = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.TogglePagePreviewToolbutton = new System.Windows.Forms.ToolStripButton();
@@ -73,7 +73,7 @@ namespace Win_CBZ
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -269,7 +269,7 @@ namespace Win_CBZ
             this.ToolButtonSetPageType,
             this.ToolButtonExtractArchive,
             this.toolStripSeparator6,
-            this.toolStripButtonShowRawMetadata,
+            this.ToolStripButtonShowRawMetadata,
             this.ToolButtonStatistics,
             this.toolStripSeparator7,
             this.TogglePagePreviewToolbutton,
@@ -308,7 +308,7 @@ namespace Win_CBZ
             this.ToolButtonOpen.Size = new System.Drawing.Size(28, 28);
             this.ToolButtonOpen.Text = "toolStripButton1";
             this.ToolButtonOpen.ToolTipText = "Open CBZ Archive";
-            this.ToolButtonOpen.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.ToolButtonOpen.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // ToolButtonSave
             // 
@@ -475,16 +475,16 @@ namespace Win_CBZ
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 31);
             // 
-            // toolStripButtonShowRawMetadata
+            // ToolStripButtonShowRawMetadata
             // 
-            this.toolStripButtonShowRawMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonShowRawMetadata.Enabled = false;
-            this.toolStripButtonShowRawMetadata.Image = global::Win_CBZ.Properties.Resources.document_page_number;
-            this.toolStripButtonShowRawMetadata.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonShowRawMetadata.Name = "toolStripButtonShowRawMetadata";
-            this.toolStripButtonShowRawMetadata.Size = new System.Drawing.Size(28, 28);
-            this.toolStripButtonShowRawMetadata.Text = "Show Raw-MetaData";
-            this.toolStripButtonShowRawMetadata.Click += new System.EventHandler(this.toolStripButtonShowRawMetadata_Click);
+            this.ToolStripButtonShowRawMetadata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButtonShowRawMetadata.Enabled = false;
+            this.ToolStripButtonShowRawMetadata.Image = global::Win_CBZ.Properties.Resources.document_page_number;
+            this.ToolStripButtonShowRawMetadata.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButtonShowRawMetadata.Name = "toolStripButtonShowRawMetadata";
+            this.ToolStripButtonShowRawMetadata.Size = new System.Drawing.Size(28, 28);
+            this.ToolStripButtonShowRawMetadata.Text = "Show Raw-MetaData";
+            this.ToolStripButtonShowRawMetadata.Click += new System.EventHandler(this.ToolStripButtonShowRawMetadata_Click);
             // 
             // ToolButtonStatistics
             // 
@@ -575,7 +575,7 @@ namespace Win_CBZ
             this.openToolStripMenuItem,
             this.toolStripMenuItem2,
             this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
+            this.SaveAsToolStripMenuItem,
             this.toolStripMenuItem3,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -602,7 +602,7 @@ namespace Win_CBZ
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -619,13 +619,13 @@ namespace Win_CBZ
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.ToolButtonSave_Click);
             // 
-            // saveAsToolStripMenuItem
+            // SaveAsToolStripMenuItem
             // 
-            this.saveAsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.save_as;
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as...";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.SaveAsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.save_as;
+            this.SaveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.SaveAsToolStripMenuItem.Text = "Save as...";
+            this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -679,7 +679,7 @@ namespace Win_CBZ
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.selectAllToolStripMenuItem.Text = "Select all";
-            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
@@ -712,7 +712,7 @@ namespace Win_CBZ
             this.addFolderToolStripMenuItem.Name = "addFolderToolStripMenuItem";
             this.addFolderToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
             this.addFolderToolStripMenuItem.Text = "Add Folder...";
-            this.addFolderToolStripMenuItem.Click += new System.EventHandler(this.addFolderToolStripMenuItem_Click);
+            this.addFolderToolStripMenuItem.Click += new System.EventHandler(this.AddFolderToolStripMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
@@ -779,7 +779,7 @@ namespace Win_CBZ
             this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
             this.AboutToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.AboutToolStripMenuItem.Text = "About";
-            this.AboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // debutToolsToolStripMenuItem
             // 
@@ -787,7 +787,7 @@ namespace Win_CBZ
             this.debutToolsToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.debutToolsToolStripMenuItem.Text = "Debug Tools";
             this.debutToolsToolStripMenuItem.Visible = false;
-            this.debutToolsToolStripMenuItem.Click += new System.EventHandler(this.debutToolsToolStripMenuItem_Click);
+            this.debutToolsToolStripMenuItem.Click += new System.EventHandler(this.DebutToolsToolStripMenuItem_Click);
             // 
             // OpenCBFDialog
             // 
@@ -1645,7 +1645,7 @@ namespace Win_CBZ
             this.btnGetExcludesFromSelectedPages.TabIndex = 17;
             this.btnGetExcludesFromSelectedPages.Text = "Get From selected Pages";
             this.btnGetExcludesFromSelectedPages.UseVisualStyleBackColor = true;
-            this.btnGetExcludesFromSelectedPages.Click += new System.EventHandler(this.btnGetExcludesFromSelectedPages_Click);
+            this.btnGetExcludesFromSelectedPages.Click += new System.EventHandler(this.BtnGetExcludesFromSelectedPages_Click);
             // 
             // TabPageArchiveSettings
             // 
@@ -2195,7 +2195,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
@@ -2322,7 +2322,7 @@ namespace Win_CBZ
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox PictureBoxColorSelect;
         private System.Windows.Forms.ColorDialog SelectColorDialog;
-        private System.Windows.Forms.ToolStripButton toolStripButtonShowRawMetadata;
+        private System.Windows.Forms.ToolStripButton ToolStripButtonShowRawMetadata;
         private System.Windows.Forms.TextBox RenamerExcludePages;
         private System.Windows.Forms.Button btnGetExcludesFromSelectedPages;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;

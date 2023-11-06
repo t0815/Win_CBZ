@@ -195,7 +195,10 @@ namespace Win_CBZ
                     ClearLog();
                 } catch (ConcurrentOperationException c)
                 {
-
+                    if (c.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowWarning(c.Message, "Concurrency Exception", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
                 }              
             }
         }
@@ -207,7 +210,7 @@ namespace Win_CBZ
         }
 
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             DialogResult openCBFResult = OpenCBFDialog.ShowDialog();
@@ -233,7 +236,7 @@ namespace Win_CBZ
             }
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult saveDialogResult = SaveArchiveDialog.ShowDialog();
 
@@ -250,7 +253,7 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel.IsNew && !Program.ProjectModel.IsSaved)
             {
-                saveAsToolStripMenuItem_Click(sender, e);
+                SaveAsToolStripMenuItem_Click(sender, e);
             } else
             {
                 if (Program.ProjectModel.Exists())
@@ -262,13 +265,13 @@ namespace Win_CBZ
                 } else
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Wrong application state. Current File does not exists! [" + Program.ProjectModel.FileName + "]");
-                    saveAsToolStripMenuItem.Enabled = true;
-                    saveAsToolStripMenuItem_Click(sender, e);
+                    SaveAsToolStripMenuItem.Enabled = true;
+                    SaveAsToolStripMenuItem_Click(sender, e);
                 }
             }
         }
 
-        private void addFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult openImageResult = AddPagesDirDialog.ShowDialog();
 
@@ -561,7 +564,7 @@ namespace Win_CBZ
                     this.Invoke(new Action(() =>
                     {
                         saveToolStripMenuItem.Enabled = false;
-                        saveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonSave.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonAddFiles.Enabled = false;
@@ -600,7 +603,7 @@ namespace Win_CBZ
                     this.Invoke(new Action(() =>
                     {
                         saveToolStripMenuItem.Enabled = true;
-                        saveAsToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonSave.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
@@ -1270,7 +1273,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_OPENING:
                         newToolStripMenuItem.Enabled = false;
                         openToolStripMenuItem.Enabled = false;
-                        saveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
@@ -1284,7 +1287,7 @@ namespace Win_CBZ
                         BtnRemoveMetaData.Enabled = false;
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
-                        toolStripButtonShowRawMetadata.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = false;
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
                         MetaDataGrid.Enabled = false;
@@ -1295,7 +1298,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
                         newToolStripMenuItem.Enabled = true;
                         openToolStripMenuItem.Enabled = true;
-                        saveAsToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         addFilesToolStripMenuItem.Enabled = true;
@@ -1306,7 +1309,7 @@ namespace Win_CBZ
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
-                        toolStripButtonShowRawMetadata.Enabled = true;
+                        ToolStripButtonShowRawMetadata.Enabled = true;
                         //TextboxStoryPageRenamingPattern.Enabled = true;
                         //TextboxSpecialPageRenamingPattern.Enabled = true;
                         CheckBoxDoRenamePages.Enabled = true;
@@ -1322,7 +1325,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_SAVED:
                         newToolStripMenuItem.Enabled = true;
                         openToolStripMenuItem.Enabled = true;
-                        saveAsToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         addFilesToolStripMenuItem.Enabled = true;
@@ -1335,7 +1338,7 @@ namespace Win_CBZ
                         TextboxSpecialPageRenamingPattern.Enabled = true;
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
-                        toolStripButtonShowRawMetadata.Enabled = true;
+                        ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsNew = false;
                         Program.ProjectModel.IsSaved = true;
@@ -1353,7 +1356,7 @@ namespace Win_CBZ
                         newToolStripMenuItem.Enabled = true;
                         openToolStripMenuItem.Enabled = true;
                         saveToolStripMenuItem.Enabled = true;
-                        saveAsToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         addFilesToolStripMenuItem.Enabled = true;
@@ -1365,7 +1368,7 @@ namespace Win_CBZ
                         TextboxStoryPageRenamingPattern.Enabled = true;
                         TextboxSpecialPageRenamingPattern.Enabled = true;
                         ToolButtonSave.Enabled = true;
-                        toolStripButtonShowRawMetadata.Enabled = true;
+                        ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsSaved = false;
                         PagesList.Enabled = true;
@@ -1381,7 +1384,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
                         newToolStripMenuItem.Enabled = false;
                         openToolStripMenuItem.Enabled = false;
-                        saveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
@@ -1397,7 +1400,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_EXTRACTED:
                         newToolStripMenuItem.Enabled = true;
                         openToolStripMenuItem.Enabled = true;
-                        saveAsToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         addFilesToolStripMenuItem.Enabled = true;
@@ -1410,7 +1413,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_CLOSING:
                         newToolStripMenuItem.Enabled = false;
                         openToolStripMenuItem.Enabled = false;
-                        saveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
@@ -1423,7 +1426,7 @@ namespace Win_CBZ
                         ExtractSelectedPages.Enabled = false;
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
-                        toolStripButtonShowRawMetadata.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = false;
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
                         MetaDataGrid.Enabled = false;
@@ -1435,7 +1438,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
                         newToolStripMenuItem.Enabled = true;
                         openToolStripMenuItem.Enabled = true;
-                        saveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         addFilesToolStripMenuItem.Enabled = true;
@@ -1453,7 +1456,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonSave.Enabled = false;
                         saveToolStripMenuItem.Enabled = false;
-                        toolStripButtonShowRawMetadata.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = false;
                         LabelGlobalActionStatusMessage.Text = "";
                         GlobalAlertTableLayout.Visible = false;
                         PagesList.Enabled = true;
@@ -1480,7 +1483,7 @@ namespace Win_CBZ
                         {
                             ToolButtonSave.Enabled = true;
                             saveToolStripMenuItem.Enabled = true;
-                            saveAsToolStripMenuItem.Enabled = true;
+                            SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
 
@@ -1491,7 +1494,7 @@ namespace Win_CBZ
                         {
                             ToolButtonSave.Enabled = true;
                             saveToolStripMenuItem.Enabled = true;
-                            saveAsToolStripMenuItem.Enabled = true;
+                            SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
@@ -1500,7 +1503,7 @@ namespace Win_CBZ
                         {
                             ToolButtonSave.Enabled = true;
                             saveToolStripMenuItem.Enabled = true;
-                            saveAsToolStripMenuItem.Enabled = true;
+                            SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
@@ -1509,7 +1512,7 @@ namespace Win_CBZ
                         {
                             ToolButtonSave.Enabled = true;
                             saveToolStripMenuItem.Enabled = true;
-                            saveAsToolStripMenuItem.Enabled = true;
+                            SaveAsToolStripMenuItem.Enabled = true;
                         }
                         break;
                 }
@@ -1758,12 +1761,8 @@ namespace Win_CBZ
             {
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
-                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
-                //if (files.Count > 0)
-                //{
-                //    Program.ProjectModel.AddImages(files, newIndex);
-                //}
 
+                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
             }
         }
 
@@ -1788,9 +1787,13 @@ namespace Win_CBZ
                         e.CancelEdit = true;
                         ApplicationMessage.ShowException(eduplicate, ApplicationMessage.DialogType.MT_ERROR);
                     }
-                    catch (PageException)
+                    catch (PageException pe)
                     {
                         e.CancelEdit = true;
+                        if (pe.ShowErrorDialog)
+                        {
+                            ApplicationMessage.ShowException(pe, ApplicationMessage.DialogType.MT_ERROR);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1844,7 +1847,11 @@ namespace Win_CBZ
             }
 
             MoveItemsThread = new Thread(MoveItemsToProc);
-            MoveItemsThread.Start(new MoveItemsToThreadParams() { newIndex = newIndex, items = items });
+            MoveItemsThread.Start(new MoveItemsToThreadParams() 
+            { 
+                newIndex = newIndex, 
+                items = items 
+            });
 
         }
 
@@ -2026,13 +2033,18 @@ namespace Win_CBZ
             }
 
             MovePagesThread = new Thread(MovePageProc);
-            MovePagesThread.Start(new MovePageThreadParams() { newIndex = newIndex, page = page });         
+            MovePagesThread.Start(new MovePageThreadParams() 
+            { 
+                newIndex = newIndex, 
+                page = page 
+            });         
         }
 
         private void MovePageProc(object movePagesThreadParams)
         {
             MovePageThreadParams tparams = movePagesThreadParams as MovePageThreadParams;
-            this.Invoke(new Action(() =>
+            
+            Invoke(new Action(() =>
             {
                 ListViewItem originalPage;
                 ListViewItem originalItem;
@@ -2141,7 +2153,7 @@ namespace Win_CBZ
             BtnRemoveMetaData.Enabled = true;
             AddMetaDataRowBtn.Enabled = true;
             RemoveMetadataRowBtn.Enabled = false;
-            toolStripButtonShowRawMetadata.Enabled = true;
+            ToolStripButtonShowRawMetadata.Enabled = true;
         }
 
         private void RemoveMetaData() 
@@ -2157,7 +2169,7 @@ namespace Win_CBZ
                 BtnRemoveMetaData.Enabled = false;
                 AddMetaDataRowBtn.Enabled = false;
                 RemoveMetadataRowBtn.Enabled = false;
-                toolStripButtonShowRawMetadata.Enabled = false;
+                ToolStripButtonShowRawMetadata.Enabled = false;
             }
         }
 
@@ -2254,17 +2266,15 @@ namespace Win_CBZ
 
         private void MetaDataGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            //
-            /*
-            DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle();
-            
-            dataGridViewCellStyle.ForeColor = e.CellStyle.ForeColor;
-            dataGridViewCellStyle.BackColor = e.CellStyle.BackColor;
-            dataGridViewCellStyle.SelectionForeColor = Color.White;
-            dataGridViewCellStyle.SelectionBackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_GREEN);
+            DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle
+            {
+                ForeColor = e.CellStyle.ForeColor,
+                BackColor = Color.White, //HTMLColor.ToColor(Colors.COLOR_LIGHT_BLUE);
+                SelectionForeColor = Color.Black,
+                SelectionBackColor = e.CellStyle.SelectionBackColor
+            };
 
-            e.CellStyle = dataGridViewCellStyle;
-            */
+            e.CellStyle = dataGridViewCellStyle;            
         }
 
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
@@ -2277,7 +2287,7 @@ namespace Win_CBZ
 
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = true;
-                    toolStripButtonShowRawMetadata.Enabled = true;
+                    ToolStripButtonShowRawMetadata.Enabled = true;
                     DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
                     if (firstCol != null)
                     {
@@ -2709,7 +2719,7 @@ namespace Win_CBZ
             }
         }      
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutDialogForm aboutDialogForm = new AboutDialogForm();
             aboutDialogForm.ShowDialog();
@@ -2828,7 +2838,7 @@ namespace Win_CBZ
             updatedPage.Number = originalPage.Index + 1;
         }
 
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in PagesList.Items)
             {
@@ -3154,7 +3164,7 @@ namespace Win_CBZ
             }
         }
 
-        private void toolStripButtonShowRawMetadata_Click(object sender, EventArgs e)
+        private void ToolStripButtonShowRawMetadata_Click(object sender, EventArgs e)
         {
             try
             {
@@ -3171,7 +3181,7 @@ namespace Win_CBZ
 
         }
 
-        private void btnGetExcludesFromSelectedPages_Click(object sender, EventArgs e)
+        private void BtnGetExcludesFromSelectedPages_Click(object sender, EventArgs e)
         {
             List<String> excludes = new List<String>();
             foreach (ListViewItem item in PagesList.SelectedItems)
@@ -3391,7 +3401,7 @@ namespace Win_CBZ
             }
         }
 
-        private void debutToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DebutToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DebugForm df = new DebugForm();
             df.ShowDialog();

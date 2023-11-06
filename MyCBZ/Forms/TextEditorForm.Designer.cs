@@ -33,7 +33,7 @@
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.HeaderPicture = new System.Windows.Forms.PictureBox();
             this.OkButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelBtn = new System.Windows.Forms.Button();
             this.InfoLabel = new System.Windows.Forms.Label();
             this.ItemsText = new System.Windows.Forms.TextBox();
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
@@ -51,7 +51,7 @@
             this.ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.ItemEditorTableLayout.Controls.Add(this.HeaderPanel, 0, 0);
             this.ItemEditorTableLayout.Controls.Add(this.OkButton, 0, 4);
-            this.ItemEditorTableLayout.Controls.Add(this.CancelButton, 1, 4);
+            this.ItemEditorTableLayout.Controls.Add(this.CancelBtn, 1, 4);
             this.ItemEditorTableLayout.Controls.Add(this.InfoLabel, 0, 3);
             this.ItemEditorTableLayout.Controls.Add(this.ItemsText, 0, 2);
             this.ItemEditorTableLayout.Controls.Add(this.ItemEditorToolBar, 1, 0);
@@ -117,17 +117,17 @@
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // CancelButton
+            // CancelBtn
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(270, 242);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(74, 23);
-            this.CancelButton.TabIndex = 4;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelBtn.Location = new System.Drawing.Point(270, 242);
+            this.CancelBtn.Name = "CancelButton";
+            this.CancelBtn.Size = new System.Drawing.Size(74, 23);
+            this.CancelBtn.TabIndex = 4;
+            this.CancelBtn.Text = "Cancel";
+            this.CancelBtn.UseVisualStyleBackColor = true;
+            this.CancelBtn.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // InfoLabel
             // 
@@ -215,7 +215,7 @@
         private System.Windows.Forms.Label HeaderLabel;
         private System.Windows.Forms.PictureBox HeaderPicture;
         private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.TextBox ItemsText;
         private System.Windows.Forms.Label InfoLabel;
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;

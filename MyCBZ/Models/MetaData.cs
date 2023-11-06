@@ -217,8 +217,10 @@ namespace Win_CBZ
         public MemoryStream BuildComicInfoXMLStream(bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();
-            XmlWriterSettings writerSettings = new XmlWriterSettings();
-            writerSettings.OmitXmlDeclaration = withoutXMLHeaderTag;
+            XmlWriterSettings writerSettings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = withoutXMLHeaderTag
+            };
             XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
              
             xmlWriter.WriteStartDocument();
@@ -627,7 +629,6 @@ namespace Win_CBZ
             Defaults = Defaults.Distinct<MetaDataEntry>().ToList();
         }
 
-
         public String GetDefaultKeys()
         {
             var result = new StringBuilder();
@@ -638,7 +639,6 @@ namespace Win_CBZ
 
             return result.ToString();
         }
-
 
         public MetaDataEntry ParseDefaultProp(String prop)
         {
@@ -651,7 +651,6 @@ namespace Win_CBZ
 
             return entry;
         }
-
 
         public int FillMissingDefaultProps()
         {
@@ -741,10 +740,7 @@ namespace Win_CBZ
                 Document.RemoveAll();
             }
 
-            if (MetaDataReader != null)
-            {
-                MetaDataReader.Dispose();
-            }
+            MetaDataReader?.Dispose();
 
             RemovedKeys.Clear();
             Defaults.Clear();
@@ -756,6 +752,5 @@ namespace Win_CBZ
         {
             MetaDataEntryChanged?.Invoke(this, e);
         }
-
     }
 }

@@ -10,6 +10,7 @@ namespace Win_CBZ
     {
         public const String COLOR_LIGHT_ORANGE = "#DAF7A6";
         public const String COLOR_LIGHT_GREEN = "#42f590";
+        public const String COLOR_LIGHT_BLUE = "#62dfee";
         public const String COLOR_LIGHT_PURPLE = "#CBC3E3";
         public const String COLOR_LIGHT_GREY = "#f0efed";
         public const String COLOR_ERROR_RED = "#9c3838";
