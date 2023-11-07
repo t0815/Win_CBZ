@@ -1772,6 +1772,33 @@ namespace Win_CBZ
             return null;
         }
 
+        public Page GetNextAvailablePage(int index, int direction = 1)
+        {
+            int startIndex = index;
+            bool condition = false;
+            foreach (Page page in Pages)
+            {
+                if (direction == 1)
+                {
+                    condition = page.Index >= index + direction;
+                } else if (direction == -1)
+                {
+                    condition = page.Index <= index + direction && page.Index > -1;
+                }
+
+                if (condition)
+                {
+                    if (!page.Closed && !page.Deleted)
+                    {
+                        return page;
+                    }
+                    index++;
+                }
+            }
+
+            return null;
+        }
+
         public void AutoRenameAllPages()
         {
             if (LoadArchiveThread != null)

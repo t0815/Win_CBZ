@@ -949,12 +949,17 @@ namespace Win_CBZ
 
                         if (TemporaryFile != null && TemporaryFile.Exists())
                         {
-
                             if (!metaDataOnly)
                             {
-                                ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
-                                Image = Image.FromStream(ImageStream);
-                                ImageLoaded = true;
+                                try
+                                {
+                                    ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
+                                    Image = Image.FromStream(ImageStream);
+                                    ImageLoaded = true;
+                                } catch (Exception e)
+                                {
+                                    throw new PageException(this, "Failed to load image [" + Name + "] from local File [" + TemporaryFile.FileName +"]!", true, e);
+                                }
                             }
                             else
                             {

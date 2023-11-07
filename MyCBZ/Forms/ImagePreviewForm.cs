@@ -91,7 +91,10 @@ namespace Win_CBZ
 
         private void ImagePreviewForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            PageImagePreview.Image.Dispose();
+            if (PageImagePreview.Image != null)
+            {
+                PageImagePreview.Image.Dispose();
+            }            
             PageImagePreview.Dispose();
 
             displayPage.Close();
@@ -109,7 +112,7 @@ namespace Win_CBZ
 
             if (page != null)
             {
-                displayPage = new Page(Program.ProjectModel.GetPageByIndex(newIndex + direction));              
+                displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction));              
             }
 
             if (displayPage != null)
@@ -127,7 +130,6 @@ namespace Win_CBZ
                             currentIndex = page.Index;
                         }
                         
-
                         return;
                     }
                 }
@@ -144,9 +146,7 @@ namespace Win_CBZ
                 }
 
                 currentId = displayPage.Id;
-                currentIndex = displayPage.Index;
-
-                
+                currentIndex = displayPage.Index;             
             }
         }
 
