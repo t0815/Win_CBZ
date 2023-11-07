@@ -41,9 +41,12 @@ namespace Win_CBZ
                     {
                         displayPage.CreateLocalWorkingCopy();
                     }
-                    catch (Exception e1)
+                    catch (ApplicationException ae)
                     {
-                        //
+                        if (ae.ShowErrorDialog)
+                        {
+                            ApplicationMessage.ShowException(ae);
+                        }
                     }               
                 }
 
@@ -112,7 +115,14 @@ namespace Win_CBZ
 
             if (page != null)
             {
-                displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction));              
+                try
+                {
+                    displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction));
+                } catch (Exception e)
+                {
+                    ApplicationMessage.ShowException(e);
+                }
+                  
             }
 
             if (displayPage != null)
@@ -136,7 +146,16 @@ namespace Win_CBZ
 
                 if (displayPage.TemporaryFile != null && displayPage.TemporaryFile.Exists())
                 {
-                    PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
+                    try
+                    {
+                        PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
+                    } catch (ApplicationException ae)
+                    {
+                        if (ae.ShowErrorDialog)
+                        {
+                            ApplicationMessage.ShowException(ae);
+                        }
+                    }
                     //PageImagePreview.LoadAsync();
                     HandleWindowSize(displayPage);
                    
