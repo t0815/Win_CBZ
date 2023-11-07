@@ -1780,10 +1780,10 @@ namespace Win_CBZ
             {
                 if (direction == 1)
                 {
-                    condition = page.Index >= index + direction;
+                    condition = page.Index == index + direction && page.Index > -1;
                 } else if (direction == -1)
                 {
-                    condition = page.Index <= index + direction && page.Index > -1;
+                    condition = page.Index == index + direction && page.Index > -1;
                 }
 
                 if (condition)
