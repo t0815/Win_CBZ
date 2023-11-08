@@ -124,5 +124,10 @@ namespace Win_CBZ.Forms
 
             PageIndexTextbox.Enabled = !Page.Deleted;
         }
+
+        private void ButtonCancel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

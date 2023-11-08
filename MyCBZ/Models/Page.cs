@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Imaging;
+using Win_CBZ.Helper;
 
 namespace Win_CBZ
 {
@@ -263,10 +264,17 @@ namespace Win_CBZ
                     ImageStreamMemoryCopy = new MemoryStream();
                     sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
                     IsMemoryCopy = true;
+                } else
+                {
+                    if (Image != null)
+                    {
+                        Image.Dispose();
+                        Image = null;
+                    }
+                    ImageStream = null;
                 }
             }
-                          
-            
+                                    
             Thumbnail = sourcePage.Thumbnail;
             ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
             
@@ -286,7 +294,7 @@ namespace Win_CBZ
                 LocalFile = sourcePage.LocalFile;
                 ImageStream = sourcePage.ImageStream;
                 Compressed = sourcePage.Compressed;
-                TemporaryFileId = sourcePage.TemporaryFileId;
+                TemporaryFileId = RandomId.getInstance().make();
                 EntryName = sourcePage.EntryName;
                 CompressedEntry = sourcePage.CompressedEntry;
                 ImageStream = sourcePage.ImageStream;
@@ -322,6 +330,14 @@ namespace Win_CBZ
                         ImageStreamMemoryCopy = new MemoryStream();
                         sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
                         IsMemoryCopy = true;
+                    } else
+                    {
+                        if (Image != null)
+                        {
+                            Image.Dispose();
+                            Image = null;
+                        }
+                        ImageStream = null;
                     }
                 }
 
