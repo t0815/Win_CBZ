@@ -3459,6 +3459,11 @@ namespace Win_CBZ
             
         }
 
+        private void ToolButtonAddFolder_Click(object sender, EventArgs e)
+        {
+            AddFolderToolStripMenuItem_Click(sender, e);
+        }
+
 
 
 

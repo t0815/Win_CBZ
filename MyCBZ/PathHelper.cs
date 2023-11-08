@@ -62,6 +62,7 @@ namespace Win_CBZ
                 return path;
             }
 
+            // Path.combine() does not work here!!! It will omit backslash from drive letter...
             return String.Join(new String(Path.DirectorySeparatorChar, 1), resolved.ToArray());
         }
     }
