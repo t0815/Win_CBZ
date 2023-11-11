@@ -1860,129 +1860,46 @@ namespace Win_CBZ
         {
             MoveItemsToThreadParams tparams = threadParams as MoveItemsToThreadParams;
             
-            ListViewItem originalItem;
-            ListViewItem newItem;
             ListViewItem pageOriginal;
-            ListViewItem pageNew;
-
-            int IndexOldItem = 0;
-            int direction = 0;
-            String pageViewItemNameCopy = "";
-            String pageImageKeyBackup = "";
-            object pageTagBackup = null;
-               
+            int newIndex = tparams.newIndex;
+             
             PagesList.Invoke(new Action(() =>
             {
                 List<ListViewItem> ItemsSliced = new List<ListViewItem>();
+                List<ListViewItem> PagesSliced = new List<ListViewItem>();
                 if (tparams.newIndex < 0 || tparams.newIndex > PagesList.Items.Count - 1)
                 {
                     return;
                 }
 
-                if (tparams.newIndex > tparams.items[0].Index)
-                {
-                    direction = -1;
-                }
-                else
-                {
-                    direction = 1;
-                }
-
                 foreach (ListViewItem item in tparams.items)
                 {
                     ItemsSliced.Add(item);
+                    PagesList.Items.Remove(item);
+                    pageOriginal = FindListViewItemForPage(PageView, (Page)item.Tag);
+                    if (pageOriginal != null)
+                    {
+                        PagesSliced.Add(pageOriginal);
+                        PageView.Items.Remove(pageOriginal);
+                    }                  
                 }
 
-                originalItem = PagesList.Items[tparams.newIndex];
-
-                foreach (ListViewItem item in tparams.items)
+                foreach (ListViewItem item in ItemsSliced)
                 {
-                    originalItem = PagesList.Items[tparams.newIndex];
-                    newItem = item;
-                    
-                    pageOriginal = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
-                    pageNew = FindListViewItemForPage(PageView, (Page)item.Tag);
+                    PagesList.Items.Insert(newIndex, item);
+                    newIndex++;
+                }
 
-                    IndexOldItem = item.Index;
-                    PagesList.Items.Remove(originalItem);
-                    PagesList.Items.Remove(item);
-                    if (pageNew != null && pageOriginal != null)
-                    {
-                        //PageView.Items.Remove(pageOriginal);
-                        //PageView.Items.Remove(pageNew);
-                    }
-
-                    Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
-                    Program.ProjectModel.Pages.Remove((Page)item.Tag);
-                    if (direction == 1)
-                    {
-                        PagesList.Items.Insert(tparams.newIndex, item);
-                        PagesList.Items.Insert(IndexOldItem, originalItem);
-
-                        pageViewItemNameCopy = pageOriginal.Text;
-                        pageOriginal.Text = pageNew.Text;
-                        pageNew.Text = pageViewItemNameCopy;
-
-                        pageImageKeyBackup = pageOriginal.ImageKey;
-                        pageOriginal.ImageKey = pageNew.ImageKey;
-                        pageNew.ImageKey = pageViewItemNameCopy;
-
-                        pageTagBackup = pageOriginal.Tag;
-                        pageOriginal.Tag = pageNew.Tag;
-                        pageNew.Tag = pageTagBackup;
-
-                        Program.ProjectModel.Pages.Insert(tparams.newIndex, (Page)item.Tag);
-                        Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                        
-                    }
-                    else
-                    {
-                        PagesList.Items.Insert(IndexOldItem, originalItem);
-                        PagesList.Items.Insert(tparams.newIndex, item);
-
-                        pageViewItemNameCopy = pageOriginal.Text;
-                        pageOriginal.Text = pageNew.Text;
-                        pageNew.Text = pageViewItemNameCopy;
-
-                        pageImageKeyBackup = pageOriginal.ImageKey;
-                        pageOriginal.ImageKey = pageNew.ImageKey;
-                        pageNew.ImageKey = pageViewItemNameCopy;
-
-                        pageTagBackup = pageOriginal.Tag;
-                        pageOriginal.Tag = pageNew.Tag;
-                        pageNew.Tag = pageTagBackup;
-
-                        Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                        Program.ProjectModel.Pages.Insert(tparams.newIndex, (Page)item.Tag);
-                    }
-
-                    if (pageNew != null && pageOriginal != null)
-                    {
-                        //UpdatePageView();
-                        ////PageView.Items.Clear();
-
-                        //foreach (ListViewItem pageItem in PagesList.Items)
-                        //{
-                        //    CreatePagePreviewFromItem((Page)item.Tag);
-                        //CreatePagePreviewFromItem((Page)originalItem.Tag);
-
-
-                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_DEBUG, i.Text + "_index="+i.Index.ToString()+"_page="+((Page)i.Tag).Name+"_pageId="+ ((Page)i.Tag).Id);
-                        //}
-                    }
-
-                    PageChanged(this, new PageChangedEvent((Page)pageNew.Tag, (Page)originalItem.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    PageChanged(this, new PageChangedEvent((Page)originalItem.Tag, (Page)pageNew.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                newIndex = tparams.newIndex;
+                foreach (ListViewItem pageItem in PagesSliced)
+                {
+                    PageView.Items.Insert(newIndex, pageItem);
+                    PageChanged(this, new PageChangedEvent((Page)pageItem.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                     HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
-
-                    //Program.ProjectModel.Pages.Insert(newIndex, (Page)item.Tag);
-                    //Program.ProjectModel.Pages.Insert(IndexOldItem, (Page)originalItem.Tag);
-                    tparams.newIndex += direction;
-
-                    Thread.Sleep(10);
+                    newIndex++;
                 }
 
                 //Program.ProjectModel.UpdatePageIndices();
