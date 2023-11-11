@@ -3382,10 +3382,6 @@ namespace Win_CBZ
         }
 
 
-
-
-
-        /*
         /// <summary>
         /// 
         /// </summary>
@@ -3401,11 +3397,7 @@ namespace Win_CBZ
 
                 if (targetItem != null)
                 {
-                    foreach (ListViewItem lvi in items)
-                    {
-
-
-                    }
+                    MoveItemsTo(targetItem.Index, PagesList.SelectedItems);
                 }
             }
         }
@@ -3434,6 +3426,5 @@ namespace Win_CBZ
             // pass the items to move...
             PagesList.DoDragDrop(items, DragDropEffects.Move);
         }
-        **/
     }
 }
