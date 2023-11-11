@@ -1228,7 +1228,7 @@ namespace Win_CBZ
                     info = "Renaming page...";
                     break;
                 case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
-                    //
+                    Program.ProjectModel.IsChanged = true;
                     break;
                 case CBZArchiveStatusEvent.ARCHIVE_EXTRACTING:
                     info = "Extracting file...";
@@ -1866,7 +1866,8 @@ namespace Win_CBZ
             PagesList.Invoke(new Action(() =>
             {
                 List<ListViewItem> ItemsSliced = new List<ListViewItem>();
-                List<ListViewItem> PagesSliced = new List<ListViewItem>();
+                List<ListViewItem> PageViewItemsSliced = new List<ListViewItem>();
+                List<Page> PagesSliced = new List<Page>();
                 if (tparams.newIndex < 0 || tparams.newIndex > PagesList.Items.Count - 1)
                 {
                     return;
@@ -1875,11 +1876,13 @@ namespace Win_CBZ
                 foreach (ListViewItem item in tparams.items)
                 {
                     ItemsSliced.Add(item);
+                    PagesSliced.Add((Page)item.Tag);
                     PagesList.Items.Remove(item);
+                    Program.ProjectModel.Pages.Remove((Page)item.Tag);
                     pageOriginal = FindListViewItemForPage(PageView, (Page)item.Tag);
                     if (pageOriginal != null)
                     {
-                        PagesSliced.Add(pageOriginal);
+                        PageViewItemsSliced.Add(pageOriginal);
                         PageView.Items.Remove(pageOriginal);
                     }                  
                 }
@@ -1891,14 +1894,26 @@ namespace Win_CBZ
                 }
 
                 newIndex = tparams.newIndex;
-                foreach (ListViewItem pageItem in PagesSliced)
+                foreach (Page p in PagesSliced)
                 {
-                    PageView.Items.Insert(newIndex, pageItem);
-                    PageChanged(this, new PageChangedEvent((Page)pageItem.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    p.Index = newIndex;
+                    p.Number = newIndex + 1;
+                    Program.ProjectModel.Pages.Insert(newIndex, p);
+
+                    PageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                     HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
+                    newIndex++;
+                }
+
+                newIndex = tparams.newIndex;
+                foreach (ListViewItem pageItem in PageViewItemsSliced)
+                {
+                    pageItem.Text = newIndex.ToString();
+                    PageView.Items.Insert(newIndex, pageItem);
+                    
                     newIndex++;
                 }
 
@@ -3389,15 +3404,20 @@ namespace Win_CBZ
         /// <param name="e"></param>
         private void PagesList_DragDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(typeof(List<ListViewItem>)))
-            {
-                var items = (List<ListViewItem>)e.Data.GetData(typeof(List<ListViewItem>));
+            if (e.Data.GetDataPresent(typeof(ListViewItem)))
+            { 
+                var movedItem = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
 
                 ListViewItem targetItem = PagesList.GetItemAt(e.X, e.Y);
 
                 if (targetItem != null)
                 {
                     MoveItemsTo(targetItem.Index, PagesList.SelectedItems);
+                }
+
+                if (movedItem != null)
+                {
+
                 }
             }
         }
@@ -3418,13 +3438,15 @@ namespace Win_CBZ
             items.Add((ListViewItem)e.Item);
             foreach (ListViewItem lvi in PagesList.SelectedItems)
             {
-                if (!items.Contains(lvi))
-                {
+                //if (!items.Contains(lvi))
+                //{
                     items.Add(lvi);
-                }
+                //}
             }
+            DataObject data = new DataObject();
+            data.SetData(typeof(System.Windows.Forms.ListView.SelectedListViewItemCollection), PagesList.SelectedItems);
             // pass the items to move...
-            PagesList.DoDragDrop(items, DragDropEffects.Move);
+            PagesList.DoDragDrop(data, DragDropEffects.Move);            
         }
     }
 }
