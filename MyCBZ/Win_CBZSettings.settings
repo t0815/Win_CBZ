@@ -91,7 +91,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DebugMode" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">3ab980acc9ab16b</Value>
     </Setting>
     <Setting Name="ImageConversionMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

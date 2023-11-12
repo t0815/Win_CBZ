@@ -9,14 +9,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Win_CBZ.Forms
 {
     public partial class DebugForm : Form
     {
-        public DebugForm()
+
+        public ListView PageView;
+
+        public DebugForm(ListView source)
         {
             InitializeComponent();
+
+            PageView = source;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,6 +49,38 @@ namespace Win_CBZ.Forms
                     
                 }
 
+            }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            listView2.Items.Clear();
+
+            ListViewItem idebug;
+            foreach (ListViewItem item in PageView.Items)
+            {
+                idebug = listView1.Items.Add(item.Name);
+                idebug.SubItems.Add(((Page)item.Tag).Index.ToString());
+                idebug.SubItems.Add(((Page)item.Tag).Id.ToString());
+                idebug.SubItems.Add(((Page)item.Tag).Name);
+            }
+
+            foreach (Page p in Program.ProjectModel.Pages)
+            {
+                idebug = listView2.Items.Add(p.Name);
+                idebug.SubItems.Add(p.Index.ToString());
+                idebug.SubItems.Add(p.Id.ToString());
             }
         }
     }

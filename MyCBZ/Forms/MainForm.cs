@@ -67,6 +67,8 @@ namespace Win_CBZ
 
         private ImageTask selectedImageTask;
 
+        private DebugForm df;
+
         public MainForm()
         {
             InitializeComponent();
@@ -85,6 +87,8 @@ namespace Win_CBZ
             SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
             SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
             PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
+
+            df = new DebugForm(PageView);
         }
 
         private ProjectModel NewProjectModel()
@@ -135,7 +139,9 @@ namespace Win_CBZ
                 CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
 
                 ComboBoxCompressionLevel.SelectedIndex = 0;
-                
+
+                DebugToolsToolStripMenuItem.Visible = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
+
 
                 Label placeholderLabel;
                 foreach (String placeholder in Win_CBZSettings.Default.RenamerPlaceholders)
@@ -818,17 +824,19 @@ namespace Win_CBZ
             if (existingItem == null)
             {
                 itemPage = PageView.Items.Add(page.Index.ToString());
+                itemPage.Name = page.Index.ToString();
                 itemPage.ImageKey = page.Id;
                 itemPage.SubItems.Add(page.Name);
-                itemPage.SubItems.Add(page.Index.ToString());
+                itemPage.SubItems.Add(page.Id.ToString());
             }
             else
             {
                 itemPage = existingItem;
-                itemPage.Name = page.Name;
+                itemPage.Text = page.Index.ToString(); 
+                itemPage.Name = page.Index.ToString();
                 itemPage.ImageKey = page.Id;
                 itemPage.SubItems[1] = new ListViewItem.ListViewSubItem(itemPage, page.Name);
-                itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Index.ToString());
+                itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Id.ToString());
             }
 
             itemPage.Tag = page;
@@ -1900,11 +1908,6 @@ namespace Win_CBZ
                     p.Number = newIndex + 1;
                     Program.ProjectModel.Pages.Insert(newIndex, p);
 
-                    PageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-
                     newIndex++;
                 }
 
@@ -1913,7 +1916,12 @@ namespace Win_CBZ
                 {
                     pageItem.Text = newIndex.ToString();
                     PageView.Items.Insert(newIndex, pageItem);
-                    
+
+                    PageChanged(this, new PageChangedEvent((Page)pageItem.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+
+                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
                     newIndex++;
                 }
 
@@ -3372,8 +3380,7 @@ namespace Win_CBZ
 
         private void DebugToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DebugForm df = new DebugForm();
-            df.ShowDialog();
+            df.Show();
         }
 
         private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
