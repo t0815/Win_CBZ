@@ -3023,7 +3023,7 @@ namespace Win_CBZ
                 if (page != null)
                 {
                     e.Graphics.DrawRectangle(borderPen, rectangle);
-                    if (owner.LargeImageList.Images.IndexOfKey(page.Id) >= 0)
+                    if (owner.LargeImageList.Images.IndexOfKey(page.Id) > -1)
                     {
                         e.Graphics.DrawImage(owner.LargeImageList.Images[owner.LargeImageList.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
                     }
@@ -3370,7 +3370,7 @@ namespace Win_CBZ
             }
         }
 
-        private void DebutToolsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DebugToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DebugForm df = new DebugForm();
             df.ShowDialog();
@@ -3408,16 +3408,11 @@ namespace Win_CBZ
             { 
                 var movedItem = (ListViewItem)e.Data.GetData(typeof(ListViewItem));
 
-                ListViewItem targetItem = PagesList.GetItemAt(e.X, e.Y);
-
-                if (targetItem != null)
-                {
-                    MoveItemsTo(targetItem.Index, PagesList.SelectedItems);
-                }
+                //ListViewItem targetItem = PagesList.GetItemAt(e.X, e.Y);
 
                 if (movedItem != null)
                 {
-
+                    MoveItemsTo(movedItem.Index, PagesList.SelectedItems);
                 }
             }
         }
