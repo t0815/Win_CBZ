@@ -27,7 +27,6 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using SharpCompress;
 using Win_CBZ.Exceptions;
-using Manina.Windows.Forms;
 
 namespace Win_CBZ
 {
@@ -3540,7 +3539,14 @@ namespace Win_CBZ
                     e.Graphics.DrawRectangle(borderPen, rectangle);
                     if (PageImages.Images.IndexOfKey(page.Id) > -1)
                     {
-                        e.Graphics.DrawImage(PageImages.Images[PageImages.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
+                        if (page.Deleted)
+                        {
+                            e.Graphics.DrawImage(global::Win_CBZ.Properties.Resources.placeholder_image, new Point(center + 2, e.Bounds.Y + 4));
+                        }
+                        else
+                        {
+                            e.Graphics.DrawImage(PageImages.Images[PageImages.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
+                        }
                     }
                     else
                     {
@@ -3613,7 +3619,10 @@ namespace Win_CBZ
 
             foreach (Page item in selectedPages)
             {
-                PagesList.Items[item.Index].Selected = true;
+                if (item.Index > -1)
+                {
+                    PagesList.Items[item.Index].Selected = true;
+                }              
             }
         }
     }

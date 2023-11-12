@@ -28,12 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Manina.Windows.Forms.ImageListViewItem imageListViewItem1 = new Manina.Windows.Forms.ImageListViewItem();
-            Manina.Windows.Forms.ImageListViewItem imageListViewItem2 = new Manina.Windows.Forms.ImageListViewItem();
-            Manina.Windows.Forms.ImageListViewItem imageListViewItem3 = new Manina.Windows.Forms.ImageListViewItem();
-            Manina.Windows.Forms.ImageListViewItem imageListViewItem4 = new Manina.Windows.Forms.ImageListViewItem();
-            Manina.Windows.Forms.ImageListViewItem imageListViewItem5 = new Manina.Windows.Forms.ImageListViewItem();
-            Manina.Windows.Forms.ImageListViewItem imageListViewItem6 = new Manina.Windows.Forms.ImageListViewItem();
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -48,7 +42,6 @@
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
-            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
             this.SuspendLayout();
             // 
             // button1
@@ -151,7 +144,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1477, 458);
-            this.Controls.Add(this.imageListView1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listView2);
             this.Controls.Add(this.listView1);
@@ -179,6 +171,5 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.Button button2;
-        private Manina.Windows.Forms.ImageListView imageListView1;
     }
 }
