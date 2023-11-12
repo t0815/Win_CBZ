@@ -27,6 +27,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using SharpCompress;
 using Win_CBZ.Exceptions;
+using Manina.Windows.Forms;
 
 namespace Win_CBZ
 {
@@ -418,7 +419,7 @@ namespace Win_CBZ
 
                     if (!e.Page.Closed && !e.Page.Deleted)
                     {
-                        PageView.Invoke(new Action(() =>
+                        PageThumbsListBox.Invoke(new Action(() =>
                         {
                             CreatePagePreviewFromItem(e.Page);
                         }));
@@ -488,6 +489,21 @@ namespace Win_CBZ
             }
 
             return null;
+        }
+
+        private Page FindThumbImageForPage(object owner, Page page)
+        {
+          
+            foreach (object item in PageThumbsListBox.Items)
+            {
+                if (((Page)item).Id.Equals(page.Id))
+                {
+                    return item as Page;
+                }
+            }
+
+            return null;
+           
         }
 
         private void HandleGlobalActionRequired(object sender, GlobalActionRequiredEvent e)
@@ -795,19 +811,20 @@ namespace Win_CBZ
 
                     ThumbnailPagesSlice.Clear();
 
-                    if (TogglePagePreviewToolbutton.Checked && PageView.Items.Count > 0)
+                    if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
                     {
-                        PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                        //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                        PageThumbsListBox.Refresh();
                     }
                 }));
             }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private ListViewItem CreatePagePreviewFromItem(Page page)
+        private Page CreatePagePreviewFromItem(Page page)
         {
-            ListViewItem itemPage;
-            ListViewItem existingItem = FindListViewItemForPage(PageView, page);
+            //ListViewItem itemPage;
+            Page existingItem = FindThumbImageForPage(PageView, page);
 
             /*
             if (!PageImages.Images.ContainsKey(page.Id))
@@ -821,6 +838,15 @@ namespace Win_CBZ
             }
             */
 
+            if (existingItem == null)
+            {
+                PageThumbsListBox.Items.Add(page);
+            } else
+            {
+                PageThumbsListBox.Items[PageThumbsListBox.Items.IndexOf(existingItem)] = page;
+            }
+
+            /*
             if (existingItem == null)
             {
                 itemPage = PageView.Items.Add(page.Index.ToString());
@@ -838,10 +864,11 @@ namespace Win_CBZ
                 itemPage.SubItems[1] = new ListViewItem.ListViewSubItem(itemPage, page.Name);
                 itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Id.ToString());
             }
+            */
 
-            itemPage.Tag = page;
+            //itemPage.Tag = page;
 
-            return itemPage;
+            return page;
         }
 
 
@@ -1112,6 +1139,7 @@ namespace Win_CBZ
                 case ApplicationStatusEvent.STATE_READY:
                     PagesList.Enabled = true;
                     PageView.Enabled = true;
+                    PageThumbsListBox.Enabled = true;
                     MetaDataGrid.Enabled = true;
 
                     break;
@@ -1119,6 +1147,7 @@ namespace Win_CBZ
                 case ApplicationStatusEvent.STATE_OPENING:
                     PagesList.Enabled = false;
                     PageView.Enabled = false;
+                    PageThumbsListBox.Enabled = false;
                     MetaDataGrid.Enabled = false;
 
                     break;
@@ -1126,6 +1155,7 @@ namespace Win_CBZ
                 case ApplicationStatusEvent.STATE_SAVING:
                     PagesList.Enabled = false;
                     PageView.Enabled = false;
+                    PageThumbsListBox.Enabled = false;
                     MetaDataGrid.Enabled = false;
 
                     break;
@@ -1133,6 +1163,7 @@ namespace Win_CBZ
                 case ApplicationStatusEvent.STATE_CLOSING:
                     PagesList.Enabled = false;
                     PageView.Enabled = false;
+                    PageThumbsListBox.Enabled = false;
                     MetaDataGrid.Enabled = false;
 
                     break;
@@ -1144,6 +1175,7 @@ namespace Win_CBZ
                 case ApplicationStatusEvent.STATE_DELETING:
                     PagesList.Enabled = false;
                     PageView.Enabled = false;
+                    PageThumbsListBox.Enabled = false;
 
                     break;
 
@@ -1155,6 +1187,7 @@ namespace Win_CBZ
                     PagesList.Enabled = false;
                     PageView.Enabled = false;
                     MetaDataGrid.Enabled = false;
+                    PageThumbsListBox.Enabled = false;
 
                     break;
 
@@ -1202,6 +1235,7 @@ namespace Win_CBZ
                         Program.ProjectModel.Pages.Clear();
                         PagesList.Items.Clear();
                         PageView.Items.Clear();
+                        PageThumbsListBox.Items.Clear();
                         PageImages.Images.Clear();
                         filename = "";
                     }));
@@ -1249,9 +1283,10 @@ namespace Win_CBZ
                 //{
                 this.Invoke(new Action(() =>
                 {
-                    if (TogglePagePreviewToolbutton.Checked && PageView.Items.Count > 0)
+                    if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) // PageView.Items.Count > 0)
                     {
-                        PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                        //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+
                     }
                     
 
@@ -1298,6 +1333,7 @@ namespace Win_CBZ
                         ToolStripButtonShowRawMetadata.Enabled = false;
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
+                        PageThumbsListBox.Enabled = false;
                         MetaDataGrid.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
@@ -1327,6 +1363,7 @@ namespace Win_CBZ
                         Program.ProjectModel.IsNew = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
+                        PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         break;
 
@@ -1352,6 +1389,7 @@ namespace Win_CBZ
                         Program.ProjectModel.IsSaved = true;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
+                        PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
@@ -1381,6 +1419,7 @@ namespace Win_CBZ
                         Program.ProjectModel.IsSaved = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
+                        PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
@@ -1437,6 +1476,7 @@ namespace Win_CBZ
                         ToolStripButtonShowRawMetadata.Enabled = false;
                         PagesList.Enabled = false;
                         PageView.Enabled = false;
+                        PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
@@ -1469,6 +1509,7 @@ namespace Win_CBZ
                         GlobalAlertTableLayout.Visible = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
+                        PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
@@ -1868,13 +1909,13 @@ namespace Win_CBZ
         {
             MoveItemsToThreadParams tparams = threadParams as MoveItemsToThreadParams;
             
-            ListViewItem pageOriginal;
+            Page pageOriginal;
             int newIndex = tparams.newIndex;
              
             PagesList.Invoke(new Action(() =>
             {
                 List<ListViewItem> ItemsSliced = new List<ListViewItem>();
-                List<ListViewItem> PageViewItemsSliced = new List<ListViewItem>();
+                List<Page> PageViewItemsSliced = new List<Page>();
                 List<Page> PagesSliced = new List<Page>();
                 if (tparams.newIndex < 0 || tparams.newIndex > PagesList.Items.Count - 1)
                 {
@@ -1887,11 +1928,12 @@ namespace Win_CBZ
                     PagesSliced.Add((Page)item.Tag);
                     PagesList.Items.Remove(item);
                     Program.ProjectModel.Pages.Remove((Page)item.Tag);
-                    pageOriginal = FindListViewItemForPage(PageView, (Page)item.Tag);
+                    pageOriginal = FindThumbImageForPage(PageThumbsListBox, (Page)item.Tag);
                     if (pageOriginal != null)
                     {
                         PageViewItemsSliced.Add(pageOriginal);
-                        PageView.Items.Remove(pageOriginal);
+                        PageThumbsListBox.Items.Remove(pageOriginal);
+                        //PageView.Items.Remove(pageOriginal);
                     }                  
                 }
 
@@ -1912,12 +1954,12 @@ namespace Win_CBZ
                 }
 
                 newIndex = tparams.newIndex;
-                foreach (ListViewItem pageItem in PageViewItemsSliced)
+                foreach (Page pageItem in PageViewItemsSliced)
                 {
-                    pageItem.Text = newIndex.ToString();
-                    PageView.Items.Insert(newIndex, pageItem);
+                    //pageItem.Text = newIndex.ToString();
+                    PageThumbsListBox.Items.Insert(newIndex, pageItem);
 
-                    PageChanged(this, new PageChangedEvent((Page)pageItem.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    PageChanged(this, new PageChangedEvent(pageItem, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                     HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
@@ -1986,20 +2028,21 @@ namespace Win_CBZ
             
             Invoke(new Action(() =>
             {
-                ListViewItem originalPage;
+                Page originalPage;
                 ListViewItem originalItem;
-                ListViewItem updatePage;
+                Page updatePage;
                 ListViewItem updateItem;
                 //Image originalImage;
                 //Image updateImage;
 
                 updateItem = FindListViewItemForPage(PagesList, tparams.page);
-                updatePage = FindListViewItemForPage(PageView, tparams.page);
+                updatePage = FindThumbImageForPage(PageThumbsListBox, tparams.page);
                 //updateImage = PageImages.Images[PageImages.Images.IndexOfKey(page.Id)];
 
 
                 originalItem = PagesList.Items[tparams.newIndex];
-                originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+                //originalPage = FindListViewItemForPage(PageView, (Page)originalItem.Tag);
+                originalPage = FindThumbImageForPage(PageThumbsListBox, (Page)originalItem.Tag);
                 //originalImage = PageImages.Images[PageImages.Images.IndexOfKey(((Page)originalItem.Tag).Id)];
 
                 int IndexItemToMove = updateItem.Index;
@@ -2035,7 +2078,8 @@ namespace Win_CBZ
 
                 if (updatePage != null && originalPage != null)
                 {
-                    UpdatePageView();
+                    //UpdatePageView();
+                    
                     //CreatePagePreviewFromItem(page);
                     //CreatePagePreviewFromItem((Page)originalItem.Tag);
                     //PageView.Items.Clear();
@@ -2048,10 +2092,10 @@ namespace Win_CBZ
                     //}
                 }
 
-                PageChanged(this, new PageChangedEvent(tparams.page, originalPage.Tag, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                PageChanged(this, new PageChangedEvent(tparams.page, originalPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 if (originalPage != null)
                 {
-                    PageChanged(this, new PageChangedEvent((Page)originalPage.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    PageChanged(this, new PageChangedEvent(originalPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
                 ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
@@ -3037,6 +3081,8 @@ namespace Win_CBZ
                     }
                     else
                     {
+                        e.Graphics.DrawImage(global::Win_CBZ.Properties.Resources.placeholder_image, new Point(center + 2, e.Bounds.Y + 4));
+
                         if (!page.Closed)
                         {
                             ThumbnailPagesSlice.Add(page);
@@ -3449,6 +3495,126 @@ namespace Win_CBZ
             data.SetData(typeof(System.Windows.Forms.ListView.SelectedListViewItemCollection), PagesList.SelectedItems);
             // pass the items to move...
             PagesList.DoDragDrop(data, DragDropEffects.Move);            
+        }
+
+        private void PageThumbsListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Page page = null;
+            System.Windows.Forms.ListBox owner = sender as System.Windows.Forms.ListBox;
+            if (e.Index > -1)
+            {
+                page = owner.Items[e.Index] as Page;
+            }
+       
+            Pen borderPen;
+            Pen captionPen = new Pen(Color.Black, 1);
+            Brush textBrush = Brushes.Black;
+            Brush textBGBrush = Brushes.White;
+            Font textFont = SystemFonts.CaptionFont;
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                borderPen = new Pen(Color.DodgerBlue, 2);
+            }
+            else
+            {
+                borderPen = new Pen(Color.LightGray, 2);
+            }
+
+            if (PageImages != null)
+            {
+                int center = ((e.Bounds.Width + 4) / 2) - ((PageImages.ImageSize.Width + 4) / 2);
+
+                Rectangle rectangle = new Rectangle(center, e.Bounds.Y + 2, PageImages.ImageSize.Width + 4, PageImages.ImageSize.Height + 4);
+
+
+                int customItemBoundsW = PageImages.ImageSize.Width;
+                int customItemBoundsH = 16; //owner.LargeImageList.ImageSize.Height;
+
+                Rectangle textBox = new Rectangle(center, rectangle.Height - 16, customItemBoundsW, customItemBoundsH);
+
+                // e.Bounds.Width = customItemBoundsW + 4;
+
+
+                if (page != null)
+                {
+                    e.Graphics.DrawRectangle(borderPen, rectangle);
+                    if (PageImages.Images.IndexOfKey(page.Id) > -1)
+                    {
+                        e.Graphics.DrawImage(PageImages.Images[PageImages.Images.IndexOfKey(page.Id)], new Point(center + 2, e.Bounds.Y + 4));
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(global::Win_CBZ.Properties.Resources.placeholder_image, new Point(center + 2, e.Bounds.Y + 4));
+
+                        if (!page.Closed)
+                        {
+                            ThumbnailPagesSlice.Add(page);
+                            if (RequestThumbnailThread != null)
+                            {
+                                if (!RequestThumbnailThread.IsAlive)
+                                {
+
+                                    RequestThumbnailSlice();
+                                }
+                            }
+                            else
+                            {
+                                RequestThumbnailSlice();
+                            }
+                        }
+                    }
+
+                    //e.Graphics.DrawRectangle(captionPen, textBox);
+                    //e.Graphics.FillRectangle(textBGBrush, textBox);
+                    //e.Graphics.DrawString(page.Name + "-> " + item.Index.ToString(), textFont, textBrush, new Point(center + 20, e.Bounds.Y + rectangle.Height - 14));
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        private void PageThumbsListBox_DoubleClick(object sender, EventArgs e)
+        {
+            if (PageThumbsListBox.SelectedIndex > -1)
+            {
+                Page page = PageThumbsListBox.Items[PageThumbsListBox.SelectedIndex] as Page;
+
+                ImagePreviewForm pagePreviewForm = new ImagePreviewForm(page);
+                DialogResult dlgResult = pagePreviewForm.ShowDialog();
+                pagePreviewForm.Dispose();
+            }
+        }
+
+        private void PageThumbsListBox_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            e.ItemWidth = 244;
+            e.ItemWidth = 212;
+        }
+
+        private void PageThumbsListBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            //System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PageView.SelectedItems;
+            System.Windows.Forms.ListBox.SelectedObjectCollection selectedPages = PageThumbsListBox.SelectedItems;
+            bool buttonState = selectedPages.Count > 0;
+
+            ToolButtonRemoveFiles.Enabled = buttonState;
+            ToolButtonMovePageDown.Enabled = buttonState;
+            ToolButtonMovePageUp.Enabled = buttonState;
+
+            ToolButtonSetPageType.Enabled = selectedPages.Count == 1;
+            ToolButtonImagePreview.Enabled = selectedPages.Count == 1;
+
+            foreach (ListViewItem itempage in PagesList.Items)
+            {
+                itempage.Selected = false;
+            }
+
+            foreach (Page item in selectedPages)
+            {
+                PagesList.Items[item.Index].Selected = true;
+            }
         }
     }
 }

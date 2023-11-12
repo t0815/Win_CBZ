@@ -71,6 +71,9 @@
     <ApplicationIcon>Resources\TrashSoft.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImageListView, Version=13.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageListView.13.8.2\lib\net35\ImageListView.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -492,6 +495,7 @@
     <None Include="Resources\sort_az_ascending2.png" />
     <None Include="Resources\nav_left.png" />
     <None Include="Resources\nav_right.png" />
+    <None Include="Resources\placeholder-image.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
