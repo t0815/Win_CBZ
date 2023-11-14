@@ -65,6 +65,8 @@
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ComboBoxFileName = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -307,7 +309,7 @@
             this.ImageProcessingTabPage.Location = new System.Drawing.Point(4, 25);
             this.ImageProcessingTabPage.Name = "ImageProcessingTabPage";
             this.ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ImageProcessingTabPage.Size = new System.Drawing.Size(265, 279);
+            this.ImageProcessingTabPage.Size = new System.Drawing.Size(122, 279);
             this.ImageProcessingTabPage.TabIndex = 1;
             this.ImageProcessingTabPage.Text = "Image Processing";
             this.ImageProcessingTabPage.UseVisualStyleBackColor = true;
@@ -337,6 +339,8 @@
             // 
             // SettingsGroup1Panel
             // 
+            this.SettingsGroup1Panel.Controls.Add(this.label4);
+            this.SettingsGroup1Panel.Controls.Add(this.ComboBoxFileName);
             this.SettingsGroup1Panel.Controls.Add(this.button1);
             this.SettingsGroup1Panel.Controls.Add(this.label2);
             this.SettingsGroup1Panel.Controls.Add(this.label1);
@@ -360,7 +364,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(11, 219);
+            this.label2.Location = new System.Drawing.Point(12, 228);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(403, 32);
             this.label2.TabIndex = 2;
@@ -370,7 +374,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
+            this.label1.Location = new System.Drawing.Point(0, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 16);
             this.label1.TabIndex = 1;
@@ -379,12 +383,12 @@
             // CustomDefaultKeys
             // 
             this.CustomDefaultKeys.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CustomDefaultKeys.Location = new System.Drawing.Point(3, 26);
+            this.CustomDefaultKeys.Location = new System.Drawing.Point(3, 72);
             this.CustomDefaultKeys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomDefaultKeys.Multiline = true;
             this.CustomDefaultKeys.Name = "CustomDefaultKeys";
             this.CustomDefaultKeys.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.CustomDefaultKeys.Size = new System.Drawing.Size(547, 169);
+            this.CustomDefaultKeys.Size = new System.Drawing.Size(547, 145);
             this.CustomDefaultKeys.TabIndex = 0;
             // 
             // MetaDataTabPageTags
@@ -530,6 +534,26 @@
             // 
             this.SettingsValidationErrorProvider.ContainerControl = this;
             // 
+            // ComboBoxFileName
+            // 
+            this.ComboBoxFileName.FormattingEnabled = true;
+            this.ComboBoxFileName.Items.AddRange(new object[] {
+            "ComicInfo.xml"});
+            this.ComboBoxFileName.Location = new System.Drawing.Point(87, 14);
+            this.ComboBoxFileName.Name = "ComboBoxFileName";
+            this.ComboBoxFileName.Size = new System.Drawing.Size(433, 24);
+            this.ComboBoxFileName.TabIndex = 4;
+            this.ComboBoxFileName.Text = "ComicInfo.xml";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(-2, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Filename:";
+            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -605,5 +629,7 @@
         private System.Windows.Forms.TrackBar ImageQualityTrackBar;
         private System.Windows.Forms.TabPage ImageProcessingTabPage;
         private System.Windows.Forms.ErrorProvider SettingsValidationErrorProvider;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox ComboBoxFileName;
     }
 }

@@ -22,6 +22,8 @@ namespace Win_CBZ.Forms
 
         public String[] NewValidTagList;
 
+        public String MetaDataFilename;
+
         public bool ValidateTagsSetting;
 
         public bool TagValidationIgnoreCase;
@@ -49,6 +51,8 @@ namespace Win_CBZ.Forms
 
             ValidateTagsSetting = Win_CBZSettings.Default.ValidateTags;
             TagValidationIgnoreCase = Win_CBZSettings.Default.TagValidationIgnoreCase;
+
+            MetaDataFilename = Win_CBZSettings.Default.
 
             // ----------------------------------------
 

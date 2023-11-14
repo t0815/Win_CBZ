@@ -2063,8 +2063,7 @@ namespace Win_CBZ
                 {
                     //PageView.Items.Remove(originalPage);
                     //PageView.Items.Remove(updatePage);
-                    PageThumbsListBox.Items.Remove(originalPage);
-                    PageThumbsListBox.Items.Remove(updatePage);
+
                 }
 
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
@@ -2078,10 +2077,8 @@ namespace Win_CBZ
 
                 if (updatePage != null && originalPage != null)
                 {
-                    PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
-                    PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
                     //UpdatePageView();
-
+                    
                     //CreatePagePreviewFromItem(page);
                     //CreatePagePreviewFromItem((Page)originalItem.Tag);
                     //PageView.Items.Clear();
