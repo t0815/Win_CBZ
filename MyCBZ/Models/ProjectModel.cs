@@ -483,22 +483,27 @@ namespace Win_CBZ
 
         public Task New()
         {
+            if (ThreadRunning())
+            {
+                throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
+            }
+
             CloseArchiveThread = Close();
 
             return Task.Factory.StartNew(() =>
             {
-                if (ThreadRunning())
-                {
-                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
-                }
-
                 CloseArchiveThread?.Join();
 
                 //Pages.Clear();
                 MetaData.Free();
                 MaxFileIndex = 0;
+                IsNew = true;
+                IsChanged = false;
+                ArchiveState = CBZArchiveStatusEvent.ARCHIVE_NEW;
+                ApplicationState = ApplicationStatusEvent.STATE_READY;
 
                 ProjectGUID = Guid.NewGuid().ToString();
+
                 if (!Directory.Exists(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID)))
                 {
                     try
@@ -1491,7 +1496,7 @@ namespace Win_CBZ
 
                         try
                         {
-                            page.LoadImage(true);
+                            page.LoadImage(true);    // dont load full image here!
                         } catch (PageException pe)
                         {
 
@@ -2124,7 +2129,6 @@ namespace Win_CBZ
 
             return tempFileName;
         }
-
         
         public void RunRenameScriptsForPages(object threadParams)
         {
@@ -2556,13 +2560,13 @@ namespace Win_CBZ
         {
             if (destination != null)
             {
-                Page[] copyPages = new Page[this.Pages.Count];
+                Page[] copyPages = new Page[Pages.Count];
 
-                this.Pages.CopyTo(copyPages, 0);
+                Pages.CopyTo(copyPages, 0);
                 destination.Pages = new List<Page>(copyPages);
                 destination.MetaData = this.MetaData;
                 destination.Name = this.Name;
-                destination.ProjectGUID = this.ProjectGUID;
+                destination.ProjectGUID = this.ProjectGUID;   // should be new id!
                 destination.RenameStoryPagePattern = this.RenameStoryPagePattern;
                 destination.RenameSpecialPagePattern = this.RenameSpecialPagePattern;
                 destination.WorkingDir = this.WorkingDir;

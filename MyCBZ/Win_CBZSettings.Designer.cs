@@ -25,7 +25,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("%APPDATA%\\CBZMage\\Temp\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("%APPDATA%\\WIN_CBZ\\Temp\\")]
         public string TempFolderPath {
             get {
                 return ((string)(this["TempFolderPath"]));
@@ -337,6 +337,18 @@ namespace Win_CBZ {
             }
             set {
                 this["ImageConversionQuality"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ComicInfo.xml")]
+        public string MetaDataFilename {
+            get {
+                return ((string)(this["MetaDataFilename"]));
+            }
+            set {
+                this["MetaDataFilename"] = value;
             }
         }
     }

@@ -1617,7 +1617,7 @@ namespace Win_CBZ
 
                         MainToolStripProgressBar.Value = 0;
 
-                        ClearProject();
+                        //ClearProject();
                         NewProject();
                     }
                 }
@@ -1630,7 +1630,7 @@ namespace Win_CBZ
 
                     MainToolStripProgressBar.Value = 0;
 
-                    ClearProject();
+                    //ClearProject();
                     NewProject();
                 }          
             } else
