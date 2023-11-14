@@ -93,7 +93,7 @@ namespace Win_CBZ
 
         private ProjectModel NewProjectModel()
         {
-            ProjectModel newProjectModel = new ProjectModel(Win_CBZSettings.Default.TempFolderPath);
+            ProjectModel newProjectModel = new ProjectModel(Win_CBZSettings.Default.TempFolderPath, Win_CBZSettings.Default.MetaDataFilename);
             
             newProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
             newProjectModel.TaskProgress += TaskProgress;
@@ -141,6 +141,8 @@ namespace Win_CBZ
                 ComboBoxCompressionLevel.SelectedIndex = 0;
 
                 DebugToolsToolStripMenuItem.Visible = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
+
+                TextBoxMetaDataFilename.Text = Win_CBZSettings.Default.MetaDataFilename;
 
 
                 Label placeholderLabel;
@@ -2121,7 +2123,7 @@ namespace Win_CBZ
         {
             //if (Program.ProjectModel.MetaData == null)
             //{
-                Program.ProjectModel.NewMetaData(true);
+                Program.ProjectModel.NewMetaData(true, Win_CBZSettings.Default.MetaDataFilename);
             //}
 
             Program.ProjectModel.MetaData.FillMissingDefaultProps();
@@ -3012,6 +3014,10 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.TagValidationIgnoreCase = settingsDialog.TagValidationIgnoreCase;
                 Win_CBZSettings.Default.ImageConversionMode = settingsDialog.ConversionModeValue;
                 Win_CBZSettings.Default.ImageConversionQuality = settingsDialog.ConversionQualityValue;
+                Win_CBZSettings.Default.MetaDataFilename = settingsDialog.MetaDataFilename;
+
+                TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
+                Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;
             } else
             {
                //

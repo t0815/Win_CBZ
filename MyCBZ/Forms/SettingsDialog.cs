@@ -52,7 +52,7 @@ namespace Win_CBZ.Forms
             ValidateTagsSetting = Win_CBZSettings.Default.ValidateTags;
             TagValidationIgnoreCase = Win_CBZSettings.Default.TagValidationIgnoreCase;
 
-            MetaDataFilename = Win_CBZSettings.Default.
+            MetaDataFilename = Win_CBZSettings.Default.MetaDataFilename;
 
             // ----------------------------------------
 
@@ -64,6 +64,8 @@ namespace Win_CBZ.Forms
 
             ComboBoxConvertPages.SelectedIndex = ConversionModeValue;
             ImageQualityTrackBar.Value = ConversionQualityValue;
+
+            ComboBoxFileName.Text = MetaDataFilename;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -108,6 +110,15 @@ namespace Win_CBZ.Forms
                         }
                     }
 
+                    if (ComboBoxFileName.Text.Length == 0)
+                    {
+                        throw new MetaDataValidationException("", "", "Validateion Error! Empty MetaData- Filename not allowed!");
+                    }
+                    else
+                    {
+
+                    }
+
                     // -------------- DANGER!  All validation goes above this line --------------------
 
 
@@ -135,6 +146,7 @@ namespace Win_CBZ.Forms
                     TagValidationIgnoreCase = !CheckBoxTagValidationIgnoreCase.Checked;
                     ConversionModeValue = ComboBoxConvertPages.SelectedIndex;
                     ConversionQualityValue = ImageQualityTrackBar.Value;
+                    MetaDataFilename = ComboBoxFileName.Text;
                 }
                 catch (MetaDataValidationException mv)
                 {

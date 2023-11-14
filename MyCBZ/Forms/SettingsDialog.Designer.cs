@@ -50,6 +50,8 @@
             this.MetaDataConfigTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.SettingsGroup1Panel = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ComboBoxFileName = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -65,8 +67,6 @@
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.ComboBoxFileName = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -351,6 +351,24 @@
             this.SettingsGroup1Panel.Size = new System.Drawing.Size(563, 270);
             this.SettingsGroup1Panel.TabIndex = 4;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(-2, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 16);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Filename:";
+            // 
+            // ComboBoxFileName
+            // 
+            this.ComboBoxFileName.Items.AddRange(new object[] {
+            "ComicInfo.xml"});
+            this.ComboBoxFileName.Location = new System.Drawing.Point(87, 14);
+            this.ComboBoxFileName.Name = "ComboBoxFileName";
+            this.ComboBoxFileName.Size = new System.Drawing.Size(433, 24);
+            this.ComboBoxFileName.TabIndex = 4;
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(436, 228);
@@ -364,7 +382,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(12, 228);
+            this.label2.Location = new System.Drawing.Point(3, 228);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(403, 32);
             this.label2.TabIndex = 2;
@@ -533,26 +551,6 @@
             // SettingsValidationErrorProvider
             // 
             this.SettingsValidationErrorProvider.ContainerControl = this;
-            // 
-            // ComboBoxFileName
-            // 
-            this.ComboBoxFileName.FormattingEnabled = true;
-            this.ComboBoxFileName.Items.AddRange(new object[] {
-            "ComicInfo.xml"});
-            this.ComboBoxFileName.Location = new System.Drawing.Point(87, 14);
-            this.ComboBoxFileName.Name = "ComboBoxFileName";
-            this.ComboBoxFileName.Size = new System.Drawing.Size(433, 24);
-            this.ComboBoxFileName.TabIndex = 4;
-            this.ComboBoxFileName.Text = "ComicInfo.xml";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(-2, 17);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(66, 16);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Filename:";
             // 
             // SettingsDialog
             // 

@@ -112,7 +112,7 @@ namespace Win_CBZ
         public event EventHandler<MetaDataEntryChangedEvent> MetaDataEntryChanged;
 
 
-        public MetaData(bool createDefault = false)
+        public MetaData(bool createDefault = false, String name = "ComicInfo.xml")
         {
             Defaults = new List<MetaDataEntry>();
             Values = new BindingList<MetaDataEntry>();
@@ -123,6 +123,8 @@ namespace Win_CBZ
             Document = new XmlDocument();
 
             MakeDefaultKeys();
+
+            MetaDataFileName = name;
 
             if (createDefault)
             {

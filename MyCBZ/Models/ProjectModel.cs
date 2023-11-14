@@ -33,6 +33,7 @@ using Path = System.IO.Path;
 using Win_CBZ.Result;
 using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
+using System.Xml.Linq;
 
 namespace Win_CBZ
 {
@@ -167,7 +168,7 @@ namespace Win_CBZ
         private Thread ArchiveValidationThread;
 
 
-        public ProjectModel(String workingDir)
+        public ProjectModel(String workingDir, String metaDataFilename)
         {
             WorkingDir = workingDir;
             Pages = new List<Page>();
@@ -184,7 +185,7 @@ namespace Win_CBZ
             IsChanged = false;
             IsClosed = false;
 
-            NewMetaData();
+            NewMetaData(false, metaDataFilename);
 
             PipelineEventHandler += HandlePipeline;
 
@@ -208,9 +209,9 @@ namespace Win_CBZ
             }
         }
 
-        public MetaData NewMetaData(bool createDefaultValues = false)
+        public MetaData NewMetaData(bool createDefaultValues = false, String metaDataFilename = "ComicInfo.xml")
         {
-            MetaData = new MetaData(createDefaultValues);
+            MetaData = new MetaData(createDefaultValues, metaDataFilename);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
 
             OnMetaDataChanged(new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_NEW, MetaData));
@@ -218,9 +219,9 @@ namespace Win_CBZ
             return MetaData;
         }
 
-        public MetaData NewMetaData(Stream fileInputStream, String name)
+        public MetaData NewMetaData(Stream fileInputStream, String metaDataFilename)
         {
-            MetaData = new MetaData(fileInputStream, name);
+            MetaData = new MetaData(fileInputStream, metaDataFilename);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
 
             OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
@@ -558,7 +559,7 @@ namespace Win_CBZ
 
                 try
                 {
-                    ZipArchiveEntry metaDataEntry = Archive.GetEntry("ComicInfo.xml");
+                    ZipArchiveEntry metaDataEntry = Archive.GetEntry(MetaData.MetaDataFileName);
 
                     if (metaDataEntry != null)
                     {
@@ -566,18 +567,18 @@ namespace Win_CBZ
                     }
                     else
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata (ComicInfo.xml) found in Archive!");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata ['" + MetaData.MetaDataFileName + "'] found in Archive!");
                     }
                 }
                 catch (Exception)
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata (ComicInfo.xml) from Archive!");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive!");
                 }
 
                 MetaDataEntryPage pageIndexEntry;
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
-                    if (!entry.FullName.ToLower().Contains("comicinfo.xml"))
+                    if (!entry.FullName.ToLower().Contains(MetaData.MetaDataFileName.ToLower()))
                     {
                         Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), RandomId.getInstance().make())
                         {
@@ -873,7 +874,7 @@ namespace Win_CBZ
                 if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
                 {
                     MemoryStream ms = MetaData.BuildComicInfoXMLStream();
-                    ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry("ComicInfo.xml");
+                    ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry(MetaData.MetaDataFileName);
                     using (Stream entryStream = metaDataEntry.Open())
                     {
                         ms.CopyTo(entryStream);
