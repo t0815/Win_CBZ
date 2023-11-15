@@ -48,7 +48,7 @@
             // 
             this.ItemEditorTableLayout.ColumnCount = 2;
             this.ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
             this.ItemEditorTableLayout.Controls.Add(this.HeaderPanel, 0, 0);
             this.ItemEditorTableLayout.Controls.Add(this.OkButton, 0, 4);
             this.ItemEditorTableLayout.Controls.Add(this.CancelBtn, 1, 4);
@@ -57,14 +57,15 @@
             this.ItemEditorTableLayout.Controls.Add(this.ItemEditorToolBar, 1, 0);
             this.ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
+            this.ItemEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ItemEditorTableLayout.Name = "ItemEditorTableLayout";
             this.ItemEditorTableLayout.RowCount = 5;
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.ItemEditorTableLayout.Size = new System.Drawing.Size(347, 274);
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            this.ItemEditorTableLayout.Size = new System.Drawing.Size(463, 337);
             this.ItemEditorTableLayout.TabIndex = 0;
             this.ItemEditorTableLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.ItemEditorTableLayout_Paint);
             // 
@@ -75,20 +76,19 @@
             this.HeaderPanel.Controls.Add(this.HeaderLabel);
             this.HeaderPanel.Controls.Add(this.HeaderPicture);
             this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HeaderPanel.Location = new System.Drawing.Point(2, 2);
-            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.HeaderPanel.Location = new System.Drawing.Point(3, 2);
+            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(343, 45);
+            this.HeaderPanel.Size = new System.Drawing.Size(457, 56);
             this.HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
             // 
             this.HeaderLabel.AutoSize = true;
             this.HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeaderLabel.Location = new System.Drawing.Point(71, 14);
-            this.HeaderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.HeaderLabel.Location = new System.Drawing.Point(95, 7);
             this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(86, 21);
+            this.HeaderLabel.Size = new System.Drawing.Size(109, 28);
             this.HeaderLabel.TabIndex = 1;
             this.HeaderLabel.Text = "Item Editor";
             // 
@@ -97,10 +97,10 @@
             this.HeaderPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.edit_large;
-            this.HeaderPicture.Location = new System.Drawing.Point(18, 0);
-            this.HeaderPicture.Margin = new System.Windows.Forms.Padding(2);
+            this.HeaderPicture.Location = new System.Drawing.Point(24, 0);
+            this.HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeaderPicture.Name = "HeaderPicture";
-            this.HeaderPicture.Size = new System.Drawing.Size(49, 43);
+            this.HeaderPicture.Size = new System.Drawing.Size(65, 54);
             this.HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.HeaderPicture.TabIndex = 0;
             this.HeaderPicture.TabStop = false;
@@ -109,9 +109,10 @@
             // 
             this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(189, 242);
+            this.OkButton.Location = new System.Drawing.Point(252, 298);
+            this.OkButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.Size = new System.Drawing.Size(100, 28);
             this.OkButton.TabIndex = 3;
             this.OkButton.Text = "Ok";
             this.OkButton.UseVisualStyleBackColor = true;
@@ -121,9 +122,10 @@
             // 
             this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(270, 242);
-            this.CancelBtn.Name = "CancelButton";
-            this.CancelBtn.Size = new System.Drawing.Size(74, 23);
+            this.CancelBtn.Location = new System.Drawing.Point(360, 298);
+            this.CancelBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CancelBtn.Name = "CancelBtn";
+            this.CancelBtn.Size = new System.Drawing.Size(99, 28);
             this.CancelBtn.TabIndex = 4;
             this.CancelBtn.Text = "Cancel";
             this.CancelBtn.UseVisualStyleBackColor = true;
@@ -132,10 +134,10 @@
             // InfoLabel
             // 
             this.InfoLabel.AutoSize = true;
-            this.InfoLabel.Location = new System.Drawing.Point(8, 217);
-            this.InfoLabel.Margin = new System.Windows.Forms.Padding(8, 8, 3, 0);
+            this.InfoLabel.Location = new System.Drawing.Point(11, 267);
+            this.InfoLabel.Margin = new System.Windows.Forms.Padding(11, 10, 4, 0);
             this.InfoLabel.Name = "InfoLabel";
-            this.InfoLabel.Size = new System.Drawing.Size(86, 13);
+            this.InfoLabel.Size = new System.Drawing.Size(107, 16);
             this.InfoLabel.TabIndex = 6;
             this.InfoLabel.Text = "One item per line";
             // 
@@ -146,11 +148,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemEditorTableLayout.SetColumnSpan(this.ItemsText, 2);
             this.ItemsText.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ItemsText.Location = new System.Drawing.Point(3, 92);
+            this.ItemsText.Location = new System.Drawing.Point(4, 113);
+            this.ItemsText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ItemsText.Multiline = true;
             this.ItemsText.Name = "ItemsText";
             this.ItemsText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ItemsText.Size = new System.Drawing.Size(341, 114);
+            this.ItemsText.Size = new System.Drawing.Size(455, 140);
             this.ItemsText.TabIndex = 5;
             this.ItemsText.WordWrap = false;
             // 
@@ -163,11 +166,11 @@
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(320, 60);
-            this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(6, 0, 0, 2);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(431, 80);
+            this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(27, 27);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(32, 27);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
@@ -178,18 +181,19 @@
             this.ToolButtonSortAscending.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
             this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
-            this.ToolButtonSortAscending.Size = new System.Drawing.Size(24, 24);
+            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 24);
             this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // TextEditorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(347, 274);
+            this.ClientSize = new System.Drawing.Size(463, 337);
             this.Controls.Add(this.ItemEditorTableLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MinimizeBox = false;
             this.Name = "TextEditorForm";
             this.ShowIcon = false;
