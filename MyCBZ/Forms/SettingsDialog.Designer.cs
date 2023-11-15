@@ -206,7 +206,7 @@
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(258, 325);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(275, 325);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -216,7 +216,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(250, 296);
+            this.tabPage1.Size = new System.Drawing.Size(267, 296);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -248,8 +248,8 @@
             this.PictureBoxToolTipMetaFileName.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PictureBoxToolTipMetaFileName.TabIndex = 6;
             this.PictureBoxToolTipMetaFileName.TabStop = false;
-            this.TagValidationTooltip.SetToolTip(this.PictureBoxToolTipMetaFileName, "Should always be \"ComicInfo.xml\". This option sets the name of the Metadata- File" +
-        " within the Archive and can be changed here for more flexibility.");
+            this.TagValidationTooltip.SetToolTip(this.PictureBoxToolTipMetaFileName, "Should always be \"ComicInfo.xml\". \r\nThis option sets the name of the Metadata- Fi" +
+        "le within the Archive and can be changed here for more flexibility.");
             // 
             // label4
             // 
@@ -316,7 +316,7 @@
             this.MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             this.MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTabPageTags.Size = new System.Drawing.Size(404, 296);
+            this.MetaDataTabPageTags.Size = new System.Drawing.Size(566, 296);
             this.MetaDataTabPageTags.TabIndex = 1;
             this.MetaDataTabPageTags.Text = "Tags";
             this.MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -338,11 +338,11 @@
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 179F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 174F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(565, 290);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(555, 290);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -353,7 +353,7 @@
             this.CheckBoxValidateTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CheckBoxValidateTags.Name = "CheckBoxValidateTags";
             this.CheckBoxValidateTags.Padding = new System.Windows.Forms.Padding(5, 8, 0, 0);
-            this.CheckBoxValidateTags.Size = new System.Drawing.Size(286, 28);
+            this.CheckBoxValidateTags.Size = new System.Drawing.Size(286, 27);
             this.CheckBoxValidateTags.TabIndex = 0;
             this.CheckBoxValidateTags.Text = "Validate Tags against a list of known Tags";
             this.CheckBoxValidateTags.UseVisualStyleBackColor = true;
@@ -363,7 +363,7 @@
             // 
             this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
             this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.Location = new System.Drawing.Point(325, 0);
+            this.InfoIconTooltip.Location = new System.Drawing.Point(319, 0);
             this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             this.InfoIconTooltip.Name = "InfoIconTooltip";
             this.InfoIconTooltip.Padding = new System.Windows.Forms.Padding(7, 8, 7, 6);
@@ -380,11 +380,11 @@
             // 
             this.CheckBoxTagValidationIgnoreCase.AutoSize = true;
             this.CheckBoxTagValidationIgnoreCase.Enabled = false;
-            this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(4, 46);
+            this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(4, 35);
             this.CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4);
             this.CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
             this.CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(24, 5, 0, 0);
-            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(143, 13);
+            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(143, 7);
             this.CheckBoxTagValidationIgnoreCase.TabIndex = 6;
             this.CheckBoxTagValidationIgnoreCase.Text = "Case Sensitive";
             this.CheckBoxTagValidationIgnoreCase.UseVisualStyleBackColor = true;
@@ -393,7 +393,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 259);
+            this.label3.Location = new System.Drawing.Point(3, 254);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(111, 16);
             this.label3.TabIndex = 4;
@@ -408,7 +408,7 @@
             this.ValidTags.Multiline = true;
             this.ValidTags.Name = "ValidTags";
             this.ValidTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ValidTags.Size = new System.Drawing.Size(536, 175);
+            this.ValidTags.Size = new System.Drawing.Size(536, 158);
             this.ValidTags.TabIndex = 3;
             // 
             // ItemEditorToolBar
@@ -422,11 +422,11 @@
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(498, 63);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(504, 46);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(67, 15);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(51, 32);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 8;
             // 
@@ -436,7 +436,7 @@
             this.ToolButtonSortAscending.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
             this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
-            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 12);
+            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 29);
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.ToolButtonSortAscending_Click);
             // 
@@ -554,7 +554,7 @@
             this.ImageProcessingTabPage.Location = new System.Drawing.Point(4, 25);
             this.ImageProcessingTabPage.Name = "ImageProcessingTabPage";
             this.ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ImageProcessingTabPage.Size = new System.Drawing.Size(254, 279);
+            this.ImageProcessingTabPage.Size = new System.Drawing.Size(254, 294);
             this.ImageProcessingTabPage.TabIndex = 1;
             this.ImageProcessingTabPage.Text = "Image Processing";
             this.ImageProcessingTabPage.UseVisualStyleBackColor = true;
