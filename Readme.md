@@ -26,7 +26,7 @@ standard described here: https://github.com/anansi-project/comicinfo
 
 - Image processing
 - add missing metadata handling from ComicInfo spec
-- --Frontend functional complete (i.e. drag&drop page reordering)--
+- ~~Frontend functional complete (i.e. drag&drop page reordering)~~
 - Entry Value validation according to definitions in standard
 
 ## Planned > 1.0
