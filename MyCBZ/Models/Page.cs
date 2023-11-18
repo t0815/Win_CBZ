@@ -498,7 +498,12 @@ namespace Win_CBZ
 
                         if (!File.Exists(destination) || overwrite)
                         {
-                            CompressedEntry.ExtractToFile(destination, overwrite);
+                            try { 
+                                CompressedEntry.ExtractToFile(destination, overwrite);
+                            } catch (Exception e)
+                            {
+                                throw new PageException(this, e.Message, true, e);
+                            }
                         }
                         
 
