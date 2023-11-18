@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Helper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ.Tasks
@@ -23,7 +24,12 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page page in pages)
                 {
-                    
+                    if (page.Key == null)
+                    {
+                        page.Key = RandomId.getInstance().make();
+                    }
+
+
                     if (page.Deleted)
                     {
                         page.Index = -1;

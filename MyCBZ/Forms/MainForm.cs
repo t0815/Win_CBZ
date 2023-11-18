@@ -547,44 +547,12 @@ namespace Win_CBZ
         private void HandleGlobalTaskProgress(object sender, GeneralTaskProgressEvent e)
         {
             Program.ProjectModel.ApplicationState = e.Status;
-            if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
-            {
-                switch (e.Status)
-                {
-                    case GeneralTaskProgressEvent.TASK_STATUS_COMPLETED:
-                        Program.ProjectModel.MetaDataPageIndexMissingData = false;
-                        Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
-                        
-                        if (CurrentGlobalActions.Count > 1)
-                        {
-                            CurrentGlobalActions.Remove(CurrentGlobalAction);
-
-                            CurrentGlobalAction = CurrentGlobalActions[0];
-
-                            this.Invoke(new Action(() =>
-                            {
-                                LabelGlobalActionStatusMessage.Text = CurrentGlobalAction.Message;
-                                GlobalAlertTableLayout.Visible = true;
-                            }));
-                        } else
-                        {
-                            if (CurrentGlobalActions.Count > 0)
-                            {
-                                CurrentGlobalActions.Remove(CurrentGlobalAction);
-
-                                CurrentGlobalAction = null;
-                            }
-                        }
-
-                        break;
-                }
-            }
 
             if (e.Status == GeneralTaskProgressEvent.TASK_STATUS_RUNNING)
             {
                 if (!WindowClosed)
                 {
-                    this.Invoke(new Action(() =>
+                    Invoke(new Action(() =>
                     {
                         SaveToolStripMenuItem.Enabled = false;
                         SaveAsToolStripMenuItem.Enabled = false;
@@ -623,7 +591,7 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    this.Invoke(new Action(() =>
+                    Invoke(new Action(() =>
                     {
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
@@ -638,13 +606,19 @@ namespace Win_CBZ
                         Program.ProjectModel.IsChanged = true;
                         Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
 
+                        if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
+                        {
+                            Program.ProjectModel.MetaDataPageIndexMissingData = false;
+                            Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
+                        }
+
                         if (CurrentGlobalActions.Count > 1)
                         {
                             CurrentGlobalActions.Remove(CurrentGlobalAction);
 
                             CurrentGlobalAction = CurrentGlobalActions[0];
 
-                            this.Invoke(new Action(() =>
+                            Invoke(new Action(() =>
                             {
                                 LabelGlobalActionStatusMessage.Text = CurrentGlobalAction.Message;
                                 GlobalAlertTableLayout.Visible = true;
