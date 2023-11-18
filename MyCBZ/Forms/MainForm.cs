@@ -2755,6 +2755,8 @@ namespace Win_CBZ
                     Page pageToUpdate = Program.ProjectModel.GetPageById(pageResult.Id);
                     if (pageToUpdate != null)
                     {
+                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, page.Key);
+
                         pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
                         if (!pageResult.Deleted)
                         {
@@ -2787,6 +2789,7 @@ namespace Win_CBZ
 
                                 ApplicationMessage.ShowException(ex);
                             }
+
                         }
 
                         if (pageResult.Deleted != editPage.Deleted)

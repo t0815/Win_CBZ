@@ -24,10 +24,11 @@ namespace Win_CBZ
         protected static readonly string[] ProtectedProperties = { "pages" };
 
         protected static readonly String[] DefaultProperties = { "AgeRating", "Title", 
-            "Series", "SeriesGroup", "AlternateSeries", "Number", "Volume", "StoryArc", "StoryArcNumber", 
-            "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO",
+            "Series", "SeriesGroup", "AlternateSeries", "Number", "Count", "Volume", "StoryArc", "StoryArcNumber", 
+            "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO", "Format",
             "Artist", "Writer", "Penciller", "Inker", "Colorist", "Cover", "Translator", "Editor", "Letterer", 
-            "Year", "Month", "Day", "Characters", "BlackAndWhite", "Review", "CommunityRating", "Notes", "PageCount", "GTIN" };
+            "Year", "Month", "Day", "Characters", "BlackAndWhite", "Review", "Rating", "CommunityRating", 
+            "Locations", "Notes", "PageCount", "GTIN" };
 
         protected static readonly string[] Ratings =
         {
@@ -295,6 +296,29 @@ namespace Win_CBZ
             }
         }
 
+        public void UpdatePageIndexMetaDataEntry(Page page, String key)
+        {
+            foreach (MetaDataEntryPage entry in PageIndex)
+            {
+                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key))
+                {
+                    entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
+
+                    if (page.Format.W > 0 && page.Format.H > 0)
+                    {
+                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH, page.Format.W.ToString())
+                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
+                    }
+
+                    break;
+                }
+            }
+        }
+
         public void UpdatePageIndexMetaDataEntry(Page page, String oldName, String newName)
         {
             foreach (MetaDataEntryPage entry in PageIndex)
@@ -302,15 +326,15 @@ namespace Win_CBZ
                 if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(oldName))
                 {
                     entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
-                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
-                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
-                        .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
+                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
 
                     if (page.Format.W > 0 && page.Format.H > 0)
                     {
                         entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH, page.Format.W.ToString())
-                            .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
+                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                     }
 
                     break;
@@ -323,6 +347,19 @@ namespace Win_CBZ
             foreach (MetaDataEntryPage entry in PageIndex)
             {
                 if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
+                {
+                    return entry;
+                }
+            }
+
+            return null;
+        }
+
+        public MetaDataEntryPage FindIndexEntryForPageByKey(Page page)
+        {
+            foreach (MetaDataEntryPage entry in PageIndex)
+            {
+                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Key))
                 {
                     return entry;
                 }

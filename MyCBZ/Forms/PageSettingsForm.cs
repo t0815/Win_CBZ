@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Helper;
 
 namespace Win_CBZ.Forms
 {
@@ -16,15 +17,13 @@ namespace Win_CBZ.Forms
 
         Page Page;
         Image PreviewThumb;
-        Random RandomProvider;
         String imageLocation;
 
         public PageSettingsForm(Page page)
         {
             InitializeComponent();
 
-            RandomProvider = new Random();
-            Page = new Page(page, RandomProvider.Next().ToString("X"));
+            Page = new Page(page, RandomId.getInstance().make());
 
             try
             {
@@ -65,6 +64,8 @@ namespace Win_CBZ.Forms
             LabelDpi.Text = Page.Format.DPI.ToString();
             LabelImageFormat.Text = Page.Format.Name;
             LabelImageColors.Text = Page.Format.ColorPalette.Entries.Length.ToString();
+            textBoxKey.Text = Page.Key;
+            CheckBoxDoublePage.Checked = Page.DoublePage;
            /// LabelBits.Text = Page.Format.
         }
 
@@ -128,6 +129,22 @@ namespace Win_CBZ.Forms
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void ButtonNewKey_Click(object sender, EventArgs e)
+        {
+            textBoxKey.Text = RandomId.getInstance().make();
+            Page.Key = textBoxKey.Text;
+        }
+
+        private void textBoxKey_TextChanged(object sender, EventArgs e)
+        {
+            Page.Key = textBoxKey.Text.Trim();
+        }
+
+        private void CheckBoxDoublePage_CheckedChanged(object sender, EventArgs e)
+        {
+            Page.DoublePage = CheckBoxDoublePage.Checked;
         }
     }
 }
