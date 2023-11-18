@@ -35,6 +35,8 @@ namespace Win_CBZ
 
         public String ImageType { get; set; } = "Story";
 
+        public bool DoublePage { get; set; } = false;
+
         public bool ImageLoaded { get; set; }
 
         public bool ImageMetaDataLoaded { get; set; }
@@ -125,6 +127,7 @@ namespace Win_CBZ
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
+            Key = RandomId.getInstance().make();
         }
 
 
@@ -173,6 +176,7 @@ namespace Win_CBZ
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
+            Key = RandomId.getInstance().make();
         }
 
 

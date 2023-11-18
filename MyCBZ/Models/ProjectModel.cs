@@ -595,6 +595,12 @@ namespace Win_CBZ
                             {
                                 page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
                                 page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                                if (page.Key == null)
+                                {
+                                    page.Key = RandomId.getInstance().make();
+                                    MetaDataPageIndexMissingData = true;
+                                }
+                                page.DoublePage = Boolean.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE));
                             }
                             catch
                             {
@@ -1486,12 +1492,14 @@ namespace Win_CBZ
                                 Number = realNewIndex + 1,
                                 Index = realNewIndex,
                                 OriginalIndex = realNewIndex,
-                                TemporaryFileId = RandomId.getInstance().make()
+                                TemporaryFileId = RandomId.getInstance().make(),
+                                Key = RandomId.getInstance().make(),
                             };
                             realNewIndex++;
                         } else
                         {
                             page.UpdateLocalWorkingCopy(fileObject, targetPath);
+                            page.Key = RandomId.getInstance().make();
                             page.Changed = true;
                         }
 
@@ -1770,6 +1778,19 @@ namespace Win_CBZ
             foreach (Page page1 in Pages)
             {
                 if (page1.Name == name)
+                {
+                    return page1;
+                }
+            }
+
+            return null;
+        }
+
+        public Page GetPageByKey(String key)
+        {
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Key == key)
                 {
                     return page1;
                 }
