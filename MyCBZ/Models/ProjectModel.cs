@@ -2528,7 +2528,7 @@ namespace Win_CBZ
                 if (dir.Exists && ProjectGUID != null && ProjectGUID.Length > 0)
                 {
                     // fail safe! are we in the right directory? if not we would delete random directories and files!
-                    if (dir.Parent.Name.ToString().ToLower().Equals("cbzmage") && 
+                    if (dir.Parent.Name.ToString().ToLower().Equals(Win_CBZSettings.Default.AppName.ToLower()) && 
                         dir.Parent.Parent.Name.ToString().ToLower().Equals("roaming"))  
                     {
 
