@@ -2729,8 +2729,18 @@ namespace Win_CBZ
                     Page pageToUpdate = Program.ProjectModel.GetPageById(pageResult.Id);
                     if (pageToUpdate != null)
                     {
-                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, page.Key);
-
+                        try
+                        {
+                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, page.Key);
+                        }
+                        catch (MetaDataPageEntryException em)
+                        {
+                            if (em.ShowErrorDialog)
+                            {
+                                ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                            }
+                        }
+                        
                         pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
                         if (!pageResult.Deleted)
                         {

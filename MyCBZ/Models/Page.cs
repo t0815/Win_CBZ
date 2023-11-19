@@ -250,6 +250,7 @@ namespace Win_CBZ
             OriginalIndex = sourcePage.OriginalIndex;
             Number = sourcePage.Number;
             Closed = sourcePage.Closed;
+            DoublePage = sourcePage.DoublePage;
 
             Deleted = sourcePage.Deleted;
             OriginalName = sourcePage.OriginalName;
@@ -314,6 +315,7 @@ namespace Win_CBZ
                 OriginalIndex = sourcePage.OriginalIndex;
                 Number = sourcePage.Number;
                 Closed = sourcePage.Closed;
+                DoublePage = sourcePage.DoublePage;
 
                 Deleted = sourcePage.Deleted;
                 OriginalName = sourcePage.OriginalName;
@@ -366,6 +368,7 @@ namespace Win_CBZ
             ImageType = page.ImageType;
             ImageTask = page.ImageTask;
             Format = page.Format;
+            DoublePage = page.DoublePage;
 
 
             TemporaryFile = page.TemporaryFile;

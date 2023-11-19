@@ -73,6 +73,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_circle2 {
+            get {
+                object obj = ResourceManager.GetObject("arrow_circle2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_into {
             get {
                 object obj = ResourceManager.GetObject("box_into", resourceCulture);

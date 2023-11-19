@@ -483,6 +483,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\checks.png" />
+    <None Include="Resources\arrow_circle2.png" />
     <Content Include="Resources\defaults.xsl" />
     <Content Include="Resources\edit_large.png" />
     <None Include="Resources\edit_large1.png" />

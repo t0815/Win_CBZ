@@ -291,32 +291,48 @@ namespace Win_CBZ
                 catch (Exception ex)
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error rebuilding <pages> metadata for pagee->" + page.Name + "! [" + ex.Message + "]");
-                    //throw new MetaDataPageEntryException(newPageEntry, "Error rebuilding <pages> metadata for pagee->" + page.Name + "! [" + ex.Message + "]");
+                    //throw new MetaDataPageEntryException(newPageEntry, "Error rebuilding <pages> metadata for page->" + page.Name + "! [" + ex.Message + "]");
                 }
             }
         }
 
-        public void UpdatePageIndexMetaDataEntry(Page page, String key)
+        public MetaDataEntryPage UpdatePageIndexMetaDataEntry(Page page, String key)
         {
             foreach (MetaDataEntryPage entry in PageIndex)
             {
-                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key))
+                if (!entry.Attributes.ContainsKey(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY))
                 {
-                    entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
-                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
-                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
-                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error getting page metadata entry for key [" + key + "]! [Attribute 'key' not found!]");
 
-                    if (page.Format.W > 0 && page.Format.H > 0)
-                    {
-                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH, page.Format.W.ToString())
-                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
-                    }
-
-                    break;
+                    throw new MetaDataPageEntryException(entry, "Error getting page metadata entry for key [" + key + "]! [Attribute 'key' not found!]", true);
                 }
+
+                try
+                {
+                    if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key))
+                    {
+                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
+                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
+                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
+
+                        if (page.Format.W > 0 && page.Format.H > 0)
+                        {
+                            entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH, page.Format.W.ToString())
+                                 .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
+                        }
+
+                        return entry;
+                    }
+                } catch (Exception ex)
+                {
+                    throw new MetaDataPageEntryException(entry, "Error updating <pages> metadata for page with key " + key + "! [" + ex.Message + "]");
+                }
+                
             }
+
+            return null;
         }
 
         public void UpdatePageIndexMetaDataEntry(Page page, String oldName, String newName)
