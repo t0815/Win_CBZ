@@ -21,28 +21,22 @@ namespace Win_CBZ.Tasks
                 foreach (Page p in pages)
                 {
                     p.LoadImageInfo();
-                    if (handler != null)
-                    {
-                        handler.Invoke(p, new GeneralTaskProgressEvent(
+                    handler?.Invoke(p, new GeneralTaskProgressEvent(
                             GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
                             GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
                             "Rebuilding image metadata...",
                             current, 
                             total));
-                    }
                     current++;
                     System.Threading.Thread.Sleep(10);
                 }
 
-                if (handler != null)
-                {
-                    handler.Invoke(pages, new GeneralTaskProgressEvent(
+                handler?.Invoke(pages, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         current,
                         total));
-                }
 
                 return result;
             });

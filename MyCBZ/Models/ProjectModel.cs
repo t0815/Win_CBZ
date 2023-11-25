@@ -767,7 +767,7 @@ namespace Win_CBZ
             TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
 
             ZipArchive BuildingArchive = null;
-            ZipArchiveEntry updatedEntry = null;
+            ZipArchiveEntry updatedEntry;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
@@ -1508,7 +1508,7 @@ namespace Win_CBZ
                             page.LoadImage(true);    // dont load full image here!
                         } catch (PageException pe)
                         {
-
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
                         }
 
                         if (!page.Changed)

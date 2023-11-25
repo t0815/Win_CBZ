@@ -1056,10 +1056,7 @@ namespace Win_CBZ
 
         public void FreeImage()
         {
-            if (Image != null)
-            {
-                Image.Dispose();
-            }
+            Image?.Dispose();
 
             if (ImageStream != null)
             {

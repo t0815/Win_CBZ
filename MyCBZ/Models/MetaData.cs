@@ -645,7 +645,7 @@ namespace Win_CBZ
                         }
                         catch (Exception e)
                         {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!");
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']! [" + e.Message + "]");
                         }
                     }
                 }
@@ -670,7 +670,7 @@ namespace Win_CBZ
                     }
                     catch (Exception e)
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']! With error  [" + e.Message + "]");
                     }
                 }
             }
