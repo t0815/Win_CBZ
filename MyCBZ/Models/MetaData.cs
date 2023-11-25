@@ -204,7 +204,7 @@ namespace Win_CBZ
             try
             {
                 MemoryStream ms = BuildComicInfoXMLStream();
-                using (FileStream fs = File.Create(path, 4096, FileOptions.WriteThrough))
+                using (FileStream fs = File.Create(path, 4096, FileOptions.RandomAccess))
                 {
                     ms.CopyTo(fs);
                     fs.Close();

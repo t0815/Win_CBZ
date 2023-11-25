@@ -444,7 +444,7 @@ namespace Win_CBZ
 
             foreach (string unit in units)
             {
-                if (size > 1024)
+                if (size > 999)
                     size /= 1024;
                 else
                 {
