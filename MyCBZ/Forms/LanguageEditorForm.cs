@@ -44,8 +44,13 @@ namespace Win_CBZ.Forms
 
             if (DialogResult == DialogResult.OK)
             {
-                
+                if (LanguageListDatagrid.SelectedRows.Count == 1)
+                {
+                    result = LanguageListDatagrid.SelectedRows[0].Cells[1].Value;
+                }
             }
+
+            config.Result = result;
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)

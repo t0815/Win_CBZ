@@ -10,12 +10,25 @@ namespace Win_CBZ.Data
 {
     internal class LanguageList
     {
+
+
+        public LanguageList() { 
+        
+        }
+
         public static BindingList<LanguageListItem> Languages { get; set; } = new BindingList<LanguageListItem> {
-            new LanguageListItem( "Devesh Omar", "Noida"),
-            new LanguageListItem( "Roli", "Kanpur"),
-            new LanguageListItem( "Roli Gupta", "Mainpuri"),
-            new LanguageListItem( "Roli Gupta", "Kanpur"),
-            new LanguageListItem( "Devesh Roli ", "Noida"),
+
+            new LanguageListItem( "Chinese", "cn"),
+            new LanguageListItem( "Czech", "cs"),
+            new LanguageListItem( "English", "en"),
+            new LanguageListItem( "French", "fr"),
+            new LanguageListItem( "German", "de"),
+            new LanguageListItem( "Italian", "it"),           
+            new LanguageListItem( "Japanese", "ja"),          
+            new LanguageListItem( "Korean", "ko"),
+            new LanguageListItem( "Polish", "pl"),
+            new LanguageListItem( "Russian", "ru"),
+            new LanguageListItem( "Spanish", "sp"),
         };
     }
 }
