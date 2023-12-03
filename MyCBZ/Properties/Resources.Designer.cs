@@ -616,6 +616,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap user_earth {
+            get {
+                object obj = ResourceManager.GetObject("user_earth", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap validate {
             get {
                 object obj = ResourceManager.GetObject("validate", resourceCulture);

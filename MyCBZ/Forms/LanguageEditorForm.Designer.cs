@@ -98,7 +98,7 @@
             // 
             this.HeaderPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.edit_large;
+            this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.user_earth;
             this.HeaderPicture.Location = new System.Drawing.Point(24, 0);
             this.HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeaderPicture.Name = "HeaderPicture";
@@ -143,11 +143,11 @@
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripTextBoxSearchLang,
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(190, 80);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(229, 76);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(273, 27);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(234, 31);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
@@ -174,6 +174,7 @@
             // 
             this.LanguageListDatagrid.AllowUserToAddRows = false;
             this.LanguageListDatagrid.AllowUserToDeleteRows = false;
+            this.LanguageListDatagrid.AllowUserToResizeRows = false;
             this.LanguageListDatagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ItemEditorTableLayout.SetColumnSpan(this.LanguageListDatagrid, 2);
             this.LanguageListDatagrid.Dock = System.Windows.Forms.DockStyle.Fill;

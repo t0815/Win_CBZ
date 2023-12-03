@@ -505,6 +505,7 @@
     <None Include="Resources\nav_left.png" />
     <None Include="Resources\nav_right.png" />
     <None Include="Resources\placeholder-image.png" />
+    <None Include="Resources\user_earth.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
