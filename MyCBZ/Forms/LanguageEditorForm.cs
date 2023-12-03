@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using Win_CBZ.Data;
 
@@ -25,6 +26,8 @@ namespace Win_CBZ.Forms
             config = editorTypeConfig;
 
             LanguageListDatagrid.DataSource = LanguageList.Languages;
+
+            
 
         }
 
@@ -78,6 +81,18 @@ namespace Win_CBZ.Forms
             }).ToArray());
 
             LanguageListDatagrid.DataSource = FilteredList;
+        }
+
+        private void LanguageEditorForm_Shown(object sender, EventArgs e)
+        {
+            for (int i = 0; i < LanguageListDatagrid.RowCount; i++)
+            {
+                var key = LanguageListDatagrid.Rows[i].Cells[1].Value;
+                if (key.ToString() == config.Value.ToString())
+                {
+                    LanguageListDatagrid.Rows[i].Selected = true;
+                }
+            }
         }
     }
 }

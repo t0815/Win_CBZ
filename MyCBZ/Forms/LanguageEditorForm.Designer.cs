@@ -143,11 +143,11 @@
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripTextBoxSearchLang,
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(229, 76);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(229, 80);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(234, 31);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(234, 27);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
@@ -204,6 +204,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Language Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LanguageEditorForm_FormClosing);
+            this.Shown += new System.EventHandler(this.LanguageEditorForm_Shown);
             this.ItemEditorTableLayout.ResumeLayout(false);
             this.ItemEditorTableLayout.PerformLayout();
             this.HeaderPanel.ResumeLayout(false);
