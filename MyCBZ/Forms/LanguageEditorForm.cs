@@ -19,6 +19,10 @@ namespace Win_CBZ.Forms
 
         BindingList<LanguageListItem> FilteredList;
 
+        DataGridViewRow selectedRow;
+
+        bool init = false;
+
         public LanguageEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
@@ -27,7 +31,7 @@ namespace Win_CBZ.Forms
 
             LanguageListDatagrid.DataSource = LanguageList.Languages;
 
-            
+            init = false;
 
         }
 
@@ -81,6 +85,8 @@ namespace Win_CBZ.Forms
             }).ToArray());
 
             LanguageListDatagrid.DataSource = FilteredList;
+
+            this.LanguageEditorForm_Shown(null, e);
         }
 
         private void LanguageEditorForm_Shown(object sender, EventArgs e)
@@ -88,9 +94,34 @@ namespace Win_CBZ.Forms
             for (int i = 0; i < LanguageListDatagrid.RowCount; i++)
             {
                 var key = LanguageListDatagrid.Rows[i].Cells[1].Value;
-                if (key.ToString() == config.Value.ToString())
+                if (selectedRow != null)
                 {
-                    LanguageListDatagrid.Rows[i].Selected = true;
+                    if (selectedRow.Cells[1].Value == key)
+                    {
+                        LanguageListDatagrid.Rows[i].Selected = true;
+                    }
+                }
+                else
+                {
+                    if (key.ToString() == config.Value.ToString())
+                    {
+
+                        LanguageListDatagrid.Rows[i].Selected = true;
+                        selectedRow = LanguageListDatagrid.Rows[i];
+                    }
+                }
+            }
+
+            init = true;
+        }
+
+        private void LanguageListDatagrid_SelectionChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                if (LanguageListDatagrid.SelectedRows.Count > 0)
+                {
+                    selectedRow = LanguageListDatagrid.SelectedRows[0];
                 }
             }
         }
