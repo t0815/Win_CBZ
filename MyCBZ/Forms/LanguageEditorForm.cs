@@ -16,6 +16,7 @@ namespace Win_CBZ.Forms
     {
         public EditorTypeConfig config;
 
+        BindingList<LanguageListItem> FilteredList;
 
         public LanguageEditorForm(EditorTypeConfig editorTypeConfig)
         {
@@ -61,6 +62,22 @@ namespace Win_CBZ.Forms
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripTextBoxSearchLang_TextChanged(object sender, EventArgs e)
+        {
+            String find = ToolStripTextBoxSearchLang.Text;
+
+            FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) => {
+                return item.Name.ToLower().Contains(find.ToLower());
+            }).ToArray());
+
+            LanguageListDatagrid.DataSource = FilteredList;
         }
     }
 }

@@ -36,7 +36,7 @@
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.ToolStripTextBoxSearchLang = new System.Windows.Forms.ToolStripTextBox();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.LanguageListDatagrid = new System.Windows.Forms.DataGridView();
             this.languageListBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -141,22 +141,23 @@
             this.ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripTextBox1,
+            this.ToolStripTextBoxSearchLang,
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(229, 80);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(190, 80);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(234, 27);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(273, 27);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
             // 
-            // toolStripTextBox1
+            // ToolStripTextBoxSearchLang
             // 
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(200, 31);
+            this.ToolStripTextBoxSearchLang.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolStripTextBoxSearchLang.Name = "ToolStripTextBoxSearchLang";
+            this.ToolStripTextBoxSearchLang.Size = new System.Drawing.Size(200, 27);
+            this.ToolStripTextBoxSearchLang.TextChanged += new System.EventHandler(this.ToolStripTextBoxSearchLang_TextChanged);
             // 
             // ToolButtonSortAscending
             // 
@@ -164,7 +165,7 @@
             this.ToolButtonSortAscending.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
             this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
-            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 28);
+            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 24);
             this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.toolStripButton1_Click);
@@ -225,7 +226,7 @@
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;
         private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxSearchLang;
         private System.Windows.Forms.DataGridView LanguageListDatagrid;
         private System.Windows.Forms.BindingSource languageListBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
