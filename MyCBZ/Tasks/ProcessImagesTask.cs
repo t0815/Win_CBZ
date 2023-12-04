@@ -26,7 +26,7 @@ namespace Win_CBZ.Tasks
                         collectedTasks.Add(page.ImageTask);
                         //page.ImageTask.SetupTasks()
 
-                        page.ImageTask.PerformCommands();
+                        //page.ImageTask.PerformCommands();
                         if (page.ImageTask.Success)
                         {
                             //page.Copy(page.ImageTask.ResultFileName, page.TempPath);

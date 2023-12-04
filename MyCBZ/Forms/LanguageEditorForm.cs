@@ -45,6 +45,19 @@ namespace Win_CBZ.Forms
             DialogResult = DialogResult.Cancel;
         }
 
+        private void ToolStripTextBoxSearchKeyValue_TextChanged(object sender, EventArgs e)
+        {
+            String find = ToolStripTextBoxSearchLang.Text;
+
+            FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) => {
+                return item.Name.ToLower().Contains(find.ToLower());
+            }).ToArray());
+
+            LanguageListDatagrid.DataSource = FilteredList;
+
+            this.LanguageEditorForm_Shown(null, e);
+        }
+
         private void LanguageEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             object result = null;
