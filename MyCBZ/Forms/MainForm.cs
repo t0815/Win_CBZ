@@ -2348,6 +2348,20 @@ namespace Win_CBZ
                                     };
                                     MetaDataGrid.Rows[i].Cells[2] = bc;
                                 }
+                                else if (key.ToString() == "LanguageISO")
+                                {
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                    {
+                                        Value = "...",
+                                        Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false),
+                                        Style = new DataGridViewCellStyle()
+                                        {
+                                            SelectionForeColor = Color.White,
+                                            SelectionBackColor = Color.White,
+                                        }
+                                    };
+                                    MetaDataGrid.Rows[i].Cells[2] = bc;
+                                }
                                 else
                                 {
 
@@ -2444,6 +2458,19 @@ namespace Win_CBZ
                                     if (textEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                    }
+                                }
+                            }
+                            break;
+                        case "LanguageEditor":
+                            {
+                                LanguageEditorForm langEditor = new LanguageEditorForm(editorConfig);
+                                DialogResult r = langEditor.ShowDialog();
+                                if (r == DialogResult.OK)
+                                {
+                                    if (langEditor.config.Result != null)
+                                    {
+                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
                                     }
                                 }
                             }
@@ -2555,6 +2582,15 @@ namespace Win_CBZ
                                         Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false)
                                     };
                                     MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+                                } else if (key.ToString() == "LanguageISO")
+                                {
+                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                    {
+                                        Value = "...",
+                                        Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false)
+                                    };
+                                    MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+
                                 }
 
                                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell

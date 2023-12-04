@@ -139,6 +139,8 @@
     <Compile Include="Data\CBZValidationThreadParams.cs" />
     <Compile Include="Data\EditorTypeConfig.cs" />
     <Compile Include="Data\ExtractArchiveThreadParams.cs" />
+    <Compile Include="Data\LanguageList.cs" />
+    <Compile Include="Data\LanguageListItem.cs" />
     <Compile Include="Data\MinMaxDimensions.cs" />
     <Compile Include="Data\MoveItemsToThreadParams.cs" />
     <Compile Include="Data\MovePageThreadParams.cs" />
@@ -149,6 +151,12 @@
     <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Exceptions\ConcurrentOperationException.cs" />
+    <Compile Include="Forms\LanguageEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LanguageEditorForm.Designer.cs">
+      <DependentUpon>LanguageEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\RandomId.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />
     <Compile Include="Result\TaskResult.cs" />
@@ -301,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LanguageEditorForm.resx">
+      <DependentUpon>LanguageEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TextEditorForm.resx">
       <DependentUpon>TextEditorForm.cs</DependentUpon>
@@ -494,6 +505,7 @@
     <None Include="Resources\nav_left.png" />
     <None Include="Resources\nav_right.png" />
     <None Include="Resources\placeholder-image.png" />
+    <None Include="Resources\user_earth.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -508,6 +520,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
