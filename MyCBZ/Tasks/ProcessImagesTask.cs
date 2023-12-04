@@ -15,52 +15,44 @@ namespace Win_CBZ.Tasks
         {
             return new Task<ImageTaskResult>(() =>
             {
+                int current = 1;
+                int total = pages.Count;
                 List<ImageTask> collectedTasks = new List<ImageTask>();
+                ImageTaskResult result = new ImageTaskResult();
                 foreach (Page page in pages)
                 {
                     if (page.ImageTask.TaskCount() > 0)
                     {
                         collectedTasks.Add(page.ImageTask);
+                        //page.ImageTask.SetupTasks()
+
+                        page.ImageTask.PerformCommands();
+                        if (page.ImageTask.Success)
+                        {
+                            //page.Copy(page.ImageTask.ResultFileName, page.TempPath);
+                            result.AddFinishedPage(page);
+                        }
+
+                        page.ImageTask.CommandsTodo.Clear();
+
+                        handler?.Invoke(page.ImageTask, new GeneralTaskProgressEvent(
+                                GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
+                                GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                                "Processing image...",
+                                current,
+                                total));
+
+                        current++;
+                        System.Threading.Thread.Sleep(10);
                     }
                 }
 
-                int current = 1;
-                int total = collectedTasks.Count;    
-                ImageTaskResult result = new ImageTaskResult();
-
-                foreach (ImageTask task in collectedTasks)
-                {             
-                    
-
-                    //task.PerformCommands();
-                    if (task.Success)
-                    {
-                        //page.Copy(page.ImageTask.ResultFileName, page.TempPath);
-                    }
-                    task.CommandsTodo.Clear();
-
-                    if (handler != null)
-                    {
-                        handler.Invoke(task, new GeneralTaskProgressEvent(
-                            GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, 
-                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                            "Processing image...",
-                            current, 
-                            total));
-                    }
-                    current++;
-                    System.Threading.Thread.Sleep(10);
-                }
-
-                if (handler != null)
-                {
-                    handler.Invoke(collectedTasks, new GeneralTaskProgressEvent(
+                handler?.Invoke(collectedTasks, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         current,
                         total));
-                }
 
                 return result;
             });

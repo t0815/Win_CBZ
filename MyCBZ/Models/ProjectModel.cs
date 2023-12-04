@@ -327,7 +327,7 @@ namespace Win_CBZ
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_PROCESS_IMAGES)
             {
-                RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
+                //RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
 
                 if (imageProcessingTask == null)
                 {

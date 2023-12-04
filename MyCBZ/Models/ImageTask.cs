@@ -74,7 +74,7 @@ namespace Win_CBZ.Models
 
         public int TaskCount()
         { 
-            return CommandsTodo.Count; 
+            return CommandsTodo.Count;
         }
 
         public void CleanUp()
