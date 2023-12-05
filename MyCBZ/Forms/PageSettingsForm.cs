@@ -32,7 +32,8 @@ namespace Win_CBZ.Forms
                 ApplicationMessage.ShowException(e);
             }
 
-            PreviewThumbPictureBox.Image = PreviewThumb;
+            //PreviewThumbPictureBox.Image = PreviewThumb;
+            ImagePreviewButton.BackgroundImage = PreviewThumb;
 
             if (page.LocalFile != null && page.LocalFile.Exists())
             {
@@ -145,6 +146,13 @@ namespace Win_CBZ.Forms
         private void CheckBoxDoublePage_CheckedChanged(object sender, EventArgs e)
         {
             Page.DoublePage = CheckBoxDoublePage.Checked;
+        }
+
+        private void ImagePreviewButton_Click(object sender, EventArgs e)
+        {
+            ImagePreviewForm pagePreviewForm = new ImagePreviewForm(Page);
+            DialogResult dlgResult = pagePreviewForm.ShowDialog();
+            pagePreviewForm.Dispose();
         }
     }
 }

@@ -56,12 +56,13 @@
             this.ImagePreviewPanel.Location = new System.Drawing.Point(0, 41);
             this.ImagePreviewPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ImagePreviewPanel.Name = "ImagePreviewPanel";
-            this.ImagePreviewPanel.Size = new System.Drawing.Size(1035, 865);
+            this.ImagePreviewPanel.Size = new System.Drawing.Size(1300, 423);
             this.ImagePreviewPanel.TabIndex = 0;
             this.ImagePreviewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ImagePreviewPanel_Paint);
             // 
             // PageImagePreview
             // 
+            this.PageImagePreview.ImageLocation = "";
             this.PageImagePreview.Location = new System.Drawing.Point(4, 4);
             this.PageImagePreview.Margin = new System.Windows.Forms.Padding(4);
             this.PageImagePreview.Name = "PageImagePreview";
@@ -88,7 +89,7 @@
             this.PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PreviewToolStrip.Name = "PreviewToolStrip";
             this.PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.PreviewToolStrip.Size = new System.Drawing.Size(470, 31);
+            this.PreviewToolStrip.Size = new System.Drawing.Size(431, 31);
             this.PreviewToolStrip.TabIndex = 1;
             this.PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -146,7 +147,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1036, 906);
+            this.ClientSize = new System.Drawing.Size(1301, 464);
             this.Controls.Add(this.PreviewToolStrip);
             this.Controls.Add(this.ImagePreviewPanel);
             this.DoubleBuffered = true;
