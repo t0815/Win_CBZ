@@ -103,7 +103,7 @@
             this.ButtonCancel.Location = new System.Drawing.Point(726, 644);
             this.ButtonCancel.Margin = new System.Windows.Forms.Padding(11, 20, 3, 2);
             this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ButtonCancel.Padding = new System.Windows.Forms.Padding(5);
             this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
             this.ButtonCancel.TabIndex = 3;
             this.ButtonCancel.Text = "Close";
@@ -151,7 +151,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MetaDataForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "MetaDataForm";
+            this.Text = "Metadata";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MetaDataForm_FormClosed);
             this.MetaDataTablePanel.ResumeLayout(false);
             this.HeaderPanel.ResumeLayout(false);
