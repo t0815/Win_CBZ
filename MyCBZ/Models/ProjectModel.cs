@@ -902,7 +902,7 @@ namespace Win_CBZ
                         BuildingArchive?.Dispose();
                         Archive?.Dispose();
 
-                        CopyFile(TemporaryFileName, FileName, true);
+                        CopyFile(TemporaryFileName, tParams.FileName, true);
 
                         int deletedIndex = 0;
                         foreach (Page deletedPage in deletedPages)
@@ -917,6 +917,7 @@ namespace Win_CBZ
                     }
                     catch (Exception mvex)
                     {
+                        errorSavingArchive = true;
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + mvex.Message + "]");
                     }
                     finally

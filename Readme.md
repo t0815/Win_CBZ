@@ -25,8 +25,8 @@ standard described here: https://github.com/anansi-project/comicinfo
 ## Features to 1.0
 
 - Image processing
-- add missing metadata handling from ComicInfo spec
-- ~~Frontend functional complete (i.e. drag&drop page reordering)~~
+- ~~add missing metadata handling from ComicInfo spec~~
+- Frontend functional complete (i.e. drag&drop page reordering)
 - Entry Value validation according to definitions in standard
 
 ## Planned > 1.0
@@ -44,7 +44,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.15.85b released!
+v0.15.86b released!
 
 ## Third party components
 
