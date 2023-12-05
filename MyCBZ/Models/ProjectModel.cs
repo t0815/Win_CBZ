@@ -928,7 +928,7 @@ namespace Win_CBZ
                             {
                                 File.Delete(TemporaryFileName);
                                 // Reopen source file and update image entries
-                                Archive = ZipFile.Open(FileName, ZipArchiveMode.Read);
+                                Archive = ZipFile.Open(tParams.FileName, ZipArchiveMode.Read);
                                 foreach (ZipArchiveEntry entry in Archive.Entries)
                                 {
                                     Page page = GetPageByName(entry.Name);
