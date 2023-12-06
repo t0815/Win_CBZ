@@ -2776,7 +2776,7 @@ namespace Win_CBZ
                                 ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                             }
                         }
-                        
+
                         pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
                         if (!pageResult.Deleted)
                         {
@@ -2789,10 +2789,9 @@ namespace Win_CBZ
                                     HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
                                     PageChanged(null, new PageChangedEvent(pageResult, editPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
-                                    ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-
-                                } catch (Exception ex3)
+                                }
+                                catch (Exception ex3)
                                 {
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex3.Message);
                                 }
@@ -2831,7 +2830,16 @@ namespace Win_CBZ
                             HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
                         }
 
-                        PageChanged(this, new PageChangedEvent(pageToUpdate, editPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        if (pageToUpdate.Deleted != editPage.Deleted ||
+                            pageToUpdate.DoublePage != editPage.DoublePage ||
+                            pageToUpdate.Name != editPage.Name ||
+                            pageToUpdate.Key != editPage.Key ||
+                            pageToUpdate.Index != editPage.Index
+                            ) 
+                        { 
+                            PageChanged(this, new PageChangedEvent(pageToUpdate, editPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                            ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                        }
                     }
                 }
 

@@ -37,7 +37,21 @@ namespace Win_CBZ.Forms
 
             if (page.LocalFile != null && page.LocalFile.Exists())
             {
-                imageLocation = page.LocalFile.FilePath;
+                if (!page.Compressed)
+                {
+                    imageLocation = page.LocalFile.FilePath;
+                } else
+                {
+                    try
+                    {
+                        ZipArchiveEntry entry = page.GetCompressedEntry();
+                        imageLocation = "\\\\" + entry.Name;
+                    }
+                    catch
+                    {
+                        imageLocation = "?\\" + page.Name;
+                    }
+                }
             } else
             {
                 if (page.TemporaryFile != null && page.TemporaryFile.Exists())
@@ -51,7 +65,7 @@ namespace Win_CBZ.Forms
                         imageLocation = "\\\\" +entry.Name;
                     } catch
                     {
-
+                        imageLocation = "?\\" + page.Name;
                     }
                 }                
             }
@@ -153,6 +167,14 @@ namespace Win_CBZ.Forms
             ImagePreviewForm pagePreviewForm = new ImagePreviewForm(Page);
             DialogResult dlgResult = pagePreviewForm.ShowDialog();
             pagePreviewForm.Dispose();
+        }
+
+        private void PageSettingsForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
         }
     }
 }

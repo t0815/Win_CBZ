@@ -936,6 +936,7 @@ namespace Win_CBZ
                                 }
                                 IsChanged = false;
                                 IsNew = false;
+                                FileName = tParams.FileName;
                             }
                             catch (Exception rex)
                             {
