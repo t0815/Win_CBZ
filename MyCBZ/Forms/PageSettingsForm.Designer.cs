@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PageSettingsForm));
             this.SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.ImagePreviewTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.ImagePreviewButton = new System.Windows.Forms.Button();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.InfoIconTooltip = new System.Windows.Forms.PictureBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label11 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,20 +68,15 @@
             this.ButtonOk = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.PreviewThumbPictureBox = new System.Windows.Forms.PictureBox();
-            this.ImagePreviewTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.ImagePreviewButton = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.InfoIconTooltip = new System.Windows.Forms.PictureBox();
             this.SettingsTablePanel.SuspendLayout();
+            this.ImagePreviewTableLayout.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.KeyEditorPanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PreviewThumbPictureBox)).BeginInit();
-            this.ImagePreviewTableLayout.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).BeginInit();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -105,6 +105,60 @@
             this.SettingsTablePanel.Size = new System.Drawing.Size(710, 549);
             this.SettingsTablePanel.TabIndex = 1;
             // 
+            // ImagePreviewTableLayout
+            // 
+            this.ImagePreviewTableLayout.ColumnCount = 1;
+            this.ImagePreviewTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.ImagePreviewTableLayout.Controls.Add(this.ImagePreviewButton, 0, 0);
+            this.ImagePreviewTableLayout.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.ImagePreviewTableLayout.Location = new System.Drawing.Point(3, 110);
+            this.ImagePreviewTableLayout.Name = "ImagePreviewTableLayout";
+            this.ImagePreviewTableLayout.RowCount = 2;
+            this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.59016F));
+            this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.40984F));
+            this.ImagePreviewTableLayout.Size = new System.Drawing.Size(240, 366);
+            this.ImagePreviewTableLayout.TabIndex = 2;
+            // 
+            // ImagePreviewButton
+            // 
+            this.ImagePreviewButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ImagePreviewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ImagePreviewButton.Location = new System.Drawing.Point(3, 3);
+            this.ImagePreviewButton.Name = "ImagePreviewButton";
+            this.ImagePreviewButton.Size = new System.Drawing.Size(234, 260);
+            this.ImagePreviewButton.TabIndex = 7;
+            this.ImagePreviewButton.UseVisualStyleBackColor = true;
+            this.ImagePreviewButton.Click += new System.EventHandler(this.ImagePreviewButton_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.InfoIconTooltip);
+            this.flowLayoutPanel1.Controls.Add(this.label12);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 275);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(234, 87);
+            this.flowLayoutPanel1.TabIndex = 8;
+            // 
+            // InfoIconTooltip
+            // 
+            this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
+            this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
+            this.InfoIconTooltip.Location = new System.Drawing.Point(0, 0);
+            this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
+            this.InfoIconTooltip.Name = "InfoIconTooltip";
+            this.InfoIconTooltip.Size = new System.Drawing.Size(36, 36);
+            this.InfoIconTooltip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.InfoIconTooltip.TabIndex = 7;
+            this.InfoIconTooltip.TabStop = false;
+            // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(39, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(150, 32);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Click on the Image for enlarged Preview";
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -115,7 +169,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.56041F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.43959F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tableLayoutPanel1.Controls.Add(this.label11, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxFileLocation, 1, 0);
@@ -311,7 +365,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(365, 38);
+            this.label8.Location = new System.Drawing.Point(364, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -323,7 +377,7 @@
             // LabelBits
             // 
             this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(408, 38);
+            this.LabelBits.Location = new System.Drawing.Point(407, 38);
             this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBits.Name = "LabelBits";
             this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -337,7 +391,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(354, 78);
+            this.label7.Location = new System.Drawing.Point(353, 78);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -349,7 +403,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(408, 78);
+            this.LabelImageColors.Location = new System.Drawing.Point(407, 78);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -428,6 +482,7 @@
             // 
             // KeyEditorPanel
             // 
+            this.KeyEditorPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.KeyEditorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.KeyEditorPanel.Controls.Add(this.textBoxKey);
             this.KeyEditorPanel.Controls.Add(this.ButtonNewKey);
@@ -533,60 +588,6 @@
             this.PreviewThumbPictureBox.TabStop = false;
             this.PreviewThumbPictureBox.Visible = false;
             // 
-            // ImagePreviewTableLayout
-            // 
-            this.ImagePreviewTableLayout.ColumnCount = 1;
-            this.ImagePreviewTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.ImagePreviewTableLayout.Controls.Add(this.ImagePreviewButton, 0, 0);
-            this.ImagePreviewTableLayout.Controls.Add(this.flowLayoutPanel1, 0, 1);
-            this.ImagePreviewTableLayout.Location = new System.Drawing.Point(3, 110);
-            this.ImagePreviewTableLayout.Name = "ImagePreviewTableLayout";
-            this.ImagePreviewTableLayout.RowCount = 2;
-            this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.59016F));
-            this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.40984F));
-            this.ImagePreviewTableLayout.Size = new System.Drawing.Size(240, 366);
-            this.ImagePreviewTableLayout.TabIndex = 2;
-            // 
-            // ImagePreviewButton
-            // 
-            this.ImagePreviewButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ImagePreviewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ImagePreviewButton.Location = new System.Drawing.Point(3, 3);
-            this.ImagePreviewButton.Name = "ImagePreviewButton";
-            this.ImagePreviewButton.Size = new System.Drawing.Size(234, 260);
-            this.ImagePreviewButton.TabIndex = 7;
-            this.ImagePreviewButton.UseVisualStyleBackColor = true;
-            this.ImagePreviewButton.Click += new System.EventHandler(this.ImagePreviewButton_Click);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.InfoIconTooltip);
-            this.flowLayoutPanel1.Controls.Add(this.label12);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 276);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(234, 87);
-            this.flowLayoutPanel1.TabIndex = 8;
-            // 
-            // label12
-            // 
-            this.label12.Location = new System.Drawing.Point(39, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(150, 32);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Click on the Image for enlarged Preview";
-            // 
-            // InfoIconTooltip
-            // 
-            this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.Location = new System.Drawing.Point(0, 0);
-            this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
-            this.InfoIconTooltip.Name = "InfoIconTooltip";
-            this.InfoIconTooltip.Size = new System.Drawing.Size(36, 36);
-            this.InfoIconTooltip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.InfoIconTooltip.TabIndex = 7;
-            this.InfoIconTooltip.TabStop = false;
-            // 
             // PageSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -600,6 +601,9 @@
             this.Text = "Page Properties";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PageSettingsForm_FormClosing);
             this.SettingsTablePanel.ResumeLayout(false);
+            this.ImagePreviewTableLayout.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.KeyEditorPanel.ResumeLayout(false);
@@ -608,9 +612,6 @@
             this.HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PreviewThumbPictureBox)).EndInit();
-            this.ImagePreviewTableLayout.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.InfoIconTooltip)).EndInit();
             this.ResumeLayout(false);
 
         }
