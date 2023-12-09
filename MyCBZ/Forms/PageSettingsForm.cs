@@ -123,16 +123,6 @@ namespace Win_CBZ.Forms
                     LabelDimensions.Text = "--";
                     LabelDpi.Text = "--";
 
-                    foreach (Page page in Pages)
-                    {
-                        totalSize += page.Size;
-                    }
-
-                    LabelSize.Text = Program.ProjectModel.SizeFormat(totalSize);
-                    TextBoxFileLocation.Text = pages.Count.ToString() + " Pages selected";
-                    
-                    
-
                     foreach (Page page in pages)
                     {
                         if (deletedState != page.Deleted)
@@ -146,7 +136,12 @@ namespace Win_CBZ.Forms
                             countDoublePageStates++;
                             doublePageState = page.DoublePage;
                         }
+
+                        totalSize += page.Size;
                     }
+
+                    LabelSize.Text = Program.ProjectModel.SizeFormat(totalSize);
+                    TextBoxFileLocation.Text = pages.Count.ToString() + " Pages selected";
 
                     if (countDeletedStates < 2)
                     {

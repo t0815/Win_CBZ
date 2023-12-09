@@ -17,6 +17,7 @@ namespace Win_CBZ
         public const int STATE_ADDING = 6;
         public const int STATE_ANALYZING = 7;
         public const int STATE_UPDATING_INDEX = 8;
+        public const int STATE_PROCESSING = 9;
 
         public ProjectModel ArchiveInfo { get; set; }
 

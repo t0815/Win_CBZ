@@ -19,10 +19,13 @@ namespace Win_CBZ.Forms
 
         public EditorTypeConfig config;
 
+        DataValidation validation;
 
         public TextEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
+            
+            validation = new DataValidation();
 
             config = editorTypeConfig;
 
@@ -69,7 +72,7 @@ namespace Win_CBZ.Forms
                     {
                         if (!config.AllowDuplicateValues)
                         {
-                            duplicates.AddRange(DataValidation.ValidateDuplicateStrings(ItemsText.Lines));
+                            duplicates.AddRange(validation.ValidateDuplicateStrings(ItemsText.Lines));
 
                             if (duplicates.Count > 0)
                             {

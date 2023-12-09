@@ -32,6 +32,8 @@ namespace Win_CBZ.Forms
 
         public int ConversionModeValue;
 
+        DataValidation validation;
+
         public SettingsDialog()
         {
             InitializeComponent();
@@ -73,6 +75,8 @@ namespace Win_CBZ.Forms
             MetaDataConfigTabControl.Visible = true;
             ImageProcessingTabControl.Visible = false;
 
+            validation = new DataValidation();
+
             DialogResult = DialogResult.Cancel;
         }
 
@@ -100,7 +104,7 @@ namespace Win_CBZ.Forms
                     if (CheckBoxValidateTags.Checked)
                     {
                         List<String> test = new List<String>(ValidTags.Lines);
-                        String[] duplicateTags = DataValidation.ValidateDuplicateStrings(test.ToArray());
+                        String[] duplicateTags = validation.ValidateDuplicateStrings(test.ToArray());
                         if (duplicateTags.Length > 0)
                         {
                             //ApplicationMessage.ShowWarning("Validateion Error! Duplicate Tags [" + duplicateTags.Select(r => r + ", ") + "] not allowed!", "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);

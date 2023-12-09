@@ -111,6 +111,8 @@ namespace Win_CBZ
 
         private ZipArchiveMode Mode;
 
+        DataValidation Validation;
+
         public event EventHandler<TaskProgressEvent> TaskProgress;
 
         public event EventHandler<PageChangedEvent> PageChanged;
@@ -176,6 +178,8 @@ namespace Win_CBZ
             GlobalImageTask = new ImageTask();
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
+            Validation = new DataValidation();
+            Validation.TaskProgress += TaskProgress;
 
             MaxFileIndex = 0;
             Name = "";
@@ -681,7 +685,7 @@ namespace Win_CBZ
             bool metaDataValidationFailed;
             if (Win_CBZSettings.Default.ValidateTags)
             {
-                tagValidationFailed = DataValidation.ValidateTags();
+                tagValidationFailed = Validation.ValidateTags();
 
                 if (tagValidationFailed)
                 {
@@ -691,7 +695,7 @@ namespace Win_CBZ
                 }
             }
 
-            metaDataValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
+            metaDataValidationFailed = Validation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
             if (metaDataValidationFailed)
             {
                 OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
@@ -699,7 +703,7 @@ namespace Win_CBZ
                 return false;
             }
 
-            metaDataValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys);
+            metaDataValidationFailed = Validation.ValidateMetaDataInvalidKeys(ref invalidKeys);
             if (metaDataValidationFailed)
             {
                 OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
@@ -1035,10 +1039,25 @@ namespace Win_CBZ
             bool keyValidationFailed = false;
             bool coverDefined = false;
             int deletedPageCount = 0;
+            int progressIndex = 0;
+            int totalItemsToProcess = 0;
             Dictionary<String, int> pageTypeCounts = new Dictionary<string, int>();
             int pageTypeCountValue = 0;
+            String tags = null;
 
             CBZValidationThreadParams tParams = threadParams as CBZValidationThreadParams;
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_PROCESSING));
+
+            totalItemsToProcess = Pages.Count;
+            if (hasMetaData)
+            {
+                tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
+                if (tags != null && tags.Length > 0)
+                {
+                    totalItemsToProcess += tags.Split(',').Length;
+                }
+                
+            }
 
             if (hasFiles)
             {
@@ -1152,6 +1171,10 @@ namespace Win_CBZ
                     {
 
                     }
+
+                    OnTaskProgress(new TaskProgressEvent(page, progressIndex, totalItemsToProcess));
+
+                    progressIndex++;
                 }
             }
             else
@@ -1172,7 +1195,7 @@ namespace Win_CBZ
                 }
 
 
-                keyValidationFailed = DataValidation.ValidateMetaDataDuplicateKeys(ref invalidKeys, false);
+                keyValidationFailed = Validation.ValidateMetaDataDuplicateKeys(ref invalidKeys, false);
 
                 if (keyValidationFailed)
                 {
@@ -1182,7 +1205,7 @@ namespace Win_CBZ
                     }
                 }
 
-                keyValidationFailed = DataValidation.ValidateMetaDataInvalidKeys(ref invalidKeys, false);
+                keyValidationFailed = Validation.ValidateMetaDataInvalidKeys(ref invalidKeys, false);
 
                 if (keyValidationFailed)
                 {
@@ -1231,12 +1254,12 @@ namespace Win_CBZ
                     problems.Add("Metadata->Values->LanguageISO missing!");
                 }
 
-                String tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
+                
                 if (tags != null && tags.Length > 0)
                 {
                     if (Win_CBZSettings.Default.ValidateTags)
                     {
-                        tagValidationFailed = DataValidation.ValidateTags(ref unknownTags, false);
+                        tagValidationFailed = Validation.ValidateTags(ref unknownTags, false, true, progressIndex, totalItemsToProcess);
                         if (tagValidationFailed)
                         {
                             foreach (String tag in unknownTags)
@@ -1247,7 +1270,7 @@ namespace Win_CBZ
                     }
 
                     string[] tagList = tags.Split(',');
-                    duplicateTags = DataValidation.ValidateDuplicateStrings(tagList);
+                    duplicateTags = Validation.ValidateDuplicateStrings(tagList);
 
                     if (duplicateTags != null)
                     {
@@ -1263,6 +1286,9 @@ namespace Win_CBZ
                 problems.Add("Metadata->Values: Metadata missing! Manually add new set of Metadata.");
             }
 
+            OnTaskProgress(new TaskProgressEvent(null, 0, 0));
+
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
             OnArchiveValidationFinished(new ValidationFinishedEvent(problems.ToArray(), tParams.ShowDialog));
         }
 

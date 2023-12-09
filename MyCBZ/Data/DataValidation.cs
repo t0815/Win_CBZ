@@ -8,10 +8,17 @@ using System.Windows.Forms;
 
 namespace Win_CBZ.Data
 {
-    public class DataValidation
+    internal class DataValidation
     {
 
-        public static string[] ValidateDuplicateStrings(string[] values)
+        public event EventHandler<TaskProgressEvent> TaskProgress;
+
+        public DataValidation() 
+        {
+            
+        }
+
+        public string[] ValidateDuplicateStrings(string[] values)
         {
             List<String> duplicates = new List<String>();
 
@@ -36,7 +43,7 @@ namespace Win_CBZ.Data
             return duplicates.ToArray();
         }
 
-        public static bool ValidateMetaDataInvalidKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
+        public bool ValidateMetaDataInvalidKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
         {
             bool error = false;
 
@@ -67,7 +74,7 @@ namespace Win_CBZ.Data
             return error;
         }
 
-        public static bool ValidateMetaDataDuplicateKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
+        public bool ValidateMetaDataDuplicateKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
         {
             int occurence = 0;
             bool error = false;
@@ -111,9 +118,11 @@ namespace Win_CBZ.Data
             return error;
         }
 
-        public static bool ValidateTags(ref ArrayList unknownTagsList, bool showError = true)
+        public bool ValidateTags(ref ArrayList unknownTagsList, bool showError = true, bool calcProgress = false, int startProgress = 0, int totalProgress = 0)
         {
             bool tagValidationFailed = false;
+            int progressIndex = startProgress;
+            int overallProgress = totalProgress;
 
             MetaDataEntry tagEntry = Program.ProjectModel.MetaData.EntryByKey("Tags");
             System.Collections.Specialized.StringCollection validTags = Win_CBZSettings.Default.ValidKnownTags;
@@ -158,6 +167,10 @@ namespace Win_CBZ.Data
                             unknownTagsList.Add(tag);
                         }
                     }
+
+                    OnTaskProgress(new TaskProgressEvent(null, progressIndex, overallProgress));
+
+                    progressIndex++;
                 }
             }
             else
@@ -186,22 +199,25 @@ namespace Win_CBZ.Data
             return tagValidationFailed;
         }
 
-        public static bool ValidateTags(bool showError = true)
+        public bool ValidateTags(bool showError = true)
         {
             ArrayList unknownTagList = new ArrayList();
 
-            return DataValidation.ValidateTags(ref unknownTagList, showError);
+            return this.ValidateTags(ref unknownTagList, showError);
         }
 
-        public static bool ValidateCBZ(bool showError = true) 
+        public bool ValidateCBZ(bool showError = true) 
         {
             MetaData metaData = Program.ProjectModel.MetaData;
 
             
-
-
             return true;
 
+        }
+
+        protected virtual void OnTaskProgress(TaskProgressEvent e)
+        {
+            TaskProgress?.Invoke(this, e);
         }
     }
 }

@@ -1018,8 +1018,7 @@ namespace Win_CBZ
 
             }
         }
-
-        
+       
         private void MessageLogged(object sender, LogMessageEvent e)
         {
             try
@@ -1053,7 +1052,6 @@ namespace Win_CBZ
             catch (Exception) {}
         }
 
-
         private void ApplicationStateChanged(object sender, ApplicationStatusEvent e)
         {
             String info = ApplicationStatusLabel.Text;
@@ -1072,6 +1070,10 @@ namespace Win_CBZ
                         CurrentGlobalAction = null;
                         CurrentGlobalActions.Clear();
                     }));
+                    break;
+
+                case ApplicationStatusEvent.STATE_PROCESSING:
+                    info = "Working...";
                     break;
 
                 case ApplicationStatusEvent.STATE_ANALYZING:
@@ -1125,6 +1127,13 @@ namespace Win_CBZ
                     PageView.Enabled = false;
                     PageThumbsListBox.Enabled = false;
                     MetaDataGrid.Enabled = false;
+
+                    break;
+
+                case ApplicationStatusEvent.STATE_PROCESSING:
+                    PagesList.Enabled = false;
+                    PageView.Enabled = false;
+                    PageThumbsListBox.Enabled = false;
 
                     break;
 
