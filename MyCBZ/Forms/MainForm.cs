@@ -27,6 +27,7 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using SharpCompress;
 using Win_CBZ.Exceptions;
+using Win_CBZ.Helper;
 
 namespace Win_CBZ
 {

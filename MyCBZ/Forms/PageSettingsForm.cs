@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
 
             foreach (Page p in pages)
             {
-                Pages.Add(new Page(p));
+                Pages.Add(new Page(p, RandomId.getInstance().make()));
             }
 
             bool deletedState = false;
