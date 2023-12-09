@@ -127,6 +127,7 @@ namespace Win_CBZ
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
 
                 FileSettingsTablePanel.Width = MainSplitBox.SplitterDistance - 24;
+                TablePanePageAdjustments.Width = MainSplitBox.SplitterDistance - 32;
 
                 TextboxStoryPageRenamingPattern.Text = Win_CBZSettings.Default.StoryPageRenamePattern;
                 TextboxSpecialPageRenamingPattern.Text = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -3016,7 +3017,7 @@ namespace Win_CBZ
         {
             if (!Program.ProjectModel.MetaData.Exists())
             {
-                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (comicinfo.xml) in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (" + Win_CBZSettings.Default.MetaDataFilename + ") in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
                 if (res == DialogResult.Yes)
                 {
                     BtnAddMetaData_Click(sender, null);
