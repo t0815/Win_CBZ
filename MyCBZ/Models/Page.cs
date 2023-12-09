@@ -11,6 +11,8 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Imaging;
 using Win_CBZ.Helper;
+using System.Xml;
+using SharpCompress.Common;
 
 namespace Win_CBZ
 {
@@ -454,6 +456,96 @@ namespace Win_CBZ
             }
 
             return size.ToString("n2") + " " + selectedUnit;
+        }
+
+
+        public MemoryStream Serialize(bool withoutXMLHeaderTag = false)
+        {
+            MemoryStream ms = new MemoryStream();
+            XmlWriterSettings writerSettings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = withoutXMLHeaderTag
+            };
+
+            XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
+
+            xmlWriter.WriteStartDocument();
+
+            xmlWriter.WriteStartElement("Win_CBZ_Page");
+            xmlWriter.WriteElementString("ID", Id);
+            xmlWriter.WriteElementString("Name", Name);
+            xmlWriter.WriteElementString("Hash", Hash);
+            xmlWriter.WriteElementString("TemporaryFileId", TemporaryFileId);
+            xmlWriter.WriteElementString("Filename", Filename);
+            xmlWriter.WriteElementString("OriginalName", OriginalName);
+            xmlWriter.WriteElementString("Index", Index.ToString());
+            xmlWriter.WriteElementString("OriginalIndex", OriginalIndex.ToString());
+            xmlWriter.WriteElementString("EntryName", EntryName);
+            xmlWriter.WriteElementString("FileExtension", FileExtension);
+            xmlWriter.WriteElementString("ImageType", ImageType);
+            xmlWriter.WriteElementString("DoublePage", DoublePage.ToString());
+            xmlWriter.WriteElementString("ImageLoaded", "False");
+            xmlWriter.WriteElementString("ImageMetaDataLoaded", "False");
+            xmlWriter.WriteElementString("Number", Number.ToString());
+            xmlWriter.WriteElementString("Size", Size.ToString());
+            xmlWriter.WriteElementString("WorkingDir", WorkingDir);
+
+            if (LocalFile != null)
+            {
+                // LocalFile
+                xmlWriter.WriteStartElement("LocalFile");
+                xmlWriter.WriteElementString("FullPath", LocalFile.FullPath);
+
+                xmlWriter.WriteEndElement();
+            }
+
+            //
+
+            if (TemporaryFile != null)
+            {
+                // TemporaryFile
+                xmlWriter.WriteStartElement("TemporaryFile");
+                xmlWriter.WriteElementString("FullPath", TemporaryFile.FullPath);
+
+                xmlWriter.WriteEndElement();
+            }
+
+            if (Compressed && CompressedEntry != null)
+            {
+                // Zip Entry
+                xmlWriter.WriteStartElement("CompressedEntry");
+                xmlWriter.WriteElementString("Name", CompressedEntry.Name);
+
+                xmlWriter.WriteEndElement();
+            }
+
+            // ----
+            xmlWriter.WriteElementString("LocalPath", LocalPath);
+            xmlWriter.WriteElementString("TempPath", TempPath);
+
+            xmlWriter.WriteElementString("Compressed", Compressed.ToString());
+            xmlWriter.WriteElementString("Changed", Changed.ToString());
+            xmlWriter.WriteElementString("Deleted", Deleted.ToString());
+            xmlWriter.WriteElementString("ReadOnly", ReadOnly.ToString());
+            xmlWriter.WriteElementString("Selected", Selected.ToString());
+            xmlWriter.WriteElementString("Invalidated", Invalidated.ToString());
+            xmlWriter.WriteElementString("IsMemoryCopy", IsMemoryCopy.ToString());
+            xmlWriter.WriteElementString("ImageInfoRequested", ImageInfoRequested.ToString());
+            xmlWriter.WriteElementString("Closed", Closed.ToString());
+            xmlWriter.WriteElementString("ThumbnailInvalidated", ThumbnailInvalidated.ToString());
+
+            xmlWriter.WriteEndElement();
+
+            //if (!withoutXMLHeaderTag)
+            //{
+            xmlWriter.WriteEndDocument();
+            //}
+
+            xmlWriter.Close();
+
+            ms.Position = 0;
+
+            return ms;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

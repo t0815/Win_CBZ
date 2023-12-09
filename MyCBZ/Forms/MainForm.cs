@@ -34,6 +34,8 @@ namespace Win_CBZ
     public partial class MainForm : Form
     {
 
+        private PageClipboardMonitor pageClipboardMonitor;
+
         private Thread ClosingTask;
 
         //private Thread OpeningTask;
@@ -90,6 +92,9 @@ namespace Win_CBZ
             PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
 
             df = new DebugForm(PageView);
+
+            //pageClipboardMonitor = new PageClipboardMonitor();
+            //pageClipboardMonitor.ClipboardChanged += ClipBoardChanged;
         }
 
         private ProjectModel NewProjectModel()
@@ -312,6 +317,20 @@ namespace Win_CBZ
                 {
                     ApplicationMessage.Show("Validation Successfull! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", ApplicationMessage.DialogType.MT_CHECK, ApplicationMessage.DialogButtons.MB_OK);
                 }
+            }
+        }
+
+        private void ClipBoardChanged(object sender, ClipboardChangedEvent e)
+        {
+            //
+
+
+            if (e.Pages != null)
+            {
+                PasteToolStripMenuItem.Enabled = true;
+            } else
+            {
+                PasteToolStripMenuItem.Enabled = false;
             }
         }
 
@@ -3705,6 +3724,63 @@ namespace Win_CBZ
                 {
                     PagesList.Items[item.Index].Selected = true;
                 }              
+            }
+        }
+
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Page> selectedPages = new List<Page>();
+            MemoryStream ms;
+
+            foreach (ListViewItem itempage in PagesList.SelectedItems)
+            {
+                selectedPages.Add(itempage.Tag as Page);
+            }
+
+            if (selectedPages.Count > 0)
+            {
+                String xmlTextPages = "";
+                var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+                
+
+                foreach (Page p in selectedPages)
+                {
+                    ms = p.Serialize();
+
+                    String metaData = utf8WithoutBom.GetString(ms.ToArray());
+                    xmlTextPages += metaData;
+
+                    xmlTextPages += "\r\n";
+                }
+
+                DataObject data = new DataObject();
+                data.SetData(DataFormats.Text, xmlTextPages);
+
+                Clipboard.SetDataObject(data);
+
+                PasteToolStripMenuItem.Enabled = true;
+            } else
+            {
+                PasteToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void PasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IDataObject clipObject = Clipboard.GetDataObject();
+            List<String> pageXMLLines = new List<String>();
+
+            try
+            {
+                String copiedPages = clipObject.GetData(DataFormats.Text) as String;
+
+                if (copiedPages.Length > 0)
+                {
+                    pageXMLLines.AddRange(pageXMLLines.ToArray());
+                }
+            } catch (Exception ex)
+            {
+                ApplicationMessage.ShowException(ex);
             }
         }
     }

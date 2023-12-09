@@ -149,6 +149,7 @@
     <Compile Include="Data\SaveArchiveThreadParams.cs" />
     <Compile Include="Data\StackItem.cs" />
     <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
+    <Compile Include="Events\ClipboardChangedEvent.cs" />
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Exceptions\ConcurrentOperationException.cs" />
     <Compile Include="Forms\KeyValueEditor.cs">
@@ -163,6 +164,7 @@
     <Compile Include="Forms\LanguageEditorForm.Designer.cs">
       <DependentUpon>LanguageEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\PageClipboardMonitor.cs" />
     <Compile Include="Helper\RandomId.cs" />
     <Compile Include="Result\ImageTaskResult.cs" />
     <Compile Include="Result\TaskResult.cs" />
