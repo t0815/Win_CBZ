@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +23,12 @@ namespace Win_CBZ.Forms
 
         int countDeletedStates = 0;
         int countDoublePageStates = 0;
+        int countDpiStates = 0;
+        int countTypeStates = 0;
+
+        ArrayList typesList = new ArrayList();
+        ArrayList dpiList = new ArrayList();
+        ArrayList dimensionsList = new ArrayList();
 
         long totalSize = 0;
 
@@ -116,12 +123,14 @@ namespace Win_CBZ.Forms
 
                     if (pages.Count > 1)
                     {
-                        ImagePreviewButton.Text = pages.Count.ToString() + " Pages";
+                        ImagePreviewButton.Text = "[" + pages.Count.ToString() + " Pages]";
                         ImagePreviewButton.BackgroundImage = null;
                     }
 
-                    LabelDimensions.Text = "--";
-                    LabelDpi.Text = "--";
+                    textBoxKey.Text = "[" + pages.Count.ToString() + " Pages]";
+                    LabelDimensions.Text = "[" + pages.Count.ToString() + " Pages]";
+                    LabelDpi.Text = "[" + pages.Count.ToString() + " Pages]";
+                    LabelImageFormat.Text = "[" + pages.Count.ToString() + " Pages]";
 
                     foreach (Page page in pages)
                     {
@@ -137,11 +146,41 @@ namespace Win_CBZ.Forms
                             doublePageState = page.DoublePage;
                         }
 
+                        if (typesList.IndexOf(page.Format.Name) == -1)
+                        {
+                            typesList.Add(page.Format.Name);
+                        }
+
+                        if (dpiList.IndexOf(page.Format.DPI.ToString()) == -1)
+                        {
+                            dpiList.Add(page.Format.DPI.ToString());
+                        }
+
+                        if (dimensionsList.IndexOf(page.Format.W.ToString() + " x " + page.Format.H.ToString()) == -1)
+                        {
+                            dimensionsList.Add(page.Format.W.ToString() + " x " + page.Format.H.ToString()); 
+                        }
+
                         totalSize += page.Size;
                     }
 
                     LabelSize.Text = Program.ProjectModel.SizeFormat(totalSize);
-                    TextBoxFileLocation.Text = pages.Count.ToString() + " Pages selected";
+                    TextBoxFileLocation.Text = "[" + pages.Count.ToString() + " Pages selected]";
+
+                    if (typesList.Count == 1)
+                    {
+                        LabelImageFormat.Text = typesList[0].ToString();
+                    }
+
+                    if (dimensionsList.Count == 1)
+                    {
+                        LabelDimensions.Text = dimensionsList[0].ToString();
+                    }
+
+                    if (dpiList.Count == 1) 
+                    {
+                        LabelDpi.Text = dpiList[0].ToString();
+                    }
 
                     if (countDeletedStates < 2)
                     {
@@ -158,6 +197,8 @@ namespace Win_CBZ.Forms
                     {
                         CheckBoxDoublePage.CheckState = CheckState.Indeterminate;
                     }
+
+
                 }
             }
 
@@ -265,6 +306,16 @@ namespace Win_CBZ.Forms
             {
                 textBoxKey.Text = RandomId.getInstance().make();
                 Pages[0].Key = textBoxKey.Text;
+            } else
+            {
+                DialogResult result = ApplicationMessage.ShowConfirmation("Are you sure you want to regenerate Keys for all Pages?", "Regenerate all Keys", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                if (result == DialogResult.Yes)
+                {
+                    foreach (Page page in Pages)
+                    {                    
+                        page.Key = RandomId.getInstance().make();
+                    }
+                }
             }
         }
 
