@@ -353,6 +353,173 @@ namespace Win_CBZ
             }
         }
 
+
+        public Page(Stream fileInputStream)
+        {
+            XmlDocument Document = new XmlDocument();
+            XmlReader MetaDataReader = XmlReader.Create(fileInputStream);
+            MetaDataReader.Read();
+            Document.Load(MetaDataReader);
+
+            XmlNode Root;
+
+            foreach (XmlNode node in Document.ChildNodes)
+            {
+                if (node.Name.ToLower().Equals("win_cbz_page"))
+                {
+                    Root = node;
+                    foreach (XmlNode subNode in node.ChildNodes)
+                    {
+                        switch (subNode.Name.ToLower())
+                        {
+                            case "localfile":
+                                HandlePageMetaData(subNode, "LocalFile");
+                                break;
+                            default:
+                                HandlePageMetaData(subNode);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void HandlePageMetaData(XmlNode node, string type = null)
+        {
+            if (type == "LocalFile")
+            {
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+                    if (subNode.Name == "FullPath")
+                    {
+                        LocalFile = new LocalFile(subNode.InnerText);
+                    }
+                    
+                }      
+            }
+            else if (type == "TemporaryFile")
+            {
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+                    if (subNode.Name == "FullPath")
+                    {
+                        TemporaryFile = new LocalFile(subNode.InnerText);
+                    }
+
+                }
+            }
+            else
+            {
+                switch (node.Name)
+                {
+                    case "ID":
+                        Id = node.InnerText;
+                        break;
+
+                    case "Name":
+                        Name = node.InnerText;
+                        break;
+
+                    case "Hash":
+                        Hash = node.InnerText;
+                        break;
+
+                    case "Size":
+                        Size = long.Parse(node.InnerText);
+                        break;
+
+                    case "ImageType":
+                        ImageType = node.InnerText;
+                        break;
+
+                    case "TemporaryFileId":
+                        TemporaryFileId = node.InnerText;
+                        break;
+
+                    case "Filename":
+                        Filename = node.InnerText;
+                        break;
+
+                    case "FileExtension":
+                        FileExtension = node.InnerText;
+                        break;
+
+                    case "EntryName":
+                        EntryName = node.InnerText;
+                        break;
+
+                    case "OriginalName":
+                        OriginalName = node.InnerText;
+                        break;
+
+                    case "LocalPath":
+                        LocalPath = node.InnerText;
+                        break;
+
+                    case "TempPath":
+                        TempPath = node.InnerText;
+                        break;
+
+                    case "Index":
+                        Index = int.Parse(node.InnerText);
+                        break;
+
+                    case "OriginalIndex":
+                        OriginalIndex = int.Parse(node.InnerText);
+                        break;
+
+                    case "DoublePage":
+                        DoublePage = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "Deleted":
+                        Deleted = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "Changed":
+                        Changed = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "Compressed":
+                        Compressed = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "ReadOnly":
+                        ReadOnly = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "Selected":
+                        Selected = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "Invalidated":
+                        Invalidated = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "IsMemoryCopy":
+                        IsMemoryCopy = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "ImageInfoRequested":
+                        ImageInfoRequested = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "ImageMetaDataLoaded":
+                        ImageMetaDataLoaded = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "Closed":
+                        Closed = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "ThumbnailInvalidated":
+                        ThumbnailInvalidated = Boolean.Parse(node.InnerText);
+                        break;
+                }
+            }
+
+        }
+
         public void UpdatePage(Page page, bool skipIndex = false, bool skipName = false)
         {
             Compressed = page.Compressed;

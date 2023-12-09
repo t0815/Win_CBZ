@@ -3754,7 +3754,7 @@ namespace Win_CBZ
                 }
 
                 DataObject data = new DataObject();
-                data.SetData(DataFormats.Text, xmlTextPages);
+                data.SetData(DataFormats.UnicodeText, xmlTextPages);
 
                 Clipboard.SetDataObject(data);
 
@@ -3769,18 +3769,40 @@ namespace Win_CBZ
         {
             IDataObject clipObject = Clipboard.GetDataObject();
             List<String> pageXMLLines = new List<String>();
+            List<Page> copiedPagesList = new List<Page>();
+            var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
             try
             {
-                String copiedPages = clipObject.GetData(DataFormats.Text) as String;
+                String copiedPages = clipObject.GetData(DataFormats.UnicodeText) as String;
 
                 if (copiedPages.Length > 0)
                 {
-                    pageXMLLines.AddRange(pageXMLLines.ToArray());
+                    pageXMLLines.AddRange(copiedPages.Split(new char [] { '\r', '\n' }).ToArray());
+
                 }
+
+                foreach (String line in pageXMLLines)
+                {
+                    if (line.Length > 0)
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        byte[] bytes = utf8WithoutBom.GetBytes(line);
+
+                        ms.Write(bytes, 0, bytes.Length);
+                        ms.Position = 0;
+
+                        copiedPagesList.Add(new Page(ms));
+                    }
+                }
+
             } catch (Exception ex)
             {
                 ApplicationMessage.ShowException(ex);
+            }
+
+            foreach (Page page in copiedPagesList) 
+            { 
             }
         }
     }
