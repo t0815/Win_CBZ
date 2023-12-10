@@ -276,9 +276,11 @@ namespace Win_CBZ
                 {
                     if (Image != null)
                     {
-                        Image.Dispose();
+                        Image?.Dispose();
                         Image = null;
                     }
+
+                    ImageStream?.Close();
                     ImageStream = null;
                 }
             }
@@ -343,9 +345,11 @@ namespace Win_CBZ
                     {
                         if (Image != null)
                         {
-                            Image.Dispose();
+                            Image?.Dispose();
                             Image = null;
                         }
+
+                        ImageStream?.Close();
                         ImageStream = null;
                     }
                 }
