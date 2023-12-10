@@ -61,7 +61,7 @@ namespace Win_CBZ
 
         public int ApplicationState { get; set; }
 
-        protected String ProjectGUID { get; set; }
+        public String ProjectGUID { get; set; }
 
         public Boolean IsNew = false;
 

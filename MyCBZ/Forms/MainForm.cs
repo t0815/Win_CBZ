@@ -3772,7 +3772,7 @@ namespace Win_CBZ
 
                     foreach (Page p in selectedPages)
                     {
-                        ms = p.Serialize();
+                        ms = p.Serialize(Program.ProjectModel.ProjectGUID);
 
                         String metaData = utf8WithoutBom.GetString(ms.ToArray());
                         xmlTextPages += metaData;
@@ -3812,6 +3812,7 @@ namespace Win_CBZ
             List<String> pageXMLLines = new List<String>();
             List<Page> copiedPagesList = new List<Page>();
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+            int pagesUpdated = 0;
 
             try
             {
@@ -3840,10 +3841,30 @@ namespace Win_CBZ
                                 try
                                 {
                                     Page newPage = new Page(ms);
-                                    Program.ProjectModel.Pages.Add(newPage);
+                                    Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
 
-                                    PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                                } catch (Exception ex)
+                                    newPage.LoadImageInfo(true);
+
+                                    if (existingPage == null)
+                                    {
+                                        newPage.Changed = false;
+                                        
+                                        Program.ProjectModel.Pages.Add(newPage);
+                                        PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                    } else
+                                    {
+                                        newPage.Id = Guid.NewGuid().ToString();
+                                        newPage.Key = RandomId.getInstance().make();
+
+                                        Program.ProjectModel.Pages.Remove(existingPage);
+                                        Program.ProjectModel.Pages.Add(newPage);
+                                        PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                    }
+
+                                    pagesUpdated++;
+
+                                }
+                                catch (Exception ex)
                                 {
                                     ApplicationMessage.ShowException(ex);
                                 }
@@ -3852,7 +3873,13 @@ namespace Win_CBZ
                         }
                     }
 
-                } else
+                    if (pagesUpdated > 0)
+                    {
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
+                    }
+                }
+                else
                 {
                     TextBox textBox = this.GetActiveTextBox() as TextBox;
                     if (textBox != null)

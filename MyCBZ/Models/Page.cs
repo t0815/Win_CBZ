@@ -361,6 +361,8 @@ namespace Win_CBZ
             MetaDataReader.Read();
             Document.Load(MetaDataReader);
 
+            String sourceProjectId = "";
+
             XmlNode Root;
 
             foreach (XmlNode node in Document.ChildNodes)
@@ -372,6 +374,9 @@ namespace Win_CBZ
                     {
                         switch (subNode.Name.ToLower())
                         {
+                            case "projectguid":
+                                sourceProjectId = subNode.InnerText;
+                                break;
                             case "localfile":
                                 HandlePageMetaData(subNode, "LocalFile");
                                 break;
@@ -388,14 +393,34 @@ namespace Win_CBZ
 
             if (LocalFile == null)
             {
-                LocalFile = new LocalFile(TemporaryFile.FullPath);
+                if (Program.ProjectModel.ProjectGUID != sourceProjectId)
+                {
+                    if (WorkingDir != null)
+                    {
+                        DirectoryInfo currentWorkingDir = new DirectoryInfo(WorkingDir);
+                        String baseDir = currentWorkingDir.Parent.FullName;
+
+                        String targetPath = Path.Combine(baseDir, sourceProjectId);
+                        String targetFile = Path.Combine(targetPath, Name);
+
+                        Copy(TemporaryFile.FullPath, targetFile);
+
+                        LocalFile = new LocalFile(targetFile);
+                    }
+
+                    if (Compressed)
+                    {
+                        Compressed = false;
+                    }
+                } else
+                {
+                    LocalFile = new LocalFile(TemporaryFile.FullPath);
+                }
+
+                //
             }
 
-            if (Compressed)
-            {
-                Compressed = false;
-            }
-
+           
             ImageFileInfo = new FileInfo(TemporaryFile.FullPath);
             Format = new PageImageFormat(FileExtension);
             ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
@@ -679,7 +704,7 @@ namespace Win_CBZ
         }
 
 
-        public MemoryStream Serialize(bool withoutXMLHeaderTag = false)
+        public MemoryStream Serialize(String sourceProjectId, bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();
             XmlWriterSettings writerSettings = new XmlWriterSettings
@@ -692,6 +717,7 @@ namespace Win_CBZ
             xmlWriter.WriteStartDocument();
 
             xmlWriter.WriteStartElement("Win_CBZ_Page");
+            xmlWriter.WriteElementString("ProjectGUID", sourceProjectId);
             xmlWriter.WriteElementString("Id", Id);
             xmlWriter.WriteElementString("Name", Name);
             xmlWriter.WriteElementString("Hash", Hash);
@@ -734,6 +760,19 @@ namespace Win_CBZ
                 // TemporaryFile
                 xmlWriter.WriteStartElement("TemporaryFile");
                 xmlWriter.WriteElementString("FullPath", TemporaryFile.FullPath);
+
+                xmlWriter.WriteEndElement();
+            }
+
+            //
+            if (Format != null)
+            {
+                xmlWriter.WriteStartElement("Format");
+                xmlWriter.WriteElementString("W", Format.W.ToString());
+                xmlWriter.WriteElementString("H", Format.H.ToString());
+                xmlWriter.WriteElementString("DPI", Format.DPI.ToString());
+                xmlWriter.WriteElementString("Format", Format.Format.ToString());
+                xmlWriter.WriteElementString("Name", Format.Name.ToString());
 
                 xmlWriter.WriteEndElement();
             }
@@ -856,6 +895,9 @@ namespace Win_CBZ
                         }
 
                         result = destination;
+                    } else
+                    {
+                        return TemporaryFile;
                     }
 
                     FileInfo tempFileInfo = new FileInfo(result);
