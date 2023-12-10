@@ -2236,7 +2236,7 @@ namespace Win_CBZ
             }
         }
 
-        protected FileInfo MakeNewTempFileName(String extension = "")
+        public FileInfo MakeNewTempFileName(String extension = "")
         {
             return new FileInfo(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, RandomId.getInstance().make() + extension + ".tmp"));
         }

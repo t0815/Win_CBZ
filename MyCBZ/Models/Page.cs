@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using Win_CBZ.Helper;
 using System.Xml;
 using SharpCompress.Common;
+using System.IO.Pipes;
 
 namespace Win_CBZ
 {
@@ -754,7 +755,8 @@ namespace Win_CBZ
 
             if (Compressed)
             {
-                TemporaryFile = CreateLocalWorkingCopy();
+                FileInfo NewTemporaryFileName = Program.ProjectModel.MakeNewTempFileName();
+                TemporaryFile = CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
             }
 
             //
@@ -829,11 +831,11 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Close(bool dontDeleteTemporaryFiles = false)
+        public void Close(bool keepTemporaryFiles = true)
         {
             FreeImage();
 
-            if (dontDeleteTemporaryFiles)
+            if (!keepTemporaryFiles)
             {
                 DeleteTemporaryFile();
             }
@@ -1036,7 +1038,7 @@ namespace Win_CBZ
         {
             if (!Closed)
             {
-                this.LoadImage();
+                LoadImage();
             }
 
             return Image;
@@ -1046,7 +1048,7 @@ namespace Win_CBZ
         {
             if (!Closed)
             {
-                this.LoadImage();
+                LoadImage();
             }
 
             return ImageStream;
@@ -1062,12 +1064,26 @@ namespace Win_CBZ
                 {
                     if (TempPath != null)
                     {
+                        Stream ImageFileStream = null;
+                        try
+                        {
+                            ImageFileStream = File.Open(TempPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                            Image ImageInfo = Image.FromStream(stream: ImageFileStream,
+                                                     useEmbeddedColorManagement: false,
+                                                     validateImageData: false);
 
-                        ImageInfo = Image.FromFile(TempPath);
-                        Format = new PageImageFormat(ImageInfo);
+                            Format = new PageImageFormat(ImageInfo);
 
-                        ImageInfo.Dispose();
-                        ImageInfo = null;
+                            
+                        } catch ( Exception e)
+                        {
+
+                        } finally
+                        {
+                            ImageFileStream?.Close();
+                            ImageInfo?.Dispose();
+                            ImageInfo = null;
+                        }
                     }
 
                     if (Compressed)
@@ -1076,14 +1092,16 @@ namespace Win_CBZ
                         Format = new PageImageFormat(ImageInfo);
 
 
-                        ImageInfo.Dispose();
+                        ImageInfo?.Dispose();
                         ImageInfo = null;
                     }
                 } else
                 {
                     try
                     {
-                        ImageInfo = Image.FromStream(ImageStream);
+                        ImageInfo = Image.FromStream(stream: ImageStream,
+                                                     useEmbeddedColorManagement: false,
+                                                     validateImageData: false);
                         Format = new PageImageFormat(ImageInfo);
 
                         ImageInfo.Dispose();
@@ -1140,8 +1158,19 @@ namespace Win_CBZ
                     FileInfo copyFileInfo = new FileInfo(TemporaryFile.FullPath);   // Source
                     try
                     {
-                        FileStream localCopyStream = copyFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                         FileStream destinationStream = File.Create(destination);
+                        Stream localCopyStream = null;
+
+                        if (ImageStream != null)
+                        {
+                            if (ImageStream.CanRead)
+                            {
+                                localCopyStream = ImageStream;
+                            }
+                        } else
+                        {
+                            localCopyStream = copyFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                        }
 
                         try
                         {
