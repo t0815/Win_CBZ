@@ -38,10 +38,17 @@ namespace Win_CBZ.Forms
 
             Pages = new List<Page>();
 
-            foreach (Page p in pages)
-            {
-                Pages.Add(new Page(p, RandomId.getInstance().make()));
+            try {
+                foreach (Page p in pages)
+                {
+                    Pages.Add(new Page(p, RandomId.getInstance().make()));
+                }
+            } catch (Exception ex) {
+                ApplicationMessage.ShowException(ex);
+
+                return;
             }
+            
 
             bool deletedState = false;
             bool doublePageState = false;
@@ -340,9 +347,12 @@ namespace Win_CBZ.Forms
 
         private void ImagePreviewButton_Click(object sender, EventArgs e)
         {
-            ImagePreviewForm pagePreviewForm = new ImagePreviewForm(Pages[0]);
-            DialogResult dlgResult = pagePreviewForm.ShowDialog();
-            pagePreviewForm.Dispose();
+            if (Pages.Count > 0)
+            {
+                ImagePreviewForm pagePreviewForm = new ImagePreviewForm(Pages[0]);
+                DialogResult dlgResult = pagePreviewForm.ShowDialog();
+                pagePreviewForm.Dispose();
+            }           
         }
 
         private void PageSettingsForm_KeyUp(object sender, KeyEventArgs e)

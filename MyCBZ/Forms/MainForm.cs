@@ -93,6 +93,7 @@ namespace Win_CBZ
             PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
 
             df = new DebugForm(PageView);
+            backgroundWorker1.RunWorkerAsync();
 
             //pageClipboardMonitor = new PageClipboardMonitor();
             //pageClipboardMonitor.ClipboardChanged += ClipBoardChanged;
@@ -1287,7 +1288,7 @@ namespace Win_CBZ
             {
                 //if (this.InvokeRequired)
                 //{
-                this.Invoke(new Action(() =>
+                Invoke(new Action(() =>
                 {
                     if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) // PageView.Items.Count > 0)
                     {
@@ -2684,15 +2685,19 @@ namespace Win_CBZ
 
             if (buttonStateSelected)
             {
-                if (!((Page)selectedPages[0].Tag).ImageInfoRequested &&  ((Page)selectedPages[0].Tag).Format.W == 0 && ((Page)selectedPages[0].Tag).Format.H == 0)
+                if (!((Page)selectedPages[0].Tag).ImageInfoRequested && (((Page)selectedPages[0].Tag).Format == null || (((Page)selectedPages[0].Tag).Format.W == 0 && ((Page)selectedPages[0].Tag).Format.H == 0)))
                 {
                   
                     ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
                 }
                 //((Page)selectedPages[0].Tag).LoadImageInfo();
-                LabelW.Text = ((Page)selectedPages[0].Tag).Format.W.ToString();
-                LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
 
+                if (((Page)selectedPages[0].Tag).Format != null)
+                {
+                    LabelW.Text = ((Page)selectedPages[0].Tag).Format.W.ToString();
+                    LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
+                }
+                
                 RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
                 RadioApplyAdjustmentsPage.Enabled = true;
                 //RequestImageInfoSlice();
@@ -3715,7 +3720,10 @@ namespace Win_CBZ
             {
                 if (item.Index > -1)
                 {
-                    PagesList.Items[item.Index].Selected = true;
+                    if (PagesList.Items.Count > item.Index)
+                    {
+                        PagesList.Items[item.Index].Selected = true;
+                    }                   
                 }              
             }
         }
@@ -3733,7 +3741,7 @@ namespace Win_CBZ
             }
             else
             {
-                TextBox activeTextBox = GetActiveTextBox() as TextBox;
+                textBox = GetActiveTextBox() as TextBox;
 
                 if (textBox != null)
                 {
@@ -3827,20 +3835,36 @@ namespace Win_CBZ
                                 ms.Write(bytes, 0, bytes.Length);
                                 ms.Position = 0;
 
-                                copiedPagesList.Add(new Page(ms));
+                                try
+                                {
+                                    Page newPage = new Page(ms);
+                                    Program.ProjectModel.Pages.Add(newPage);
+
+                                    PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                } catch (Exception ex)
+                                {
+                                    ApplicationMessage.ShowException(ex);
+                                }
                             }
 
                         }
+                    }
+
+                } else
+                {
+                    TextBox textBox = this.GetActiveTextBox() as TextBox;
+                    if (textBox != null)
+                    {
+                        //if (textBox.SelectedText.Length > 0)
+                        //{
+                            textBox.Paste();
+                        //}
                     }
                 }
 
             } catch (Exception ex)
             {
                 ApplicationMessage.ShowException(ex);
-            }
-
-            foreach (Page page in copiedPagesList) 
-            { 
             }
         }
 
@@ -3864,6 +3888,20 @@ namespace Win_CBZ
             }
 
             return activeTextBox;
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!backgroundWorker1.CancellationPending)
+            {
+                Invoke(new Action(() =>
+                {
+                    PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
+                }));
+                
+                Thread.Sleep(2000);
+            }
+            
         }
     }
 }
