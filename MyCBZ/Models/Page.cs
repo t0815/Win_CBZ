@@ -688,11 +688,52 @@ namespace Win_CBZ
             Compressed = false;
             LastModified = localFile.LastModified;
             Name = localFile.FileName;
+            Key = RandomId.getInstance().make();
 
             //String newTempFileName = CreateLocalWorkingCopy(ExtractFileExtension(localFile.FullPath));
             //TempPath = new FileInfo(newTempFileName).FullName;
+        }
 
-            
+        public void UpdateImage(Stream imageStream, LocalFile newImageFile)
+        {
+            if (imageStream == null && imageStream.CanRead && newImageFile != null)
+            {
+                FileStream newImageFileStream = null;
+                try
+                {
+                    newImageFileStream = File.Open(newImageFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    imageStream.CopyTo(newImageFileStream);
+                } catch (FileNotFoundException fe)
+                {
+
+                } catch (IOException ioe) 
+                { 
+                    
+                } finally 
+                {
+                    newImageFileStream?.Close();
+                    //imageStream?.Close(); 
+                }
+
+
+                ImageFileInfo = new FileInfo(newImageFile.FullPath);
+
+                LocalFile = new LocalFile(newImageFile.FullPath);
+                TemporaryFile = null;
+                Size = ImageFileInfo.Length;
+                
+                Compressed = false;
+                LastModified = LocalFile.LastModified;
+                Name = LocalFile.FileName;
+                Key = RandomId.getInstance().make();
+
+                Format = new PageImageFormat();
+                Image = null;
+                ImageLoaded = false;
+                ImageStream = imageStream;
+                
+
+            }
         }
 
         protected bool RemoveReadOnlyAttribute(ref FileInfo ImageFileInfo)
