@@ -2715,6 +2715,7 @@ namespace Win_CBZ
             ToolButtonMovePageUp.Enabled = buttonStateSelected && selectedPages.Count != PagesList.Items.Count;
             ToolButtonEditImageProps.Enabled = buttonStateSelected;
             ToolButtonImagePreview.Enabled = selectedPages.Count == 1;
+            ToolButtonEditImage.Enabled = propsButtonAvailable;
 
             ToolButtonSetPageType.Enabled = buttonStateSelected;
 
@@ -4008,6 +4009,11 @@ namespace Win_CBZ
                 Thread.Sleep(2000);
             }
             
+        }
+
+        private void PageThumbsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
