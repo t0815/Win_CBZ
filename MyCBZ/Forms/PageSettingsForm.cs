@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Xsl;
+using System.Xml;
 using Win_CBZ.Helper;
 
 namespace Win_CBZ.Forms
@@ -363,6 +366,38 @@ namespace Win_CBZ.Forms
             if (e.KeyCode == Keys.Escape)
             {
                 Close();
+            }
+        }
+
+        private void TabControlPageProperties_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (TabControlPageProperties.SelectedIndex == 1 && Pages.Count == 1)
+            {
+                try
+                {
+                    StringReader xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeUriString("defaults").ToLowerInvariant()));
+                    XmlReader xslReader = XmlReader.Create(xsltManifest);
+                    XslCompiledTransform xTrans = new XslCompiledTransform();
+                    xTrans.Load(xslReader);
+
+                    // Read the xml string.
+                    XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
+                    xmlReaderSettings.ConformanceLevel = ConformanceLevel.Fragment;
+                    MemoryStream sr = FirstPage.Serialize(Program.ProjectModel.ProjectGUID, true);
+                    XmlReader xReader = XmlReader.Create(sr, xmlReaderSettings);
+
+                    // Transform the XML data
+                    MemoryStream ms = new MemoryStream();
+                    //xTrans.OutputSettings.
+                    xTrans.Transform(xReader, null, ms);
+
+                    ms.Position = 0;
+                    // Set to the document stream
+                    metaDataView.DocumentStream = ms;
+                } catch (Exception ex)
+                {
+                    ApplicationMessage.ShowException(ex);
+                }
             }
         }
     }

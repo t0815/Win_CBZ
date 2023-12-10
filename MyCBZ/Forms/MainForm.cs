@@ -2833,7 +2833,7 @@ namespace Win_CBZ
                 foreach (ListViewItem selectedItem in PagesList.SelectedItems)
                 {
                     originalPages.Add((Page)selectedItem.Tag);
-                    pageProperties.Add(new Page((Page)selectedItem.Tag));
+                    pageProperties.Add(new Page(selectedItem.Tag as Page));
                 }
 
                 //Page page = (Page)PagesList.SelectedItem.Tag;

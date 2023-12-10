@@ -367,6 +367,7 @@ namespace Win_CBZ
                 }
 
                 ImageTask = sourcePage.ImageTask;
+                ImageMetaDataLoaded = sourcePage.ImageMetaDataLoaded;
             }
         }
 
@@ -1543,6 +1544,7 @@ namespace Win_CBZ
                     {
                         Format.Update(Image);
                         Closed = false;
+                        ImageMetaDataLoaded = true;
                     } catch (Exception ie)
                     {
                         if (LocalFile != null)
