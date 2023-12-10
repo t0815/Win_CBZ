@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 using SharpCompress;
 using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace Win_CBZ
 {
@@ -2918,14 +2919,6 @@ namespace Win_CBZ
             updatedPage.Number = originalPage.Index + 1;
         }
 
-        private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in PagesList.Items)
-            {
-                item.Selected = true;
-            }
-        }
-
         private void CheckBoxDoRenamePages_CheckedChanged(object sender, EventArgs e)
         {
             if (sender != null)
@@ -3727,41 +3720,79 @@ namespace Win_CBZ
             }
         }
 
+        private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBox textBox = null;
+
+            if (PagesList.Focused)
+            {
+                foreach (ListViewItem item in PagesList.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            else
+            {
+                TextBox activeTextBox = GetActiveTextBox() as TextBox;
+
+                if (textBox != null)
+                {
+                    textBox.SelectAll();
+                }
+            }
+        }
+
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<Page> selectedPages = new List<Page>();
             MemoryStream ms;
 
-            foreach (ListViewItem itempage in PagesList.SelectedItems)
+            if (PagesList.Focused)
             {
-                selectedPages.Add(itempage.Tag as Page);
-            }
-
-            if (selectedPages.Count > 0)
-            {
-                String xmlTextPages = "";
-                var utf8WithoutBom = new System.Text.UTF8Encoding(false);
-                
-
-                foreach (Page p in selectedPages)
+                foreach (ListViewItem itempage in PagesList.SelectedItems)
                 {
-                    ms = p.Serialize();
-
-                    String metaData = utf8WithoutBom.GetString(ms.ToArray());
-                    xmlTextPages += metaData;
-
-                    xmlTextPages += "\r\n";
+                    selectedPages.Add(itempage.Tag as Page);
                 }
 
-                DataObject data = new DataObject();
-                data.SetData(DataFormats.UnicodeText, xmlTextPages);
+                if (selectedPages.Count > 0)
+                {
+                    String xmlTextPages = "";
+                    var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
-                Clipboard.SetDataObject(data);
 
-                PasteToolStripMenuItem.Enabled = true;
+                    foreach (Page p in selectedPages)
+                    {
+                        ms = p.Serialize();
+
+                        String metaData = utf8WithoutBom.GetString(ms.ToArray());
+                        xmlTextPages += metaData;
+
+                        xmlTextPages += "\r\n";
+                    }
+
+                    DataObject data = new DataObject();
+                    data.SetData(DataFormats.UnicodeText, xmlTextPages);
+
+                    Clipboard.SetDataObject(data);
+
+                    PasteToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    PasteToolStripMenuItem.Enabled = false;
+                }
             } else
             {
-                PasteToolStripMenuItem.Enabled = false;
+                TextBox textBox = this.GetActiveTextBox() as TextBox;
+                if (textBox != null)
+                {
+                    if (textBox.SelectedText.Length > 0)
+                    {
+                        textBox.Copy();
+                    }
+                }
+                                
+                PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();               
             }
         }
 
@@ -3775,24 +3806,31 @@ namespace Win_CBZ
             try
             {
                 String copiedPages = clipObject.GetData(DataFormats.UnicodeText) as String;
-
-                if (copiedPages.Length > 0)
+                if (copiedPages.Contains("<?xml") && copiedPages.Contains("<Win_CBZ_Page>"))
                 {
-                    pageXMLLines.AddRange(copiedPages.Split(new char [] { '\r', '\n' }).ToArray());
 
-                }
-
-                foreach (String line in pageXMLLines)
-                {
-                    if (line.Length > 0)
+                    if (copiedPages.Length > 0)
                     {
-                        MemoryStream ms = new MemoryStream();
-                        byte[] bytes = utf8WithoutBom.GetBytes(line);
+                        pageXMLLines.AddRange(copiedPages.Split(new char[] { '\r', '\n' }).ToArray());
 
-                        ms.Write(bytes, 0, bytes.Length);
-                        ms.Position = 0;
+                    }
 
-                        copiedPagesList.Add(new Page(ms));
+                    foreach (String line in pageXMLLines)
+                    {
+                        if (line.Length > 0)
+                        {
+                            if (line.Contains("<?xml") && line.Contains("<Win_CBZ_Page>"))
+                            {
+                                MemoryStream ms = new MemoryStream();
+                                byte[] bytes = utf8WithoutBom.GetBytes(line);
+
+                                ms.Write(bytes, 0, bytes.Length);
+                                ms.Position = 0;
+
+                                copiedPagesList.Add(new Page(ms));
+                            }
+
+                        }
                     }
                 }
 
@@ -3804,6 +3842,28 @@ namespace Win_CBZ
             foreach (Page page in copiedPagesList) 
             { 
             }
+        }
+
+        private Control GetActiveTextBox()
+        {
+            TextBox activeTextBox = null;
+
+            SplitContainer activeContainer = ActiveControl as SplitContainer;
+            if (activeContainer != null)
+            {
+                while (activeContainer != null)
+                {
+                    activeContainer = activeContainer.ActiveControl as SplitContainer;
+                    if (activeContainer != null)
+                    {
+                        activeTextBox = activeContainer.ActiveControl as TextBox;
+                    }
+                    
+
+                }
+            }
+
+            return activeTextBox;
         }
     }
 }
