@@ -1345,11 +1345,10 @@ namespace Win_CBZ
             return TemporaryFile;
         }
 
-        public void LoadImage(bool metaDataOnly = false)
+        public void LoadImage(bool metaDataOnly = false, bool reloadImageStream = false)
         {
-            bool reloadImageStream = false;
-
-            if (!Closed)
+            
+            if (!Closed || reloadImageStream)
             {
                 if (ImageStream != null)
                 {
@@ -1359,7 +1358,7 @@ namespace Win_CBZ
                     }
                 }
 
-                if (Image == null)
+                if (Image == null || reloadImageStream)
                 {
                     if (IsMemoryCopy)
                     {
@@ -1399,7 +1398,7 @@ namespace Win_CBZ
                     }
                     else
                     {
-                        if (ImageStream != null && ImageStream.CanRead)
+                        if (ImageStream != null && ImageStream.CanRead && !reloadImageStream)
                         {
                             try
                             {
@@ -1431,67 +1430,66 @@ namespace Win_CBZ
                                     }
                                 }                               
                             }
-                            catch (Exception ioi) {
+                            catch (Exception ioi) 
+                            {
                                 throw new PageException(this, "Error loading image [" + Name + "]! Invalid or corrupted image", true, ioi);
                             }
                         }
-                    }
-                }
-
-                if (!metaDataOnly)
-                {
-                    if (Image == null || reloadImageStream)
-                    {
-                        if (TemporaryFile == null || !TemporaryFile.Exists())
+                        else
                         {
-                            TemporaryFile = RequestTemporaryFile();
-                        }
-
-                        if (TemporaryFile != null && TemporaryFile.Exists())
-                        {
-                            if (!metaDataOnly)
+                            if (TemporaryFile == null || !TemporaryFile.Exists() || reloadImageStream)
                             {
-                                try
+                                TemporaryFile = RequestTemporaryFile();
+                            }
+
+                            if (TemporaryFile != null && TemporaryFile.Exists())
+                            {
+                                if (!metaDataOnly)
                                 {
-                                    ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
-                                    Image = Image.FromStream(ImageStream);
-                                    ImageLoaded = true;
-                                } catch (Exception e)
+                                    try
+                                    {
+                                        ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
+                                        Image = Image.FromStream(ImageStream);
+                                        ImageLoaded = true;
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        throw new PageException(this, "Failed to load image [" + Name + "] from local File [" + TemporaryFile.FileName + "]!", true, e);
+                                    }
+                                }
+                                else
                                 {
-                                    throw new PageException(this, "Failed to load image [" + Name + "] from local File [" + TemporaryFile.FileName +"]!", true, e);
+                                    Image imgMeta = null;
+                                    try
+                                    {
+                                        imgMeta = Image.FromStream(stream: File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.Read),
+                                                                            useEmbeddedColorManagement: false,
+                                                                            validateImageData: false);
+                                        Format.W = imgMeta.Width;
+                                        Format.H = imgMeta.Height;
+                                        Format.DPI = imgMeta.VerticalResolution;
+                                        Format.Format = imgMeta.RawFormat;
+                                        Format.Update();
+                                    }
+                                    catch (Exception eim)
+                                    {
+                                        throw new PageException(this, "Error loading image properties [" + Name + "]! Invalid or corrupted image", true, eim);
+                                    }
+                                    finally
+                                    {
+                                        imgMeta?.Dispose();
+                                    }
                                 }
                             }
                             else
                             {
-                                Image imgMeta = null;
-                                try
-                                {
-                                    imgMeta = Image.FromStream(stream: File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.Read),
-                                                                        useEmbeddedColorManagement: false,
-                                                                        validateImageData: false);
-                                    Format.W = imgMeta.Width;
-                                    Format.H = imgMeta.Height;
-                                    Format.DPI = imgMeta.VerticalResolution;
-                                    Format.Format = imgMeta.RawFormat;
-                                    Format.Update();
-                                }
-                                catch (Exception eim)
-                                {
-                                    throw new PageException(this, "Error loading image properties [" + Name + "]! Invalid or corrupted image", true, eim);
-                                }
-                                finally
-                                {
-                                    imgMeta?.Dispose();
-                                }
+                                throw new PageException(this, "Failed to extract image [" + Name + "] from Archive!");
                             }
-
-
-                        }
-                        else
-                        {
-                            throw new PageException(this, "Failed to extract image [" + Name + "] from Archive!");
                         }
                     }
+                } else
+                {
+
                 }
 
                 if (Image != null)
@@ -1499,6 +1497,7 @@ namespace Win_CBZ
                     try
                     {
                         Format.Update(Image);
+                        Closed = false;
                     } catch (Exception ie)
                     {
                         if (LocalFile != null)
