@@ -252,13 +252,16 @@ namespace Win_CBZ.Forms
 
         private void PageIndexTextbox_TextChanged(object sender, EventArgs e)
         {
-            int newIndex = Convert.ToInt32(PageIndexTextbox.Text);
-
-            if (Pages.Count == 1)
+            try
             {
-                Pages[0].Index = newIndex - 1;
-                Pages[0].Number = newIndex;
-            }
+                int newIndex = Convert.ToInt32(PageIndexTextbox.Text);
+
+                if (Pages.Count == 1)
+                {
+                    Pages[0].Index = newIndex - 1;
+                    Pages[0].Number = newIndex;
+                }
+            } catch { }
         }
 
         private void ButtonOk_Click(object sender, EventArgs e)

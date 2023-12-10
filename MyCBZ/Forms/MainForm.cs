@@ -2075,6 +2075,9 @@ namespace Win_CBZ
                     //PageView.Items.Remove(originalPage);
                     //PageView.Items.Remove(updatePage);
 
+                    //PageThumbsListBox.Items.Remove(originalPage);
+                    PageThumbsListBox.Items.Remove(updatePage);
+
                 }
 
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
@@ -2088,8 +2091,11 @@ namespace Win_CBZ
 
                 if (updatePage != null && originalPage != null)
                 {
+                    //PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
+                    PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
+
                     //UpdatePageView();
-                    
+
                     //CreatePagePreviewFromItem(page);
                     //CreatePagePreviewFromItem((Page)originalItem.Tag);
                     //PageView.Items.Clear();
@@ -3122,7 +3128,7 @@ namespace Win_CBZ
 
         private void QuitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ToolButtonMovePageUp_Click(object sender, EventArgs e)
@@ -3530,11 +3536,6 @@ namespace Win_CBZ
             df.Show();
         }
 
-        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void PageView_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -3769,6 +3770,7 @@ namespace Win_CBZ
                 {
                     String xmlTextPages = "";
                     var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+                    Page copyPage;
 
                     Cursor = Cursors.WaitCursor;
 
@@ -3778,7 +3780,8 @@ namespace Win_CBZ
 
                         try
                         {
-                            ms = p.Serialize(Program.ProjectModel.ProjectGUID);
+                            copyPage = new Page(p);
+                            ms = copyPage.Serialize(Program.ProjectModel.ProjectGUID);
 
                             String metaData = utf8WithoutBom.GetString(ms.ToArray());
                             xmlTextPages += metaData;

@@ -62,7 +62,7 @@ namespace Win_CBZ
             }
             catch (Exception e2)
             {
-                
+                ApplicationMessage.ShowException(e2);
             }       
         }
 

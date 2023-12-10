@@ -358,6 +358,7 @@ namespace Win_CBZ
         public Page(Stream fileInputStream, FileAccess mode = FileAccess.Read)
         {
             XmlDocument Document = new XmlDocument();
+                        
             XmlReader MetaDataReader = XmlReader.Create(fileInputStream);
             MetaDataReader.Read();
             Document.Load(MetaDataReader);
@@ -391,6 +392,14 @@ namespace Win_CBZ
                     }
                 }
             }
+
+            MetaDataReader?.Close();
+            MetaDataReader?.Dispose();
+
+            TemporaryFileId = RandomId.getInstance().make();
+            Id = Guid.NewGuid().ToString();
+            IsMemoryCopy = false;
+            ImageLoaded = false;
 
             if (LocalFile == null)
             {
@@ -1104,7 +1113,7 @@ namespace Win_CBZ
                                                      validateImageData: false);
                         Format = new PageImageFormat(ImageInfo);
 
-                        ImageInfo.Dispose();
+                        ImageInfo?.Dispose();
                         ImageInfo = null;
                     } catch {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to read image [" + Filename + "]");
@@ -1128,7 +1137,7 @@ namespace Win_CBZ
                 {
                     Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
 
-                    Image.Dispose();
+                    Image?.Dispose();
                     Image = null;
                 } catch (Exception ex)
                 {
@@ -1182,11 +1191,11 @@ namespace Win_CBZ
                         }
                         finally
                         {
-                            destinationStream.Close();
-                            destinationStream.Dispose();
+                            destinationStream?.Close();
+                            destinationStream?.Dispose();
 
-                            localCopyStream.Close();
-                            localCopyStream.Dispose();
+                            localCopyStream?.Close();
+                            localCopyStream?.Dispose();
                         }
 
                     }
@@ -1268,7 +1277,7 @@ namespace Win_CBZ
                 {
                     if (LocalFile != null)
                     {
-                        FileInfo copyFileInfoLocal = new FileInfo(LocalPath);   // Source
+                        FileInfo copyFileInfoLocal = new FileInfo(LocalFile.FullPath);   // Source
                         FileStream localCopyStream = copyFileInfoLocal.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                         
                         try
@@ -1284,16 +1293,16 @@ namespace Win_CBZ
                             }
                             finally
                             {
-                                destinationStream.Close();
-                                destinationStream.Dispose();
+                                destinationStream?.Close();
+                                destinationStream?.Dispose();
                             }
                         } catch (Exception fwe)
                         {
                             throw new PageException(this, fwe.Message, true, fwe);
                         } finally
                         {
-                            localCopyStream.Close();
-                            localCopyStream.Dispose();
+                            localCopyStream?.Close();
+                            localCopyStream?.Dispose();
                         }
                     }
                 }
