@@ -3802,11 +3802,11 @@ namespace Win_CBZ
 
                     foreach (Page p in selectedPages)
                     {
-                        p.LoadImageInfo(true);
+                        p.LoadImageInfo(true);  // load image info in full to include in copy
 
                         try
                         {
-                            copyPage = new Page(p, true);
+                            copyPage = new Page(p, true);  
                             ms = copyPage.Serialize(Program.ProjectModel.ProjectGUID);
 
                             String metaData = utf8WithoutBom.GetString(ms.ToArray());
@@ -3894,7 +3894,7 @@ namespace Win_CBZ
                                     Page newPage = new Page(ms);
                                     Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
 
-                                    newPage.LoadImageInfo(true);
+                                    newPage.LoadImageInfo();
 
                                     if (existingPage == null)
                                     {

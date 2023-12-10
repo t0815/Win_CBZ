@@ -809,6 +809,7 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("DPI", Format.DPI.ToString());
                 xmlWriter.WriteElementString("Format", Format.Format.ToString());
                 xmlWriter.WriteElementString("Name", Format.Name.ToString());
+                xmlWriter.WriteElementString("PixelFormat", Format.PixelFormat.ToString());
 
                 xmlWriter.WriteEndElement();
             }
