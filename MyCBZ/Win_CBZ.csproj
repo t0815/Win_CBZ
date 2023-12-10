@@ -506,6 +506,7 @@
   <ItemGroup>
     <None Include="Resources\checks.png" />
     <None Include="Resources\arrow_circle2.png" />
+    <None Include="Resources\cut.png" />
     <Content Include="Resources\defaults.xsl" />
     <Content Include="Resources\edit_large.png" />
     <None Include="Resources\edit_large1.png" />
@@ -517,6 +518,9 @@
     <None Include="Resources\nav_right.png" />
     <None Include="Resources\placeholder-image.png" />
     <None Include="Resources\user_earth.png" />
+    <None Include="Resources\monitor_brush.png" />
+    <None Include="Resources\pencil.png" />
+    <None Include="Resources\selection.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
