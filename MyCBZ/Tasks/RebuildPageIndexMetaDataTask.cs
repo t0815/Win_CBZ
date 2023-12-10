@@ -45,15 +45,14 @@ namespace Win_CBZ.Tasks
                         page.Index = newIndex;
                         //page.OriginalIndex = newIndex;
                         page.Number = newIndex + 1;
+
                         newIndex++;
                     }
 
-                    if (pageChangedHandler != null && isUpdated)
+                    if (pageChangedHandler != null)
                     {
                         pageChangedHandler.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    }
-
-                    metaData.RebuildPageMetaData(pages);
+                    }                   
 
                     if (handler != null)
                     {
@@ -67,6 +66,8 @@ namespace Win_CBZ.Tasks
                     current++;
                     System.Threading.Thread.Sleep(10);
                 }
+
+                metaData.RebuildPageMetaData(pages);
 
                 if (handler != null)
                 {

@@ -29,6 +29,7 @@ using SharpCompress;
 using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
 using TextBox = System.Windows.Forms.TextBox;
+using Cursors = System.Windows.Forms.Cursors;
 
 namespace Win_CBZ
 {
@@ -3769,9 +3770,11 @@ namespace Win_CBZ
                     String xmlTextPages = "";
                     var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
+                    Cursor = Cursors.WaitCursor;
 
                     foreach (Page p in selectedPages)
                     {
+                        p.LoadImageInfo(true);
                         ms = p.Serialize(Program.ProjectModel.ProjectGUID);
 
                         String metaData = utf8WithoutBom.GetString(ms.ToArray());
@@ -3786,6 +3789,8 @@ namespace Win_CBZ
                     Clipboard.SetDataObject(data);
 
                     PasteToolStripMenuItem.Enabled = true;
+
+                    Cursor = Cursors.Default;
                 }
                 else
                 {
@@ -3853,12 +3858,15 @@ namespace Win_CBZ
                                         PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                     } else
                                     {
+                                        newPage = new Page(newPage);
                                         newPage.Id = Guid.NewGuid().ToString();
                                         newPage.Key = RandomId.getInstance().make();
+                                        newPage.Changed = false;
+                                        newPage.Compressed = false;
 
-                                        Program.ProjectModel.Pages.Remove(existingPage);
+                                        //Program.ProjectModel.Pages.Remove(existingPage);
                                         Program.ProjectModel.Pages.Add(newPage);
-                                        PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                     }
 
                                     pagesUpdated++;
