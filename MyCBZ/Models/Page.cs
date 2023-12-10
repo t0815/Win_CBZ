@@ -354,7 +354,7 @@ namespace Win_CBZ
         }
 
 
-        public Page(Stream fileInputStream)
+        public Page(Stream fileInputStream, FileAccess mode = FileAccess.Read)
         {
             XmlDocument Document = new XmlDocument();
             XmlReader MetaDataReader = XmlReader.Create(fileInputStream);
@@ -375,6 +375,9 @@ namespace Win_CBZ
                             case "localfile":
                                 HandlePageMetaData(subNode, "LocalFile");
                                 break;
+                            case "temporaryfile":
+                                HandlePageMetaData(subNode, "TemporaryFile");
+                                break;
                             default:
                                 HandlePageMetaData(subNode);
                                 break;
@@ -382,6 +385,36 @@ namespace Win_CBZ
                     }
                 }
             }
+
+            if (LocalFile == null)
+            {
+                LocalFile = new LocalFile(TemporaryFile.FullPath);
+            }
+
+            if (Compressed)
+            {
+                Compressed = false;
+            }
+
+            ImageFileInfo = new FileInfo(TemporaryFile.FullPath);
+            Format = new PageImageFormat(FileExtension);
+            ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
+            try
+            {
+                if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+                {
+                    RemoveReadOnlyAttribute(ref ImageFileInfo);
+                }
+                ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
+                ReadOnly = !ImageStream.CanWrite;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                ReadOnly = true;
+            }
+
+      
         }
 
         protected void HandlePageMetaData(XmlNode node, string type = null)
@@ -412,7 +445,7 @@ namespace Win_CBZ
             {
                 switch (node.Name)
                 {
-                    case "ID":
+                    case "Id":
                         Id = node.InnerText;
                         break;
 
@@ -422,6 +455,10 @@ namespace Win_CBZ
 
                     case "Hash":
                         Hash = node.InnerText;
+                        break;
+
+                    case "Key":
+                        Key = node.InnerText;
                         break;
 
                     case "Size":
@@ -460,12 +497,20 @@ namespace Win_CBZ
                         TempPath = node.InnerText;
                         break;
 
+                    case "WorkingDir":
+                        WorkingDir = node.InnerText;
+                        break;
+
                     case "Index":
                         Index = int.Parse(node.InnerText);
                         break;
 
                     case "OriginalIndex":
                         OriginalIndex = int.Parse(node.InnerText);
+                        break;
+
+                    case "Number":
+                        Number = int.Parse(node.InnerText);
                         break;
 
                     case "DoublePage":
@@ -508,12 +553,20 @@ namespace Win_CBZ
                         ImageMetaDataLoaded = Boolean.Parse(node.InnerText);
                         break;
 
+                    case "ImageLoaded":
+                        ImageLoaded = Boolean.Parse(node.InnerText);
+                        break;
+
                     case "Closed":
                         Closed = Boolean.Parse(node.InnerText);
                         break;
 
                     case "ThumbnailInvalidated":
                         ThumbnailInvalidated = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "LastModified":
+                        LastModified = DateTimeOffset.Parse(node.InnerText);
                         break;
                 }
             }
@@ -639,12 +692,14 @@ namespace Win_CBZ
             xmlWriter.WriteStartDocument();
 
             xmlWriter.WriteStartElement("Win_CBZ_Page");
-            xmlWriter.WriteElementString("ID", Id);
+            xmlWriter.WriteElementString("Id", Id);
             xmlWriter.WriteElementString("Name", Name);
             xmlWriter.WriteElementString("Hash", Hash);
+            xmlWriter.WriteElementString("Key", Key);
             xmlWriter.WriteElementString("TemporaryFileId", TemporaryFileId);
             xmlWriter.WriteElementString("Filename", Filename);
             xmlWriter.WriteElementString("OriginalName", OriginalName);
+            xmlWriter.WriteElementString("Number", Number.ToString());
             xmlWriter.WriteElementString("Index", Index.ToString());
             xmlWriter.WriteElementString("OriginalIndex", OriginalIndex.ToString());
             xmlWriter.WriteElementString("EntryName", EntryName);
@@ -656,6 +711,7 @@ namespace Win_CBZ
             xmlWriter.WriteElementString("Number", Number.ToString());
             xmlWriter.WriteElementString("Size", Size.ToString());
             xmlWriter.WriteElementString("WorkingDir", WorkingDir);
+            xmlWriter.WriteElementString("TempPath", TempPath);
 
             if (LocalFile != null)
             {
@@ -667,6 +723,11 @@ namespace Win_CBZ
             }
 
             //
+            //if (TemporaryFile == null)
+            //{
+                TemporaryFile = RequestTemporaryFile();
+            //}
+
 
             if (TemporaryFile != null)
             {
@@ -682,6 +743,7 @@ namespace Win_CBZ
                 // Zip Entry
                 xmlWriter.WriteStartElement("CompressedEntry");
                 xmlWriter.WriteElementString("Name", CompressedEntry.Name);
+                xmlWriter.WriteElementString("Source", Program.ProjectModel.FileName);
 
                 xmlWriter.WriteEndElement();
             }
@@ -700,6 +762,9 @@ namespace Win_CBZ
             xmlWriter.WriteElementString("ImageInfoRequested", ImageInfoRequested.ToString());
             xmlWriter.WriteElementString("Closed", Closed.ToString());
             xmlWriter.WriteElementString("ThumbnailInvalidated", ThumbnailInvalidated.ToString());
+            xmlWriter.WriteElementString("ImageLoaded", ImageLoaded.ToString());
+            xmlWriter.WriteElementString("ImageMetaDataLoaded", ImageMetaDataLoaded.ToString());
+            xmlWriter.WriteElementString("LastModified", LastModified.ToString());
 
             xmlWriter.WriteEndElement();
 
@@ -751,7 +816,7 @@ namespace Win_CBZ
             {
                 if (CompressedEntry != null)
                 {
-                    if ((TemporaryFile == null || !TemporaryFile.Exists()) || destination != null)
+                    if ((TemporaryFile == null || !TemporaryFile.Exists()) || destination != null || overwrite)
                     {
                         if (destination == null)
                         {
@@ -770,6 +835,9 @@ namespace Win_CBZ
                         
 
                         result = destination;
+                    } else
+                    {
+                        return TemporaryFile;
                     }
                 }
                 else

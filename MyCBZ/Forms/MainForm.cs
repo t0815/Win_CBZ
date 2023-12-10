@@ -93,7 +93,7 @@ namespace Win_CBZ
             PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
 
             df = new DebugForm(PageView);
-            backgroundWorker1.RunWorkerAsync();
+            
 
             //pageClipboardMonitor = new PageClipboardMonitor();
             //pageClipboardMonitor.ClipboardChanged += ClipBoardChanged;
@@ -196,6 +196,8 @@ namespace Win_CBZ
                     newPageTypeItem.Tag = pageType;
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
+
+                backgroundWorker1.RunWorkerAsync();
 
                 WindowShown = true;
             }
