@@ -516,16 +516,6 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paint_bucket1 {
-            get {
-                object obj = ResourceManager.GetObject("paint_bucket1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap painting_landscape {
             get {
                 object obj = ResourceManager.GetObject("painting_landscape", resourceCulture);
