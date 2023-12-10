@@ -348,11 +348,24 @@ namespace Win_CBZ
                     if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED)
                     {
                         ListViewItem item;
+                        ListViewItem insertAt = null;
                         ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Page);
+                        if (e.OldValue  != null)
+                        {
+                            insertAt = FindListViewItemForPage(PagesList, e.OldValue as Page);
+                        }
+                        
 
                         if (existingItem == null)
                         {
-                            item = PagesList.Items.Add(e.Page.Name);
+                            if (insertAt != null)
+                            {
+                                item = PagesList.Items.Insert(PagesList.Items.IndexOf(insertAt), e.Page.Name);
+                            } else
+                            {
+                                item = PagesList.Items.Add(e.Page.Name);
+                            }
+                            
                             item.ImageKey = e.Page.Id;
                             item.SubItems.Add(e.Page.Number.ToString());
                             item.SubItems.Add(e.Page.ImageType.ToString());
@@ -448,7 +461,7 @@ namespace Win_CBZ
                     {
                         PageThumbsListBox.Invoke(new Action(() =>
                         {
-                            CreatePagePreviewFromItem(e.Page);
+                            CreatePagePreviewFromItem(e.Page, e.OldValue as Page);
                         }));
                     }
                 }
@@ -822,10 +835,16 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private Page CreatePagePreviewFromItem(Page page)
+        private Page CreatePagePreviewFromItem(Page page, Page insertAt = null)
         {
             //ListViewItem itemPage;
             Page existingItem = FindThumbImageForPage(PageView, page);
+            Page insertPageAt = null;
+
+            if (insertAt != null)
+            {
+                insertPageAt = FindThumbImageForPage(PageView, insertAt);
+            }
 
             /*
             if (!PageImages.Images.ContainsKey(page.Id))
@@ -841,7 +860,14 @@ namespace Win_CBZ
 
             if (existingItem == null)
             {
-                PageThumbsListBox.Items.Add(page);
+                if (insertPageAt == null)
+                {
+                    PageThumbsListBox.Items.Add(page);
+                } else
+                {
+                    PageThumbsListBox.Items.Insert(PageThumbsListBox.Items.IndexOf(insertPageAt), page);
+                }
+                
             } else
             {
                 PageThumbsListBox.Items[PageThumbsListBox.Items.IndexOf(existingItem)] = page;
@@ -3828,9 +3854,19 @@ namespace Win_CBZ
             List<Page> copiedPagesList = new List<Page>();
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
             int pagesUpdated = 0;
+            ListViewItem selectedItem = PagesList.SelectedItem;
+            Page selectedPage = null;
+
+
 
             try
             {
+                if (selectedItem != null)
+                {
+                    selectedPage = selectedItem.Tag as Page;
+                }
+
+
                 String copiedPages = clipObject.GetData(DataFormats.UnicodeText) as String;
                 if (copiedPages.Contains("<?xml") && copiedPages.Contains("<Win_CBZ_Page>"))
                 {
@@ -3864,8 +3900,15 @@ namespace Win_CBZ
                                     {
                                         newPage.Changed = false;
                                         
-                                        Program.ProjectModel.Pages.Add(newPage);
-                                        PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        if (selectedPage != null)
+                                        {
+                                            Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                        } else
+                                        {
+                                            Program.ProjectModel.Pages.Add(newPage);
+                                        }
+
+                                        PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
                                     } else
                                     {
                                         newPage = new Page(newPage);
@@ -3876,7 +3919,16 @@ namespace Win_CBZ
 
                                         //Program.ProjectModel.Pages.Remove(existingPage);
                                         Program.ProjectModel.Pages.Add(newPage);
-                                        PageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        if (selectedPage != null)
+                                        {
+                                            Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                        }
+                                        else
+                                        {
+                                            Program.ProjectModel.Pages.Add(newPage);
+                                        }
+
+                                        PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
                                     }
 
                                     pagesUpdated++;
@@ -3943,10 +3995,13 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    Invoke(new Action(() =>
+                    try
                     {
-                        PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
-                    }));
+                        Invoke(new Action(() =>
+                        {
+                            PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
+                        }));
+                    } catch (Exception ex) { }
                 }
                 
                 
