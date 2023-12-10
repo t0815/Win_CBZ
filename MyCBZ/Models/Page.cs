@@ -393,8 +393,8 @@ namespace Win_CBZ
 
             if (LocalFile == null)
             {
-                if (Program.ProjectModel.ProjectGUID != sourceProjectId)
-                {
+                //if (Program.ProjectModel.ProjectGUID != sourceProjectId)
+                //{
                     if (WorkingDir != null)
                     {
                         DirectoryInfo currentWorkingDir = new DirectoryInfo(WorkingDir);
@@ -403,8 +403,12 @@ namespace Win_CBZ
                         String targetPath = Path.Combine(baseDir, sourceProjectId);
                         String targetFile = Path.Combine(targetPath, Name);
 
-                        Copy(TemporaryFile.FullPath, targetFile);
+                        if (File.Exists(targetFile))
+                        {
+                            targetFile = Path.Combine(targetPath, RandomId.getInstance().make() + ".tmp");
+                        }
 
+                        Copy(TemporaryFile.FullPath, targetFile);
                         LocalFile = new LocalFile(targetFile);
                     }
 
@@ -412,10 +416,10 @@ namespace Win_CBZ
                     {
                         Compressed = false;
                     }
-                } else
-                {
-                    LocalFile = new LocalFile(TemporaryFile.FullPath);
-                }
+                //} else
+                //{
+                //    LocalFile = new LocalFile(TemporaryFile.FullPath);
+                //}
 
                 //
             }
@@ -748,11 +752,16 @@ namespace Win_CBZ
                 xmlWriter.WriteEndElement();
             }
 
+            if (Compressed)
+            {
+                TemporaryFile = CreateLocalWorkingCopy();
+            }
+
             //
-            //if (TemporaryFile == null)
-            //{
+            if (TemporaryFile == null)
+            {
                 TemporaryFile = RequestTemporaryFile();
-            //}
+            }
 
 
             if (TemporaryFile != null)
@@ -1118,7 +1127,7 @@ namespace Win_CBZ
 
             if (Compressed)
             {
-                if (TemporaryFile == null || !TemporaryFile.Exists())
+                if (TemporaryFile == null || !TemporaryFile.Exists() || destination != null)
                 {
                     TemporaryFile = RequestTemporaryFile(destination);
 
@@ -1128,7 +1137,38 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    return TemporaryFile;
+                    FileInfo copyFileInfo = new FileInfo(TemporaryFile.FullPath);   // Source
+                    try
+                    {
+                        FileStream localCopyStream = copyFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                        FileStream destinationStream = File.Create(destination);
+
+                        try
+                        {
+                            localCopyStream.CopyTo(destinationStream);
+                        }
+                        catch (Exception fwe)
+                        {
+                            throw new PageException(this, fwe.Message, true, fwe);
+                        }
+                        finally
+                        {
+                            destinationStream.Close();
+                            destinationStream.Dispose();
+
+                            localCopyStream.Close();
+                            localCopyStream.Dispose();
+                        }
+
+                    }
+                    catch (Exception ce)
+                    {
+                        throw new PageException(this, ce.Message, true, ce);
+                    }
+                    finally
+                    {
+                        
+                    }
                 }
             }
             else
@@ -1165,7 +1205,8 @@ namespace Win_CBZ
                     {
                         if (LocalPath != null)
                         {
-                            FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+                            FileInfo copyFileInfoLocal = new FileInfo(LocalPath);   // Source
+                            FileStream localCopyStream = copyFileInfoLocal.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                             try
                             {
                                 FileStream destinationStream = File.Create(destination);
@@ -1198,7 +1239,8 @@ namespace Win_CBZ
                 {
                     if (LocalFile != null)
                     {
-                        FileStream localCopyStream = copyFileInfo.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+                        FileInfo copyFileInfoLocal = new FileInfo(LocalPath);   // Source
+                        FileStream localCopyStream = copyFileInfoLocal.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                         
                         try
                         {

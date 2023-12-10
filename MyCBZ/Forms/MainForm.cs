@@ -3775,12 +3775,19 @@ namespace Win_CBZ
                     foreach (Page p in selectedPages)
                     {
                         p.LoadImageInfo(true);
-                        ms = p.Serialize(Program.ProjectModel.ProjectGUID);
 
-                        String metaData = utf8WithoutBom.GetString(ms.ToArray());
-                        xmlTextPages += metaData;
+                        try
+                        {
+                            ms = p.Serialize(Program.ProjectModel.ProjectGUID);
 
-                        xmlTextPages += "\r\n";
+                            String metaData = utf8WithoutBom.GetString(ms.ToArray());
+                            xmlTextPages += metaData;
+
+                            xmlTextPages += "\r\n";
+                        } catch (PageException ex)
+                        {
+                            ApplicationMessage.ShowException(ex);
+                        }
                     }
 
                     DataObject data = new DataObject();
@@ -3931,10 +3938,14 @@ namespace Win_CBZ
         {
             while (!backgroundWorker1.CancellationPending)
             {
-                Invoke(new Action(() =>
+                if (!WindowClosed)
                 {
-                    PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
-                }));
+                    Invoke(new Action(() =>
+                    {
+                        PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
+                    }));
+                }
+                
                 
                 Thread.Sleep(2000);
             }
