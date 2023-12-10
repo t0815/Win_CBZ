@@ -1183,11 +1183,18 @@ namespace Win_CBZ
                 } else
                 {
                     FileInfo copyFileInfo = new FileInfo(TemporaryFile.FullPath);   // Source
+                    FileStream destinationStream = null;
+                    Stream localCopyStream = null;
+
+                    if (destination == null)
+                    {
+                        destination = Path.Combine(PathHelper.ResolvePath(WorkingDir), TemporaryFileId + ".tmp");
+                    }
+
                     try
                     {
-                        FileStream destinationStream = File.Create(destination);
-                        Stream localCopyStream = null;
-
+                        destinationStream = File.Create(destination);
+                        
                         if (ImageStream != null)
                         {
                             if (ImageStream.CanRead)
@@ -1209,11 +1216,7 @@ namespace Win_CBZ
                         }
                         finally
                         {
-                            destinationStream?.Close();
-                            destinationStream?.Dispose();
-
-                            localCopyStream?.Close();
-                            localCopyStream?.Dispose();
+                            
                         }
 
                     }
@@ -1223,7 +1226,11 @@ namespace Win_CBZ
                     }
                     finally
                     {
-                        
+                        destinationStream?.Close();
+                        destinationStream?.Dispose();
+
+                        localCopyStream?.Close();
+                        localCopyStream?.Dispose();
                     }
                 }
             }
@@ -1250,18 +1257,18 @@ namespace Win_CBZ
                         {
                             ImageStream.CopyTo(localCopyStream);
                         } catch (Exception ce) {
-                            throw ce;
+                            throw new PageException(this, ce.Message, true, ce);
                         } finally
                         {                          
-                            localCopyStream.Close();
-                            localCopyStream.Dispose();
+                            localCopyStream?.Close();
+                            localCopyStream?.Dispose();
                         }
                                           
                     } else
                     {
-                        if (LocalPath != null)
+                        if (LocalFile != null)
                         {
-                            FileInfo copyFileInfoLocal = new FileInfo(LocalPath);   // Source
+                            FileInfo copyFileInfoLocal = new FileInfo(LocalFile.FullPath);   // Source
                             FileStream localCopyStream = copyFileInfoLocal.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                             try
                             {
@@ -1270,13 +1277,14 @@ namespace Win_CBZ
                                 try
                                 {
                                     localCopyStream.CopyTo(destinationStream);
+
                                 } catch (Exception fwe)
                                 {
                                     throw new PageException(this, fwe.Message, true, fwe);
                                 } finally 
                                 { 
-                                    destinationStream.Close();
-                                    destinationStream.Dispose();
+                                    destinationStream?.Close();
+                                    destinationStream?.Dispose();
                                 }
                                 
                             }
@@ -1286,8 +1294,8 @@ namespace Win_CBZ
                             }
                             finally
                             {
-                                localCopyStream.Close();
-                                localCopyStream.Dispose();
+                                localCopyStream?.Close();
+                                localCopyStream?.Dispose();
                             }
                         }
                     }
@@ -1324,18 +1332,15 @@ namespace Win_CBZ
                         }
                     }
                 }
-
-                if (copyFileInfo.Exists)
-                {
-                    TempPath = destination;
-
-                    TemporaryFile = new LocalFile(TempPath);
-
-                    return TemporaryFile;
-                }
             }
 
-            TemporaryFile = new LocalFile(TempPath);
+            LocalFile result = new LocalFile(destination);
+
+            if (result.Exists())
+            {
+                TemporaryFile = result;
+            }
+            
 
             return TemporaryFile;
         }

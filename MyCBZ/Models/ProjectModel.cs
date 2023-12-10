@@ -1549,7 +1549,7 @@ namespace Win_CBZ
 
                         index++;
                         progressIndex++;
-                        Thread.Sleep(10);
+                        Thread.Sleep(5);
                     }
                     catch (Exception ef)
                     {
@@ -2223,7 +2223,7 @@ namespace Win_CBZ
                 {
                     FileInfo NewTemporaryFileName = MakeNewTempFileName();
                     fileEntry.ExtractToFile(NewTemporaryFileName.FullName);
-                    page.TempPath = NewTemporaryFileName.FullName;
+                    //page.TempPath = NewTemporaryFileName.FullName;
                     OnItemExtracted(new ItemExtractedEvent(1, 1, NewTemporaryFileName.FullName));
                 } else
                 {
