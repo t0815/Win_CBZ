@@ -723,14 +723,17 @@ namespace Win_CBZ
                 Size = ImageFileInfo.Length;
                 
                 Compressed = false;
+                Changed = true;
                 LastModified = LocalFile.LastModified;
                 Name = LocalFile.FileName;
                 Key = RandomId.getInstance().make();
 
+                TemporaryFileId = RandomId.getInstance().make();
                 Format = new PageImageFormat();
                 Image = null;
                 ImageLoaded = false;
                 ImageStream = imageStream;
+                ThumbnailInvalidated = true;
                 
 
             }
