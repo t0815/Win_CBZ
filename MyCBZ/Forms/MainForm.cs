@@ -3806,7 +3806,7 @@ namespace Win_CBZ
 
                         try
                         {
-                            copyPage = new Page(p);
+                            copyPage = new Page(p, true);
                             ms = copyPage.Serialize(Program.ProjectModel.ProjectGUID);
 
                             String metaData = utf8WithoutBom.GetString(ms.ToArray());

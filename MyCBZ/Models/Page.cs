@@ -180,6 +180,7 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
             Key = RandomId.getInstance().make();
+            LastModified = localFile.LastModified;
         }
 
 
@@ -242,6 +243,8 @@ namespace Win_CBZ
             Compressed = sourcePage.Compressed;
             TemporaryFileId = RandomId;
 
+            LastModified = sourcePage.LastModified;
+
             EntryName = sourcePage.EntryName;
             CompressedEntry = sourcePage.CompressedEntry;
 
@@ -291,7 +294,7 @@ namespace Win_CBZ
             ImageTask = new ImageTask();
         }
 
-        public Page(Page sourcePage)
+        public Page(Page sourcePage, bool newCopy = false)
         {
             if (sourcePage != null)
             {
@@ -300,6 +303,7 @@ namespace Win_CBZ
                 EntryName = sourcePage.EntryName;
                 TempPath = sourcePage.TempPath;
                 Filename = sourcePage.Filename;
+                FileExtension = sourcePage.FileExtension;
                 LocalPath = sourcePage.LocalPath;
                 LocalFile = sourcePage.LocalFile;
                 ImageStream = sourcePage.ImageStream;
@@ -311,11 +315,12 @@ namespace Win_CBZ
                 IsMemoryCopy = sourcePage.IsMemoryCopy;
                 //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
                 Format = sourcePage.Format;
+                LastModified = sourcePage.LastModified;
 
                 Changed = sourcePage.Changed;
                 ReadOnly = sourcePage.ReadOnly;
                 Size = sourcePage.Size;
-                Id = sourcePage.Id;
+                Id = newCopy ? Guid.NewGuid().ToString() : sourcePage.Id;
                 Index = sourcePage.Index;
                 OriginalIndex = sourcePage.OriginalIndex;
                 Number = sourcePage.Number;
@@ -330,7 +335,14 @@ namespace Win_CBZ
                 Thumbnail = sourcePage.Thumbnail;
                 ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
 
-                TemporaryFile = sourcePage.TemporaryFile;
+                if (newCopy)
+                {
+                    TemporaryFile = RequestTemporaryFile();
+                } else
+                {
+                    TemporaryFile = sourcePage.TemporaryFile;
+                }
+                
 
                 if (ImageStream != null)
                 {
@@ -747,7 +759,7 @@ namespace Win_CBZ
             xmlWriter.WriteElementString("Index", Index.ToString());
             xmlWriter.WriteElementString("OriginalIndex", OriginalIndex.ToString());
             xmlWriter.WriteElementString("EntryName", EntryName);
-            xmlWriter.WriteElementString("FileExtension", FileExtension);
+            
             xmlWriter.WriteElementString("ImageType", ImageType);
             xmlWriter.WriteElementString("DoublePage", DoublePage.ToString());
             xmlWriter.WriteElementString("ImageLoaded", "False");
@@ -755,7 +767,7 @@ namespace Win_CBZ
             xmlWriter.WriteElementString("Number", Number.ToString());
             xmlWriter.WriteElementString("Size", Size.ToString());
             xmlWriter.WriteElementString("WorkingDir", WorkingDir);
-            xmlWriter.WriteElementString("TempPath", TempPath);
+            
 
             if (LocalFile != null)
             {
@@ -810,6 +822,8 @@ namespace Win_CBZ
 
                 xmlWriter.WriteEndElement();
             }
+
+            xmlWriter.WriteElementString("FileExtension", FileExtension);
 
             // ----
             xmlWriter.WriteElementString("LocalPath", LocalPath);
