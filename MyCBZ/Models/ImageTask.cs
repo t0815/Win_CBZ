@@ -33,7 +33,7 @@ namespace Win_CBZ.Models
 
         public String[] PreviewFileName { get; set; }
 
-        public List<String> CommandsTodo { get; set; }
+        public List<String> Tasks { get; set; }
 
         public bool Success = false;
 
@@ -44,7 +44,7 @@ namespace Win_CBZ.Models
 
         public ImageTask()
         {
-            CommandsTodo = new List<String>();
+            Tasks = new List<String>();
             ImageAdjustments = new ImageAdjustments();
             ResultImage = new Image[2];
             PreviewFileName = new String[2];
@@ -61,7 +61,7 @@ namespace Win_CBZ.Models
             {
                 PreviewFileName[0] = source.TemporaryFile.FullPath + "_0";
                 File.Copy(source.TempPath, PreviewFileName[0], true);
-                CommandsTodo = commandsTodo;
+                Tasks = commandsTodo;
                 ImageFormat[0] = source.Format;
                 SourceFormat = source.Format;
                 SourcePage = source;
@@ -74,7 +74,7 @@ namespace Win_CBZ.Models
 
         public int TaskCount()
         { 
-            return CommandsTodo.Count;
+            return Tasks.Count;
         }
 
         public void CleanUp()

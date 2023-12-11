@@ -383,7 +383,7 @@ namespace Win_CBZ.Forms
                     // Read the xml string.
                     XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
                     xmlReaderSettings.ConformanceLevel = ConformanceLevel.Fragment;
-                    MemoryStream sr = FirstPage.Serialize(Program.ProjectModel.ProjectGUID, true);
+                    MemoryStream sr = Pages[0].Serialize(Program.ProjectModel.ProjectGUID, true);
                     XmlReader xReader = XmlReader.Create(sr, xmlReaderSettings);
 
                     // Transform the XML data

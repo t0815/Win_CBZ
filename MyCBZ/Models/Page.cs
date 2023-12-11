@@ -14,6 +14,7 @@ using Win_CBZ.Helper;
 using System.Xml;
 using SharpCompress.Common;
 using System.IO.Pipes;
+using System.Threading.Tasks;
 
 namespace Win_CBZ
 {
@@ -807,9 +808,6 @@ namespace Win_CBZ
             
             xmlWriter.WriteElementString("ImageType", ImageType);
             xmlWriter.WriteElementString("DoublePage", DoublePage.ToString());
-            xmlWriter.WriteElementString("ImageLoaded", "False");
-            xmlWriter.WriteElementString("ImageMetaDataLoaded", "False");
-            xmlWriter.WriteElementString("Number", Number.ToString());
             xmlWriter.WriteElementString("Size", Size.ToString());
             xmlWriter.WriteElementString("WorkingDir", WorkingDir);
             
@@ -855,6 +853,29 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("Format", Format.Format.ToString());
                 xmlWriter.WriteElementString("Name", Format.Name.ToString());
                 xmlWriter.WriteElementString("PixelFormat", Format.PixelFormat.ToString());
+
+                xmlWriter.WriteEndElement();
+            }
+
+            //
+            if (ImageTask != null)
+            {
+                xmlWriter.WriteStartElement("ImageTask");
+                xmlWriter.WriteElementString("TaskCount", ImageTask.TaskCount().ToString());
+                xmlWriter.WriteStartElement("Tasks");
+                
+                foreach (String task in ImageTask.Tasks)
+                {
+                    xmlWriter.WriteElementString("Task", task.ToString());
+                }
+                
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("ImageAdjustments");
+                xmlWriter.WriteElementString("ResizeMode", ImageTask.ImageAdjustments.ResizeMode.ToString());
+                xmlWriter.WriteElementString("SplitPage", ImageTask.ImageAdjustments.SplitPage.ToString());
+
+                xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteEndElement();
             }

@@ -33,7 +33,7 @@ namespace Win_CBZ.Tasks
                             result.AddFinishedPage(page);
                         }
 
-                        page.ImageTask.CommandsTodo.Clear();
+                        page.ImageTask.Tasks.Clear();
 
                         handler?.Invoke(page.ImageTask, new GeneralTaskProgressEvent(
                                 GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
