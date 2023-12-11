@@ -9,5 +9,7 @@ namespace Win_CBZ.Data
     internal class ExtractArchiveThreadParams
     {
         public String OutputPath { get; set; }
+
+        public List<Page> Pages { get; set; }
     }
 }

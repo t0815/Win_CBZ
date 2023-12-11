@@ -249,6 +249,11 @@ namespace Win_CBZ.Forms
 
             if (Pages.Count == 1)
             {
+                //if (Pages[0].OriginalName == null)
+                //{
+                //    Pages[0].OriginalName = Pages[0].Name;
+                //}
+
                 Pages[0].Name = PageNameTextBox.Text;
             }
         }

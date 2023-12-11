@@ -10,7 +10,7 @@ namespace Win_CBZ
     internal class HTMLColor
     {
 
-        public static Color ToColor(String htmlColor)
+        public static Color ToColor(String htmlColor, int alpha = 255)
         {
             int red = 0;
             int green = 0;
@@ -27,7 +27,7 @@ namespace Win_CBZ
                 
             }
 
-            return Color.FromArgb(red, green, blue);
+            return Color.FromArgb(alpha, red, green, blue);
         }
 
         public static String ToHexColor(Color color)

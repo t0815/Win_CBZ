@@ -60,7 +60,7 @@ namespace Win_CBZ.Models
             try
             {
                 PreviewFileName[0] = source.TemporaryFile.FullPath + "_0";
-                File.Copy(source.TempPath, PreviewFileName[0], true);
+                File.Copy(source.TemporaryFile.FullPath, PreviewFileName[0], true);
                 Tasks = commandsTodo;
                 ImageFormat[0] = source.Format;
                 SourceFormat = source.Format;

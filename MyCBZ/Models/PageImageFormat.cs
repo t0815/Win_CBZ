@@ -144,5 +144,10 @@ namespace Win_CBZ.Models
             ColorPalette = image.Palette;
             DPI = image.VerticalResolution;
         }
+
+        public void SetFormat(String guid)
+        {
+            Format = new ImageFormat(Guid.Parse(guid));
+        }
     }
 }

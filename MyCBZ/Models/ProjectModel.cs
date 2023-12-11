@@ -971,7 +971,7 @@ namespace Win_CBZ
             }
         }
 
-        public void Extract(String outputPath = null)
+        public void Extract(String outputPath = null, List<Page> pagesToExtract = null)
         {
             if (LoadArchiveThread != null)
             {
@@ -997,8 +997,17 @@ namespace Win_CBZ
                 }
             }
 
+            if (pagesToExtract == null)
+            {
+                pagesToExtract = Pages;
+            }
+
             ExtractArchiveThread = new Thread(ExtractArchiveProc);
-            ExtractArchiveThread.Start(new ExtractArchiveThreadParams() { OutputPath = outputPath });
+            ExtractArchiveThread.Start(new ExtractArchiveThreadParams() 
+            { 
+                OutputPath = outputPath,
+                Pages = Pages,
+            });
         }
 
         public bool Exists()
@@ -2335,7 +2344,7 @@ namespace Win_CBZ
                 { }
 
                 ZipArchiveEntry fileEntry;
-                foreach (Page page in Pages)
+                foreach (Page page in tparams.Pages)
                 {
                     try
                     {
@@ -2351,7 +2360,7 @@ namespace Win_CBZ
                             else
                             {
                                 fileEntry.ExtractToFile(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name), true);
-                                page.TempPath = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name);
+                                page.TemporaryFile = new LocalFile(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name));
                                 OnItemExtracted(new ItemExtractedEvent(index, Pages.Count, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, fileEntry.Name)));
                             } 
                             
