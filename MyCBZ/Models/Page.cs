@@ -1344,9 +1344,19 @@ namespace Win_CBZ
 
             if (!IsMemoryCopy)
             {
+                if ((ImageStream == null) || (!ImageStream.CanRead)) 
+                {
+                    throw new PageException(this, "Imagestream is not readable.", false);
+                }
+
                 return ImageStream;
             } else
             {
+                if ((ImageStreamMemoryCopy == null) || (!ImageStreamMemoryCopy.CanRead))
+                {
+                    throw new PageException(this, "Image- memorystream is not readable.", false);
+                }
+
                 return ImageStreamMemoryCopy;
             }
             

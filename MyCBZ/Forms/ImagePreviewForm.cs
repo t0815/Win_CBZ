@@ -122,7 +122,7 @@ namespace Win_CBZ
                 { 
                     if (ae.ShowErrorDialog)
                     {
-                        ApplicationMessage.ShowException(e);
+                        ApplicationMessage.ShowException(ae);
                     }
                 } catch (Exception e)
                 {
