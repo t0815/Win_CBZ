@@ -13,17 +13,21 @@ using System.Windows.Forms;
 
 namespace Win_CBZ.Forms
 {
-    public partial class ExtractFilesDialog : Form
+    internal partial class ExtractFilesDialog : Form
     {
 
         public String TargetFolder;
+        public List<Page> SelectedPages;
+
+        public int ExtractType = 0;
+
         private bool FormShown = false;
         private bool CanClose;
 
         public ExtractFilesDialog()
         {
-            InitializeComponent();
-
+            InitializeComponent();      
+            
             
         }
 
@@ -39,7 +43,7 @@ namespace Win_CBZ.Forms
 
         private void RadioButtonExtractSelected_CheckedChanged(object sender, EventArgs e)
         {
-
+            ExtractType = 1;
         }
 
         private void ButtonBrowse_Click(object sender, EventArgs e)
@@ -55,6 +59,13 @@ namespace Win_CBZ.Forms
             if (!FormShown)
             {
                 TextBoxOutputFolder.Text = TargetFolder;
+                if (SelectedPages != null && SelectedPages.Count > 0)
+                {
+                    RadioButtonExtractSelected.Enabled = true;
+                    RadioButtonExtractSelected.Text = "Selected Pages (" + SelectedPages.Count.ToString() + ")";
+                    RadioButtonExtractSelected.Checked = true;
+                    ExtractType = 1;
+                }
                 FormShown = true;
             }
         }
@@ -80,6 +91,16 @@ namespace Win_CBZ.Forms
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
                 ApplicationMessage.ShowException(mv);
             }
+        }
+
+        private void RadioButtonExtractAll_CheckedChanged(object sender, EventArgs e)
+        {
+            ExtractType = 0;
+        }
+
+        private void RadioButtonExtractSelected_CheckedChanged_1(object sender, EventArgs e)
+        {
+            ExtractType = 1;
         }
     }
 }

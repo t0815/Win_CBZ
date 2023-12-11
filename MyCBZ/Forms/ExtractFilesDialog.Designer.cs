@@ -40,8 +40,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TextBoxOutputFolder = new System.Windows.Forms.TextBox();
             this.ButtonBrowse = new System.Windows.Forms.Button();
-            this.RadioButtonExtractSelected = new System.Windows.Forms.RadioButton();
             this.RadioButtonExtractAll = new System.Windows.Forms.RadioButton();
+            this.RadioButtonExtractSelected = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.OpenTargetDirectory = new System.Windows.Forms.OpenFileDialog();
@@ -141,8 +141,8 @@
             this.ExtractToTablePanel.SetColumnSpan(this.SettingsGroup1Panel, 3);
             this.SettingsGroup1Panel.Controls.Add(this.label3);
             this.SettingsGroup1Panel.Controls.Add(this.tableLayoutPanel1);
-            this.SettingsGroup1Panel.Controls.Add(this.RadioButtonExtractSelected);
             this.SettingsGroup1Panel.Controls.Add(this.RadioButtonExtractAll);
+            this.SettingsGroup1Panel.Controls.Add(this.RadioButtonExtractSelected);
             this.SettingsGroup1Panel.Controls.Add(this.label2);
             this.SettingsGroup1Panel.Controls.Add(this.label1);
             this.SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -196,31 +196,32 @@
             this.ButtonBrowse.UseVisualStyleBackColor = true;
             this.ButtonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click);
             // 
-            // RadioButtonExtractSelected
-            // 
-            this.RadioButtonExtractSelected.AutoSize = true;
-            this.RadioButtonExtractSelected.Checked = true;
-            this.RadioButtonExtractSelected.Location = new System.Drawing.Point(71, 110);
-            this.RadioButtonExtractSelected.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.RadioButtonExtractSelected.Name = "RadioButtonExtractSelected";
-            this.RadioButtonExtractSelected.Size = new System.Drawing.Size(86, 20);
-            this.RadioButtonExtractSelected.TabIndex = 4;
-            this.RadioButtonExtractSelected.TabStop = true;
-            this.RadioButtonExtractSelected.Text = "All Pages";
-            this.RadioButtonExtractSelected.UseVisualStyleBackColor = true;
-            this.RadioButtonExtractSelected.CheckedChanged += new System.EventHandler(this.RadioButtonExtractSelected_CheckedChanged);
-            // 
             // RadioButtonExtractAll
             // 
             this.RadioButtonExtractAll.AutoSize = true;
-            this.RadioButtonExtractAll.Enabled = false;
-            this.RadioButtonExtractAll.Location = new System.Drawing.Point(71, 66);
+            this.RadioButtonExtractAll.Checked = true;
+            this.RadioButtonExtractAll.Location = new System.Drawing.Point(71, 110);
             this.RadioButtonExtractAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RadioButtonExtractAll.Name = "RadioButtonExtractAll";
-            this.RadioButtonExtractAll.Size = new System.Drawing.Size(125, 20);
-            this.RadioButtonExtractAll.TabIndex = 3;
-            this.RadioButtonExtractAll.Text = "Selected Pages";
+            this.RadioButtonExtractAll.Size = new System.Drawing.Size(86, 20);
+            this.RadioButtonExtractAll.TabIndex = 4;
+            this.RadioButtonExtractAll.TabStop = true;
+            this.RadioButtonExtractAll.Text = "All Pages";
             this.RadioButtonExtractAll.UseVisualStyleBackColor = true;
+            this.RadioButtonExtractAll.CheckedChanged += new System.EventHandler(this.RadioButtonExtractAll_CheckedChanged);
+            // 
+            // RadioButtonExtractSelected
+            // 
+            this.RadioButtonExtractSelected.AutoSize = true;
+            this.RadioButtonExtractSelected.Enabled = false;
+            this.RadioButtonExtractSelected.Location = new System.Drawing.Point(71, 66);
+            this.RadioButtonExtractSelected.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RadioButtonExtractSelected.Name = "RadioButtonExtractSelected";
+            this.RadioButtonExtractSelected.Size = new System.Drawing.Size(125, 20);
+            this.RadioButtonExtractSelected.TabIndex = 3;
+            this.RadioButtonExtractSelected.Text = "Selected Pages";
+            this.RadioButtonExtractSelected.UseVisualStyleBackColor = true;
+            this.RadioButtonExtractSelected.CheckedChanged += new System.EventHandler(this.RadioButtonExtractSelected_CheckedChanged_1);
             // 
             // label2
             // 
@@ -286,8 +287,8 @@
         private System.Windows.Forms.Panel SettingsGroup1Panel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton RadioButtonExtractSelected;
         private System.Windows.Forms.RadioButton RadioButtonExtractAll;
+        private System.Windows.Forms.RadioButton RadioButtonExtractSelected;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox TextBoxOutputFolder;

@@ -1000,7 +1000,7 @@ namespace Win_CBZ
             if (pagesToExtract == null)
             {
                 pagesToExtract = Pages;
-            }
+            } else {}
 
             ExtractArchiveThread = new Thread(ExtractArchiveProc);
             ExtractArchiveThread.Start(new ExtractArchiveThreadParams() 

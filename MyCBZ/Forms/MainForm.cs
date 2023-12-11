@@ -2688,18 +2688,33 @@ namespace Win_CBZ
 
         private void ExtractAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            List<Page> selectedPages = new List<Page>();
+
             try
             {
-                ExtractFilesDialog dlg = new ExtractFilesDialog
+                foreach (ListViewItem item in PagesList.SelectedItems) 
                 {
-                    TargetFolder = LastOutputDirectory
+                    selectedPages.Add(item.Tag as Page);
+                }
+
+                ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog
+                {
+                    TargetFolder = LastOutputDirectory,
+                    SelectedPages = selectedPages
                 };
 
-                if (dlg.ShowDialog() == DialogResult.OK)
+                if (extractFilesDialog.ShowDialog() == DialogResult.OK)
                 {
                     ExtractSelectedPages.Enabled = false;
-                    Program.ProjectModel.Extract(dlg.TargetFolder);
-                    LastOutputDirectory = dlg.TargetFolder;
+                    if (extractFilesDialog.ExtractType == 0)
+                    {
+                        Program.ProjectModel.Extract(extractFilesDialog.TargetFolder);
+                    } else
+                    {
+                        Program.ProjectModel.Extract(extractFilesDialog.TargetFolder, selectedPages);
+                    }
+                    
+                    LastOutputDirectory = extractFilesDialog.TargetFolder;
                 }
             } catch (Exception) { }
         }
