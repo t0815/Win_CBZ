@@ -2847,8 +2847,8 @@ namespace Win_CBZ
             {
                 foreach (ListViewItem selectedItem in PagesList.SelectedItems)
                 {
-                    originalPages.Add((Page)selectedItem.Tag);
-                    pageProperties.Add(new Page(selectedItem.Tag as Page));
+                    originalPages.Add(selectedItem.Tag as Page);
+                    pageProperties.Add(new Page(selectedItem.Tag as Page, (selectedItem.Tag as Page).Compressed));
                 }
 
                 //Page page = (Page)PagesList.SelectedItem.Tag;

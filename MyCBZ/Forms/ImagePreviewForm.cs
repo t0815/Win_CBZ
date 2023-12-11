@@ -100,7 +100,7 @@ namespace Win_CBZ
             }            
             PageImagePreview.Dispose();
 
-            displayPage.Close();
+            displayPage?.Close();
         }
 
         protected void HandlePageNavigation(int direction)
@@ -117,7 +117,13 @@ namespace Win_CBZ
             {
                 try
                 {
-                    displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction));
+                    displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction), true);
+                } catch (ApplicationException ae)
+                { 
+                    if (ae.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowException(e);
+                    }
                 } catch (Exception e)
                 {
                     ApplicationMessage.ShowException(e);
@@ -127,7 +133,7 @@ namespace Win_CBZ
 
             if (displayPage != null)
             {
-                if (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists())
+                if (!displayPage.IsMemoryCopy && (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists()))
                 {
                     try
                     {
@@ -144,7 +150,7 @@ namespace Win_CBZ
                     }
                 }
 
-                if (displayPage.TemporaryFile != null && displayPage.TemporaryFile.Exists())
+                if (displayPage.IsMemoryCopy || (displayPage.TemporaryFile != null && displayPage.TemporaryFile.Exists()))
                 {
                     try
                     {
@@ -155,6 +161,9 @@ namespace Win_CBZ
                         {
                             ApplicationMessage.ShowException(ae);
                         }
+                    } catch (Exception ex)
+                    {
+                        ApplicationMessage.ShowException(ex);
                     }
                     //PageImagePreview.LoadAsync();
                     HandleWindowSize(displayPage);

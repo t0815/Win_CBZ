@@ -145,9 +145,14 @@ namespace Win_CBZ.Models
             DPI = image.VerticalResolution;
         }
 
-        public void SetFormat(String guid)
+        public void FormatFromGUID(String guid)
         {
             Format = new ImageFormat(Guid.Parse(guid));
+        }
+
+        public void FormatFromGUID(Guid guid)
+        {
+            Format = new ImageFormat(guid);
         }
     }
 }
