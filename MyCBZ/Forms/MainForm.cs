@@ -814,7 +814,7 @@ namespace Win_CBZ
                             }
                             finally
                             {
-
+                                page.FreeImage();
                             }
                         }
 
@@ -2845,10 +2845,18 @@ namespace Win_CBZ
 
             if (PagesList.SelectedItems.Count > 0)
             {
-                foreach (ListViewItem selectedItem in PagesList.SelectedItems)
+                try
                 {
-                    originalPages.Add(selectedItem.Tag as Page);
-                    pageProperties.Add(new Page(selectedItem.Tag as Page, (selectedItem.Tag as Page).Compressed));
+                    foreach (ListViewItem selectedItem in PagesList.SelectedItems)
+                    {
+                        originalPages.Add(selectedItem.Tag as Page);
+                        pageProperties.Add(new Page(selectedItem.Tag as Page /*, (selectedItem.Tag as Page).Compressed*/));
+                    }
+                } catch (PageException pe) { 
+                    if (pe.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowException(pe);
+                    }
                 }
 
                 //Page page = (Page)PagesList.SelectedItem.Tag;

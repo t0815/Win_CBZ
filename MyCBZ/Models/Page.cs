@@ -306,9 +306,14 @@ namespace Win_CBZ
                 ImageStream?.Close();
                 ImageStream = null;
             }
-                                    
-            Thumbnail = sourcePage.Thumbnail;
+
             ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
+            Thumbnail = sourcePage.Thumbnail;
+            if (Thumbnail == null)
+            {
+                ThumbnailInvalidated = true;
+            }
+            
             
             ImageTask = new ImageTask();
         }
@@ -327,7 +332,7 @@ namespace Win_CBZ
                 LocalFile = sourcePage.LocalFile;
                 
                 Compressed = sourcePage.Compressed;
-                TemporaryFileId = RandomId.getInstance().make();
+                TemporaryFileId = newCopy ? RandomId.getInstance().make() : sourcePage.TemporaryFileId;
                 EntryName = sourcePage.EntryName;
                 CompressedEntry = sourcePage.CompressedEntry;
                 //ImageStream = sourcePage.ImageStream;
@@ -411,7 +416,7 @@ namespace Win_CBZ
                             try
                             {
                                 IsMemoryCopy = false;
-                                ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite);
+                                ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
                                 if (Compressed && inMemory)
                                 {
                                     ImageStreamMemoryCopy = new MemoryStream();
@@ -1425,6 +1430,8 @@ namespace Win_CBZ
 
         public Image GetThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
         {
+
+
             if (!Closed)
             {
                 LoadImage();

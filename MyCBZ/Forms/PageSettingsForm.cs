@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Xml.Xsl;
 using System.Xml;
 using Win_CBZ.Helper;
+using System.Drawing.Imaging;
 
 namespace Win_CBZ.Forms
 {
@@ -45,6 +46,7 @@ namespace Win_CBZ.Forms
                 foreach (Page p in pages)
                 {
                     Pages.Add(new Page(p, RandomId.getInstance().make()));
+                    p.FreeImage();
                 }
             } catch (Exception ex) {
                 ApplicationMessage.ShowException(ex);
@@ -96,7 +98,7 @@ namespace Win_CBZ.Forms
                     }
                     else
                     {
-                        if (FirstPage.TemporaryFile != null && FirstPage.TemporaryFile.Exists())
+                        if (!FirstPage.IsMemoryCopy && FirstPage.TemporaryFile != null && FirstPage.TemporaryFile.Exists())
                         {
                             imageLocation = FirstPage.TemporaryFile.FilePath;
                         }
@@ -122,7 +124,11 @@ namespace Win_CBZ.Forms
                     LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";
                     LabelDpi.Text = FirstPage.Format.DPI.ToString();
                     LabelImageFormat.Text = FirstPage.Format.Name;
-                    LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
+                    if (FirstPage.Format?.ColorPalette != null)
+                    {
+                        LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
+                    }
+                    
                     textBoxKey.Text = FirstPage.Key;
                     CheckBoxDoublePage.Checked = FirstPage.DoublePage;
                 } else
@@ -218,9 +224,11 @@ namespace Win_CBZ.Forms
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            FirstPage?.FreeImage();
+
             foreach (Page page in Pages)
             {
-                page.Close();
+                page.FreeImage();
             }
             
         }
