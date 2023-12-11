@@ -30,5 +30,25 @@ namespace Win_CBZ
             return Color.FromArgb(red, green, blue);
         }
 
+        public static String ToHexColor(Color color)
+        {
+            byte red = 0;
+            byte green = 0;
+            byte blue = 0;
+
+            String htmlColor = "#000000";
+
+            if (color != null)
+            {
+                red = color.R; 
+                green = color.G; 
+                blue = color.B;
+
+                htmlColor = "#" + red.ToString("X2") + green.ToString("X2") + blue.ToString("X2");
+            }
+
+            return htmlColor;
+        }
+
     }
 }

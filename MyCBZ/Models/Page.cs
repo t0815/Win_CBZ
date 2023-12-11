@@ -873,7 +873,12 @@ namespace Win_CBZ
 
                 xmlWriter.WriteStartElement("ImageAdjustments");
                 xmlWriter.WriteElementString("ResizeMode", ImageTask.ImageAdjustments.ResizeMode.ToString());
+                
                 xmlWriter.WriteElementString("SplitPage", ImageTask.ImageAdjustments.SplitPage.ToString());
+                xmlWriter.WriteElementString("SplitType", ImageTask.ImageAdjustments.SplitType.ToString());
+                xmlWriter.WriteElementString("SplitPageAt", ImageTask.ImageAdjustments.SplitPageAt.ToString());
+                xmlWriter.WriteElementString("DetectSplitAtColor", HTMLColor.ToHexColor(ImageTask.ImageAdjustments.DetectSplitAtColor));
+
 
                 xmlWriter.WriteEndElement();
 
