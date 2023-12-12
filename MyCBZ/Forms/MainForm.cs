@@ -3134,10 +3134,10 @@ namespace Win_CBZ
             }
         }
 
-        private void ToolButtonSetPageType_Click(object sender, EventArgs e)
-        {
-            ApplicationMessage.Show("Not implemented", "Not implemented!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-        }
+        //private void ToolButtonSetPageType_Click(object sender, EventArgs e)
+        //{
+            //ApplicationMessage.Show("Not implemented", "Not implemented!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+        //}
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
