@@ -45,8 +45,8 @@ namespace Win_CBZ.Forms
             try {
                 foreach (Page p in pages)
                 {
-                    Pages.Add(new Page(p, RandomId.getInstance().make()));
-                    p.FreeImage();
+                    Pages.Add(p);
+                    //p.FreeImage();
                 }
             } catch (Exception ex) {
                 ApplicationMessage.ShowException(ex);
@@ -59,11 +59,11 @@ namespace Win_CBZ.Forms
             bool doublePageState = false;
 
             if (pages != null && pages.Count > 0)
-            {
-                FirstPage = new Page(pages[0], RandomId.getInstance().make());
+            { 
 
                 try
                 {
+                    FirstPage = new Page(pages[0]);
                     PreviewThumb = FirstPage.GetThumbnail(ThumbAbort, Handle);
                 }
                 catch (Exception e)
@@ -77,6 +77,11 @@ namespace Win_CBZ.Forms
 
                 if (pages.Count == 1)
                 {
+                    if (FirstPage ==  null)
+                    {
+                        FirstPage= new Page();
+                    }
+
                     if (FirstPage.LocalFile != null && FirstPage.LocalFile.Exists())
                     {
                         if (!FirstPage.Compressed)
@@ -109,7 +114,7 @@ namespace Win_CBZ.Forms
                                 ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
                                 imageLocation = "\\\\" + entry.Name;
                             }
-                            catch
+                            catch (Exception eentry)
                             {
                                 imageLocation = "?\\" + FirstPage.Name;
                             }
@@ -396,7 +401,7 @@ namespace Win_CBZ.Forms
                     // Read the xml string.
                     XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
                     xmlReaderSettings.ConformanceLevel = ConformanceLevel.Fragment;
-                    MemoryStream sr = Pages[0].Serialize(Program.ProjectModel.ProjectGUID, true);
+                    MemoryStream sr = Pages[0].Serialize(Program.ProjectModel.ProjectGUID, false, true);
                     XmlReader xReader = XmlReader.Create(sr, xmlReaderSettings);
 
                     // Transform the XML data

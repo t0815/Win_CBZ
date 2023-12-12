@@ -60,12 +60,12 @@ namespace Win_CBZ
         /**
          * <remarks>Deprecated</remarks>
          */
-        //public String LocalPath { get; set; }
+        public String LocalPath { get; set; }
 
         /**
          * <remarks>Deprecated</remarks>
          */
-        //public String TempPath { get; set; }    
+        public String TempPath { get; set; }    
 
         public bool Compressed { get; set; }
 
@@ -117,6 +117,14 @@ namespace Win_CBZ
 
         public delegate EventHandler<FileOperationEvent> FileOperationEventHandler();
         
+        public Page()
+        {
+            Id = Guid.NewGuid().ToString();
+            ImageTask = new ImageTask();
+            ReadOnly = true;
+            Format = new PageImageFormat();
+        }
+
         public Page(String fileName, FileAccess mode = FileAccess.Read)
         {
             LocalFile = new LocalFile(fileName);
@@ -991,7 +999,7 @@ namespace Win_CBZ
         }
 
 
-        public MemoryStream Serialize(String sourceProjectId, bool withoutXMLHeaderTag = false)
+        public MemoryStream Serialize(String sourceProjectId, bool newCopy = false, bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();
             XmlWriterSettings writerSettings = new XmlWriterSettings
@@ -1032,14 +1040,14 @@ namespace Win_CBZ
                 xmlWriter.WriteEndElement();
             }
 
-            if (Compressed)
+            if (Compressed && newCopy)
             {
                 FileInfo NewTemporaryFileName = Program.ProjectModel.MakeNewTempFileName();
                 TemporaryFile = CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
             }
 
             //
-            if (TemporaryFile == null)
+            if (newCopy && Compressed && TemporaryFile == null)
             {
                 TemporaryFile = RequestTemporaryFile();
             }

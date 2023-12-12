@@ -2850,7 +2850,8 @@ namespace Win_CBZ
                     foreach (ListViewItem selectedItem in PagesList.SelectedItems)
                     {
                         originalPages.Add(selectedItem.Tag as Page);
-                        pageProperties.Add(new Page(selectedItem.Tag as Page /*, (selectedItem.Tag as Page).Compressed*/));
+                        pageProperties.Add(selectedItem.Tag as Page /*, (selectedItem.Tag as Page).Compressed*/);
+                        //pageProperties.Add(new Page(selectedItem.Tag as Page /*, (selectedItem.Tag as Page).Compressed*/));
                     }
                 } catch (PageException pe) { 
                     if (pe.ShowErrorDialog)
@@ -3132,7 +3133,7 @@ namespace Win_CBZ
 
         private void ToolButtonSetPageType_Click(object sender, EventArgs e)
         {
-            
+            ApplicationMessage.Show("Not implemented", "Not implemented!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
         }
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3831,7 +3832,7 @@ namespace Win_CBZ
                             p.LoadImageInfo(true);  // load image info in full to include in copy
 
                             copyPage = new Page(p, true);  
-                            ms = copyPage.Serialize(Program.ProjectModel.ProjectGUID);
+                            ms = copyPage.Serialize(Program.ProjectModel.ProjectGUID, true);
 
                             String metaData = utf8WithoutBom.GetString(ms.ToArray());
                             xmlTextPages += metaData;
