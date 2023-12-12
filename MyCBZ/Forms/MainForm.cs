@@ -4051,5 +4051,23 @@ namespace Win_CBZ
         {
 
         }
+
+        private void ToolButtonEditImage_Click(object sender, EventArgs e)
+        {
+            ListViewItem selectedItem = PagesList.SelectedItem as ListViewItem;
+
+            if (selectedItem != null)
+            {
+                Page selected = selectedItem.Tag as Page;
+
+                if (selected != null)
+                {
+                    EditImageForm editForm = new EditImageForm(selected);
+                    editForm.ShowDialog();
+                }
+            }
+            
+            
+        }
     }
 }
