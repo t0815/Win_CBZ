@@ -254,8 +254,15 @@ namespace Win_CBZ.Forms
         {
             foreach (Page page in Pages)
             {
-                page.DeleteTemporaryFile();
-                page.FreeImage();
+                try
+                {
+                    page.FreeImage();
+                } catch (ApplicationException ex)
+                {
+
+                }
+                //page.DeleteTemporaryFile();
+                
             }
         }
 

@@ -523,6 +523,8 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             
             ImageLoaded = false;
+            IsMemoryCopy = false;
+            Compressed = false;
 
             //if (LocalFile == null)
             //{
@@ -534,7 +536,7 @@ namespace Win_CBZ
                         String baseDir = currentWorkingDir.Parent.FullName;
 
                         String targetPath = Path.Combine(baseDir, sourceProjectId);
-                        String targetFile = Path.Combine(targetPath, RandomId.getInstance().make() + "." + FileExtension);
+                        String targetFile = Path.Combine(targetPath, RandomId.getInstance().make() + FileExtension);
 
                         //String targetFile = Path.Combine(targetPath, TemporaryFileId + ".tmp");
 
@@ -555,19 +557,15 @@ namespace Win_CBZ
 
                         
                     }
-
-                    if (Compressed)
-                    {
-                        Compressed = false;
-                        IsMemoryCopy = false;
-                    }
-                //} else
-                //{
-                //    LocalFile = new LocalFile(TemporaryFile.FullPath);
-                //}
-
-                //
+            //} else
+            //{
+            //    LocalFile = new LocalFile(TemporaryFile.FullPath);
             //}
+
+            //
+            //}
+
+            TemporaryFileId = RandomId.getInstance().make(); // new id
 
             if (LocalFile != null && LocalFile.Exists())
             {
@@ -577,7 +575,7 @@ namespace Win_CBZ
                 String targetPath = Path.Combine(baseDir, sourceProjectId);
                 String targetFile = Path.Combine(targetPath, TemporaryFileId + ".tmp");
 
-                TemporaryFile = RequestTemporaryFile(targetFile);
+                TemporaryFile = RequestTemporaryFile(targetFile, true);
             }
 
            
@@ -1225,9 +1223,9 @@ namespace Win_CBZ
                 }
             } else
             {
-                if (ReadOnly || TemporaryFile == null || !TemporaryFile.Exists())
+                if (ReadOnly || overwrite || TemporaryFile == null || !TemporaryFile.Exists())
                 {
-                    if (TemporaryFile == null || !TemporaryFile.Exists() || destination != null)
+                    if (TemporaryFile == null || !TemporaryFile.Exists() || destination != null || overwrite)
                     {
                         if (destination == null)
                         {
@@ -1244,11 +1242,12 @@ namespace Win_CBZ
 
                     if (!IsMemoryCopy)
                     {
+                        FileStream CopyImageStream = null;
                         FileStream localFile = File.OpenRead(LocalFile.FullPath);
                         try
                         {
 
-                            FileStream CopyImageStream = File.Open(result, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                            CopyImageStream = File.Open(result, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                             try
                             {
                                 localFile.CopyTo(CopyImageStream);
@@ -1271,6 +1270,9 @@ namespace Win_CBZ
                         {
                             localFile?.Close();
                             localFile?.Dispose();
+
+                            CopyImageStream?.Close();
+                            CopyImageStream?.Dispose();
                         }
                     } else
                     {
@@ -1317,9 +1319,9 @@ namespace Win_CBZ
         {           
             int bufferSize = 1024 * 1024;
 
-            using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
+            using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
             {
-                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);
+                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
                 fileStream.SetLength(fs.Length);
                 int bytesRead = -1;
                 int byesTotal = 0;
@@ -1329,10 +1331,11 @@ namespace Win_CBZ
                 {
                     fileStream.Write(bytes, 0, bytesRead);
                     byesTotal += bytesRead;
-                        
+                    
                 }
 
-                fs.Close();      
+                fs?.Close();  
+                fs?.Dispose();
             }
         }
 

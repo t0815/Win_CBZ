@@ -3916,13 +3916,14 @@ namespace Win_CBZ
                             {
                                 MemoryStream ms = new MemoryStream();
                                 byte[] bytes = utf8WithoutBom.GetBytes(line);
+                                Page newPage = null;
 
                                 ms.Write(bytes, 0, bytes.Length);
                                 ms.Position = 0;
 
                                 try
                                 {
-                                    Page newPage = new Page(ms);
+                                    newPage = new Page(ms);
                                     Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
 
                                     newPage.LoadImageInfo();
@@ -3969,6 +3970,10 @@ namespace Win_CBZ
                                 catch (Exception ex)
                                 {
                                     ApplicationMessage.ShowException(ex);
+                                }
+                                finally
+                                {
+                                    newPage?.FreeImage();
                                 }
                             }
 
