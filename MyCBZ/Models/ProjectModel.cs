@@ -1524,12 +1524,11 @@ namespace Win_CBZ
 
                         if (page == null)
                         {
-                            page = new Page(fileObject, targetPath, FileAccess.ReadWrite)
+                            page = new Page(fileObject, targetPath.Directory.FullName, FileAccess.ReadWrite)
                             {
                                 Number = realNewIndex + 1,
                                 Index = realNewIndex,
                                 OriginalIndex = realNewIndex,
-                                TemporaryFileId = RandomId.getInstance().make(),
                                 Key = RandomId.getInstance().make(),
                             };
                             realNewIndex++;
@@ -1546,6 +1545,9 @@ namespace Win_CBZ
                         } catch (PageException pe)
                         {
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
+                        } finally
+                        {
+                            page.FreeImage();  
                         }
 
                         if (!page.Changed)
@@ -1570,7 +1572,7 @@ namespace Win_CBZ
                         {
                             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
 
-                            this.IsChanged = true;
+                            IsChanged = true;
                             MaxFileIndex = realNewIndex;
                         }
                     }

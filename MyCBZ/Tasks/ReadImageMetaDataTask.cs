@@ -20,15 +20,26 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page p in pages)
                 {
-                    p.LoadImageInfo();
+                    try
+                    {
+                        p.LoadImageInfo();
+                        //
+                    } catch 
+                    { 
+
+                    } finally 
+                    { 
+                        p.FreeImage();
+                    }
+
                     handler?.Invoke(p, new GeneralTaskProgressEvent(
-                            GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
-                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                            "Rebuilding image metadata...",
-                            current, 
-                            total));
+                        GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
+                        GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
+                        "Rebuilding image metadata...",
+                        current, 
+                        total));
                     current++;
-                    System.Threading.Thread.Sleep(10);
+                    System.Threading.Thread.Sleep(5);
                 }
 
                 handler?.Invoke(pages, new GeneralTaskProgressEvent(

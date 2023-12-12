@@ -68,6 +68,7 @@ namespace Win_CBZ.Forms
                 }
                 catch (Exception e)
                 {
+                    ButtonOk.Enabled = false;
                     ApplicationMessage.ShowException(e);
                 }
 
@@ -80,6 +81,7 @@ namespace Win_CBZ.Forms
                     if (FirstPage ==  null)
                     {
                         FirstPage= new Page();
+                        ButtonOk.Enabled = false;
                     }
 
                     if (FirstPage.LocalFile != null && FirstPage.LocalFile.Exists())
@@ -223,7 +225,7 @@ namespace Win_CBZ.Forms
                 }
             }
 
-            
+            FirstPage.FreeImage();
            /// LabelBits.Text = Page.Format.
         }
 
@@ -373,6 +375,7 @@ namespace Win_CBZ.Forms
         {
             if (Pages.Count > 0)
             {
+                Pages[0].FreeImage();
                 ImagePreviewForm pagePreviewForm = new ImagePreviewForm(Pages[0]);
                 DialogResult dlgResult = pagePreviewForm.ShowDialog();
                 pagePreviewForm.Dispose();

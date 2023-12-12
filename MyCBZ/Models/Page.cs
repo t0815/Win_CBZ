@@ -149,14 +149,18 @@ namespace Win_CBZ
         }
 
 
-        public Page(LocalFile localFile, FileInfo tempFileName, FileAccess mode = FileAccess.Read)
+        public Page(LocalFile localFile, String workingDir, FileAccess mode = FileAccess.Read)
         {
             try {
-                Copy(localFile.FullPath, tempFileName.FullName);
+                //Copy(localFile.FullPath, tempFileName.FullName);
+                LocalFile = new LocalFile(localFile.FullPath);
+                TemporaryFileId = RandomId.getInstance().make();
+
+                WorkingDir = PathHelper.ResolvePath(workingDir);
 
                 Format = new PageImageFormat(localFile.FileExtension);
-                TemporaryFile = new LocalFile(tempFileName.FullName);
-                ImageFileInfo = new FileInfo(tempFileName.FullName);
+                TemporaryFile = RequestTemporaryFile();
+                ImageFileInfo = new FileInfo(TemporaryFile.FullPath);
                 ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
                 try
                 {
@@ -174,17 +178,16 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    LocalFile = localFile;
-                    WorkingDir = tempFileName.Directory.FullName;
+                    ////LocalFile = localFile;
+                    //WorkingDir = TemporaryFile.FilePath;
                     if (ReadOnly)
                     {
                         TemporaryFile = CreateLocalWorkingCopy();
                     }
                 }
 
-
-            } catch { 
-                
+            } catch (Exception e) {
+                throw new PageException(this, "Error creating new page from local file!", true, e);
             }
           
             Filename = ImageFileInfo.FullName;
@@ -516,7 +519,7 @@ namespace Win_CBZ
             MetaDataReader?.Close();
             MetaDataReader?.Dispose();
 
-            TemporaryFileId = RandomId.getInstance().make();
+            //TemporaryFileId = RandomId.getInstance().make();
             Id = Guid.NewGuid().ToString();
             
             ImageLoaded = false;
@@ -1017,7 +1020,7 @@ namespace Win_CBZ
             xmlWriter.WriteElementString("Name", Name);
             xmlWriter.WriteElementString("Hash", Hash);
             xmlWriter.WriteElementString("Key", Key);
-            xmlWriter.WriteElementString("TemporaryFileId", TemporaryFileId);
+            
             xmlWriter.WriteElementString("Filename", Filename);
             xmlWriter.WriteElementString("OriginalName", OriginalName);
             xmlWriter.WriteElementString("Number", Number.ToString());
@@ -1044,6 +1047,11 @@ namespace Win_CBZ
             {
                 FileInfo NewTemporaryFileName = Program.ProjectModel.MakeNewTempFileName();
                 TemporaryFile = CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
+
+                xmlWriter.WriteElementString("TemporaryFileId", NewTemporaryFileName.Name.Replace(TemporaryFile.FileExtension, ""));
+            } else
+            {
+                xmlWriter.WriteElementString("TemporaryFileId", TemporaryFileId);
             }
 
             //
@@ -1339,11 +1347,17 @@ namespace Win_CBZ
 
                 if (ImageStream != null)
                 {
-                    ImageStream.Close();
-                    ImageStream.Dispose();
+                    ImageStream?.Close();
+                    ImageStream?.Dispose();
                 }
 
-                File.Delete(TemporaryFile.FullPath);
+                try
+                {
+                    File.Delete(TemporaryFile.FullPath);
+                } catch (Exception e)
+                {
+                    throw new PageException(this, "Unable to delete temporary files from disk!", true, e);
+                }
             }
         }
 

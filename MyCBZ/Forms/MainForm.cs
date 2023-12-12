@@ -959,6 +959,9 @@ namespace Win_CBZ
                     catch (Exception e)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                    } finally 
+                    {
+                        page.FreeImage();
                     }
                 }
 
@@ -3927,6 +3930,7 @@ namespace Win_CBZ
                                     if (existingPage == null)
                                     {
                                         newPage.Changed = false;
+                                        newPage.Name = "Copy_" + newPage.Name + "";
                                         
                                         if (selectedPage != null)
                                         {
@@ -3939,11 +3943,11 @@ namespace Win_CBZ
                                         PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
                                     } else
                                     {
-                                        newPage = new Page(newPage);
-                                        newPage.Id = Guid.NewGuid().ToString();
-                                        newPage.Key = RandomId.getInstance().make();
-                                        newPage.Changed = false;
-                                        newPage.Compressed = false;
+                                        //newPage = new Page(newPage);
+                                        //newPage.Id = Guid.NewGuid().ToString();
+                                        //newPage.Key = RandomId.getInstance().make();
+                                        //newPage.Changed = false;
+                                        //newPage.Compressed = false;
 
                                         //Program.ProjectModel.Pages.Remove(existingPage);
                                         Program.ProjectModel.Pages.Add(newPage);
