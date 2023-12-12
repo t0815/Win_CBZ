@@ -375,6 +375,8 @@ namespace Win_CBZ
                         }
                     } else
                     {
+                        sourcePage.FreeImage();
+
                         if (Image != null)
                         {
                             Image?.Dispose();
@@ -417,7 +419,7 @@ namespace Win_CBZ
                             {
                                 IsMemoryCopy = false;
                                 ImageStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-                                if (Compressed && inMemory)
+                                if (Compressed || inMemory)
                                 {
                                     ImageStreamMemoryCopy = new MemoryStream();
                                     ImageStream.CopyTo(ImageStreamMemoryCopy);
@@ -432,7 +434,7 @@ namespace Win_CBZ
                             }
                             finally
                             {
-                                if (Compressed && inMemory)
+                                if (Compressed || inMemory)
                                 {
                                     ImageStream?.Close();
                                     ImageStream?.Dispose();
@@ -577,6 +579,7 @@ namespace Win_CBZ
             {
                 if (ImageStream.CanRead)
                 {
+                    ImageStream.Position = 0;
                     ImageStreamMemoryCopy = new MemoryStream();
                     ImageStream.CopyTo(ImageStreamMemoryCopy);
                     ImageStreamMemoryCopy.Position = 0;
