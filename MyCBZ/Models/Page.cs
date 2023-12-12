@@ -404,6 +404,11 @@ namespace Win_CBZ
                         ImageStreamMemoryCopy.Length == 0 || 
                         newCopy)
                     { 
+                        if (sourcePage.IsMemoryCopy && ImageStreamMemoryCopy == null)
+                        {
+                            IsMemoryCopy = false;
+                        }
+
                         TemporaryFile = RequestTemporaryFile();
 
                         if (TemporaryFile != null)
@@ -508,8 +513,8 @@ namespace Win_CBZ
             
             ImageLoaded = false;
 
-            if (LocalFile == null)
-            {
+            //if (LocalFile == null)
+            //{
                 //if (Program.ProjectModel.ProjectGUID != sourceProjectId)
                 //{
                     if (WorkingDir != null)
@@ -527,8 +532,17 @@ namespace Win_CBZ
                             targetFile = Path.Combine(targetPath, RandomId.getInstance().make() + ".000");
                         }
 
-                        Copy(TemporaryFile.FullPath, targetFile);
-                        LocalFile = new LocalFile(targetFile);
+                        if (LocalFile != null && LocalFile.Exists())
+                        {
+                            Copy(LocalFile.FullPath, targetFile);
+                            LocalFile = new LocalFile(targetFile);
+                        } else
+                        {
+                            Copy(TemporaryFile.FullPath, targetFile);
+                            LocalFile = new LocalFile(targetFile);
+                        }
+
+                        
                     }
 
                     if (Compressed)
@@ -542,7 +556,7 @@ namespace Win_CBZ
                 //}
 
                 //
-            }
+            //}
 
             if (LocalFile != null && LocalFile.Exists())
             {
@@ -1229,8 +1243,8 @@ namespace Win_CBZ
                             }
                             finally
                             {
-                                CopyImageStream.Close();
-                                CopyImageStream.Dispose();
+                                CopyImageStream?.Close();
+                                CopyImageStream?.Dispose();
                             }
                         }
                         catch (Exception e)
@@ -1239,8 +1253,8 @@ namespace Win_CBZ
                         }
                         finally
                         {
-                            localFile.Close();
-                            localFile.Dispose();
+                            localFile?.Close();
+                            localFile?.Dispose();
                         }
                     } else
                     {
@@ -1376,7 +1390,7 @@ namespace Win_CBZ
             if ((!Closed && Format.W == 0 && Format.H == 0 && !ImageInfoRequested) || force)
             {
                 ImageInfoRequested = true;
-                if (ImageStream == null)
+                if (ImageStream == null || !ImageStream.CanRead)
                 {
                     if (TemporaryFile != null)
                     {
@@ -1393,10 +1407,11 @@ namespace Win_CBZ
                             
                         } catch ( Exception e)
                         {
-
+                            throw new PageException(this, e.Message, true, e);
                         } finally
                         {
                             ImageFileStream?.Close();
+                            ImageFileStream?.Dispose();
                             ImageInfo?.Dispose();
                             ImageInfo = null;
                         }
@@ -1422,10 +1437,11 @@ namespace Win_CBZ
 
                         ImageInfo?.Dispose();
                         ImageInfo = null;
-                    } catch {
+                    } catch (Exception e) {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to read image [" + Filename + "]");
-                    }
 
+                        throw new PageException(this, e.Message, true, e);
+                    }
                 }
             }
         }

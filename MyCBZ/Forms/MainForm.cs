@@ -3826,10 +3826,10 @@ namespace Win_CBZ
 
                     foreach (Page p in selectedPages)
                     {
-                        p.LoadImageInfo(true);  // load image info in full to include in copy
-
                         try
                         {
+                            p.LoadImageInfo(true);  // load image info in full to include in copy
+
                             copyPage = new Page(p, true);  
                             ms = copyPage.Serialize(Program.ProjectModel.ProjectGUID);
 
@@ -3839,7 +3839,10 @@ namespace Win_CBZ
                             xmlTextPages += "\r\n";
                         } catch (PageException ex)
                         {
-                            ApplicationMessage.ShowException(ex);
+                            if (ex.ShowErrorDialog)
+                            {
+                                ApplicationMessage.ShowException(ex);
+                            }                          
                         }
                     }
 
