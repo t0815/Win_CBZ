@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Win_CBZ.Helper;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Drawing.Image;
 
@@ -27,11 +28,11 @@ namespace Win_CBZ.Models
 
         public Image[] ResultThumbnail { get; set; }
 
-        public String[] ResultFileName { get; set; }
+        public LocalFile[] ResultFileName { get; set; }
 
-        public String SourceFileName { get; set; }
+        public LocalFile SourceFileName { get; set; }
 
-        public String[] PreviewFileName { get; set; }
+        public LocalFile[] PreviewFile { get; set; }
 
         public List<String> Tasks { get; set; }
 
@@ -47,9 +48,9 @@ namespace Win_CBZ.Models
             Tasks = new List<String>();
             ImageAdjustments = new ImageAdjustments();
             ResultImage = new Image[2];
-            PreviewFileName = new String[2];
+            PreviewFile = new LocalFile[2];
             ResultThumbnail = new Image[2];
-            ResultFileName = new String[2];
+            ResultFileName = new LocalFile[2];
             ImageFormat = new PageImageFormat[2];
             ResultPages = new Page[2];
 
@@ -59,8 +60,10 @@ namespace Win_CBZ.Models
         {
             try
             {
-                PreviewFileName[0] = source.TemporaryFile.FullPath + "_0";
-                File.Copy(source.TemporaryFile.FullPath, PreviewFileName[0], true);
+                PreviewFile[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "0.prev");
+                PreviewFile[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "1.prev");
+                File.Copy(source.TemporaryFile.FullPath, PreviewFile[0].FullPath, true);
+                File.Copy(source.TemporaryFile.FullPath, PreviewFile[1].FullPath, true);
                 Tasks = commandsTodo;
                 ImageFormat[0] = source.Format;
                 SourceFormat = source.Format;
@@ -70,6 +73,20 @@ namespace Win_CBZ.Models
             {
 
             }           
+        }
+
+        public void apply()
+        {
+            foreach (String task in Tasks)
+            {
+                switch (task)
+                {
+                    case TASK_DETECT_RESIZE:
+
+
+                        break;
+                }
+            }
         }
 
         public int TaskCount()

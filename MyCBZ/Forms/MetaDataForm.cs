@@ -80,5 +80,13 @@ namespace Win_CBZ.Forms
             sr.Dispose();
             xmlReaderSettings.CloseInput = false;
         }
+
+        private void MetaDataForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
+        }
     }
 }

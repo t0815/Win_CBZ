@@ -204,7 +204,6 @@ namespace Win_CBZ
             }
         }
 
-
         private void NewProject()
         {
             if (Program.ProjectModel != null)
@@ -228,7 +227,6 @@ namespace Win_CBZ
             MessageLogListView.Items.Clear();
             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
         }
-
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -730,7 +728,6 @@ namespace Win_CBZ
             }));
         }
 
-
         public void RequestThumbnailSlice()
         {
             if (Win_CBZSettings.Default.PagePreviewEnabled)
@@ -897,7 +894,6 @@ namespace Win_CBZ
 
             return page;
         }
-
 
         private bool ThumbAbort()
         {
@@ -1163,7 +1159,6 @@ namespace Win_CBZ
             }
         }
 
-
         private void DisableControllsForApplicationState(int state)
         {
             switch (state)
@@ -1232,7 +1227,6 @@ namespace Win_CBZ
 
             }
         }
-
 
         private void ArchiveStateChanged(object sender, CBZArchiveStatusEvent e)
         {
@@ -1328,7 +1322,6 @@ namespace Win_CBZ
 
                     }
                     
-
                     FileNameLabel.Text = filename;
                     ApplicationStatusLabel.Text = info;
                     Program.ProjectModel.ArchiveState = e.State;
@@ -1344,7 +1337,6 @@ namespace Win_CBZ
             }
         }
      
-
         private void DisableControllsForArchiveState(ProjectModel project, int state) 
         {
             if (!WindowClosed)
@@ -1376,6 +1368,7 @@ namespace Win_CBZ
                         MetaDataGrid.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
+                        ToolButtonEditImage.Enabled = false;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -1519,6 +1512,7 @@ namespace Win_CBZ
                         MetaDataGrid.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
+                        ToolButtonEditImage.Enabled = false;
                         RemoveMetaData();
                         break;
 
@@ -1552,6 +1546,7 @@ namespace Win_CBZ
                         MetaDataGrid.Enabled = true;
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
+                        ToolButtonEditImage.Enabled = false;
                         CurrentGlobalAction = null;
                         LabelW.Text = "0";
                         LabelH.Text = "0";
@@ -1782,7 +1777,6 @@ namespace Win_CBZ
             }   */       
         }
 
-
         private void CancelAllThreads()
         {
             Task.Factory.StartNew(() =>
@@ -1838,7 +1832,6 @@ namespace Win_CBZ
             Program.ProjectModel.CancelAllThreads();
             Application.ExitThread();
         }
-
 
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1942,7 +1935,6 @@ namespace Win_CBZ
             });
 
         }
-
 
         private void MoveItemsToProc(object threadParams)
         {
@@ -2150,7 +2142,6 @@ namespace Win_CBZ
             }));          
         }
 
-
         private bool ArchiveProcessing()
         {
             return (Program.ProjectModel.ArchiveState == CBZArchiveStatusEvent.ARCHIVE_SAVING ||
@@ -2161,7 +2152,6 @@ namespace Win_CBZ
                Program.ProjectModel.ThreadRunning()
                );
         }
-
 
         private void AddMetaData()
         {
@@ -2891,6 +2881,40 @@ namespace Win_CBZ
                                 }
                             }
 
+                            if (pageResult.Deleted != pageProperties[i].Deleted)
+                            {
+                                pageIndexUpdateNeeded = true;
+                                indexRebuildMessage = "Page order changed. Rebuild pageindex now?";
+                                //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                            }
+
+                            if (pageResult.Deleted)
+                            {
+                                try
+                                {
+                                    pageResult.DeleteTemporaryFile();
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                                }
+
+                                pageIndexUpdateNeeded = true;
+                                indexRebuildMessage = "Page order changed. Rebuild pageindex now?";
+                                //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                            }
+
+                            if (pageResult.Deleted != pageProperties[i].Deleted ||
+                                pageResult.DoublePage != pageProperties[i].DoublePage ||
+                                pageResult.Name != pageProperties[i].Name ||
+                                pageResult.Key != pageProperties[i].Key ||
+                                pageResult.Index != pageProperties[i].Index
+                                )
+                            {
+                                PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                            }
+
                             pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
                             if (!pageResult.Deleted)
                             {
@@ -2933,39 +2957,7 @@ namespace Win_CBZ
 
                             }
 
-                            if (pageResult.Deleted != pageProperties[i].Deleted)
-                            {
-                                pageIndexUpdateNeeded = true;
-                                indexRebuildMessage = "Page order changed. Rebuild pageindex now?";
-                                //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-                            }
-
-                            if (pageToUpdate.Deleted)
-                            {
-                                try
-                                {
-                                    pageToUpdate.DeleteTemporaryFile();
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
-                                }
-
-                                pageIndexUpdateNeeded = true;
-                                indexRebuildMessage = "Page order changed. Rebuild pageindex now?";
-                                //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-                            }
-
-                            if (pageToUpdate.Deleted != pageProperties[i].Deleted ||
-                                pageToUpdate.DoublePage != pageProperties[i].DoublePage ||
-                                pageToUpdate.Name != pageProperties[i].Name ||
-                                pageToUpdate.Key != pageProperties[i].Key ||
-                                pageToUpdate.Index != pageProperties[i].Index
-                                )
-                            {
-                                PageChanged(this, new PageChangedEvent(pageToUpdate, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
-                                ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                            }
+                            
                         }
                     }
                     i++;    
@@ -4054,6 +4046,10 @@ namespace Win_CBZ
 
         private void ToolButtonEditImage_Click(object sender, EventArgs e)
         {
+            ApplicationMessage.ShowWarning("Not yet implemented", "Not implemented");
+
+            return;
+            
             ListViewItem selectedItem = PagesList.SelectedItem as ListViewItem;
 
             if (selectedItem != null)

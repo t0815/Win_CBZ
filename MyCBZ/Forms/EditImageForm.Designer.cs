@@ -32,18 +32,17 @@
             this.Container = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.ImageContentPanel = new System.Windows.Forms.Panel();
             this.EditImageBox = new System.Windows.Forms.PictureBox();
             this.ToolSelectionToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.ToolButtonCrop = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.MainToolStrip = new System.Windows.Forms.ToolStrip();
             this.ToolButtonSave = new System.Windows.Forms.ToolStripButton();
             this.ToolButtonSaveAs = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.GuideHelperPictureBox = new System.Windows.Forms.PictureBox();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.Container.BottomToolStripPanel.SuspendLayout();
             this.Container.ContentPanel.SuspendLayout();
             this.Container.LeftToolStripPanel.SuspendLayout();
@@ -54,7 +53,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.EditImageBox)).BeginInit();
             this.ToolSelectionToolStrip.SuspendLayout();
             this.MainToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuideHelperPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // Container
@@ -67,7 +65,7 @@
             // Container.ContentPanel
             // 
             this.Container.ContentPanel.Controls.Add(this.ImageContentPanel);
-            this.Container.ContentPanel.Size = new System.Drawing.Size(795, 485);
+            this.Container.ContentPanel.Size = new System.Drawing.Size(788, 485);
             this.Container.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // Container.LeftToolStripPanel
@@ -101,44 +99,50 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(43, 20);
             this.toolStripStatusLabel1.Text = "page";
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(32, 20);
+            this.toolStripStatusLabel2.Text = "0x0";
+            // 
             // ImageContentPanel
             // 
             this.ImageContentPanel.AutoScroll = true;
             this.ImageContentPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ImageContentPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ImageContentPanel.Controls.Add(this.GuideHelperPictureBox);
             this.ImageContentPanel.Controls.Add(this.EditImageBox);
             this.ImageContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ImageContentPanel.Location = new System.Drawing.Point(0, 0);
             this.ImageContentPanel.Name = "ImageContentPanel";
-            this.ImageContentPanel.Size = new System.Drawing.Size(795, 485);
+            this.ImageContentPanel.Size = new System.Drawing.Size(788, 485);
             this.ImageContentPanel.TabIndex = 0;
             // 
             // EditImageBox
             // 
-            this.EditImageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditImageBox.Location = new System.Drawing.Point(186, 18);
+            this.EditImageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.EditImageBox.Location = new System.Drawing.Point(0, 0);
             this.EditImageBox.Name = "EditImageBox";
-            this.EditImageBox.Size = new System.Drawing.Size(380, 444);
-            this.EditImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.EditImageBox.Size = new System.Drawing.Size(788, 485);
+            this.EditImageBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.EditImageBox.TabIndex = 0;
             this.EditImageBox.TabStop = false;
             // 
             // ToolSelectionToolStrip
             // 
+            this.ToolSelectionToolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ToolSelectionToolStrip.AutoSize = false;
             this.ToolSelectionToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.ToolSelectionToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ToolSelectionToolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ToolSelectionToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
+            this.ToolButtonCrop,
             this.toolStripButton4});
             this.ToolSelectionToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.ToolSelectionToolStrip.Location = new System.Drawing.Point(0, 4);
             this.ToolSelectionToolStrip.Name = "ToolSelectionToolStrip";
-            this.ToolSelectionToolStrip.Size = new System.Drawing.Size(30, 83);
+            this.ToolSelectionToolStrip.Size = new System.Drawing.Size(37, 481);
             this.ToolSelectionToolStrip.TabIndex = 0;
             // 
             // toolStripButton1
@@ -147,17 +151,18 @@
             this.toolStripButton1.Image = global::Win_CBZ.Properties.Resources.pencil;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(28, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(35, 24);
             this.toolStripButton1.Text = "toolStripButton1";
             // 
-            // toolStripButton2
+            // ToolButtonCrop
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::Win_CBZ.Properties.Resources.selection;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(28, 24);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.ToolButtonCrop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolButtonCrop.Image = global::Win_CBZ.Properties.Resources.selection;
+            this.ToolButtonCrop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolButtonCrop.Name = "ToolButtonCrop";
+            this.ToolButtonCrop.Size = new System.Drawing.Size(35, 24);
+            this.ToolButtonCrop.Text = "Crop image";
+            this.ToolButtonCrop.Click += new System.EventHandler(this.ToolButtonCrop_Click);
             // 
             // toolStripButton4
             // 
@@ -165,11 +170,14 @@
             this.toolStripButton4.Image = global::Win_CBZ.Properties.Resources.paint_bucket;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(28, 24);
+            this.toolStripButton4.Size = new System.Drawing.Size(35, 24);
             this.toolStripButton4.Text = "toolStripButton4";
             // 
             // MainToolStrip
             // 
+            this.MainToolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainToolStrip.AutoSize = false;
             this.MainToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.MainToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -178,7 +186,7 @@
             this.toolStripSeparator1});
             this.MainToolStrip.Location = new System.Drawing.Point(4, 0);
             this.MainToolStrip.Name = "MainToolStrip";
-            this.MainToolStrip.Size = new System.Drawing.Size(77, 31);
+            this.MainToolStrip.Size = new System.Drawing.Size(146, 31);
             this.MainToolStrip.TabIndex = 0;
             // 
             // ToolButtonSave
@@ -205,20 +213,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
-            // GuideHelperPictureBox
-            // 
-            this.GuideHelperPictureBox.Location = new System.Drawing.Point(41, 65);
-            this.GuideHelperPictureBox.Name = "GuideHelperPictureBox";
-            this.GuideHelperPictureBox.Size = new System.Drawing.Size(64, 59);
-            this.GuideHelperPictureBox.TabIndex = 1;
-            this.GuideHelperPictureBox.TabStop = false;
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(32, 20);
-            this.toolStripStatusLabel2.Text = "0x0";
-            // 
             // EditImageForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -231,13 +225,12 @@
             this.Text = "Edit Image";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EditImageForm_FormClosed);
             this.Load += new System.EventHandler(this.EditImageForm_Load);
+            this.Resize += new System.EventHandler(this.EditImageForm_Resize);
             this.Container.BottomToolStripPanel.ResumeLayout(false);
             this.Container.BottomToolStripPanel.PerformLayout();
             this.Container.ContentPanel.ResumeLayout(false);
             this.Container.LeftToolStripPanel.ResumeLayout(false);
-            this.Container.LeftToolStripPanel.PerformLayout();
             this.Container.TopToolStripPanel.ResumeLayout(false);
-            this.Container.TopToolStripPanel.PerformLayout();
             this.Container.ResumeLayout(false);
             this.Container.PerformLayout();
             this.StatusBar.ResumeLayout(false);
@@ -248,7 +241,6 @@
             this.ToolSelectionToolStrip.PerformLayout();
             this.MainToolStrip.ResumeLayout(false);
             this.MainToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GuideHelperPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -260,7 +252,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStrip ToolSelectionToolStrip;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton ToolButtonCrop;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStrip MainToolStrip;
         private System.Windows.Forms.ToolStripButton ToolButtonSaveAs;
@@ -268,7 +260,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Panel ImageContentPanel;
         private System.Windows.Forms.PictureBox EditImageBox;
-        private System.Windows.Forms.PictureBox GuideHelperPictureBox;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
     }
 }

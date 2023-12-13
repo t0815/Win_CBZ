@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Img;
 
 namespace Win_CBZ.Forms
 {
@@ -24,6 +25,7 @@ namespace Win_CBZ.Forms
             try
             {
                 EditPage = new Page(editPage, false, true);
+                //EditPage.ImageTask.SetupTasks(editPage, commands);
             } catch (ApplicationException e)
             {
                 if (e.ShowErrorDialog)
@@ -40,6 +42,12 @@ namespace Win_CBZ.Forms
             {
                 EditImageBox.Image = Image.FromStream(EditPage.GetImageStream());
             }
+
+            EditImageForm_Resize(null, e);
+
+
+            //OverlayPictureBox.Image = new Bitmap(300, 200);
+            //OverlayPictureBox.Image.
         }
 
         private void ToolButtonSave_Click(object sender, EventArgs e)
@@ -51,7 +59,7 @@ namespace Win_CBZ.Forms
 
                 EditPage.FreeImage();
 
-                OriginalPage.UpdateImage();
+                //OriginalPage.UpdateImage();
             }
         }
 
@@ -65,6 +73,16 @@ namespace Win_CBZ.Forms
                 EditPage.FreeImage();
                 EditPage.Close();
             }
+        }
+
+        private void ToolButtonCrop_Click(object sender, EventArgs e)
+        {
+            ToolButtonCrop.Checked = true;
+        }
+
+        private void EditImageForm_Resize(object sender, EventArgs e)
+        {
+            //EditImageBox.Location = new Point((ImageContentPanel.Width / 2) - (EditImageBox.Width / 2), (ImageContentPanel.Height / 2) - (EditImageBox.Height / 2));
         }
     }
 }

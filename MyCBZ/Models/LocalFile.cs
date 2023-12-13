@@ -15,6 +15,8 @@ namespace Win_CBZ
 
         public String FilePath { get; set; }
 
+        public String Name { get; set; }
+
         public String FileExtension { get; set; }
 
         public String FullPath { get; set; }
@@ -31,6 +33,7 @@ namespace Win_CBZ
             FullPath = fileName;
             LocalFileInfo = new FileInfo(fileName);
             FileName = LocalFileInfo.Name;
+            Name = Path.GetFileNameWithoutExtension(fileName);
             FilePath = LocalFileInfo.Directory.FullName;
             try
             {
@@ -45,9 +48,25 @@ namespace Win_CBZ
 
         public bool Exists()
         {
-            LocalFileInfo.Refresh();
+            this.Refresh();
             
             return LocalFileInfo.Exists;
         }
+
+        public void Refresh()
+        {
+            LocalFileInfo.Refresh();
+
+            try
+            {
+                FileSize = LocalFileInfo.Length;
+            }
+            catch (Exception)
+            {
+                FileSize = 0;
+            }
+            LastModified = LocalFileInfo.LastWriteTime;
+        }
+
     }
 }

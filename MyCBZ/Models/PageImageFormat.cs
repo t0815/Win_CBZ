@@ -90,7 +90,7 @@ namespace Win_CBZ.Models
             if (extension != null)
             {
                 ExtensionToImageFormatMap.TryGetValue(extension.ToLower().TrimStart('.'), out lookupResult);
-                ExtensionToFormatNameMap.TryGetValue(extension.ToLower(), out nameResult);
+                ExtensionToFormatNameMap.TryGetValue(extension.ToLower().TrimStart('.'), out nameResult);
 
                 Format = lookupResult;
                 Name = nameResult;

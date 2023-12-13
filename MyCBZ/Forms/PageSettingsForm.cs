@@ -45,11 +45,13 @@ namespace Win_CBZ.Forms
             try {
                 foreach (Page p in pages)
                 {
-                    Pages.Add(p);
+                    Pages.Add(new Page(p, true, false));
                     //p.FreeImage();
                 }
             } catch (Exception ex) {
                 ApplicationMessage.ShowException(ex);
+
+                ButtonOk.Enabled = false;
 
                 return;
             }
@@ -236,6 +238,8 @@ namespace Win_CBZ.Forms
             foreach (Page page in Pages)
             {
                 page.FreeImage();
+                page.IsMemoryCopy = false;
+                
             }
             
         }
@@ -346,7 +350,7 @@ namespace Win_CBZ.Forms
             {
                 textBoxKey.Text = RandomId.getInstance().make();
                 Pages[0].Key = textBoxKey.Text;
-            } else
+            } else if (Pages.Count > 1)
             {
                 DialogResult result = ApplicationMessage.ShowConfirmation("Are you sure you want to regenerate Keys for all Pages?", "Regenerate all Keys", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
                 if (result == DialogResult.Yes)
@@ -382,7 +386,6 @@ namespace Win_CBZ.Forms
         {
             if (Pages.Count > 0)
             {
-                Pages[0].FreeImage();
                 ImagePreviewForm pagePreviewForm = new ImagePreviewForm(Pages[0]);
                 DialogResult dlgResult = pagePreviewForm.ShowDialog();
                 pagePreviewForm.Dispose();

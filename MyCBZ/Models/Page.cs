@@ -401,10 +401,16 @@ namespace Win_CBZ
                 {
                     if (sourcePage.IsMemoryCopy)
                     {
-                        ImageStreamMemoryCopy = new MemoryStream();
-                        sourcePage.ImageStreamMemoryCopy.Position = 0;
-                        sourcePage.ImageStreamMemoryCopy.CopyTo(ImageStreamMemoryCopy);
-                        ImageStreamMemoryCopy.Position = 0;
+                        if (sourcePage.ImageStreamMemoryCopy.CanRead)
+                        {
+                            ImageStreamMemoryCopy = new MemoryStream();
+                            sourcePage.ImageStreamMemoryCopy.Position = 0;
+                            sourcePage.ImageStreamMemoryCopy.CopyTo(ImageStreamMemoryCopy);
+                            ImageStreamMemoryCopy.Position = 0;
+                        } else
+                        {
+                            throw new PageException(this, "Failed to create new copy from page!\r\nUnable to read Memorystream!", true);
+                        }                
                     }
                 }
 
@@ -977,7 +983,7 @@ namespace Win_CBZ
 
             if (entryExtensionParts.Length == 0) return null;
 
-            else return entryExtensionParts.Last<string>();
+            else return "." + entryExtensionParts.Last<string>();
         }
 
         public string SizeFormat()
@@ -1880,6 +1886,8 @@ namespace Win_CBZ
                     ImageStreamMemoryCopy.Dispose();
                 }
             }
+
+            Invalidated = true;
         }
     }
 }

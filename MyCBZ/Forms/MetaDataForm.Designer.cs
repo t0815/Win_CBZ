@@ -148,11 +148,13 @@
             this.ClientSize = new System.Drawing.Size(873, 687);
             this.Controls.Add(this.MetaDataTablePanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MetaDataForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Metadata";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MetaDataForm_FormClosed);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MetaDataForm_KeyUp);
             this.MetaDataTablePanel.ResumeLayout(false);
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();
