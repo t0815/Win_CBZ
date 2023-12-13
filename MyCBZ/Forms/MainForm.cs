@@ -4046,7 +4046,7 @@ namespace Win_CBZ
 
         private void ToolButtonEditImage_Click(object sender, EventArgs e)
         {
-            ApplicationMessage.ShowWarning("Not yet implemented", "Not implemented");
+            ApplicationMessage.ShowWarning("Not yet implemented", "Not implemented", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
 
             return;
             
