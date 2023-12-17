@@ -1864,9 +1864,13 @@ namespace Win_CBZ
                     }
                     catch (PageDuplicateNameException eduplicate)
                     {                      
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, eduplicate.Message);
                         e.CancelEdit = true;
-                        ApplicationMessage.ShowException(eduplicate, ApplicationMessage.DialogType.MT_ERROR);
+
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, eduplicate.Message);
+                        if (eduplicate.ShowErrorDialog)
+                        {
+                            ApplicationMessage.ShowWarning("Error renaming page\r\n" + eduplicate.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                        }
                     }
                     catch (PageException pe)
                     {
