@@ -48,7 +48,7 @@ namespace Win_CBZ
 
         public bool Exists()
         {
-            this.Refresh();
+            Refresh();
             
             return LocalFileInfo.Exists;
         }

@@ -2041,11 +2041,11 @@ namespace Win_CBZ
             {
                 foreach (Page existingPage in Pages)
                 {
-                    if (existingPage.Name != name)
+                    if (existingPage.Id != page.Id)
                     {
                         if (existingPage.Name.ToLower().Equals(name.ToLower()))
                         {
-                            throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".");
+                            throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".", true);
                         }
                     }
                 }

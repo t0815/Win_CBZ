@@ -2931,6 +2931,29 @@ namespace Win_CBZ
                                         PageChanged(null, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_RENAMED));
 
                                     }
+                                    catch (PageDuplicateNameException ae)
+                                    {
+                                        pageResult.Name = pageProperties[i].Name;
+                                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, ae.Message);
+                                        if (ae.ShowErrorDialog)
+                                        {
+                                            ApplicationMessage.ShowWarning("Error renaming page\r\n"+ ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                        }
+
+                                        PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
+
+                                        try
+                                        {
+                                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, pageProperties[i].Key);
+                                        }
+                                        catch (MetaDataPageEntryException em)
+                                        {
+                                            if (em.ShowErrorDialog)
+                                            {
+                                                ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                            }
+                                        }
+                                    }
                                     catch (Exception ex3)
                                     {
                                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex3.Message);
