@@ -20,6 +20,8 @@ namespace Win_CBZ.Forms
         private String _title;
 
         private DialogButtons _existingButtons;
+        private DialogResult _cancelResult;
+        private DialogResult _okResult;
 
         public DialogType DialogType 
         { 
@@ -63,7 +65,8 @@ namespace Win_CBZ.Forms
                 int index = 4;
                 if (value.HasFlag(DialogButtons.MB_ABORT))
                 {
-                    MakeBtn("Abort", DialogButtons.MB_ABORT, DialogResult.Abort, index);                   
+                    MakeBtn("Abort", DialogButtons.MB_ABORT, DialogResult.Abort, index);
+                    _cancelResult = DialogResult.Abort;
                     index--;
                 }
 
@@ -77,24 +80,28 @@ namespace Win_CBZ.Forms
                 {
 
                     MakeBtn("Cancel", DialogButtons.MB_CANCEL, DialogResult.Cancel, index);
+                    _cancelResult = DialogResult.Cancel;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_NO) && !_existingButtons.HasFlag(DialogButtons.MB_CANCEL | DialogButtons.MB_ABORT))
                 {
                     MakeBtn("No", DialogButtons.MB_NO, DialogResult.No, index);
+                    _cancelResult = DialogResult.No;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_OK))
                 {
                     MakeBtn("Ok", DialogButtons.MB_OK, DialogResult.OK, index);
+                    _okResult = DialogResult.OK;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_YES) && !_existingButtons.HasFlag(DialogButtons.MB_OK))
                 {
                     MakeBtn("Yes", DialogButtons.MB_YES, DialogResult.Yes, index);
+                    _okResult = DialogResult.Yes;
                     index--;
                 }
 
@@ -151,6 +158,22 @@ namespace Win_CBZ.Forms
         public ApplicationDialog()
         {
             InitializeComponent();
+        }
+
+        private void ApplicationDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape) 
+            {
+                DialogResult = _cancelResult;
+                Close();
+            }
+
+            if (e.KeyCode == Keys.Return)
+            {
+                DialogResult = _okResult;
+                Close();
+            }
+
         }
     }
 }

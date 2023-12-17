@@ -83,7 +83,7 @@
             this.MessageContainer.Location = new System.Drawing.Point(3, 82);
             this.MessageContainer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MessageContainer.Name = "MessageContainer";
-            this.MessageContainer.Padding = new System.Windows.Forms.Padding(16, 16, 16, 16);
+            this.MessageContainer.Padding = new System.Windows.Forms.Padding(16);
             this.MessageContainer.Size = new System.Drawing.Size(561, 196);
             this.MessageContainer.TabIndex = 3;
             // 
@@ -94,7 +94,7 @@
             this.TextBoxMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TextBoxMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxMessage.Location = new System.Drawing.Point(16, 16);
-            this.TextBoxMessage.Margin = new System.Windows.Forms.Padding(16, 16, 16, 16);
+            this.TextBoxMessage.Margin = new System.Windows.Forms.Padding(16);
             this.TextBoxMessage.Multiline = true;
             this.TextBoxMessage.Name = "TextBoxMessage";
             this.TextBoxMessage.ReadOnly = true;
@@ -121,11 +121,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(567, 340);
             this.Controls.Add(this.ErrorDialogTablePanel);
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ApplicationDialog";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Application Error";
+            this.TopMost = true;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ApplicationDialog_KeyDown);
             this.ErrorDialogTablePanel.ResumeLayout(false);
             this.ErrorDialogTablePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DialogIconPictureBox)).EndInit();
