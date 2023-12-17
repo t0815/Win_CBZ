@@ -30,6 +30,7 @@ using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
 using TextBox = System.Windows.Forms.TextBox;
 using Cursors = System.Windows.Forms.Cursors;
+using System.Configuration;
 
 namespace Win_CBZ
 {
@@ -3893,10 +3894,24 @@ namespace Win_CBZ
             } else if (MessageLogListView.Focused)
             {
                 String logMessages = "";
+                String messageType = "Info";
 
                 foreach (ListViewItem itemMessage in MessageLogListView.SelectedItems)
                 {
-                    logMessages += "[]" + "\t[" + itemMessage.SubItems[1].Text + "]\t" + itemMessage.SubItems[2].Text + "\r\n";
+                    switch (itemMessage.ImageIndex)
+                    {
+                        case 0:
+                            messageType = "INFO";
+                            break;
+                        case 1:
+                            messageType = "WARN";
+                            break;
+                        case 2:
+                            messageType = "ERR";
+                            break;
+                    }
+
+                    logMessages += "[" + messageType + "]" + "\t[" + itemMessage.SubItems[1].Text + "]\t" + itemMessage.SubItems[2].Text + "\r\n";
                 }
 
                 DataObject data = new DataObject();
