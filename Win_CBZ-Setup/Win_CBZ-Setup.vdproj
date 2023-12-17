@@ -1058,6 +1058,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_50588A21F1954C1E843402B2C93BE3A5"
+            {
+            "Name" = "8:Shortcut to %sPrimäre Ausgabe from Win_CBZ (Release x64)"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
+            "Folder" = "8:_3011687A9D1144F68A697C1BE79810B7"
+            "WorkingFolder" = "8:_381C2AC7AD384E1488C6014F95032920"
+            "Icon" = "8:_74A2F3CE81EF4D4CB9DC6C58480F47C9"
+            "Feature" = "8:"
+            }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E17DE2DDDB0348D2A509E9B26814C8FC"
             {
             "Name" = "8:Win_CBZ"
@@ -1483,7 +1497,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6396FCEA903E4B85AEBC5E3B127481F0"
             {
-            "SourcePath" = "8:"
+            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Debug\\Win_CBZ.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"

@@ -79,6 +79,7 @@ namespace Win_CBZ
             InitializeComponent();
 
             Program.ProjectModel = NewProjectModel();
+            Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
             MessageLogger.Instance.SetHandler(MessageLogged);
 
@@ -150,7 +151,7 @@ namespace Win_CBZ
 
                 ComboBoxCompressionLevel.SelectedIndex = 0;
 
-                DebugToolsToolStripMenuItem.Visible = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
+                DebugToolsToolStripMenuItem.Visible = Program.DebugMode;
 
                 TextBoxMetaDataFilename.Text = Win_CBZSettings.Default.MetaDataFilename;
 
@@ -2941,7 +2942,7 @@ namespace Win_CBZ
                                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, ae.Message);
                                         if (ae.ShowErrorDialog)
                                         {
-                                            ApplicationMessage.ShowWarning("Error renaming page\r\n"+ ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                            ApplicationMessage.ShowWarning(ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                                         }
 
                                         PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
@@ -2952,10 +2953,10 @@ namespace Win_CBZ
                                         }
                                         catch (MetaDataPageEntryException em)
                                         {
-                                            if (em.ShowErrorDialog)
-                                            {
-                                                ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                                            }
+                                            //if (em.ShowErrorDialog)
+                                            //{
+                                            //    ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                            //}
                                         }
                                     }
                                     catch (Exception ex3)
@@ -4073,9 +4074,12 @@ namespace Win_CBZ
 
         private void ToolButtonEditImage_Click(object sender, EventArgs e)
         {
-            ApplicationMessage.ShowWarning("Not yet implemented", "Not implemented", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            if (!Program.DebugMode)
+            {
+                ApplicationMessage.ShowWarning("Not yet implemented", "Not implemented", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
 
-            return;
+                return;
+            }
             
             ListViewItem selectedItem = PagesList.SelectedItem as ListViewItem;
 

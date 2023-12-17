@@ -13,7 +13,7 @@ namespace Win_CBZ
 
         public static ProjectModel ProjectModel { get; set; }
 
-        public static String Path { get; set; } = "./";
+        public static bool DebugMode { get; set; } = false;
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
