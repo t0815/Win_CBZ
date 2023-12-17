@@ -39,16 +39,21 @@ namespace Win_CBZ.Forms
             string[] items = j.Entries.Select(s => s.Key).ToArray();
 
             List<ZipArchiveEntry> result = j.Entries.Where(s => s.Key.ToLower() == "comicinfo.xml").ToList();
+            ListViewItem it;
 
             foreach (ZipArchiveEntry entry in j.Entries)
             {
                 string t = entry.Crc.ToString();
+
+                it = listView1.Items.Add(""); 
+                it.SubItems.Add(t);
+                it.SubItems.Add(entry.Key);
+
                  //j.DeflateCompressionLevel = SharpCompress.Compressors.Deflate.CompressionLevel.BestCompression;
                 using (Stream es = entry.OpenEntryStream())
                 {
                     
                 }
-
             }
         }
 
