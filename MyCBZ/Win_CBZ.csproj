@@ -523,6 +523,8 @@
     <None Include="Resources\arrow_circle2.png" />
     <None Include="Resources\cut.png" />
     <Content Include="Resources\defaults.xsl" />
+    <None Include="Resources\download.png" />
+    <None Include="Resources\download64.png" />
     <Content Include="Resources\edit_large.png" />
     <None Include="Resources\edit_large1.png" />
     <None Include="Resources\painting_landscape.png" />
