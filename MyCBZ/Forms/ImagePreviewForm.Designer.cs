@@ -39,6 +39,9 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ExportImageDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ImagePreviewPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PageImagePreview)).BeginInit();
             this.PreviewToolStrip.SuspendLayout();
@@ -58,7 +61,6 @@
             this.ImagePreviewPanel.Name = "ImagePreviewPanel";
             this.ImagePreviewPanel.Size = new System.Drawing.Size(1300, 423);
             this.ImagePreviewPanel.TabIndex = 0;
-            this.ImagePreviewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.ImagePreviewPanel_Paint);
             // 
             // PageImagePreview
             // 
@@ -73,7 +75,6 @@
             this.PageImagePreview.WaitOnLoad = true;
             this.PageImagePreview.LoadCompleted += new System.ComponentModel.AsyncCompletedEventHandler(this.PageImagePreview_LoadCompleted);
             this.PageImagePreview.BindingContextChanged += new System.EventHandler(this.PageImagePreview_BindingContextChanged);
-            this.PageImagePreview.Paint += new System.Windows.Forms.PaintEventHandler(this.PageImagePreview_Paint);
             // 
             // PreviewToolStrip
             // 
@@ -85,11 +86,14 @@
             this.toolStripButton3,
             this.toolStripButton4,
             this.toolStripSeparator2,
+            this.toolStripLabel2,
+            this.toolStripTextBox1,
+            this.toolStripSeparator3,
             this.toolStripLabel1});
             this.PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PreviewToolStrip.Name = "PreviewToolStrip";
             this.PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.PreviewToolStrip.Size = new System.Drawing.Size(431, 31);
+            this.PreviewToolStrip.Size = new System.Drawing.Size(572, 31);
             this.PreviewToolStrip.TabIndex = 1;
             this.PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -143,6 +147,23 @@
             // 
             this.ExportImageDialog.Filter = "Bitmap|*.bmp|Jpeg|*.jpg|Png|*png";
             // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 31);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(83, 28);
+            this.toolStripLabel2.Text = "Goto page:";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
+            // 
             // ImagePreviewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -157,7 +178,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Preview";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ImagePreviewForm_FormClosed);
-            this.Load += new System.EventHandler(this.ImagePreviewForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImagePreviewForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ImagePreviewForm_KeyUp);
             this.ImagePreviewPanel.ResumeLayout(false);
@@ -182,5 +202,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.SaveFileDialog ExportImageDialog;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }

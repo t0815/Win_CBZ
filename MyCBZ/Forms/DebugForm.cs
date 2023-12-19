@@ -1,4 +1,5 @@
 ﻿using SharpCompress.Archives.Zip;
+using SharpCompress.Readers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,10 +34,36 @@ namespace Win_CBZ.Forms
             string filename = ofd.FileName;
 
             LocalFile input = new LocalFile(filename);
-
+            
             ZipArchive j = ZipArchive.Open(input.LocalFileInfo);
+            /*
+            using (IReader reader = ReaderFactory.Open(stream))
+            {
+                if (reader.ArchiveType == SharpCompress.Common.ArchiveType.Zip)
+                {
 
-            string[] items = j.Entries.Select(s => s.Key).ToArray();
+                    List<ZipArchiveEntry> resultComicInfo = j.Entries.Where(s => s.Key.ToLower() == "comicinfo.xml").ToList();
+                    List<ZipArchiveEntry> resultFiles = j.Entries.Where(s => s.Key.ToLower() != "comicinfo.xml").ToList();
+                    ListViewItem it;
+
+                    foreach (ZipArchiveEntry entry in resultFiles)
+                    {
+                        string t = entry.Crc.ToString();
+
+                        it = listView1.Items.Add(entry.Key);
+                        it.SubItems.Add(t);
+                        it.SubItems.Add(entry.Size.ToString());
+
+                        //j.DeflateCompressionLevel = SharpCompress.Compressors.Deflate.CompressionLevel.BestCompression;
+                        //using (Stream es = entry.OpenEntryStream())
+                        // {
+                        //     
+                        // }
+                    }
+                }
+                
+            }
+            */
 
             List<ZipArchiveEntry> resultComicInfo = j.Entries.Where(s => s.Key.ToLower() == "comicinfo.xml").ToList();
             List<ZipArchiveEntry> resultFiles = j.Entries.Where(s => s.Key.ToLower() != "comicinfo.xml").ToList();

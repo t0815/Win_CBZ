@@ -228,11 +228,6 @@ namespace Win_CBZ
             }
         }
 
-        private void ImagePreviewForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void ImagePreviewForm_KeyDown(object sender, KeyEventArgs e)
         {
             /*
@@ -256,16 +251,6 @@ namespace Win_CBZ
                 }
             }
             */
-        }
-
-        private void ImagePreviewPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void PageImagePreview_Paint(object sender, PaintEventArgs e)
-        {
-            
         }
 
         private void PageImagePreview_BindingContextChanged(object sender, EventArgs e)

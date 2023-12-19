@@ -60,7 +60,7 @@ namespace Win_CBZ.Forms
 
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
 
         private void MetaDataForm_FormClosed(object sender, FormClosedEventArgs e)

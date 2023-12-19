@@ -341,7 +341,7 @@ namespace Win_CBZ.Forms
 
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.Cancel;
         }
 
         private void ButtonNewKey_Click(object sender, EventArgs e)
@@ -396,6 +396,7 @@ namespace Win_CBZ.Forms
         {
             if (e.KeyCode == Keys.Escape)
             {
+                DialogResult = DialogResult.Cancel;
                 Close();
             }
         }
@@ -430,6 +431,11 @@ namespace Win_CBZ.Forms
                     ApplicationMessage.ShowException(ex);
                 }
             }
+        }
+
+        private void PageSettingsForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

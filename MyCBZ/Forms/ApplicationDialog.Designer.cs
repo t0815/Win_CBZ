@@ -128,7 +128,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Application Error";
             this.TopMost = true;
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ApplicationDialog_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ApplicationDialog_KeyUp);
             this.ErrorDialogTablePanel.ResumeLayout(false);
             this.ErrorDialogTablePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DialogIconPictureBox)).EndInit();

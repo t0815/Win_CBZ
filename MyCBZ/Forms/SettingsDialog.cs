@@ -167,19 +167,9 @@ namespace Win_CBZ.Forms
             CustomDefaultKeys.Text = Program.ProjectModel.MetaData.GetDefaultKeys();
         }
 
-        private void SettingsTablePanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void CheckBoxValidateTags_CheckStateChanged(object sender, EventArgs e)
         {
             CheckBoxTagValidationIgnoreCase.Enabled = CheckBoxValidateTags.CheckState == CheckState.Checked;
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void ToolButtonSortAscending_Click(object sender, EventArgs e)
@@ -200,11 +190,6 @@ namespace Win_CBZ.Forms
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = true;   
             }
-        }
-
-        private void GroupBoxImageQuality_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

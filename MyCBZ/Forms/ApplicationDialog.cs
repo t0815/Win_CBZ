@@ -134,7 +134,6 @@ namespace Win_CBZ.Forms
             }
         }
 
-
         protected Button MakeBtn(String caption, DialogButtons btn, DialogResult result, int index)
         {
             Button DialogButton = new Button();
@@ -154,15 +153,14 @@ namespace Win_CBZ.Forms
            TextBoxMessage.ScrollBars = show;
         }
 
-
         public ApplicationDialog()
         {
             InitializeComponent();
         }
 
-        private void ApplicationDialog_KeyDown(object sender, KeyEventArgs e)
+        private void ApplicationDialog_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape) 
+            if (e.KeyCode == Keys.Escape)
             {
                 DialogResult = _cancelResult;
                 Close();
@@ -173,7 +171,6 @@ namespace Win_CBZ.Forms
                 DialogResult = _okResult;
                 Close();
             }
-
         }
     }
 }

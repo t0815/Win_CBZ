@@ -15,6 +15,7 @@ namespace Win_CBZ.Forms
         public AboutDialogForm()
         {
             InitializeComponent();
+
             AppNameLabel.Text = Win_CBZSettings.Default.AppName;
             AppVersionLabel.Text = "v" + Win_CBZSettings.Default.Version;
             LicenseInfoRichtextBox.Rtf = global::Win_CBZ.Properties.Resources.CBZMageAboutMessage;
@@ -22,12 +23,15 @@ namespace Win_CBZ.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
-        private void AboutDialogForm_Load(object sender, EventArgs e)
+        private void AboutDialogForm_KeyUp(object sender, KeyEventArgs e)
         {
-
+            if (e.KeyCode == Keys.Escape)
+            {
+                Close();
+            }
         }
     }
 }

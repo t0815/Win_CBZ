@@ -108,7 +108,6 @@
             this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.SettingsTablePanel.Size = new System.Drawing.Size(787, 514);
             this.SettingsTablePanel.TabIndex = 0;
-            this.SettingsTablePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.SettingsTablePanel_Paint);
             // 
             // ButtonOk
             // 
@@ -344,7 +343,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(555, 290);
             this.tableLayoutPanel1.TabIndex = 0;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // CheckBoxValidateTags
             // 
@@ -511,7 +509,6 @@
             this.GroupBoxImageQuality.TabIndex = 21;
             this.GroupBoxImageQuality.TabStop = false;
             this.GroupBoxImageQuality.Text = "Image Quality";
-            this.GroupBoxImageQuality.Enter += new System.EventHandler(this.GroupBoxImageQuality_Enter);
             // 
             // ImageQualitySliderMaxLabel
             // 
