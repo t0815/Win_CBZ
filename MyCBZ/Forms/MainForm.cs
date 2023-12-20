@@ -2108,12 +2108,12 @@ namespace Win_CBZ
                 }
 
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
-                Program.ProjectModel.Pages.Remove((Page)updateItem.Tag);
+                Program.ProjectModel.Pages.Remove(tparams.page);
 
                 PagesList.Items.Insert(tparams.newIndex, updateItem);
                 PagesList.Items.Insert(tparams.newIndex + 1, originalItem);
 
-                Program.ProjectModel.Pages.Insert(tparams.newIndex, (Page)updateItem.Tag);
+                Program.ProjectModel.Pages.Insert(tparams.newIndex, tparams.page);
                 Program.ProjectModel.Pages.Insert(tparams.newIndex + 1, (Page)originalItem.Tag);
 
                 if (updatePage != null && originalPage != null)
