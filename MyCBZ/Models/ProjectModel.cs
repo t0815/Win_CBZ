@@ -895,6 +895,7 @@ namespace Win_CBZ
             }
             catch (Exception ex)
             {
+                errorSavingArchive = true;
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive for writing! [" + ex.Message + "]");
             }
             finally
@@ -947,11 +948,25 @@ namespace Win_CBZ
                                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + rex.Message + "]");
                             }
                         }
+                        else
+                        {
+                            foreach (Page page in Pages)
+                            {
+                                page.FreeCompressedEntry();
+                            }
+                        }
                     }
                 }
             }
 
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+            if (!errorSavingArchive) 
+            {
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+            } else
+            {
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
+            }
+                
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
@@ -2066,12 +2081,12 @@ namespace Win_CBZ
                 }
             }
 
-            Page oldPage = new Page(page);
+            //Page oldPage = new Page(page);
 
             page.Name = name;
             IsChanged = true;
 
-            OnPageChanged(new PageChangedEvent(page, oldPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
+            OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_RENAMED));
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
         }
 

@@ -1177,6 +1177,15 @@ namespace Win_CBZ
             ImageFileInfo = null;           
         }
 
+        public void FreeCompressedEntry()
+        {
+            if (Compressed || CompressedEntry != null)
+            {
+                CompressedEntry = null;
+                Compressed = false;
+            }
+        }
+
         public ZipArchiveEntry GetCompressedEntry()
         {
             return CompressedEntry;
