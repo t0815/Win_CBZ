@@ -2887,6 +2887,15 @@ namespace Win_CBZ
                                     }
                                 }
 
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, new StringBuilder("Warning! Page ['")
+                                    .Append(pageName)
+                                    .Append("'] ")
+                                    .Append("already uses key ['")
+                                    .Append(pageToUpdate.Key)
+                                    .Append("'].")
+                                    .AppendLine("It is recommended for every page to use a unique key.")
+                                    .ToString());
+
                                 ApplicationMessage.ShowWarning(
                                     new StringBuilder("Warning! Page ['")
                                     .Append(pageName)
@@ -2896,6 +2905,7 @@ namespace Win_CBZ
                                     .Append("'].")
                                     .AppendLine("It is recommended for every page to use a unique key.")
                                     .ToString(), "Page duplicate key", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+
                             }
 
                             try
@@ -2904,6 +2914,8 @@ namespace Win_CBZ
                             }
                             catch (MetaDataPageEntryException em)
                             {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, em.Message);
+
                                 if (em.ShowErrorDialog)
                                 {
                                     ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
