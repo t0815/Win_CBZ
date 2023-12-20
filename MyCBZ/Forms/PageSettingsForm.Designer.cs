@@ -679,7 +679,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Page Properties";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PageSettingsForm_FormClosing);
-            this.Load += new System.EventHandler(this.PageSettingsForm_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PageSettingsForm_KeyUp);
             this.SettingsTablePanel.ResumeLayout(false);
             this.ImagePreviewTableLayout.ResumeLayout(false);

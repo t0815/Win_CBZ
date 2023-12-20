@@ -2875,6 +2875,12 @@ namespace Win_CBZ
                         Page pageToUpdate = Program.ProjectModel.GetPageById(pageResult.Id);
                         if (pageToUpdate != null)
                         {
+                            List<Page> pageKey = Program.ProjectModel.GetPagesByKey(pageResult.Key);
+                            if (pageKey != null && pageKey.Count > 1)
+                            {
+                                ApplicationMessage.ShowWarning(new StringBuilder("").AppendLine("").ToString(), "Page duplicate key", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                            }
+
                             try
                             {
                                 Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, pageProperties[i].Key);

@@ -302,9 +302,9 @@ namespace Win_CBZ
             {
                 if (!entry.Attributes.ContainsKey(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY))
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error getting page metadata entry for key [" + key + "]! [Attribute 'key' not found!]");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, new StringBuilder("Error getting page metadata entry for key [").Append(key).Append("]! [Attribute 'key' not found!]").ToString());
 
-                    throw new MetaDataPageEntryException(entry, "Error getting page metadata entry for key [" + key + "]! [Attribute 'key' not found!]", true);
+                    throw new MetaDataPageEntryException(entry, new StringBuilder("Error getting page metadata entry for key [").Append(key).Append("]! [Attribute 'key' not found!]").ToString());
                 }
 
                 try

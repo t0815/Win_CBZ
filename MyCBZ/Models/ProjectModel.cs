@@ -1838,6 +1838,21 @@ namespace Win_CBZ
             return null;
         }
 
+        public List<Page> GetPagesByKey(String key)
+        {
+            List<Page> pages = new List<Page>();
+
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Key == key)
+                {
+                    pages.Add(page1);
+                }
+            }
+
+            return pages;
+        }
+
         public Page GetNextAvailablePage(int index, int direction = 1)
         {
             int startIndex = index;
