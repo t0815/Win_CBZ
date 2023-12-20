@@ -2876,9 +2876,26 @@ namespace Win_CBZ
                         if (pageToUpdate != null)
                         {
                             List<Page> pageKey = Program.ProjectModel.GetPagesByKey(pageResult.Key);
+                            String pageName = pageResult.Name;
                             if (pageKey != null && pageKey.Count > 1)
                             {
-                                ApplicationMessage.ShowWarning(new StringBuilder("").AppendLine("").ToString(), "Page duplicate key", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                foreach (Page findPage in pageKey)
+                                {
+                                    if (findPage.Id != pageResult.Id)
+                                    {
+                                        pageName = findPage.Name;
+                                    }
+                                }
+
+                                ApplicationMessage.ShowWarning(
+                                    new StringBuilder("Warning! Page ['")
+                                    .Append(pageName)
+                                    .Append("'] ")
+                                    .Append("already uses key ['")
+                                    .Append(pageToUpdate.Key)
+                                    .Append("'].")
+                                    .AppendLine("It is recommended for every page to use a unique key.")
+                                    .ToString(), "Page duplicate key", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                             }
 
                             try
