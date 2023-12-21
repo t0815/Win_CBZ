@@ -158,6 +158,7 @@
     <Compile Include="Events\ClipboardChangedEvent.cs" />
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Exceptions\ConcurrentOperationException.cs" />
+    <Compile Include="Exceptions\PageMemoryIOException.cs" />
     <Compile Include="Forms\EditImageForm.cs">
       <SubType>Form</SubType>
     </Compile>

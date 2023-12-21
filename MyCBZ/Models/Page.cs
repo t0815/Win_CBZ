@@ -1155,7 +1155,7 @@ namespace Win_CBZ
             //{
             xmlWriter.WriteEndDocument();
             //}
-
+         
             xmlWriter.Close();
 
             ms.Position = 0;
@@ -1746,7 +1746,22 @@ namespace Win_CBZ
                             }
                         } else
                         {
-                            throw new PageException(this, "Error loading image [" + Name + "] from System-Memory! Invalid or corrupted image", true);
+                            try
+                            {
+                                if (ImageStreamMemoryCopy != null)
+                                {
+                                    ImageStreamMemoryCopy?.Close();
+                                    ImageStreamMemoryCopy?.Dispose();
+
+                                    ImageStreamMemoryCopy = null;
+                                }
+
+                                IsMemoryCopy = false;
+                            } catch 
+                            { 
+                            }
+
+                            throw new PageMemoryIOException(this, "Error loading image [" + Name + "] from System-Memory! Invalid or corrupted image", true, true);
                         }
                     }
                     else

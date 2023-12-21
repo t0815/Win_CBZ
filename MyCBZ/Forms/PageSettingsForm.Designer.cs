@@ -295,7 +295,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.66667F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxFileLocation, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
@@ -355,8 +355,8 @@
             // 
             this.TextBoxFileLocation.BackColor = System.Drawing.SystemColors.Control;
             this.tableLayoutPanel1.SetColumnSpan(this.TextBoxFileLocation, 3);
-            this.TextBoxFileLocation.Location = new System.Drawing.Point(150, 2);
-            this.TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.TextBoxFileLocation.Location = new System.Drawing.Point(150, 4);
+            this.TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 4, 3, 2);
             this.TextBoxFileLocation.Name = "TextBoxFileLocation";
             this.TextBoxFileLocation.ReadOnly = true;
             this.TextBoxFileLocation.Size = new System.Drawing.Size(257, 22);
@@ -403,8 +403,8 @@
             this.LabelDimensions.Location = new System.Drawing.Point(151, 114);
             this.LabelDimensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelDimensions.Name = "LabelDimensions";
-            this.LabelDimensions.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.LabelDimensions.Size = new System.Drawing.Size(65, 22);
+            this.LabelDimensions.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            this.LabelDimensions.Size = new System.Drawing.Size(65, 23);
             this.LabelDimensions.TabIndex = 11;
             this.LabelDimensions.Text = "0 x 0 Pixel";
             // 
@@ -434,8 +434,8 @@
             // 
             // PageNameTextBox
             // 
-            this.PageNameTextBox.Location = new System.Drawing.Point(152, 196);
-            this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            this.PageNameTextBox.Location = new System.Drawing.Point(152, 198);
+            this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.PageNameTextBox.Name = "PageNameTextBox";
             this.PageNameTextBox.Size = new System.Drawing.Size(199, 22);
             this.PageNameTextBox.TabIndex = 2;
@@ -482,7 +482,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(379, 38);
+            this.label8.Location = new System.Drawing.Point(378, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -494,7 +494,7 @@
             // LabelBits
             // 
             this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(409, 38);
+            this.LabelBits.Location = new System.Drawing.Point(408, 38);
             this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBits.Name = "LabelBits";
             this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -508,7 +508,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(378, 77);
+            this.label7.Location = new System.Drawing.Point(377, 77);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -520,7 +520,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(409, 77);
+            this.LabelImageColors.Location = new System.Drawing.Point(408, 77);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -548,8 +548,8 @@
             this.KeyEditorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.KeyEditorPanel.Controls.Add(this.textBoxKey);
             this.KeyEditorPanel.Controls.Add(this.ButtonNewKey);
-            this.KeyEditorPanel.Location = new System.Drawing.Point(152, 235);
-            this.KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            this.KeyEditorPanel.Location = new System.Drawing.Point(152, 237);
+            this.KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.KeyEditorPanel.Name = "KeyEditorPanel";
             this.KeyEditorPanel.Size = new System.Drawing.Size(198, 22);
             this.KeyEditorPanel.TabIndex = 25;
@@ -637,8 +637,8 @@
             // 
             // PageIndexTextbox
             // 
-            this.PageIndexTextbox.Location = new System.Drawing.Point(152, 312);
-            this.PageIndexTextbox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            this.PageIndexTextbox.Location = new System.Drawing.Point(152, 314);
+            this.PageIndexTextbox.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.PageIndexTextbox.Name = "PageIndexTextbox";
             this.PageIndexTextbox.Size = new System.Drawing.Size(71, 22);
             this.PageIndexTextbox.TabIndex = 0;
@@ -661,7 +661,8 @@
             this.ComboBoxPageType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.ComboBoxPageType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.ComboBoxPageType.FormattingEnabled = true;
-            this.ComboBoxPageType.Location = new System.Drawing.Point(150, 275);
+            this.ComboBoxPageType.Location = new System.Drawing.Point(150, 276);
+            this.ComboBoxPageType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.ComboBoxPageType.Name = "ComboBoxPageType";
             this.ComboBoxPageType.Size = new System.Drawing.Size(200, 24);
             this.ComboBoxPageType.TabIndex = 27;

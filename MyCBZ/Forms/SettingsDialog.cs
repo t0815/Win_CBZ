@@ -71,9 +71,11 @@ namespace Win_CBZ.Forms
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
+            AppSettingsTabControl.Dock = DockStyle.Fill;
 
             MetaDataConfigTabControl.Visible = true;
             ImageProcessingTabControl.Visible = false;
+            AppSettingsTabControl.Visible = false;
 
             validation = new DataValidation();
 
@@ -183,13 +185,27 @@ namespace Win_CBZ.Forms
             {
                 MetaDataConfigTabControl.Visible = true;
                 ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
             }
 
             if (SettingsSectionList.SelectedIndex == 1)
             {
                 MetaDataConfigTabControl.Visible = false;
-                ImageProcessingTabControl.Visible = true;   
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = true;
             }
+
+            if (SettingsSectionList.SelectedIndex == 2)
+            {
+                MetaDataConfigTabControl.Visible = false;
+                ImageProcessingTabControl.Visible = true;
+                AppSettingsTabControl.Visible = false;
+            }
+        }
+
+        private void SettingsDialog_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

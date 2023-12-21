@@ -313,7 +313,14 @@ namespace Win_CBZ.Forms
 
                 if (Pages.Count == 1)
                 {
-                    Pages[0].Index = newIndex - 1;
+                    if (newIndex > -1)
+                    {
+                        Pages[0].Index = newIndex - 1;
+                    } else
+                    {
+                        Pages[0].Index = -1;
+                    }
+                    
                     Pages[0].Number = newIndex;
                 }
             } catch { }

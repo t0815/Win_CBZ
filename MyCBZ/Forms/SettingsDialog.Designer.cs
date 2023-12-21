@@ -68,6 +68,8 @@
             this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.AppSettingsTabControl = new System.Windows.Forms.TabControl();
+            this.TabPageAppSettings = new System.Windows.Forms.TabPage();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -85,6 +87,7 @@
             this.GroupBoxImageQuality.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsValidationErrorProvider)).BeginInit();
+            this.AppSettingsTabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -162,6 +165,7 @@
             this.SettingsSectionList.ItemHeight = 21;
             this.SettingsSectionList.Items.AddRange(new object[] {
             "Meta Data",
+            "Application",
             "Image Processing"});
             this.SettingsSectionList.Location = new System.Drawing.Point(3, 107);
             this.SettingsSectionList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -189,6 +193,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SettingsTablePanel.SetColumnSpan(this.SettingsContentPanel, 2);
+            this.SettingsContentPanel.Controls.Add(this.AppSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.MetaDataConfigTabControl);
             this.SettingsContentPanel.Controls.Add(this.ImageProcessingTabControl);
             this.SettingsContentPanel.Location = new System.Drawing.Point(203, 109);
@@ -205,7 +210,7 @@
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(275, 325);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(146, 325);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -215,7 +220,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(267, 296);
+            this.tabPage1.Size = new System.Drawing.Size(138, 296);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -315,7 +320,7 @@
             this.MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             this.MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTabPageTags.Size = new System.Drawing.Size(566, 296);
+            this.MetaDataTabPageTags.Size = new System.Drawing.Size(267, 296);
             this.MetaDataTabPageTags.TabIndex = 1;
             this.MetaDataTabPageTags.Text = "Tags";
             this.MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -569,6 +574,25 @@
             // 
             this.SettingsValidationErrorProvider.ContainerControl = this;
             // 
+            // AppSettingsTabControl
+            // 
+            this.AppSettingsTabControl.Controls.Add(this.TabPageAppSettings);
+            this.AppSettingsTabControl.Location = new System.Drawing.Point(162, 3);
+            this.AppSettingsTabControl.Name = "AppSettingsTabControl";
+            this.AppSettingsTabControl.SelectedIndex = 0;
+            this.AppSettingsTabControl.Size = new System.Drawing.Size(123, 319);
+            this.AppSettingsTabControl.TabIndex = 3;
+            // 
+            // TabPageAppSettings
+            // 
+            this.TabPageAppSettings.Location = new System.Drawing.Point(4, 25);
+            this.TabPageAppSettings.Name = "TabPageAppSettings";
+            this.TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageAppSettings.Size = new System.Drawing.Size(115, 290);
+            this.TabPageAppSettings.TabIndex = 0;
+            this.TabPageAppSettings.Text = "Deletion";
+            this.TabPageAppSettings.UseVisualStyleBackColor = true;
+            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -581,6 +605,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Application Configuration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsDialog_FormClosing);
+            this.Load += new System.EventHandler(this.SettingsDialog_Load);
             this.SettingsTablePanel.ResumeLayout(false);
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();
@@ -604,6 +629,7 @@
             this.GroupBoxImageQuality.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsValidationErrorProvider)).EndInit();
+            this.AppSettingsTabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -648,5 +674,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox ComboBoxFileName;
         private System.Windows.Forms.PictureBox PictureBoxToolTipMetaFileName;
+        private System.Windows.Forms.TabControl AppSettingsTabControl;
+        private System.Windows.Forms.TabPage TabPageAppSettings;
     }
 }
