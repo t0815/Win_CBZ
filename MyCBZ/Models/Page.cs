@@ -256,6 +256,7 @@ namespace Win_CBZ
             //ImageStream = sourcePage.ImageStream;
             LocalFile = sourcePage.LocalFile;
             Format = sourcePage.Format;
+            ImageType = sourcePage.ImageType;
 
             FileExtension = sourcePage.FileExtension;
             Compressed = sourcePage.Compressed;
@@ -350,6 +351,7 @@ namespace Win_CBZ
                 IsMemoryCopy = sourcePage.IsMemoryCopy;
                 //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
                 Format = sourcePage.Format;
+                ImageType = sourcePage.ImageType;
                 LastModified = sourcePage.LastModified;
 
                 Changed = sourcePage.Changed;

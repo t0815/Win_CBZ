@@ -2949,7 +2949,8 @@ namespace Win_CBZ
                                 pageResult.DoublePage != pageProperties[i].DoublePage ||
                                 pageResult.Name != pageProperties[i].Name ||
                                 pageResult.Key != pageProperties[i].Key ||
-                                pageResult.Index != pageProperties[i].Index
+                                pageResult.Index != pageProperties[i].Index ||
+                                pageResult.ImageType != pageProperties[i].ImageType
                                 )
                             {
                                 PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));

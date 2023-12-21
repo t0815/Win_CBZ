@@ -45,7 +45,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label11 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TextBoxFileLocation = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -62,15 +61,18 @@
             this.LabelBits = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.LabelImageColors = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.KeyEditorPanel = new System.Windows.Forms.Panel();
+            this.textBoxKey = new System.Windows.Forms.TextBox();
+            this.ButtonNewKey = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.CheckBoxDoublePage = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.CheckBoxPageDeleted = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.PageIndexTextbox = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.CheckBoxDoublePage = new System.Windows.Forms.CheckBox();
-            this.KeyEditorPanel = new System.Windows.Forms.Panel();
-            this.textBoxKey = new System.Windows.Forms.TextBox();
-            this.ButtonNewKey = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.ComboBoxPageType = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.metaDataView = new System.Windows.Forms.WebBrowser();
             this.SettingsTablePanel.SuspendLayout();
@@ -293,8 +295,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.66667F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
-            this.tableLayoutPanel1.Controls.Add(this.label11, 0, 9);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxFileLocation, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
@@ -311,17 +312,20 @@
             this.tableLayoutPanel1.Controls.Add(this.LabelBits, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.LabelImageColors, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.CheckBoxPageDeleted, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.PageIndexTextbox, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.label10, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.CheckBoxDoublePage, 1, 9);
             this.tableLayoutPanel1.Controls.Add(this.KeyEditorPanel, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.label11, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.CheckBoxDoublePage, 1, 10);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.CheckBoxPageDeleted, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.PageIndexTextbox, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.label13, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.ComboBoxPageType, 1, 7);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 12);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 10;
+            this.tableLayoutPanel1.RowCount = 11;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
@@ -331,27 +335,16 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(438, 417);
             this.tableLayoutPanel1.TabIndex = 2;
-            // 
-            // label11
-            // 
-            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(43, 349);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(102, 17);
-            this.label11.TabIndex = 23;
-            this.label11.Text = "Double-Page";
             // 
             // label3
             // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Right;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(53, 0);
+            this.label3.Location = new System.Drawing.Point(51, 0);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label3.Size = new System.Drawing.Size(93, 38);
@@ -362,7 +355,7 @@
             // 
             this.TextBoxFileLocation.BackColor = System.Drawing.SystemColors.Control;
             this.tableLayoutPanel1.SetColumnSpan(this.TextBoxFileLocation, 3);
-            this.TextBoxFileLocation.Location = new System.Drawing.Point(152, 2);
+            this.TextBoxFileLocation.Location = new System.Drawing.Point(150, 2);
             this.TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TextBoxFileLocation.Name = "TextBoxFileLocation";
             this.TextBoxFileLocation.ReadOnly = true;
@@ -374,7 +367,7 @@
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(107, 77);
+            this.label5.Location = new System.Drawing.Point(105, 77);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
             this.label5.Size = new System.Drawing.Size(39, 24);
@@ -384,7 +377,7 @@
             // LabelSize
             // 
             this.LabelSize.AutoSize = true;
-            this.LabelSize.Location = new System.Drawing.Point(152, 77);
+            this.LabelSize.Location = new System.Drawing.Point(150, 77);
             this.LabelSize.Name = "LabelSize";
             this.LabelSize.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
             this.LabelSize.Size = new System.Drawing.Size(51, 23);
@@ -396,7 +389,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(54, 114);
+            this.label6.Location = new System.Drawing.Point(52, 114);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -407,7 +400,7 @@
             // LabelDimensions
             // 
             this.LabelDimensions.AutoSize = true;
-            this.LabelDimensions.Location = new System.Drawing.Point(153, 114);
+            this.LabelDimensions.Location = new System.Drawing.Point(151, 114);
             this.LabelDimensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelDimensions.Name = "LabelDimensions";
             this.LabelDimensions.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -420,7 +413,7 @@
             this.LabelFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelFormat.AutoSize = true;
             this.LabelFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelFormat.Location = new System.Drawing.Point(87, 38);
+            this.LabelFormat.Location = new System.Drawing.Point(85, 38);
             this.LabelFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelFormat.Name = "LabelFormat";
             this.LabelFormat.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -431,7 +424,7 @@
             // LabelImageFormat
             // 
             this.LabelImageFormat.AutoSize = true;
-            this.LabelImageFormat.Location = new System.Drawing.Point(153, 38);
+            this.LabelImageFormat.Location = new System.Drawing.Point(151, 38);
             this.LabelImageFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageFormat.Name = "LabelImageFormat";
             this.LabelImageFormat.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -441,7 +434,7 @@
             // 
             // PageNameTextBox
             // 
-            this.PageNameTextBox.Location = new System.Drawing.Point(154, 196);
+            this.PageNameTextBox.Location = new System.Drawing.Point(152, 196);
             this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
             this.PageNameTextBox.Name = "PageNameTextBox";
             this.PageNameTextBox.Size = new System.Drawing.Size(199, 22);
@@ -453,7 +446,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(97, 194);
+            this.label2.Location = new System.Drawing.Point(95, 194);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label2.Size = new System.Drawing.Size(49, 23);
@@ -465,7 +458,7 @@
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(112, 153);
+            this.label9.Location = new System.Drawing.Point(110, 153);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -476,7 +469,7 @@
             // LabelDpi
             // 
             this.LabelDpi.AutoSize = true;
-            this.LabelDpi.Location = new System.Drawing.Point(153, 153);
+            this.LabelDpi.Location = new System.Drawing.Point(151, 153);
             this.LabelDpi.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelDpi.Name = "LabelDpi";
             this.LabelDpi.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -489,7 +482,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(383, 38);
+            this.label8.Location = new System.Drawing.Point(379, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -501,7 +494,7 @@
             // LabelBits
             // 
             this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(413, 38);
+            this.LabelBits.Location = new System.Drawing.Point(409, 38);
             this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBits.Name = "LabelBits";
             this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -515,7 +508,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(382, 77);
+            this.label7.Location = new System.Drawing.Point(378, 77);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -527,7 +520,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(413, 77);
+            this.LabelImageColors.Location = new System.Drawing.Point(409, 77);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -536,56 +529,12 @@
             this.LabelImageColors.Text = "0";
             this.LabelImageColors.Visible = false;
             // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(81, 315);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 17);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Deleted";
-            // 
-            // CheckBoxPageDeleted
-            // 
-            this.CheckBoxPageDeleted.AutoSize = true;
-            this.CheckBoxPageDeleted.Location = new System.Drawing.Point(153, 314);
-            this.CheckBoxPageDeleted.Margin = new System.Windows.Forms.Padding(4);
-            this.CheckBoxPageDeleted.Name = "CheckBoxPageDeleted";
-            this.CheckBoxPageDeleted.Size = new System.Drawing.Size(18, 17);
-            this.CheckBoxPageDeleted.TabIndex = 7;
-            this.CheckBoxPageDeleted.UseVisualStyleBackColor = true;
-            this.CheckBoxPageDeleted.CheckedChanged += new System.EventHandler(this.CheckBoxPageDeleted_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(100, 272);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.label1.Size = new System.Drawing.Size(46, 23);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Index";
-            // 
-            // PageIndexTextbox
-            // 
-            this.PageIndexTextbox.Location = new System.Drawing.Point(154, 274);
-            this.PageIndexTextbox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
-            this.PageIndexTextbox.Name = "PageIndexTextbox";
-            this.PageIndexTextbox.Size = new System.Drawing.Size(71, 22);
-            this.PageIndexTextbox.TabIndex = 0;
-            this.PageIndexTextbox.TextChanged += new System.EventHandler(this.PageIndexTextbox_TextChanged);
-            // 
             // label10
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(113, 233);
+            this.label10.Location = new System.Drawing.Point(111, 233);
             this.label10.Name = "label10";
             this.label10.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label10.Size = new System.Drawing.Size(33, 22);
@@ -593,24 +542,13 @@
             this.label10.Text = "Key";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // CheckBoxDoublePage
-            // 
-            this.CheckBoxDoublePage.AutoSize = true;
-            this.CheckBoxDoublePage.Location = new System.Drawing.Point(153, 348);
-            this.CheckBoxDoublePage.Margin = new System.Windows.Forms.Padding(4);
-            this.CheckBoxDoublePage.Name = "CheckBoxDoublePage";
-            this.CheckBoxDoublePage.Size = new System.Drawing.Size(18, 17);
-            this.CheckBoxDoublePage.TabIndex = 24;
-            this.CheckBoxDoublePage.UseVisualStyleBackColor = true;
-            this.CheckBoxDoublePage.CheckedChanged += new System.EventHandler(this.CheckBoxDoublePage_CheckedChanged);
-            // 
             // KeyEditorPanel
             // 
             this.KeyEditorPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.KeyEditorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.KeyEditorPanel.Controls.Add(this.textBoxKey);
             this.KeyEditorPanel.Controls.Add(this.ButtonNewKey);
-            this.KeyEditorPanel.Location = new System.Drawing.Point(154, 235);
+            this.KeyEditorPanel.Location = new System.Drawing.Point(152, 235);
             this.KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
             this.KeyEditorPanel.Name = "KeyEditorPanel";
             this.KeyEditorPanel.Size = new System.Drawing.Size(198, 22);
@@ -638,6 +576,97 @@
             this.ButtonNewKey.Text = "...";
             this.ButtonNewKey.UseVisualStyleBackColor = true;
             this.ButtonNewKey.Click += new System.EventHandler(this.ButtonNewKey_Click);
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(41, 383);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(102, 17);
+            this.label11.TabIndex = 23;
+            this.label11.Text = "Double-Page";
+            // 
+            // CheckBoxDoublePage
+            // 
+            this.CheckBoxDoublePage.AutoSize = true;
+            this.CheckBoxDoublePage.Location = new System.Drawing.Point(151, 382);
+            this.CheckBoxDoublePage.Margin = new System.Windows.Forms.Padding(4);
+            this.CheckBoxDoublePage.Name = "CheckBoxDoublePage";
+            this.CheckBoxDoublePage.Size = new System.Drawing.Size(18, 17);
+            this.CheckBoxDoublePage.TabIndex = 24;
+            this.CheckBoxDoublePage.UseVisualStyleBackColor = true;
+            this.CheckBoxDoublePage.CheckedChanged += new System.EventHandler(this.CheckBoxDoublePage_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(79, 349);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 17);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Deleted";
+            // 
+            // CheckBoxPageDeleted
+            // 
+            this.CheckBoxPageDeleted.AutoSize = true;
+            this.CheckBoxPageDeleted.Location = new System.Drawing.Point(151, 348);
+            this.CheckBoxPageDeleted.Margin = new System.Windows.Forms.Padding(4);
+            this.CheckBoxPageDeleted.Name = "CheckBoxPageDeleted";
+            this.CheckBoxPageDeleted.Size = new System.Drawing.Size(18, 17);
+            this.CheckBoxPageDeleted.TabIndex = 7;
+            this.CheckBoxPageDeleted.UseVisualStyleBackColor = true;
+            this.CheckBoxPageDeleted.CheckedChanged += new System.EventHandler(this.CheckBoxPageDeleted_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(98, 310);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label1.Size = new System.Drawing.Size(46, 23);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Index";
+            // 
+            // PageIndexTextbox
+            // 
+            this.PageIndexTextbox.Location = new System.Drawing.Point(152, 312);
+            this.PageIndexTextbox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            this.PageIndexTextbox.Name = "PageIndexTextbox";
+            this.PageIndexTextbox.Size = new System.Drawing.Size(71, 22);
+            this.PageIndexTextbox.TabIndex = 0;
+            this.PageIndexTextbox.TextChanged += new System.EventHandler(this.PageIndexTextbox_TextChanged);
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(100, 272);
+            this.label13.Name = "label13";
+            this.label13.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.label13.Size = new System.Drawing.Size(44, 23);
+            this.label13.TabIndex = 26;
+            this.label13.Text = "Type";
+            // 
+            // ComboBoxPageType
+            // 
+            this.ComboBoxPageType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.ComboBoxPageType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxPageType.FormattingEnabled = true;
+            this.ComboBoxPageType.Location = new System.Drawing.Point(150, 275);
+            this.ComboBoxPageType.Name = "ComboBoxPageType";
+            this.ComboBoxPageType.Size = new System.Drawing.Size(200, 24);
+            this.ComboBoxPageType.TabIndex = 27;
+            this.ComboBoxPageType.TextUpdate += new System.EventHandler(this.ComboBoxPageType_TextUpdate);
+            this.ComboBoxPageType.TextChanged += new System.EventHandler(this.ComboBoxPageType_TextChanged);
             // 
             // tabPage2
             // 
@@ -746,5 +775,7 @@
         private System.Windows.Forms.TextBox textBoxKey;
         private System.Windows.Forms.Button ButtonNewKey;
         private System.Windows.Forms.WebBrowser metaDataView;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox ComboBoxPageType;
     }
 }

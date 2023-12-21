@@ -29,16 +29,24 @@ namespace Win_CBZ.Forms
         int countDoublePageStates = 0;
         int countDpiStates = 0;
         int countTypeStates = 0;
+        int countLocations = 0;
 
+        ArrayList locationsList = new ArrayList();
         ArrayList typesList = new ArrayList();
         ArrayList dpiList = new ArrayList();
         ArrayList dimensionsList = new ArrayList();
+        ArrayList imageTypeList = new ArrayList();
 
         long totalSize = 0;
 
         public PageSettingsForm(List<Page> pages)
         {
             InitializeComponent();
+
+            foreach (String pageType in MetaDataEntryPage.PageTypes)
+            {
+                ComboBoxPageType.Items.Add(pageType);
+            }
 
             Pages = new List<Page>();
 
@@ -125,6 +133,7 @@ namespace Win_CBZ.Forms
                         }
                     }
 
+                    ComboBoxPageType.Text = FirstPage.ImageType;
                     TextBoxFileLocation.Text = imageLocation;
                     PageNameTextBox.Text = FirstPage.Name;
                     LabelSize.Text = FirstPage.SizeFormat();
@@ -152,13 +161,15 @@ namespace Win_CBZ.Forms
                         ImagePreviewButton.BackgroundImage = null;
                     }
 
-                    textBoxKey.Text = "[" + pages.Count.ToString() + " Pages]";
-                    LabelDimensions.Text = "[" + pages.Count.ToString() + " Pages]";
-                    LabelDpi.Text = "[" + pages.Count.ToString() + " Pages]";
-                    LabelImageFormat.Text = "[" + pages.Count.ToString() + " Pages]";
+                    textBoxKey.Text = "";
+                    LabelDimensions.Text = "Multiple dimensions";
+                    LabelDpi.Text = "Multiple";
+                    LabelImageFormat.Text = "Multiple formats";
+                    TextBoxFileLocation.Text = "";
 
                     foreach (Page page in pages)
                     {
+                        
                         if (deletedState != page.Deleted)
                         {
                             countDeletedStates++;
@@ -186,15 +197,25 @@ namespace Win_CBZ.Forms
                             dimensionsList.Add(page.Format.W.ToString() + " x " + page.Format.H.ToString()); 
                         }
 
+                        if (imageTypeList.IndexOf(page.ImageType)  == -1)
+                        {
+                            imageTypeList.Add(page.ImageType);
+                        }
+
                         totalSize += page.Size;
                     }
 
                     LabelSize.Text = Program.ProjectModel.SizeFormat(totalSize);
-                    TextBoxFileLocation.Text = "[" + pages.Count.ToString() + " Pages selected]";
+                    
 
                     if (typesList.Count == 1)
                     {
                         LabelImageFormat.Text = typesList[0].ToString();
+                    }
+
+                    if (imageTypeList.Count == 1)
+                    {
+                        ComboBoxPageType.Text = imageTypeList[0].ToString();
                     }
 
                     if (dimensionsList.Count == 1)
@@ -436,6 +457,19 @@ namespace Win_CBZ.Forms
         private void PageSettingsForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void ComboBoxPageType_TextUpdate(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void ComboBoxPageType_TextChanged(object sender, EventArgs e)
+        {
+            foreach (Page page in Pages)
+            {
+                page.ImageType = ComboBoxPageType.Text;
+            }
         }
     }
 }
