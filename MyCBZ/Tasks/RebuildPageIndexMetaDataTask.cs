@@ -27,6 +27,7 @@ namespace Win_CBZ.Tasks
                     if (page.Key == null)
                     {
                         page.Key = RandomId.getInstance().make();
+                        isUpdated = true;
                     }
 
 
@@ -51,7 +52,10 @@ namespace Win_CBZ.Tasks
 
                     if (pageChangedHandler != null)
                     {
-                        pageChangedHandler.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        if (isUpdated)
+                        {
+                            pageChangedHandler.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        }     
                     }                   
 
                     if (handler != null)
@@ -64,7 +68,8 @@ namespace Win_CBZ.Tasks
                             total));
                     }
                     current++;
-                    System.Threading.Thread.Sleep(10);
+                    isUpdated = false;
+                    System.Threading.Thread.Sleep(5);
                 }
 
                 metaData.RebuildPageMetaData(pages);

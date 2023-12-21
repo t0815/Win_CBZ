@@ -2059,7 +2059,7 @@ namespace Win_CBZ
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public void RenamePage(Page page, String name, bool ignoreDuplicates = false)
         {
             if (name == null || name == "")
@@ -2083,14 +2083,17 @@ namespace Win_CBZ
 
             //Page oldPage = new Page(page);
 
-            page.Name = name;
-            IsChanged = true;
+            if (!page.Name.Equals(name))
+            {
+                page.Name = name;
+                IsChanged = true;
 
-            OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_RENAMED));
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+                OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+            }          
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public String PageScriptRename(Page page, bool ignoreDuplicates = false, String renameStoryPattern = "", String renameSpecialPattern = "")
         {
             string oldName = page.Name;
