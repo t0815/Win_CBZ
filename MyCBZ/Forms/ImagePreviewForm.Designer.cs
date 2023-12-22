@@ -37,11 +37,11 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.TextBoxJumpPage = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.ExportImageDialog = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ImagePreviewPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PageImagePreview)).BeginInit();
             this.PreviewToolStrip.SuspendLayout();
@@ -87,13 +87,13 @@
             this.toolStripButton4,
             this.toolStripSeparator2,
             this.toolStripLabel2,
-            this.toolStripTextBox1,
+            this.TextBoxJumpPage,
             this.toolStripSeparator3,
             this.toolStripLabel1});
             this.PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             this.PreviewToolStrip.Name = "PreviewToolStrip";
             this.PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.PreviewToolStrip.Size = new System.Drawing.Size(572, 31);
+            this.PreviewToolStrip.Size = new System.Drawing.Size(611, 31);
             this.PreviewToolStrip.TabIndex = 1;
             this.PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -137,6 +137,26 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(83, 28);
+            this.toolStripLabel2.Text = "Goto page:";
+            // 
+            // TextBoxJumpPage
+            // 
+            this.TextBoxJumpPage.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxJumpPage.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.TextBoxJumpPage.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TextBoxJumpPage.Name = "TextBoxJumpPage";
+            this.TextBoxJumpPage.Size = new System.Drawing.Size(50, 31);
+            this.TextBoxJumpPage.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
+            // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
@@ -146,23 +166,6 @@
             // ExportImageDialog
             // 
             this.ExportImageDialog.Filter = "Bitmap|*.bmp|Jpeg|*.jpg|Png|*png";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 31);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(83, 28);
-            this.toolStripLabel2.Text = "Goto page:";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
             // 
             // ImagePreviewForm
             // 
@@ -202,7 +205,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.SaveFileDialog ExportImageDialog;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripTextBox TextBoxJumpPage;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }

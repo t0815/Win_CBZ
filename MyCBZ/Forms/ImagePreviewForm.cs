@@ -35,6 +35,7 @@ namespace Win_CBZ
 
                 currentIndex = page.Index;
                 currentId = page.Id;
+                TextBoxJumpPage.Text = displayPage.Number.ToString();
                 if (displayPage.TemporaryFile == null || !displayPage.TemporaryFile.Exists())
                 {
                     try
@@ -174,7 +175,8 @@ namespace Win_CBZ
                 }
 
                 currentId = displayPage.Id;
-                currentIndex = displayPage.Index;             
+                currentIndex = displayPage.Index;
+                TextBoxJumpPage.Text = displayPage.Number.ToString();
             }
         }
 
