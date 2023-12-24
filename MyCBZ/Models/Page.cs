@@ -1218,13 +1218,28 @@ namespace Win_CBZ
                             destination = Path.Combine(PathHelper.ResolvePath(WorkingDir), TemporaryFileId + ".tmp");
                         }
 
-                        if (!File.Exists(destination) || overwrite)
+                        LocalFile destinationFile = new LocalFile(destination);
+
+                        if (!destinationFile.Exists() || overwrite)
                         {
                             try { 
                                 CompressedEntry.ExtractToFile(destination, overwrite);
                             } catch (Exception e)
                             {
                                 throw new PageException(this, e.Message, true, e);
+                            }
+                        } else
+                        {
+                            if (destinationFile.FileSize == 0)
+                            {
+                                try
+                                {
+                                    CompressedEntry.ExtractToFile(destination, true);
+                                }
+                                catch (Exception e)
+                                {
+                                    throw new PageException(this, e.Message, true, e);
+                                }
                             }
                         }
                         
@@ -1746,21 +1761,6 @@ namespace Win_CBZ
                             }
                         } else
                         {
-                            try
-                            {
-                                if (ImageStreamMemoryCopy != null)
-                                {
-                                    ImageStreamMemoryCopy?.Close();
-                                    ImageStreamMemoryCopy?.Dispose();
-
-                                    ImageStreamMemoryCopy = null;
-                                }
-
-                                IsMemoryCopy = false;
-                            } catch 
-                            { 
-                            }
-
                             throw new PageMemoryIOException(this, "Error loading image [" + Name + "] from System-Memory! Invalid or corrupted image", true, true);
                         }
                     }

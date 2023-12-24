@@ -30,6 +30,7 @@ namespace Win_CBZ.Forms
         int countDpiStates = 0;
         int countTypeStates = 0;
         int countLocations = 0;
+        int countCompressedStates = 0;
 
         ArrayList locationsList = new ArrayList();
         ArrayList typesList = new ArrayList();
@@ -67,6 +68,7 @@ namespace Win_CBZ.Forms
 
             bool deletedState = false;
             bool doublePageState = false;
+            bool compressedState = false;
 
             if (pages != null && pages.Count > 0)
             { 
@@ -75,6 +77,14 @@ namespace Win_CBZ.Forms
                 {
                     FirstPage = new Page(pages[0]);
                     PreviewThumb = FirstPage.GetThumbnail(ThumbAbort, Handle);
+                }
+                catch (PageMemoryIOException pme)
+                {
+                    ButtonOk.Enabled = false;
+                    if (pme.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowException(pme);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -149,6 +159,7 @@ namespace Win_CBZ.Forms
                     
                     textBoxKey.Text = FirstPage.Key;
                     CheckBoxDoublePage.Checked = FirstPage.DoublePage;
+                    IsCompressedLabel.Text = FirstPage.Compressed ? "Yes" : "No";
                 } else
                 {
                     PageIndexTextbox.Enabled = false;
@@ -174,6 +185,12 @@ namespace Win_CBZ.Forms
                         {
                             countDeletedStates++;
                             deletedState = page.Deleted;
+                        }
+
+                        if (compressedState != page.Compressed)
+                        {
+                            countCompressedStates++;
+                            compressedState = page.Compressed;
                         }
 
                         if (doublePageState != page.DoublePage)
@@ -226,6 +243,15 @@ namespace Win_CBZ.Forms
                     if (dpiList.Count == 1) 
                     {
                         LabelDpi.Text = dpiList[0].ToString();
+                    }
+
+                    if (countCompressedStates < 2)
+                    {
+                        
+                    }
+                    else
+                    {
+                        
                     }
 
                     if (countDeletedStates < 2)

@@ -61,8 +61,14 @@ namespace Win_CBZ
             {
                 FileSize = 0;
             }
+
             LastModified = LocalFileInfo.LastWriteTime;
         }
 
+
+        public void Dispose()
+        {
+            LocalFileInfo = null;
+        }
     }
 }
