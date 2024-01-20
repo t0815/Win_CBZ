@@ -437,24 +437,24 @@ namespace Win_CBZ
                     }
                     else
                     {
-                        /*
+                        
                         if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
                         {
-                            ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Image);
+                            ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Page);
 
                             if (existingItem != null)
                             {
                                 PagesList.Items.Remove(existingItem);
                             }
 
-                            existingItem = FindListViewItemForPage(PageView, e.Image);
+                            existingItem = FindListViewItemForPage(PageView, e.Page);
 
                             if (existingItem != null)
                             {
                                 PageView.Items.Remove(existingItem);
                             }
                         }
-                        */
+                        
                     }
                 }));
 
