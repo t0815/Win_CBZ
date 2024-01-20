@@ -200,6 +200,10 @@ namespace Win_CBZ
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
 
+                selectedImageTask = Program.ProjectModel.GlobalImageTask;
+
+                UpdateImageAdjustments("<Global>");
+
                 backgroundWorker1.RunWorkerAsync();
 
                 WindowShown = true;
@@ -1345,6 +1349,49 @@ namespace Win_CBZ
             {
                 switch (state)
                 {
+                    case CBZArchiveStatusEvent.ARCHIVE_READY:
+                        NewToolStripMenuItem.Enabled = true;
+                        OpenToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = false;
+                        ToolButtonNew.Enabled = true;
+                        ToolButtonOpen.Enabled = true;
+                        AddFilesToolStripMenuItem.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonRemoveFiles.Enabled = false;
+                        ToolButtonMovePageDown.Enabled = false;
+                        ToolButtonMovePageUp.Enabled = false;
+                        ToolButtonAddFolder.Enabled = true;
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        TextboxStoryPageRenamingPattern.Enabled = false;
+                        TextboxSpecialPageRenamingPattern.Enabled = false;
+                        CheckBoxDoRenamePages.Enabled = false;
+                        CheckBoxDoRenamePages.Checked = false;
+                        ToolButtonSave.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = false;
+                        LabelGlobalActionStatusMessage.Text = "";
+                        GlobalAlertTableLayout.Visible = false;
+                        PagesList.Enabled = true;
+                        PageView.Enabled = true;
+                        PageThumbsListBox.Enabled = true;
+                        MetaDataGrid.Enabled = true;
+                        AddMetaDataRowBtn.Enabled = false;
+                        ToolButtonEditImageProps.Enabled = false;
+                        ToolButtonEditImage.Enabled = false;
+                        CurrentGlobalAction = null;
+                        LabelW.Text = "0";
+                        LabelH.Text = "0";
+                        RadioApplyAdjustmentsPage.Text = "(no Page selected)";
+                        RadioApplyAdjustmentsPage.Enabled = false;
+                        CurrentGlobalActions.Clear();
+                        //MessageLogListView.Items.Clear();
+                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
+                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
+                        
+                        break;
+
                     case CBZArchiveStatusEvent.ARCHIVE_SAVING:
                     case CBZArchiveStatusEvent.ARCHIVE_OPENING:
                         NewToolStripMenuItem.Enabled = false;
@@ -2751,13 +2798,23 @@ namespace Win_CBZ
                     LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
                 }
 
+                selectedImageTask = ((Page)selectedPages[0].Tag).ImageTask;
+
                 RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
+                RadioApplyAdjustmentsPage.Tag = ((Page)selectedPages[0].Tag).Id;
                 RadioApplyAdjustmentsPage.Enabled = true;
+
+                if (RadioApplyAdjustmentsPage.Checked)
+                {
+                    UpdateImageAdjustments(((Page)selectedPages[0].Tag).Id);
+                }
                 //RequestImageInfoSlice();
             } else
             {
                 RadioApplyAdjustmentsPage.Text = "(no page selected)";
                 RadioApplyAdjustmentsPage.Enabled = false;
+
+                //UpdateImageAdjustments("<Global>");
             }
 
             ((Page)e.Item.Tag).Selected = e.IsSelected;
@@ -3637,6 +3694,15 @@ namespace Win_CBZ
         {
             System.Windows.Forms.RadioButton rb = (System.Windows.Forms.RadioButton)sender;
             String selected = rb.Tag as String;
+
+            if (rb.Checked)
+            {
+                UpdateImageAdjustments(selected);
+            }
+        }
+
+        private void UpdateImageAdjustments(string selected)
+        {
             ImageTask selectedTask = null;
             Page page = null;
 
@@ -3644,7 +3710,7 @@ namespace Win_CBZ
             {
                 if (selected == "<Global>")
                 {
-                    selectedTask = Program.ProjectModel.GlobalImageTask;
+                    selectedImageTask = Program.ProjectModel.GlobalImageTask;
 
                 }
                 else
@@ -3653,14 +3719,16 @@ namespace Win_CBZ
 
                     if (page != null)
                     {
-                        selectedTask = page.ImageTask;
+                        selectedImageTask = page.ImageTask;
                     }
                 }
 
-                if (selectedTask != null)
+                if (selectedImageTask != null)
                 {
+                    
+
                     //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
-                    switch (selectedTask.ImageAdjustments.ResizeMode)
+                    switch (selectedImageTask.ImageAdjustments.ResizeMode)
                     {
                         case 0:
                             RadioButtonResizeNever.Checked = true;
@@ -3674,11 +3742,13 @@ namespace Win_CBZ
 
                     }
 
-                    CheckBoxSplitDoublePages.Checked = selectedTask.ImageAdjustments.SplitPage;
-                    TextBoxSplitPageAt.Text = selectedTask.ImageAdjustments.SplitPageAt.ToString();
-                    ComboBoxSplitAtType.SelectedIndex = selectedTask.ImageAdjustments.SplitType;
+                    CheckBoxSplitDoublePages.Checked = selectedImageTask.ImageAdjustments.SplitPage;
+                    TextBoxSplitPageAt.Text = selectedImageTask.ImageAdjustments.SplitPageAt.ToString();
+                    ComboBoxSplitAtType.SelectedIndex = selectedImageTask.ImageAdjustments.SplitType;
+                    TextBoxResizePageIndexReference.Text = selectedImageTask.ImageAdjustments.ResizeToPageNumber.ToString();
+                    TextBoxResizeW.Text = selectedImageTask.ImageAdjustments.ResizeTo.X.ToString();
+                    TextBoxResizeH.Text = selectedImageTask.ImageAdjustments.ResizeTo.Y.ToString();
 
-                    selectedImageTask = selectedTask;
                 }
             }
         }
@@ -4208,8 +4278,70 @@ namespace Win_CBZ
                     editForm.ShowDialog();
                 }
             }
-            
-            
+                       
+        }
+
+        private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
+        {
+            int pageNumber = 0;
+
+            if (TextBoxResizePageIndexReference.Text.Length > 0)
+            {
+                pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
+            }
+
+            selectedImageTask.ImageAdjustments.ResizeToPageNumber = pageNumber;
+        }
+
+        private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
+        {
+            int w = 0;
+            int h = 0;
+
+            if (TextBoxResizeW.Text.Length > 0)
+            {
+                w = int.Parse(TextBoxResizeW.Text);
+            }
+
+            if (TextBoxResizeH.Text.Length > 0)
+            {
+                h = int.Parse(TextBoxResizeH.Text);
+            }
+
+            selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, h);
+        }
+
+        private void TextBoxResizeH_TextChanged(object sender, EventArgs e)
+        {
+            int w = 0;
+            int h = 0;
+
+            if (TextBoxResizeW.Text.Length > 0)
+            {
+                w = int.Parse(TextBoxResizeW.Text);
+            }
+
+            if (TextBoxResizeH.Text.Length > 0)
+            {
+                h = int.Parse(TextBoxResizeH.Text);
+            }
+
+            selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, h);
+        }
+
+        private void TextBoxSplitPageAt_TextAlignChanged(object sender, EventArgs e)
+        {
+            selectedImageTask.ImageAdjustments.SplitPageAt = int.Parse(TextBoxSplitPageAt.Text);
+        }
+
+        private void ComboBoxSplitAtType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedImageTask.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
+        }
+
+        private void CheckBoxSplitDoublePages_CheckedChanged(object sender, EventArgs e)
+        {
+            selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
         }
     }
 }

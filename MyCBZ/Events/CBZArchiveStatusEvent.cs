@@ -19,6 +19,7 @@
         public const int ARCHIVE_METADATA_CHANGED = 14;
         public const int ARCHIVE_METADATA_DELETED = 15;
         public const int ARCHIVE_ERROR_SAVING = 16;
+        public const int ARCHIVE_READY = 17;
 
 
         public ProjectModel ArchiveInfo { get; set; }

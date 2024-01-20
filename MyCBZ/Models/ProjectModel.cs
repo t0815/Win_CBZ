@@ -1795,6 +1795,11 @@ namespace Win_CBZ
 
             Thread.Sleep(50);
 
+            if (tparams.ContinuePipeline || tparams.Stack.Count == 0)
+            {
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_READY));
+            }
+
             if (tparams.ContinuePipeline)
             {
                 OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_UPDATE_INDICES, null, tparams.Stack));
@@ -2232,14 +2237,17 @@ namespace Win_CBZ
 
             foreach (Page page in Pages)
             {
-                if (tParams.CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
+                if (!page.Deleted)
                 {
-                    RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
+                    if (tParams.CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
+                    {
+                        RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
-                    OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
-                    OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+                        OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
+                        OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
 
-                    Thread.Sleep(10);
+                        Thread.Sleep(10);
+                    }
                 }
             }
 

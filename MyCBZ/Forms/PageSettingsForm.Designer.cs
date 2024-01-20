@@ -722,7 +722,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(486, 354);
+            this.tabPage2.Size = new System.Drawing.Size(509, 383);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Page XML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -731,13 +731,15 @@
             // 
             this.metaDataView.AllowNavigation = false;
             this.metaDataView.AllowWebBrowserDrop = false;
-            this.metaDataView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.metaDataView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.metaDataView.Location = new System.Drawing.Point(3, 2);
             this.metaDataView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.metaDataView.MinimumSize = new System.Drawing.Size(20, 20);
             this.metaDataView.Name = "metaDataView";
             this.metaDataView.ScriptErrorsSuppressed = true;
-            this.metaDataView.Size = new System.Drawing.Size(480, 350);
+            this.metaDataView.Size = new System.Drawing.Size(500, 355);
             this.metaDataView.TabIndex = 4;
             this.metaDataView.WebBrowserShortcutsEnabled = false;
             // 

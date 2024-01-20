@@ -718,6 +718,15 @@ namespace Win_CBZ
                                 ImageTask.ImageAdjustments.DetectSplitAtColor = HTMLColor.ToColor(subNode2.InnerText);
                             }
 
+                            if (subNode2.Name == "ResizeToPageNumber")
+                            {
+                                ImageTask.ImageAdjustments.ResizeToPageNumber = int.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "ResizeMode")
+                            {
+                                ImageTask.ImageAdjustments.ResizeMode = int.Parse(subNode2.InnerText);
+                            }
                         }
                             
                         //ImageTask.W = int.Parse(subNode.InnerText);
@@ -1107,7 +1116,7 @@ namespace Win_CBZ
 
                 xmlWriter.WriteStartElement("ImageAdjustments");
                 xmlWriter.WriteElementString("ResizeMode", ImageTask.ImageAdjustments.ResizeMode.ToString());
-                
+                xmlWriter.WriteElementString("ResizeToPageNumber", ImageTask.ImageAdjustments.ResizeToPageNumber.ToString());
                 xmlWriter.WriteElementString("SplitPage", ImageTask.ImageAdjustments.SplitPage.ToString());
                 xmlWriter.WriteElementString("SplitType", ImageTask.ImageAdjustments.SplitType.ToString());
                 xmlWriter.WriteElementString("SplitPageAt", ImageTask.ImageAdjustments.SplitPageAt.ToString());

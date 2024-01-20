@@ -23,5 +23,7 @@ namespace Win_CBZ.Models
         public Point ResizeTo { get; set; }
 
         public int ResizeMode { get; set; }
+
+        public int ResizeToPageNumber {  get; set; }
     }
 }
