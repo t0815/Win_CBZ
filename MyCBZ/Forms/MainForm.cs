@@ -4100,6 +4100,8 @@ namespace Win_CBZ
 
                     Clipboard.SetDataObject(data);
 
+                    PasteToolStripMenuItem.Enabled = true;
+
                     copyMemStream.Close();
                     fullCopy.Close();
                 }
@@ -4248,7 +4250,9 @@ namespace Win_CBZ
                         RemoveMetaData();
 
                         Program.ProjectModel.MetaData.Values = data.Values;
+                        Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
                         MetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
+                        MetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
                     }                                 
                 }
                 else
