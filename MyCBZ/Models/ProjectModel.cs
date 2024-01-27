@@ -1064,10 +1064,12 @@ namespace Win_CBZ
             bool coverDefined = false;
             int deletedPageCount = 0;
             int progressIndex = 0;
+            int maxStoryPageHeight = 0;
             int totalItemsToProcess = 0;
             Dictionary<String, int> pageTypeCounts = new Dictionary<string, int>();
             int pageTypeCountValue = 0;
             String tags = null;
+            Page frontCover = null;
 
             CBZValidationThreadParams tParams = threadParams as CBZValidationThreadParams;
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_PROCESSING));
@@ -1165,8 +1167,9 @@ namespace Win_CBZ
                                 if (metaType == "FrontCover")
                                 {
                                     pageTypeCounts.TryGetValue(page.ImageType, out pageTypeCountValue);
-                                    
+                                   
                                     coverDefined = true;
+                                    frontCover = new Page(page);
                                     if (page.Index > 0 && pageTypeCountValue == 1)
                                     {
                                         problems.Add("Metadata->PageIndex->Type: value of type 'FrontCover' should be at index 0 (page 1) for page [" + page.Name + "]");
@@ -1180,6 +1183,20 @@ namespace Win_CBZ
                                     }
 
                                     // todo: check max allowed page types....
+                                } else if (metaType == "Story")
+                                {
+                                    if (maxStoryPageHeight < page.Format.H)
+                                    {
+                                        maxStoryPageHeight = page.Format.H;
+                                    }
+                                    
+                                    if (maxStoryPageHeight > 0)
+                                    {
+                                        if (frontCover != null && frontCover.Format.H < maxStoryPageHeight)
+                                        {
+                                            problems.Add("Pages->Page: Height for page [" + page.Id + "] of type 'FrontCover' is less than max height of page with type 'Story' [" + frontCover.Format.H + " < " + maxStoryPageHeight + "], which may cause distorted covers being generated!");
+                                        }
+                                    }
                                 }
                             }
                         }
