@@ -1070,6 +1070,7 @@ namespace Win_CBZ
             int pageTypeCountValue = 0;
             String tags = null;
             Page frontCover = null;
+            bool frontPageHeightErrorLogged = false;
 
             CBZValidationThreadParams tParams = threadParams as CBZValidationThreadParams;
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_PROCESSING));
@@ -1192,9 +1193,10 @@ namespace Win_CBZ
                                     
                                     if (maxStoryPageHeight > 0)
                                     {
-                                        if (frontCover != null && frontCover.Format.H < maxStoryPageHeight)
+                                        if (frontCover != null && !frontPageHeightErrorLogged && frontCover.Format.H < maxStoryPageHeight)
                                         {
-                                            problems.Add("Pages->Page: Height for page [" + page.Id + "] of type 'FrontCover' is less than max height of page with type 'Story' [" + frontCover.Format.H + " < " + maxStoryPageHeight + "], which may cause distorted covers being generated!");
+                                            problems.Add("Pages->Page: Height for page [" + frontCover.Id + "] of type 'FrontCover' is less than max height of page with type 'Story' [" + frontCover.Format.H + " < " + maxStoryPageHeight + "], which may cause in distorted covers being generated!");
+                                            frontPageHeightErrorLogged = true;
                                         }
                                     }
                                 }
