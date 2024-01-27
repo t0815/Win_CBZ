@@ -14,9 +14,9 @@ using System.IO;
 
 namespace Win_CBZ.Forms
 {
-    public partial class MetaDataForm : Form
+    internal partial class MetaDataForm : Form
     {
-        String MetaData;
+        MetaData MetaData;
 
         MemoryStream ms;
         StringReader xsltManifest;
@@ -26,11 +26,16 @@ namespace Win_CBZ.Forms
         StringReader sr;
         XmlReaderSettings xmlReaderSettings;
 
-        public MetaDataForm(string metaData)
+        public MetaDataForm(MetaData metaData)
         {
             InitializeComponent();
 
             MetaData = metaData;
+
+            MemoryStream fragmentStream = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
+            
+            var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+            String metaDataString = utf8WithoutBom.GetString(fragmentStream.ToArray());
 
             //MetaData = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><Test><mykey>test</mykey><value>omg</value></Test>";
 
@@ -44,7 +49,7 @@ namespace Win_CBZ.Forms
             // Read the xml string.
             xmlReaderSettings = new XmlReaderSettings();
             xmlReaderSettings.ConformanceLevel = ConformanceLevel.Fragment;
-            sr = new StringReader(MetaData);
+            sr = new StringReader(metaDataString);
             xReader = XmlReader.Create(sr, xmlReaderSettings);
 
             // Transform the XML data
@@ -56,6 +61,7 @@ namespace Win_CBZ.Forms
             // Set to the document stream
             metaDataView.DocumentStream = ms;
 
+            fragmentStream.Close();
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
@@ -87,6 +93,51 @@ namespace Win_CBZ.Forms
             {
                 Close();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MemoryStream copyMemStream = new MemoryStream();
+                var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+
+                MemoryStream fullCopy = Program.ProjectModel.MetaData.BuildComicInfoXMLStream();
+
+                XmlDocument doc = new XmlDocument
+                {
+                    PreserveWhitespace = true,
+                };
+
+                XmlReader MetaDataReader = XmlReader.Create(fullCopy);
+                MetaDataReader.Read();
+                doc.Load(MetaDataReader);
+
+                //Create an XML declaration.
+                //XmlDeclaration xmldecl;
+                //xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
+
+                //Add the new node to the document.
+                //XmlElement root = doc.DocumentElement;
+                //doc.InsertBefore(xmldecl, root);
+                doc.Save(copyMemStream);
+                copyMemStream.Position = 0;
+
+                byte[] encoded = new byte[copyMemStream.Length];
+                copyMemStream.Read(encoded, 0, (int)copyMemStream.Length);
+
+                DataObject data = new DataObject();
+                data.SetData(DataFormats.UnicodeText, utf8WithoutBom.GetString(encoded));
+
+                Clipboard.SetDataObject(data);
+
+                copyMemStream.Close();
+                fullCopy.Close();
+            } catch (Exception ex) 
+            {
+                ApplicationMessage.ShowException(ex);
+            }
+            
         }
     }
 }

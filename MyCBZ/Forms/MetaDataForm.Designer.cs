@@ -37,6 +37,7 @@
             this.SettingsGroup1Panel = new System.Windows.Forms.Panel();
             this.metaDataView = new System.Windows.Forms.WebBrowser();
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.MetaDataTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -52,6 +53,7 @@
             this.MetaDataTablePanel.Controls.Add(this.HeaderPanel, 0, 0);
             this.MetaDataTablePanel.Controls.Add(this.ButtonCancel, 2, 2);
             this.MetaDataTablePanel.Controls.Add(this.SettingsGroup1Panel, 1, 1);
+            this.MetaDataTablePanel.Controls.Add(this.button1, 1, 2);
             this.MetaDataTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataTablePanel.Location = new System.Drawing.Point(0, 0);
             this.MetaDataTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -141,6 +143,17 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "XML";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 644);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(102, 33);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Copy";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MetaDataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -175,5 +188,6 @@
         private System.Windows.Forms.Panel SettingsGroup1Panel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.WebBrowser metaDataView;
+        private System.Windows.Forms.Button button1;
     }
 }

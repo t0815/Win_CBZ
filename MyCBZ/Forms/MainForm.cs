@@ -31,6 +31,7 @@ using Win_CBZ.Helper;
 using TextBox = System.Windows.Forms.TextBox;
 using Cursors = System.Windows.Forms.Cursors;
 using System.Configuration;
+using System.Xml;
 
 namespace Win_CBZ
 {
@@ -3483,11 +3484,7 @@ namespace Win_CBZ
         {
             try
             {
-                MemoryStream ms = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
-                var utf8WithoutBom = new System.Text.UTF8Encoding(false);
-                String metaData = utf8WithoutBom.GetString(ms.ToArray());
-
-                MetaDataForm metaDataDialog = new MetaDataForm(metaData);
+                MetaDataForm metaDataDialog = new MetaDataForm(Program.ProjectModel.MetaData);
                 metaDataDialog.ShowDialog();
             } catch (Exception ex)
             {
@@ -4067,7 +4064,49 @@ namespace Win_CBZ
                 Clipboard.SetDataObject(data);
 
                 PasteToolStripMenuItem.Enabled = true;
+            } else if (MetaDataGrid.Focused)
+            {
+                try
+                {
+                    MemoryStream copyMemStream = new MemoryStream();
+                    var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
+                    MemoryStream fullCopy = Program.ProjectModel.MetaData.BuildComicInfoXMLStream();
+
+                    XmlDocument doc = new XmlDocument
+                    {
+                        PreserveWhitespace = true,
+                    };
+
+                    XmlReader MetaDataReader = XmlReader.Create(fullCopy);
+                    MetaDataReader.Read();
+                    doc.Load(MetaDataReader);
+
+                    //Create an XML declaration.
+                    //XmlDeclaration xmldecl;
+                    //xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
+
+                    //Add the new node to the document.
+                    //XmlElement root = doc.DocumentElement;
+                    //doc.InsertBefore(xmldecl, root);
+                    doc.Save(copyMemStream);
+                    copyMemStream.Position = 0;
+
+                    byte[] encoded = new byte[copyMemStream.Length];
+                    copyMemStream.Read(encoded, 0, (int)copyMemStream.Length);
+
+                    DataObject data = new DataObject();
+                    data.SetData(DataFormats.UnicodeText, utf8WithoutBom.GetString(encoded));
+
+                    Clipboard.SetDataObject(data);
+
+                    copyMemStream.Close();
+                    fullCopy.Close();
+                }
+                catch (Exception ex)
+                {
+                    ApplicationMessage.ShowException(ex);
+                }
             } else
             {
                 TextBox textBox = this.GetActiveTextBox() as TextBox;
@@ -4092,8 +4131,6 @@ namespace Win_CBZ
             int pagesUpdated = 0;
             ListViewItem selectedItem = PagesList.SelectedItem;
             Page selectedPage = null;
-
-
 
             try
             {
@@ -4128,49 +4165,53 @@ namespace Win_CBZ
 
                                 try
                                 {
-                                    newPage = new Page(ms);
-                                    Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
-
-                                    newPage.LoadImageInfo();
-
-                                    if (existingPage == null)
+                                    if (line.Contains("<Win_CBZ_Page>"))
                                     {
-                                        newPage.Changed = false;
-                                        newPage.Name = "Copy_" + newPage.Name + "";
-                                        
-                                        if (selectedPage != null)
-                                        {
-                                            Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
-                                        } else
-                                        {
-                                            Program.ProjectModel.Pages.Add(newPage);
-                                        }
+                                        newPage = new Page(ms);
+                                        Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
 
-                                        PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
-                                    } else
-                                    {
-                                        //newPage = new Page(newPage);
-                                        //newPage.Id = Guid.NewGuid().ToString();
-                                        //newPage.Key = RandomId.getInstance().make();
-                                        //newPage.Changed = false;
-                                        //newPage.Compressed = false;
+                                        newPage.LoadImageInfo();
 
-                                        //Program.ProjectModel.Pages.Remove(existingPage);
-                                        Program.ProjectModel.Pages.Add(newPage);
-                                        if (selectedPage != null)
+                                        if (existingPage == null)
                                         {
-                                            Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                            newPage.Changed = false;
+                                            newPage.Name = "Copy_" + newPage.Name + "";
+
+                                            if (selectedPage != null)
+                                            {
+                                                Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                            }
+                                            else
+                                            {
+                                                Program.ProjectModel.Pages.Add(newPage);
+                                            }
+
+                                            PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
                                         }
                                         else
                                         {
+                                            //newPage = new Page(newPage);
+                                            //newPage.Id = Guid.NewGuid().ToString();
+                                            //newPage.Key = RandomId.getInstance().make();
+                                            //newPage.Changed = false;
+                                            //newPage.Compressed = false;
+
+                                            //Program.ProjectModel.Pages.Remove(existingPage);
                                             Program.ProjectModel.Pages.Add(newPage);
+                                            if (selectedPage != null)
+                                            {
+                                                Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                            }
+                                            else
+                                            {
+                                                Program.ProjectModel.Pages.Add(newPage);
+                                            }
+
+                                            PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
                                         }
 
-                                        PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        pagesUpdated++;
                                     }
-
-                                    pagesUpdated++;
-
                                 }
                                 catch (Exception ex)
                                 {
@@ -4190,6 +4231,25 @@ namespace Win_CBZ
                         HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
                     }
+                }
+                else if (copiedPages.Contains("<?xml") && copiedPages.Contains("<ComicInfo>"))
+                {
+                    DialogResult r = ApplicationMessage.ShowConfirmation("Do you want to replace all ComicInfo attributes with pasted ComicInfo.xml attributes?", "Replace Metadata", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                    if (r == DialogResult.Yes)
+                    {
+                        MemoryStream xmlStream = new MemoryStream();
+                        byte[] bytes = utf8WithoutBom.GetBytes(copiedPages.Replace("\r\n", ""));
+
+                        xmlStream.Write(bytes, 0, bytes.Length);
+                        xmlStream.Position = 0;
+
+                        MetaData data = new MetaData(xmlStream, Win_CBZSettings.Default.MetaDataFilename);
+
+                        RemoveMetaData();
+
+                        Program.ProjectModel.MetaData.Values = data.Values;
+                        MetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
+                    }                                 
                 }
                 else
                 {

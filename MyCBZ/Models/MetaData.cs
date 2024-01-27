@@ -222,7 +222,8 @@ namespace Win_CBZ
             MemoryStream ms = new MemoryStream();
             XmlWriterSettings writerSettings = new XmlWriterSettings
             {
-                OmitXmlDeclaration = withoutXMLHeaderTag
+                OmitXmlDeclaration = withoutXMLHeaderTag,
+                Encoding = Encoding.UTF8,
             };
             XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
              
