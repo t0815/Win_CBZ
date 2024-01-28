@@ -79,6 +79,8 @@ namespace Win_CBZ
 
         public bool Invalidated { get; set; }
 
+        public bool Renamed { get; set; }   
+
         public bool IsMemoryCopy { get; set; }
 
         public bool ImageInfoRequested { get; set; }

@@ -2610,6 +2610,29 @@ namespace Win_CBZ
             }
         }
 
+        private void MetaDataGrid_Sorted(object sender, EventArgs e)
+        {
+            Program.ProjectModel.MetaData.Values.Clear();
+
+            foreach (DataGridViewRow row in MetaDataGrid.Rows)
+            {
+                var key = row.Cells[0].Value;
+                var val = row.Cells[1].Value;
+
+                Program.ProjectModel.MetaData.Add(new MetaDataEntry(key.ToString(), val.ToString()));
+            }
+        }
+
+        private void ToolStripMenuItemDataGridRemoveSort_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MetaDataGrid_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            
+        }
+
         private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -2875,18 +2898,28 @@ namespace Win_CBZ
                 {
                     ((Page)item.Tag).ImageType = (String)((ToolStripMenuItem)sender).Tag;
 
-                    if (PagesList.SelectedItems.Count > 1)
+                    try
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-                    }
-                    else
-                    {
-                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
-                    }
-                    
-                    PageChanged(null, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                        if (PagesList.SelectedItems.Count > 1)
+                        {
+                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                        }
+                        else
+                        {
+                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
+                        }
 
+                        PageChanged(null, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                    }
+                    catch (MetaDataPageEntryException ex)
+                    {
+                        ApplicationMessage.ShowWarning(ex.Message, ex.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+                    catch (Exception eg)
+                    {
+                        ApplicationMessage.ShowException(eg);
+                    }
                 }
                 else
                 {
@@ -3277,16 +3310,24 @@ namespace Win_CBZ
                     item.SubItems[2].Text = (String)((ToolStripSplitButton)sender).Tag;
                 }
 
-                if (PagesList.SelectedItems.Count > 1)
-                {
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-                } else
-                {
-                    Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
-                }               
+                try {
+                    if (PagesList.SelectedItems.Count > 1)
+                    {
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                    } else
+                    {
+                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
+                    }
 
-                PageChanged(null, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                    PageChanged(null, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                } catch (MetaDataPageEntryException ex)
+                {
+                    ApplicationMessage.ShowWarning(ex.Message, ex.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                } catch (Exception eg)
+                {
+                    ApplicationMessage.ShowException(eg);
+                }
             }
         }
 
@@ -4407,5 +4448,7 @@ namespace Win_CBZ
         {
             selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
         }
+
+
     }
 }

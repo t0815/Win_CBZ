@@ -1170,7 +1170,7 @@ namespace Win_CBZ
                                     pageTypeCounts.TryGetValue(page.ImageType, out pageTypeCountValue);
                                    
                                     coverDefined = true;
-                                    frontCover = new Page(page);
+                                    frontCover = new Page(page, true, true);
                                     if (page.Index > 0 && pageTypeCountValue == 1)
                                     {
                                         problems.Add("Metadata->PageIndex->Type: value of type 'FrontCover' should be at index 0 (page 1) for page [" + page.Name + "]");
@@ -1223,6 +1223,11 @@ namespace Win_CBZ
             else
             {
                 problems.Add("Pages: No pages found in Archive [count = 0]! Nothing to display.");
+            }
+
+            if (frontCover != null)
+            {
+                frontCover.Close();
             }
 
             if (deletedPageCount == Pages.Count && deletedPageCount > 0)
@@ -2071,6 +2076,7 @@ namespace Win_CBZ
                         try
                         {
                             RenamePage(page, page.OriginalName);
+                            page.Renamed = false;
                         }
                         catch (PageDuplicateNameException) { }
 
@@ -2258,7 +2264,7 @@ namespace Win_CBZ
             {
                 if (!page.Deleted)
                 {
-                    if (tParams.CompatibilityMode || RenamerExcludes.IndexOf(page.Name) == -1)
+                    if (tParams.CompatibilityMode && !PageNameEqualsIndex(page) && RenamerExcludes.IndexOf(page.Name) == -1)
                     {
                         RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
@@ -2276,6 +2282,18 @@ namespace Win_CBZ
             }
 
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+        }
+
+        public bool PageNameEqualsIndex(Page page)
+        {
+            try
+            {
+                var name = int.Parse(page.Name.Replace(page.FileExtension, ""));
+                return name.Equals(page.Number);
+            } catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         /// <summary>
