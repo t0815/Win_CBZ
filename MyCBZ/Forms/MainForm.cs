@@ -2161,17 +2161,33 @@ namespace Win_CBZ
                 Program.ProjectModel.Pages.Remove((Page)originalItem.Tag);
                 Program.ProjectModel.Pages.Remove(tparams.page);
 
-                PagesList.Items.Insert(tparams.newIndex, updateItem);
-                PagesList.Items.Insert(tparams.newIndex + 1, originalItem);
+                if (tparams.newIndex > Program.ProjectModel.Pages.Count - 1)
+                {
+                    PagesList.Items.Add(originalItem);
+                    PagesList.Items.Add(updateItem);
 
-                Program.ProjectModel.Pages.Insert(tparams.newIndex, tparams.page);
-                Program.ProjectModel.Pages.Insert(tparams.newIndex + 1, (Page)originalItem.Tag);
+                    Program.ProjectModel.Pages.Add((Page)originalItem.Tag);
+                    Program.ProjectModel.Pages.Add(tparams.page);
+                } else
+                {
+                    PagesList.Items.Insert(tparams.newIndex, updateItem);
+                    PagesList.Items.Insert(tparams.newIndex + 1, originalItem);
+
+                    Program.ProjectModel.Pages.Insert(tparams.newIndex, tparams.page);
+                    Program.ProjectModel.Pages.Insert(tparams.newIndex + 1, (Page)originalItem.Tag);
+                }
 
                 if (updatePage != null && originalPage != null)
                 {
-                    //PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
-                    PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
-
+                    if (tparams.newIndex > Program.ProjectModel.Pages.Count - 1)
+                    {
+                        PageThumbsListBox.Items.Add(updatePage);
+                    } else
+                    {
+                        PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
+                    }
+                        //PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
+                        
                     //UpdatePageView();
 
                     //CreatePagePreviewFromItem(page);
@@ -3135,7 +3151,17 @@ namespace Win_CBZ
                                 {
                                     if (pagesResult.Count == 1)
                                     {
-                                        MovePageTo(pageToUpdate, pageResult.Index);
+                                        if (pageResult.Index >= 0 && pageResult.Index < Program.ProjectModel.Pages.Count)
+                                        {
+                                            MovePageTo(pageToUpdate, pageResult.Index);
+                                        } else
+                                        {
+                                            ApplicationMessage.ShowWarning("Invalid Pageindex! The target index is out of bounds!", "Failed to move page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+
+                                            RestoreIndex(pageToUpdate, pageProperties[i]);
+                                            RestoreIndex(originalPages[i], pageProperties[i]);
+                                        }
+                                            
                                     } else
                                     {
                                         pageToUpdate.Number = pageResult.Index + 1;
