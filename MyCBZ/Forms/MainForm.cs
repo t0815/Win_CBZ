@@ -1137,6 +1137,10 @@ namespace Win_CBZ
                     info = "Analyzing images...";
                     break;
 
+                case ApplicationStatusEvent.STATE_CHECKING_INDEX:
+                    info = "Checking pageindex...";
+                    break;
+
                 case ApplicationStatusEvent.STATE_READY:
                     info = "Ready.";
                     break;

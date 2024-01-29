@@ -546,6 +546,7 @@ namespace Win_CBZ
 
         protected void OpenArchiveProc()
         {
+            ArrayList missingPages = new ArrayList();
             long itemSize = 0;
             int index = 0;
             long totalSize = 0;
@@ -639,8 +640,33 @@ namespace Win_CBZ
                         index++;
                     }
 
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                 }
+
+
+                // check index and compare with files
+                OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_CHECKING_INDEX));
+                OnTaskProgress(new TaskProgressEvent(null, 0, 100));
+               
+                String pageIndexName = "";
+                Page pageCheck = null;
+                index = 0;
+                foreach (MetaDataEntryPage entry in MetaData.PageIndex)
+                {
+                    pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE);
+                    pageCheck = GetPageByName(pageIndexName);
+
+                    if (pageCheck == null)
+                    {
+                        missingPages.Add(pageIndexName);
+                    }
+
+                    pageCheck = null;
+                    OnTaskProgress(new TaskProgressEvent(null, index, MetaData.PageIndex.Count));
+                    Thread.Sleep(5);
+                    index++;
+                }
+
                 IsChanged = false;
                 IsNew = false;
             }
@@ -660,6 +686,11 @@ namespace Win_CBZ
             if (MetaDataPageIndexFileMissing)
             {
                 OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
+            }
+
+            if (missingPages.Count > 0)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Page(s) missing from archive but are present in page-index!");
             }
 
 
