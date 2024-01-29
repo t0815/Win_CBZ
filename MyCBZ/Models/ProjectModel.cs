@@ -634,6 +634,7 @@ namespace Win_CBZ
                         Pages.Add(page);
 
                         OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                        OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
                         OnTaskProgress(new TaskProgressEvent(page, index, countEntries));
 
                         totalSize += itemSize;
@@ -902,7 +903,7 @@ namespace Win_CBZ
                     }
                     finally
                     {
-                        Thread.Sleep(10);
+                        Thread.Sleep(5);
                     }
 
                     OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
@@ -1715,7 +1716,7 @@ namespace Win_CBZ
 
                     OnTaskProgress(new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));
 
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                 }
                 catch (Exception ex)
                 {
@@ -1840,7 +1841,7 @@ namespace Win_CBZ
                 isUpdated = false;
                 updated++;
 
-                Thread.Sleep(10);
+                Thread.Sleep(5);
             }
 
             MaxFileIndex = newIndex;
@@ -2302,7 +2303,7 @@ namespace Win_CBZ
                         OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
                         OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
 
-                        Thread.Sleep(10);
+                        Thread.Sleep(5);
                     }
                 }
             }
@@ -2487,7 +2488,7 @@ namespace Win_CBZ
                     {
                         OnTaskProgress(new TaskProgressEvent(page, index, Pages.Count));
                         index++;
-                        Thread.Sleep(10);
+                        Thread.Sleep(5);
                     }
 
                 }
@@ -2579,7 +2580,7 @@ namespace Win_CBZ
                             OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
                             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
                             OnTaskProgress(new TaskProgressEvent(page, page.Index, Pages.Count));
-                            Thread.Sleep(10);
+                            Thread.Sleep(5);
                         }
                     }
                 }
