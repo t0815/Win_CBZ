@@ -2042,6 +2042,11 @@ namespace Win_CBZ
                     p.Number = newIndex + 1;
                     Program.ProjectModel.Pages.Insert(newIndex, p);
 
+                    PageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+
+                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+
                     newIndex++;
                 }
 
@@ -2051,11 +2056,7 @@ namespace Win_CBZ
                     //pageItem.Text = newIndex.ToString();
                     PageThumbsListBox.Items.Insert(newIndex, pageItem);
 
-                    PageChanged(this, new PageChangedEvent(pageItem, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
-
+                    
                     newIndex++;
                 }
 
