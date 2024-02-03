@@ -670,7 +670,14 @@ namespace Win_CBZ
                 index = 0;
                 foreach (MetaDataEntryPage entry in MetaData.PageIndex)
                 {
-                    pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE);
+                    if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_1)
+                    {
+                        pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE);
+                    } else if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_2)
+                    {
+                        pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                    }
+
                     pageCheck = GetPageByName(pageIndexName);
 
                     if (pageCheck == null)
@@ -1029,6 +1036,10 @@ namespace Win_CBZ
             try
             {
                 MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
+                if (MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion() == PageIndexVersion.VERSION_2)
+                {
+                    page.Key = newName;
+                }
             }
             catch (Exception ex)
             {
@@ -2170,6 +2181,10 @@ namespace Win_CBZ
             if (!page.Name.Equals(name))
             {
                 page.Name = name;
+                if (MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion() == PageIndexVersion.VERSION_2)
+                {
+                    page.Key = name;
+                }
                 IsChanged = true;
 
                 OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_RENAMED));

@@ -1119,7 +1119,7 @@ namespace Win_CBZ
             this.TabPagePageSettings.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.TabPagePageSettings.Name = "TabPagePageSettings";
             this.TabPagePageSettings.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.TabPagePageSettings.Size = new System.Drawing.Size(461, 366);
+            this.TabPagePageSettings.Size = new System.Drawing.Size(461, 370);
             this.TabPagePageSettings.TabIndex = 0;
             this.TabPagePageSettings.Text = "Page Adjustments";
             this.TabPagePageSettings.UseVisualStyleBackColor = true;
@@ -1499,7 +1499,7 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(461, 370);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(461, 366);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -1685,7 +1685,7 @@ namespace Win_CBZ
             this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(461, 370);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(461, 366);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;

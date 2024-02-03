@@ -61,9 +61,6 @@
             this.TabPageCustomFields = new System.Windows.Forms.TabPage();
             this.CustomFieldTypesTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.CustomFieldsDataGrid = new System.Windows.Forms.DataGridView();
-            this.CustomFieldColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CustomFieldTypeColType = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.CustumFiefdtypeColItems = new System.Windows.Forms.DataGridViewButtonColumn();
             this.CBZSettingsTabControl = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -233,7 +230,7 @@
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(126, 403);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(590, 403);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -243,7 +240,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(118, 370);
+            this.tabPage1.Size = new System.Drawing.Size(582, 370);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -475,7 +472,7 @@
             this.TabPageCustomFields.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.TabPageCustomFields.Name = "TabPageCustomFields";
             this.TabPageCustomFields.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.TabPageCustomFields.Size = new System.Drawing.Size(118, 370);
+            this.TabPageCustomFields.Size = new System.Drawing.Size(582, 370);
             this.TabPageCustomFields.TabIndex = 2;
             this.TabPageCustomFields.Text = "Types";
             this.TabPageCustomFields.UseVisualStyleBackColor = true;
@@ -496,23 +493,19 @@
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(404, 352);
+            this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(556, 352);
             this.CustomFieldTypesTablePanel.TabIndex = 0;
             // 
             // CustomFieldsDataGrid
             // 
             this.CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomFieldsDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.CustomFieldColName,
-            this.CustomFieldTypeColType,
-            this.CustumFiefdtypeColItems});
             this.CustomFieldTypesTablePanel.SetColumnSpan(this.CustomFieldsDataGrid, 2);
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -521,31 +514,10 @@
             this.CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             this.CustomFieldsDataGrid.RowHeadersWidth = 51;
             this.CustomFieldsDataGrid.RowTemplate.Height = 24;
-            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(398, 231);
+            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(550, 231);
             this.CustomFieldsDataGrid.TabIndex = 0;
-            // 
-            // CustomFieldColName
-            // 
-            this.CustomFieldColName.HeaderText = "Name";
-            this.CustomFieldColName.MinimumWidth = 6;
-            this.CustomFieldColName.Name = "CustomFieldColName";
-            this.CustomFieldColName.Width = 125;
-            // 
-            // CustomFieldTypeColType
-            // 
-            this.CustomFieldTypeColType.HeaderText = "Type";
-            this.CustomFieldTypeColType.MinimumWidth = 6;
-            this.CustomFieldTypeColType.Name = "CustomFieldTypeColType";
-            this.CustomFieldTypeColType.Width = 125;
-            // 
-            // CustumFiefdtypeColItems
-            // 
-            this.CustumFiefdtypeColItems.HeaderText = "Items";
-            this.CustumFiefdtypeColItems.MinimumWidth = 6;
-            this.CustumFiefdtypeColItems.Name = "CustumFiefdtypeColItems";
-            this.CustumFiefdtypeColItems.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.CustumFiefdtypeColItems.Text = "...";
-            this.CustumFiefdtypeColItems.Width = 40;
+            this.CustomFieldsDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellContentClick);
+            this.CustomFieldsDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.CustomFieldsDataGrid_DataError);
             // 
             // CBZSettingsTabControl
             // 
@@ -871,9 +843,6 @@
         private System.Windows.Forms.TabPage TabPageCustomFields;
         private System.Windows.Forms.TableLayoutPanel CustomFieldTypesTablePanel;
         private System.Windows.Forms.DataGridView CustomFieldsDataGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CustomFieldColName;
-        private System.Windows.Forms.DataGridViewComboBoxColumn CustomFieldTypeColType;
-        private System.Windows.Forms.DataGridViewButtonColumn CustumFiefdtypeColItems;
         private System.Windows.Forms.TabControl CBZSettingsTabControl;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Win_CBZ.Data;
 
 namespace Win_CBZ
 {
@@ -14,7 +15,7 @@ namespace Win_CBZ
 
         protected bool ReadOnly { get; set; }
 
-        public string[] Options { get; set; } = new string[] {};
+        public EditorFieldMapping Options { get; set; } = new EditorFieldMapping {};
 
         public MetaDataEntry(String key)
         {
@@ -35,12 +36,12 @@ namespace Win_CBZ
             ReadOnly = readOnly;
         }
 
-        public MetaDataEntry(String key, String value, string[] options, bool readOnly = false)
+        public MetaDataEntry(String key, String value, EditorFieldMapping options, bool readOnly = false)
         {
             Key = key;
             Value = value;
-            Options = options;
             ReadOnly = readOnly;
+            Options = options;
         }
     }
 }

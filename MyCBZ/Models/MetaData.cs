@@ -14,6 +14,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
+using Win_CBZ.Data;
+using Win_CBZ.Helper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ
@@ -70,12 +72,12 @@ namespace Win_CBZ
         };
 
 
-        protected static readonly Dictionary<String, string[]> CustomEditorValueMappings = new Dictionary<String, string[]>()
+        protected static readonly Dictionary<String, EditorFieldMapping> CustomEditorValueMappings = new Dictionary<String, EditorFieldMapping>()
         {
-            { "Manga", Manga },
-            { "AgeRating", Ratings },
-            { "ParentalRating", Ratings },
-            { "BlackAndWhite", BlackAndWhite }
+            { "Manga", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = Manga } },
+            { "AgeRating", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = Ratings } },
+            { "BlackAndWhite", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = BlackAndWhite } },           
+            { "ParentalRating", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = Ratings } },
         };
 
 
@@ -191,18 +193,41 @@ namespace Win_CBZ
                 throw new MetaDataValidationException(new MetaDataEntry(key, value, readOnly), "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
             }
 
+            UpdateCustomEditorMappings();
+
             if (CustomEditorValueMappings.ContainsKey(key))
             {
                 CustomEditorValueMappings.TryGetValue(key, out var mapping);
 
-                int index = mapping != null ? Array.IndexOf(mapping, value) : -1;
+                int index = mapping != null ? Array.IndexOf(mapping.EditorOptions, value) : -1;
 
-                value = value != null && index > -1 ? value : (mapping[0] ?? "???");
+                value = value != null && index > -1 ? value : (mapping.EditorOptions[0] ?? "???");
 
                 return new MetaDataEntry(key, value, mapping, readOnly);
             }
 
             return new MetaDataEntry(key, value, readOnly);
+        }
+
+        public void UpdateCustomEditorMappings()
+        {
+            CustomEditorValueMappings.Clear();
+
+            var CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
+
+            foreach (String line in CustomFieldTypesCollection)
+            {
+                String[] typeParts = line.Split('|');
+
+                if (typeParts.Length == 3)
+                {
+                    CustomEditorValueMappings.Add(typeParts[0], new EditorFieldMapping()
+                    {
+                        EditorType = typeParts[1],
+                        EditorOptions = typeParts[2].Split(',')
+                    });
+                }
+            }
         }
 
         public void Save(String path)
@@ -279,17 +304,7 @@ namespace Win_CBZ
                 {
                     if (!page.Deleted)
                     {
-                        MetaDataEntryPage newPageEntry = new MetaDataEntryPage();
-
-                        if (indexVersion.HasFlag(PageIndexVersion.VERSION_1))
-                        {
-                            newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                                .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
-                        } else if (indexVersion.HasFlag(PageIndexVersion.VERSION_2))
-                        {
-                            newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
-                                .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);
-                        }
+                        MetaDataEntryPage newPageEntry = MetaDataVersionFlavorHandler.GetInstance().CreateIndexEntry(page);
 
                         newPageEntry
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
@@ -331,10 +346,10 @@ namespace Win_CBZ
                     bool condition = false;
                     if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
                     {
-                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key);
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(key);                       
                     } else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
                     {
-                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(key);
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key);
                     }
 
                     if (condition)
@@ -643,13 +658,13 @@ namespace Win_CBZ
                     existing.Options = mapping;
                     if (entry.Value == null || entry.Value == "")
                     {
-                        existing.Value = mapping[0] ?? "???";
+                        existing.Value = mapping.EditorOptions[0] ?? "???";
                     }
                 } else
                 {
-                    if (existing.Options.Length > 0)
+                    if (existing.Options.EditorOptions.Length > 0)
                     {
-                        existing.Options = new string[] { };
+                        existing.Options.EditorOptions = new string[] { };
                     }
                 }
 

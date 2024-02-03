@@ -357,8 +357,9 @@ namespace Win_CBZ {
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
   <string>Text</string>
-  <string>Dropdown</string>
-  <string>Item Editor</string>
+  <string>ComboBox</string>
+  <string>ItemEditor</string>
+  <string>LanguageEditor</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection CustomMetadataFieldTypes {
             get {
@@ -366,20 +367,20 @@ namespace Win_CBZ {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
+            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
+            "tring>AgeRating|ComboBox|R18</string>\r\n</ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection CustomMetadataFields {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["CustomMetadataFields"]));
-            }
-            set {
-                this["CustomMetadataFields"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public int MetaDataPageIndexVersionToWrite {
             get {
                 return ((int)(this["MetaDataPageIndexVersionToWrite"]));

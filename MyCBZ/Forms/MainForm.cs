@@ -236,32 +236,6 @@ namespace Win_CBZ
             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
         }
 
-        private MetaData.PageIndexVersion HandlePageIndexVersion()
-        {
-            int MetaVersionSetting = Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite;
-            MetaData.PageIndexVersion versionToWrite = PageIndexVersion.VERSION_1;
-
-            switch (MetaVersionSetting)
-            {
-                case 1:
-                    versionToWrite = PageIndexVersion.VERSION_1;
-                    break;
-                case 2:
-                    versionToWrite = PageIndexVersion.VERSION_2;
-                    break;
-                default:
-                    versionToWrite = PageIndexVersion.VERSION_1;
-                    break;
-            }
-
-            if (versionToWrite != Program.ProjectModel.MetaData.IndexVersionSpecification)
-            {
-                versionToWrite = Program.ProjectModel.MetaData.IndexVersionSpecification;
-            }
-
-            return versionToWrite;
-        }
-
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -294,7 +268,7 @@ namespace Win_CBZ
 
             if (saveDialogResult == DialogResult.OK)
             {
-                if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update, HandlePageIndexVersion()))
+                if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()))
                 {
 
                 }
@@ -1949,7 +1923,7 @@ namespace Win_CBZ
                         Page oldPage = new Page(((Page)changedItem.Tag));
                         Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
                        
-                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
+                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
 
                         PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
                         ArchiveStateChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -2028,7 +2002,7 @@ namespace Win_CBZ
             {
                 newIndex = newIndex,
                 items = items,
-                pageIndexVersion = HandlePageIndexVersion()
+                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()
             });
 
         }
@@ -2148,7 +2122,7 @@ namespace Win_CBZ
             {
                 newIndex = newIndex,
                 page = page,
-                pageIndexVersion = HandlePageIndexVersion()
+                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()
             });
         }
 
@@ -2488,59 +2462,60 @@ namespace Win_CBZ
                             var key = MetaDataGrid.Rows[i].Cells[0].Value;
                             if (key != null)
                             {
-                                if (entry.Key == key.ToString() && entry.Options.Length > 0)
+                                if (entry.Key == key.ToString() && entry.Options.EditorOptions != null && entry.Options.EditorOptions.Length > 0)
                                 {
-                                    int selectedIndex = Array.IndexOf(entry.Options, entry.Value);
-                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                    c.Items.AddRange(entry.Options);
-                                    c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-                                    c.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
-
-                                    /*
-                                    c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                                    c.DisplayStyleForCurrentCellOnly = true;
-                                    c.Style = new DataGridViewCellStyle()
+                                    if (entry.Options.EditorType == "ComboBox")
                                     {
-                                        SelectionForeColor = Color.Black,
-                                        SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
-                                    };
-                                    */
+                                        int selectedIndex = Array.IndexOf(entry.Options.EditorOptions, entry.Value);
+                                        DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                        c.Items.AddRange(entry.Options.EditorOptions);
+                                        c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
+                                        c.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
 
-                                    MetaDataGrid.Rows[i].Cells[1] = c;
-                                    //c.ReadOnly = true;
-                                }
-                                else if (key.ToString() == "Tags")
-                                {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                    {
-                                        Value = "...",
-                                        Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
-                                        Style = new DataGridViewCellStyle()
+                                        /*
+                                        c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                                        c.DisplayStyleForCurrentCellOnly = true;
+                                        c.Style = new DataGridViewCellStyle()
                                         {
-                                            SelectionForeColor = Color.White,
-                                            SelectionBackColor = Color.White,
-                                        }
-                                    };
-                                    MetaDataGrid.Rows[i].Cells[2] = bc;
-                                }
-                                else if (key.ToString() == "LanguageISO")
-                                {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                    {
-                                        Value = "...",
-                                        Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false),
-                                        Style = new DataGridViewCellStyle()
-                                        {
-                                            SelectionForeColor = Color.White,
-                                            SelectionBackColor = Color.White,
-                                        }
-                                    };
-                                    MetaDataGrid.Rows[i].Cells[2] = bc;
-                                }
-                                else
-                                {
+                                            SelectionForeColor = Color.Black,
+                                            SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                        };
+                                        */
 
+                                        MetaDataGrid.Rows[i].Cells[1] = c;
+                                    } else if (entry.Options.EditorType == "ItemEditor")
+                                    {
+                                        DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                        {
+                                            Value = "...",
+                                            Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                                            Style = new DataGridViewCellStyle()
+                                            {
+                                                SelectionForeColor = Color.White,
+                                                SelectionBackColor = Color.White,
+                                            }
+                                        };
+                                        MetaDataGrid.Rows[i].Cells[2] = bc;
+                                    }
+                                    else if (entry.Options.EditorType == "LanguageEditor")
+                                    {
+                                        DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                        {
+                                            Value = "...",
+                                            Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false),
+                                            Style = new DataGridViewCellStyle()
+                                            {
+                                                SelectionForeColor = Color.White,
+                                                SelectionBackColor = Color.White,
+                                            }
+                                        };
+                                        MetaDataGrid.Rows[i].Cells[2] = bc;
+                                    }
+                                } else
+                                {
+                                        //MetaDataGrid.Rows[i].Cells[1] = c;
                                 }
+                                    //c.ReadOnly = true;          
                             }
                         }
                     }
@@ -2756,41 +2731,43 @@ namespace Win_CBZ
                         if (updatedEntry.Key == key.ToString())
                         {
                             MetaDataGrid.Rows[e.RowIndex].Cells[2].ReadOnly = true;
-                            if (updatedEntry.Options.Length > 0)
+                            if (updatedEntry.Options.EditorType == "ComboBox")
                             {
-                                int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.Value);
-                                DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                c.Items.AddRange(updatedEntry.Options);
-                                c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
-                                c.Tag = new EditorTypeConfig("ComboBox", "String", "", "", false);
+                                if (updatedEntry.Options.EditorOptions.Length > 0)
+                                {
+                                    int selectedIndex = Array.IndexOf(updatedEntry.Options.EditorOptions, updatedEntry.Value);
+                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                    c.Items.AddRange(updatedEntry.Options);
+                                    c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
+                                    c.Tag = new EditorTypeConfig("ComboBox", "String", "", "", false);
 
-                                c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                                //c.DisplayStyleForCurrentCellOnly = true;
+                                    c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                                    //c.DisplayStyleForCurrentCellOnly = true;
 
-                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
-                                //c.ReadOnly = true;
+                                    MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                                    //c.ReadOnly = true;
+                                }
+                            } else if (updatedEntry.Options.EditorType == "ItemEditor")
+                            {
+                                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                {
+                                    Value = "...",
+                                    Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false)
+                                };
+                                MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+                            }                      
+                            else if (key.ToString() == "LanguageISO")
+                            {
+                                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                {
+                                    Value = "...",
+                                    Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false)
+                                };
+                                MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+
                             }
                             else
                             {
-                                if (key.ToString() == "Tags")
-                                {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                    {
-                                        Value = "...",
-                                        Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false)
-                                    };
-                                    MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-                                } else if (key.ToString() == "LanguageISO")
-                                {
-                                    DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                    {
-                                        Value = "...",
-                                        Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false)
-                                    };
-                                    MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-
-                                }
-
                                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
                                 {
                                     Value = updatedEntry.Value
@@ -2802,7 +2779,6 @@ namespace Win_CBZ
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -2976,7 +2952,7 @@ namespace Win_CBZ
                     {
                         if (PagesList.SelectedItems.Count > 1)
                         {
-                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                         }
                         else
                         {
@@ -3243,7 +3219,7 @@ namespace Win_CBZ
 
                 if (pageIndexUpdateNeeded)
                 {
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                 }
             }
         }
@@ -3397,7 +3373,7 @@ namespace Win_CBZ
                 try {
                     if (PagesList.SelectedItems.Count > 1)
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                     } else
                     {
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
@@ -3693,7 +3669,7 @@ namespace Win_CBZ
         {
             try
             {
-                Program.ProjectModel.Validate(HandlePageIndexVersion(), true);
+                Program.ProjectModel.Validate(MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), true);
             } catch (ConcurrentOperationException c)
             {
                 if (c.ShowErrorDialog)
@@ -4356,7 +4332,7 @@ namespace Win_CBZ
 
                     if (pagesUpdated > 0)
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
 
                     }
                 }

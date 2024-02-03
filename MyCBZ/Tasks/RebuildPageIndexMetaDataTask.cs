@@ -19,7 +19,7 @@ namespace Win_CBZ.Tasks
                 bool isUpdated = false;
                 int newIndex = 0;
                 int current = 1;
-                int total = pages.Count;    
+                int total = pages.Count;
                 TaskResult result = new TaskResult();
 
                 foreach (Page page in pages)
@@ -55,8 +55,8 @@ namespace Win_CBZ.Tasks
                         if (isUpdated)
                         {
                             pageChangedHandler.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                        }     
-                    }                   
+                        }
+                    }
 
                     if (handler != null)
                     {
