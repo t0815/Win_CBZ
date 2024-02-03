@@ -22,6 +22,9 @@ namespace Win_CBZ.Forms
 
         public String[] NewValidTagList;
 
+        private String[] FieldTypes; 
+
+
         public String MetaDataFilename;
 
         public bool ValidateTagsSetting;
@@ -56,7 +59,12 @@ namespace Win_CBZ.Forms
 
             MetaDataFilename = Win_CBZSettings.Default.MetaDataFilename;
 
+            FieldTypes = Win_CBZSettings.Default.CustomMetadataFieldTypes.OfType<String>().ToArray();
+
             // ----------------------------------------
+
+            CustomFieldTypeColType.Items.Clear();
+            CustomFieldTypeColType.Items.AddRange(FieldTypes);
 
             ValidTags.Lines = NewValidTagList;
             CustomDefaultKeys.Lines = NewDefaults;

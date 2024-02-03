@@ -351,5 +351,30 @@ namespace Win_CBZ {
                 this["MetaDataFilename"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <string>Text</string>
+  <string>Dropdown</string>
+  <string>Item Editor</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection CustomMetadataFieldTypes {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomMetadataFieldTypes"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection CustomMetadataFields {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomMetadataFields"]));
+            }
+            set {
+                this["CustomMetadataFields"] = value;
+            }
+        }
     }
 }

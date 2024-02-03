@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             this.SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.ButtonOk = new System.Windows.Forms.Button();
@@ -38,6 +39,8 @@
             this.SettingsSectionList = new System.Windows.Forms.ListBox();
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.SettingsContentPanel = new System.Windows.Forms.Panel();
+            this.AppSettingsTabControl = new System.Windows.Forms.TabControl();
+            this.TabPageAppSettings = new System.Windows.Forms.TabPage();
             this.MetaDataConfigTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.SettingsGroup1Panel = new System.Windows.Forms.Panel();
@@ -68,12 +71,17 @@
             this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.AppSettingsTabControl = new System.Windows.Forms.TabControl();
-            this.TabPageAppSettings = new System.Windows.Forms.TabPage();
+            this.TabPageCustomFields = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.CustomFieldsDataGrid = new System.Windows.Forms.DataGridView();
+            this.CustomFieldColName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CustomFieldTypeColType = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.CustumFiefdtypeColItems = new System.Windows.Forms.DataGridViewButtonColumn();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SettingsContentPanel.SuspendLayout();
+            this.AppSettingsTabControl.SuspendLayout();
             this.MetaDataConfigTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SettingsGroup1Panel.SuspendLayout();
@@ -87,7 +95,9 @@
             this.GroupBoxImageQuality.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsValidationErrorProvider)).BeginInit();
-            this.AppSettingsTabControl.SuspendLayout();
+            this.TabPageCustomFields.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomFieldsDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -193,8 +203,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SettingsTablePanel.SetColumnSpan(this.SettingsContentPanel, 2);
-            this.SettingsContentPanel.Controls.Add(this.AppSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.MetaDataConfigTabControl);
+            this.SettingsContentPanel.Controls.Add(this.AppSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.ImageProcessingTabControl);
             this.SettingsContentPanel.Location = new System.Drawing.Point(203, 109);
             this.SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4);
@@ -202,15 +212,35 @@
             this.SettingsContentPanel.Size = new System.Drawing.Size(580, 326);
             this.SettingsContentPanel.TabIndex = 2;
             // 
+            // AppSettingsTabControl
+            // 
+            this.AppSettingsTabControl.Controls.Add(this.TabPageAppSettings);
+            this.AppSettingsTabControl.Location = new System.Drawing.Point(162, 3);
+            this.AppSettingsTabControl.Name = "AppSettingsTabControl";
+            this.AppSettingsTabControl.SelectedIndex = 0;
+            this.AppSettingsTabControl.Size = new System.Drawing.Size(123, 319);
+            this.AppSettingsTabControl.TabIndex = 3;
+            // 
+            // TabPageAppSettings
+            // 
+            this.TabPageAppSettings.Location = new System.Drawing.Point(4, 25);
+            this.TabPageAppSettings.Name = "TabPageAppSettings";
+            this.TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageAppSettings.Size = new System.Drawing.Size(115, 290);
+            this.TabPageAppSettings.TabIndex = 0;
+            this.TabPageAppSettings.Text = "Deletion";
+            this.TabPageAppSettings.UseVisualStyleBackColor = true;
+            // 
             // MetaDataConfigTabControl
             // 
             this.MetaDataConfigTabControl.Controls.Add(this.tabPage1);
             this.MetaDataConfigTabControl.Controls.Add(this.MetaDataTabPageTags);
+            this.MetaDataConfigTabControl.Controls.Add(this.TabPageCustomFields);
             this.MetaDataConfigTabControl.Location = new System.Drawing.Point(3, 2);
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(146, 325);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(497, 325);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -320,7 +350,7 @@
             this.MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             this.MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTabPageTags.Size = new System.Drawing.Size(267, 296);
+            this.MetaDataTabPageTags.Size = new System.Drawing.Size(489, 296);
             this.MetaDataTabPageTags.TabIndex = 1;
             this.MetaDataTabPageTags.Text = "Tags";
             this.MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -574,24 +604,76 @@
             // 
             this.SettingsValidationErrorProvider.ContainerControl = this;
             // 
-            // AppSettingsTabControl
+            // TabPageCustomFields
             // 
-            this.AppSettingsTabControl.Controls.Add(this.TabPageAppSettings);
-            this.AppSettingsTabControl.Location = new System.Drawing.Point(162, 3);
-            this.AppSettingsTabControl.Name = "AppSettingsTabControl";
-            this.AppSettingsTabControl.SelectedIndex = 0;
-            this.AppSettingsTabControl.Size = new System.Drawing.Size(123, 319);
-            this.AppSettingsTabControl.TabIndex = 3;
+            this.TabPageCustomFields.Controls.Add(this.tableLayoutPanel2);
+            this.TabPageCustomFields.Location = new System.Drawing.Point(4, 25);
+            this.TabPageCustomFields.Name = "TabPageCustomFields";
+            this.TabPageCustomFields.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageCustomFields.Size = new System.Drawing.Size(489, 296);
+            this.TabPageCustomFields.TabIndex = 2;
+            this.TabPageCustomFields.Text = "Types";
+            this.TabPageCustomFields.UseVisualStyleBackColor = true;
             // 
-            // TabPageAppSettings
+            // tableLayoutPanel2
             // 
-            this.TabPageAppSettings.Location = new System.Drawing.Point(4, 25);
-            this.TabPageAppSettings.Name = "TabPageAppSettings";
-            this.TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageAppSettings.Size = new System.Drawing.Size(115, 290);
-            this.TabPageAppSettings.TabIndex = 0;
-            this.TabPageAppSettings.Text = "Deletion";
-            this.TabPageAppSettings.UseVisualStyleBackColor = true;
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.CustomFieldsDataGrid, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(6, 25);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.32787F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.67213F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(477, 244);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // CustomFieldsDataGrid
+            // 
+            this.CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomFieldsDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CustomFieldColName,
+            this.CustomFieldTypeColType,
+            this.CustumFiefdtypeColItems});
+            this.tableLayoutPanel2.SetColumnSpan(this.CustomFieldsDataGrid, 2);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            this.CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 3);
+            this.CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
+            this.CustomFieldsDataGrid.RowHeadersWidth = 51;
+            this.CustomFieldsDataGrid.RowTemplate.Height = 24;
+            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(471, 190);
+            this.CustomFieldsDataGrid.TabIndex = 0;
+            // 
+            // CustomFieldColName
+            // 
+            this.CustomFieldColName.HeaderText = "Name";
+            this.CustomFieldColName.MinimumWidth = 6;
+            this.CustomFieldColName.Name = "CustomFieldColName";
+            this.CustomFieldColName.Width = 125;
+            // 
+            // CustomFieldTypeColType
+            // 
+            this.CustomFieldTypeColType.HeaderText = "Type";
+            this.CustomFieldTypeColType.MinimumWidth = 6;
+            this.CustomFieldTypeColType.Name = "CustomFieldTypeColType";
+            this.CustomFieldTypeColType.Width = 125;
+            // 
+            // CustumFiefdtypeColItems
+            // 
+            this.CustumFiefdtypeColItems.HeaderText = "Items";
+            this.CustumFiefdtypeColItems.MinimumWidth = 6;
+            this.CustumFiefdtypeColItems.Name = "CustumFiefdtypeColItems";
+            this.CustumFiefdtypeColItems.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.CustumFiefdtypeColItems.Text = "...";
+            this.CustumFiefdtypeColItems.Width = 40;
             // 
             // SettingsDialog
             // 
@@ -611,6 +693,7 @@
             this.HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.SettingsContentPanel.ResumeLayout(false);
+            this.AppSettingsTabControl.ResumeLayout(false);
             this.MetaDataConfigTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.SettingsGroup1Panel.ResumeLayout(false);
@@ -629,7 +712,9 @@
             this.GroupBoxImageQuality.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ImageQualityTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SettingsValidationErrorProvider)).EndInit();
-            this.AppSettingsTabControl.ResumeLayout(false);
+            this.TabPageCustomFields.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.CustomFieldsDataGrid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -676,5 +761,11 @@
         private System.Windows.Forms.PictureBox PictureBoxToolTipMetaFileName;
         private System.Windows.Forms.TabControl AppSettingsTabControl;
         private System.Windows.Forms.TabPage TabPageAppSettings;
+        private System.Windows.Forms.TabPage TabPageCustomFields;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.DataGridView CustomFieldsDataGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CustomFieldColName;
+        private System.Windows.Forms.DataGridViewComboBoxColumn CustomFieldTypeColType;
+        private System.Windows.Forms.DataGridViewButtonColumn CustumFiefdtypeColItems;
     }
 }

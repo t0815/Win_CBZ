@@ -1385,6 +1385,7 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
+                        ToolButtonValidateCBZ.Enabled = true;
                         CurrentGlobalAction = null;
                         LabelW.Text = "0";
                         LabelH.Text = "0";
@@ -1423,6 +1424,7 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
+                        ToolButtonValidateCBZ.Enabled = false;
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_OPENED:
@@ -1446,6 +1448,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonSave.Enabled = false;
                         SaveToolStripMenuItem.Enabled = false;
+                        ToolButtonValidateCBZ.Enabled = true;
                         Program.ProjectModel.IsNew = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
@@ -1471,6 +1474,7 @@ namespace Win_CBZ
                         SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
+                        ToolButtonValidateCBZ.Enabled = true;
                         Program.ProjectModel.IsNew = false;
                         Program.ProjectModel.IsSaved = true;
                         PagesList.Enabled = true;
@@ -1507,6 +1511,7 @@ namespace Win_CBZ
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
+                        ToolButtonValidateCBZ.Enabled = true;
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
@@ -1527,6 +1532,7 @@ namespace Win_CBZ
                         BtnRemoveMetaData.Enabled = false;
                         ToolButtonExtractArchive.Enabled = false;
                         ExtractSelectedPages.Enabled = false;
+                        ToolButtonValidateCBZ.Enabled = false;
 
                         break;
 
@@ -1567,6 +1573,7 @@ namespace Win_CBZ
                         ToolButtonEditImageProps.Enabled = false;
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
+                        ToolButtonValidateCBZ.Enabled = false;
                         RemoveMetaData();
                         break;
 
@@ -1601,6 +1608,7 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImageProps.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
+                        ToolButtonValidateCBZ.Enabled = true;
                         CurrentGlobalAction = null;
                         LabelW.Text = "0";
                         LabelH.Text = "0";
