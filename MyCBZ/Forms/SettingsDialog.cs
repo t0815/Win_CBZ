@@ -144,6 +144,8 @@ namespace Win_CBZ.Forms
                 // DataGridViewCellStyle currentStyle = null;
             for (int i = 0; i < CustomFieldsDataGrid.RowCount; i++)
             {
+                CustomFieldsDataGrid.Rows[i].Cells[3].ReadOnly = true;
+
                 foreach (String line in CustomFieldTypesCollection)
                 {
                     String[] typeParts = line.Split('|');
@@ -170,18 +172,22 @@ namespace Win_CBZ.Forms
 
                             CustomFieldsDataGrid.Rows[i].Cells[1] = cc;
 
-                            DataGridViewButtonCell bc = new DataGridViewButtonCell
-                            {
-                                Value = "...",
-                                Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
-                                Style = new DataGridViewCellStyle()
-                                {
-                                    SelectionForeColor = Color.White,
-                                    SelectionBackColor = Color.White,
-                                }
-                            };
 
-                            CustomFieldsDataGrid.Rows[i].Cells[3] = bc;
+                            if (typeParts[1].ToLower() == "itemeditor")
+                            {
+                                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                {
+                                    Value = "...",
+                                    Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                                    Style = new DataGridViewCellStyle()
+                                    {
+                                        SelectionForeColor = Color.White,
+                                        SelectionBackColor = Color.White,
+                                    }
+                                };
+
+                                CustomFieldsDataGrid.Rows[i].Cells[3] = bc;
+                            }
                         }
                     }
                 }
@@ -343,20 +349,29 @@ namespace Win_CBZ.Forms
                 ) &&
                 e.RowIndex >= 0)
             {
-                String value = "";
+                object value = null;
+                String valueText = "";
                 EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
                 if (e.ColumnIndex == 3)
                 {
-                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value.ToString();
+                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
+                    if (value != null)
+                    {
+                        valueText = value.ToString();
+                    }
                 }
                 else
                 {
-                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                    if (value != null)
+                    {
+                        valueText += value.ToString();  
+                    }
                 }
 
                 if (editorConfig != null)
                 {
-                    editorConfig.Value = value;
+                    editorConfig.Value = valueText;
                     switch (editorConfig.Type)
                     {
                         case "MultiLineTextEditor":
@@ -409,6 +424,173 @@ namespace Win_CBZ.Forms
             if (e.Exception != null)
             {
                 //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Exception.Message);
+            }
+        }
+
+        private void CustomFieldsDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+ 
+            for (int i = e.RowIndex; i < CustomFieldsDataGrid.Rows.Count; i++)
+            {
+                
+                //foreach (String line in CustomFieldTypesCollection)
+                //{
+                //String[] typeParts = line.Split('|');
+                //var key = CustomFieldsDataGrid.Rows[i].Cells[0].Value;
+                //if (key != null)
+                //{
+                if (CustomFieldsDataGrid.Rows[i].Cells.Count == 4)
+                {
+                    CustomFieldsDataGrid.Rows[i].Cells[3].ReadOnly = true;
+
+                    int selectedIndex = -1;
+                    DataGridViewComboBoxCell cc = new DataGridViewComboBoxCell();
+                    cc.Items.AddRange(FieldTypes);
+                    cc.Value = ""; // selectedIndex > -1 ? selectedIndex : 0;
+                    cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+
+                            /*
+                            c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                            c.DisplayStyleForCurrentCellOnly = true;
+                            c.Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.Black,
+                                SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                            };
+                            */
+
+                    CustomFieldsDataGrid.Rows[i].Cells[1] = cc;
+
+                    if (cc.Value.ToString().ToLower() == "itemeditor")
+                    {
+                        DataGridViewButtonCell bc = new DataGridViewButtonCell
+                        {
+                            Value = "...",
+                            Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                            Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.White,
+                                SelectionBackColor = Color.White,
+                            }
+                        };
+
+                        CustomFieldsDataGrid.Rows[i].Cells[3] = bc;
+                    }
+                }
+            }
+        }
+
+        private void CustomFieldsDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+
+                string Key = "";
+                string Val = "";
+
+                object value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+
+                if (e.ColumnIndex == 0)
+                {
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Key = value.ToString();
+                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Val = value.ToString();
+                }
+
+                if (e.ColumnIndex == 1)
+                {
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Val = value.ToString();
+                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Key = value.ToString();
+                }
+
+                MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
+                CustomFieldsDataGrid.Rows[e.RowIndex].ErrorText = null;
+                CustomFieldsDataGrid.Invalidate();
+
+                if (e.ColumnIndex == 0)
+                {
+                    var key = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[0].Value;
+                    if (key != null)
+                    {
+                        if (updatedEntry.Key == key.ToString())
+                        {
+                            CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2].ReadOnly = true;
+                            if (updatedEntry.Options.EditorType == "ComboBox")
+                            {
+                                if (updatedEntry.Options.EditorOptions.Length > 0)
+                                {
+                                    int selectedIndex = Array.IndexOf(updatedEntry.Options.EditorOptions, updatedEntry.Value);
+                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                    c.Items.AddRange(updatedEntry.Options);
+                                    c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
+                                    c.Tag = new EditorTypeConfig("ComboBox", "String", "", "", false);
+
+                                    c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                                    //c.DisplayStyleForCurrentCellOnly = true;
+
+                                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                                    //c.ReadOnly = true;
+                                }
+                            }
+                            else if (updatedEntry.Options.EditorType == "ItemEditor")
+                            {
+                                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                {
+                                    Value = "...",
+                                    Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false)
+                                };
+                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+                            }
+                            else if (key.ToString() == "LanguageISO")
+                            {
+                                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                {
+                                    Value = "...",
+                                    Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false)
+                                };
+                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+
+                            }
+                            else
+                            {
+                                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
+                                {
+                                    Value = updatedEntry.Value
+                                };
+
+                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
             }
         }
     }

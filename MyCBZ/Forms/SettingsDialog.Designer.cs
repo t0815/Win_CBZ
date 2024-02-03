@@ -517,7 +517,9 @@
             this.CustomFieldsDataGrid.Size = new System.Drawing.Size(550, 231);
             this.CustomFieldsDataGrid.TabIndex = 0;
             this.CustomFieldsDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellContentClick);
+            this.CustomFieldsDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellValueChanged);
             this.CustomFieldsDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.CustomFieldsDataGrid_DataError);
+            this.CustomFieldsDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.CustomFieldsDataGrid_RowsAdded);
             // 
             // CBZSettingsTabControl
             // 
