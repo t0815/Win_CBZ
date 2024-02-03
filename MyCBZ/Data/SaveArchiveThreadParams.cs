@@ -17,5 +17,7 @@ namespace Win_CBZ.Data
         public ZipArchiveMode Mode { get; set; }
 
         public CompressionLevel CompressionLevel { get; set; }
+
+        public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
     }
 }

@@ -20,6 +20,11 @@ namespace Win_CBZ
 {
     internal class MetaData
     {
+        public enum PageIndexVersion : ushort
+        {
+            VERSION_1 = 1,
+            VERSION_2 = 2,
+        };
 
         protected static readonly string[] ProtectedProperties = { "pages" };
 
@@ -106,9 +111,10 @@ namespace Win_CBZ
 
         public BindingList<MetaDataEntryPage> PageIndex { get; set; }
 
+        public PageIndexVersion IndexVersionSpecification { get; set; } = PageIndexVersion.VERSION_1;
+
 
         private readonly Stream InputStream;
-
 
         public event EventHandler<MetaDataEntryChangedEvent> MetaDataEntryChanged;
 
@@ -262,7 +268,7 @@ namespace Win_CBZ
         /**
          * 
          */
-        public void RebuildPageMetaData(List<Page> pages)
+        public void RebuildPageMetaData(List<Page> pages, PageIndexVersion indexVersion = PageIndexVersion.VERSION_1)
         {
             List<MetaDataEntryPage> originalPageMetaData = PageIndex.ToList<MetaDataEntryPage>();
             
@@ -274,10 +280,20 @@ namespace Win_CBZ
                     if (!page.Deleted)
                     {
                         MetaDataEntryPage newPageEntry = new MetaDataEntryPage();
-                        newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+
+                        if (indexVersion.HasFlag(PageIndexVersion.VERSION_1))
+                        {
+                            newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                                .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
+                        } else if (indexVersion.HasFlag(PageIndexVersion.VERSION_2))
+                        {
+                            newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
+                                .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);
+                        }
+
+                        newPageEntry
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
-                            .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
 
                         if (page.Format.W > 0 && page.Format.H > 0)
@@ -295,6 +311,8 @@ namespace Win_CBZ
                     //throw new MetaDataPageEntryException(newPageEntry, "Error rebuilding <pages> metadata for page->" + page.Name + "! [" + ex.Message + "]");
                 }
             }
+
+            IndexVersionSpecification = indexVersion;
         }
 
         public MetaDataEntryPage UpdatePageIndexMetaDataEntry(Page page, String key)
@@ -310,12 +328,30 @@ namespace Win_CBZ
 
                 try
                 {
-                    if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key))
+                    bool condition = false;
+                    if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
                     {
-                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key);
+                    } else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
+                    {
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(key);
+                    }
+
+                    if (condition)
+                    {
+                        if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
+                        {
+                            entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                                .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
+                        }
+                        else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
+                        {
+                            entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
+                                .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);
+                        }
+
+                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
                              .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
-                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
                              .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
 
                         if (page.Format.W > 0 && page.Format.H > 0)
@@ -340,10 +376,30 @@ namespace Win_CBZ
         {
             foreach (MetaDataEntryPage entry in PageIndex)
             {
-                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(oldName))
+                bool condition = false;
+                if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
                 {
-                    entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
-                         .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
+                    condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(oldName);
+                }
+                else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
+                {
+                    condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(oldName);
+                }
+
+                if (condition)
+                {
+                    if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
+                    {
+                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
+                            .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
+                    }
+                    else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
+                    {
+                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
+                            .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);
+                    }
+
+                    entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE, page.ImageType)
                          .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE, page.Size.ToString())
                          .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key)
                          .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE, page.DoublePage.ToString());
@@ -359,11 +415,21 @@ namespace Win_CBZ
             }
         }
 
-        public MetaDataEntryPage FindIndexEntryForPage(Page page)
+        public MetaDataEntryPage FindIndexEntryForPage(Page page, PageIndexVersion indexFormatVersion = PageIndexVersion.VERSION_1)
         {
             foreach (MetaDataEntryPage entry in PageIndex)
             {
-                if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name))
+                bool condition = false;
+                if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_1))
+                {
+                    condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name);
+                }
+                else if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_2))
+                {
+                    condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Name);
+                }
+
+                if (condition)
                 {
                     return entry;
                 }

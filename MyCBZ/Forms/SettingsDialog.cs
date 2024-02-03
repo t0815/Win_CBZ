@@ -35,6 +35,8 @@ namespace Win_CBZ.Forms
 
         public int ConversionModeValue;
 
+        public int MetaPageIndexWriteVersion;
+
         DataValidation validation;
 
         public SettingsDialog()
@@ -57,6 +59,8 @@ namespace Win_CBZ.Forms
             ValidateTagsSetting = Win_CBZSettings.Default.ValidateTags;
             TagValidationIgnoreCase = Win_CBZSettings.Default.TagValidationIgnoreCase;
 
+            MetaPageIndexWriteVersion = Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite;
+
             MetaDataFilename = Win_CBZSettings.Default.MetaDataFilename;
 
             FieldTypes = Win_CBZSettings.Default.CustomMetadataFieldTypes.OfType<String>().ToArray();
@@ -72,6 +76,7 @@ namespace Win_CBZ.Forms
             CheckBoxValidateTags.Checked = ValidateTagsSetting;
             CheckBoxTagValidationIgnoreCase.Checked = !TagValidationIgnoreCase;
 
+            ComboBoxPageIndexVersionWrite.SelectedIndex = MetaPageIndexWriteVersion - 1;
             ComboBoxConvertPages.SelectedIndex = ConversionModeValue;
             ImageQualityTrackBar.Value = ConversionQualityValue;
 
@@ -80,10 +85,12 @@ namespace Win_CBZ.Forms
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
             AppSettingsTabControl.Dock = DockStyle.Fill;
+            CBZSettingsTabControl.Dock = DockStyle.Fill;    
 
             MetaDataConfigTabControl.Visible = true;
             ImageProcessingTabControl.Visible = false;
             AppSettingsTabControl.Visible = false;
+            CBZSettingsTabControl.Visible = false;
 
             validation = new DataValidation();
 
@@ -161,6 +168,7 @@ namespace Win_CBZ.Forms
                     ConversionModeValue = ComboBoxConvertPages.SelectedIndex;
                     ConversionQualityValue = ImageQualityTrackBar.Value;
                     MetaDataFilename = ComboBoxFileName.Text;
+                    MetaPageIndexWriteVersion = ComboBoxPageIndexVersionWrite.SelectedIndex + 1;
                 }
                 catch (MetaDataValidationException mv)
                 {
@@ -194,6 +202,7 @@ namespace Win_CBZ.Forms
                 MetaDataConfigTabControl.Visible = true;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
             }
 
             if (SettingsSectionList.SelectedIndex == 1)
@@ -201,13 +210,23 @@ namespace Win_CBZ.Forms
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = true;
+                CBZSettingsTabControl.Visible = false;
             }
 
             if (SettingsSectionList.SelectedIndex == 2)
             {
                 MetaDataConfigTabControl.Visible = false;
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = true;
+            }
+
+            if (SettingsSectionList.SelectedIndex == 3)
+            {
+                MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = true;
                 AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
             }
         }
 

@@ -12,7 +12,7 @@ namespace Win_CBZ.Tasks
     internal class RebuildPageIndexMetaDataTask
     {
 
-        public static Task<TaskResult> UpdatePageIndexMetadata(List<Page> pages, MetaData metaData, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
+        public static Task<TaskResult> UpdatePageIndexMetadata(List<Page> pages, MetaData metaData, MetaData.PageIndexVersion pageIndexVersion, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
         {
             return new Task<TaskResult>(() =>
             {
@@ -72,7 +72,7 @@ namespace Win_CBZ.Tasks
                     System.Threading.Thread.Sleep(5);
                 }
 
-                metaData.RebuildPageMetaData(pages);
+                metaData.RebuildPageMetaData(pages, pageIndexVersion);
 
                 if (handler != null)
                 {

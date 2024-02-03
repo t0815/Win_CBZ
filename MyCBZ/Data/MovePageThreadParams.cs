@@ -11,5 +11,7 @@ namespace Win_CBZ.Data
         public Page page { get; set; }
 
         public int newIndex { get; set; }
+
+        public MetaData.PageIndexVersion pageIndexVersion { get; set; }
     }
 }

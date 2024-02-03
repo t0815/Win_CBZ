@@ -12,5 +12,7 @@ namespace Win_CBZ.Data
         public int newIndex { get; set; }
 
         public System.Windows.Forms.ListView.SelectedListViewItemCollection items { get; set; }
+
+        public MetaData.PageIndexVersion pageIndexVersion { get; set; } 
     }
 }

@@ -34,6 +34,8 @@ using Win_CBZ.Result;
 using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
 using System.Xml.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using static Win_CBZ.MetaData;
 
 namespace Win_CBZ
 {
@@ -110,6 +112,8 @@ namespace Win_CBZ
         private Zip Archive { get; set; }
 
         private ZipArchiveMode Mode;
+
+        private MetaData.PageIndexVersion PageIndexVersionWriter { get; set; } = MetaData.PageIndexVersion.VERSION_1;
 
         DataValidation Validation;
 
@@ -593,9 +597,21 @@ namespace Win_CBZ
                         };
                         // too slow
                         //page.LoadImageInfo();
-                        pageIndexEntry = MetaData.FindIndexEntryForPage(page);
-                        if (pageIndexEntry != null)
+                        pageIndexEntry = MetaData.FindIndexEntryForPage(page, MetaData.PageIndexVersion.VERSION_1);
+                        MetaData.IndexVersionSpecification = PageIndexVersion.VERSION_1;
+                        if (pageIndexEntry == null)
                         {
+                            pageIndexEntry = MetaData.FindIndexEntryForPage(page, MetaData.PageIndexVersion.VERSION_2);
+                            MetaData.IndexVersionSpecification = PageIndexVersion.VERSION_2;
+
+                            if (pageIndexEntry == null)
+                            {
+
+                            }
+                        }
+
+                        if (pageIndexEntry != null)
+                        { 
                             try
                             {
                                 page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
@@ -686,7 +702,7 @@ namespace Win_CBZ
 
             if (MetaDataPageIndexFileMissing)
             {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, GeneralTaskProgress, PageChanged)));
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, MetaData.IndexVersionSpecification, GeneralTaskProgress, PageChanged)));
             }
 
             if (missingPages.Count > 0)
@@ -701,10 +717,10 @@ namespace Win_CBZ
 
         public bool Save(bool continueOnError = false)
         {
-            return SaveAs(FileName, Mode, continueOnError);      
+            return SaveAs(FileName, Mode, PageIndexVersionWriter, continueOnError);      
         }
 
-        public bool SaveAs(String path, ZipArchiveMode mode, bool continueOnError = false)
+        public bool SaveAs(String path, ZipArchiveMode mode, MetaData.PageIndexVersion metaDataVersionWriting, bool continueOnError = false)
         {
             if (ThreadRunning())
             {
@@ -743,6 +759,8 @@ namespace Win_CBZ
                 return false;
             }
 
+            PageIndexVersionWriter = metaDataVersionWriting;
+
             OnPipelineNextTask(new PipelineEvent(
                 this,
                 PipelineEvent.PIPELINE_RUN_RENAMING,
@@ -780,7 +798,8 @@ namespace Win_CBZ
                             FileName = path,
                             Mode = mode,
                             ContinueOnError = continueOnError,
-                            CompressionLevel = CompressionLevel
+                            CompressionLevel = CompressionLevel,
+                            PageIndexVerToWrite = metaDataVersionWriting
                         }
                     }
                 }
@@ -798,8 +817,7 @@ namespace Win_CBZ
             
             List<Page> deletedPages = new List<Page>();
             LocalFile fileToCompress = null;
-
-            
+        
             TemporaryFileName = MakeNewTempFileName(".cbz").FullName;
 
             ZipArchive BuildingArchive = null;
@@ -808,7 +826,7 @@ namespace Win_CBZ
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
             // Rebuild ComicInfo.xml's PageIndex
-            MetaData.RebuildPageMetaData(Pages.ToList<Page>());
+            MetaData.RebuildPageMetaData(Pages.ToList<Page>(), tParams.PageIndexVerToWrite);
 
             try
             {
@@ -1068,7 +1086,7 @@ namespace Win_CBZ
             catch (Exception) { return false; }
         }
 
-        public void Validate(bool showErrorsDialog = false)
+        public void Validate(MetaData.PageIndexVersion pageIndexVersion, bool showErrorsDialog = false)
         {
             if (ArchiveValidationThread != null)
             {
@@ -1079,7 +1097,11 @@ namespace Win_CBZ
             }
 
             ArchiveValidationThread = new Thread(ValidateProc);
-            ArchiveValidationThread.Start(new CBZValidationThreadParams() { ShowDialog = showErrorsDialog });
+            ArchiveValidationThread.Start(new CBZValidationThreadParams() 
+            { 
+                ShowDialog = showErrorsDialog, 
+                PageIndexVersion = pageIndexVersion 
+            });
 
         }
 
@@ -1162,7 +1184,7 @@ namespace Win_CBZ
 
                     if (hasMetaData)
                     {
-                        MetaDataEntryPage pageMeta = MetaData.FindIndexEntryForPage(page);
+                        MetaDataEntryPage pageMeta = MetaData.FindIndexEntryForPage(page, tParams.PageIndexVersion);
 
                         if (pageMeta != null)
                         {

@@ -9,5 +9,7 @@ namespace Win_CBZ.Data
     internal class CBZValidationThreadParams
     {
         public bool ShowDialog { get; set; }
+
+        public MetaData.PageIndexVersion PageIndexVersion { get; set; }
     }
 }

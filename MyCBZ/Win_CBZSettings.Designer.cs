@@ -376,5 +376,17 @@ namespace Win_CBZ {
                 this["CustomMetadataFields"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int MetaDataPageIndexVersionToWrite {
+            get {
+                return ((int)(this["MetaDataPageIndexVersionToWrite"]));
+            }
+            set {
+                this["MetaDataPageIndexVersionToWrite"] = value;
+            }
+        }
     }
 }

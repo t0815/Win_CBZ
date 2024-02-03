@@ -32,6 +32,7 @@ using TextBox = System.Windows.Forms.TextBox;
 using Cursors = System.Windows.Forms.Cursors;
 using System.Configuration;
 using System.Xml;
+using static Win_CBZ.MetaData;
 
 namespace Win_CBZ
 {
@@ -235,6 +236,32 @@ namespace Win_CBZ
             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
         }
 
+        private MetaData.PageIndexVersion HandlePageIndexVersion()
+        {
+            int MetaVersionSetting = Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite;
+            MetaData.PageIndexVersion versionToWrite = PageIndexVersion.VERSION_1;
+
+            switch (MetaVersionSetting)
+            {
+                case 1:
+                    versionToWrite = PageIndexVersion.VERSION_1;
+                    break;
+                case 2:
+                    versionToWrite = PageIndexVersion.VERSION_2;
+                    break;
+                default:
+                    versionToWrite = PageIndexVersion.VERSION_1;
+                    break;
+            }
+
+            if (versionToWrite != Program.ProjectModel.MetaData.IndexVersionSpecification)
+            {
+                versionToWrite = Program.ProjectModel.MetaData.IndexVersionSpecification;
+            }
+
+            return versionToWrite;
+        }
+
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
@@ -267,7 +294,7 @@ namespace Win_CBZ
 
             if (saveDialogResult == DialogResult.OK)
             {
-                if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update))
+                if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update, HandlePageIndexVersion()))
                 {
 
                 }
@@ -1922,8 +1949,8 @@ namespace Win_CBZ
                         Page oldPage = new Page(((Page)changedItem.Tag));
                         Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
                        
-                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
-                        
+                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
+
                         PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
                         ArchiveStateChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                     }
@@ -2000,7 +2027,8 @@ namespace Win_CBZ
             MoveItemsThread.Start(new MoveItemsToThreadParams()
             {
                 newIndex = newIndex,
-                items = items
+                items = items,
+                pageIndexVersion = HandlePageIndexVersion()
             });
 
         }
@@ -2053,7 +2081,7 @@ namespace Win_CBZ
                     PageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
 
                     newIndex++;
                 }
@@ -2074,7 +2102,7 @@ namespace Win_CBZ
         }
 
         private void MovePageTo(Page page, int newIndex)
-        {
+        {          
             if (ThumbnailThread != null)
             {
                 if (ThumbnailThread.IsAlive)
@@ -2119,7 +2147,8 @@ namespace Win_CBZ
             MovePagesThread.Start(new MovePageThreadParams()
             {
                 newIndex = newIndex,
-                page = page
+                page = page,
+                pageIndexVersion = HandlePageIndexVersion()
             });
         }
 
@@ -2222,7 +2251,7 @@ namespace Win_CBZ
                 }
                 ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
 
                 Program.ProjectModel.IsChanged = true;
             }));
@@ -2885,6 +2914,22 @@ namespace Win_CBZ
         {
             System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
 
+            int MetaVersionSetting = Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite;
+            MetaData.PageIndexVersion versionToWrite = PageIndexVersion.VERSION_1;
+
+            switch (MetaVersionSetting)
+            {
+                case 1:
+                    versionToWrite = PageIndexVersion.VERSION_1;
+                    break;
+                case 2:
+                    versionToWrite = PageIndexVersion.VERSION_2;
+                    break;
+                default:
+                    versionToWrite = PageIndexVersion.VERSION_1;
+                    break;
+            }
+
             if (selectedPages.Count > 0)
             {
                 foreach (ListViewItem img in selectedPages)
@@ -2907,7 +2952,7 @@ namespace Win_CBZ
                     ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
-                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, versionToWrite, HandleGlobalTaskProgress, PageChanged)));
 
                 //Program.ProjectModel.UpdatePageIndices();
             }
@@ -2931,7 +2976,7 @@ namespace Win_CBZ
                     {
                         if (PagesList.SelectedItems.Count > 1)
                         {
-                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                         }
                         else
                         {
@@ -3198,7 +3243,7 @@ namespace Win_CBZ
 
                 if (pageIndexUpdateNeeded)
                 {
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                 }
             }
         }
@@ -3352,7 +3397,7 @@ namespace Win_CBZ
                 try {
                     if (PagesList.SelectedItems.Count > 1)
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                     } else
                     {
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
@@ -3407,6 +3452,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ImageConversionMode = settingsDialog.ConversionModeValue;
                 Win_CBZSettings.Default.ImageConversionQuality = settingsDialog.ConversionQualityValue;
                 Win_CBZSettings.Default.MetaDataFilename = settingsDialog.MetaDataFilename;
+                Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = settingsDialog.MetaPageIndexWriteVersion;
 
                 TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
                 Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;
@@ -3647,7 +3693,7 @@ namespace Win_CBZ
         {
             try
             {
-                Program.ProjectModel.Validate(true);
+                Program.ProjectModel.Validate(HandlePageIndexVersion(), true);
             } catch (ConcurrentOperationException c)
             {
                 if (c.ShowErrorDialog)
@@ -4310,7 +4356,7 @@ namespace Win_CBZ
 
                     if (pagesUpdated > 0)
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
 
                     }
                 }
