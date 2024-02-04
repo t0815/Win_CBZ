@@ -37,6 +37,7 @@ namespace Win_CBZ
             "Year", "Month", "Day", "Characters", "BlackAndWhite", "Review", "Rating", "CommunityRating", 
             "Locations", "Notes", "PageCount", "GTIN" };
 
+        /*
         protected static readonly string[] Ratings =
         {
             "Unknown",
@@ -70,17 +71,20 @@ namespace Win_CBZ
             "Yes",
             "No",           
         };
+        */
 
-
-        protected static readonly Dictionary<String, EditorFieldMapping> CustomEditorValueMappings = new Dictionary<String, EditorFieldMapping>()
+        protected static readonly Dictionary<String, EditorFieldMapping> CustomEditorValueMappings = new Dictionary<String, EditorFieldMapping>();
+        /*
+         * Load from config
         {
             { "Manga", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = Manga } },
             { "AgeRating", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = Ratings } },
             { "BlackAndWhite", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = BlackAndWhite } },           
             { "ParentalRating", new EditorFieldMapping { EditorType = "ComboBox", EditorOptions = Ratings } },
         };
+        
 
-
+        /*
         protected static readonly Dictionary<String, string[]> ValidationRules = new Dictionary<String, string[]>()
         {
             { "Manga", Manga },
@@ -88,7 +92,7 @@ namespace Win_CBZ
             { "ParentalRating", Ratings },
             { "BlackAndWhite", BlackAndWhite }
         };
-
+        */
 
 
         public List<String> CustomDefaultProperties { get; set; }
@@ -132,6 +136,7 @@ namespace Win_CBZ
             Document = new XmlDocument();
 
             MakeDefaultKeys();
+            UpdateCustomEditorMappings();
 
             MetaDataFileName = name;
 
@@ -155,6 +160,7 @@ namespace Win_CBZ
             RemovedKeys = new List<string>();
 
             MakeDefaultKeys();
+            UpdateCustomEditorMappings();
 
             Document = new XmlDocument();
             MetaDataReader = XmlReader.Create(InputStream);
@@ -197,11 +203,17 @@ namespace Win_CBZ
             {
                 CustomEditorValueMappings.TryGetValue(key, out var mapping);
 
-                int index = mapping != null ? Array.IndexOf(mapping.EditorOptions, value) : -1;
+                if (mapping.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+                {
+                    int index = mapping != null ? Array.IndexOf(mapping.EditorOptions, value) : -1;
 
-                value = value != null && index > -1 ? value : (mapping.EditorOptions[0] ?? "???");
+                    value = value != null && index > -1 ? value : (mapping.EditorOptions[0] ?? "???");
 
-                return new MetaDataEntry(key, value, mapping, readOnly);
+                    return new MetaDataEntry(key, value, mapping, readOnly);
+                } else
+                {
+                    return new MetaDataEntry(key, value, mapping, readOnly);
+                }
             }
 
             return new MetaDataEntry(key, value, readOnly);

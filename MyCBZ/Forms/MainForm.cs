@@ -97,6 +97,19 @@ namespace Win_CBZ
             SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
             PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
 
+            // First Run App, initialize settings with defaults here  
+            if (Win_CBZSettings.Default.FirstRun)
+            {
+                Win_CBZSettings.Default.CustomMetadataFields.Clear();
+                Win_CBZSettings.Default.CustomMetadataFields.AddRange(FactoryDefaults.DefaultMetaDataFieldTypes);
+
+                Win_CBZSettings.Default.MetaDataFilename = FactoryDefaults.DefaultMetaDataFileName;
+                Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = FactoryDefaults.DefaultMetaDataFileIndexVersion;
+
+
+                Win_CBZSettings.Default.FirstRun = false;
+            }
+
             df = new DebugForm(PageView);
 
 
@@ -137,6 +150,8 @@ namespace Win_CBZ
         {
             if (!WindowShown)
             {
+
+
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
 
                 FileSettingsTablePanel.Width = MainSplitBox.SplitterDistance - 24;
@@ -2462,7 +2477,7 @@ namespace Win_CBZ
                             var key = MetaDataGrid.Rows[i].Cells[0].Value;
                             if (key != null)
                             {
-                                if (entry.Key == key.ToString() && entry.Options.EditorOptions != null && entry.Options.EditorOptions.Length > 0)
+                                if (entry.Key == key.ToString())
                                 {
                                     if (entry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
                                     {
@@ -2483,7 +2498,10 @@ namespace Win_CBZ
                                         */
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
-                                    } 
+                                    } else
+                                    {
+                                        MetaDataGrid.Rows[i].Cells[1].Value = entry.Value;
+                                    }
                                     
                                     if (entry.Options.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
                                     {

@@ -61,6 +61,9 @@
             this.TabPageCustomFields = new System.Windows.Forms.TabPage();
             this.CustomFieldTypesTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.CustomFieldsDataGrid = new System.Windows.Forms.DataGridView();
+            this.AddFieldTypeButton = new System.Windows.Forms.Button();
+            this.RemoveFieldTypeButton = new System.Windows.Forms.Button();
+            this.RestoreFieldTypesButton = new System.Windows.Forms.Button();
             this.CBZSettingsTabControl = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -80,8 +83,6 @@
             this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.AddFieldTypeButton = new System.Windows.Forms.Button();
-            this.RemoveFieldTypeButton = new System.Windows.Forms.Button();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -481,23 +482,23 @@
             // 
             // CustomFieldTypesTablePanel
             // 
-            this.CustomFieldTypesTablePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CustomFieldTypesTablePanel.ColumnCount = 2;
-            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.46964F));
-            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.53036F));
+            this.CustomFieldTypesTablePanel.ColumnCount = 3;
+            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.98877F));
+            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.01124F));
+            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 155F));
             this.CustomFieldTypesTablePanel.Controls.Add(this.CustomFieldsDataGrid, 0, 1);
             this.CustomFieldTypesTablePanel.Controls.Add(this.AddFieldTypeButton, 0, 2);
             this.CustomFieldTypesTablePanel.Controls.Add(this.RemoveFieldTypeButton, 1, 2);
-            this.CustomFieldTypesTablePanel.Location = new System.Drawing.Point(7, 10);
+            this.CustomFieldTypesTablePanel.Controls.Add(this.RestoreFieldTypesButton, 2, 2);
+            this.CustomFieldTypesTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CustomFieldTypesTablePanel.Location = new System.Drawing.Point(3, 4);
             this.CustomFieldTypesTablePanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CustomFieldTypesTablePanel.Name = "CustomFieldTypesTablePanel";
             this.CustomFieldTypesTablePanel.RowCount = 3;
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(494, 282);
+            this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(510, 285);
             this.CustomFieldTypesTablePanel.TabIndex = 0;
             // 
             // CustomFieldsDataGrid
@@ -505,7 +506,7 @@
             this.CustomFieldsDataGrid.AllowUserToAddRows = false;
             this.CustomFieldsDataGrid.AllowUserToDeleteRows = false;
             this.CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomFieldTypesTablePanel.SetColumnSpan(this.CustomFieldsDataGrid, 2);
+            this.CustomFieldTypesTablePanel.SetColumnSpan(this.CustomFieldsDataGrid, 3);
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -520,12 +521,49 @@
             this.CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             this.CustomFieldsDataGrid.RowHeadersWidth = 51;
             this.CustomFieldsDataGrid.RowTemplate.Height = 24;
-            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(488, 192);
+            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(504, 195);
             this.CustomFieldsDataGrid.TabIndex = 0;
             this.CustomFieldsDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellContentClick);
             this.CustomFieldsDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellValueChanged);
             this.CustomFieldsDataGrid.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.CustomFieldsDataGrid_DataError);
             this.CustomFieldsDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.CustomFieldsDataGrid_RowsAdded);
+            this.CustomFieldsDataGrid.SelectionChanged += new System.EventHandler(this.CustomFieldsDataGrid_SelectionChanged);
+            // 
+            // AddFieldTypeButton
+            // 
+            this.AddFieldTypeButton.Image = global::Win_CBZ.Properties.Resources.navigate_plus;
+            this.AddFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AddFieldTypeButton.Location = new System.Drawing.Point(3, 248);
+            this.AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.AddFieldTypeButton.Name = "AddFieldTypeButton";
+            this.AddFieldTypeButton.Size = new System.Drawing.Size(111, 34);
+            this.AddFieldTypeButton.TabIndex = 1;
+            this.AddFieldTypeButton.Text = "Add";
+            this.AddFieldTypeButton.UseVisualStyleBackColor = true;
+            this.AddFieldTypeButton.Click += new System.EventHandler(this.AddFieldTypeButton_Click);
+            // 
+            // RemoveFieldTypeButton
+            // 
+            this.RemoveFieldTypeButton.Enabled = false;
+            this.RemoveFieldTypeButton.Location = new System.Drawing.Point(123, 248);
+            this.RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
+            this.RemoveFieldTypeButton.Size = new System.Drawing.Size(104, 34);
+            this.RemoveFieldTypeButton.TabIndex = 2;
+            this.RemoveFieldTypeButton.Text = "Remove";
+            this.RemoveFieldTypeButton.UseVisualStyleBackColor = true;
+            this.RemoveFieldTypeButton.Click += new System.EventHandler(this.RemoveFieldTypeButton_Click);
+            // 
+            // RestoreFieldTypesButton
+            // 
+            this.RestoreFieldTypesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RestoreFieldTypesButton.Location = new System.Drawing.Point(404, 248);
+            this.RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
+            this.RestoreFieldTypesButton.Size = new System.Drawing.Size(103, 34);
+            this.RestoreFieldTypesButton.TabIndex = 3;
+            this.RestoreFieldTypesButton.Text = "Restore";
+            this.RestoreFieldTypesButton.UseVisualStyleBackColor = true;
             // 
             // CBZSettingsTabControl
             // 
@@ -760,27 +798,6 @@
             // 
             this.SettingsValidationErrorProvider.ContainerControl = this;
             // 
-            // AddFieldTypeButton
-            // 
-            this.AddFieldTypeButton.Location = new System.Drawing.Point(3, 245);
-            this.AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
-            this.AddFieldTypeButton.Name = "AddFieldTypeButton";
-            this.AddFieldTypeButton.Size = new System.Drawing.Size(75, 23);
-            this.AddFieldTypeButton.TabIndex = 1;
-            this.AddFieldTypeButton.Text = "Add";
-            this.AddFieldTypeButton.UseVisualStyleBackColor = true;
-            this.AddFieldTypeButton.Click += new System.EventHandler(this.AddFieldTypeButton_Click);
-            // 
-            // RemoveFieldTypeButton
-            // 
-            this.RemoveFieldTypeButton.Location = new System.Drawing.Point(114, 245);
-            this.RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
-            this.RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            this.RemoveFieldTypeButton.Size = new System.Drawing.Size(75, 23);
-            this.RemoveFieldTypeButton.TabIndex = 2;
-            this.RemoveFieldTypeButton.Text = "Remove";
-            this.RemoveFieldTypeButton.UseVisualStyleBackColor = true;
-            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -883,5 +900,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button AddFieldTypeButton;
         private System.Windows.Forms.Button RemoveFieldTypeButton;
+        private System.Windows.Forms.Button RestoreFieldTypesButton;
     }
 }

@@ -370,76 +370,79 @@ namespace Win_CBZ.Forms
         {
             var senderGrid = (DataGridView)sender;
 
-            if ((senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
-                senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell
-                ) &&
-                e.RowIndex >= 0)
+            if (e.RowIndex > -1)
             {
-                object value = null;
-                String valueText = "";
-                EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
-                if (e.ColumnIndex == 4)
+                if ((senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
+                    senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell
+                    ) &&
+                    e.RowIndex >= 0)
                 {
-                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
-                    if (value != null)
+                    object value = null;
+                    String valueText = "";
+                    EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
+                    if (e.ColumnIndex == 4)
                     {
-                        valueText = value.ToString();
+                        value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
+                        if (value != null)
+                        {
+                            valueText = value.ToString();
+                        }
                     }
-                }
-                else
-                {
-                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                    if (value != null)
+                    else
                     {
-                        valueText += value.ToString();  
+                        value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                        if (value != null)
+                        {
+                            valueText += value.ToString();
+                        }
                     }
-                }
 
-                if (editorConfig != null)
-                {
-                    editorConfig.Value = valueText;
-                    switch (editorConfig.Type)
+                    if (editorConfig != null)
                     {
-                        case EditorTypeConfig.EditorTypeMultiLineTextEditor:
-                            {
-                                TextEditorForm textEditor = new TextEditorForm(editorConfig);
-                                DialogResult r = textEditor.ShowDialog();
-                                if (r == DialogResult.OK)
+                        editorConfig.Value = valueText;
+                        switch (editorConfig.Type)
+                        {
+                            case EditorTypeConfig.EditorTypeMultiLineTextEditor:
                                 {
-                                    if (textEditor.config.Result != null)
+                                    TextEditorForm textEditor = new TextEditorForm(editorConfig);
+                                    DialogResult r = textEditor.ShowDialog();
+                                    if (r == DialogResult.OK)
                                     {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        if (textEditor.config.Result != null)
+                                        {
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        }
                                     }
                                 }
-                            }
-                            break;
-                        case EditorTypeConfig.EditorTypeLanguageEditor:
-                            {
-                                LanguageEditorForm langEditor = new LanguageEditorForm(editorConfig);
-                                DialogResult r = langEditor.ShowDialog();
-                                if (r == DialogResult.OK)
+                                break;
+                            case EditorTypeConfig.EditorTypeLanguageEditor:
                                 {
-                                    if (langEditor.config.Result != null)
+                                    LanguageEditorForm langEditor = new LanguageEditorForm(editorConfig);
+                                    DialogResult r = langEditor.ShowDialog();
+                                    if (r == DialogResult.OK)
                                     {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
+                                        if (langEditor.config.Result != null)
+                                        {
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
+                                        }
                                     }
                                 }
-                            }
-                            break;
-                        default:
-                            {
-                                //DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
-                                //comboCell.Style = new DataGridViewCellStyle()
-                                //{
-                                //    SelectionForeColor = Color.Black,
-                                //    SelectionBackColor = Color.White,
-                                //};
-                                CustomFieldsDataGrid.BeginEdit(true);
+                                break;
+                            default:
+                                {
+                                    DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                                    comboCell.Style = new DataGridViewCellStyle()
+                                    {
+                                        SelectionForeColor = Color.Black,
+                                        SelectionBackColor = Color.White,
+                                    };
+                                    CustomFieldsDataGrid.BeginEdit(true);
 
-                            }
-                            break;
+                                }
+                                break;
 
 
+                        }
                     }
                 }
             }
@@ -801,6 +804,38 @@ namespace Win_CBZ.Forms
                 };
 
                 CustomFieldsDataGrid.Rows[newIndex].Cells[4] = bc;
+            }
+        }
+
+        private void CustomFieldsDataGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            RemoveFieldTypeButton.Enabled = CustomFieldsDataGrid.SelectedRows.Count > 0;
+        }
+
+        private void RemoveFieldTypeButton_Click(object sender, EventArgs e)
+        {
+            List<DataGridViewRow> rowsToRemove = new List<DataGridViewRow>();
+            if (CustomFieldsDataGrid.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in CustomFieldsDataGrid.SelectedRows)
+                {
+                    rowsToRemove.Add(row);  
+                    //int index = .Remove(row.Index);
+
+                    /*
+                    if (row.Cells[0].Value != null)
+                    {
+                        var key = row.Cells[0].Value.ToString();  
+
+                        Program.ProjectModel.MetaData.Remove(key);
+                    } */
+                }
+
+                foreach (DataGridViewRow row in rowsToRemove) 
+                {
+                    CustomFieldTypesSettings.RemoveAt(row.Index);
+                    CustomFieldsDataGrid.Rows.Remove(row);
+                }
             }
         }
     }

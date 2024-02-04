@@ -179,6 +179,7 @@
     <Compile Include="Forms\LanguageEditorForm.Designer.cs">
       <DependentUpon>LanguageEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\FactoryDefaults.cs" />
     <Compile Include="Helper\MetaDataVersionFlavorHandler.cs" />
     <Compile Include="Helper\PageClipboardMonitor.cs" />
     <Compile Include="Helper\RandomId.cs" />
