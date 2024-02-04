@@ -599,12 +599,12 @@ namespace Win_CBZ
                         };
                         // too slow
                         //page.LoadImageInfo();
-                        pageIndexEntry = MetaData.FindIndexEntryForPage(page, MetaData.PageIndexVersion.VERSION_1);
-                        MetaData.IndexVersionSpecification = PageIndexVersion.VERSION_1;
+                        pageIndexEntry = MetaData.FindIndexEntryForPage(page, MetaData.PageIndexVersion.VERSION_2);
+                        MetaData.IndexVersionSpecification = PageIndexVersion.VERSION_2;
                         if (pageIndexEntry == null)
                         {
-                            pageIndexEntry = MetaData.FindIndexEntryForPage(page, MetaData.PageIndexVersion.VERSION_2);
-                            MetaData.IndexVersionSpecification = PageIndexVersion.VERSION_2;
+                            pageIndexEntry = MetaData.FindIndexEntryForPage(page, MetaData.PageIndexVersion.VERSION_1);
+                            MetaData.IndexVersionSpecification = PageIndexVersion.VERSION_1;
 
                             if (pageIndexEntry == null)
                             {
@@ -672,10 +672,10 @@ namespace Win_CBZ
                 index = 0;
                 foreach (MetaDataEntryPage entry in MetaData.PageIndex)
                 {
-                    if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_1)
+                    if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_2)
                     {
                         pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE);
-                    } else if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_2)
+                    } else if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_1)
                     {
                         pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
                     }
@@ -1038,7 +1038,7 @@ namespace Win_CBZ
             try
             {
                 MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
-                if (MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion() == PageIndexVersion.VERSION_2)
+                if (MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion() == PageIndexVersion.VERSION_1)
                 {
                     page.Key = newName;
                 }

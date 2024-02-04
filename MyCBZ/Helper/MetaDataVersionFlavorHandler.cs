@@ -16,6 +16,8 @@ namespace Win_CBZ.Helper
 
         protected MetaData.PageIndexVersion MetaVersion;
 
+        protected MetaData.PageIndexVersion MetaWriteVersion;
+
 
         protected MetaDataVersionFlavorHandler() 
         {
@@ -52,6 +54,7 @@ namespace Win_CBZ.Helper
                     break;
             }
 
+            MetaWriteVersion = MetaVersion;
             if (MetaVersion != Program.ProjectModel.MetaData.IndexVersionSpecification)
             {
                 MetaVersion = Program.ProjectModel.MetaData.IndexVersionSpecification;
@@ -60,16 +63,23 @@ namespace Win_CBZ.Helper
             return MetaVersion;
         }
 
+        public MetaData.PageIndexVersion TargetVersion()
+        {
+            HandlePageIndexVersion();
+
+            return MetaWriteVersion;
+        }
+
         public MetaDataEntryPage CreateIndexEntry(Page page)
         {
             MetaDataEntryPage newPageEntry = new MetaDataEntryPage();
 
-            if (MetaVersion.HasFlag(PageIndexVersion.VERSION_1))
+            if (MetaVersion.HasFlag(PageIndexVersion.VERSION_2))
             {
                 newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
                     .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
             }
-            else if (MetaVersion.HasFlag(PageIndexVersion.VERSION_2))
+            else if (MetaVersion.HasFlag(PageIndexVersion.VERSION_1))
             {
                 newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
                     .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);

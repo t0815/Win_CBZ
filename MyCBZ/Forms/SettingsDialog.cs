@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using Win_CBZ.Data;
+using Win_CBZ.Helper;
 
 namespace Win_CBZ.Forms
 {
@@ -145,6 +146,15 @@ namespace Win_CBZ.Forms
 
             });
 
+            PopulateFieldTypeEditor();
+
+            validation = new DataValidation();
+
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void PopulateFieldTypeEditor()
+        {
             CustomFieldTypesSettings.Clear();
             CustomFieldsDataGrid.Rows.Clear();
             foreach (String line in CustomFieldTypesCollection)
@@ -157,8 +167,8 @@ namespace Win_CBZ.Forms
             }
 
 
-                // DataGridViewCellStyle currentStyle = null;
-            
+            // DataGridViewCellStyle currentStyle = null;
+
             for (int i = 0; i < CustomFieldsDataGrid.RowCount; i++)
             {
                 CustomFieldsDataGrid.Rows[i].Cells[4].ReadOnly = true;
@@ -175,7 +185,7 @@ namespace Win_CBZ.Forms
                             cc.Items.AddRange(FieldTypes);
                             cc.Value = line.FieldType; // selectedIndex > -1 ? selectedIndex : 0;
                             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
-                            
+
                             CustomFieldsDataGrid.Rows[i].Cells[1] = cc;
 
                             selectedIndex = Array.IndexOf(EditorTypeConfig.Editors, line.EditorType);
@@ -191,7 +201,7 @@ namespace Win_CBZ.Forms
                             //    SelectionForeColor = Color.Black,
                             //    SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                             //};
-                            
+
 
                             CustomFieldsDataGrid.Rows[i].Cells[2] = cc;
 
@@ -215,10 +225,6 @@ namespace Win_CBZ.Forms
                     }
                 }
             }
-
-            validation = new DataValidation();
-
-            DialogResult = DialogResult.Cancel;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
@@ -837,6 +843,17 @@ namespace Win_CBZ.Forms
                     CustomFieldsDataGrid.Rows.Remove(row);
                 }
             }
+        }
+
+        private void RestoreFieldTypesButton_Click(object sender, EventArgs e)
+        {
+            DialogResult r = ApplicationMessage.ShowConfirmation("Are you sure you want to reset all MetaData -Editor FieldTypes to their default configuration?", "Please confirm", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+            if (r == DialogResult.Yes)
+            {
+                CustomFieldTypesCollection = FactoryDefaults.DefaultMetaDataFieldTypes;
+                PopulateFieldTypeEditor();
+            }
+        
         }
     }
 }

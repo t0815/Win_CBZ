@@ -156,8 +156,21 @@ namespace Win_CBZ.Forms
                     {
                         LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
                     }
+
+                    if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == MetaData.PageIndexVersion.VERSION_2)
+                    {
+                        textBoxKey.Text = FirstPage.Key;
+                        textBoxKey.Enabled = true;
+                        ButtonNewKey.Enabled = true;
+                        label10.Enabled = true;
+                    } else
+                    {
+                        textBoxKey.Text = "";
+                        textBoxKey.Enabled = false;
+                        ButtonNewKey.Enabled = false;
+                        label10.Enabled = false;
+                    }                
                     
-                    textBoxKey.Text = FirstPage.Key;
                     CheckBoxDoublePage.Checked = FirstPage.DoublePage;
                     IsCompressedLabel.Text = FirstPage.Compressed ? "Yes" : "No";
                 } else
@@ -503,6 +516,11 @@ namespace Win_CBZ.Forms
             {
                 page.ImageType = ComboBoxPageType.Text;
             }
+        }
+
+        private void PageSettingsForm_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

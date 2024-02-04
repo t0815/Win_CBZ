@@ -3056,35 +3056,39 @@ namespace Win_CBZ
                         {
                             List<Page> pageKey = Program.ProjectModel.GetPagesByKey(pageResult.Key);
                             String pageName = pageResult.Name;
-                            if (pageKey != null && pageKey.Count > 1)
+
+                            if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == PageIndexVersion.VERSION_2)
                             {
-                                foreach (Page findPage in pageKey)
+                                if (pageKey != null && pageKey.Count > 1)
                                 {
-                                    if (findPage.Id != pageResult.Id)
+                                    foreach (Page findPage in pageKey)
                                     {
-                                        pageName = findPage.Name;
+                                        if (findPage.Id != pageResult.Id)
+                                        {
+                                            pageName = findPage.Name;
+                                        }
                                     }
+
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, new StringBuilder("Warning! Page ['")
+                                        .Append(pageName)
+                                        .Append("'] ")
+                                        .Append("already uses key ['")
+                                        .Append(pageToUpdate.Key)
+                                        .Append("'].")
+                                        .AppendLine("It is recommended for every page to use a unique key.")
+                                        .ToString());
+
+                                    ApplicationMessage.ShowWarning(
+                                        new StringBuilder("Warning! Page ['")
+                                        .Append(pageName)
+                                        .Append("'] ")
+                                        .Append("already uses key ['")
+                                        .Append(pageToUpdate.Key)
+                                        .Append("'].")
+                                        .AppendLine("It is recommended for every page to use a unique key.")
+                                        .ToString(), "Page duplicate key", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+
                                 }
-
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, new StringBuilder("Warning! Page ['")
-                                    .Append(pageName)
-                                    .Append("'] ")
-                                    .Append("already uses key ['")
-                                    .Append(pageToUpdate.Key)
-                                    .Append("'].")
-                                    .AppendLine("It is recommended for every page to use a unique key.")
-                                    .ToString());
-
-                                ApplicationMessage.ShowWarning(
-                                    new StringBuilder("Warning! Page ['")
-                                    .Append(pageName)
-                                    .Append("'] ")
-                                    .Append("already uses key ['")
-                                    .Append(pageToUpdate.Key)
-                                    .Append("'].")
-                                    .AppendLine("It is recommended for every page to use a unique key.")
-                                    .ToString(), "Page duplicate key", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-
                             }
 
      

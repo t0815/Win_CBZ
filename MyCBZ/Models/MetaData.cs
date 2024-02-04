@@ -370,12 +370,12 @@ namespace Win_CBZ
 
                     if (condition)
                     {
-                        if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
+                        if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
                         {
                             entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
                                 .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
                         }
-                        else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
+                        else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
                         {
                             entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
                                 .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);
@@ -419,12 +419,12 @@ namespace Win_CBZ
 
                 if (condition)
                 {
-                    if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
+                    if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
                     {
                         entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Name)
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Key);
                     }
-                    else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
+                    else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
                     {
                         entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE, page.Number.ToString())
                             .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY, page.Name);
@@ -451,11 +451,11 @@ namespace Win_CBZ
             foreach (MetaDataEntryPage entry in PageIndex)
             {
                 bool condition = false;
-                if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_1))
+                if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_2))
                 {
                     condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name);
                 }
-                else if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_2))
+                else if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_1))
                 {
                     condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Name);
                 }

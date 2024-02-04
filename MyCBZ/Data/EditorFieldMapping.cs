@@ -10,6 +10,7 @@ namespace Win_CBZ.Data
     {
         public const String MetaDataFieldTypeText = "TextBox";
         public const String MetaDataFieldTypeComboBox = "ComboBox";
+        public const String MetaDataFieldTypeAutoComplete = "AutoComplete";
 
 
         public String FieldType;

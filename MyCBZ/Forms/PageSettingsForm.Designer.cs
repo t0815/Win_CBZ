@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PageSettingsForm));
             this.SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.ImagePreviewTableLayout = new System.Windows.Forms.TableLayoutPanel();
@@ -77,6 +78,8 @@
             this.IsCompressedLabel = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.metaDataView = new System.Windows.Forms.WebBrowser();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.Tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsTablePanel.SuspendLayout();
             this.ImagePreviewTableLayout.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -90,6 +93,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.KeyEditorPanel.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // SettingsTablePanel
@@ -294,8 +298,8 @@
             this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.TextBoxFileLocation, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
@@ -324,6 +328,7 @@
             this.tableLayoutPanel1.Controls.Add(this.ComboBoxPageType, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.label14, 0, 11);
             this.tableLayoutPanel1.Controls.Add(this.IsCompressedLabel, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 2, 6);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 12);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -340,7 +345,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(476, 512);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(455, 512);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label3
@@ -495,11 +500,11 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(413, 38);
+            this.label8.Location = new System.Drawing.Point(387, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.label8.Size = new System.Drawing.Size(22, 38);
+            this.label8.Size = new System.Drawing.Size(35, 24);
             this.label8.TabIndex = 13;
             this.label8.Text = "Bits";
             this.label8.Visible = false;
@@ -507,7 +512,7 @@
             // LabelBits
             // 
             this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(443, 38);
+            this.LabelBits.Location = new System.Drawing.Point(430, 38);
             this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBits.Name = "LabelBits";
             this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -521,11 +526,11 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(412, 76);
+            this.label7.Location = new System.Drawing.Point(382, 76);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            this.label7.Size = new System.Drawing.Size(23, 38);
+            this.label7.Size = new System.Drawing.Size(40, 38);
             this.label7.TabIndex = 18;
             this.label7.Text = "Colors";
             this.label7.Visible = false;
@@ -533,7 +538,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(443, 76);
+            this.LabelImageColors.Location = new System.Drawing.Point(430, 76);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -743,6 +748,28 @@
             this.metaDataView.TabIndex = 4;
             this.metaDataView.WebBrowserShortcutsEnabled = false;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Win_CBZ.Properties.Resources.information;
+            this.pictureBox2.InitialImage = global::Win_CBZ.Properties.Resources.information;
+            this.pictureBox2.Location = new System.Drawing.Point(377, 228);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(36, 36);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 30;
+            this.pictureBox2.TabStop = false;
+            this.Tooltip.SetToolTip(this.pictureBox2, "This property is only available in Meta- Format VERSION_2");
+            // 
+            // Tooltip
+            // 
+            this.Tooltip.AutoPopDelay = 30000;
+            this.Tooltip.InitialDelay = 200;
+            this.Tooltip.IsBalloon = true;
+            this.Tooltip.ReshowDelay = 100;
+            this.Tooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.Tooltip.ToolTipTitle = "Win_CBZ";
+            // 
             // PageSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -757,6 +784,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Page Properties";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PageSettingsForm_FormClosing);
+            this.Load += new System.EventHandler(this.PageSettingsForm_Load_1);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PageSettingsForm_KeyUp);
             this.SettingsTablePanel.ResumeLayout(false);
             this.ImagePreviewTableLayout.ResumeLayout(false);
@@ -774,6 +802,7 @@
             this.KeyEditorPanel.ResumeLayout(false);
             this.KeyEditorPanel.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -828,5 +857,7 @@
         private System.Windows.Forms.ComboBox ComboBoxPageType;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label IsCompressedLabel;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ToolTip Tooltip;
     }
 }

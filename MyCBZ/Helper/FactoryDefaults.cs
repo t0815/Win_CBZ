@@ -21,6 +21,6 @@ namespace Win_CBZ.Helper
 
         public const String DefaultMetaDataFileName = "ComicInfo.xml";
 
-        public const int DefaultMetaDataFileIndexVersion = 1;
+        public const int DefaultMetaDataFileIndexVersion = 0;
     }
 }
