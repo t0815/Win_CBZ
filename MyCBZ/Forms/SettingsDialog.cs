@@ -24,8 +24,6 @@ namespace Win_CBZ.Forms
 
         public String[] NewValidTagList;
 
-        private String[] FieldTypes;
-
         public String[] CustomFieldTypesCollection;
 
         public List<MetaDataFieldType> CustomFieldTypesSettings;
@@ -71,7 +69,6 @@ namespace Win_CBZ.Forms
 
             MetaDataFilename = Win_CBZSettings.Default.MetaDataFilename;
 
-            FieldTypes = Win_CBZSettings.Default.CustomMetadataFieldTypes.OfType<String>().ToArray();
             CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             // ----------------------------------------
@@ -180,9 +177,9 @@ namespace Win_CBZ.Forms
                     {
                         if (line.Name == key.ToString())
                         {
-                            int selectedIndex = Array.IndexOf(FieldTypes, line.FieldType);
+                            int selectedIndex = Array.IndexOf(EditorFieldMapping.FieldTypes, line.FieldType);
                             DataGridViewComboBoxCell cc = new DataGridViewComboBoxCell();
-                            cc.Items.AddRange(FieldTypes);
+                            cc.Items.AddRange(EditorFieldMapping.FieldTypes);
                             cc.Value = line.FieldType; // selectedIndex > -1 ? selectedIndex : 0;
                             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
 
@@ -206,7 +203,8 @@ namespace Win_CBZ.Forms
                             CustomFieldsDataGrid.Rows[i].Cells[2] = cc;
 
 
-                            if (line.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+                            if (line.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox ||
+                                line.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete)
                             {
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                                 {
@@ -690,7 +688,7 @@ namespace Win_CBZ.Forms
                         value = "";
                     }
 
-                    Key = value.ToString();
+                    EditorType = value.ToString();
                 }
 
                 MetaDataFieldType updatedEntry = CustomFieldTypesSettings[e.RowIndex];
@@ -711,7 +709,9 @@ namespace Win_CBZ.Forms
                     updatedEntry.EditorType = EditorType;
 
 
-                            if (updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+                            if (updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox ||
+                        updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete
+                                )
                             {
                                 /*
                                 if (updatedEntry.Options.Length > 0)
@@ -782,7 +782,7 @@ namespace Win_CBZ.Forms
 
             int selectedIndex = -1;
             DataGridViewComboBoxCell cc = new DataGridViewComboBoxCell();
-            cc.Items.AddRange(FieldTypes);
+            cc.Items.AddRange(EditorFieldMapping.FieldTypes);
             cc.Value = newEntry.FieldType; // selectedIndex > -1 ? selectedIndex : 0;
             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
 

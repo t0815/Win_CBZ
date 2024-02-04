@@ -678,7 +678,13 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    if (existing.Options.EditorOptions.Length > 0)
+                    if (existing.Options.EditorOptions != null)
+                    {
+                        if (existing.Options.EditorOptions.Length > 0)
+                        {
+                            existing.Options.EditorOptions = new string[] { };
+                        }
+                    } else
                     {
                         existing.Options.EditorOptions = new string[] { };
                     }

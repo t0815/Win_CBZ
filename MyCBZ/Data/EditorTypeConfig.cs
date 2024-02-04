@@ -19,6 +19,15 @@ namespace Win_CBZ.Data
             EditorTypeConfig.EditorTypeLanguageEditor,
         };
 
+        public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate, string[] autoCompleteItems)
+        {
+            ResultType = resultType;
+            Type = type;
+            Separator = separator;
+            Append = append;
+            AllowDuplicateValues = allowDuplicate;
+            AutoCompleteItems = autoCompleteItems;
+        }
 
         public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate) 
         {
@@ -44,6 +53,8 @@ namespace Win_CBZ.Data
             Append = " ";
             ResultType = "String";
         }
+
+        public string [] AutoCompleteItems { get; set; }
 
         public string Type { get; set; }
 

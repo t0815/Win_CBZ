@@ -12,6 +12,13 @@ namespace Win_CBZ.Data
         public const String MetaDataFieldTypeComboBox = "ComboBox";
         public const String MetaDataFieldTypeAutoComplete = "AutoComplete";
 
+        public static string[] FieldTypes =
+        {
+            EditorFieldMapping.MetaDataFieldTypeText,
+            EditorFieldMapping.MetaDataFieldTypeComboBox,
+            EditorFieldMapping.MetaDataFieldTypeAutoComplete,
+        };
+
 
         public String FieldType;
 

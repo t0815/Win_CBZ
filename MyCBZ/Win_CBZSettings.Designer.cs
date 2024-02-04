@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.17.108b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.17.109b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -349,17 +349,6 @@ namespace Win_CBZ {
             }
             set {
                 this["MetaDataFilename"] = value;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
-            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
-            "tring>Text</string>\r\n  <string>ComboBox</string>\r\n</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection CustomMetadataFieldTypes {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomMetadataFieldTypes"]));
             }
         }
         

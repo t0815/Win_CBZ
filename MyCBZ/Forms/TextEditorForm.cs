@@ -33,14 +33,18 @@ namespace Win_CBZ.Forms
             { 
                 if (config.Separator != null)
                 {
-                    string[] lines = config.Value.Split(config.Separator[0]);
-
-                    foreach ( string line in lines )
+                    if (config.Value != null)
                     {
-                        Lines.Add(line.TrimStart(' ').TrimEnd(' '));
-                    }
+                        string[] lines = config.Value.Split(config.Separator[0]);
 
-                    ItemsText.Lines = Lines.ToArray();
+                        foreach (string line in lines)
+                        {
+                            Lines.Add(line.TrimStart(' ').TrimEnd(' '));
+                        }
+
+                        ItemsText.Lines = Lines.ToArray();
+                    }
+                    
                 } else
                 {
                     ItemsText.Text = config.Value;

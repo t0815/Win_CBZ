@@ -15,12 +15,14 @@ standard described here: https://github.com/anansi-project/comicinfo
 ## Features
 
 - Add, edit and delete pages
-- Add, edit and delete meta-data from cbz-files using inline editor
+- Add, edit and delete metadata from cbz-files using inline editor
+- copy & paste pages and Metadata sets
 - Set page types (FrontCover, BackCover, Story ....)
 - Reorder pages
 - Extract pages
 - Rename pages using placeholders
 - Validate if cbz has minimum required metadata as well as if certain required data is valid
+- Configure MetaData -Editor with various fieldtypes and editors
 
 ## Features to 1.0
 
@@ -33,6 +35,7 @@ standard described here: https://github.com/anansi-project/comicinfo
 
 - CBR support (meed to replace default system.io zip compression lib)
 - Various UI Improvements
+- Image Editor
 
 ## Build
 
@@ -44,7 +47,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.17.108b released!
+v0.17.109b released!
 
 ## Third party components
 
