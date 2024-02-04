@@ -2464,7 +2464,7 @@ namespace Win_CBZ
                             {
                                 if (entry.Key == key.ToString() && entry.Options.EditorOptions != null && entry.Options.EditorOptions.Length > 0)
                                 {
-                                    if (entry.Options.EditorType == "ComboBox")
+                                    if (entry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
                                     {
                                         int selectedIndex = Array.IndexOf(entry.Options.EditorOptions, entry.Value);
                                         DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
@@ -2483,12 +2483,14 @@ namespace Win_CBZ
                                         */
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
-                                    } else if (entry.Options.EditorType == "ItemEditor")
+                                    } 
+                                    
+                                    if (entry.Options.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
                                     {
                                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                                         {
                                             Value = "...",
-                                            Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false),
                                             Style = new DataGridViewCellStyle()
                                             {
                                                 SelectionForeColor = Color.White,
@@ -2497,12 +2499,12 @@ namespace Win_CBZ
                                         };
                                         MetaDataGrid.Rows[i].Cells[2] = bc;
                                     }
-                                    else if (entry.Options.EditorType == "LanguageEditor")
+                                    else if (entry.Options.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
                                     {
                                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                                         {
                                             Value = "...",
-                                            Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false),
+                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeLanguageEditor, "String", "", "", false),
                                             Style = new DataGridViewCellStyle()
                                             {
                                                 SelectionForeColor = Color.White,
@@ -2599,7 +2601,7 @@ namespace Win_CBZ
                     editorConfig.Value = value;
                     switch (editorConfig.Type)
                     {
-                        case "MultiLineTextEditor":
+                        case EditorTypeConfig.EditorTypeMultiLineTextEditor:
                             {
                                 TextEditorForm textEditor = new TextEditorForm(editorConfig);
                                 DialogResult r = textEditor.ShowDialog();
@@ -2612,7 +2614,7 @@ namespace Win_CBZ
                                 }
                             }
                             break;
-                        case "LanguageEditor":
+                        case EditorTypeConfig.EditorTypeLanguageEditor:
                             {
                                 LanguageEditorForm langEditor = new LanguageEditorForm(editorConfig);
                                 DialogResult r = langEditor.ShowDialog();
@@ -2625,7 +2627,7 @@ namespace Win_CBZ
                                 }
                             }
                             break;
-                        case "ComboBox":
+                        default:
                             {
                                 DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
                                 comboCell.Style = new DataGridViewCellStyle() {
@@ -2670,15 +2672,14 @@ namespace Win_CBZ
         {
             try
             {
-                //FileInfo fi = new FileInfo(Program.ProjectModel.FileName);
+                
                 Program.ProjectModel.IsChanged = true;
-
-                //if (fi.Exists)
-                //{
+               
                 ToolButtonSave.Enabled = true;
                 SaveToolStripMenuItem.Enabled = true;
-                //}
 
+                Program.ProjectModel.IsChanged = true;
+                
                 string Key = "";
                 string Val = "";
 
@@ -2731,7 +2732,7 @@ namespace Win_CBZ
                         if (updatedEntry.Key == key.ToString())
                         {
                             MetaDataGrid.Rows[e.RowIndex].Cells[2].ReadOnly = true;
-                            if (updatedEntry.Options.EditorType == "ComboBox")
+                            if (updatedEntry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
                             {
                                 if (updatedEntry.Options.EditorOptions.Length > 0)
                                 {
@@ -2746,8 +2747,18 @@ namespace Win_CBZ
 
                                     MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                     //c.ReadOnly = true;
+                                } else
+                                {
+                                    DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
+                                    {
+                                        Value = updatedEntry.Value
+                                    };
+
+                                    MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                 }
-                            } else if (updatedEntry.Options.EditorType == "ItemEditor")
+                            } 
+                            
+                            if (updatedEntry.Options.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
                             {
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                                 {
@@ -2755,8 +2766,7 @@ namespace Win_CBZ
                                     Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false)
                                 };
                                 MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-                            }                      
-                            else if (key.ToString() == "LanguageISO")
+                            } else if (updatedEntry.Options.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
                             {
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                                 {
@@ -3429,6 +3439,12 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ImageConversionQuality = settingsDialog.ConversionQualityValue;
                 Win_CBZSettings.Default.MetaDataFilename = settingsDialog.MetaDataFilename;
                 Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = settingsDialog.MetaPageIndexWriteVersion;
+
+                foreach (String line in settingsDialog.CustomFieldTypesCollection)
+                {
+                    Win_CBZSettings.Default.CustomMetadataFieldTypes.Add(line);
+                }
+                
 
                 TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
                 Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;

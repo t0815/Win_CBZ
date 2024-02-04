@@ -148,6 +148,7 @@
     <Compile Include="Data\ExtractArchiveThreadParams.cs" />
     <Compile Include="Data\LanguageList.cs" />
     <Compile Include="Data\LanguageListItem.cs" />
+    <Compile Include="Data\MetaDataFieldType.cs" />
     <Compile Include="Data\MinMaxDimensions.cs" />
     <Compile Include="Data\MoveItemsToThreadParams.cs" />
     <Compile Include="Data\MovePageThreadParams.cs" />

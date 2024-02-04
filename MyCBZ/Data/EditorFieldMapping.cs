@@ -8,6 +8,12 @@ namespace Win_CBZ.Data
 {
     internal class EditorFieldMapping
     {
+        public const String MetaDataFieldTypeText = "TextBox";
+        public const String MetaDataFieldTypeComboBox = "ComboBox";
+
+
+        public String FieldType;
+
         public String EditorType;
 
         public String[] EditorOptions;

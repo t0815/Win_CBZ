@@ -8,6 +8,17 @@ namespace Win_CBZ.Data
 {
     public class EditorTypeConfig
     {
+        public const String EditorTypeNoEditor = "";
+        public const String EditorTypeMultiLineTextEditor = "MultiLineTextEditor";
+        public const String EditorTypeLanguageEditor = "LanguageEditor";
+
+        public static string[] Editors = 
+        {
+            EditorTypeConfig.EditorTypeNoEditor,
+            EditorTypeConfig.EditorTypeMultiLineTextEditor,
+            EditorTypeConfig.EditorTypeLanguageEditor,
+        };
+
 
         public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate) 
         {
