@@ -193,8 +193,6 @@ namespace Win_CBZ
                 throw new MetaDataValidationException(new MetaDataEntry(key, value, readOnly), "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
             }
 
-            UpdateCustomEditorMappings();
-
             if (CustomEditorValueMappings.ContainsKey(key))
             {
                 CustomEditorValueMappings.TryGetValue(key, out var mapping);
@@ -219,13 +217,19 @@ namespace Win_CBZ
             {
                 String[] typeParts = line.Split('|');
 
-                if (typeParts.Length == 3)
+                if (typeParts.Length == 4)
                 {
-                    CustomEditorValueMappings.Add(typeParts[0], new EditorFieldMapping()
+                    try
                     {
-                        EditorType = typeParts[1],
-                        EditorOptions = typeParts[2].Split(',')
-                    });
+                        CustomEditorValueMappings.Add(typeParts[0], new EditorFieldMapping()
+                        {
+                            FieldType = typeParts[1],
+                            EditorType = typeParts[2],
+                            EditorOptions = typeParts[3].Split(',')
+                        });
+                    } catch (Exception e) {
+
+                    }
                 }
             }
         }

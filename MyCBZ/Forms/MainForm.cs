@@ -126,7 +126,7 @@ namespace Win_CBZ
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
             newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
-
+        
 
             Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
@@ -3440,11 +3440,13 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.MetaDataFilename = settingsDialog.MetaDataFilename;
                 Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = settingsDialog.MetaPageIndexWriteVersion;
 
+                Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)
                 {
-                    Win_CBZSettings.Default.CustomMetadataFieldTypes.Add(line);
+                    Win_CBZSettings.Default.CustomMetadataFields.Add(line);
                 }
                 
+                Program.ProjectModel.MetaData.UpdateCustomEditorMappings();
 
                 TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
                 Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;

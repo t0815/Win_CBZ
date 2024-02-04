@@ -80,6 +80,8 @@
             this.ImageProcessingTabPage = new System.Windows.Forms.TabPage();
             this.TagValidationTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.AddFieldTypeButton = new System.Windows.Forms.Button();
+            this.RemoveFieldTypeButton = new System.Windows.Forms.Button();
             this.SettingsTablePanel.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -216,7 +218,7 @@
             this.SettingsContentPanel.Controls.Add(this.AppSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.ImageProcessingTabControl);
             this.SettingsContentPanel.Location = new System.Drawing.Point(203, 114);
-            this.SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4);
             this.SettingsContentPanel.Name = "SettingsContentPanel";
             this.SettingsContentPanel.Size = new System.Drawing.Size(580, 342);
             this.SettingsContentPanel.TabIndex = 2;
@@ -268,7 +270,7 @@
             this.PictureBoxToolTipMetaFileName.Margin = new System.Windows.Forms.Padding(0);
             this.PictureBoxToolTipMetaFileName.Name = "PictureBoxToolTipMetaFileName";
             this.PictureBoxToolTipMetaFileName.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.PictureBoxToolTipMetaFileName.Size = new System.Drawing.Size(40, 40);
+            this.PictureBoxToolTipMetaFileName.Size = new System.Drawing.Size(38, 36);
             this.PictureBoxToolTipMetaFileName.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PictureBoxToolTipMetaFileName.TabIndex = 6;
             this.PictureBoxToolTipMetaFileName.TabStop = false;
@@ -405,7 +407,7 @@
             this.CheckBoxTagValidationIgnoreCase.AutoSize = true;
             this.CheckBoxTagValidationIgnoreCase.Enabled = false;
             this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(4, 35);
-            this.CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4);
             this.CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
             this.CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(24, 5, 0, 0);
             this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(143, 7);
@@ -483,21 +485,25 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CustomFieldTypesTablePanel.ColumnCount = 2;
-            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.46964F));
+            this.CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.53036F));
             this.CustomFieldTypesTablePanel.Controls.Add(this.CustomFieldsDataGrid, 0, 1);
+            this.CustomFieldTypesTablePanel.Controls.Add(this.AddFieldTypeButton, 0, 2);
+            this.CustomFieldTypesTablePanel.Controls.Add(this.RemoveFieldTypeButton, 1, 2);
             this.CustomFieldTypesTablePanel.Location = new System.Drawing.Point(7, 10);
             this.CustomFieldTypesTablePanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CustomFieldTypesTablePanel.Name = "CustomFieldTypesTablePanel";
             this.CustomFieldTypesTablePanel.RowCount = 3;
-            this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(494, 282);
             this.CustomFieldTypesTablePanel.TabIndex = 0;
             // 
             // CustomFieldsDataGrid
             // 
+            this.CustomFieldsDataGrid.AllowUserToAddRows = false;
+            this.CustomFieldsDataGrid.AllowUserToDeleteRows = false;
             this.CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CustomFieldTypesTablePanel.SetColumnSpan(this.CustomFieldsDataGrid, 2);
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -509,12 +515,12 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 54);
+            this.CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 43);
             this.CustomFieldsDataGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             this.CustomFieldsDataGrid.RowHeadersWidth = 51;
             this.CustomFieldsDataGrid.RowTemplate.Height = 24;
-            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(488, 186);
+            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(488, 192);
             this.CustomFieldsDataGrid.TabIndex = 0;
             this.CustomFieldsDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellContentClick);
             this.CustomFieldsDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellValueChanged);
@@ -627,7 +633,7 @@
             this.ImageProcessingTabControl.Controls.Add(this.ImageConversionTabPage);
             this.ImageProcessingTabControl.Controls.Add(this.ImageProcessingTabPage);
             this.ImageProcessingTabControl.Location = new System.Drawing.Point(408, 4);
-            this.ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4);
             this.ImageProcessingTabControl.Name = "ImageProcessingTabControl";
             this.ImageProcessingTabControl.SelectedIndex = 0;
             this.ImageProcessingTabControl.Size = new System.Drawing.Size(156, 324);
@@ -639,9 +645,9 @@
             this.ImageConversionTabPage.Controls.Add(this.ComboBoxConvertPages);
             this.ImageConversionTabPage.Controls.Add(this.GroupBoxImageQuality);
             this.ImageConversionTabPage.Location = new System.Drawing.Point(4, 25);
-            this.ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.ImageConversionTabPage.Name = "ImageConversionTabPage";
-            this.ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4);
             this.ImageConversionTabPage.Size = new System.Drawing.Size(148, 295);
             this.ImageConversionTabPage.TabIndex = 0;
             this.ImageConversionTabPage.Text = "Image Conversion";
@@ -672,7 +678,7 @@
             "PNG",
             "Tiff"});
             this.ComboBoxConvertPages.Location = new System.Drawing.Point(11, 39);
-            this.ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxConvertPages.Name = "ComboBoxConvertPages";
             this.ComboBoxConvertPages.Size = new System.Drawing.Size(112, 24);
             this.ComboBoxConvertPages.TabIndex = 23;
@@ -753,6 +759,27 @@
             // SettingsValidationErrorProvider
             // 
             this.SettingsValidationErrorProvider.ContainerControl = this;
+            // 
+            // AddFieldTypeButton
+            // 
+            this.AddFieldTypeButton.Location = new System.Drawing.Point(3, 245);
+            this.AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.AddFieldTypeButton.Name = "AddFieldTypeButton";
+            this.AddFieldTypeButton.Size = new System.Drawing.Size(75, 23);
+            this.AddFieldTypeButton.TabIndex = 1;
+            this.AddFieldTypeButton.Text = "Add";
+            this.AddFieldTypeButton.UseVisualStyleBackColor = true;
+            this.AddFieldTypeButton.Click += new System.EventHandler(this.AddFieldTypeButton_Click);
+            // 
+            // RemoveFieldTypeButton
+            // 
+            this.RemoveFieldTypeButton.Location = new System.Drawing.Point(114, 245);
+            this.RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
+            this.RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
+            this.RemoveFieldTypeButton.Size = new System.Drawing.Size(75, 23);
+            this.RemoveFieldTypeButton.TabIndex = 2;
+            this.RemoveFieldTypeButton.Text = "Remove";
+            this.RemoveFieldTypeButton.UseVisualStyleBackColor = true;
             // 
             // SettingsDialog
             // 
@@ -854,5 +881,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox ComboBoxPageIndexVersionWrite;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button AddFieldTypeButton;
+        private System.Windows.Forms.Button RemoveFieldTypeButton;
     }
 }

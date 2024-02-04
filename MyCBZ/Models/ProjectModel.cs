@@ -221,6 +221,7 @@ namespace Win_CBZ
         {
             MetaData = new MetaData(createDefaultValues, metaDataFilename);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
+            MetaData.UpdateCustomEditorMappings();
 
             OnMetaDataChanged(new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_NEW, MetaData));
 
@@ -231,6 +232,7 @@ namespace Win_CBZ
         {
             MetaData = new MetaData(fileInputStream, metaDataFilename);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
+            MetaData.UpdateCustomEditorMappings();
 
             OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
 
