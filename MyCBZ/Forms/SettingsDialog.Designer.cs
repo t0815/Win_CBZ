@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             this.SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.ButtonOk = new System.Windows.Forms.Button();
             this.HeaderPanel = new System.Windows.Forms.Panel();
@@ -113,30 +113,30 @@
             // SettingsTablePanel
             // 
             this.SettingsTablePanel.ColumnCount = 3;
-            this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.40752F));
-            this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.59248F));
+            this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.SettingsTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
             this.SettingsTablePanel.Controls.Add(this.ButtonOk, 1, 2);
             this.SettingsTablePanel.Controls.Add(this.HeaderPanel, 0, 0);
             this.SettingsTablePanel.Controls.Add(this.SettingsSectionList, 0, 1);
             this.SettingsTablePanel.Controls.Add(this.ButtonCancel, 2, 2);
             this.SettingsTablePanel.Controls.Add(this.SettingsContentPanel, 1, 1);
-            this.SettingsTablePanel.Location = new System.Drawing.Point(3, 2);
+            this.SettingsTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SettingsTablePanel.Location = new System.Drawing.Point(0, 0);
             this.SettingsTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SettingsTablePanel.Name = "SettingsTablePanel";
             this.SettingsTablePanel.RowCount = 3;
-            this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.02235F));
-            this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.97765F));
+            this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
-            this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.SettingsTablePanel.Size = new System.Drawing.Size(787, 514);
+            this.SettingsTablePanel.Size = new System.Drawing.Size(800, 519);
             this.SettingsTablePanel.TabIndex = 0;
             // 
             // ButtonOk
             // 
             this.ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOk.Location = new System.Drawing.Point(541, 470);
+            this.ButtonOk.Location = new System.Drawing.Point(555, 475);
             this.ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(110, 34);
@@ -147,6 +147,8 @@
             // 
             // HeaderPanel
             // 
+            this.HeaderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.HeaderPanel.BackColor = System.Drawing.Color.White;
             this.SettingsTablePanel.SetColumnSpan(this.HeaderPanel, 3);
             this.HeaderPanel.Controls.Add(this.HeaderLabel);
@@ -154,7 +156,7 @@
             this.HeaderPanel.Location = new System.Drawing.Point(3, 2);
             this.HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(780, 82);
+            this.HeaderPanel.Size = new System.Drawing.Size(794, 76);
             this.HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
@@ -180,6 +182,7 @@
             // 
             // SettingsSectionList
             // 
+            this.SettingsSectionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SettingsSectionList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SettingsSectionList.FormattingEnabled = true;
             this.SettingsSectionList.ItemHeight = 21;
@@ -188,10 +191,10 @@
             "Application",
             "CBZ",
             "Image Processing"});
-            this.SettingsSectionList.Location = new System.Drawing.Point(3, 112);
+            this.SettingsSectionList.Location = new System.Drawing.Point(3, 82);
             this.SettingsSectionList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SettingsSectionList.Name = "SettingsSectionList";
-            this.SettingsSectionList.Size = new System.Drawing.Size(188, 256);
+            this.SettingsSectionList.Size = new System.Drawing.Size(194, 382);
             this.SettingsSectionList.TabIndex = 1;
             this.SettingsSectionList.SelectedIndexChanged += new System.EventHandler(this.SettingsSectionList_SelectedIndexChanged);
             // 
@@ -199,7 +202,7 @@
             // 
             this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ButtonCancel.Location = new System.Drawing.Point(665, 470);
+            this.ButtonCancel.Location = new System.Drawing.Point(678, 475);
             this.ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(119, 34);
@@ -218,10 +221,10 @@
             this.SettingsContentPanel.Controls.Add(this.CBZSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.AppSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.ImageProcessingTabControl);
-            this.SettingsContentPanel.Location = new System.Drawing.Point(203, 114);
+            this.SettingsContentPanel.Location = new System.Drawing.Point(204, 84);
             this.SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4);
             this.SettingsContentPanel.Name = "SettingsContentPanel";
-            this.SettingsContentPanel.Size = new System.Drawing.Size(580, 342);
+            this.SettingsContentPanel.Size = new System.Drawing.Size(592, 378);
             this.SettingsContentPanel.TabIndex = 2;
             // 
             // MetaDataConfigTabControl
@@ -232,7 +235,7 @@
             this.MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             this.MetaDataConfigTabControl.SelectedIndex = 0;
-            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(109, 322);
+            this.MetaDataConfigTabControl.Size = new System.Drawing.Size(308, 372);
             this.MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -242,7 +245,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(101, 293);
+            this.tabPage1.Size = new System.Drawing.Size(300, 343);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Default";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -256,17 +259,19 @@
             this.SettingsGroup1Panel.Controls.Add(this.label2);
             this.SettingsGroup1Panel.Controls.Add(this.label1);
             this.SettingsGroup1Panel.Controls.Add(this.CustomDefaultKeys);
-            this.SettingsGroup1Panel.Location = new System.Drawing.Point(5, 6);
+            this.SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SettingsGroup1Panel.Location = new System.Drawing.Point(3, 2);
             this.SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            this.SettingsGroup1Panel.Size = new System.Drawing.Size(563, 283);
+            this.SettingsGroup1Panel.Size = new System.Drawing.Size(294, 339);
             this.SettingsGroup1Panel.TabIndex = 4;
             // 
             // PictureBoxToolTipMetaFileName
             // 
+            this.PictureBoxToolTipMetaFileName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PictureBoxToolTipMetaFileName.Image = global::Win_CBZ.Properties.Resources.information;
             this.PictureBoxToolTipMetaFileName.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.PictureBoxToolTipMetaFileName.Location = new System.Drawing.Point(484, 6);
+            this.PictureBoxToolTipMetaFileName.Location = new System.Drawing.Point(238, 8);
             this.PictureBoxToolTipMetaFileName.Margin = new System.Windows.Forms.Padding(0);
             this.PictureBoxToolTipMetaFileName.Name = "PictureBoxToolTipMetaFileName";
             this.PictureBoxToolTipMetaFileName.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
@@ -280,7 +285,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(-2, 18);
+            this.label4.Location = new System.Drawing.Point(15, 18);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(66, 16);
             this.label4.TabIndex = 5;
@@ -288,17 +293,20 @@
             // 
             // ComboBoxFileName
             // 
+            this.ComboBoxFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ComboBoxFileName.Items.AddRange(new object[] {
             "ComicInfo.xml"});
             this.ComboBoxFileName.Location = new System.Drawing.Point(87, 14);
-            this.ComboBoxFileName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ComboBoxFileName.Margin = new System.Windows.Forms.Padding(3, 4, 20, 4);
             this.ComboBoxFileName.Name = "ComboBoxFileName";
-            this.ComboBoxFileName.Size = new System.Drawing.Size(379, 24);
+            this.ComboBoxFileName.Size = new System.Drawing.Size(108, 24);
             this.ComboBoxFileName.TabIndex = 4;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(436, 228);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(164, 244);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(115, 38);
@@ -309,9 +317,11 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(3, 228);
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Location = new System.Drawing.Point(8, 297);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(403, 32);
+            this.label2.Size = new System.Drawing.Size(313, 32);
             this.label2.TabIndex = 2;
             this.label2.Text = "One Key per Line\r\nTo set a default value for a given key use <key>=<value> format" +
     "";
@@ -319,7 +329,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 50);
+            this.label1.Location = new System.Drawing.Point(15, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 16);
             this.label1.TabIndex = 1;
@@ -327,13 +337,16 @@
             // 
             // CustomDefaultKeys
             // 
+            this.CustomDefaultKeys.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CustomDefaultKeys.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CustomDefaultKeys.Location = new System.Drawing.Point(3, 71);
+            this.CustomDefaultKeys.Location = new System.Drawing.Point(18, 71);
             this.CustomDefaultKeys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomDefaultKeys.Multiline = true;
             this.CustomDefaultKeys.Name = "CustomDefaultKeys";
             this.CustomDefaultKeys.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.CustomDefaultKeys.Size = new System.Drawing.Size(546, 144);
+            this.CustomDefaultKeys.Size = new System.Drawing.Size(259, 153);
             this.CustomDefaultKeys.TabIndex = 0;
             // 
             // MetaDataTabPageTags
@@ -343,7 +356,7 @@
             this.MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             this.MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTabPageTags.Size = new System.Drawing.Size(101, 293);
+            this.MetaDataTabPageTags.Size = new System.Drawing.Size(419, 343);
             this.MetaDataTabPageTags.TabIndex = 1;
             this.MetaDataTabPageTags.Text = "Tags";
             this.MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -351,26 +364,27 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.54717F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.45283F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.Controls.Add(this.CheckBoxValidateTags, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.InfoIconTooltip, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.CheckBoxTagValidationIgnoreCase, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.ValidTags, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.ItemEditorToolBar, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(5, 6);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 2);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 182F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(555, 290);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(413, 339);
             this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // CheckBoxValidateTags
             // 
@@ -389,7 +403,7 @@
             // 
             this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
             this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.Location = new System.Drawing.Point(319, 0);
+            this.InfoIconTooltip.Location = new System.Drawing.Point(353, 0);
             this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             this.InfoIconTooltip.Name = "InfoIconTooltip";
             this.InfoIconTooltip.Padding = new System.Windows.Forms.Padding(7, 7, 7, 6);
@@ -406,11 +420,11 @@
             // 
             this.CheckBoxTagValidationIgnoreCase.AutoSize = true;
             this.CheckBoxTagValidationIgnoreCase.Enabled = false;
-            this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(4, 35);
+            this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(4, 44);
             this.CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4);
             this.CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
             this.CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(24, 5, 0, 0);
-            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(143, 7);
+            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(143, 25);
             this.CheckBoxTagValidationIgnoreCase.TabIndex = 6;
             this.CheckBoxTagValidationIgnoreCase.Text = "Case Sensitive";
             this.CheckBoxTagValidationIgnoreCase.UseVisualStyleBackColor = true;
@@ -419,7 +433,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 262);
+            this.label3.Location = new System.Drawing.Point(3, 303);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(111, 16);
             this.label3.TabIndex = 4;
@@ -428,13 +442,14 @@
             // ValidTags
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.ValidTags, 2);
+            this.ValidTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ValidTags.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ValidTags.Location = new System.Drawing.Point(3, 82);
-            this.ValidTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ValidTags.Location = new System.Drawing.Point(3, 92);
+            this.ValidTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 8);
             this.ValidTags.Multiline = true;
             this.ValidTags.Name = "ValidTags";
             this.ValidTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ValidTags.Size = new System.Drawing.Size(536, 169);
+            this.ValidTags.Size = new System.Drawing.Size(407, 203);
             this.ValidTags.TabIndex = 3;
             // 
             // ItemEditorToolBar
@@ -448,12 +463,12 @@
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(504, 46);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(362, 80);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(51, 32);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(51, 8);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 8;
             // 
@@ -595,14 +610,14 @@
             this.CustomFieldsDataGrid.AllowUserToDeleteRows = false;
             this.CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CustomFieldTypesTablePanel.SetColumnSpan(this.CustomFieldsDataGrid, 3);
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle15;
             this.CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 43);
             this.CustomFieldsDataGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
