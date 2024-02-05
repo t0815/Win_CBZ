@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 using Win_CBZ.Data;
 using Win_CBZ.Helper;
 
@@ -182,6 +183,14 @@ namespace Win_CBZ.Forms
                             cc.Items.AddRange(EditorFieldMapping.FieldTypes);
                             cc.Value = line.FieldType; // selectedIndex > -1 ? selectedIndex : 0;
                             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                            cc.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                            cc.DisplayStyleForCurrentCellOnly = false;
+                            cc.Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.Black,
+                                SelectionBackColor = Color.Gold,
+                                BackColor = Color.White,
+                            };
 
                             CustomFieldsDataGrid.Rows[i].Cells[1] = cc;
 
@@ -190,6 +199,14 @@ namespace Win_CBZ.Forms
                             cc.Items.AddRange(EditorTypeConfig.Editors);
                             cc.Value = line.EditorType; // selectedIndex > -1 ? selectedIndex : 0;
                             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                            cc.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                            cc.DisplayStyleForCurrentCellOnly = false;
+                            cc.Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.Black,
+                                SelectionBackColor = Color.Gold,
+                                BackColor = Color.White,
+                            };
 
                             //c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                             ///c.DisplayStyleForCurrentCellOnly = true;
@@ -266,6 +283,14 @@ namespace Win_CBZ.Forms
                     else
                     {
 
+                    }
+
+                    foreach (MetaDataFieldType t in CustomFieldTypesSettings)
+                    {
+                        if (t.Name.Length == 0)
+                        {
+                            throw new MetaDataValidationException("", "", "Validateion Error! Empty MetaData- Editot Fieldname not allowed!");
+                        }
                     }
 
                     // -------------- DANGER!  All validation goes above this line --------------------
@@ -695,76 +720,80 @@ namespace Win_CBZ.Forms
                 CustomFieldsDataGrid.Rows[e.RowIndex].ErrorText = null;
                 CustomFieldsDataGrid.Invalidate();
 
-                //if (e.ColumnIndex == 0)
-                //{
-                    //var key = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[0].Value;
-                    //if (key != null)
-                    //{
-                        if (updatedEntry != null)
-                        {
-                            CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4].ReadOnly = true;
-                            updatedEntry.Options = Val;
+               
+                if (updatedEntry != null)
+                {
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4].ReadOnly = true;
+                    updatedEntry.Options = Val;
                     updatedEntry.FieldType = FieldType;
                     updatedEntry.Name = Key;
                     updatedEntry.EditorType = EditorType;
 
+                    int selectedIndex = Array.IndexOf(EditorFieldMapping.FieldTypes, FieldType);
+                    DataGridViewComboBoxCell cc = new DataGridViewComboBoxCell();
+                    cc.Items.AddRange(EditorFieldMapping.FieldTypes);
+                    cc.Value = FieldType; // selectedIndex > -1 ? selectedIndex : 0;
+                    cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                    cc.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                    cc.DisplayStyleForCurrentCellOnly = false;
+                    cc.Style = new DataGridViewCellStyle()
+                    {
+                        SelectionForeColor = Color.Black,
+                        SelectionBackColor = Color.Gold,
+                        BackColor = Color.White,
+                    };
 
-                            if (updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox ||
-                        updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete
-                                )
-                            {
-                                /*
-                                if (updatedEntry.Options.Length > 0)
-                                {
-                                    int selectedIndex = Array.IndexOf(updatedEntry.Options, updatedEntry.);
-                                    DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                    c.Items.AddRange(updatedEntry.Options);
-                                    c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
-                                    c.Tag = new EditorTypeConfig("ComboBox", "String", "", "", false);
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = cc;
 
-                                    c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                                    //c.DisplayStyleForCurrentCellOnly = true;
+                    selectedIndex = Array.IndexOf(EditorTypeConfig.Editors, EditorType);
+                    cc = new DataGridViewComboBoxCell();
+                    cc.Items.AddRange(EditorTypeConfig.Editors);
+                    cc.Value = EditorType; // selectedIndex > -1 ? selectedIndex : 0;
+                    cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                    cc.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                    cc.DisplayStyleForCurrentCellOnly = false;
+                    cc.Style = new DataGridViewCellStyle()
+                    {
+                        SelectionForeColor = Color.Black,
+                        SelectionBackColor = Color.Gold,
+                        BackColor = Color.White,
+                    };
 
-                                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
-                                    //c.ReadOnly = true;
-                                }
-                                */
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2] = cc;
 
-                                DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                {
-                                    Value = "...",
-                                    Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false)
-                                };
-                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
-                            }
+                    DataGridViewButtonCell bc = new DataGridViewButtonCell
+                    {
+                        Value = "...",
+                        Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false)
+                    };
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
+                }
                             
-                            if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
-                            {
+                    if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
+                    {
                                 
-                            }
-                            else if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
-                            {
-                                DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                {
-                                    Value = "...",
-                                    Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeLanguageEditor, "String", "", "", false)
-                                };
-                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
+                    }
+                    else if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
+                    {
+                        DataGridViewButtonCell bc = new DataGridViewButtonCell
+                        {
+                            Value = "...",
+                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeLanguageEditor, "String", "", "", false)
+                        };
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
 
-                            }
-                            else
-                            {
-                                //DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
-                                //{
-                                //    Value = updatedEntry.Value
-                                //};
+                    }
+                    else
+                    {
+                        //DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
+                        //{
+                        //    Value = updatedEntry.Value
+                        //};
 
-                                //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                        //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
 
-                            }
-                        }
-                    //}
-               // }
+                    }
+                                  
             }
             catch (Exception ex)
             {
@@ -785,6 +814,14 @@ namespace Win_CBZ.Forms
             cc.Items.AddRange(EditorFieldMapping.FieldTypes);
             cc.Value = newEntry.FieldType; // selectedIndex > -1 ? selectedIndex : 0;
             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+            cc.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            cc.DisplayStyleForCurrentCellOnly = false;
+            cc.Style = new DataGridViewCellStyle()
+            {
+                SelectionForeColor = Color.Black,
+                SelectionBackColor = Color.Gold,
+                BackColor = Color.White,
+            };
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[1] = cc;
 
@@ -793,10 +830,19 @@ namespace Win_CBZ.Forms
             cc.Items.AddRange(EditorTypeConfig.Editors);
             cc.Value = newEntry.EditorType; // selectedIndex > -1 ? selectedIndex : 0;
             cc.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+            cc.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            cc.DisplayStyleForCurrentCellOnly = false;
+            cc.Style = new DataGridViewCellStyle()
+            {
+                SelectionForeColor = Color.Black,
+                SelectionBackColor = Color.Gold,
+                BackColor = Color.White,
+            };
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[2] = cc;
 
-            if (newEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+            if (newEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox || 
+                newEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
             {
                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                 {

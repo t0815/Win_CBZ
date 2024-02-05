@@ -2489,8 +2489,10 @@ namespace Win_CBZ
                         MetaDataGrid.Rows[i].Cells[2].Style = new DataGridViewCellStyle()
                         {
                             SelectionForeColor = Color.Black,
-                            SelectionBackColor = ((i+1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
-                        }; */
+                            SelectionBackColor = Color.White,
+                            BackColor = Color.White,
+                        }; 
+                        */
 
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
@@ -2512,13 +2514,14 @@ namespace Win_CBZ
                                         c.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
                                         //c.AutoComplete = isAutoComplete;
                                         //c.DataSource = new List<String>(entry.Options.EditorOptions);
-
+                                        c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         c.DisplayStyleForCurrentCellOnly = false;
                                         c.Style = new DataGridViewCellStyle()
                                         {
+                                            SelectionBackColor = Color.White,
                                             ForeColor = Color.Black,
-                                            BackColor = ((i + 1) % 2 == 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                            BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         };
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
@@ -2532,18 +2535,15 @@ namespace Win_CBZ
                                         c.Style = new DataGridViewCellStyle()
                                         {
                                             SelectionBackColor = Color.FromKnownColor(KnownColor.Gold),
-                                            SelectionForeColor = Color.Black
+                                            SelectionForeColor = Color.Black,
+                                            BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         };
                                         //c. = isAutoComplete;
                                         //c.DataSource = new List<String>(entry.Options.EditorOptions);
 
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
-                                        //c.Style = new DataGridViewCellStyle()
-                                        //{
-                                        //    SelectionForeColor = Color.Black,
-                                        //    SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
-                                        //};
+                                       
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
                                     } else
@@ -2559,9 +2559,11 @@ namespace Win_CBZ
                                             Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false),
                                             Style = new DataGridViewCellStyle()
                                             {
+                                                
                                                 SelectionForeColor = Color.White,
                                                 SelectionBackColor = Color.White,
-                                                BackColor = ((i + 1) % 2 == 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                                ForeColor = Color.Black,
+                                                BackColor = Color.White,
                                             }
                                         };
                                         MetaDataGrid.Rows[i].Cells[2] = bc;
@@ -2576,7 +2578,8 @@ namespace Win_CBZ
                                             {
                                                 SelectionForeColor = Color.White,
                                                 SelectionBackColor = Color.White,
-                                                BackColor = ((i + 1) % 2 == 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                                ForeColor = Color.Black,
+                                                BackColor = Color.White,
                                             }
                                         };
                                         MetaDataGrid.Rows[i].Cells[2] = bc;
@@ -2821,7 +2824,7 @@ namespace Win_CBZ
 
                                     DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
                                     c.Items.AddRange(updatedEntry.Options.EditorOptions);
-                                    //c.AutoComplete = isAutoComplete;
+                                    c.AutoComplete = false;
                                     //c.DataSource = new List<String>(updatedEntry.Options.EditorOptions);
 
 
@@ -2832,7 +2835,8 @@ namespace Win_CBZ
                                     c.Style = new DataGridViewCellStyle()
                                     {
                                         SelectionForeColor = Color.Black,
-                                        BackColor = ((e.RowIndex + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                        SelectionBackColor = Color.Gold,
+                                        BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                     };
 
                                     //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
@@ -2867,7 +2871,8 @@ namespace Win_CBZ
                                 c.Style = new DataGridViewCellStyle()
                                 {
                                     SelectionForeColor = Color.Black,
-                                    BackColor = ((e.RowIndex + 1) % 2 == 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                    SelectionBackColor = Color.Gold,
+                                    BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                 };
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
@@ -2883,7 +2888,8 @@ namespace Win_CBZ
                                     {
                                         SelectionForeColor = Color.White,
                                         SelectionBackColor = Color.White,
-                                        BackColor = ((e.RowIndex + 1) % 2 == 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                        ForeColor = Color.Black,
+                                        BackColor = Color.White,
                                     }
                                 };
                                 
@@ -2899,7 +2905,8 @@ namespace Win_CBZ
                                     {
                                         SelectionForeColor = Color.White,
                                         SelectionBackColor = Color.White,
-                                        BackColor = ((e.RowIndex + 1) % 2 == 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                        ForeColor = Color.Black,
+                                        BackColor = Color.White,
                                     }
                                 };
 
