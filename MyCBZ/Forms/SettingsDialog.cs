@@ -761,38 +761,44 @@ namespace Win_CBZ.Forms
 
                     CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2] = cc;
 
-                    DataGridViewButtonCell bc = new DataGridViewButtonCell
-                    {
-                        Value = "...",
-                        Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false)
-                    };
-                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
-                }
-                            
-                    if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
-                    {
-                                
-                    }
-                    else if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
+                    if (updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox ||
+                        updatedEntry.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete
+                        )
                     {
                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                         {
                             Value = "...",
-                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeLanguageEditor, "String", "", "", false)
+                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false)
                         };
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
-
                     }
-                    else
-                    {
-                        //DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
-                        //{
-                        //    Value = updatedEntry.Value
-                        //};
+                    
+                }
+                            
+                if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
+                {
+                                
+                }
+                else if (updatedEntry.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
+                {
+                    //DataGridViewButtonCell bc = new DataGridViewButtonCell
+                    //{
+                    //    Value = "...",
+                    //    Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeLanguageEditor, "String", "", "", false)
+                    //};
+                    //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = bc;
 
-                        //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                }
+                else
+                {
+                    //DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
+                    //{
+                    //    Value = updatedEntry.Value
+                    //};
 
-                    }
+                    //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
+
+                }
                                   
             }
             catch (Exception ex)
