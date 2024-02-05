@@ -2413,6 +2413,9 @@ namespace Win_CBZ
                         textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                                         
+                    } else
+                    {
+
                     }
                 } else
                 {
@@ -2561,7 +2564,7 @@ namespace Win_CBZ
                                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                                         {
                                             Value = "...",
-                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false),
+                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false, entry.Options.EditorOptions),
                                             Style = new DataGridViewCellStyle()
                                             {
                                                 
@@ -2588,6 +2591,24 @@ namespace Win_CBZ
                                             }
                                         };
                                         MetaDataGrid.Rows[i].Cells[2] = bc;
+                                    }
+                                    else if (entry.Options.EditorType == EditorTypeConfig.EditorTypeTagEditor)
+                                    {
+                                        DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                        {
+                                            Value = "...",
+                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeTagEditor, "String", ",", "", false, entry.Options.EditorOptions),
+                                            Style = new DataGridViewCellStyle()
+                                            {
+                                                SelectionForeColor = Color.White,
+                                                SelectionBackColor = Color.White,
+                                                ForeColor = Color.Black,
+                                                BackColor = Color.White,
+                                            }
+                                        };
+
+                                        MetaDataGrid.Rows[i].Cells[2] = bc;
+
                                     }
                                 } else
                                 {
@@ -2680,6 +2701,19 @@ namespace Win_CBZ
                         case EditorTypeConfig.EditorTypeMultiLineTextEditor:
                             {
                                 TextEditorForm textEditor = new TextEditorForm(editorConfig);
+                                DialogResult r = textEditor.ShowDialog();
+                                if (r == DialogResult.OK)
+                                {
+                                    if (textEditor.config.Result != null)
+                                    {
+                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                    }
+                                }
+                            }
+                            break;
+                        case EditorTypeConfig.EditorTypeTagEditor:
+                            {
+                                TagEditorForm textEditor = new TagEditorForm(editorConfig);
                                 DialogResult r = textEditor.ShowDialog();
                                 if (r == DialogResult.OK)
                                 {
@@ -2888,7 +2922,7 @@ namespace Win_CBZ
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                                 {
                                     Value = "...",
-                                    Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                                    Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false, updatedEntry.Options.EditorOptions),
                                     Style = new DataGridViewCellStyle()
                                     {
                                         SelectionForeColor = Color.White,
@@ -2918,8 +2952,27 @@ namespace Win_CBZ
                                 MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
 
                             }
+                        }
+                        else if (updatedEntry.Options.EditorType == EditorTypeConfig.EditorTypeTagEditor)
+                        {
+                            DataGridViewButtonCell bc = new DataGridViewButtonCell
+                            {
+                                Value = "...",
+                                Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeTagEditor, "String", ",", "", false, updatedEntry.Options.EditorOptions),
+                                Style = new DataGridViewCellStyle()
+                                {
+                                    SelectionForeColor = Color.White,
+                                    SelectionBackColor = Color.White,
+                                    ForeColor = Color.Black,
+                                    BackColor = Color.White,
+                                }
+                            };
+
+                            MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
 
                         }
+
+                    
                     }
                 }
             }

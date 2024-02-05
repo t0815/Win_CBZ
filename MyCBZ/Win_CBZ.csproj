@@ -167,6 +167,12 @@
     <Compile Include="Forms\EditImageForm.Designer.cs">
       <DependentUpon>EditImageForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\TagEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TagEditorForm.Designer.cs">
+      <DependentUpon>TagEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\KeyValueEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -318,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditImageForm.resx">
       <DependentUpon>EditImageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TagEditorForm.resx">
+      <DependentUpon>TagEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\KeyValueEditor.resx">
       <DependentUpon>KeyValueEditor.cs</DependentUpon>

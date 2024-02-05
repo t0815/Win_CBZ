@@ -11,12 +11,14 @@ namespace Win_CBZ.Data
         public const String EditorTypeNoEditor = "";
         public const String EditorTypeMultiLineTextEditor = "MultiLineTextEditor";
         public const String EditorTypeLanguageEditor = "LanguageEditor";
+        public const String EditorTypeTagEditor = "TagEditor";
 
         public static string[] Editors = 
         {
             EditorTypeConfig.EditorTypeNoEditor,
             EditorTypeConfig.EditorTypeMultiLineTextEditor,
             EditorTypeConfig.EditorTypeLanguageEditor,
+            EditorTypeConfig.EditorTypeTagEditor,
         };
 
         public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate, string[] autoCompleteItems)

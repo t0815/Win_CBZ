@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,30 +6,30 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using Win_CBZ.Data;
 
 namespace Win_CBZ.Forms
 {
-    public partial class TextEditorForm : Form
+    public partial class TagEditorForm : Form
     {
-
         public List<String> Lines = new List<String>();
 
         public EditorTypeConfig config;
 
         DataValidation validation;
 
-        public TextEditorForm(EditorTypeConfig editorTypeConfig)
+        public TagEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
-            
+
             validation = new DataValidation();
 
             config = editorTypeConfig;
 
-            if (config != null ) 
-            { 
+            if (config != null)
+            {
                 if (config.Separator != null)
                 {
                     if (config.Value != null)
@@ -40,55 +39,47 @@ namespace Win_CBZ.Forms
                         foreach (string line in lines)
                         {
                             Lines.Add(line.TrimStart(' ').TrimEnd(' '));
-                        }
-
-                        ItemsText.Lines = Lines.ToArray();
+                        }                     
                     }
-                    
-                } else
+
+                }
+                else
                 {
-                    ItemsText.Text = config.Value;
+                    Lines.AddRange(config.Value.Split('\n'));
                 }
 
-                // does not work... create a tag editor instead
                 if (config.AutoCompleteItems != null)
                 {
                     AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                     autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
 
-                    ItemsText.AutoCompleteCustomSource = autoCompleteStringCollection;
-                    ItemsText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    ItemsText.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
+                    TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    TagTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 }
             }
-
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        private void TextEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void TagEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             object result = null;
             List<String> duplicates = new List<String>();
 
             if (DialogResult == DialogResult.OK)
             {
-                if (ItemsText.Lines.Length > 0)
+                if (Lines.Count > 0)
                 {
                     if (config != null)
                     {
                         if (!config.AllowDuplicateValues)
                         {
-                            duplicates.AddRange(validation.ValidateDuplicateStrings(ItemsText.Lines));
+                            duplicates.AddRange(validation.ValidateDuplicateStrings(Lines.ToArray()));
 
                             if (duplicates.Count > 0)
                             {
@@ -107,12 +98,12 @@ namespace Win_CBZ.Forms
 
                         if (config.ResultType == "String")
                         {
-                            result = String.Join(config.Separator ?? "" + config.Append ?? "", ItemsText.Lines);
+                            result = String.Join(config.Separator ?? "" + config.Append ?? "", Lines);
                         }
 
                         if (config.ResultType == "String[]")
                         {
-                            result = ItemsText.Lines;
+                            result = Lines;
                         }
 
                         config.Result = result;
@@ -121,26 +112,6 @@ namespace Win_CBZ.Forms
                     }
                 }
             }
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            ItemsText.Lines = ItemsText.Lines.OrderBy(s => s).ToArray();
-        }
-
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ItemEditorTableLayout_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void TextEditorForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
