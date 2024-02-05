@@ -102,7 +102,8 @@ namespace Win_CBZ.Forms
                 DataPropertyName = "Name",
                 HeaderText = "Key Name",
                 CellTemplate = new DataGridViewTextBoxCell(),
-                Width = 120,
+                Width = 100,
+                Frozen = true,
                 SortMode = DataGridViewColumnSortMode.Automatic,
             });
 
@@ -111,7 +112,7 @@ namespace Win_CBZ.Forms
                 DataPropertyName = "Type",
                 HeaderText = "Field Type",
                 CellTemplate = new DataGridViewTextBoxCell(),
-                Width = 100,
+                Width = 120,
                 SortMode = DataGridViewColumnSortMode.Automatic,
             });
 
@@ -120,7 +121,7 @@ namespace Win_CBZ.Forms
                 DataPropertyName = "Editor",
                 HeaderText = "Editor",
                 CellTemplate = new DataGridViewTextBoxCell(),
-                Width = 100,
+                Width = 120,
                 SortMode = DataGridViewColumnSortMode.Automatic,
             });
 
@@ -129,7 +130,7 @@ namespace Win_CBZ.Forms
                 DataPropertyName = "Items",
                 HeaderText = "Items",
                 CellTemplate = new DataGridViewTextBoxCell(),
-                Width = 100,
+                Width = 140,
                 SortMode = DataGridViewColumnSortMode.Automatic,
             });
 

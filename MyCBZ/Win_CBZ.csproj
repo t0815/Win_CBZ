@@ -135,6 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationMessage.cs" />
+    <Compile Include="Components\CustomDataGridView\CustomDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\CustomDataGridView\CustomDataGridView.Designer.cs">
+      <DependentUpon>CustomDataGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Components\ExtendedListView\CancelListViewItemDragEventArgs.cs" />
     <Compile Include="Components\ExtendedListView\ExtendetListView.cs">
       <SubType>Component</SubType>
@@ -164,6 +170,7 @@
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Exceptions\ConcurrentOperationException.cs" />
     <Compile Include="Exceptions\PageMemoryIOException.cs" />
+    <Compile Include="Extensions\DataGridExtensions.cs" />
     <Compile Include="Forms\EditImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -313,6 +320,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Win_CBZSettings.settings</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Components\CustomDataGridView\CustomDataGridView.resx">
+      <DependentUpon>CustomDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Components\ExtendedListView\ExtendetListView.resx">
       <DependentUpon>ExtendetListView.cs</DependentUpon>
     </EmbeddedResource>

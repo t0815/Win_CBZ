@@ -2371,6 +2371,21 @@ namespace Win_CBZ
 
                     Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), e.FormattedValue.ToString());
                 }
+
+                if (e.ColumnIndex == 1)
+                {
+                    object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
+                    EditorTypeConfig editorTypeConfig = MetaDataGrid.Rows[e.RowIndex].Cells[1].Tag as EditorTypeConfig;
+                
+                    if (editorTypeConfig != null)
+                    {
+                        if (editorTypeConfig.Type == "AutoComplete")
+                        {
+                            //e.FormattedValue
+                            //e.Cancel = true;
+                        }
+                    }
+                }
             } catch (MetaDataValidationException ve)
             {
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
@@ -2409,7 +2424,8 @@ namespace Win_CBZ
                         //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                         //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
                         TextBox textBox = e.Control as TextBox;
-                        
+                        textBox.KeyDown += DataGridTextBoxKeyDown;
+
                         AutoCompleteItems.Items = config.AutoCompleteItems;
                         AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
                         //AutoCompleteItems. = textBox
@@ -2432,6 +2448,14 @@ namespace Win_CBZ
                 }
             }
            
+        }
+
+        private void DataGridTextBoxKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                e.Handled = true;
+            }
         }
 
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
@@ -4726,7 +4750,20 @@ namespace Win_CBZ
 
         private void AutoCompleteItems_Selected(object sender, AutocompleteMenuNS.SelectedEventArgs e)
         {
-            //e.Control.Text = e.Item.Text;
+            e.Control.Text = e.Item.Text;
+        }
+
+        private void MetaDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
+        private void MetaDataGrid_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                e.Handled = true;
+            }
         }
     }
 }
