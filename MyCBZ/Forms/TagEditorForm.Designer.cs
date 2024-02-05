@@ -37,9 +37,9 @@
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.TagTextBox = new System.Windows.Forms.TextBox();
+            this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
             this.ItemEditorTableLayout.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
@@ -57,7 +57,7 @@
             this.ItemEditorTableLayout.Controls.Add(this.CancelBtn, 1, 4);
             this.ItemEditorTableLayout.Controls.Add(this.ItemEditorToolBar, 1, 1);
             this.ItemEditorTableLayout.Controls.Add(this.flowLayoutPanel1, 0, 1);
-            this.ItemEditorTableLayout.Controls.Add(this.flowLayoutPanel2, 0, 2);
+            this.ItemEditorTableLayout.Controls.Add(this.TagsList, 0, 2);
             this.ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             this.ItemEditorTableLayout.Margin = new System.Windows.Forms.Padding(4);
@@ -132,6 +132,7 @@
             this.CancelBtn.TabIndex = 4;
             this.CancelBtn.Text = "Cancel";
             this.CancelBtn.UseVisualStyleBackColor = true;
+            this.CancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
             // 
             // ItemEditorToolBar
             // 
@@ -159,6 +160,7 @@
             this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 28);
             this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
+            this.ToolButtonSortAscending.Click += new System.EventHandler(this.ToolButtonSortAscending_Click);
             // 
             // flowLayoutPanel1
             // 
@@ -172,16 +174,6 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(368, 30);
             this.flowLayoutPanel1.TabIndex = 8;
             // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ItemEditorTableLayout.SetColumnSpan(this.flowLayoutPanel2, 2);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(8, 141);
-            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(472, 100);
-            this.flowLayoutPanel2.TabIndex = 9;
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(290, 3);
@@ -190,22 +182,37 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Add";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // TagTextBox
             // 
-            this.TagTextBox.Location = new System.Drawing.Point(89, 3);
+            this.TagTextBox.Location = new System.Drawing.Point(45, 3);
             this.TagTextBox.Name = "TagTextBox";
-            this.TagTextBox.Size = new System.Drawing.Size(195, 22);
+            this.TagTextBox.Size = new System.Drawing.Size(239, 22);
             this.TagTextBox.TabIndex = 1;
+            this.TagTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TagTextBox_KeyDown);
+            this.TagTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TagTextBox_KeyPress);
             // 
-            // TagEditor
+            // TagsList
+            // 
+            this.TagsList.AutoScroll = true;
+            this.TagsList.BackColor = System.Drawing.SystemColors.Window;
+            this.TagsList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ItemEditorTableLayout.SetColumnSpan(this.TagsList, 2);
+            this.TagsList.Location = new System.Drawing.Point(8, 141);
+            this.TagsList.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
+            this.TagsList.Name = "TagsList";
+            this.TagsList.Size = new System.Drawing.Size(472, 100);
+            this.TagsList.TabIndex = 9;
+            // 
+            // TagEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 325);
             this.Controls.Add(this.ItemEditorTableLayout);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.Name = "TagEditor";
+            this.Name = "TagEditorForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tag Editor";
@@ -236,6 +243,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox TagTextBox;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.FlowLayoutPanel TagsList;
     }
 }

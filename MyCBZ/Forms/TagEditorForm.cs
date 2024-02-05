@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
 using Win_CBZ.Data;
 
 namespace Win_CBZ.Forms
@@ -61,9 +62,27 @@ namespace Win_CBZ.Forms
             }
         }
 
+        public void CreateTag(string tagName)
+        {
+            if (string.IsNullOrEmpty(tagName))
+            {
+                return;
+            }
+
+
+        }
+
+        public void RemoveTag(string tagName)
+        {
+            if (string.IsNullOrEmpty(tagName))
+            {
+                return;
+            }
+        }
+
         private void OkButton_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.OK;
         }
 
         private void TagEditor_FormClosing(object sender, FormClosingEventArgs e)
@@ -112,6 +131,35 @@ namespace Win_CBZ.Forms
                     }
                 }
             }
+        }
+
+        private void ToolButtonSortAscending_Click(object sender, EventArgs e)
+        {
+            Lines = Lines.OrderBy(s => s).ToList();
+        }
+
+        private void CancelBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void TagTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+
+        private void TagTextBox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                
+                //TagTextBox.Text = string.Empty;
+                e.Handled = true;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

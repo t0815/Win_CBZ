@@ -16,7 +16,7 @@ namespace Win_CBZ.Helper
             "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No",
             "BlackAndWhite|ComboBox||Unknown,Yes,No",
             "LanguageISO|Text|LanguageEditor|",
-            "Tags|Text|MultiLineTextEditor|"
+            "Tags|Text|TagEditor|"
         };
 
         public const String DefaultMetaDataFileName = "ComicInfo.xml";
