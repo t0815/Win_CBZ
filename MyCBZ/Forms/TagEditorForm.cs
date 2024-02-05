@@ -49,6 +49,8 @@ namespace Win_CBZ.Forms
                     Lines.AddRange(config.Value.Split('\n'));
                 }
 
+                
+
                 if (config.AutoCompleteItems != null)
                 {
                     //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
@@ -62,16 +64,89 @@ namespace Win_CBZ.Forms
 
                 }
             }
+
+            foreach (String tag in Lines)
+            {
+                AddTag(CreateTag(tag));
+            }
         }
 
-        public void CreateTag(string tagName)
+        public FlowLayoutPanel CreateTag(string tagName)
         {
             if (string.IsNullOrEmpty(tagName))
             {
-                return;
+                return null;
             }
 
+            FlowLayoutPanel tagItem = new FlowLayoutPanel();
+            tagItem.Name = "TAG_" + tagName;
+            tagItem.Tag = tagName;
+            tagItem.AutoSize = true;
+           
+            tagItem.BorderStyle = BorderStyle.None;
 
+            /*
+            System.Windows.Forms.Button closeButton = new System.Windows.Forms.Button()
+            {
+                Text = "",
+                Tag = tagItem,
+                Image = global::Win_CBZ.Properties.Resources.delete,
+                ImageAlign = ContentAlignment.MiddleCenter,
+                FlatStyle = FlatStyle.Flat,
+                Size = new Size()
+                {
+                    Width = 15,
+                    Height = 15
+                },
+            };
+            */
+
+            PictureBox closeButton = new PictureBox()
+            {
+                Image = global::Win_CBZ.Properties.Resources.delete,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Width = 15,
+                Height = 15,
+                Tag = tagItem,
+                Cursor = System.Windows.Forms.Cursors.Hand,
+                Margin = new Padding(0, 2, 2, 4),
+                Padding = new Padding(0, 1, 1, 1)
+            };
+
+            closeButton.Click += TagCloseButtonClick;
+
+            tagItem.Controls.Add(new PictureBox()
+            {
+                Image = global::Win_CBZ.Properties.Resources.tag,
+                SizeMode = PictureBoxSizeMode.AutoSize,
+                Width = 15,
+                Height = 15,
+                Margin = new Padding(3, 3, 1, 2)
+            });
+            tagItem.Controls.Add(new System.Windows.Forms.Label() 
+            {
+                Text = tagName, 
+                AutoSize = true,
+                Padding = new Padding(1, 3, 1, 2),
+                Margin = new Padding(0, 1, 0, 1)
+            });
+
+            tagItem.Controls.Add(closeButton);
+            
+
+    
+
+            tagItem.Parent = TagsList;
+
+            return tagItem;
+        }
+
+        public void AddTag(System.Windows.Forms.Control control)
+        {
+            if (control != null)
+            {
+                TagsList.Controls.Add(control);
+            }
         }
 
         public void RemoveTag(string tagName)
@@ -79,6 +154,21 @@ namespace Win_CBZ.Forms
             if (string.IsNullOrEmpty(tagName))
             {
                 return;
+            }
+        }
+
+        public void ClearTags()
+        {
+            TagsList.Controls.Clear();
+            
+        }
+
+        private void TagCloseButtonClick(object sender, System.EventArgs e)
+        {
+            if (((PictureBox)sender).Tag != null) {
+                var tag = ((PictureBox)sender).Tag as FlowLayoutPanel;
+                Lines.Remove((tag as FlowLayoutPanel).Tag.ToString());
+                TagsList.Controls.Remove(tag);
             }
         }
 
@@ -94,8 +184,7 @@ namespace Win_CBZ.Forms
 
             if (DialogResult == DialogResult.OK)
             {
-                if (Lines.Count > 0)
-                {
+                
                     if (config != null)
                     {
                         if (!config.AllowDuplicateValues)
@@ -131,13 +220,20 @@ namespace Win_CBZ.Forms
 
                         DialogResult = DialogResult.OK;
                     }
-                }
+                
             }
         }
 
         private void ToolButtonSortAscending_Click(object sender, EventArgs e)
         {
             Lines = Lines.OrderBy(s => s).ToList();
+
+            ClearTags();
+
+            foreach (String tag in Lines)
+            {
+                AddTag(CreateTag(tag));
+            }
         }
 
         private void CancelBtn_Click(object sender, EventArgs e)
@@ -153,15 +249,36 @@ namespace Win_CBZ.Forms
         {
             if (e.KeyCode == Keys.Return)
             {
-                
-                //TagTextBox.Text = string.Empty;
-                e.Handled = true;
+                if (TagTextBox.Text.Length > 0)
+                {
+                    Lines.Add(TagTextBox.Text);
+                    AddTag(CreateTag(TagTextBox.Text));
+                    TagTextBox.Text = string.Empty;
+                    e.Handled = true;
+                }
+
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void TagEditorForm_Shown(object sender, EventArgs e)
         {
+                
+        }
 
+        private void DeleteAllTagsToolButton_Click(object sender, EventArgs e)
+        {
+            ClearTags();
+            Lines.Clear();
+        }
+
+        private void ButtonAddTag_Click(object sender, EventArgs e)
+        {
+            if (TagTextBox.Text.Length > 0)
+            {
+                Lines.Add(TagTextBox.Text);
+                AddTag(CreateTag(TagTextBox.Text));
+                TagTextBox.Text = string.Empty;
+            }
         }
     }
 }

@@ -36,9 +36,10 @@
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
+            this.DeleteAllTagsToolButton = new System.Windows.Forms.ToolStripButton();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ButtonAddTag = new System.Windows.Forms.Button();
             this.TagTextBox = new System.Windows.Forms.TextBox();
             this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
             this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
@@ -66,9 +67,9 @@
             this.ItemEditorTableLayout.Name = "ItemEditorTableLayout";
             this.ItemEditorTableLayout.RowCount = 5;
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.ItemEditorTableLayout.Size = new System.Drawing.Size(497, 325);
@@ -143,15 +144,26 @@
             this.ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DeleteAllTagsToolButton,
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(457, 109);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(428, 74);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 8, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(32, 27);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(61, 27);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
+            // 
+            // DeleteAllTagsToolButton
+            // 
+            this.DeleteAllTagsToolButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.DeleteAllTagsToolButton.Image = global::Win_CBZ.Properties.Resources.garbage;
+            this.DeleteAllTagsToolButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteAllTagsToolButton.Name = "DeleteAllTagsToolButton";
+            this.DeleteAllTagsToolButton.Size = new System.Drawing.Size(29, 24);
+            this.DeleteAllTagsToolButton.Text = "toolStripButton1";
+            this.DeleteAllTagsToolButton.Click += new System.EventHandler(this.DeleteAllTagsToolButton_Click);
             // 
             // ToolButtonSortAscending
             // 
@@ -168,28 +180,32 @@
             // 
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.ButtonAddTag);
             this.flowLayoutPanel1.Controls.Add(this.TagTextBox);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 105);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 73);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(368, 30);
             this.flowLayoutPanel1.TabIndex = 8;
             // 
-            // button1
+            // ButtonAddTag
             // 
-            this.button1.Location = new System.Drawing.Point(290, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.ButtonAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonAddTag.Image = global::Win_CBZ.Properties.Resources.navigate_plus;
+            this.ButtonAddTag.Location = new System.Drawing.Point(331, 3);
+            this.ButtonAddTag.Name = "ButtonAddTag";
+            this.ButtonAddTag.Padding = new System.Windows.Forms.Padding(3);
+            this.ButtonAddTag.Size = new System.Drawing.Size(34, 23);
+            this.ButtonAddTag.TabIndex = 0;
+            this.ButtonAddTag.UseVisualStyleBackColor = true;
+            this.ButtonAddTag.Click += new System.EventHandler(this.ButtonAddTag_Click);
             // 
             // TagTextBox
             // 
             this.AutoCompleteItems.SetAutocompleteMenu(this.TagTextBox, this.AutoCompleteItems);
-            this.TagTextBox.Location = new System.Drawing.Point(45, 3);
+            this.TagTextBox.Location = new System.Drawing.Point(86, 3);
+            this.TagTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.TagTextBox.Name = "TagTextBox";
             this.TagTextBox.Size = new System.Drawing.Size(239, 22);
             this.TagTextBox.TabIndex = 1;
@@ -198,14 +214,17 @@
             // 
             // TagsList
             // 
+            this.TagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TagsList.AutoScroll = true;
             this.TagsList.BackColor = System.Drawing.SystemColors.Window;
             this.TagsList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ItemEditorTableLayout.SetColumnSpan(this.TagsList, 2);
-            this.TagsList.Location = new System.Drawing.Point(8, 141);
+            this.TagsList.Location = new System.Drawing.Point(8, 106);
             this.TagsList.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.TagsList.Name = "TagsList";
-            this.TagsList.Size = new System.Drawing.Size(472, 100);
+            this.TagsList.Size = new System.Drawing.Size(481, 153);
             this.TagsList.TabIndex = 9;
             // 
             // AutoCompleteItems
@@ -214,6 +233,7 @@
             this.AutoCompleteItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.AutoCompleteItems.ImageList = null;
             this.AutoCompleteItems.Items = new string[0];
+            this.AutoCompleteItems.MinFragmentLength = 1;
             this.AutoCompleteItems.TargetControlWrapper = null;
             // 
             // TagEditorForm
@@ -228,6 +248,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tag Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TagEditor_FormClosing);
+            this.Shown += new System.EventHandler(this.TagEditorForm_Shown);
             this.ItemEditorTableLayout.ResumeLayout(false);
             this.ItemEditorTableLayout.PerformLayout();
             this.HeaderPanel.ResumeLayout(false);
@@ -252,9 +273,10 @@
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;
         private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ButtonAddTag;
         private System.Windows.Forms.TextBox TagTextBox;
         private System.Windows.Forms.FlowLayoutPanel TagsList;
         private AutocompleteMenuNS.AutocompleteMenu AutoCompleteItems;
+        private System.Windows.Forms.ToolStripButton DeleteAllTagsToolButton;
     }
 }

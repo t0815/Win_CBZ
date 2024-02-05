@@ -556,6 +556,7 @@
     <None Include="Resources\pencil.png" />
     <None Include="Resources\selection.png" />
     <None Include="Resources\tags.png" />
+    <None Include="Resources\tag.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
