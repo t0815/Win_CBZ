@@ -2411,10 +2411,15 @@ namespace Win_CBZ
                         TextBox textBox = e.Control as TextBox;
                         textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
                         textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        textBox.AutoCompleteMode = AutoCompleteMode.Suggest;
-                        
-                        
+                        textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                                        
                     }
+                } else
+                {
+                    TextBox textBox = e.Control as TextBox;
+                    textBox.AutoCompleteCustomSource = null;
+                    textBox.AutoCompleteSource = AutoCompleteSource.None;
+                    textBox.AutoCompleteMode = AutoCompleteMode.None;
                 }
             }
            
