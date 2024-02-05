@@ -131,8 +131,8 @@ namespace Win_CBZ.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff31507\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang1031\deflangfe1031\themelang1031\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}Calibri;}{\f43\fbidi \fnil\fcharset0\fprq0{\*\panose 00000000000000000000}MS Sans Serif{\ [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1031\deflangfe1031\themelang1031\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
+        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}Calibri;}{\f43\fbidi \fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Segoe UI;}{\flomajor\ [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string CBZMageAboutMessage {
             get {
@@ -629,6 +629,16 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap speech_balloon_answer {
             get {
                 object obj = ResourceManager.GetObject("speech_balloon_answer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tags {
+            get {
+                object obj = ResourceManager.GetObject("tags", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

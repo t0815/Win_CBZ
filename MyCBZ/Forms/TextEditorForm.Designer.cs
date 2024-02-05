@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextEditorForm));
             this.ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.HeaderLabel = new System.Windows.Forms.Label();
@@ -38,6 +39,7 @@
             this.ItemsText = new System.Windows.Forms.TextBox();
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
+            this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
             this.ItemEditorTableLayout.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
@@ -147,6 +149,7 @@
             this.ItemsText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.AutoCompleteItems.SetAutocompleteMenu(this.ItemsText, this.AutoCompleteItems);
             this.ItemEditorTableLayout.SetColumnSpan(this.ItemsText, 2);
             this.ItemsText.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ItemsText.Location = new System.Drawing.Point(4, 113);
@@ -185,6 +188,15 @@
             this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // AutoCompleteItems
+            // 
+            this.AutoCompleteItems.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("AutoCompleteItems.Colors")));
+            this.AutoCompleteItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.AutoCompleteItems.ImageList = null;
+            this.AutoCompleteItems.Items = new string[0];
+            this.AutoCompleteItems.MinFragmentLength = 1;
+            this.AutoCompleteItems.TargetControlWrapper = null;
             // 
             // TextEditorForm
             // 
@@ -225,5 +237,6 @@
         private System.Windows.Forms.Label InfoLabel;
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;
         private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
+        private AutocompleteMenuNS.AutocompleteMenu AutoCompleteItems;
     }
 }

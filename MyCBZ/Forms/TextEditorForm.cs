@@ -53,12 +53,14 @@ namespace Win_CBZ.Forms
                 // does not work... create a tag editor instead
                 if (config.AutoCompleteItems != null)
                 {
-                    AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
-                    autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
+                    //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
+                    //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
 
-                    ItemsText.AutoCompleteCustomSource = autoCompleteStringCollection;
-                    ItemsText.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    ItemsText.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    AutoCompleteItems.Items = config.AutoCompleteItems;
+
+                    //ItemsText.AutoCompleteCustomSource = autoCompleteStringCollection;
+                    //ItemsText.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    //ItemsText.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 }
             }

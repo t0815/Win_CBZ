@@ -51,12 +51,14 @@ namespace Win_CBZ.Forms
 
                 if (config.AutoCompleteItems != null)
                 {
-                    AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
-                    autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
+                    //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
+                    //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
 
-                    TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
-                    TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    TagTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                    AutoCompleteItems.Items = config.AutoCompleteItems;
+
+                    //TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
+                    //TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                    //TagTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 
                 }
             }

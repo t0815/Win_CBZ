@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TagEditorForm));
             this.ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.HeaderLabel = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.TagTextBox = new System.Windows.Forms.TextBox();
             this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
+            this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
             this.ItemEditorTableLayout.SuspendLayout();
             this.HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
@@ -99,7 +101,7 @@
             // 
             this.HeaderPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.edit_large;
+            this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.tags;
             this.HeaderPicture.Location = new System.Drawing.Point(24, 0);
             this.HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeaderPicture.Name = "HeaderPicture";
@@ -142,11 +144,11 @@
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(457, 105);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(457, 109);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 8, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(32, 31);
+            this.ItemEditorToolBar.Size = new System.Drawing.Size(32, 27);
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
@@ -157,7 +159,7 @@
             this.ToolButtonSortAscending.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
             this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
-            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 28);
+            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 24);
             this.ToolButtonSortAscending.Text = "toolStripButton1";
             this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.ToolButtonSortAscending_Click);
@@ -186,6 +188,7 @@
             // 
             // TagTextBox
             // 
+            this.AutoCompleteItems.SetAutocompleteMenu(this.TagTextBox, this.AutoCompleteItems);
             this.TagTextBox.Location = new System.Drawing.Point(45, 3);
             this.TagTextBox.Name = "TagTextBox";
             this.TagTextBox.Size = new System.Drawing.Size(239, 22);
@@ -204,6 +207,14 @@
             this.TagsList.Name = "TagsList";
             this.TagsList.Size = new System.Drawing.Size(472, 100);
             this.TagsList.TabIndex = 9;
+            // 
+            // AutoCompleteItems
+            // 
+            this.AutoCompleteItems.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("AutoCompleteItems.Colors")));
+            this.AutoCompleteItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.AutoCompleteItems.ImageList = null;
+            this.AutoCompleteItems.Items = new string[0];
+            this.AutoCompleteItems.TargetControlWrapper = null;
             // 
             // TagEditorForm
             // 
@@ -244,5 +255,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox TagTextBox;
         private System.Windows.Forms.FlowLayoutPanel TagsList;
+        private AutocompleteMenuNS.AutocompleteMenu AutoCompleteItems;
     }
 }

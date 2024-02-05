@@ -2406,12 +2406,16 @@ namespace Win_CBZ
                 {
                     if (config.Type == "AutoComplete")
                     {
-                        AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
-                        autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
+                        //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
+                        //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
                         TextBox textBox = e.Control as TextBox;
-                        textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
-                        textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        
+                        AutoCompleteItems.Items = config.AutoCompleteItems;
+                        AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
+                        //AutoCompleteItems. = textBox
+                        //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
+                        //textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        //textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                                         
                     } else
                     {
@@ -2419,10 +2423,12 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    TextBox textBox = e.Control as TextBox;
-                    textBox.AutoCompleteCustomSource = null;
-                    textBox.AutoCompleteSource = AutoCompleteSource.None;
-                    textBox.AutoCompleteMode = AutoCompleteMode.None;
+                    AutoCompleteItems.Items = null;
+                    //AutoCompleteItems.SetAutocompleteMenu(null, AutoCompleteItems);
+                    //TextBox textBox = e.Control as TextBox;
+                    //textBox.AutoCompleteCustomSource = null;
+                    //textBox.AutoCompleteSource = AutoCompleteSource.None;
+                    //textBox.AutoCompleteMode = AutoCompleteMode.None;
                 }
             }
            
@@ -4718,6 +4724,9 @@ namespace Win_CBZ
             selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
         }
 
-
+        private void AutoCompleteItems_Selected(object sender, AutocompleteMenuNS.SelectedEventArgs e)
+        {
+            //e.Control.Text = e.Item.Text;
+        }
     }
 }

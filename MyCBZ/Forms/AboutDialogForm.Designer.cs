@@ -62,7 +62,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 84F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(529, 386);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(703, 386);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -74,14 +74,14 @@
             this.panel1.Location = new System.Drawing.Point(3, 2);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(521, 78);
+            this.panel1.Size = new System.Drawing.Size(697, 78);
             this.panel1.TabIndex = 0;
             // 
             // AppVersionLabel
             // 
             this.AppVersionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.AppVersionLabel.AutoSize = true;
-            this.AppVersionLabel.Location = new System.Drawing.Point(415, 49);
+            this.AppVersionLabel.Location = new System.Drawing.Point(591, 49);
             this.AppVersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.AppVersionLabel.Name = "AppVersionLabel";
             this.AppVersionLabel.Size = new System.Drawing.Size(92, 16);
@@ -93,7 +93,7 @@
             this.AppNameLabel.AutoSize = true;
             this.AppNameLabel.BackColor = System.Drawing.Color.Transparent;
             this.AppNameLabel.Font = new System.Drawing.Font("Courier New", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AppNameLabel.Location = new System.Drawing.Point(343, 9);
+            this.AppNameLabel.Location = new System.Drawing.Point(521, 7);
             this.AppNameLabel.Name = "AppNameLabel";
             this.AppNameLabel.Size = new System.Drawing.Size(167, 31);
             this.AppNameLabel.TabIndex = 1;
@@ -106,7 +106,7 @@
             this.AboutBoxBanner.Location = new System.Drawing.Point(0, 0);
             this.AboutBoxBanner.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AboutBoxBanner.Name = "AboutBoxBanner";
-            this.AboutBoxBanner.Size = new System.Drawing.Size(523, 78);
+            this.AboutBoxBanner.Size = new System.Drawing.Size(521, 78);
             this.AboutBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.AboutBoxBanner.TabIndex = 0;
             this.AboutBoxBanner.TabStop = false;
@@ -121,12 +121,12 @@
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(523, 62);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(697, 62);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // ButtonCloseDialog
             // 
-            this.ButtonCloseDialog.Location = new System.Drawing.Point(380, 9);
+            this.ButtonCloseDialog.Location = new System.Drawing.Point(554, 9);
             this.ButtonCloseDialog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonCloseDialog.Name = "ButtonCloseDialog";
             this.ButtonCloseDialog.Size = new System.Drawing.Size(124, 34);
@@ -142,7 +142,7 @@
             this.panel2.Location = new System.Drawing.Point(3, 86);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(521, 231);
+            this.panel2.Size = new System.Drawing.Size(697, 231);
             this.panel2.TabIndex = 2;
             // 
             // LicenseInfoRichtextBox
@@ -153,7 +153,7 @@
             this.LicenseInfoRichtextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.LicenseInfoRichtextBox.Name = "LicenseInfoRichtextBox";
             this.LicenseInfoRichtextBox.ReadOnly = true;
-            this.LicenseInfoRichtextBox.Size = new System.Drawing.Size(348, 165);
+            this.LicenseInfoRichtextBox.Size = new System.Drawing.Size(530, 200);
             this.LicenseInfoRichtextBox.TabIndex = 1;
             this.LicenseInfoRichtextBox.Text = "";
             // 
@@ -171,7 +171,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(529, 386);
+            this.ClientSize = new System.Drawing.Size(703, 386);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

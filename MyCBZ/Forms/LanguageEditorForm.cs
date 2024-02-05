@@ -116,11 +116,14 @@ namespace Win_CBZ.Forms
                 }
                 else
                 {
-                    if (key.ToString() == config.Value.ToString())
+                    if (config.Value != null)
                     {
+                        if (key.ToString() == config.Value.ToString())
+                        {
 
-                        LanguageListDatagrid.Rows[i].Selected = true;
-                        selectedRow = LanguageListDatagrid.Rows[i];
+                            LanguageListDatagrid.Rows[i].Selected = true;
+                            selectedRow = LanguageListDatagrid.Rows[i];
+                        }
                     }
                 }
             }

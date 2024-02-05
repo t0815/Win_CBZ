@@ -133,14 +133,14 @@
     <value>721, 21</value>
   </metadata>
   <metadata name="TabImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>416, 60</value>
+    <value>670, 62</value>
   </metadata>
   <data name="TabImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABu
-        CgAAAk1TRnQBSQFMAgEBAwEAAZgBGgGYARoBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        CgAAAk1TRnQBSQFMAgEBAwEAAeABGgHgARoBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAARADAAEBAQABCAYAAQQYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -188,17 +188,17 @@
 </value>
   </data>
   <metadata name="MetaDataEditorContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1340, 21</value>
+    <value>17, 62</value>
   </metadata>
   <metadata name="ToolButtonImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>895, 21</value>
+    <value>1050, 21</value>
   </metadata>
   <data name="ToolButtonImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABe
-        PgAAAk1TRnQBSQFMAgEBEQEAAZgBGgGYARoBGAEAARgBAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFg
+        PgAAAk1TRnQBSQFMAgEBEQEAAeABGgHgARoBGAEAARgBAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFg
         AwABeAMAAQEBAAEYBgABh/8A/wD/AHgAAtQB1QMnNiUDJwPV3gADvQMlNr0DJQO+3gADvQMlEgAD/wHl
         AfMB9gG8AeoB8wG8AeoB8wHlAfMB9gP/EgADJQO+3gADvQMlDwAB9AH4AfkBUAHaAfQBAAHSAfoBAAHS
         AfoBAAHSAfoBAAHSAfoBUAHaAvQB+AH5DwADJQO+3gADvQMlDAAB+gL7AS4B1wH3AQAB0gH6AcwB7QL0
@@ -468,28 +468,37 @@
 </value>
   </data>
   <metadata name="OpenImagesDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>547, 60</value>
+    <value>801, 62</value>
   </metadata>
-  <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1128, 60</value>
+  <metadata name="AutoCompleteItems.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>861, 21</value>
   </metadata>
-  <data name="InfoIconTooltip.ToolTip" xml:space="preserve">
-    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
-If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
-The page with type 'FrontCover' should be at index 1.</value>
-  </data>
-  <data name="CompatInfoText.Text" xml:space="preserve">
-    <value>Most CBZ-Readers ignore the ComicInfo Page-Index and rely on filename ordering instead. If enabled, any renaming options are ignored and the files are automatically renamed according to their index. The Page with Type 'FrontCover' should be at index 1.</value>
+  <data name="AutoCompleteItems.Colors" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEdBdXRvY29tcGxldGVNZW51LCBWZXJzaW9uPTEuMy41LjAsIEN1
+        bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAwDAAAAUVN5c3RlbS5EcmF3aW5nLCBWZXJz
+        aW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49YjAzZjVmN2YxMWQ1MGEz
+        YQUBAAAAGUF1dG9jb21wbGV0ZU1lbnVOUy5Db2xvcnMGAAAAGjxGb3JlQ29sb3I+a19fQmFja2luZ0Zp
+        ZWxkGjxCYWNrQ29sb3I+a19fQmFja2luZ0ZpZWxkIjxTZWxlY3RlZEZvcmVDb2xvcj5rX19CYWNraW5n
+        RmllbGQiPFNlbGVjdGVkQmFja0NvbG9yPmtfX0JhY2tpbmdGaWVsZCM8U2VsZWN0ZWRCYWNrQ29sb3Iy
+        PmtfX0JhY2tpbmdGaWVsZCI8SGlnaGxpZ2h0aW5nQ29sb3I+a19fQmFja2luZ0ZpZWxkBAQEBAQEFFN5
+        c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMAAAAUU3lzdGVtLkRyYXdp
+        bmcuQ29sb3IDAAAAFFN5c3RlbS5EcmF3aW5nLkNvbG9yAwAAABRTeXN0ZW0uRHJhd2luZy5Db2xvcgMA
+        AAAUU3lzdGVtLkRyYXdpbmcuQ29sb3IDAAAAAgAAAAX8////FFN5c3RlbS5EcmF3aW5nLkNvbG9yBAAA
+        AARuYW1lBXZhbHVlCmtub3duQ29sb3IFc3RhdGUBAAAACQcHAwAAAAoAAAAAAAAAACMAAQAB+/////z/
+        //8KAAAAAAAAAACkAAEAAfr////8////CgAAAAAAAAAAIwABAAH5/////P///woAAAAAAAAAAEwAAQAB
+        +P////z///8KAAAAAAAAAACkAAEAAff////8////CgAAAAAAAAAATAABAAs=
+</value>
   </data>
   <metadata name="SmallIconsImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1118, 21</value>
+    <value>1231, 21</value>
   </metadata>
   <data name="SmallIconsImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAK
-        AwAAAk1TRnQBSQFMAgEBAgEAAQgBGgEIARoBEAEAARABAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        AwAAAk1TRnQBSQFMAgEBAgEAAVABGgFQARoBEAEAARABAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABEAMAAQEBAAEYBgABDCEAA/cD2QPEA78D0gPtA/6lAAP+A7kDLA8lA38D/RIAA+cBUgFUAVUD+g8A
         A7gBtgK4bwAD+wOGBiUDSQOrA60DfwYlA0QD4wwAA+YDUAMlA30D+gYAA/0DtAMrAyUDumkAA/4DYwkl
         A5sGAAPfCSUDRAP9BgAD5wwlA0YD+gMAA7QMJQG2ArhmAAPUDCUDmwYAA98MJQN/A/4DAAPoAzUMJQN9
@@ -506,17 +515,17 @@ The page with type 'FrontCover' should be at index 1.</value>
 </value>
   </data>
   <metadata name="DataGridContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>208, 60</value>
+    <value>462, 62</value>
   </metadata>
   <metadata name="LogMessageImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>736, 60</value>
+    <value>990, 62</value>
   </metadata>
   <data name="LogMessageImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAAQ
-        DAAAAk1TRnQBSQFMAgEBBAEAAaABGgGgARoBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        DAAAAk1TRnQBSQFMAgEBBAEAAegBGgHoARoBEAEAARABAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwABQAMAASADAAEBAQABCAYAAQgYAAGAAgABgAMAAoABAAGAAwABgAEAAYABAAKAAgADwAEAAcAB3AHA
         AQAB8AHKAaYBAAEzBQABMwEAATMBAAEzAQACMwIAAxYBAAMcAQADIgEAAykBAANVAQADTQEAA0IBAAM5
         AQABgAF8Af8BAAJQAf8BAAGTAQAB1gEAAf8B7AHMAQABxgHWAe8BAAHWAucBAAGQAakBrQIAAf8BMwMA
@@ -570,17 +579,31 @@ The page with type 'FrontCover' should be at index 1.</value>
         AYMB/gE/AeABAwHAAQMB4AEHAf4BPwHgAQcB8AEPCP8L
 </value>
   </data>
+  <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 103</value>
+  </metadata>
+  <data name="InfoIconTooltip.ToolTip" xml:space="preserve">
+    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
+If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
+The page with type 'FrontCover' should be at index 1.</value>
+  </data>
+  <data name="CompatInfoText.Text" xml:space="preserve">
+    <value>Most CBZ-Readers ignore the ComicInfo Page-Index and rely on filename ordering instead. If enabled, any renaming options are ignored and the files are automatically renamed according to their index. The Page with Type 'FrontCover' should be at index 1.</value>
+  </data>
   <metadata name="SaveArchiveDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>943, 60</value>
+    <value>1197, 62</value>
+  </metadata>
+  <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 103</value>
   </metadata>
   <metadata name="SelectColorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1235, 60</value>
+    <value>124, 103</value>
   </metadata>
   <metadata name="AddPagesDirDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 60</value>
+    <value>271, 62</value>
   </metadata>
   <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 101</value>
+    <value>305, 103</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>101</value>
