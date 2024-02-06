@@ -111,6 +111,14 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.FirstRun = false;
             }
 
+            int currentMigrationVersion = Win_CBZSettings.Default.SettingsVersion;
+            int updatedVersion = FactoryDefaults.HandleSettingsValueUpdates(currentMigrationVersion);
+            if (updatedVersion > currentMigrationVersion)
+            {
+                Win_CBZSettings.Default.SettingsVersion = updatedVersion;
+                Win_CBZSettings.Default.Save();
+            }
+
             df = new DebugForm(PageView);
 
 

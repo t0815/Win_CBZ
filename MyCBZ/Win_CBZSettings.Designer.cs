@@ -388,5 +388,17 @@ namespace Win_CBZ {
                 this["FirstRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SettingsVersion {
+            get {
+                return ((int)(this["SettingsVersion"]));
+            }
+            set {
+                this["SettingsVersion"] = value;
+            }
+        }
     }
 }
