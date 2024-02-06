@@ -222,7 +222,7 @@
             this.SettingsContentPanel.Controls.Add(this.AppSettingsTabControl);
             this.SettingsContentPanel.Controls.Add(this.ImageProcessingTabControl);
             this.SettingsContentPanel.Location = new System.Drawing.Point(204, 84);
-            this.SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4);
             this.SettingsContentPanel.Name = "SettingsContentPanel";
             this.SettingsContentPanel.Size = new System.Drawing.Size(592, 378);
             this.SettingsContentPanel.TabIndex = 2;
@@ -275,7 +275,7 @@
             this.PictureBoxToolTipMetaFileName.Margin = new System.Windows.Forms.Padding(0);
             this.PictureBoxToolTipMetaFileName.Name = "PictureBoxToolTipMetaFileName";
             this.PictureBoxToolTipMetaFileName.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
-            this.PictureBoxToolTipMetaFileName.Size = new System.Drawing.Size(40, 40);
+            this.PictureBoxToolTipMetaFileName.Size = new System.Drawing.Size(38, 36);
             this.PictureBoxToolTipMetaFileName.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PictureBoxToolTipMetaFileName.TabIndex = 6;
             this.PictureBoxToolTipMetaFileName.TabStop = false;
@@ -356,7 +356,7 @@
             this.MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             this.MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTabPageTags.Size = new System.Drawing.Size(300, 343);
+            this.MetaDataTabPageTags.Size = new System.Drawing.Size(113, 343);
             this.MetaDataTabPageTags.TabIndex = 1;
             this.MetaDataTabPageTags.Text = "Tags";
             this.MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -382,7 +382,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(294, 339);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(107, 339);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -393,7 +393,7 @@
             this.CheckBoxValidateTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CheckBoxValidateTags.Name = "CheckBoxValidateTags";
             this.CheckBoxValidateTags.Padding = new System.Windows.Forms.Padding(5, 7, 0, 0);
-            this.CheckBoxValidateTags.Size = new System.Drawing.Size(228, 27);
+            this.CheckBoxValidateTags.Size = new System.Drawing.Size(41, 27);
             this.CheckBoxValidateTags.TabIndex = 0;
             this.CheckBoxValidateTags.Text = "Validate Tags against a list of known Tags";
             this.CheckBoxValidateTags.UseVisualStyleBackColor = true;
@@ -403,7 +403,7 @@
             // 
             this.InfoIconTooltip.Image = global::Win_CBZ.Properties.Resources.information;
             this.InfoIconTooltip.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.InfoIconTooltip.Location = new System.Drawing.Point(234, 0);
+            this.InfoIconTooltip.Location = new System.Drawing.Point(47, 0);
             this.InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             this.InfoIconTooltip.Name = "InfoIconTooltip";
             this.InfoIconTooltip.Padding = new System.Windows.Forms.Padding(7, 7, 7, 6);
@@ -421,10 +421,10 @@
             this.CheckBoxTagValidationIgnoreCase.AutoSize = true;
             this.CheckBoxTagValidationIgnoreCase.Enabled = false;
             this.CheckBoxTagValidationIgnoreCase.Location = new System.Drawing.Point(4, 44);
-            this.CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4);
             this.CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
             this.CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(24, 5, 0, 0);
-            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(143, 25);
+            this.CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(39, 25);
             this.CheckBoxTagValidationIgnoreCase.TabIndex = 6;
             this.CheckBoxTagValidationIgnoreCase.Text = "Case Sensitive";
             this.CheckBoxTagValidationIgnoreCase.UseVisualStyleBackColor = true;
@@ -435,7 +435,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(3, 303);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(111, 16);
+            this.label3.Size = new System.Drawing.Size(35, 36);
             this.label3.TabIndex = 4;
             this.label3.Text = "One Tag per Line";
             // 
@@ -449,7 +449,7 @@
             this.ValidTags.Multiline = true;
             this.ValidTags.Name = "ValidTags";
             this.ValidTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ValidTags.Size = new System.Drawing.Size(288, 203);
+            this.ValidTags.Size = new System.Drawing.Size(101, 203);
             this.ValidTags.TabIndex = 3;
             // 
             // ItemEditorToolBar
@@ -463,7 +463,7 @@
             this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(243, 80);
+            this.ItemEditorToolBar.Location = new System.Drawing.Point(56, 80);
             this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
             this.ItemEditorToolBar.Name = "ItemEditorToolBar";
             this.ItemEditorToolBar.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
@@ -489,7 +489,7 @@
             this.CBZSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CBZSettingsTabControl.Name = "CBZSettingsTabControl";
             this.CBZSettingsTabControl.SelectedIndex = 0;
-            this.CBZSettingsTabControl.Size = new System.Drawing.Size(331, 318);
+            this.CBZSettingsTabControl.Size = new System.Drawing.Size(147, 368);
             this.CBZSettingsTabControl.TabIndex = 4;
             // 
             // tabPage2
@@ -498,7 +498,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(323, 289);
+            this.tabPage2.Size = new System.Drawing.Size(139, 339);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Compatibility";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -519,7 +519,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.55435F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.44566F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(323, 289);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(139, 339);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // label5
@@ -544,14 +544,14 @@
             this.ComboBoxPageIndexVersionWrite.Location = new System.Drawing.Point(189, 16);
             this.ComboBoxPageIndexVersionWrite.Margin = new System.Windows.Forms.Padding(9, 16, 18, 16);
             this.ComboBoxPageIndexVersionWrite.Name = "ComboBoxPageIndexVersionWrite";
-            this.ComboBoxPageIndexVersionWrite.Size = new System.Drawing.Size(59, 24);
+            this.ComboBoxPageIndexVersionWrite.Size = new System.Drawing.Size(1, 24);
             this.ComboBoxPageIndexVersionWrite.TabIndex = 1;
             // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::Win_CBZ.Properties.Resources.information;
             this.pictureBox2.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.pictureBox2.Location = new System.Drawing.Point(266, 0);
+            this.pictureBox2.Location = new System.Drawing.Point(82, 0);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Padding = new System.Windows.Forms.Padding(7, 16, 7, 6);
@@ -569,7 +569,7 @@
             this.AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AppSettingsTabControl.Name = "AppSettingsTabControl";
             this.AppSettingsTabControl.SelectedIndex = 0;
-            this.AppSettingsTabControl.Size = new System.Drawing.Size(267, 320);
+            this.AppSettingsTabControl.Size = new System.Drawing.Size(152, 360);
             this.AppSettingsTabControl.TabIndex = 3;
             // 
             // TabPageAppSettings
@@ -579,7 +579,7 @@
             this.TabPageAppSettings.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TabPageAppSettings.Name = "TabPageAppSettings";
             this.TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.TabPageAppSettings.Size = new System.Drawing.Size(259, 291);
+            this.TabPageAppSettings.Size = new System.Drawing.Size(144, 331);
             this.TabPageAppSettings.TabIndex = 0;
             this.TabPageAppSettings.Text = "MetaData Editor";
             this.TabPageAppSettings.UseVisualStyleBackColor = true;
@@ -602,7 +602,7 @@
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(253, 283);
+            this.CustomFieldTypesTablePanel.Size = new System.Drawing.Size(138, 323);
             this.CustomFieldTypesTablePanel.TabIndex = 1;
             // 
             // CustomFieldsDataGrid
@@ -625,7 +625,7 @@
             this.CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             this.CustomFieldsDataGrid.RowHeadersWidth = 51;
             this.CustomFieldsDataGrid.RowTemplate.Height = 24;
-            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(247, 193);
+            this.CustomFieldsDataGrid.Size = new System.Drawing.Size(132, 233);
             this.CustomFieldsDataGrid.TabIndex = 0;
             this.CustomFieldsDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellContentClick);
             this.CustomFieldsDataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomFieldsDataGrid_CellValueChanged);
@@ -637,10 +637,10 @@
             this.AddFieldTypeButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AddFieldTypeButton.Image = global::Win_CBZ.Properties.Resources.navigate_plus;
             this.AddFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.AddFieldTypeButton.Location = new System.Drawing.Point(3, 246);
+            this.AddFieldTypeButton.Location = new System.Drawing.Point(3, 286);
             this.AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.AddFieldTypeButton.Name = "AddFieldTypeButton";
-            this.AddFieldTypeButton.Size = new System.Drawing.Size(66, 34);
+            this.AddFieldTypeButton.Size = new System.Drawing.Size(33, 34);
             this.AddFieldTypeButton.TabIndex = 1;
             this.AddFieldTypeButton.Text = "Add";
             this.AddFieldTypeButton.UseVisualStyleBackColor = true;
@@ -652,10 +652,10 @@
             this.RemoveFieldTypeButton.Enabled = false;
             this.RemoveFieldTypeButton.Image = global::Win_CBZ.Properties.Resources.delete;
             this.RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.RemoveFieldTypeButton.Location = new System.Drawing.Point(75, 246);
+            this.RemoveFieldTypeButton.Location = new System.Drawing.Point(42, 286);
             this.RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            this.RemoveFieldTypeButton.Size = new System.Drawing.Size(66, 34);
+            this.RemoveFieldTypeButton.Size = new System.Drawing.Size(33, 34);
             this.RemoveFieldTypeButton.TabIndex = 2;
             this.RemoveFieldTypeButton.Text = "Remove";
             this.RemoveFieldTypeButton.UseVisualStyleBackColor = true;
@@ -664,10 +664,10 @@
             // RestoreFieldTypesButton
             // 
             this.RestoreFieldTypesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RestoreFieldTypesButton.Location = new System.Drawing.Point(147, 246);
+            this.RestoreFieldTypesButton.Location = new System.Drawing.Point(81, 286);
             this.RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
-            this.RestoreFieldTypesButton.Size = new System.Drawing.Size(103, 34);
+            this.RestoreFieldTypesButton.Size = new System.Drawing.Size(54, 34);
             this.RestoreFieldTypesButton.TabIndex = 3;
             this.RestoreFieldTypesButton.Text = "Restore";
             this.RestoreFieldTypesButton.UseVisualStyleBackColor = true;
@@ -677,8 +677,8 @@
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage3.Size = new System.Drawing.Size(259, 291);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(144, 331);
             this.tabPage3.TabIndex = 1;
             this.tabPage3.Text = "Deletion";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -688,10 +688,10 @@
             this.ImageProcessingTabControl.Controls.Add(this.ImageConversionTabPage);
             this.ImageProcessingTabControl.Controls.Add(this.ImageProcessingTabPage);
             this.ImageProcessingTabControl.Location = new System.Drawing.Point(408, 4);
-            this.ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4);
             this.ImageProcessingTabControl.Name = "ImageProcessingTabControl";
             this.ImageProcessingTabControl.SelectedIndex = 0;
-            this.ImageProcessingTabControl.Size = new System.Drawing.Size(156, 324);
+            this.ImageProcessingTabControl.Size = new System.Drawing.Size(156, 366);
             this.ImageProcessingTabControl.TabIndex = 2;
             // 
             // ImageConversionTabPage
@@ -700,10 +700,10 @@
             this.ImageConversionTabPage.Controls.Add(this.ComboBoxConvertPages);
             this.ImageConversionTabPage.Controls.Add(this.GroupBoxImageQuality);
             this.ImageConversionTabPage.Location = new System.Drawing.Point(4, 25);
-            this.ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4);
             this.ImageConversionTabPage.Name = "ImageConversionTabPage";
-            this.ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ImageConversionTabPage.Size = new System.Drawing.Size(148, 295);
+            this.ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4);
+            this.ImageConversionTabPage.Size = new System.Drawing.Size(148, 337);
             this.ImageConversionTabPage.TabIndex = 0;
             this.ImageConversionTabPage.Text = "Image Conversion";
             this.ImageConversionTabPage.UseVisualStyleBackColor = true;
@@ -712,7 +712,7 @@
             // 
             this.LabelConvertImages.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.LabelConvertImages.AutoSize = true;
-            this.LabelConvertImages.Location = new System.Drawing.Point(8, 23);
+            this.LabelConvertImages.Location = new System.Drawing.Point(8, 44);
             this.LabelConvertImages.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelConvertImages.Name = "LabelConvertImages";
             this.LabelConvertImages.Size = new System.Drawing.Size(101, 16);
@@ -733,7 +733,7 @@
             "PNG",
             "Tiff"});
             this.ComboBoxConvertPages.Location = new System.Drawing.Point(11, 39);
-            this.ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4);
             this.ComboBoxConvertPages.Name = "ComboBoxConvertPages";
             this.ComboBoxConvertPages.Size = new System.Drawing.Size(112, 24);
             this.ComboBoxConvertPages.TabIndex = 23;
@@ -750,7 +750,7 @@
             this.GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.GroupBoxImageQuality.Name = "GroupBoxImageQuality";
             this.GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.GroupBoxImageQuality.Size = new System.Drawing.Size(117, 117);
+            this.GroupBoxImageQuality.Size = new System.Drawing.Size(117, 159);
             this.GroupBoxImageQuality.TabIndex = 21;
             this.GroupBoxImageQuality.TabStop = false;
             this.GroupBoxImageQuality.Text = "Image Quality";
@@ -797,7 +797,7 @@
             this.ImageProcessingTabPage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ImageProcessingTabPage.Name = "ImageProcessingTabPage";
             this.ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ImageProcessingTabPage.Size = new System.Drawing.Size(148, 295);
+            this.ImageProcessingTabPage.Size = new System.Drawing.Size(148, 337);
             this.ImageProcessingTabPage.TabIndex = 1;
             this.ImageProcessingTabPage.Text = "Image Processing";
             this.ImageProcessingTabPage.UseVisualStyleBackColor = true;
@@ -828,6 +828,7 @@
             this.Text = "Application Configuration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsDialog_FormClosing);
             this.Load += new System.EventHandler(this.SettingsDialog_Load);
+            this.Shown += new System.EventHandler(this.SettingsDialog_Shown);
             this.SettingsTablePanel.ResumeLayout(false);
             this.HeaderPanel.ResumeLayout(false);
             this.HeaderPanel.PerformLayout();

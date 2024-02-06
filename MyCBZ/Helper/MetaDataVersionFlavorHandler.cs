@@ -36,11 +36,23 @@ namespace Win_CBZ.Helper
             return MetaDataVersionFlavorHandler.Instance;
         }
 
-        public MetaData.PageIndexVersion HandlePageIndexVersion()
+        public MetaData.PageIndexVersion HandlePageIndexVersion(bool onlyTarget = false)
+        {
+
+            MetaWriteVersion = TargetVersion();
+            
+            if (MetaVersion != Program.ProjectModel.MetaData.IndexVersionSpecification)
+            {
+                MetaVersion = Program.ProjectModel.MetaData.IndexVersionSpecification;
+            }
+
+            return MetaVersion;
+        }
+
+        public MetaData.PageIndexVersion TargetVersion()
         {
             MetaVersionSetting = Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite;
-            MetaVersion = PageIndexVersion.VERSION_1;
-
+            
             switch (MetaVersionSetting)
             {
                 case 1:
@@ -54,20 +66,7 @@ namespace Win_CBZ.Helper
                     break;
             }
 
-            MetaWriteVersion = MetaVersion;
-            if (MetaVersion != Program.ProjectModel.MetaData.IndexVersionSpecification)
-            {
-                MetaVersion = Program.ProjectModel.MetaData.IndexVersionSpecification;
-            }
-
             return MetaVersion;
-        }
-
-        public MetaData.PageIndexVersion TargetVersion()
-        {
-            HandlePageIndexVersion();
-
-            return MetaWriteVersion;
         }
 
         public MetaDataEntryPage CreateIndexEntry(Page page)

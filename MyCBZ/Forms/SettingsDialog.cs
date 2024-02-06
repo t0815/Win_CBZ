@@ -913,5 +913,10 @@ namespace Win_CBZ.Forms
         {
 
         }
+
+        private void SettingsDialog_Shown(object sender, EventArgs e)
+        {
+            RestoreFieldTypesButton.Size = new System.Drawing.Size(80, 30);
+        }
     }
 }

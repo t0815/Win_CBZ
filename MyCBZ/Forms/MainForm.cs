@@ -107,17 +107,40 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.MetaDataFilename = FactoryDefaults.DefaultMetaDataFileName;
                 Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = FactoryDefaults.DefaultMetaDataFileIndexVersion;
 
+                // update to latest version since user already has it now
+                Win_CBZSettings.Default.SettingsVersion = FactoryDefaults.GetLastPatchVersion();
+
                 Win_CBZSettings.Default.FirstRun = false;
                 Win_CBZSettings.Default.Save();
             }
 
             int currentMigrationVersion = Win_CBZSettings.Default.SettingsVersion;
-            int updatedVersion = FactoryDefaults.HandleSettingsValueUpdates(currentMigrationVersion);
-            if (updatedVersion > currentMigrationVersion)
+            try
             {
-                Win_CBZSettings.Default.SettingsVersion = updatedVersion;
+                int updatedVersion = FactoryDefaults.PatchUserSettings(currentMigrationVersion);
+                if (updatedVersion > currentMigrationVersion)
+                {
+                    Win_CBZSettings.Default.SettingsVersion = updatedVersion;
+                    Win_CBZSettings.Default.Save();
+
+                    ApplicationMessage.Show("Your configuratio has been updated to version: " + updatedVersion.ToString() + "\r\nPlease revise your applicaiton configuration.", "User settings updated", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                }
+            } catch (SettingsPatchException ex)
+            {
+                if (ex.ShowErrorDialog)
+                {
+                    ApplicationMessage.ShowWarning("Failed to patch UserSettings to Version: " + ex.LastSuccessFullPatchedVersion.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                }
+                Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFullPatchedVersion;
                 Win_CBZSettings.Default.Save();
+            } catch (Exception e)
+            {
+                ApplicationMessage.ShowException(e);
             }
+
+            //Win_CBZSettings.Default.SettingsVersion = 0;
+            //Win_CBZSettings.Default.Save();
 
             df = new DebugForm(PageView);
 
@@ -281,7 +304,7 @@ namespace Win_CBZ
                         }
                     }
 
-                    Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read);
+                    Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read, MetaDataVersionFlavorHandler.GetInstance().TargetVersion());
                 });
             }
         }
@@ -3915,7 +3938,7 @@ namespace Win_CBZ
         {
             try
             {
-                Program.ProjectModel.Validate(MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), true);
+                Program.ProjectModel.Validate(MetaDataVersionFlavorHandler.GetInstance().TargetVersion(), true);
             } catch (ConcurrentOperationException c)
             {
                 if (c.ShowErrorDialog)

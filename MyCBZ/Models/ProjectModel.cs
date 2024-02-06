@@ -529,7 +529,7 @@ namespace Win_CBZ
             });
         }
 
-        public Thread Open(String path, ZipArchiveMode mode)
+        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting)
         {
             FileName = path;
             Mode = mode;
@@ -544,20 +544,29 @@ namespace Win_CBZ
 
             CloseArchiveThread?.Join();
 
-            LoadArchiveThread = new Thread(new ThreadStart(OpenArchiveProc));
-            LoadArchiveThread.Start();
+            LoadArchiveThread = new Thread(OpenArchiveProc);
+            LoadArchiveThread.Start(new OpenArchiveThreadParams()
+            {
+                FileName = path,
+                Mode = mode,
+                CurrentPageIndexVer = currentMetaDataVersionWriting
+            });
 
             return LoadArchiveThread;
         }
 
-        protected void OpenArchiveProc()
+        protected void OpenArchiveProc(object threadParams)
         {
+            OpenArchiveThreadParams tParams = threadParams as OpenArchiveThreadParams;
+
             ArrayList missingPages = new ArrayList();
             long itemSize = 0;
             int index = 0;
             long totalSize = 0;
             MetaDataPageIndexMissingData = false;
-            MetaDataPageIndexMissingData = false;
+            MetaDataPageIndexFileMissing = false;
+            String IndexUpdateReasonMessage = "";
+            bool MetaDataPageIndexFileMissingShown = false;
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
@@ -565,7 +574,7 @@ namespace Win_CBZ
             int countEntries = 0;
             try
             {
-                Archive = ZipFile.Open(FileName, Mode);
+                Archive = ZipFile.Open(tParams.FileName, tParams.Mode);
                 countEntries = Archive.Entries.Count;
 
                 try
@@ -612,13 +621,21 @@ namespace Win_CBZ
                             }
                         }
 
+                        if (MetaData.IndexVersionSpecification != tParams.CurrentPageIndexVer && !MetaDataPageIndexFileMissingShown)
+                        {
+                            IndexUpdateReasonMessage = "Pageindex has invalid/outdated format! Rebuild index to update to current specifications?";
+                            MetaDataPageIndexFileMissing = true;
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page-index metadata has outdaten/invalid format!");
+                            MetaDataPageIndexFileMissingShown = true;
+                        }
+
                         if (pageIndexEntry != null)
                         { 
                             try
                             {
                                 page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
                                 page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
-                                if (page.Key == null)
+                                if (page.Key == null && tParams.CurrentPageIndexVer.HasFlag(PageIndexVersion.VERSION_2))
                                 {
                                     page.Key = RandomId.getInstance().make();
                                     MetaDataPageIndexMissingData = true;
@@ -640,12 +657,14 @@ namespace Win_CBZ
                             {
 
                                 MetaDataPageIndexMissingData = true;
+                                IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
                                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
                             }
                         }
                         else
                         {
                             MetaDataPageIndexFileMissing = true;
+                            IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                         }
 
@@ -711,7 +730,7 @@ namespace Win_CBZ
 
             if (MetaDataPageIndexFileMissing)
             {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "File missing from pageindex! Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, MetaData.IndexVersionSpecification, GeneralTaskProgress, PageChanged)));
+                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, MetaData.IndexVersionSpecification, GeneralTaskProgress, PageChanged)));
             }
 
             if (missingPages.Count > 0)
@@ -1202,7 +1221,16 @@ namespace Win_CBZ
                         if (pageMeta != null)
                         {
                             String metaSize = pageMeta.GetAttribute("ImageSize");
-                            String metaName = pageMeta.GetAttribute("Image");
+                            String metaName;
+
+                            if (tParams.PageIndexVersion == PageIndexVersion.VERSION_2)
+                            {
+                                metaName = pageMeta.GetAttribute("Image");
+                            } else
+                            {
+                                metaName = pageMeta.GetAttribute("Key");
+                            }
+                            
                             String metaType = pageMeta.GetAttribute("Type");
                             String metaWidth = pageMeta.GetAttribute("ImageWidth");
                             String metaHeight = pageMeta.GetAttribute("ImageHeight");
@@ -1283,7 +1311,7 @@ namespace Win_CBZ
                     }
 
                     OnTaskProgress(new TaskProgressEvent(page, progressIndex, totalItemsToProcess));
-
+                    Thread.Sleep(5);
                     progressIndex++;
                 }
             }

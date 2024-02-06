@@ -161,6 +161,7 @@
     <Compile Include="Data\MinMaxDimensions.cs" />
     <Compile Include="Data\MoveItemsToThreadParams.cs" />
     <Compile Include="Data\MovePageThreadParams.cs" />
+    <Compile Include="Data\OpenArchiveThreadParams.cs" />
     <Compile Include="Data\ParseFilesThreadParams.cs" />
     <Compile Include="Data\RenamePagesThreadParams.cs" />
     <Compile Include="Data\SaveArchiveThreadParams.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Events\ValidatioFinishedEvent.cs" />
     <Compile Include="Exceptions\ConcurrentOperationException.cs" />
     <Compile Include="Exceptions\PageMemoryIOException.cs" />
+    <Compile Include="Exceptions\SettingsPatchException.cs" />
     <Compile Include="Extensions\DataGridExtensions.cs" />
     <Compile Include="Forms\EditImageForm.cs">
       <SubType>Form</SubType>

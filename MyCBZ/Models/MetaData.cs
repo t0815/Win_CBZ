@@ -451,13 +451,20 @@ namespace Win_CBZ
             foreach (MetaDataEntryPage entry in PageIndex)
             {
                 bool condition = false;
-                if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_2))
+
+                try
                 {
-                    condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name);
-                }
-                else if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_1))
+                    if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_2))
+                    {
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name);
+                    }
+                    else if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_1))
+                    {
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Name);
+                    }
+                } catch (Exception e)
                 {
-                    condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Name);
+                    return null;
                 }
 
                 if (condition)

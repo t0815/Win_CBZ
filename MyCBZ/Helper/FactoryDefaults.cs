@@ -26,15 +26,22 @@ namespace Win_CBZ.Helper
 
         public static readonly Dictionary<int, String[]> ValuesToReset = new Dictionary<int, String[]>()
         {
-            { 1, new string[] { "DefaultMetaDataFieldTypes.4.$.1", "DefaultMetaDataFieldTypes.4.$.2", "DefaultMetaDataFieldTypes.5.+" } }
+            { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } }
         };
 
-        public static int HandleSettingsValueUpdates(int lastVersion)
+
+        public static int GetLastPatchVersion()
+        {
+            return ValuesToReset.Keys.Last();
+        }
+
+        public static int PatchUserSettings(int lastVersion)
         {
             int updatedVersion = 0;
             String[] values = null;
             int index = -1;
             int subIndex = -1;
+            string match = "";
             string key;
             bool update = false;
 
@@ -46,73 +53,101 @@ namespace Win_CBZ.Helper
 
                     if (ok)
                     {
-                        foreach (String value in values)
+                        try
                         {
-                            if (value.Contains("."))
-                            {
-                                String[] values2 = value.Split('.');
-                                index = int.Parse(values2[1]);
-                                key = values2[0];
-                                update = values2[2] == "$";
-                                if (values2.Length == 4)
-                                {
-                                    subIndex = int.Parse(values2[3]);
-                                }
-                            } else
-                            {
-                                key = value;
-                                update = false;
-                            }
 
-                            switch (key)
+
+                            foreach (String value in values)
                             {
-                                case "DefaultMetaDataFieldTypes":
-                                    if (index > -1)
+                                if (value.Contains("."))
+                                {
+                                    String[] values2 = value.Split('.');
+                                    index = int.Parse(values2[1]);
+                                    key = values2[0];
+                                    update = values2[2] == "$";
+                                    if (values2.Length == 5)
                                     {
-                                        if (update)
+                                        subIndex = int.Parse(values2[4]);
+                                        match = values2[3];
+                                    }
+                                }
+                                else
+                                {
+                                    key = value;
+                                    update = false;
+                                }
+
+                                switch (key)
+                                {
+                                    case "DefaultMetaDataFieldTypes":
+                                        if (index > -1)
                                         {
-                                            if (Win_CBZSettings.Default.CustomMetadataFields.Count > index)
+                                            if (update)
                                             {
-                                                if (subIndex > -1)
+                                                if (Win_CBZSettings.Default.CustomMetadataFields.Count > index)
                                                 {
-                                                    string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
-                                                    string[] parts = Win_CBZSettings.Default.CustomMetadataFields[index].Split('|');
-                                                    string[] result = new string[parts.Length];
-                                                    for (int i = 0; i < parts.Length; i++)
+                                                    if (subIndex > -1)
                                                     {
-                                                        if (i != subIndex)
+                                                        string[] matching = match.Split('=');
+                                                        string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
+                                                        string[] parts = Win_CBZSettings.Default.CustomMetadataFields[index].Split('|');
+                                                        string[] result = new string[parts.Length];
+                                                        for (int i = 0; i < parts.Length; i++)
                                                         {
-                                                            result[i] = parts[i];
-                                                        } else
-                                                        {
-                                                            result[i] = factParts[i];
+                                                            if (i != subIndex)
+                                                            {
+                                                                result[i] = parts[i];
+                                                            }
+                                                            else
+                                                            {
+                                                                if (matching.Length == 2)
+                                                                {
+                                                                    if (parts[int.Parse(matching[0])] == factParts[int.Parse(matching[0])])
+                                                                    {
+                                                                        result[i] = factParts[i];
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    result[i] = factParts[i];
+                                                                }
+                                                            }
                                                         }
+                                                        Win_CBZSettings.Default.CustomMetadataFields[index] = String.Join("|", result);
                                                     }
-                                                    Win_CBZSettings.Default.CustomMetadataFields[index] = String.Join("|", result);
-                                                } else
-                                                {
-                                                    Win_CBZSettings.Default.CustomMetadataFields[index] = FactoryDefaults.DefaultMetaDataFieldTypes[index];
+                                                    else
+                                                    {
+                                                        Win_CBZSettings.Default.CustomMetadataFields[index] = FactoryDefaults.DefaultMetaDataFieldTypes[index];
+                                                    }
+
                                                 }
-                                                
+                                                else
+                                                {
+                                                    Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
+                                                }
                                             }
                                             else
                                             {
                                                 Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
                                             }
-                                        } else
-                                        {
-                                            Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
+
                                         }
-                                        
-                                    } else
-                                    {
-                                        Win_CBZSettings.Default.CustomMetadataFields.Clear();
-                                        Win_CBZSettings.Default.CustomMetadataFields.AddRange(FactoryDefaults.DefaultMetaDataFieldTypes);
-                                    }
-                                    
-                                    break;
+                                        else
+                                        {
+                                            Win_CBZSettings.Default.CustomMetadataFields.Clear();
+                                            Win_CBZSettings.Default.CustomMetadataFields.AddRange(FactoryDefaults.DefaultMetaDataFieldTypes);
+                                        }
+
+                                        break;
+                                    case "DefaultMetaDataFileIndexVersion":
+                                        Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = FactoryDefaults.DefaultMetaDataFileIndexVersion;
+                                        break;
+                                }
+                                update = false;
                             }
-                            update = false;
+                        } catch (Exception ex)
+                        {
+                            throw new ApplicationException("", true);
                         }
                     }
                     updatedVersion = v;
