@@ -107,8 +107,8 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.MetaDataFilename = FactoryDefaults.DefaultMetaDataFileName;
                 Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = FactoryDefaults.DefaultMetaDataFileIndexVersion;
 
-
                 Win_CBZSettings.Default.FirstRun = false;
+                Win_CBZSettings.Default.Save();
             }
 
             int currentMigrationVersion = Win_CBZSettings.Default.SettingsVersion;

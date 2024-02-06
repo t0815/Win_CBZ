@@ -26,7 +26,7 @@ namespace Win_CBZ.Helper
 
         public static readonly Dictionary<int, String[]> ValuesToReset = new Dictionary<int, String[]>()
         {
-            { 1, new string[] { "DefaultMetaDataFieldTypes.4.$.2", "DefaultMetaDataFieldTypes.5.+" } }
+            { 1, new string[] { "DefaultMetaDataFieldTypes.4.$.1", "DefaultMetaDataFieldTypes.4.$.2", "DefaultMetaDataFieldTypes.5.+" } }
         };
 
         public static int HandleSettingsValueUpdates(int lastVersion)
