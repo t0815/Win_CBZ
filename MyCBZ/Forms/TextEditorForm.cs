@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
             { 
                 if (config.Separator != null)
                 {
-                    if (config.Value != null)
+                    if (config.Value != null && config.Value.Length > 0)
                     {
                         string[] lines = config.Value.Split(config.Separator[0]);
 

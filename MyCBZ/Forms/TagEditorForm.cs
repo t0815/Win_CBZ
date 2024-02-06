@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
             {
                 if (config.Separator != null)
                 {
-                    if (config.Value != null)
+                    if (config.Value != null && config.Value.Length > 0)
                     {
                         string[] lines = config.Value.Split(config.Separator[0]);
 
@@ -46,10 +46,11 @@ namespace Win_CBZ.Forms
                 }
                 else
                 {
-                    Lines.AddRange(config.Value.Split('\n'));
+                    if (config.Value != null && config.Value.Length > 0)
+                    {
+                        Lines.AddRange(config.Value.Split('\n'));
+                    }                       
                 }
-
-                
 
                 if (config.AutoCompleteItems != null)
                 {
@@ -110,7 +111,7 @@ namespace Win_CBZ.Forms
                 Tag = tagItem,
                 Cursor = System.Windows.Forms.Cursors.Hand,
                 Margin = new Padding(0, 2, 2, 4),
-                Padding = new Padding(0, 1, 1, 1)
+                Padding = new Padding(0, 2, 1, 1)
             };
 
             closeButton.Click += TagCloseButtonClick;
@@ -127,7 +128,7 @@ namespace Win_CBZ.Forms
             {
                 Text = tagName, 
                 AutoSize = true,
-                Padding = new Padding(1, 3, 1, 2),
+                Padding = new Padding(1, 3, 1, 1),
                 Margin = new Padding(0, 1, 0, 1)
             });
 
@@ -241,10 +242,6 @@ namespace Win_CBZ.Forms
             DialogResult = DialogResult.Cancel;
         }
 
-        private void TagTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-        }
-
         private void TagTextBox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return)
@@ -254,9 +251,10 @@ namespace Win_CBZ.Forms
                     Lines.Add(TagTextBox.Text);
                     AddTag(CreateTag(TagTextBox.Text));
                     TagTextBox.Text = string.Empty;
-                    e.Handled = true;
+                    
                 }
-
+                e.SuppressKeyPress = true;
+                e.Handled = true;
             }
         }
 
