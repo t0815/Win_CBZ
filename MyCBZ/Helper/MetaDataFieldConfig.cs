@@ -123,7 +123,7 @@ namespace Win_CBZ.Helper
                             FieldType = typeParts[1],
                             EditorType = typeParts[2],
                             Options = typeParts[3],
-                            AutoUpdate = bool.Parse(typeParts[3]),
+                            AutoUpdate = bool.Parse(typeParts[4].ToLower()),
                         });
                     }
                     catch (Exception e)

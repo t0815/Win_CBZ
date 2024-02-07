@@ -137,6 +137,9 @@ namespace Win_CBZ
             } catch (Exception e)
             {
                 ApplicationMessage.ShowException(e);
+            } finally
+            {
+                MetaDataFieldConfig.GetInstance().ParseFromConfig(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
 
             //Win_CBZSettings.Default.SettingsVersion = 0;

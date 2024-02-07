@@ -1016,7 +1016,8 @@ namespace Win_CBZ.Forms
             DialogResult r = ApplicationMessage.ShowConfirmation("Are you sure you want to reset all MetaData -Editor FieldTypes to their default configuration?", "Please confirm", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
             if (r == DialogResult.Yes)
             {
-                CustomFieldTypesCollection = FactoryDefaults.DefaultMetaDataFieldTypes;
+                MetaDataFieldConfig.GetInstance().UpdateFrom(FactoryDefaults.DefaultMetaDataFieldTypes);
+                
                 PopulateFieldTypeEditor();
             }
         
