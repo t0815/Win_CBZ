@@ -12,12 +12,12 @@ namespace Win_CBZ.Helper
     {
         public static readonly String[] DefaultMetaDataFieldTypes =
         {
-            "AgeRating|ComboBox||Unknown,Adults Only 18+,Early Childhood,Everyone,Everyone 10+,G,Kids to Adults,M,MA15+,Mature 17+,PG,R18+,Rating Pending,Teen,X18+",
-            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No",
-            "BlackAndWhite|ComboBox||Unknown,Yes,No",
-            "LanguageISO|Text|LanguageEditor|",
-            "Tags|AutoComplete|TagEditor|",
-            "Writer|AutoComplete||"
+            "AgeRating|ComboBox||Unknown,Adults Only 18+,Early Childhood,Everyone,Everyone 10+,G,Kids to Adults,M,MA15+,Mature 17+,PG,R18+,Rating Pending,Teen,X18+|False",
+            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False",
+            "BlackAndWhite|ComboBox||Unknown,Yes,No|False",
+            "LanguageISO|Text|LanguageEditor||False",
+            "Tags|AutoComplete|TagEditor||True",
+            "Writer|AutoComplete|||True"
         };
 
         public const String DefaultMetaDataFileName = "ComicInfo.xml";
@@ -27,6 +27,7 @@ namespace Win_CBZ.Helper
         public static readonly Dictionary<int, String[]> ValuesToReset = new Dictionary<int, String[]>()
         {
             { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } }
+            { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4" } }
         };
 
 

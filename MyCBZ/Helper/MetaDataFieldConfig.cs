@@ -13,7 +13,10 @@ namespace Win_CBZ.Helper
 
         protected static MetaDataFieldConfig Instance;
 
-        private MetaDataFieldConfig() { }
+        private MetaDataFieldConfig() 
+        {
+            FieldTypes = new List<MetaDataFieldType>();
+        }
 
 
         public static MetaDataFieldConfig GetInstance()
