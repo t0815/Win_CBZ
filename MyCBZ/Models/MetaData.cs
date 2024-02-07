@@ -73,7 +73,7 @@ namespace Win_CBZ
         };
         */
 
-        protected static readonly Dictionary<String, EditorFieldMapping> CustomEditorValueMappings = new Dictionary<String, EditorFieldMapping>();
+        //protected static readonly Dictionary<String, MetaDataFieldType> MetaDataFieldTypeConfiguration = new Dictionary<String, MetaDataFieldType>();
         /*
          * Load from config
         {
@@ -136,7 +136,7 @@ namespace Win_CBZ
             Document = new XmlDocument();
 
             MakeDefaultKeys();
-            UpdateCustomEditorMappings();
+            //UpdateCustomEditorMappings();
 
             MetaDataFileName = name;
 
@@ -160,7 +160,7 @@ namespace Win_CBZ
             RemovedKeys = new List<string>();
 
             MakeDefaultKeys();
-            UpdateCustomEditorMappings();
+            //UpdateCustomEditorMappings();
 
             Document = new XmlDocument();
             MetaDataReader = XmlReader.Create(InputStream);
@@ -196,18 +196,18 @@ namespace Win_CBZ
         {
             if (ProtectedKeys.IndexOf(key.ToLower()) != -1)
             {
-                throw new MetaDataValidationException(new MetaDataEntry(key, value, readOnly), "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
+                throw new MetaDataValidationException(new MetaDataEntry(key, value, null, readOnly), "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
             }
 
-            if (CustomEditorValueMappings.ContainsKey(key))
+            if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key).Name == key)
             {
-                CustomEditorValueMappings.TryGetValue(key, out var mapping);
+                var mapping = MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key);
 
-                if (mapping.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+                if (mapping.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                 {
-                    int index = mapping != null ? Array.IndexOf(mapping.EditorOptions, value) : -1;
+                    int index = mapping != null ? Array.IndexOf(mapping.OptionsAsList(), value) : -1;
 
-                    value = value != null && index > -1 ? value : (mapping.EditorOptions[0] ?? "???");
+                    value = value != null && index > -1 ? value : (mapping.OptionsAsList()[0] ?? "???");
 
                     return new MetaDataEntry(key, value, mapping, readOnly);
                 } else
@@ -216,34 +216,7 @@ namespace Win_CBZ
                 }
             }
 
-            return new MetaDataEntry(key, value, readOnly);
-        }
-
-        public void UpdateCustomEditorMappings()
-        {
-            CustomEditorValueMappings.Clear();
-
-            var CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
-
-            foreach (String line in CustomFieldTypesCollection)
-            {
-                String[] typeParts = line.Split('|');
-
-                if (typeParts.Length == 4)
-                {
-                    try
-                    {
-                        CustomEditorValueMappings.Add(typeParts[0], new EditorFieldMapping()
-                        {
-                            FieldType = typeParts[1],
-                            EditorType = typeParts[2],
-                            EditorOptions = typeParts[3].Split(',')
-                        });
-                    } catch (Exception e) {
-
-                    }
-                }
-            }
+            return new MetaDataEntry(key, value, new MetaDataFieldType(), readOnly);
         }
 
         public void Save(String path)
@@ -674,26 +647,26 @@ namespace Win_CBZ
                 
                 existing.Value = entry.Value;
 
-                if (CustomEditorValueMappings.ContainsKey(entry.Key))
+                if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(entry.Key).Name == entry.Key)
                 {
-                    CustomEditorValueMappings.TryGetValue(entry.Key, out var mapping);
+                    var mapping = MetaDataFieldConfig.GetInstance().GetFieldConfigFor(entry.Key);
 
-                    existing.Options = mapping;
+                    existing.Type = mapping;
                     if (entry.Value == null || entry.Value == "")
                     {
-                        existing.Value = mapping.EditorOptions[0] ?? "???";
+                        existing.Value = mapping.OptionsAsList()[0] ?? "???";
                     }
                 } else
                 {
-                    if (existing.Options.EditorOptions != null)
+                    if (existing.Type.EditorConfig != null)
                     {
-                        if (existing.Options.EditorOptions.Length > 0)
+                        if (existing.Type.OptionsAsList().Length > 0)
                         {
-                            existing.Options.EditorOptions = new string[] { };
+                            existing.Type.Options = "";
                         }
                     } else
                     {
-                        existing.Options.EditorOptions = new string[] { };
+                        existing.Type.Options = "";
                     }
                 }
 

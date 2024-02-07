@@ -37,7 +37,8 @@ namespace Win_CBZ.Tasks
                         GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
                         "Rebuilding image metadata...",
                         current, 
-                        total));
+                        total,
+                        true));
                     current++;
                     System.Threading.Thread.Sleep(5);
                 }
@@ -47,7 +48,8 @@ namespace Win_CBZ.Tasks
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         current,
-                        total));
+                        total,
+                        true));
 
                 return result;
             });

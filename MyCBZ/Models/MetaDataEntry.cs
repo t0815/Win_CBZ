@@ -15,33 +15,29 @@ namespace Win_CBZ
 
         protected bool ReadOnly { get; set; }
 
-        public EditorFieldMapping Options { get; set; } = new EditorFieldMapping {};
+        public MetaDataFieldType Type { get; set; }
 
         public MetaDataEntry(String key)
         {
             Key = key;
             Value = "";
+            Type = new MetaDataFieldType(key);
         }
 
         public MetaDataEntry(String key, String value)
         {
             Key = key;
             Value = value;
+            Type = new MetaDataFieldType(key);
         }
 
-        public MetaDataEntry(String key, String value, bool readOnly = false)
+        public MetaDataEntry(String key, String value, MetaDataFieldType fieldType, bool readOnly = false)
         {
             Key = key;
             Value = value;
             ReadOnly = readOnly;
-        }
-
-        public MetaDataEntry(String key, String value, EditorFieldMapping options, bool readOnly = false)
-        {
-            Key = key;
-            Value = value;
+            Type = fieldType;
             ReadOnly = readOnly;
-            Options = options;
         }
     }
 }

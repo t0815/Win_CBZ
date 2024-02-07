@@ -221,7 +221,6 @@ namespace Win_CBZ
         {
             MetaData = new MetaData(createDefaultValues, metaDataFilename);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
-            MetaData.UpdateCustomEditorMappings();
 
             OnMetaDataChanged(new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_NEW, MetaData));
 
@@ -232,7 +231,6 @@ namespace Win_CBZ
         {
             MetaData = new MetaData(fileInputStream, metaDataFilename);
             MetaData.MetaDataEntryChanged += MetaDataEntryChanged;
-            MetaData.UpdateCustomEditorMappings();
 
             OnMetaDataLoaded(new MetaDataLoadEvent(MetaData.Values));
 
@@ -625,7 +623,7 @@ namespace Win_CBZ
                         {
                             IndexUpdateReasonMessage = "Pageindex has invalid/outdated format! Rebuild index to update to current specifications?";
                             MetaDataPageIndexFileMissing = true;
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page-index metadata has outdaten/invalid format!");
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page-index metadata has outdated/invalid format!");
                             MetaDataPageIndexFileMissingShown = true;
                         }
 
@@ -1897,7 +1895,7 @@ namespace Win_CBZ
                     OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
 
-                OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Rebuilding index...", updated, Pages.Count));
+                OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Rebuilding index...", updated, Pages.Count, true));
                 //OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                 IsChanged = true;
@@ -2729,23 +2727,27 @@ namespace Win_CBZ
             List<string> filesToDelete = new List<string>();
             List<string> foldersToDelete = new List<string>();
             String path = PathHelper.ResolvePath(WorkingDir);
+            int fileIndex = 0;
             int filesDeletedCount = 0;
             int filesFailed = 0;
             long totalSize = 0;
+
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_PROCESSING));
 
             List<FileInfo> files = new List<FileInfo>();
 
             DirectoryInfo dir = new DirectoryInfo(path);
 
             List<DirectoryInfo> folders = new List<DirectoryInfo>(dir.EnumerateDirectories());
-      
+
+
             try
             {
                 if (dir.Exists && ProjectGUID != null && ProjectGUID.Length > 0)
                 {
                     // fail safe! are we in the right directory? if not we would delete random directories and files!
-                    if (dir.Parent.Name.ToString().ToLower().Equals(Win_CBZSettings.Default.AppName.ToLower()) && 
-                        dir.Parent.Parent.Name.ToString().ToLower().Equals("roaming"))  
+                    if (dir.Parent.Name.ToString().ToLower().Equals(Win_CBZSettings.Default.AppName.ToLower()) &&
+                        dir.Parent.Parent.Name.ToString().ToLower().Equals("roaming"))
                     {
 
                         foreach (DirectoryInfo folder in folders)
@@ -2756,6 +2758,8 @@ namespace Win_CBZ
                                 foldersToDelete.Add(folder.FullName);
                             }
                         }
+
+                        
 
                         foreach (FileInfo file in files)
                         {
@@ -2772,6 +2776,10 @@ namespace Win_CBZ
                                     filesFailed++;
                                 }
                             }
+
+                            OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_DELETE_FILE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Clearing Cache...", fileIndex, files.Count, false));
+                            Thread.Sleep(5);
+                            fileIndex++;
                         }
 
                         foreach (DirectoryInfo folder in folders)
@@ -2792,6 +2800,9 @@ namespace Win_CBZ
             {
                 ApplicationMessage.Show("Applicaiton cache cleared.\r\nFiles deleted: " + filesDeletedCount.ToString() + ",\r\nFiles failed/skipped: " + filesFailed.ToString() + "\r\nDisk space reclaimed: " + SizeFormat(totalSize), "Application Cache cleared", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
             }
+
+            OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_DELETE_FILE, GeneralTaskProgressEvent.TASK_STATUS_COMPLETED, "", 0, 100, false));
+            OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
         public void CopyTo(ProjectModel destination)
