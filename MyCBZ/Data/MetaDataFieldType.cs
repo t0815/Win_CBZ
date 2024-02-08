@@ -31,7 +31,7 @@ namespace Win_CBZ.Data
 
         public bool AutoUpdate { get; set; }
 
-        public EditorTypeConfig EditorConfig { get; set; } = new EditorTypeConfig(METADATA_FIELD_TYPE_TEXT_BOX);
+        public EditorTypeConfig EditorConfig { get; set; } = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_NONE);
         
 
         public MetaDataFieldType() 
@@ -67,6 +67,7 @@ namespace Win_CBZ.Data
             EditorType = editorType;
             Options = options;
             AutoUpdate = autoUpdate;
+            MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, ",", "", false, options.Split(','));
         }
 
         public MetaDataFieldType MakeEditorConfig(string resultType, string separator, string append, bool allowDuplicate = false, string[] autoCompleteItems = null)

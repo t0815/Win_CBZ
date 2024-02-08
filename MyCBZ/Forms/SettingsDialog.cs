@@ -139,7 +139,7 @@ namespace Win_CBZ.Forms
                 DataPropertyName = "AutoAddNew",
                 HeaderText = "Update",
                 CellTemplate = new DataGridViewCheckBoxCell(),
-                Width = 40,
+                Width = 30,
                 SortMode = DataGridViewColumnSortMode.Automatic,
             });
 

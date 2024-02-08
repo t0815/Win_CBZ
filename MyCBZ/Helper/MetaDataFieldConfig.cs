@@ -80,7 +80,7 @@ namespace Win_CBZ.Helper
         }
 
 
-        public List<String> PrepareForConfig()
+        public string[] PrepareForConfig()
         {
             List<String> result = new List<String>(); 
 
@@ -89,7 +89,7 @@ namespace Win_CBZ.Helper
                 result.Add(fieldType.ToString());
             }
 
-            return result;
+            return result.ToArray();
         }
 
         public void ParseFromConfig(String[] customFieldTypesCollection)
