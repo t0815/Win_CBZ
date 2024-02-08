@@ -106,6 +106,12 @@ namespace Win_CBZ.Forms
                             }
                         }
 
+                        if (ItemsText.Text.Contains("|") || ItemsText.Text.Contains(","))
+                        {
+                            ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\",\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+
+                            e.Cancel = true;
+                        }
 
                         if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
                         {

@@ -1189,12 +1189,16 @@ namespace Win_CBZ
                     info = "Working...";
                     break;
 
+                case ApplicationStatusEvent.STATE_DELETING:
+                    info = "Deleting files...";
+                    break;
+
                 case ApplicationStatusEvent.STATE_ANALYZING:
                     info = "Analyzing images...";
                     break;
 
                 case ApplicationStatusEvent.STATE_CHECKING_INDEX:
-                    info = "Checking pageindex...";
+                    info = "Checking index...";
                     break;
 
                 case ApplicationStatusEvent.STATE_READY:
@@ -2582,7 +2586,7 @@ namespace Win_CBZ
                             {
                                 if (entry.Key == key.ToString())
                                 {
-
+                                    MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());
                                     if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                     {
                                         bool isAutoComplete = entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE;

@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using Win_CBZ.Data;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Win_CBZ.Forms
 {
@@ -83,7 +85,10 @@ namespace Win_CBZ.Forms
             tagItem.Name = "TAG_" + tagName;
             tagItem.Tag = tagName;
             tagItem.AutoSize = true;
-           
+            tagItem.Click += TagItemClick;
+            tagItem.BackColor = System.Drawing.Color.White;
+            
+
             tagItem.BorderStyle = BorderStyle.None;
 
             /*
@@ -122,21 +127,19 @@ namespace Win_CBZ.Forms
                 SizeMode = PictureBoxSizeMode.AutoSize,
                 Width = 15,
                 Height = 15,
-                Margin = new Padding(3, 3, 1, 2)
+                Margin = new Padding(3, 2, 1, 2)
             });
             tagItem.Controls.Add(new System.Windows.Forms.Label() 
             {
                 Text = tagName, 
                 AutoSize = true,
-                Padding = new Padding(1, 3, 1, 1),
-                Margin = new Padding(0, 1, 0, 1)
+                Padding = new Padding(1, 2, 1, 1),
+                Margin = new Padding(0, 1, 0, 1),
+                Font = new Font("Segoe UI", 8, FontStyle.Regular)
             });
 
             tagItem.Controls.Add(closeButton);
-            
-
-    
-
+           
             tagItem.Parent = TagsList;
 
             return tagItem;
@@ -164,6 +167,11 @@ namespace Win_CBZ.Forms
             
         }
 
+        private void TagItemClick(object sender, EventArgs e)
+        {
+
+        }
+
         private void TagCloseButtonClick(object sender, System.EventArgs e)
         {
             if (((PictureBox)sender).Tag != null) {
@@ -184,44 +192,50 @@ namespace Win_CBZ.Forms
             List<String> duplicates = new List<String>();
 
             if (DialogResult == DialogResult.OK)
-            {
-                
-                    if (config != null)
+            {              
+                if (config != null)
+                {
+                    if (!config.AllowDuplicateValues)
                     {
-                        if (!config.AllowDuplicateValues)
+                        duplicates.AddRange(validation.ValidateDuplicateStrings(Lines.ToArray()));
+
+                        if (duplicates.Count > 0)
                         {
-                            duplicates.AddRange(validation.ValidateDuplicateStrings(Lines.ToArray()));
+                            ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.\r\n\r\n" + String.Join("\r\n", duplicates), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
-                            if (duplicates.Count > 0)
-                            {
-                                ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.\r\n\r\n" + String.Join("\r\n", duplicates), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                            DialogResult = DialogResult.None;
 
-                                DialogResult = DialogResult.None;
-
-                                e.Cancel = true;
-                            }
-                            else
-                            {
-
-                            }
+                            e.Cancel = true;
                         }
-
-
-                        if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
+                        else
                         {
-                            result = String.Join(config.Separator ?? "" + config.Append ?? "", Lines);
+
                         }
-
-                        if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
-                        {
-                            result = Lines;
-                        }
-
-                        config.Result = result;
-
-                        DialogResult = DialogResult.OK;
                     }
-                
+
+                    var check = String.Join("", Lines);
+                    if (check.Contains("|") || check.Contains(","))
+                    {
+                        ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\",\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+
+                        e.Cancel = true;
+                    }
+
+
+                    if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
+                    {
+                        result = String.Join(config.Separator ?? "" + config.Append ?? "", Lines);
+                    }
+
+                    if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
+                    {
+                        result = Lines;
+                    }
+
+                    config.Result = result;
+
+                    DialogResult = DialogResult.OK;
+                }                
             }
         }
 
@@ -260,13 +274,14 @@ namespace Win_CBZ.Forms
 
         private void TagEditorForm_Shown(object sender, EventArgs e)
         {
-                
+            TagTextBox.Focus();
         }
 
         private void DeleteAllTagsToolButton_Click(object sender, EventArgs e)
         {
             ClearTags();
             Lines.Clear();
+            TagTextBox.Focus();
         }
 
         private void ButtonAddTag_Click(object sender, EventArgs e)
@@ -277,6 +292,7 @@ namespace Win_CBZ.Forms
                 AddTag(CreateTag(TagTextBox.Text));
                 TagTextBox.Text = string.Empty;
             }
+            TagTextBox.Focus();
         }
     }
 }

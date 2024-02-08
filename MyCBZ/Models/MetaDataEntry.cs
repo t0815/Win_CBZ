@@ -39,5 +39,10 @@ namespace Win_CBZ
             Type = fieldType;
             ReadOnly = readOnly;
         }
+
+        public String[] ValueAsList(char separator = ',')
+        {
+            return Value.Split(separator).Select((s) => s.TrimEnd(' ').TrimStart(' ')).ToArray();
+        }
     }
 }
