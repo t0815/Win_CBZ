@@ -61,7 +61,7 @@ https://devblog.cyotek.com/post/dragging-items-in-a-listview-control-with-visual
 https://www.iconexperience.com/o_collection/
 
 
-### Autocomplete Menu (c) Pav?l T?rg?sh?v
+### Autocomplete Menu (c) Pavel Torgashov
 
 https://www.codeproject.com/Articles/365974/Autocomplete-Menu
 
