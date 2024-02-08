@@ -8,18 +8,40 @@ namespace Win_CBZ.Data
 {
     public class EditorTypeConfig
     {
-        public const String EditorTypeNoEditor = "";
-        public const String EditorTypeMultiLineTextEditor = "MultiLineTextEditor";
-        public const String EditorTypeLanguageEditor = "LanguageEditor";
-        public const String EditorTypeTagEditor = "TagEditor";
+        public const String RESULT_TYPE_STRING = "string";
+        public const String RESULT_TYPE_STRINGS = "string[]";
+
+        public const String EDITOR_TYPE_NONE = "";
+        public const String EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR = "MultiLineTextEditor";
+        public const String EDITOR_TYPE_LANGUAGE_EDITOR = "LanguageEditor";
+        public const String EDITOR_TYPE_TAG_EDITOR = "TagEditor";
 
         public static string[] Editors = 
         {
-            EditorTypeConfig.EditorTypeNoEditor,
-            EditorTypeConfig.EditorTypeMultiLineTextEditor,
-            EditorTypeConfig.EditorTypeLanguageEditor,
-            EditorTypeConfig.EditorTypeTagEditor,
+            EditorTypeConfig.EDITOR_TYPE_NONE,
+            EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR,
+            EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR,
+            EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR,
         };
+
+        public string[] AutoCompleteItems { get; set; }
+
+        public string Type { get; set; }
+
+        public string Separator { get; set; }
+
+        public String Value { get; set; }
+
+        public object DefaultValue { get; set; }
+
+        public string Append { get; set; }
+
+        public object Result { get; set; }
+
+        public string ResultType { get; set; }
+
+        public bool AllowDuplicateValues { get; set; }
+
 
         public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate, string[] autoCompleteItems)
         {
@@ -38,6 +60,7 @@ namespace Win_CBZ.Data
             Separator = separator;
             Append = append;
             AllowDuplicateValues = allowDuplicate;
+            AutoCompleteItems = new String[0];
         }
 
         public EditorTypeConfig(string type, string resultType)
@@ -46,6 +69,7 @@ namespace Win_CBZ.Data
             Type = type;
             Separator = ",";
             Append = " ";
+            AutoCompleteItems = new String[0];
         }
 
         public EditorTypeConfig(string type)
@@ -53,26 +77,8 @@ namespace Win_CBZ.Data
             Type = type;
             Separator = ",";
             Append = " ";
-            ResultType = "String";
+            ResultType = EditorTypeConfig.RESULT_TYPE_STRING;
+            AutoCompleteItems = new String[0];
         }
-
-        public string [] AutoCompleteItems { get; set; }
-
-        public string Type { get; set; }
-
-        public string Separator { get; set; }
-
-        public String Value { get; set; }
-
-        public object DefaultValue { get; set; }
-
-        public string Append {  get; set; }
-
-        public object Result { get; set; }
-
-        public string ResultType { get; set; }
-
-        public bool AllowDuplicateValues { get; set; }
-
     }
 }

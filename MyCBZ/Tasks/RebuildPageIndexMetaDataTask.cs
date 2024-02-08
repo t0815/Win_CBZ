@@ -65,7 +65,8 @@ namespace Win_CBZ.Tasks
                             GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
                             "Rebuilding index...",
                             current, 
-                            total));
+                            total,
+                            true));
                     }
                     current++;
                     isUpdated = false;
@@ -81,7 +82,8 @@ namespace Win_CBZ.Tasks
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         current,
-                        total));
+                        total,
+                        true));
                 }
 
                 return result;

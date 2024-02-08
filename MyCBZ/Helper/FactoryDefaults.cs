@@ -12,12 +12,12 @@ namespace Win_CBZ.Helper
     {
         public static readonly String[] DefaultMetaDataFieldTypes =
         {
-            "AgeRating|ComboBox||Unknown,Adults Only 18+,Early Childhood,Everyone,Everyone 10+,G,Kids to Adults,M,MA15+,Mature 17+,PG,R18+,Rating Pending,Teen,X18+",
-            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No",
-            "BlackAndWhite|ComboBox||Unknown,Yes,No",
-            "LanguageISO|Text|LanguageEditor|",
-            "Tags|AutoComplete|TagEditor|",
-            "Writer|AutoComplete||"
+            "AgeRating|ComboBox||Unknown,Adults Only 18+,Early Childhood,Everyone,Everyone 10+,G,Kids to Adults,M,MA15+,Mature 17+,PG,R18+,Rating Pending,Teen,X18+|False",
+            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False",
+            "BlackAndWhite|ComboBox||Unknown,Yes,No|False",
+            "LanguageISO|Text|LanguageEditor||False",
+            "Tags|AutoComplete|TagEditor||True",
+            "Writer|AutoComplete|||True"
         };
 
         public const String DefaultMetaDataFileName = "ComicInfo.xml";
@@ -26,7 +26,8 @@ namespace Win_CBZ.Helper
 
         public static readonly Dictionary<int, String[]> ValuesToReset = new Dictionary<int, String[]>()
         {
-            { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } }
+            { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } },
+            { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4", "DefaultMetaDataFieldTypes.1.$.*.4", "DefaultMetaDataFieldTypes.2.$.*.4", "DefaultMetaDataFieldTypes.3.$.*.4", "DefaultMetaDataFieldTypes.4.$.*.4", "DefaultMetaDataFieldTypes.0.$.*.5" } }
         };
 
 
@@ -91,8 +92,8 @@ namespace Win_CBZ.Helper
                                                         string[] matching = match.Split('=');
                                                         string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
                                                         string[] parts = Win_CBZSettings.Default.CustomMetadataFields[index].Split('|');
-                                                        string[] result = new string[parts.Length];
-                                                        for (int i = 0; i < parts.Length; i++)
+                                                        string[] result = new string[Math.Max(parts.Length, factParts.Length)];
+                                                        for (int i = 0; i < Math.Max(parts.Length, factParts.Length); i++)
                                                         {
                                                             if (i != subIndex)
                                                             {
@@ -107,7 +108,26 @@ namespace Win_CBZ.Helper
                                                                         result[i] = factParts[i];
                                                                     }
                                                                 }
-                                                                else
+                                                                else if (matching.Length == 1)
+                                                                {
+                                                                    if (matching[0] == "*")
+                                                                    {
+                                                                        if (i == subIndex)
+                                                                        {
+                                                                            result[i] = factParts[i];
+                                                                        } else
+                                                                        {
+                                                                            if (subIndex < i)
+                                                                            {
+                                                                                result[i] = "";
+                                                                            } else
+                                                                            {
+                                                                                result[i] = parts[i];
+                                                                            }
+                                                                       }                                                                     
+                                                                    }
+                                                                    
+                                                                } else
                                                                 {
                                                                     result[i] = factParts[i];
                                                                 }

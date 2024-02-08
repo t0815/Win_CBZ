@@ -40,7 +40,8 @@ namespace Win_CBZ.Tasks
                                 GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
                                 "Processing image...",
                                 current,
-                                total));
+                                total,
+                                true));
 
                         current++;
                         System.Threading.Thread.Sleep(10);
@@ -52,7 +53,8 @@ namespace Win_CBZ.Tasks
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         current,
-                        total));
+                        total,
+                        true));
 
                 return result;
             });

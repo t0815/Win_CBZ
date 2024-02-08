@@ -34,6 +34,7 @@ using System.Configuration;
 using System.Xml;
 using static Win_CBZ.MetaData;
 using SharpCompress.Common;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Win_CBZ
 {
@@ -137,6 +138,9 @@ namespace Win_CBZ
             } catch (Exception e)
             {
                 ApplicationMessage.ShowException(e);
+            } finally
+            {
+                MetaDataFieldConfig.GetInstance().ParseFromConfig(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
 
             //Win_CBZSettings.Default.SettingsVersion = 0;
@@ -601,7 +605,7 @@ namespace Win_CBZ
 
         private void HandleGlobalActionRequired(object sender, GlobalActionRequiredEvent e)
         {
-            this.Invoke(new Action(() =>
+            Invoke(new Action(() =>
             {
                 GlobalAction action = new GlobalAction
                 {
@@ -704,22 +708,26 @@ namespace Win_CBZ
                             Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
                         }
 
-                        if (CurrentGlobalActions.Count > 1)
+                        if (e.PopGlobalState)
                         {
-                            CurrentGlobalActions.Remove(CurrentGlobalAction);
-
-                            CurrentGlobalAction = CurrentGlobalActions[0];
-
-                            Invoke(new Action(() =>
+                            if (CurrentGlobalActions.Count > 1)
                             {
-                                LabelGlobalActionStatusMessage.Text = CurrentGlobalAction.Message;
-                                GlobalAlertTableLayout.Visible = true;
-                            }));
-                        } else
-                        {
-                            if (CurrentGlobalActions.Count > 0)
                                 CurrentGlobalActions.Remove(CurrentGlobalAction);
-                            CurrentGlobalAction = null;
+
+                                CurrentGlobalAction = CurrentGlobalActions[0];
+
+                                Invoke(new Action(() =>
+                                {
+                                    LabelGlobalActionStatusMessage.Text = CurrentGlobalAction.Message;
+                                    GlobalAlertTableLayout.Visible = true;
+                                }));
+                            }
+                            else
+                            {
+                                if (CurrentGlobalActions.Count > 0)
+                                    CurrentGlobalActions.Remove(CurrentGlobalAction);
+                                CurrentGlobalAction = null;
+                            }
                         }
                     }));
 
@@ -1935,6 +1943,10 @@ namespace Win_CBZ
             Win_CBZSettings.Default.Splitter3 = SplitBoxItemsList.SplitterDistance;
             Win_CBZSettings.Default.Splitter4 = PrimarySplitBox.SplitterDistance;
             Win_CBZSettings.Default.IgnoreErrorsOnSave = CheckBoxIgnoreErrorsOnSave.Checked;
+
+            Win_CBZSettings.Default.CustomMetadataFields.Clear();
+            Win_CBZSettings.Default.CustomMetadataFields.AddRange(MetaDataFieldConfig.GetInstance().PrepareForConfig());
+
             Win_CBZSettings.Default.Save();
 
             WindowClosed = true;
@@ -2446,18 +2458,18 @@ namespace Win_CBZ
 
             e.CellStyle = dataGridViewCellStyle;
             if (MetaDataGrid.SelectedCells.Count == 1) {
-                EditorTypeConfig config = MetaDataGrid.SelectedCells[0].Tag as EditorTypeConfig;
+                MetaDataFieldType fieldType = MetaDataGrid.SelectedCells[0].Tag as MetaDataFieldType;
 
-                if (config != null)
+                if (fieldType != null)
                 {
-                    if (config.Type == "AutoComplete")
+                    if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                     {
                         //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                         //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
                         TextBox textBox = e.Control as TextBox;
                         textBox.KeyDown += DataGridTextBoxKeyDown;
 
-                        AutoCompleteItems.Items = config.AutoCompleteItems;
+                        AutoCompleteItems.Items = fieldType.EditorConfig.AutoCompleteItems;
                         AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
                         //AutoCompleteItems. = textBox
                         //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
@@ -2571,16 +2583,16 @@ namespace Win_CBZ
                                 if (entry.Key == key.ToString())
                                 {
 
-                                    if (entry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+                                    if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                     {
-                                        bool isAutoComplete = entry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete;
+                                        bool isAutoComplete = entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE;
 
-                                        int selectedIndex = Array.IndexOf(entry.Options.EditorOptions, entry.Value);
+                                        int selectedIndex = Array.IndexOf(entry.Type.OptionsAsList(), entry.Value);
                                         DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                        c.Items.AddRange(entry.Options.EditorOptions);
+                                        c.Items.AddRange(entry.Type.OptionsAsList());
                                         
                                         c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-                                        c.Tag = new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                                        c.Tag = entry.Type; //  new EditorConfig("ComboBox", "String", "", " ", false);
                                         //c.AutoComplete = isAutoComplete;
                                         //c.DataSource = new List<String>(entry.Options.EditorOptions);
                                         c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
@@ -2594,12 +2606,12 @@ namespace Win_CBZ
                                         };
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
-                                    } else if (entry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete)
+                                    } else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                     {
                                         DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                                         //c.Items.AddRange(entry.Options.EditorOptions);
                                         c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-                                        c.Tag = new EditorTypeConfig("AutoComplete", "String", "", " ", false, entry.Options.EditorOptions);
+                                        c.Tag = entry.Type;  // new EditorConfig("AutoComplete", "String", "", " ", false, entry.Options.EditorOptions);
                                         
                                         c.Style = new DataGridViewCellStyle()
                                         {
@@ -2617,15 +2629,16 @@ namespace Win_CBZ
                                         MetaDataGrid.Rows[i].Cells[1] = c;
                                     } else
                                     {
+                                        MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type;
                                         MetaDataGrid.Rows[i].Cells[1].Value = entry.Value;
                                     }
                                     
-                                    if (entry.Options.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
+                                    if (entry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
                                     {
                                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                                         {
                                             Value = "...",
-                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false, entry.Options.EditorOptions),
+                                            Tag = entry.Type, // new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, "String", ",", " ", false, entry.Type.OptionsAsList()),
                                             Style = new DataGridViewCellStyle()
                                             {
                                                 
@@ -2637,40 +2650,7 @@ namespace Win_CBZ
                                         };
                                         MetaDataGrid.Rows[i].Cells[2] = bc;
                                     }
-                                    else if (entry.Options.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
-                                    {
-                                        DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                        {
-                                            Value = "...",
-                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeLanguageEditor, "String", "", "", false),
-                                            Style = new DataGridViewCellStyle()
-                                            {
-                                                SelectionForeColor = Color.White,
-                                                SelectionBackColor = Color.White,
-                                                ForeColor = Color.Black,
-                                                BackColor = Color.White,
-                                            }
-                                        };
-                                        MetaDataGrid.Rows[i].Cells[2] = bc;
-                                    }
-                                    else if (entry.Options.EditorType == EditorTypeConfig.EditorTypeTagEditor)
-                                    {
-                                        DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                        {
-                                            Value = "...",
-                                            Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeTagEditor, "String", ",", "", false, entry.Options.EditorOptions),
-                                            Style = new DataGridViewCellStyle()
-                                            {
-                                                SelectionForeColor = Color.White,
-                                                SelectionBackColor = Color.White,
-                                                ForeColor = Color.Black,
-                                                BackColor = Color.White,
-                                            }
-                                        };
-
-                                        MetaDataGrid.Rows[i].Cells[2] = bc;
-
-                                    }
+     
                                 } else
                                 {
                                         //MetaDataGrid.Rows[i].Cells[1] = c;
@@ -2744,7 +2724,7 @@ namespace Win_CBZ
                 e.RowIndex >= 0)
             {
                 String value = "";
-                EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
+                MetaDataFieldType fieldType = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as MetaDataFieldType;
                 if (e.ColumnIndex == 2)
                 {
                     value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value?.ToString();
@@ -2754,53 +2734,60 @@ namespace Win_CBZ
                     value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
                 }
 
-                if (editorConfig != null)
+                if (fieldType != null)
                 {
-                    editorConfig.Value = value;
-                    switch (editorConfig.Type)
+                    fieldType.EditorConfig.Value = value;
+
+                    switch (fieldType.EditorType)
                     {
-                        case EditorTypeConfig.EditorTypeMultiLineTextEditor:
+                        case EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR:
                             {
-                                TextEditorForm textEditor = new TextEditorForm(editorConfig);
+                                TextEditorForm textEditor = new TextEditorForm(fieldType.EditorConfig);
                                 DialogResult r = textEditor.ShowDialog();
                                 if (r == DialogResult.OK)
                                 {
                                     if (textEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
                                 }
                             }
                             break;
-                        case EditorTypeConfig.EditorTypeTagEditor:
+                        case EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR:
                             {
-                                TagEditorForm textEditor = new TagEditorForm(editorConfig);
+                                TagEditorForm textEditor = new TagEditorForm(fieldType.EditorConfig);
                                 DialogResult r = textEditor.ShowDialog();
                                 if (r == DialogResult.OK)
                                 {
                                     if (textEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
                                 }
                             }
                             break;
-                        case EditorTypeConfig.EditorTypeLanguageEditor:
+                        case EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR:
                             {
-                                LanguageEditorForm langEditor = new LanguageEditorForm(editorConfig);
+                                LanguageEditorForm langEditor = new LanguageEditorForm(fieldType.EditorConfig);
                                 DialogResult r = langEditor.ShowDialog();
                                 if (r == DialogResult.OK)
                                 {
                                     if (langEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
+                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, langEditor.config.Result.ToString());
                                     }
                                 }
                             }
                             break;
                         default:
                             {
-                                if (editorConfig.Type == "ComboBox")
+                                if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                 {
                                     DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
                                     comboCell.Style = new DataGridViewCellStyle()
@@ -2809,11 +2796,10 @@ namespace Win_CBZ
                                         SelectionBackColor = Color.Gold,
                                         BackColor = Color.White,
                                     };
-                                } else if (editorConfig.Type == "AutoComplete")
+                                } else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                 {
                                     DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
 
-                                    
                                 }
 
 
@@ -2908,6 +2894,18 @@ namespace Win_CBZ
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
                 MetaDataGrid.Invalidate();
 
+                //if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+               // {
+
+               // } else
+               // {
+
+               // }
+
+                // todo: evaluate maybe only update upon saving cbz
+                MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(updatedEntry.Type.Name, updatedEntry.Value.Split(','));
+
+
                 if (e.ColumnIndex == 0) {
                     var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
                     if (key != null)
@@ -2915,21 +2913,21 @@ namespace Win_CBZ
                         if (updatedEntry.Key == key.ToString())
                         {
                             MetaDataGrid.Rows[e.RowIndex].Cells[2].ReadOnly = true;
-                            if (updatedEntry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeComboBox)
+                            if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                             {
-                                if (updatedEntry.Options.EditorOptions.Length > 0)
+                                if (updatedEntry.Type.Options.Length > 0)
                                 {
-                                    int selectedIndex = Array.IndexOf(updatedEntry.Options.EditorOptions, updatedEntry.Value);
-                                    //bool isAutoComplete = updatedEntry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete;
+                                    int selectedIndex = Array.IndexOf(updatedEntry.Type.OptionsAsList(), updatedEntry.Value);
+                                    //bool isAutoComplete = updatedEntry.Options.FieldType == EditorFieldMapping.METADATA_FIELD_TYPE_AUTO_COMPLETE;
 
                                     DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                    c.Items.AddRange(updatedEntry.Options.EditorOptions);
+                                    c.Items.AddRange(updatedEntry.Type.OptionsAsList());
                                     c.AutoComplete = false;
                                     //c.DataSource = new List<String>(updatedEntry.Options.EditorOptions);
 
 
                                     c.Value = value; //selectedIndex > -1 ? selectedIndex : 0;
-                                    c.Tag = new EditorTypeConfig("ComboBox", "String", "", "", false);
+                                    c.Tag = updatedEntry.Type;
                                     c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                                     c.DisplayStyleForCurrentCellOnly = false;
                                     c.Style = new DataGridViewCellStyle()
@@ -2950,18 +2948,19 @@ namespace Win_CBZ
                                 {
                                     DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
                                     {
-                                        Value = updatedEntry.Value
+                                        Value = updatedEntry.Value,
+                                        Tag = updatedEntry.Type,
                                     };
 
                                     MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                 }
                             }
-                            else if (updatedEntry.Options.FieldType == EditorFieldMapping.MetaDataFieldTypeAutoComplete)
+                            else if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                             {
                                 DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                                 //c.Items.AddRange(entry.Options.EditorOptions);
                                 c.Value = updatedEntry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-                                c.Tag = new EditorTypeConfig("AutoComplete", "String", "", " ", false, updatedEntry.Options.EditorOptions);
+                                c.Tag = updatedEntry.Type;
                                 
                                 //c. = isAutoComplete;
                                 //c.DataSource = new List<String>(entry.Options.EditorOptions);
@@ -2978,12 +2977,12 @@ namespace Win_CBZ
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                             }
                             
-                            if (updatedEntry.Options.EditorType == EditorTypeConfig.EditorTypeMultiLineTextEditor)
+                            if (updatedEntry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
                             {
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                                 {
                                     Value = "...",
-                                    Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeMultiLineTextEditor, "String", ",", " ", false, updatedEntry.Options.EditorOptions),
+                                    Tag = updatedEntry.Type,
                                     Style = new DataGridViewCellStyle()
                                     {
                                         SelectionForeColor = Color.White,
@@ -2995,45 +2994,8 @@ namespace Win_CBZ
                                 
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-                            } else if (updatedEntry.Options.EditorType == EditorTypeConfig.EditorTypeLanguageEditor)
-                            {
-                                DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                {
-                                    Value = "...",
-                                    Tag = new EditorTypeConfig("LanguageEditor", "String", "", "", false),
-                                    Style = new DataGridViewCellStyle()
-                                    {
-                                        SelectionForeColor = Color.White,
-                                        SelectionBackColor = Color.White,
-                                        ForeColor = Color.Black,
-                                        BackColor = Color.White,
-                                    }
-                                };
-
-                                MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-
                             }
-                        }
-                        else if (updatedEntry.Options.EditorType == EditorTypeConfig.EditorTypeTagEditor)
-                        {
-                            DataGridViewButtonCell bc = new DataGridViewButtonCell
-                            {
-                                Value = "...",
-                                Tag = new EditorTypeConfig(EditorTypeConfig.EditorTypeTagEditor, "String", ",", "", false, updatedEntry.Options.EditorOptions),
-                                Style = new DataGridViewCellStyle()
-                                {
-                                    SelectionForeColor = Color.White,
-                                    SelectionBackColor = Color.White,
-                                    ForeColor = Color.Black,
-                                    BackColor = Color.White,
-                                }
-                            };
-
-                            MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-
-                        }
-
-                    
+                        }        
                     }
                 }
             }
@@ -3571,7 +3533,7 @@ namespace Win_CBZ
 
             if (result == DialogResult.Yes)
             {
-                Program.ProjectModel.DeleteTempFolderItems();
+                Program.ProjectModel.ClearTempFolder();
             }
         }
 
@@ -3696,8 +3658,8 @@ namespace Win_CBZ
                 {
                     Win_CBZSettings.Default.CustomMetadataFields.Add(line);
                 }
-                
-                Program.ProjectModel.MetaData.UpdateCustomEditorMappings();
+
+                MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
 
                 TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
                 Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;
