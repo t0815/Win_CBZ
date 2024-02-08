@@ -248,7 +248,7 @@ namespace Win_CBZ.Forms
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
                                 {
                                     Value = "...",
-                                    Tag = new EditorTypeConfig("MultiLineTextEditor", "String", ",", " ", false),
+                                    Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, ",", "", false),
                                     Style = new DataGridViewCellStyle()
                                     {
                                         SelectionForeColor = Color.White,
@@ -871,7 +871,7 @@ namespace Win_CBZ.Forms
                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                         {
                             Value = "...",
-                            Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, "String", ",", " ", false)
+                            Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, ",", " ", false)
                         };
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5] = bc;
                     }

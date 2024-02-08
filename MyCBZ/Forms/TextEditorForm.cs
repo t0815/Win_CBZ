@@ -107,12 +107,12 @@ namespace Win_CBZ.Forms
                         }
 
 
-                        if (config.ResultType == "String")
+                        if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
                         {
                             result = String.Join(config.Separator ?? "" + config.Append ?? "", ItemsText.Lines);
                         }
 
-                        if (config.ResultType == "String[]")
+                        if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
                         {
                             result = ItemsText.Lines;
                         }

@@ -212,6 +212,8 @@ namespace Win_CBZ
                     return new MetaDataEntry(key, value, mapping, readOnly);
                 } else
                 {
+                    MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(key, value);
+
                     return new MetaDataEntry(key, value, mapping, readOnly);
                 }
             }

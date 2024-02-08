@@ -34,6 +34,7 @@ using System.Configuration;
 using System.Xml;
 using static Win_CBZ.MetaData;
 using SharpCompress.Common;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Win_CBZ
 {
@@ -2748,6 +2749,8 @@ namespace Win_CBZ
                                     if (textEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
                                 }
                             }
@@ -2761,6 +2764,8 @@ namespace Win_CBZ
                                     if (textEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
                                 }
                             }
@@ -2774,13 +2779,15 @@ namespace Win_CBZ
                                     if (langEditor.config.Result != null)
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
+                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, langEditor.config.Result.ToString());
                                     }
                                 }
                             }
                             break;
                         default:
                             {
-                                if (fieldType.FieldType == "ComboBox")
+                                if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                 {
                                     DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
                                     comboCell.Style = new DataGridViewCellStyle()
@@ -2789,11 +2796,10 @@ namespace Win_CBZ
                                         SelectionBackColor = Color.Gold,
                                         BackColor = Color.White,
                                     };
-                                } else if (fieldType.FieldType == "AutoComplete")
+                                } else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                 {
                                     DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
 
-                                    
                                 }
 
 
@@ -2887,6 +2893,18 @@ namespace Win_CBZ
                 MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
                 MetaDataGrid.Invalidate();
+
+                //if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+               // {
+
+               // } else
+               // {
+
+               // }
+
+                // todo: evaluate maybe only update upon saving cbz
+                MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(updatedEntry.Type.Name, updatedEntry.Value.Split(','));
+
 
                 if (e.ColumnIndex == 0) {
                     var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;

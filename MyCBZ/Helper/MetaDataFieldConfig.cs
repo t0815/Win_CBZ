@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Win_CBZ.Data;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Win_CBZ.Helper
 {
@@ -13,9 +15,12 @@ namespace Win_CBZ.Helper
 
         protected static MetaDataFieldConfig Instance;
 
+        private readonly DataValidation Validation;
+
         private MetaDataFieldConfig() 
         {
             FieldTypes = new List<MetaDataFieldType>();
+            Validation = new DataValidation();
         }
 
 
@@ -67,15 +72,90 @@ namespace Win_CBZ.Helper
             }
         }
 
-        public void AddUpdateItemOption(String name, String option)
+        public void UpdateAutoCompleteOptions(String name, String option)
         {
+            List<String> optionList = new List<String>();
+            List<String> validationTest = new List<String>();
             MetaDataFieldType existing = GetFieldConfigFor(name);
 
             if (existing != null)
             {
-                
-                //existing.
+                if (existing.AutoUpdate)
+                {
+                    if (existing.Options != null && option != null && option.Length > 0)
+                    {
+                        optionList.AddRange(existing.OptionsAsList());
 
+                        if (existing.EditorConfig.AllowDuplicateValues)
+                        {
+                            optionList.Add(option);
+                        } else
+                        {
+                            validationTest.Add(option);
+                            validationTest.AddRange(existing.OptionsAsList());
+
+                            var duplicates = Validation.ValidateDuplicateStrings(validationTest.ToArray());
+
+                            if (duplicates.Length == 0)
+                            {
+                                optionList.Add(option);
+                            }
+
+                        }
+
+                        existing.Options = String.Join(",", optionList);
+                        existing.EditorConfig.AutoCompleteItems = optionList.ToArray();
+                    }
+                }
+            }
+        }
+
+        public void UpdateAutoCompleteOptions(String name, String[] options)
+        {
+            List<String> optionList = new List<String>();
+            List<String> validationTest = new List<String>();
+            List<String> duplicatesList = new List<String>();
+            MetaDataFieldType existing = GetFieldConfigFor(name);
+
+            if (existing != null)
+            {
+                if (existing.AutoUpdate)
+                {
+                    if (existing.Options != null && options != null && options.Length > 0)
+                    {
+                        optionList.AddRange(existing.OptionsAsList());
+
+                        if (existing.EditorConfig.AllowDuplicateValues)
+                        {
+                            optionList.AddRange(options);
+                        }
+                        else
+                        {
+                            validationTest.AddRange(options);
+                            validationTest.AddRange(existing.OptionsAsList());
+
+                            duplicatesList.AddRange(Validation.ValidateDuplicateStrings(validationTest.ToArray()));
+
+                            foreach (string item in options)
+                            {
+                                if (duplicatesList.Count > 0)
+                                {
+                                    if (!duplicatesList.Contains(item))
+                                    {
+                                        optionList.Add(item);
+                                    }
+                                } else
+                                {
+                                    optionList.Add(item);
+                                }
+                                
+                            }
+                        }
+
+                        existing.Options = String.Join(",", optionList);
+                        existing.EditorConfig.AutoCompleteItems = optionList.ToArray();
+                    }
+                }
             }
         }
 
@@ -117,14 +197,13 @@ namespace Win_CBZ.Helper
                 {
                     try
                     {
-                        FieldTypes.Add(new MetaDataFieldType()
-                        {
-                            Name = typeParts[0],
-                            FieldType = typeParts[1],
-                            EditorType = typeParts[2],
-                            Options = typeParts[3],
-                            AutoUpdate = bool.Parse(typeParts[4].ToLower()),
-                        });
+                        FieldTypes.Add(new MetaDataFieldType(
+                            typeParts[0],
+                            typeParts[1],
+                            typeParts[2],
+                            typeParts[3],
+                            bool.Parse(typeParts[4].ToLower())
+                        ));
                     }
                     catch (Exception e)
                     {

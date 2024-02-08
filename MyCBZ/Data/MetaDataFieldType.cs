@@ -97,7 +97,7 @@ namespace Win_CBZ.Data
 
         public String[] OptionsAsList(char separator = ',')
         {
-            return Options.Split(separator);
+            return Options.Split(separator).Select((s) => s.TrimEnd(' ').TrimStart(' ')).ToArray();
         }
 
         public MetaDataFieldType MakeOptionsFromStrings(string[] options, String separator = ",")
