@@ -55,7 +55,7 @@ namespace Win_CBZ.Helper
 
         public List<MetaDataFieldType> GetAllTypes()
         {
-            return FieldTypes;
+            return FieldTypes.ToList<MetaDataFieldType>();
         }
 
         public void UpdateItem(String name, MetaDataFieldType field) 

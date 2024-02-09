@@ -72,6 +72,8 @@ namespace Win_CBZ.Forms
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
+            CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
+
             // ----------------------------------------
 
 
@@ -163,15 +165,15 @@ namespace Win_CBZ.Forms
 
         private void PopulateFieldTypeEditor()
         {
-            CustomFieldTypesSettings.Clear();
+            //CustomFieldTypesSettings.Clear();
             CustomFieldsDataGrid.Rows.Clear();
-            foreach (MetaDataFieldType type in MetaDataFieldConfig.GetInstance().GetAllTypes())
+            foreach (MetaDataFieldType type in CustomFieldTypesSettings)
             {
                 //String[] typeParts = line.Split('|');
 
                 //if (typeParts.Length == 5)
                 //{
-                    CustomFieldTypesSettings.Add(new MetaDataFieldType(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate));
+                    //CustomFieldTypesSettings.Add(new MetaDataFieldType(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate));
                     CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate);
 
                // }
@@ -1016,7 +1018,31 @@ namespace Win_CBZ.Forms
             DialogResult r = ApplicationMessage.ShowConfirmation("Are you sure you want to reset all MetaData -Editor FieldTypes to their default configuration?", "Please confirm", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
             if (r == DialogResult.Yes)
             {
-                MetaDataFieldConfig.GetInstance().UpdateFrom(FactoryDefaults.DefaultMetaDataFieldTypes);
+                CustomFieldTypesSettings.Clear();
+                foreach (string row in FactoryDefaults.DefaultMetaDataFieldTypes)
+                {
+                    
+                        String[] typeParts = row.Split('|');
+
+                        if (typeParts.Length == 5)
+                        {
+                            try
+                            {
+                                CustomFieldTypesSettings.Add(new MetaDataFieldType(
+                                    typeParts[0],
+                                    typeParts[1],
+                                    typeParts[2],
+                                    typeParts[3],
+                                    bool.Parse(typeParts[4].ToLower())
+                                ));
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }   
+                }
+                
                 
                 PopulateFieldTypeEditor();
             }
