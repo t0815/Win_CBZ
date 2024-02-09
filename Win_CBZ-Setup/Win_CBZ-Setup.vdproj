@@ -171,12 +171,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_9A33DCDEF6D84F4E360828C968B6FA04"
-        "OwnerKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_9B4F296D4CAEC3425659A3076164A1F2"
         "OwnerKey" = "8:_8122A14F0FB1F0426E04F0D780FF372F"
         "MsmSig" = "8:_UNDEFINED"
@@ -281,12 +275,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_456151B479CCF7170995CA891CF736D9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9A33DCDEF6D84F4E360828C968B6FA04"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -727,37 +715,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9A33DCDEF6D84F4E360828C968B6FA04"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:AutocompleteMenu, Version=1.3.5.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_9A33DCDEF6D84F4E360828C968B6FA04"
-                    {
-                    "Name" = "8:AutocompleteMenu.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:AutocompleteMenu.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9B4F296D4CAEC3425659A3076164A1F2"
             {
             "AssemblyRegister" = "3:1"
@@ -980,15 +937,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
-        "ProductCode" = "8:{985D1C92-DDC8-463D-BBA9-A844F6F7293B}"
-        "PackageCode" = "8:{B2EDFFD4-2737-4581-88EC-71DA52CEBFBD}"
+        "ProductCode" = "8:{D70F3B31-69FF-4907-940B-0E91E63F6D58}"
+        "PackageCode" = "8:{84A90161-8D7A-4B53-90D6-07497295E984}"
         "UpgradeCode" = "8:{66FAEF81-1CAE-4971-9E0F-796310EFEA5E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.18.116"
+        "ProductVersion" = "8:0.18.117"
         "Manufacturer" = "8:Trash_s0Ft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
