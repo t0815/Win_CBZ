@@ -23,7 +23,10 @@ namespace Win_CBZ.Components.CustomDataGridView
                     Keys key = (Keys)m.WParam;
                     if (key == Keys.Enter)
                     {
-                        MoveToNextCell();
+                        if (!IsCurrentCellInEditMode)
+                        {
+                            //MoveToNextCell();
+                        }
                         m.Result = IntPtr.Zero;
                         return;
                     }
@@ -41,7 +44,7 @@ namespace Win_CBZ.Components.CustomDataGridView
             CurrentRow = this.CurrentCell.RowIndex;
             if (CurrentColumn == this.Columns.Count - 1 && CurrentRow != this.Rows.Count - 1)
             {
-                this.CurrentCell = Rows[CurrentRow + 1].Cells[1];//0 index is for No and readonly
+                this.CurrentCell = Rows[CurrentRow + 1].Cells[CurrentColumn];//0 index is for No and readonly
                 this.BeginEdit(false);
             }
             else if (CurrentRow != this.Rows.Count - 1)
@@ -68,7 +71,7 @@ namespace Win_CBZ.Components.CustomDataGridView
         {
             if (keyData == Keys.Enter)
             {
-                EndEdit();
+                //EndEdit();
                 return true;
             }
             return base.ProcessDialogKey(keyData);

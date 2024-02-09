@@ -1,4 +1,5 @@
-﻿using SharpCompress.Archives.Zip;
+﻿using AutocompleteMenuNS;
+using SharpCompress.Archives.Zip;
 using SharpCompress.Readers;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Win_CBZ.Forms
@@ -22,6 +24,15 @@ namespace Win_CBZ.Forms
         public DebugForm(ListView source)
         {
             InitializeComponent();
+
+            cdg.Columns.Add(new DataGridViewColumn()
+            {
+                DataPropertyName = "Key",
+                HeaderText = "Key",
+                CellTemplate = new DataGridViewTextBoxCell(),
+                Width = 150,
+                SortMode = DataGridViewColumnSortMode.Automatic,
+            });
 
             PageView = source;
         }
@@ -115,6 +126,27 @@ namespace Win_CBZ.Forms
                 idebug.SubItems.Add(p.Index.ToString());
                 idebug.SubItems.Add(p.Id.ToString());
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+
+            cdg.Rows.Add("");
+        }
+
+        private void cdg_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            TextBox textBox = e.Control as TextBox;
+            //textBox.KeyDown += DataGridTextBoxKeyDown;
+
+            autocompleteMenu1.Items = new string[] { "abc", "a100", "defghij", "best item", "new", "test item", "doomed", "that is a test" };
+            autocompleteMenu1.SetAutocompleteMenu(textBox, autocompleteMenu1);
+        }
+
+        private void autocompleteMenu1_Selected(object sender, SelectedEventArgs e)
+        {
+            e.Control.Text = e.Item.Text;
         }
     }
 }

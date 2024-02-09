@@ -43,6 +43,10 @@
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
+            this.cdg = new Win_CBZ.Components.CustomDataGridView.CustomDataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.cdg)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -142,11 +146,45 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(692, 504);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(151, 50);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "add row...";
+            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // autocompleteMenu1
+            // 
+            this.autocompleteMenu1.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocompleteMenu1.Colors")));
+            this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocompleteMenu1.ImageList = null;
+            this.autocompleteMenu1.Items = new string[0];
+            this.autocompleteMenu1.MinFragmentLength = 1;
+            this.autocompleteMenu1.TargetControlWrapper = null;
+            this.autocompleteMenu1.Selected += new System.EventHandler<AutocompleteMenuNS.SelectedEventArgs>(this.autocompleteMenu1_Selected);
+            // 
+            // cdg
+            // 
+            this.cdg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.cdg.Location = new System.Drawing.Point(18, 482);
+            this.cdg.Name = "cdg";
+            this.cdg.RowHeadersWidth = 62;
+            this.cdg.RowTemplate.Height = 28;
+            this.cdg.Size = new System.Drawing.Size(636, 181);
+            this.cdg.TabIndex = 4;
+            this.cdg.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.cdg_EditingControlShowing);
+            // 
             // DebugForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1170, 693);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.cdg);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listView2);
             this.Controls.Add(this.listView1);
@@ -154,6 +192,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DebugForm";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.cdg)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -174,5 +213,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.Button button2;
+        private Components.CustomDataGridView.CustomDataGridView cdg;
+        private System.Windows.Forms.Button button3;
+        private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
     }
 }

@@ -84,49 +84,46 @@ namespace Win_CBZ.Forms
 
             if (DialogResult == DialogResult.OK)
             {
-                if (ItemsText.Lines.Length > 0)
+                if (config != null)
                 {
-                    if (config != null)
+                    if (!config.AllowDuplicateValues)
                     {
-                        if (!config.AllowDuplicateValues)
+                        duplicates.AddRange(validation.ValidateDuplicateStrings(ItemsText.Lines));
+
+                        if (duplicates.Count > 0)
                         {
-                            duplicates.AddRange(validation.ValidateDuplicateStrings(ItemsText.Lines));
+                            ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.\r\n\r\n" + String.Join("\r\n", duplicates), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
-                            if (duplicates.Count > 0)
-                            {
-                                ApplicationMessage.ShowError("Invalid Value! Duplicate entry detected.\r\n\r\n" + String.Join("\r\n", duplicates), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
-
-                                DialogResult = DialogResult.None;
-
-                                e.Cancel = true;
-                            }
-                            else
-                            {
-
-                            }
-                        }
-
-                        if (ItemsText.Text.Contains("|") || ItemsText.Text.Contains(","))
-                        {
-                            ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\",\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                            DialogResult = DialogResult.None;
 
                             e.Cancel = true;
                         }
-
-                        if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
+                        else
                         {
-                            result = String.Join(config.Separator ?? "" + config.Append ?? "", ItemsText.Lines);
+
                         }
-
-                        if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
-                        {
-                            result = ItemsText.Lines;
-                        }
-
-                        config.Result = result;
-
-                        DialogResult = DialogResult.OK;
                     }
+
+                    if (ItemsText.Text.Contains("|") || ItemsText.Text.Contains(","))
+                    {
+                        ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\",\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+
+                        e.Cancel = true;
+                    }
+
+                    if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
+                    {
+                        result = String.Join(config.Separator ?? "" + config.Append ?? "", ItemsText.Lines);
+                    }
+
+                    if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
+                    {
+                        result = ItemsText.Lines;
+                    }
+
+                    config.Result = result;
+
+                    DialogResult = DialogResult.OK;
                 }
             }
         }
