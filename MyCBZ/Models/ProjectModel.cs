@@ -785,6 +785,11 @@ namespace Win_CBZ
                 return false;
             }
 
+            foreach (MetaDataEntry entry in MetaData.Values)
+            {          
+                MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());                
+            }
+
             PageIndexVersionWriter = metaDataVersionWriting;
 
             OnPipelineNextTask(new PipelineEvent(

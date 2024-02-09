@@ -195,7 +195,9 @@
             this.AutoCompleteItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.AutoCompleteItems.ImageList = null;
             this.AutoCompleteItems.Items = new string[0];
+            this.AutoCompleteItems.LeftPadding = 2;
             this.AutoCompleteItems.MinFragmentLength = 1;
+            this.AutoCompleteItems.SearchPattern = "[\\w+( +\\w+)*$]";
             this.AutoCompleteItems.TargetControlWrapper = null;
             // 
             // TextEditorForm

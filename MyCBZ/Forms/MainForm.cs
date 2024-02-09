@@ -2754,7 +2754,7 @@ namespace Win_CBZ
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
                                         // todo: evaluate-> dont directly update autocompletes... only after saving?
-                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
+                                        //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
                                 }
                             }
@@ -2769,7 +2769,7 @@ namespace Win_CBZ
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
                                         // todo: evaluate-> dont directly update autocompletes... only after saving?
-                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
+                                        //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
                                 }
                             }
@@ -2784,7 +2784,7 @@ namespace Win_CBZ
                                     {
                                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
                                         // todo: evaluate-> dont directly update autocompletes... only after saving?
-                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, langEditor.config.Result.ToString());
+                                        //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, langEditor.config.Result.ToString());
                                     }
                                 }
                             }
@@ -2811,7 +2811,6 @@ namespace Win_CBZ
 
                             }
                             break;
-
 
                     }
                 }
@@ -4752,7 +4751,7 @@ namespace Win_CBZ
 
         private void MetaDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            
+            //
         }
 
         private void MetaDataGrid_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutocompleteMenuNS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -59,7 +60,11 @@ namespace Win_CBZ.Forms
                     //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                     //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
 
-                    AutoCompleteItems.Items = config.AutoCompleteItems;
+                    var items = new List<AutocompleteItem>();
+                    foreach (var item in config.AutoCompleteItems)
+                        items.Add(new SnippetAutocompleteItem(item) { ImageIndex = 0 });
+
+                    AutoCompleteItems.SetAutocompleteItems(items);
 
                     //TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
                     //TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;

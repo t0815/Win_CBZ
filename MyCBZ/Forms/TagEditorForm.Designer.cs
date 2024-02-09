@@ -47,6 +47,7 @@
             this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
             this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
             this.TagEditTooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.TagIcons = new System.Windows.Forms.ImageList(this.components);
             this.ItemEditorTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.HeaderPanel.SuspendLayout();
@@ -261,11 +262,12 @@
             // AutoCompleteItems
             // 
             this.AutoCompleteItems.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("AutoCompleteItems.Colors")));
-            this.AutoCompleteItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.AutoCompleteItems.ImageList = null;
+            this.AutoCompleteItems.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AutoCompleteItems.ImageList = this.TagIcons;
             this.AutoCompleteItems.Items = new string[0];
-            this.AutoCompleteItems.LeftPadding = 2;
+            this.AutoCompleteItems.LeftPadding = 17;
             this.AutoCompleteItems.MinFragmentLength = 1;
+            this.AutoCompleteItems.SearchPattern = "[\\w+( +\\w+)*$]";
             this.AutoCompleteItems.TargetControlWrapper = null;
             // 
             // TagEditTooltip
@@ -273,6 +275,12 @@
             this.TagEditTooltip.IsBalloon = true;
             this.TagEditTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.TagEditTooltip.ToolTipTitle = "Win_CBZ";
+            // 
+            // TagIcons
+            // 
+            this.TagIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("TagIcons.ImageStream")));
+            this.TagIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.TagIcons.Images.SetKeyName(0, "tag.png");
             // 
             // TagEditorForm
             // 
@@ -322,5 +330,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolTip TagEditTooltip;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ImageList TagIcons;
     }
 }

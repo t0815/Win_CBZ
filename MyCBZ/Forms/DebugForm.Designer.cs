@@ -43,7 +43,6 @@
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
-            this.autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
             this.SuspendLayout();
             // 
             // button1
@@ -143,14 +142,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // autocompleteMenu1
-            // 
-            this.autocompleteMenu1.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocompleteMenu1.Colors")));
-            this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.autocompleteMenu1.ImageList = null;
-            this.autocompleteMenu1.Items = new string[0];
-            this.autocompleteMenu1.TargetControlWrapper = null;
-            // 
             // DebugForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -183,6 +174,5 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.Button button2;
-        private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
     }
 }

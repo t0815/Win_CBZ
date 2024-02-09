@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -124,7 +124,6 @@ namespace Win_CBZ
             this.TabControlPageSettings = new System.Windows.Forms.TabControl();
             this.TabPagePageSettings = new System.Windows.Forms.TabPage();
             this.TablePanePageAdjustments = new System.Windows.Forms.TableLayoutPanel();
-            this.TextBoxExcöudePagesImageProcessing = new System.Windows.Forms.TextBox();
             this.GroupBoxDimensions = new System.Windows.Forms.GroupBox();
             this.LabelH = new System.Windows.Forms.Label();
             this.LabelW = new System.Windows.Forms.Label();
@@ -133,7 +132,6 @@ namespace Win_CBZ
             this.RadioApplyAdjustmentsGlobal = new System.Windows.Forms.RadioButton();
             this.RadioApplyAdjustmentsPage = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
             this.GroupBoxResize = new System.Windows.Forms.GroupBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.TextBoxResizePageIndexReference = new System.Windows.Forms.TextBox();
@@ -152,6 +150,8 @@ namespace Win_CBZ
             this.ComboBoxSplitAtType = new System.Windows.Forms.ComboBox();
             this.TextBoxSplitPageAt = new System.Windows.Forms.TextBox();
             this.CheckBoxSplitDoublePages = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TextBoxExcöudePagesImageProcessing = new System.Windows.Forms.TextBox();
             this.TabPageGlobalSettings = new System.Windows.Forms.TabPage();
             this.FileSettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.PlaceholdersInfoLabel = new System.Windows.Forms.Label();
@@ -186,6 +186,7 @@ namespace Win_CBZ
             this.LabelMetadataPanel = new System.Windows.Forms.Label();
             this.TextBoxMetaDataFilename = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.TextBoxCountKeys = new System.Windows.Forms.TextBox();
             this.BtnAddMetaData = new System.Windows.Forms.Button();
             this.SmallIconsImages = new System.Windows.Forms.ImageList(this.components);
             this.BtnRemoveMetaData = new System.Windows.Forms.Button();
@@ -206,7 +207,6 @@ namespace Win_CBZ
             this.AddPagesDirDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
-            this.TextBoxCountKeys = new System.Windows.Forms.TextBox();
             this.ToolBar.SuspendLayout();
             this.MenuBar.SuspendLayout();
             this.StatusBar.SuspendLayout();
@@ -1152,6 +1152,8 @@ namespace Win_CBZ
             // 
             // TablePanePageAdjustments
             // 
+            this.TablePanePageAdjustments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TablePanePageAdjustments.AutoSize = true;
             this.TablePanePageAdjustments.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.TablePanePageAdjustments.ColumnCount = 2;
@@ -1180,17 +1182,6 @@ namespace Win_CBZ
             this.TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
             this.TablePanePageAdjustments.Size = new System.Drawing.Size(356, 659);
             this.TablePanePageAdjustments.TabIndex = 7;
-            // 
-            // TextBoxExcöudePagesImageProcessing
-            // 
-            this.AutoCompleteItems.SetAutocompleteMenu(this.TextBoxExcöudePagesImageProcessing, null);
-            this.TablePanePageAdjustments.SetColumnSpan(this.TextBoxExcöudePagesImageProcessing, 2);
-            this.TextBoxExcöudePagesImageProcessing.Location = new System.Drawing.Point(10, 544);
-            this.TextBoxExcöudePagesImageProcessing.Margin = new System.Windows.Forms.Padding(2);
-            this.TextBoxExcöudePagesImageProcessing.Multiline = true;
-            this.TextBoxExcöudePagesImageProcessing.Name = "TextBoxExcöudePagesImageProcessing";
-            this.TextBoxExcöudePagesImageProcessing.Size = new System.Drawing.Size(335, 58);
-            this.TextBoxExcöudePagesImageProcessing.TabIndex = 17;
             // 
             // GroupBoxDimensions
             // 
@@ -1296,17 +1287,6 @@ namespace Win_CBZ
             this.button1.TabIndex = 18;
             this.button1.Text = "Get From selected Pages";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 526);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(55, 16);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "Exclude";
             // 
             // GroupBoxResize
             // 
@@ -1535,6 +1515,28 @@ namespace Win_CBZ
             this.CheckBoxSplitDoublePages.Text = "Split at";
             this.CheckBoxSplitDoublePages.UseVisualStyleBackColor = true;
             this.CheckBoxSplitDoublePages.CheckedChanged += new System.EventHandler(this.CheckBoxSplitDoublePages_CheckedChanged);
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(10, 526);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 16);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Exclude";
+            // 
+            // TextBoxExcöudePagesImageProcessing
+            // 
+            this.AutoCompleteItems.SetAutocompleteMenu(this.TextBoxExcöudePagesImageProcessing, null);
+            this.TablePanePageAdjustments.SetColumnSpan(this.TextBoxExcöudePagesImageProcessing, 2);
+            this.TextBoxExcöudePagesImageProcessing.Location = new System.Drawing.Point(10, 544);
+            this.TextBoxExcöudePagesImageProcessing.Margin = new System.Windows.Forms.Padding(2);
+            this.TextBoxExcöudePagesImageProcessing.Multiline = true;
+            this.TextBoxExcöudePagesImageProcessing.Name = "TextBoxExcöudePagesImageProcessing";
+            this.TextBoxExcöudePagesImageProcessing.Size = new System.Drawing.Size(335, 58);
+            this.TextBoxExcöudePagesImageProcessing.TabIndex = 17;
             // 
             // TabPageGlobalSettings
             // 
@@ -2003,6 +2005,16 @@ namespace Win_CBZ
             this.label9.TabIndex = 10;
             this.label9.Text = "Keys:";
             // 
+            // TextBoxCountKeys
+            // 
+            this.AutoCompleteItems.SetAutocompleteMenu(this.TextBoxCountKeys, null);
+            this.TextBoxCountKeys.BackColor = System.Drawing.SystemColors.Control;
+            this.TextBoxCountKeys.Location = new System.Drawing.Point(313, 5);
+            this.TextBoxCountKeys.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
+            this.TextBoxCountKeys.Name = "TextBoxCountKeys";
+            this.TextBoxCountKeys.Size = new System.Drawing.Size(36, 22);
+            this.TextBoxCountKeys.TabIndex = 12;
+            // 
             // BtnAddMetaData
             // 
             this.BtnAddMetaData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -2089,40 +2101,40 @@ namespace Win_CBZ
             // MetaDataGrid
             // 
             this.MetaDataGrid.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MetaDataGrid.ContextMenuStrip = this.DataGridContextMenu;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MetaDataGrid.Location = new System.Drawing.Point(2, 47);
             this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataGrid.MultiSelect = false;
             this.MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
             this.MetaDataGrid.Size = new System.Drawing.Size(913, 186);
@@ -2229,18 +2241,9 @@ namespace Win_CBZ
             this.AutoCompleteItems.ImageList = null;
             this.AutoCompleteItems.Items = new string[0];
             this.AutoCompleteItems.MinFragmentLength = 1;
+            this.AutoCompleteItems.SearchPattern = "[\\w+( +\\w+)*$]";
             this.AutoCompleteItems.TargetControlWrapper = null;
             this.AutoCompleteItems.Selected += new System.EventHandler<AutocompleteMenuNS.SelectedEventArgs>(this.AutoCompleteItems_Selected);
-            // 
-            // TextBoxCountKeys
-            // 
-            this.AutoCompleteItems.SetAutocompleteMenu(this.TextBoxCountKeys, null);
-            this.TextBoxCountKeys.BackColor = System.Drawing.SystemColors.Control;
-            this.TextBoxCountKeys.Location = new System.Drawing.Point(313, 5);
-            this.TextBoxCountKeys.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
-            this.TextBoxCountKeys.Name = "TextBoxCountKeys";
-            this.TextBoxCountKeys.Size = new System.Drawing.Size(36, 22);
-            this.TextBoxCountKeys.TabIndex = 12;
             // 
             // MainForm
             // 
