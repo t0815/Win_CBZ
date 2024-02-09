@@ -470,9 +470,6 @@
   <metadata name="OpenImagesDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>801, 62</value>
   </metadata>
-  <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 103</value>
-  </metadata>
   <metadata name="AutoCompleteItems.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>861, 21</value>
   </metadata>
@@ -555,6 +552,9 @@
         AYMB/gE/AeABAwHAAQMB4AEHAf4BPwHgAQcB8AEPCP8L
 </value>
   </data>
+  <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 103</value>
+  </metadata>
   <data name="CompatInfoText.Text" xml:space="preserve">
     <value>Most CBZ-Readers ignore the ComicInfo Page-Index and rely on filename ordering instead. If enabled, any renaming options are ignored and the files are automatically renamed according to their index. The Page with Type 'FrontCover' should be at index 1.</value>
   </data>
@@ -592,6 +592,9 @@ The page with type 'FrontCover' should be at index 1.</value>
   </metadata>
   <metadata name="SaveArchiveDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1197, 62</value>
+  </metadata>
+  <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 103</value>
   </metadata>
   <metadata name="SelectColorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>124, 103</value>
