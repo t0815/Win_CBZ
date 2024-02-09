@@ -127,7 +127,7 @@ namespace Win_CBZ.Helper
 
                         if (existing.EditorConfig.AllowDuplicateValues)
                         {
-                            optionList.AddRange(options);
+                            optionList.AddRange(options.Where((s, index) => s.Length > 0).ToArray());
                         }
                         else
                         {
@@ -146,9 +146,11 @@ namespace Win_CBZ.Helper
                                     }
                                 } else
                                 {
-                                    optionList.Add(item);
-                                }
-                                
+                                    if (item.Length > 0)
+                                    {
+                                        optionList.Add(item);
+                                    }                                   
+                                }                                
                             }
                         }
 
@@ -170,19 +172,6 @@ namespace Win_CBZ.Helper
             }
 
             return result.ToArray();
-        }
-
-        public void ParseFromConfig(String[] customFieldTypesCollection)
-        {
-            foreach (String line in customFieldTypesCollection)
-            {
-                String[] typeParts = line.Split('|');
-
-                if (typeParts.Length == 5)
-                {
-                    FieldTypes.Add(new MetaDataFieldType(typeParts[0], typeParts[1], typeParts[2], typeParts[3], Boolean.Parse(typeParts[4])));
-                }
-            }
         }
 
         public void UpdateFrom(string[] settingsList)
