@@ -42,11 +42,11 @@
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ButtonAddTag = new System.Windows.Forms.Button();
+            this.TagIcons = new System.Windows.Forms.ImageList(this.components);
             this.TagTextBox = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
             this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
-            this.TagIcons = new System.Windows.Forms.ImageList(this.components);
             this.TagEditTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.ItemEditorTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -224,6 +224,13 @@
             this.ButtonAddTag.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ButtonAddTag.UseVisualStyleBackColor = true;
             this.ButtonAddTag.Click += new System.EventHandler(this.ButtonAddTag_Click);
+            // 
+            // TagIcons
+            // 
+            this.TagIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("TagIcons.ImageStream")));
+            this.TagIcons.TransparentColor = System.Drawing.Color.Transparent;
+            this.TagIcons.Images.SetKeyName(0, "tag.png");
+            this.TagIcons.Images.SetKeyName(1, "navigate_plus.png");
             // 
             // TagTextBox
             // 

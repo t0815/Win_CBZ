@@ -20,6 +20,7 @@ namespace Win_CBZ.Forms
     {
 
         public ListView PageView;
+        private Control editControl;
 
         public DebugForm(ListView source)
         {
@@ -137,16 +138,45 @@ namespace Win_CBZ.Forms
 
         private void cdg_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            TextBox textBox = e.Control as TextBox;
+            Control textBox = e.Control;
             //textBox.KeyDown += DataGridTextBoxKeyDown;
 
             autocompleteMenu1.Items = new string[] { "abc", "a100", "defghij", "best item", "new", "test item", "doomed", "that is a test" };
             autocompleteMenu1.SetAutocompleteMenu(textBox, autocompleteMenu1);
+
+            editControl = e.Control;
+            //textBox.KeyDown += handleK;
         }
 
         private void autocompleteMenu1_Selected(object sender, SelectedEventArgs e)
         {
-            e.Control.Text = e.Item.Text;
+            cdg.DisableArrowNavigationMode = false;
+            //e.Control.Text = e.Item.Text;
+        }
+
+        private void handleK(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                //autocompleteMenu1.SelectNext(0);
+                //e.Handled = true;
+            }
+        }
+
+        private void autocompleteMenu1_WrapperNeeded(object sender, WrapperNeededEventArgs e)
+        {
+            ApplicationMessage.Show("wrapper needed", "", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+        }
+
+        private void cdg_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            autocompleteMenu1.TargetControlWrapper = null;
+            autocompleteMenu1.SetAutocompleteMenu(editControl, null);
+        }
+
+        private void autocompleteMenu1_Opening(object sender, CancelEventArgs e)
+        {
+            cdg.DisableArrowNavigationMode = true;
         }
     }
 }
