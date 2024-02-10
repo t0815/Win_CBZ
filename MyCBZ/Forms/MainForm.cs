@@ -2750,9 +2750,9 @@ namespace Win_CBZ
                                 DialogResult r = textEditor.ShowDialog();
                                 if (r == DialogResult.OK)
                                 {
-                                    if (textEditor.config.Result != null)
+                                    if (textEditor.Config.Result != null)
                                     {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.Config.Result.ToString();
                                         // todo: evaluate-> dont directly update autocompletes... only after saving?
                                         //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }
@@ -2765,9 +2765,9 @@ namespace Win_CBZ
                                 DialogResult r = textEditor.ShowDialog();
                                 if (r == DialogResult.OK)
                                 {
-                                    if (textEditor.config.Result != null)
+                                    if (textEditor.Config.Result != null)
                                     {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.config.Result.ToString();
+                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.Config.Result.ToString();
                                         // todo: evaluate-> dont directly update autocompletes... only after saving?
                                         //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                     }

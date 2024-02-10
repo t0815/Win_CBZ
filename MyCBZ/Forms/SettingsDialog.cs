@@ -467,9 +467,9 @@ namespace Win_CBZ.Forms
                                     DialogResult r = textEditor.ShowDialog();
                                     if (r == DialogResult.OK)
                                     {
-                                        if (textEditor.config.Result != null)
+                                        if (textEditor.Config.Result != null)
                                         {
-                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value = textEditor.config.Result.ToString();
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value = textEditor.Config.Result.ToString();
                                         }
                                     }
                                 }

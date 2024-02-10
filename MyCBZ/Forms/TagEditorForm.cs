@@ -20,25 +20,25 @@ namespace Win_CBZ.Forms
     {
         public List<String> Lines = new List<String>();
 
-        public EditorTypeConfig config;
+        public EditorTypeConfig Config;
 
-        DataValidation validation;
+        DataValidation Validation;
 
         public TagEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
 
-            validation = new DataValidation();
+            Validation = new DataValidation();
 
-            config = editorTypeConfig;
+            Config = editorTypeConfig;
 
-            if (config != null)
+            if (Config != null)
             {
-                if (config.Separator != null)
+                if (Config.Separator != null)
                 {
-                    if (config.Value != null && config.Value.Length > 0)
+                    if (Config.Value != null && Config.Value.Length > 0)
                     {
-                        string[] lines = config.Value.Split(config.Separator[0]);
+                        string[] lines = Config.Value.Split(Config.Separator[0]);
 
                         foreach (string line in lines)
                         {
@@ -49,19 +49,19 @@ namespace Win_CBZ.Forms
                 }
                 else
                 {
-                    if (config.Value != null && config.Value.Length > 0)
+                    if (Config.Value != null && Config.Value.Length > 0)
                     {
-                        Lines.AddRange(config.Value.Split('\n'));
+                        Lines.AddRange(Config.Value.Split('\n'));
                     }                       
                 }
 
-                if (config.AutoCompleteItems != null)
+                if (Config.AutoCompleteItems != null)
                 {
                     //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                     //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
 
                     var items = new List<AutocompleteItem>();
-                    foreach (var item in config.AutoCompleteItems)
+                    foreach (var item in Config.AutoCompleteItems)
                         items.Add(new SnippetAutocompleteItem(item) { ImageIndex = 0 });
 
                     AutoCompleteItems.SetAutocompleteItems(items);
@@ -93,7 +93,6 @@ namespace Win_CBZ.Forms
             tagItem.Click += TagItemClick;
             tagItem.BackColor = System.Drawing.Color.White;
             
-
             tagItem.BorderStyle = BorderStyle.None;
 
             /*
@@ -198,11 +197,11 @@ namespace Win_CBZ.Forms
 
             if (DialogResult == DialogResult.OK)
             {              
-                if (config != null)
+                if (Config != null)
                 {
-                    if (!config.AllowDuplicateValues)
+                    if (!Config.AllowDuplicateValues)
                     {
-                        duplicates.AddRange(validation.ValidateDuplicateStrings(Lines.ToArray()));
+                        duplicates.AddRange(Validation.ValidateDuplicateStrings(Lines.ToArray()));
 
                         if (duplicates.Count > 0)
                         {
@@ -227,17 +226,17 @@ namespace Win_CBZ.Forms
                     }
 
 
-                    if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
+                    if (Config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
                     {
-                        result = String.Join(config.Separator ?? "" + config.Append ?? "", Lines);
+                        result = String.Join(Config.Separator ?? "" + Config.Append ?? "", Lines);
                     }
 
-                    if (config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
+                    if (Config.ResultType == EditorTypeConfig.RESULT_TYPE_STRINGS)
                     {
                         result = Lines;
                     }
 
-                    config.Result = result;
+                    Config.Result = result;
 
                     DialogResult = DialogResult.OK;
                 }                
