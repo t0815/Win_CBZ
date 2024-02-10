@@ -92,7 +92,7 @@ namespace Win_CBZ.Helper
                         } else
                         {
                             validationTest.Add(option);
-                            validationTest.AddRange(existing.OptionsAsList());
+                            validationTest.AddRange(existing.OptionsAsList().Where((s, index) => s.Length > 0).ToArray());
 
                             var duplicates = Validation.ValidateDuplicateStrings(validationTest.ToArray());
 
@@ -123,14 +123,14 @@ namespace Win_CBZ.Helper
                 {
                     if (existing.Options != null && options != null && options.Length > 0)
                     {
+                        optionList.AddRange(existing.OptionsAsList().Where((s, index) => s.Length > 0).ToArray());
                         if (existing.EditorConfig.AllowDuplicateValues)
-                        {
-                            optionList.AddRange(existing.OptionsAsList());
+                        {                           
                             optionList.AddRange(options.Where((s, index) => s.Length > 0).ToArray());
                         }
                         else
                         {
-                            validationTest.AddRange(options);
+                            validationTest.AddRange(options.Where((s, index) => s.Length > 0).ToArray());
                             validationTest.AddRange(existing.OptionsAsList());
 
                             duplicatesList.AddRange(Validation.ValidateDuplicateStrings(validationTest.ToArray()));

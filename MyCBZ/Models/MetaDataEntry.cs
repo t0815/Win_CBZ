@@ -42,7 +42,7 @@ namespace Win_CBZ
 
         public String[] ValueAsList(char separator = ',')
         {
-            return Value.Split(separator).Select((s) => s.TrimEnd(' ').TrimStart(' ')).ToArray();
+            return Value.Split(separator).Select((s) => s.TrimEnd().TrimStart()).ToArray();
         }
     }
 }
