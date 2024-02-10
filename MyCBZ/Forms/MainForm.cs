@@ -290,8 +290,19 @@ namespace Win_CBZ
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            DialogResult openCBFResult = DialogResult.None;
 
-            DialogResult openCBFResult = OpenCBFDialog.ShowDialog();
+            if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("There are unsaved changes to the current CBZ-Archive.\nAre you sure you want to discard them and open a new file?", "Unsaved changes...");
+                if (res == DialogResult.Yes)
+                {
+                    openCBFResult = OpenCBFDialog.ShowDialog();
+                }
+            } else
+            {
+                openCBFResult = OpenCBFDialog.ShowDialog();
+            }
 
             if (openCBFResult == DialogResult.OK)
             {

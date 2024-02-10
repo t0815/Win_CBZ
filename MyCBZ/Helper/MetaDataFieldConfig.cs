@@ -123,10 +123,9 @@ namespace Win_CBZ.Helper
                 {
                     if (existing.Options != null && options != null && options.Length > 0)
                     {
-                        optionList.AddRange(existing.OptionsAsList());
-
                         if (existing.EditorConfig.AllowDuplicateValues)
                         {
+                            optionList.AddRange(existing.OptionsAsList());
                             optionList.AddRange(options.Where((s, index) => s.Length > 0).ToArray());
                         }
                         else
