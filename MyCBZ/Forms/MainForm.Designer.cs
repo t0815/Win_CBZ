@@ -950,7 +950,7 @@ namespace Win_CBZ
             // 
             this.PrimarySplitBox.Panel2.Controls.Add(this.MessageLogListView);
             this.PrimarySplitBox.Size = new System.Drawing.Size(1580, 836);
-            this.PrimarySplitBox.SplitterDistance = 628;
+            this.PrimarySplitBox.SplitterDistance = 627;
             this.PrimarySplitBox.SplitterWidth = 6;
             this.PrimarySplitBox.TabIndex = 4;
             // 
@@ -962,7 +962,7 @@ namespace Win_CBZ
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(1580, 628);
+            this.MainPanel.Size = new System.Drawing.Size(1580, 627);
             this.MainPanel.TabIndex = 4;
             // 
             // MainPanelTableLayout
@@ -980,7 +980,7 @@ namespace Win_CBZ
             this.MainPanelTableLayout.RowCount = 2;
             this.MainPanelTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.MainPanelTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.MainPanelTableLayout.Size = new System.Drawing.Size(1580, 628);
+            this.MainPanelTableLayout.Size = new System.Drawing.Size(1580, 627);
             this.MainPanelTableLayout.TabIndex = 8;
             // 
             // GlobalAlertTableLayout
@@ -1056,7 +1056,7 @@ namespace Win_CBZ
             // 
             this.MainSplitBox.Panel2.AutoScroll = true;
             this.MainSplitBox.Panel2.Controls.Add(this.SplitBoxItemsList);
-            this.MainSplitBox.Size = new System.Drawing.Size(1576, 570);
+            this.MainSplitBox.Size = new System.Drawing.Size(1576, 569);
             this.MainSplitBox.SplitterDistance = 466;
             this.MainSplitBox.SplitterWidth = 6;
             this.MainSplitBox.TabIndex = 6;
@@ -1077,8 +1077,8 @@ namespace Win_CBZ
             // SplitBoxPageView.Panel2
             // 
             this.SplitBoxPageView.Panel2.Controls.Add(this.TabControlPageSettings);
-            this.SplitBoxPageView.Size = new System.Drawing.Size(464, 568);
-            this.SplitBoxPageView.SplitterDistance = 156;
+            this.SplitBoxPageView.Size = new System.Drawing.Size(464, 567);
+            this.SplitBoxPageView.SplitterDistance = 155;
             this.SplitBoxPageView.SplitterWidth = 6;
             this.SplitBoxPageView.TabIndex = 6;
             // 
@@ -1092,7 +1092,7 @@ namespace Win_CBZ
             this.PageThumbsListBox.Location = new System.Drawing.Point(0, 0);
             this.PageThumbsListBox.Margin = new System.Windows.Forms.Padding(2);
             this.PageThumbsListBox.Name = "PageThumbsListBox";
-            this.PageThumbsListBox.Size = new System.Drawing.Size(464, 156);
+            this.PageThumbsListBox.Size = new System.Drawing.Size(464, 155);
             this.PageThumbsListBox.TabIndex = 7;
             this.PageThumbsListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.PageThumbsListBox_DrawItem);
             this.PageThumbsListBox.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.PageThumbsListBox_MeasureItem);
@@ -1553,7 +1553,7 @@ namespace Win_CBZ
             this.TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(2);
             this.TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             this.TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(2);
-            this.TabPageGlobalSettings.Size = new System.Drawing.Size(456, 368);
+            this.TabPageGlobalSettings.Size = new System.Drawing.Size(456, 373);
             this.TabPageGlobalSettings.TabIndex = 1;
             this.TabPageGlobalSettings.Text = "File Settings";
             this.TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -1592,7 +1592,7 @@ namespace Win_CBZ
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 158F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
-            this.FileSettingsTablePanel.Size = new System.Drawing.Size(452, 364);
+            this.FileSettingsTablePanel.Size = new System.Drawing.Size(452, 369);
             this.FileSettingsTablePanel.TabIndex = 1;
             // 
             // PlaceholdersInfoLabel
@@ -1744,7 +1744,7 @@ namespace Win_CBZ
             this.TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(2);
             this.TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             this.TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(2);
-            this.TabPageArchiveSettings.Size = new System.Drawing.Size(456, 368);
+            this.TabPageArchiveSettings.Size = new System.Drawing.Size(456, 373);
             this.TabPageArchiveSettings.TabIndex = 2;
             this.TabPageArchiveSettings.Text = "Build settings";
             this.TabPageArchiveSettings.UseVisualStyleBackColor = true;
@@ -1774,7 +1774,7 @@ namespace Win_CBZ
             this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             this.ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(452, 364);
+            this.ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(452, 369);
             this.ArchiveBuildSettingsTableLayout.TabIndex = 0;
             // 
             // CompatInfoText
@@ -1889,8 +1889,8 @@ namespace Win_CBZ
             // SplitBoxItemsList.Panel2
             // 
             this.SplitBoxItemsList.Panel2.Controls.Add(this.MetadataPanel);
-            this.SplitBoxItemsList.Size = new System.Drawing.Size(1104, 570);
-            this.SplitBoxItemsList.SplitterDistance = 218;
+            this.SplitBoxItemsList.Size = new System.Drawing.Size(1104, 569);
+            this.SplitBoxItemsList.SplitterDistance = 217;
             this.SplitBoxItemsList.SplitterWidth = 6;
             this.SplitBoxItemsList.TabIndex = 7;
             // 
@@ -1913,7 +1913,7 @@ namespace Win_CBZ
             this.PagesList.Margin = new System.Windows.Forms.Padding(2);
             this.PagesList.Name = "PagesList";
             this.PagesList.ShowItemToolTips = true;
-            this.PagesList.Size = new System.Drawing.Size(1102, 216);
+            this.PagesList.Size = new System.Drawing.Size(1102, 215);
             this.PagesList.TabIndex = 5;
             this.PagesList.UseCompatibleStateImageBehavior = false;
             this.PagesList.View = System.Windows.Forms.View.Details;
@@ -1961,7 +1961,7 @@ namespace Win_CBZ
             this.MetadataPanel.Margin = new System.Windows.Forms.Padding(2);
             this.MetadataPanel.Name = "MetadataPanel";
             this.MetadataPanel.RowCount = 3;
-            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.MetadataPanel.Size = new System.Drawing.Size(1102, 344);
@@ -1970,6 +1970,7 @@ namespace Win_CBZ
             // MetadataEditorHeaderFlowLayoutPanel
             // 
             this.MetadataEditorHeaderFlowLayoutPanel.AutoSize = true;
+            this.MetadataEditorHeaderFlowLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.MetadataEditorHeaderFlowLayoutPanel.Controls.Add(this.LabelMetadataPanel);
             this.MetadataEditorHeaderFlowLayoutPanel.Controls.Add(this.TextBoxMetaDataFilename);
             this.MetadataEditorHeaderFlowLayoutPanel.Controls.Add(this.TextBoxMetadataKeys);
@@ -1980,15 +1981,16 @@ namespace Win_CBZ
             this.MetadataEditorHeaderFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(6);
             this.MetadataEditorHeaderFlowLayoutPanel.Name = "MetadataEditorHeaderFlowLayoutPanel";
             this.MetadataEditorHeaderFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.MetadataEditorHeaderFlowLayoutPanel.Size = new System.Drawing.Size(819, 42);
+            this.MetadataEditorHeaderFlowLayoutPanel.Size = new System.Drawing.Size(880, 41);
             this.MetadataEditorHeaderFlowLayoutPanel.TabIndex = 9;
             // 
             // LabelMetadataPanel
             // 
-            this.LabelMetadataPanel.Location = new System.Drawing.Point(2, 8);
-            this.LabelMetadataPanel.Margin = new System.Windows.Forms.Padding(2, 6, 2, 0);
+            this.LabelMetadataPanel.Location = new System.Drawing.Point(2, 2);
+            this.LabelMetadataPanel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LabelMetadataPanel.Name = "LabelMetadataPanel";
-            this.LabelMetadataPanel.Size = new System.Drawing.Size(94, 22);
+            this.LabelMetadataPanel.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            this.LabelMetadataPanel.Size = new System.Drawing.Size(94, 35);
             this.LabelMetadataPanel.TabIndex = 1;
             this.LabelMetadataPanel.Text = "Metadata";
             // 
@@ -2009,8 +2011,8 @@ namespace Win_CBZ
             this.TextBoxMetadataKeys.Location = new System.Drawing.Point(314, 2);
             this.TextBoxMetadataKeys.Margin = new System.Windows.Forms.Padding(10, 0, 2, 0);
             this.TextBoxMetadataKeys.Name = "TextBoxMetadataKeys";
-            this.TextBoxMetadataKeys.Padding = new System.Windows.Forms.Padding(0, 6, 6, 0);
-            this.TextBoxMetadataKeys.Size = new System.Drawing.Size(53, 26);
+            this.TextBoxMetadataKeys.Padding = new System.Windows.Forms.Padding(0, 8, 6, 0);
+            this.TextBoxMetadataKeys.Size = new System.Drawing.Size(53, 28);
             this.TextBoxMetadataKeys.TabIndex = 10;
             this.TextBoxMetadataKeys.Text = "Keys:";
             // 
@@ -2022,22 +2024,24 @@ namespace Win_CBZ
             this.TextBoxCountKeys.Location = new System.Drawing.Point(373, 6);
             this.TextBoxCountKeys.Margin = new System.Windows.Forms.Padding(4, 4, 11, 4);
             this.TextBoxCountKeys.Name = "TextBoxCountKeys";
+            this.TextBoxCountKeys.ReadOnly = true;
             this.TextBoxCountKeys.Size = new System.Drawing.Size(42, 31);
             this.TextBoxCountKeys.TabIndex = 12;
+            this.TextBoxCountKeys.Text = "0";
+            this.TextBoxCountKeys.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // BtnAddMetaData
             // 
-            this.BtnAddMetaData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnAddMetaData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAddMetaData.AutoSize = true;
             this.BtnAddMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnAddMetaData.ImageIndex = 0;
             this.BtnAddMetaData.ImageList = this.SmallIconsImages;
-            this.BtnAddMetaData.Location = new System.Drawing.Point(426, 2);
-            this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnAddMetaData.Location = new System.Drawing.Point(428, 5);
+            this.BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
             this.BtnAddMetaData.Name = "BtnAddMetaData";
             this.BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnAddMetaData.Size = new System.Drawing.Size(191, 44);
+            this.BtnAddMetaData.Size = new System.Drawing.Size(228, 33);
             this.BtnAddMetaData.TabIndex = 7;
             this.BtnAddMetaData.Text = "Add Metadata";
             this.BtnAddMetaData.UseVisualStyleBackColor = true;
@@ -2052,18 +2056,17 @@ namespace Win_CBZ
             // 
             // BtnRemoveMetaData
             // 
-            this.BtnRemoveMetaData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnRemoveMetaData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnRemoveMetaData.AutoSize = true;
             this.BtnRemoveMetaData.Enabled = false;
             this.BtnRemoveMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnRemoveMetaData.ImageIndex = 1;
             this.BtnRemoveMetaData.ImageList = this.SmallIconsImages;
-            this.BtnRemoveMetaData.Location = new System.Drawing.Point(617, 2);
-            this.BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(0);
+            this.BtnRemoveMetaData.Location = new System.Drawing.Point(660, 6);
+            this.BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(2);
             this.BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             this.BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.BtnRemoveMetaData.Size = new System.Drawing.Size(202, 44);
+            this.BtnRemoveMetaData.Size = new System.Drawing.Size(218, 31);
             this.BtnRemoveMetaData.TabIndex = 8;
             this.BtnRemoveMetaData.Text = "Remove Metadata";
             this.BtnRemoveMetaData.UseVisualStyleBackColor = true;
@@ -2076,10 +2079,10 @@ namespace Win_CBZ
             this.MetaDataTableActionsPanel.AutoSize = true;
             this.MetaDataTableActionsPanel.Controls.Add(this.AddMetaDataRowBtn);
             this.MetaDataTableActionsPanel.Controls.Add(this.RemoveMetadataRowBtn);
-            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(2, 296);
-            this.MetaDataTableActionsPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.MetaDataTableActionsPanel.Location = new System.Drawing.Point(4, 294);
+            this.MetaDataTableActionsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
-            this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(1098, 46);
+            this.MetaDataTableActionsPanel.Size = new System.Drawing.Size(1094, 46);
             this.MetaDataTableActionsPanel.TabIndex = 13;
             // 
             // AddMetaDataRowBtn
@@ -2137,7 +2140,7 @@ namespace Win_CBZ
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             this.MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataGrid.Location = new System.Drawing.Point(2, 56);
+            this.MetaDataGrid.Location = new System.Drawing.Point(2, 55);
             this.MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             this.MetaDataGrid.MultiSelect = false;
             this.MetaDataGrid.Name = "MetaDataGrid";
@@ -2151,7 +2154,7 @@ namespace Win_CBZ
             this.MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.MetaDataGrid.RowHeadersWidth = 51;
             this.MetaDataGrid.RowTemplate.Height = 24;
-            this.MetaDataGrid.Size = new System.Drawing.Size(1098, 232);
+            this.MetaDataGrid.Size = new System.Drawing.Size(1098, 233);
             this.MetaDataGrid.TabIndex = 12;
             this.MetaDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellContentClick);
             this.MetaDataGrid.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.MetaDataGrid_CellEndEdit);
@@ -2193,7 +2196,7 @@ namespace Win_CBZ
             this.MessageLogListView.Location = new System.Drawing.Point(0, 0);
             this.MessageLogListView.Margin = new System.Windows.Forms.Padding(2);
             this.MessageLogListView.Name = "MessageLogListView";
-            this.MessageLogListView.Size = new System.Drawing.Size(1580, 202);
+            this.MessageLogListView.Size = new System.Drawing.Size(1580, 203);
             this.MessageLogListView.SmallImageList = this.LogMessageImageList;
             this.MessageLogListView.TabIndex = 0;
             this.MessageLogListView.UseCompatibleStateImageBehavior = false;
