@@ -46,8 +46,8 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
             this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
-            this.TagEditTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.TagIcons = new System.Windows.Forms.ImageList(this.components);
+            this.TagEditTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.ItemEditorTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.HeaderPanel.SuspendLayout();
@@ -214,7 +214,8 @@
             // ButtonAddTag
             // 
             this.ButtonAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonAddTag.Image = global::Win_CBZ.Properties.Resources.navigate_plus;
+            this.ButtonAddTag.ImageIndex = 1;
+            this.ButtonAddTag.ImageList = this.TagIcons;
             this.ButtonAddTag.Location = new System.Drawing.Point(331, 3);
             this.ButtonAddTag.Name = "ButtonAddTag";
             this.ButtonAddTag.Padding = new System.Windows.Forms.Padding(4);
@@ -270,17 +271,18 @@
             this.AutoCompleteItems.SearchPattern = "[\\w+( +\\w+)*$]";
             this.AutoCompleteItems.TargetControlWrapper = null;
             // 
-            // TagEditTooltip
-            // 
-            this.TagEditTooltip.IsBalloon = true;
-            this.TagEditTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.TagEditTooltip.ToolTipTitle = "Win_CBZ";
-            // 
             // TagIcons
             // 
             this.TagIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("TagIcons.ImageStream")));
             this.TagIcons.TransparentColor = System.Drawing.Color.Transparent;
             this.TagIcons.Images.SetKeyName(0, "tag.png");
+            this.TagIcons.Images.SetKeyName(1, "navigate_plus.png");
+            // 
+            // TagEditTooltip
+            // 
+            this.TagEditTooltip.IsBalloon = true;
+            this.TagEditTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.TagEditTooltip.ToolTipTitle = "Win_CBZ";
             // 
             // TagEditorForm
             // 

@@ -22,7 +22,7 @@ namespace Win_CBZ.Forms
 
         public EditorTypeConfig Config;
 
-        DataValidation Validation;
+        private DataValidation Validation;
 
         public TagEditorForm(EditorTypeConfig editorTypeConfig)
         {

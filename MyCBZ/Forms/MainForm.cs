@@ -35,6 +35,7 @@ using System.Xml;
 using static Win_CBZ.MetaData;
 using SharpCompress.Common;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Diagnostics;
 
 namespace Win_CBZ
 {
@@ -498,6 +499,11 @@ namespace Win_CBZ
                             if (existingItem != null)
                             {
                                 PagesList.Items.Remove(existingItem);
+
+                                if (Win_CBZSettings.Default.PagePreviewEnabled)
+                                {
+                                    PageThumbsListBox.Items.Remove(existingItem.Tag);
+                                }
                             }
 
                             existingItem = FindListViewItemForPage(PageView, e.Page);
@@ -4759,6 +4765,19 @@ namespace Win_CBZ
             if (e.KeyData == Keys.Enter)
             {
                 e.Handled = true;
+            }
+        }
+
+        private void FileNameLabel_Click(object sender, EventArgs e)
+        {
+            if (FileNameLabel.Text.Length > 0)
+            {
+                LocalFile helper = new LocalFile(FileNameLabel.Text);
+                // helper.FilePath
+                if (helper.Exists())
+                {
+                    Process.Start(new ProcessStartInfo(helper.FilePath) { UseShellExecute = true });
+                }
             }
         }
     }

@@ -13,11 +13,11 @@ namespace Win_CBZ.Forms
 {
     public partial class KeyValueEditor : Form
     {
-        public EditorTypeConfig config;
+        public EditorTypeConfig Config;
 
         BindingList<LanguageListItem> FilteredList;
 
-        DataGridViewRow selectedRow;
+        DataGridViewRow SelectedRow;
 
         bool init = false;
 
@@ -25,9 +25,9 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
-            config = editorTypeConfig;
+            Config = editorTypeConfig;
 
-            KeyValueDatagrid.DataSource = config.Value;
+            KeyValueDatagrid.DataSource = Config.Value;
 
             init = false;
         }
@@ -68,7 +68,7 @@ namespace Win_CBZ.Forms
                 }
             }
 
-            config.Result = result;
+            Config.Result = result;
         }
 
         private void KeyValueEditorForm_Shown(object sender, EventArgs e)
@@ -76,20 +76,20 @@ namespace Win_CBZ.Forms
             for (int i = 0; i < KeyValueDatagrid.RowCount; i++)
             {
                 var key = KeyValueDatagrid.Rows[i].Cells[1].Value;
-                if (selectedRow != null)
+                if (SelectedRow != null)
                 {
-                    if (selectedRow.Cells[1].Value == key)
+                    if (SelectedRow.Cells[1].Value == key)
                     {
                         KeyValueDatagrid.Rows[i].Selected = true;
                     }
                 }
                 else
                 {
-                    if (key.ToString() == config.Value.ToString())
+                    if (key.ToString() == Config.Value.ToString())
                     {
 
                         KeyValueDatagrid.Rows[i].Selected = true;
-                        selectedRow = KeyValueDatagrid.Rows[i];
+                        SelectedRow = KeyValueDatagrid.Rows[i];
                     }
                 }
             }
@@ -103,7 +103,7 @@ namespace Win_CBZ.Forms
             {
                 if (KeyValueDatagrid.SelectedRows.Count > 0)
                 {
-                    selectedRow = KeyValueDatagrid.SelectedRows[0];
+                    SelectedRow = KeyValueDatagrid.SelectedRows[0];
                 }
             }
         }
