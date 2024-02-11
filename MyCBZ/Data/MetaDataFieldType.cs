@@ -12,12 +12,14 @@ namespace Win_CBZ.Data
         public const String METADATA_FIELD_TYPE_TEXT_BOX = "TextBox";
         public const String METADATA_FIELD_TYPE_COMBO_BOX = "ComboBox";
         public const String METADATA_FIELD_TYPE_AUTO_COMPLETE = "AutoComplete";
+        public const String METADATA_FIELD_TYPE_RATING = "Rating";
 
         public static string[] FieldTypes =
         {
             MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX,
             MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX,
             MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE,
+            MetaDataFieldType.METADATA_FIELD_TYPE_RATING,
         };
 
 
