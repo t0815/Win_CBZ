@@ -292,6 +292,7 @@
     <Compile Include="Data\CBZValidationThreadParams.cs" />
     <Compile Include="Data\EditorTypeConfig.cs" />
     <Compile Include="Data\ExtractArchiveThreadParams.cs" />
+    <Compile Include="Data\KeyValueItem.cs" />
     <Compile Include="Data\LanguageList.cs" />
     <Compile Include="Data\LanguageListItem.cs" />
     <Compile Include="Data\MetaDataFieldType.cs" />
@@ -692,6 +693,8 @@
     <None Include="Resources\checks.png" />
     <None Include="Resources\arrow_circle2.png" />
     <None Include="Resources\cut.png" />
+    <None Include="Resources\checkbox.png" />
+    <None Include="Resources\checkbox_unchecked.png" />
     <Content Include="Resources\defaults.xsl" />
     <None Include="Resources\download.png" />
     <None Include="Resources\download64.png" />
@@ -710,6 +713,10 @@
     <None Include="Resources\selection.png" />
     <None Include="Resources\tags.png" />
     <None Include="Resources\tag.png" />
+    <None Include="Resources\star.png" />
+    <None Include="Resources\star2.png" />
+    <None Include="Resources\star2_large.png" />
+    <None Include="Resources\star2_yellow.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>

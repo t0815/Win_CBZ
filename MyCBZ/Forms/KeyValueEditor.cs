@@ -15,7 +15,7 @@ namespace Win_CBZ.Forms
     {
         public EditorTypeConfig Config;
 
-        BindingList<LanguageListItem> FilteredList;
+        BindingList<KeyValueItem> FilteredList;
 
         DataGridViewRow SelectedRow;
 
@@ -46,7 +46,7 @@ namespace Win_CBZ.Forms
         {
             String find = ToolStripTextBoxSearchKeyValue.Text;
 
-            //FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) => {
+            //FilteredList = new BindingList<KeyValueItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) => {
             //    return item.Name.ToLower().Contains(find.ToLower());
             //}).ToArray());
 

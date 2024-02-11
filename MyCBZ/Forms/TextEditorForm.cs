@@ -39,7 +39,7 @@ namespace Win_CBZ.Forms
 
                         foreach (string line in lines)
                         {
-                            Lines.Add(line.TrimStart(' ').TrimEnd(' '));
+                            Lines.Add(line.TrimStart().TrimEnd());
                         }
 
                         ItemsText.Lines = Lines.ToArray();
