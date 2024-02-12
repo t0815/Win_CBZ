@@ -1283,6 +1283,7 @@ namespace Win_CBZ
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = true;
+                    AddFolderToolStripMenuItem.Enabled = true;
 
                     break;
 
@@ -1312,6 +1313,8 @@ namespace Win_CBZ
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = false;
+                    ToolButtonSetPageType.Enabled = false;
+                    AddFolderToolStripMenuItem.Enabled = false;
 
                     break;
 
@@ -1341,6 +1344,8 @@ namespace Win_CBZ
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = false;
+                    ToolButtonSetPageType.Enabled = false;
+                    AddFolderToolStripMenuItem.Enabled = false;
 
                     break;
 
@@ -1370,6 +1375,8 @@ namespace Win_CBZ
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = false;
+                    ToolButtonSetPageType.Enabled = false;
+                    AddFolderToolStripMenuItem.Enabled = false;
 
                     break;
 
@@ -1399,11 +1406,15 @@ namespace Win_CBZ
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = false;
+                    ToolButtonSetPageType.Enabled = false;
+                    AddFolderToolStripMenuItem.Enabled = false;
 
                     break;
 
                 case ApplicationStatusEvent.STATE_ADDING:
-
+                    AddFolderToolStripMenuItem.Enabled = false;
+                    ToolButtonSave.Enabled = false;
+                    SaveToolStripMenuItem.Enabled = false;
                     break;
 
                 case ApplicationStatusEvent.STATE_DELETING:
@@ -1432,11 +1443,15 @@ namespace Win_CBZ
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = false;
+                    ToolButtonSetPageType.Enabled = false;
+                    AddFolderToolStripMenuItem.Enabled = false;
 
                     break;
 
                 case ApplicationStatusEvent.STATE_RENAMING:
-
+                    ToolButtonSave.Enabled = false;
+                    SaveToolStripMenuItem.Enabled = false;
+                    ToolButtonRemoveFiles.Enabled = false;
                     break;
 
                 case ApplicationStatusEvent.STATE_ANALYZING:
