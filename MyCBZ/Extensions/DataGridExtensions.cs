@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Win_CBZ.Components.Rating;
 
 namespace Win_CBZ.Extensions
 {
@@ -44,7 +45,7 @@ namespace Win_CBZ.Extensions
     }
 
 
-    public class RatingCell : IDataGridViewEditingControl
+    public class RatingCell : Rating, IDataGridViewEditingControl
     {
         
 
@@ -79,7 +80,7 @@ namespace Win_CBZ.Extensions
     }
 
 
-    public class CustomTextBoxEditingControl : DataGridViewTextBoxEditingControl
+    public class CustomTextBoxEditingControl :  DataGridViewTextBoxEditingControl
     {
         protected override void WndProc(ref Message m)
         {

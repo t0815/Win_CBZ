@@ -7,11 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Win_CBZ.Components.Rating
 {
+
     public partial class Rating : Control
     {
+
+        private partial class StarShape : Shape
+        {
+
+            protected Geometry DefiningGeometry
+            {
+                get
+                {
+
+
+                    return 
+                }
+            }
+        }
+
 
         public int Value { get; set; }
 
@@ -24,6 +42,8 @@ namespace Win_CBZ.Components.Rating
         public String SelectedImageKey { get; set; }
 
         public bool CustomShapes { get; set; }
+
+        protected Path Shape { get; set; }
 
         
         public event EventHandler<RatingChangedEvent> RatingChanged;
