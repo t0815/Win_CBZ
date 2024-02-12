@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Win_CBZ.Extensions
         [DllImport("user32.dll")]
         public static extern bool PostMessage(IntPtr hWnd, UInt32 Msg, Int32 wParam, Int32 lParam);
     }
-    //the column that will be added to dgv
+  
     public class CustomTextBoxColumn : DataGridViewColumn
     {
         public CustomTextBoxColumn() : base(new CustomTextCell()) { }
@@ -33,7 +34,7 @@ namespace Win_CBZ.Extensions
             }
         }
     }
-    //the cell used in the previous column
+   
     public class CustomTextCell : DataGridViewTextBoxCell
     {
         public override Type EditType
@@ -41,7 +42,43 @@ namespace Win_CBZ.Extensions
             get { return typeof(CustomTextBoxEditingControl); }
         }
     }
-    //the edit control that will take data from user
+
+
+    public class RatingCell : IDataGridViewEditingControl
+    {
+        
+
+        public DataGridView EditingControlDataGridView { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public object EditingControlFormattedValue { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int EditingControlRowIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool EditingControlValueChanged { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public System.Windows.Forms.Cursor EditingPanelCursor => throw new NotImplementedException();
+
+        public bool RepositionEditingControlOnValueChange => throw new NotImplementedException();
+
+        public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrepareEditingControlForEdit(bool selectAll)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
     public class CustomTextBoxEditingControl : DataGridViewTextBoxEditingControl
     {
         protected override void WndProc(ref Message m)

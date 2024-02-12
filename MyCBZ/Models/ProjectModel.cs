@@ -394,6 +394,7 @@ namespace Win_CBZ
 
                     p.RenameStoryPagePattern = "{page}.{ext}";
                     p.RenameSpecialPagePattern = "{page}.{ext}";
+                    p.SkipIndexUpdate = true;
 
                     try
                     {
@@ -638,7 +639,7 @@ namespace Win_CBZ
                                     page.Key = RandomId.getInstance().make();
                                     MetaDataPageIndexMissingData = true;
                                 }
-                                page.DoublePage = Boolean.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE));
+                                page.DoublePage = Boolean.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE) ?? "False");
                             }
                             catch
                             {
@@ -1052,14 +1053,18 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RenamePageScript(Page page, bool ignoreDuplicates = false, String storyPagePattern = "", String specialPagePattern = "")
+        public void RenamePageScript(Page page, bool ignoreDuplicates = false, bool skipIndex = false, String storyPagePattern = "", String specialPagePattern = "")
         {
             String oldName = page.Name;
             String newName = PageScriptRename(page, ignoreDuplicates, storyPagePattern, specialPagePattern);
 
             try
             {
-                MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
+                if (!skipIndex)
+                {
+                    MetaData.UpdatePageIndexMetaDataEntry(page, oldName, newName);
+                }
+                
                 if (MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion() == PageIndexVersion.VERSION_1)
                 {
                     page.Key = newName;
@@ -2368,7 +2373,7 @@ namespace Win_CBZ
                 {
                     if (tParams.CompatibilityMode && !PageNameEqualsIndex(page) && RenamerExcludes.IndexOf(page.Name) == -1)
                     {
-                        RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
+                        RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.SkipIndexUpdate, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
                         OnTaskProgress(new TaskProgressEvent(page, page.Index + 1, Pages.Count));
                         OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
@@ -2390,8 +2395,11 @@ namespace Win_CBZ
         {
             try
             {
-                var name = int.Parse(page.Name.Replace(page.FileExtension, ""));
-                return name.Equals(page.Number);
+                String name = page.Name.Replace(page.FileExtension, "");
+                int pageNumber = 0;
+
+                var isNummeric = int.TryParse(name, out pageNumber);
+                return pageNumber.Equals(page.Number);
             } catch (Exception ex)
             {
                 return false;

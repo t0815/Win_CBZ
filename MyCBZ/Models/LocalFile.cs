@@ -33,7 +33,13 @@ namespace Win_CBZ
             FilePath = LocalFileInfo.Directory.FullName;
             try
             {
-                FileSize = LocalFileInfo.Length;
+                if (LocalFileInfo.Exists)
+                {
+                    FileSize = LocalFileInfo.Length;
+                } else
+                {
+                    FileSize = 0;
+                }
             } catch (Exception)
             {
                 FileSize = 0;
@@ -55,7 +61,13 @@ namespace Win_CBZ
 
             try
             {
-                FileSize = LocalFileInfo.Length;
+                if (LocalFileInfo.Exists)
+                {
+                    FileSize = LocalFileInfo.Length;
+                } else
+                {
+                    FileSize = 0;
+                }               
             }
             catch (Exception)
             {

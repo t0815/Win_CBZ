@@ -146,7 +146,7 @@ namespace Win_CBZ.Forms
                 Height = 15,
                 Tag = tagItem,
                 Cursor = System.Windows.Forms.Cursors.Hand,
-                Margin = new Padding(0, 2, 2, 4),
+                Margin = new Padding(0, 2, 2, 2),
                 Padding = new Padding(0, 2, 1, 1)
             };
 
@@ -170,7 +170,7 @@ namespace Win_CBZ.Forms
                 SizeMode = PictureBoxSizeMode.AutoSize,
                 Width = 15,
                 Height = 15,
-                Margin = new Padding(3, 2, 1, 2)
+                Margin = new Padding(3, 1, 1, 2)
             });
             tagItem.Controls.Add(tagLabel);
 

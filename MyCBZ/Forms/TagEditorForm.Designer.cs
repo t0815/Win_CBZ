@@ -35,9 +35,8 @@
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.HeaderPicture = new System.Windows.Forms.PictureBox();
-            this.OkButton = new System.Windows.Forms.Button();
-            this.CancelBtn = new System.Windows.Forms.Button();
             this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
+            this.ToolStripButtonRemoveSelectedTags = new System.Windows.Forms.ToolStripButton();
             this.DeleteAllTagsToolButton = new System.Windows.Forms.ToolStripButton();
             this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -45,11 +44,12 @@
             this.TagIcons = new System.Windows.Forms.ImageList(this.components);
             this.TagTextBox = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.OkButton = new System.Windows.Forms.Button();
+            this.CancelBtn = new System.Windows.Forms.Button();
+            this.TagListView = new System.Windows.Forms.ListView();
             this.TagsList = new System.Windows.Forms.FlowLayoutPanel();
             this.AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
             this.TagEditTooltip = new System.Windows.Forms.ToolTip(this.components);
-            this.TagListView = new System.Windows.Forms.ListView();
-            this.ToolStripButtonRemoveSelectedTags = new System.Windows.Forms.ToolStripButton();
             this.ItemEditorTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.HeaderPanel.SuspendLayout();
@@ -80,8 +80,8 @@
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.ItemEditorTableLayout.Size = new System.Drawing.Size(497, 369);
@@ -136,32 +136,6 @@
             this.HeaderPicture.TabIndex = 0;
             this.HeaderPicture.TabStop = false;
             // 
-            // OkButton
-            // 
-            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(270, 326);
-            this.OkButton.Margin = new System.Windows.Forms.Padding(4);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(100, 28);
-            this.OkButton.TabIndex = 3;
-            this.OkButton.Text = "Ok";
-            this.OkButton.UseVisualStyleBackColor = true;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
-            // 
-            // CancelBtn
-            // 
-            this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(394, 326);
-            this.CancelBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.Size = new System.Drawing.Size(99, 28);
-            this.CancelBtn.TabIndex = 4;
-            this.CancelBtn.Text = "Cancel";
-            this.CancelBtn.UseVisualStyleBackColor = true;
-            this.CancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
-            // 
             // ItemEditorToolBar
             // 
             this.ItemEditorToolBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -180,6 +154,17 @@
             this.ItemEditorToolBar.Stretch = true;
             this.ItemEditorToolBar.TabIndex = 7;
             this.ItemEditorToolBar.Text = "toolStrip1";
+            // 
+            // ToolStripButtonRemoveSelectedTags
+            // 
+            this.ToolStripButtonRemoveSelectedTags.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ToolStripButtonRemoveSelectedTags.Enabled = false;
+            this.ToolStripButtonRemoveSelectedTags.Image = global::Win_CBZ.Properties.Resources.delete;
+            this.ToolStripButtonRemoveSelectedTags.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ToolStripButtonRemoveSelectedTags.Name = "ToolStripButtonRemoveSelectedTags";
+            this.ToolStripButtonRemoveSelectedTags.Size = new System.Drawing.Size(29, 24);
+            this.ToolStripButtonRemoveSelectedTags.Text = "Remove selected";
+            this.ToolStripButtonRemoveSelectedTags.Click += new System.EventHandler(this.ToolStripButtonRemoveSelectedTags_Click);
             // 
             // DeleteAllTagsToolButton
             // 
@@ -259,6 +244,47 @@
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
+            // OkButton
+            // 
+            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OkButton.Location = new System.Drawing.Point(270, 326);
+            this.OkButton.Margin = new System.Windows.Forms.Padding(4);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(100, 28);
+            this.OkButton.TabIndex = 3;
+            this.OkButton.Text = "Ok";
+            this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            // 
+            // CancelBtn
+            // 
+            this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelBtn.Location = new System.Drawing.Point(394, 326);
+            this.CancelBtn.Margin = new System.Windows.Forms.Padding(4);
+            this.CancelBtn.Name = "CancelBtn";
+            this.CancelBtn.Size = new System.Drawing.Size(99, 28);
+            this.CancelBtn.TabIndex = 4;
+            this.CancelBtn.Text = "Cancel";
+            this.CancelBtn.UseVisualStyleBackColor = true;
+            this.CancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
+            // 
+            // TagListView
+            // 
+            this.TagListView.HideSelection = false;
+            this.TagListView.Location = new System.Drawing.Point(377, 308);
+            this.TagListView.Name = "TagListView";
+            this.TagListView.OwnerDraw = true;
+            this.TagListView.Size = new System.Drawing.Size(117, 11);
+            this.TagListView.SmallImageList = this.TagIcons;
+            this.TagListView.TabIndex = 32;
+            this.TagListView.UseCompatibleStateImageBehavior = false;
+            this.TagListView.View = System.Windows.Forms.View.SmallIcon;
+            this.TagListView.Visible = false;
+            this.TagListView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.TagListView_DrawItem);
+            this.TagListView.SelectedIndexChanged += new System.EventHandler(this.TagListView_SelectedIndexChanged);
+            // 
             // TagsList
             // 
             this.TagsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -292,32 +318,6 @@
             this.TagEditTooltip.IsBalloon = true;
             this.TagEditTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.TagEditTooltip.ToolTipTitle = "Win_CBZ";
-            // 
-            // TagListView
-            // 
-            this.TagListView.HideSelection = false;
-            this.TagListView.Location = new System.Drawing.Point(377, 295);
-            this.TagListView.Name = "TagListView";
-            this.TagListView.OwnerDraw = true;
-            this.TagListView.Size = new System.Drawing.Size(117, 24);
-            this.TagListView.SmallImageList = this.TagIcons;
-            this.TagListView.TabIndex = 32;
-            this.TagListView.UseCompatibleStateImageBehavior = false;
-            this.TagListView.View = System.Windows.Forms.View.SmallIcon;
-            this.TagListView.Visible = false;
-            this.TagListView.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.TagListView_DrawItem);
-            this.TagListView.SelectedIndexChanged += new System.EventHandler(this.TagListView_SelectedIndexChanged);
-            // 
-            // ToolStripButtonRemoveSelectedTags
-            // 
-            this.ToolStripButtonRemoveSelectedTags.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolStripButtonRemoveSelectedTags.Enabled = false;
-            this.ToolStripButtonRemoveSelectedTags.Image = global::Win_CBZ.Properties.Resources.delete;
-            this.ToolStripButtonRemoveSelectedTags.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolStripButtonRemoveSelectedTags.Name = "ToolStripButtonRemoveSelectedTags";
-            this.ToolStripButtonRemoveSelectedTags.Size = new System.Drawing.Size(29, 24);
-            this.ToolStripButtonRemoveSelectedTags.Text = "Remove selected";
-            this.ToolStripButtonRemoveSelectedTags.Click += new System.EventHandler(this.ToolStripButtonRemoveSelectedTags_Click);
             // 
             // TagEditorForm
             // 

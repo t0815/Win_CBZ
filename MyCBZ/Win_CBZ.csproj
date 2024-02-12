@@ -97,6 +97,9 @@
     <Reference Include="Scintilla.NET, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Scintilla.NET.5.3.1\lib\net45\Scintilla.NET.dll</HintPath>
     </Reference>
+    <Reference Include="ShaperRater, Version=1.0.7978.36932, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\hima.lib.rating.1.0.0\lib\ShaperRater.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress, Version=0.34.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.34.1\lib\net462\SharpCompress.dll</HintPath>
     </Reference>
@@ -288,6 +291,18 @@
     </Compile>
     <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
     <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
+    <Compile Include="Components\Rating\Rating.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\Rating\Rating.Designer.cs">
+      <DependentUpon>Rating.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Rating\RatingChangedEvent.cs" />
+    <Compile Include="Components\Rating\Shapes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Shapes.resx</DependentUpon>
+    </Compile>
     <Compile Include="Data\AddImagesThreadParams.cs" />
     <Compile Include="Data\CBZValidationThreadParams.cs" />
     <Compile Include="Data\EditorTypeConfig.cs" />
@@ -466,6 +481,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Components\ExtendedListView\ExtendetListView.resx">
       <DependentUpon>ExtendetListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\Rating\Shapes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Shapes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutDialogForm.resx">
       <DependentUpon>AboutDialogForm.cs</DependentUpon>

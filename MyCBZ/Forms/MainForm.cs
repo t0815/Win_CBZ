@@ -36,6 +36,7 @@ using static Win_CBZ.MetaData;
 using SharpCompress.Common;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Diagnostics;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace Win_CBZ
 {
@@ -1272,9 +1273,8 @@ namespace Win_CBZ
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     CheckBoxDoRenamePages.Enabled = true;
-                    CheckBoxDoRenamePages.Checked = false;
-                    ToolButtonSave.Enabled = false;
-                    SaveToolStripMenuItem.Enabled = false;
+                    ToolButtonSave.Enabled = Program.ProjectModel.IsChanged;
+                    SaveToolStripMenuItem.Enabled = Program.ProjectModel.IsChanged;
                     PagesList.Enabled = true;
                     PageView.Enabled = true;
                     PageThumbsListBox.Enabled = true;
@@ -2656,7 +2656,7 @@ namespace Win_CBZ
                                         
                     } else
                     {
-
+                        
                     }
                 } else
                 {
@@ -2669,6 +2669,23 @@ namespace Win_CBZ
                 }
             }
            
+        }
+
+        private void MetaDataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && e.RowIndex > -1)
+            {
+                MetaDataFieldType fieldType = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as MetaDataFieldType;
+
+                if (fieldType != null)
+                {
+                    if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                    {
+
+                    }
+
+                }
+            }
         }
 
         private void DataGridTextBoxKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -2768,7 +2785,7 @@ namespace Win_CBZ
                                         int selectedIndex = Array.IndexOf(entry.Type.OptionsAsList(), entry.Value);
                                         DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
                                         c.Items.AddRange(entry.Type.OptionsAsList());
-                                        
+
                                         c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
                                         c.Tag = entry.Type; //  new EditorConfig("ComboBox", "String", "", " ", false);
                                         //c.AutoComplete = isAutoComplete;
@@ -2784,13 +2801,14 @@ namespace Win_CBZ
                                         };
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
-                                    } else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+                                    }
+                                    else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                     {
                                         DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
                                         //c.Items.AddRange(entry.Options.EditorOptions);
                                         c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
                                         c.Tag = entry.Type;  // new EditorConfig("AutoComplete", "String", "", " ", false, entry.Options.EditorOptions);
-                                        
+
                                         c.Style = new DataGridViewCellStyle()
                                         {
                                             SelectionBackColor = Color.FromKnownColor(KnownColor.Gold),
@@ -2802,9 +2820,19 @@ namespace Win_CBZ
 
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
-                                       
+
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
+                                    } else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                                    { 
+                                        DataGridViewImageCell c = new DataGridViewImageCell();
+
+                                        c.Value = entry.Value;
+                                        c.Tag = entry.Type;
+                                        c.ImageLayout = DataGridViewImageCellLayout.Normal;
+                                        
+                                        MetaDataGrid.Rows[i].Cells[1] = c;
+                                        c.ReadOnly = true;
                                     } else
                                     {
                                         MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type;
@@ -2915,6 +2943,11 @@ namespace Win_CBZ
                 if (fieldType != null)
                 {
                     fieldType.EditorConfig.Value = value;
+                    
+                    if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                    {
+                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = 5;
+                    }
 
                     switch (fieldType.EditorType)
                     {
@@ -3152,6 +3185,23 @@ namespace Win_CBZ
                                 };
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                            } else if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                            {
+                                DataGridViewImageCell c = new DataGridViewImageCell();
+
+                                c.Value = updatedEntry.Value;
+                                c.Tag = updatedEntry.Type;
+                                c.ImageLayout = DataGridViewImageCellLayout.Normal;
+
+                                c.Style = new DataGridViewCellStyle()
+                                {
+                                    SelectionForeColor = Color.Black,
+                                    SelectionBackColor = Color.Gold,
+                                    BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                };
+                                
+                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
+                                c.ReadOnly = true;
                             }
                             
                             if (updatedEntry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)

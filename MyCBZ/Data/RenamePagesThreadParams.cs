@@ -10,6 +10,8 @@ namespace Win_CBZ.Data
     {
         public bool IgnorePageNameDuplicates { get; set; }
 
+        public bool SkipIndexUpdate { get; set; }
+
         public bool CompatibilityMode { get; set; } 
 
         public bool ApplyRenaming { get; set; }
