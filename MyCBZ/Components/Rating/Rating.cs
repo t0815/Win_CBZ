@@ -1,11 +1,12 @@
-﻿using System;
+﻿using ScintillaNET;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -19,13 +20,28 @@ namespace Win_CBZ.Components.Rating
         private partial class StarShape : Shape
         {
 
-            protected Geometry DefiningGeometry
+            protected override Geometry DefiningGeometry
             {
                 get
                 {
+                    PathGeometry geo = new PathGeometry();
+                    var pathFigure = new PathFigure { StartPoint = Common.WpfPoint(center + new Point(-width, width)) };
 
+                    pathFigure.Segments.Add(new System.Windows.Media.LineSegment(Common.WpfPoint(center), true));
+                    pathFigure.Segments.Add(
+                        new System.Windows.Media.LineSegment(Common.WpfPoint(center + new Point(width, width)), true));
 
-                    return 
+                    pathFigure.IsFilled = true; 
+                    
+
+                    geo.Figures.Add(pathFigure);                    
+
+                    geo.AddGeometry(new LineGeometry() { StartPoint = new Point(0, 0), EndPoint = new Point(3, 3) });
+                    geo.AddGeometry(new LineGeometry() { StartPoint = new Point(3, 3), EndPoint = new Point(3, 0) });
+
+                    Width
+
+                    return geo;
                 }
             }
         }
@@ -43,7 +59,7 @@ namespace Win_CBZ.Components.Rating
 
         public bool CustomShapes { get; set; }
 
-        protected Path Shape { get; set; }
+        protected Shape Shape { get; set; }
 
         
         public event EventHandler<RatingChangedEvent> RatingChanged;
@@ -51,6 +67,8 @@ namespace Win_CBZ.Components.Rating
         public Rating()
         {
             InitializeComponent();
+
+            Shape = new StarShape();
         }
 
         protected override void OnPaint(PaintEventArgs pe)
