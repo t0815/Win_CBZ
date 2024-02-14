@@ -709,7 +709,7 @@ namespace Win_CBZ
                     {
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
-                        ToolButtonSave.Enabled = true;
+                        ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                         ToolButtonNew.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
                         ToolButtonMovePageDown.Enabled = true;
@@ -1273,8 +1273,8 @@ namespace Win_CBZ
                     TextboxStoryPageRenamingPattern.Enabled = true;
                     TextboxSpecialPageRenamingPattern.Enabled = true;
                     CheckBoxDoRenamePages.Enabled = true;
-                    ToolButtonSave.Enabled = Program.ProjectModel.IsChanged;
-                    SaveToolStripMenuItem.Enabled = Program.ProjectModel.IsChanged;
+                    ToolButtonSave.Enabled = Program.ProjectModel.IsChanged; // && Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                    SaveToolStripMenuItem.Enabled = Program.ProjectModel.IsChanged; // && Program.ProjectModel.FileName != null;
                     PagesList.Enabled = true;
                     PageView.Enabled = true;
                     PageThumbsListBox.Enabled = true;
@@ -1606,7 +1606,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_READY:
                         NewToolStripMenuItem.Enabled = true;
                         OpenToolStripMenuItem.Enabled = true;
-                        SaveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         AddFilesToolStripMenuItem.Enabled = true;
@@ -1623,8 +1623,8 @@ namespace Win_CBZ
                         TextboxSpecialPageRenamingPattern.Enabled = false;
                         CheckBoxDoRenamePages.Enabled = false;
                         CheckBoxDoRenamePages.Checked = false;
-                        ToolButtonSave.Enabled = false;
-                        SaveToolStripMenuItem.Enabled = false;
+                        ToolButtonSave.Enabled = Program.ProjectModel.IsChanged; // && project.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        SaveToolStripMenuItem.Enabled = Program.ProjectModel.IsChanged; // && project.FileName != null && Program.ProjectModel.FileName.Length > 0;
                         LabelGlobalActionStatusMessage.Text = "";
                         GlobalAlertTableLayout.Visible = false;
                         PagesList.Enabled = true;
@@ -1690,13 +1690,13 @@ namespace Win_CBZ
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        ToolButtonSave.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         //TextboxStoryPageRenamingPattern.Enabled = true;
                         //TextboxSpecialPageRenamingPattern.Enabled = true;
                         CheckBoxDoRenamePages.Enabled = true;
                         CheckBoxDoRenamePages.Checked = false;
-                        ToolButtonSave.Enabled = false;
-                        SaveToolStripMenuItem.Enabled = false;
                         ToolButtonValidateCBZ.Enabled = true;
                         Program.ProjectModel.IsNew = false;
                         PagesList.Enabled = true;
@@ -1742,6 +1742,7 @@ namespace Win_CBZ
                         OpenToolStripMenuItem.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         AddFilesToolStripMenuItem.Enabled = true;
@@ -1751,8 +1752,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Enabled = true;
                         ToolButtonAddFolder.Enabled = true;
                         TextboxStoryPageRenamingPattern.Enabled = true;
-                        TextboxSpecialPageRenamingPattern.Enabled = true;
-                        ToolButtonSave.Enabled = true;
+                        TextboxSpecialPageRenamingPattern.Enabled = true;               
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsSaved = false;
@@ -1772,6 +1772,8 @@ namespace Win_CBZ
                         NewToolStripMenuItem.Enabled = false;
                         OpenToolStripMenuItem.Enabled = false;
                         SaveAsToolStripMenuItem.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
+                        ToolButtonSave.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonOpen.Enabled = false;
@@ -1829,7 +1831,7 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
                         NewToolStripMenuItem.Enabled = true;
                         OpenToolStripMenuItem.Enabled = true;
-                        SaveAsToolStripMenuItem.Enabled = false;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         AddFilesToolStripMenuItem.Enabled = true;
@@ -1873,41 +1875,41 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                         CheckBoxDoRenamePages.Enabled = true;
                         //CheckBoxDoRenamePages.Checked = false;
-                        if (project.FileName != null)
-                        {
+                        //if (project.FileName != null && project.FileName.Length > 0)
+                        //{
                             ToolButtonSave.Enabled = true;
                             SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
-                        }
+                        //}
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
-                        if (project.FileName != null)
-                        {
+                        //if (project.FileName != null && project.FileName.Length > 0)
+                        //{
                             ToolButtonSave.Enabled = true;
                             SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
-                        }
+                        //}
                         break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
-                        if (project.FileName != null)
-                        {
+                        //if (project.FileName != null && project.FileName.Length > 0)
+                        //{
                             ToolButtonSave.Enabled = true;
                             SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
-                        }
+                        //}
                         break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
-                        if (project.FileName != null)
-                        {
+                        //if (project.FileName != null && project.FileName.Length > 0)
+                       // {
                             ToolButtonSave.Enabled = true;
                             SaveToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
-                        }
+                        //}
                         break;
                 }
             }
@@ -2892,8 +2894,9 @@ namespace Win_CBZ
 
                 if (Program.ProjectModel.FileName != null)
                 {
-                    ToolButtonSave.Enabled = true;
-                    SaveToolStripMenuItem.Enabled = true;
+
+                    ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                    SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                 }
             }));
         }
@@ -2906,8 +2909,8 @@ namespace Win_CBZ
 
                 if (Program.ProjectModel.FileName != null)
                 {
-                    ToolButtonSave.Enabled = true;
-                    SaveToolStripMenuItem.Enabled = true;
+                    ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                    SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                 }
 
                 if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
@@ -3068,9 +3071,9 @@ namespace Win_CBZ
             {
                 
                 Program.ProjectModel.IsChanged = true;
-               
-                ToolButtonSave.Enabled = true;
-                SaveToolStripMenuItem.Enabled = true;
+
+                ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
 
                 Program.ProjectModel.IsChanged = true;
                 
@@ -3714,8 +3717,8 @@ namespace Win_CBZ
                     Program.ProjectModel.IsChanged = true;
                     TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                     TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
-                    ToolButtonSave.Enabled = true;
-                    SaveToolStripMenuItem.Enabled = true;
+                    ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0; 
+                    SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                     CheckBoxPreview.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
 
                     if (CheckBoxDoRenamePages.CheckState == CheckState.Unchecked)
@@ -4244,7 +4247,7 @@ namespace Win_CBZ
                 Program.ProjectModel.IsChanged = true;
                 TextboxStoryPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
                 TextboxSpecialPageRenamingPattern.Enabled = CheckBoxDoRenamePages.CheckState == CheckState.Checked;
-                ToolButtonSave.Enabled = true;
+                ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                 CheckBoxPreview.Enabled = false;
                 SaveToolStripMenuItem.Enabled = true;
 
