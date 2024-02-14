@@ -304,7 +304,7 @@ namespace Win_CBZ
                 {
                     if (MetaData.Exists())
                     {
-                        MetaData.RebuildPageMetaData(Pages);
+                        MetaData.RebuildPageMetaData(Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
                     }
                     UpdatePageIndices(true, true, remainingStack);
                 });

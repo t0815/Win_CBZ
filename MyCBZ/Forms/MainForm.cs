@@ -1618,13 +1618,13 @@ namespace Win_CBZ
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        ToolStripButtonShowRawMetadata.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         TextboxStoryPageRenamingPattern.Enabled = false;
                         TextboxSpecialPageRenamingPattern.Enabled = false;
                         CheckBoxDoRenamePages.Enabled = false;
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonSave.Enabled = false;
                         SaveToolStripMenuItem.Enabled = false;
-                        ToolStripButtonShowRawMetadata.Enabled = false;
                         LabelGlobalActionStatusMessage.Text = "";
                         GlobalAlertTableLayout.Visible = false;
                         PagesList.Enabled = true;

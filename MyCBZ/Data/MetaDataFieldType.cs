@@ -19,7 +19,7 @@ namespace Win_CBZ.Data
             MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX,
             MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX,
             MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE,
-            MetaDataFieldType.METADATA_FIELD_TYPE_RATING,
+            /* MetaDataFieldType.METADATA_FIELD_TYPE_RATING, */
         };
 
 

@@ -25,6 +25,7 @@ namespace Win_CBZ.Components.Rating
                 get
                 {
                     PathGeometry geo = new PathGeometry();
+                    /*
                     var pathFigure = new PathFigure { StartPoint = Common.WpfPoint(center + new Point(-width, width)) };
 
                     pathFigure.Segments.Add(new System.Windows.Media.LineSegment(Common.WpfPoint(center), true));
@@ -34,12 +35,13 @@ namespace Win_CBZ.Components.Rating
                     pathFigure.IsFilled = true; 
                     
 
-                    geo.Figures.Add(pathFigure);                    
-
+                    geo.Figures.Add(pathFigure);        
+                    */
+                    
                     geo.AddGeometry(new LineGeometry() { StartPoint = new Point(0, 0), EndPoint = new Point(3, 3) });
                     geo.AddGeometry(new LineGeometry() { StartPoint = new Point(3, 3), EndPoint = new Point(3, 0) });
 
-                    Width
+                    //Width
 
                     return geo;
                 }
