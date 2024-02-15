@@ -723,7 +723,7 @@ namespace Win_CBZ
                         if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
                         {
                             Program.ProjectModel.MetaDataPageIndexMissingData = false;
-                            Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
+                            Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());                           
                         }
 
                         if (e.PopGlobalState)
@@ -2506,7 +2506,7 @@ namespace Win_CBZ
             Program.ProjectModel.MetaData.FillMissingDefaultProps();
             if (PagesList.Items.Count > 0)
             {
-                Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>());
+                Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
             }
 
             MetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
@@ -4830,7 +4830,7 @@ namespace Win_CBZ
                         RemoveMetaData();
 
                         Program.ProjectModel.MetaData.Values = data.Values;
-                        Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages);
+                        Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
                         MetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
                         MetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
                     }                                 
