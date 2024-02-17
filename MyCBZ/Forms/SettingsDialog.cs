@@ -1058,5 +1058,21 @@ namespace Win_CBZ.Forms
         {
             RestoreFieldTypesButton.Size = new System.Drawing.Size(80, 30);
         }
+
+        private void ToolStripTextBoxSearchTag_KeyUp(object sender, KeyEventArgs e)
+        {
+            String itemsText = ValidTags.Text;
+
+            int occurence = itemsText.IndexOf(ToolStripTextBoxSearchTag.Text, 0, StringComparison.CurrentCultureIgnoreCase);
+
+            ValidTags.SelectionStart = 0;
+            ValidTags.SelectionLength = 0;
+            if (occurence > -1)
+            {
+                ValidTags.SelectionStart = occurence;
+                ValidTags.SelectionLength = ToolStripTextBoxSearchTag.Text.Length;
+                ValidTags.ScrollToCaret();
+            }
+        }
     }
 }

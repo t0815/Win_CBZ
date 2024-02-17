@@ -161,8 +161,7 @@ namespace Win_CBZ.Forms
                 ItemsText.SelectionStart = occurence;
                 ItemsText.SelectionLength = ToolStripTextBoxSearch.Text.Length;
                 ItemsText.ScrollToCaret();
-            }
-            
+            }           
         }
     }
 }
