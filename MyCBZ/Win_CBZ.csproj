@@ -350,6 +350,7 @@
     <Compile Include="Forms\LanguageEditorForm.Designer.cs">
       <DependentUpon>LanguageEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DebugHelper.cs" />
     <Compile Include="Helper\FactoryDefaults.cs" />
     <Compile Include="Helper\MetaDataFieldConfig.cs" />
     <Compile Include="Helper\MetaDataVersionFlavorHandler.cs" />

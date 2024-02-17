@@ -76,7 +76,7 @@ namespace Win_CBZ.Forms
                 try
                 {
                     FirstPage = new Page(pages[0]);
-                    PreviewThumb = FirstPage.GetThumbnail(ThumbAbort, Handle);
+                    PreviewThumb = FirstPage.GetThumbnail();
                 }
                 catch (PageMemoryIOException pme)
                 {

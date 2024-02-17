@@ -15,6 +15,7 @@ using System.Xml;
 using SharpCompress.Common;
 using System.IO.Pipes;
 using System.Threading.Tasks;
+using System.Drawing.Drawing2D;
 
 namespace Win_CBZ
 {
@@ -1515,11 +1516,47 @@ namespace Win_CBZ
             }
         }
 
-
-        public Image GetThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
+        public Image GetThumbnail()
         {
+            if (!Closed)
+            {
+                LoadImage();
+            }
 
+            if (Image != null)
+            {
+                try
+                {
+                    var newBitmap = new Bitmap(ThumbW, ThumbH);
+                    using (Graphics g = Graphics.FromImage(newBitmap))
+                    {
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        g.CompositingQuality = CompositingQuality.HighQuality;
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.DrawImage(Image, new Rectangle(0, 0, ThumbW, ThumbH));
+                    }
+                    Thumbnail = Image.FromHbitmap(newBitmap.GetHbitmap());
+                    //openBitmap.Dispose(); //Clear The Old Large Bitmap From Memory
+                }
+                catch (Exception et)
+                {
+                    throw new PageException(this, et.Message, true, et);
+                } finally 
+                {
+                    Image?.Dispose();
+                    Image = null;
+                }
+            }
 
+            return Thumbnail;
+        }
+
+        /*
+         * This will use Windows api fetching cached explorer thumbs
+         */
+        public Image GetWindowsThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
+        {
             if (!Closed)
             {
                 LoadImage();

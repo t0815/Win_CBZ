@@ -794,12 +794,12 @@ namespace Win_CBZ
                     {
                         if (!PageImages.Images.ContainsKey(page.Id))
                         {
-                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                            PageImages.Images.Add(page.Id, page.GetThumbnail());
                         }
                         else
                         {
                             PageImages.Images.RemoveByKey(page.Name);
-                            PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                            PageImages.Images.Add(page.Id, page.GetThumbnail());
                         }
                     } catch (Exception e)
                     {
@@ -870,13 +870,13 @@ namespace Win_CBZ
                                 {
                                     if (!PageImages.Images.ContainsKey(page.Id))
                                     {
-                                        PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
+                                        PageImages.Images.Add(page.Id, page.GetThumbnail());
                                     }
                                     else
                                     {
                                         if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
                                         {
-                                            PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail(ThumbAbort, Handle);
+                                            PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail();
                                             page.ThumbnailInvalidated = false;
                                         }
                                     }
