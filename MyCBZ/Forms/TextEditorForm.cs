@@ -147,5 +147,22 @@ namespace Win_CBZ.Forms
         {
 
         }
+
+        private void ToolStripTextBoxSearch_KeyUp(object sender, KeyEventArgs e)
+        {
+            String itemsText = ItemsText.Text;
+
+            int occurence = itemsText.IndexOf(ToolStripTextBoxSearch.Text, 0, StringComparison.CurrentCultureIgnoreCase);
+
+            ItemsText.SelectionStart = 0;
+            ItemsText.SelectionLength = 0;
+            if (occurence > -1)
+            {
+                ItemsText.SelectionStart = occurence;
+                ItemsText.SelectionLength = ToolStripTextBoxSearch.Text.Length;
+                ItemsText.ScrollToCaret();
+            }
+            
+        }
     }
 }
