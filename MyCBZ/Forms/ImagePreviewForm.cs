@@ -31,7 +31,7 @@ namespace Win_CBZ
 
             try
             {
-                displayPage = new Page(page);
+                displayPage = new Page(page);  // todo: memory copy?
 
                 currentIndex = page.Index;
                 currentId = page.Id;

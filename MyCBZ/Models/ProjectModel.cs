@@ -2214,7 +2214,7 @@ namespace Win_CBZ
                 }
             }
 
-            //Page oldPage = new Page(page);
+            //Page oldPage = new Page(page);  // dont create new page obj - file will get locked
 
             if (!page.Name.Equals(name))
             {

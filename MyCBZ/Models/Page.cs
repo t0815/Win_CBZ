@@ -1024,6 +1024,7 @@ namespace Win_CBZ
         public MemoryStream Serialize(String sourceProjectId, bool newCopy = false, bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();
+            bool MemoryCopyState = IsMemoryCopy;
             XmlWriterSettings writerSettings = new XmlWriterSettings
             {
                 OmitXmlDeclaration = withoutXMLHeaderTag
@@ -1058,6 +1059,9 @@ namespace Win_CBZ
                 // LocalFile
                 xmlWriter.WriteStartElement("LocalFile");
                 xmlWriter.WriteElementString("FullPath", LocalFile.FullPath);
+                xmlWriter.WriteElementString("FileSize", LocalFile.FileSize.ToString());
+                xmlWriter.WriteElementString("FilePath", LocalFile.FilePath);
+                xmlWriter.WriteElementString("Exists", LocalFile.Exists().ToString());
 
                 xmlWriter.WriteEndElement();
             }
@@ -1085,6 +1089,9 @@ namespace Win_CBZ
                 // TemporaryFile
                 xmlWriter.WriteStartElement("TemporaryFile");
                 xmlWriter.WriteElementString("FullPath", TemporaryFile.FullPath);
+                xmlWriter.WriteElementString("FileSize", TemporaryFile.FileSize.ToString());
+                xmlWriter.WriteElementString("FilePath", TemporaryFile.FilePath);
+                xmlWriter.WriteElementString("Exists", TemporaryFile.Exists().ToString());
 
                 xmlWriter.WriteEndElement();
             }
@@ -1153,7 +1160,7 @@ namespace Win_CBZ
             xmlWriter.WriteElementString("ReadOnly", ReadOnly.ToString());
             xmlWriter.WriteElementString("Selected", Selected.ToString());
             xmlWriter.WriteElementString("Invalidated", Invalidated.ToString());
-            xmlWriter.WriteElementString("IsMemoryCopy", IsMemoryCopy.ToString());
+            xmlWriter.WriteElementString("IsMemoryCopy", MemoryCopyState.ToString());
             xmlWriter.WriteElementString("ImageInfoRequested", ImageInfoRequested.ToString());
             xmlWriter.WriteElementString("Closed", Closed.ToString());
             xmlWriter.WriteElementString("ThumbnailInvalidated", ThumbnailInvalidated.ToString());

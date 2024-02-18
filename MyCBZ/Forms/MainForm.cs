@@ -2174,7 +2174,7 @@ namespace Win_CBZ
 
                     try
                     {
-                        Page oldPage = new Page(((Page)changedItem.Tag));
+                        //Page oldPage = new Page(((Page)changedItem.Tag));  // dont load page here! will cause Access denied
                         Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
                        
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
@@ -2204,6 +2204,9 @@ namespace Win_CBZ
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                         e.CancelEdit = true;
+                    } finally 
+                    { 
+                        
                     }
                 }
             }

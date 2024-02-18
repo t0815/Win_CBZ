@@ -50,11 +50,16 @@ namespace Win_CBZ.Forms
             }
 
             Pages = new List<Page>();
+            Page pageList = null;
 
             try {
                 foreach (Page p in pages)
                 {
-                    Pages.Add(new Page(p, true, false));
+                    bool realMemoryCopyState = p.IsMemoryCopy;
+                    pageList = new Page(p, true, false);
+
+                    Pages.Add(pageList);
+                    pageList.IsMemoryCopy = realMemoryCopyState;
                     //p.FreeImage();
                 }
             } catch (Exception ex) {
@@ -75,7 +80,7 @@ namespace Win_CBZ.Forms
 
                 try
                 {
-                    FirstPage = new Page(pages[0]);
+                    FirstPage = new Page(pages[0]);   // todo: maybe use memory copy here too and just set real memorycopy state
                     PreviewThumb = FirstPage.GetThumbnail();
                 }
                 catch (PageMemoryIOException pme)
@@ -98,9 +103,9 @@ namespace Win_CBZ.Forms
 
                 if (pages.Count == 1)
                 {
-                    if (FirstPage ==  null)
+                    if (FirstPage == null)
                     {
-                        FirstPage= new Page();
+                        FirstPage = new Page();
                         ButtonOk.Enabled = false;
                     }
 
