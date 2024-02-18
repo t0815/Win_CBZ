@@ -873,7 +873,7 @@ namespace Win_CBZ
                     {
                         if (!page.Deleted)
                         {
-                            if (page.Compressed)
+                            if (page.Compressed && (page.TemporaryFile == null || !page.TemporaryFile.Exists()))
                             {
                                 FileInfo NewTemporaryFileName = MakeNewTempFileName();
                                 page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
