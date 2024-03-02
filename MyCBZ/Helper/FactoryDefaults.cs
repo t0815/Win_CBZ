@@ -12,12 +12,13 @@ namespace Win_CBZ.Helper
     {
         public static readonly String[] DefaultMetaDataFieldTypes =
         {
-            "AgeRating|ComboBox||Unknown,Adults Only 18+,Early Childhood,Everyone,Everyone 10+,G,Kids to Adults,M,MA15+,Mature 17+,PG,R18+,Rating Pending,Teen,X18+|False",
+            "AgeRating|ComboBox||Unknown,Unknown,Rating Pending,Early Childhood,Everyone,Everyone 10+,G,PG,Kids to Adults,Teen,M,MA15+,Mature 17+,Adults Only 18+,R18+,X18+|False",
             "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False",
             "BlackAndWhite|ComboBox||Unknown,Yes,No|False",
             "LanguageISO|Text|LanguageEditor||False",
             "Tags|AutoComplete|TagEditor||True",
-            "Writer|AutoComplete|||True"
+            "Writer|AutoComplete|||True",
+            "Characters|Text|MultiLineTextEditor||False"
         };
 
         public const String DefaultMetaDataFileName = "ComicInfo.xml";
@@ -27,7 +28,8 @@ namespace Win_CBZ.Helper
         public static readonly Dictionary<int, String[]> ValuesToReset = new Dictionary<int, String[]>()
         {
             { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } },
-            { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4", "DefaultMetaDataFieldTypes.1.$.*.4", "DefaultMetaDataFieldTypes.2.$.*.4", "DefaultMetaDataFieldTypes.3.$.*.4", "DefaultMetaDataFieldTypes.4.$.*.4", "DefaultMetaDataFieldTypes.0.$.*.5" } }
+            { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4", "DefaultMetaDataFieldTypes.1.$.*.4", "DefaultMetaDataFieldTypes.2.$.*.4", "DefaultMetaDataFieldTypes.3.$.*.4", "DefaultMetaDataFieldTypes.4.$.*.4", "DefaultMetaDataFieldTypes.0.$.*.5" } },
+            { 3, new string[] { "DefaultMetaDataFieldTypes.6.+" } }
         };
 
 
@@ -56,8 +58,6 @@ namespace Win_CBZ.Helper
                     {
                         try
                         {
-
-
                             foreach (String value in values)
                             {
                                 if (value.Contains("."))
