@@ -304,7 +304,7 @@ namespace Win_CBZ
                 {
                     if (MetaData.Exists())
                     {
-                        MetaData.RebuildPageMetaData(Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
+                        MetaData.RebuildPageMetaData(Pages, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).PageIndexVerToWrite);
                     }
                     UpdatePageIndices(true, true, remainingStack);
                 });
@@ -819,7 +819,8 @@ namespace Win_CBZ
                         {
                             ContinuePipeline = true,
                             InitialIndexRebuild = false,
-                            Stack = new List<StackItem>()
+                            Stack = new List<StackItem>(),
+                            PageIndexVerToWrite = metaDataVersionWriting
                         }
                     },
                     new StackItem()
