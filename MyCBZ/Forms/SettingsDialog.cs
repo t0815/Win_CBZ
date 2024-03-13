@@ -130,7 +130,7 @@ namespace Win_CBZ.Forms
             CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
             {
                 DataPropertyName = "Items",
-                HeaderText = "Items",
+                HeaderText = "Items/Autocomplete",
                 CellTemplate = new DataGridViewTextBoxCell(),
                 Width = 140,
                 SortMode = DataGridViewColumnSortMode.Automatic,
@@ -139,7 +139,8 @@ namespace Win_CBZ.Forms
             CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
             {
                 DataPropertyName = "AutoAddNew",
-                HeaderText = "Update",
+                HeaderText = "[+]",
+                ToolTipText = "Update this Itemlist with new user-input values automatically",
                 CellTemplate = new DataGridViewCheckBoxCell(),
                 Width = 30,
                 SortMode = DataGridViewColumnSortMode.Automatic,
