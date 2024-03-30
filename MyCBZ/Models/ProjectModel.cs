@@ -2648,7 +2648,7 @@ namespace Win_CBZ
                     {
                         try
                         {
-                            page.Close();
+                            page.Close(false);
                         }
                         catch (Exception e)
                         {

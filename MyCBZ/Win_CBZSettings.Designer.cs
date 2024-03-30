@@ -400,5 +400,40 @@ namespace Win_CBZ {
                 this["SettingsVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection Mru {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Mru"]));
+            }
+            set {
+                this["Mru"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RecentOpenArchivePath {
+            get {
+                return ((string)(this["RecentOpenArchivePath"]));
+            }
+            set {
+                this["RecentOpenArchivePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RecentAddImagePath {
+            get {
+                return ((string)(this["RecentAddImagePath"]));
+            }
+            set {
+                this["RecentAddImagePath"] = value;
+            }
+        }
     }
 }

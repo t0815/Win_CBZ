@@ -291,6 +291,15 @@ namespace Win_CBZ
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            LocalFile recentPath;
+
+            if (Win_CBZSettings.Default.RecentOpenArchivePath != null && Win_CBZSettings.Default.RecentOpenArchivePath.Length > 0)
+            {
+                recentPath = new LocalFile(Win_CBZSettings.Default.RecentOpenArchivePath);
+      
+                OpenCBFDialog.InitialDirectory = Win_CBZSettings.Default.RecentOpenArchivePath;            
+            }
+
             DialogResult openCBFResult = DialogResult.None;
 
             if (Program.ProjectModel.IsChanged && !Program.ProjectModel.IsSaved)
@@ -307,6 +316,9 @@ namespace Win_CBZ
 
             if (openCBFResult == DialogResult.OK)
             {
+                recentPath = new LocalFile(OpenCBFDialog.FileName);
+                Win_CBZSettings.Default.RecentOpenArchivePath = recentPath.FilePath;
+
                 ClosingTask = Program.ProjectModel.Close();
 
                 ClearLog();
@@ -2152,6 +2164,14 @@ namespace Win_CBZ
 
         private void AddFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            LocalFile recentPath;
+
+            if (Win_CBZSettings.Default.RecentAddImagePath != null && Win_CBZSettings.Default.RecentAddImagePath.Length > 0)
+            {
+                recentPath = new LocalFile(Win_CBZSettings.Default.RecentAddImagePath);
+
+                OpenImagesDialog.InitialDirectory = Win_CBZSettings.Default.RecentAddImagePath;            
+            }
 
             DialogResult openImageResult = OpenImagesDialog.ShowDialog();
 
@@ -2159,6 +2179,9 @@ namespace Win_CBZ
             {
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
+
+                recentPath = new LocalFile(OpenImagesDialog.FileName);
+                Win_CBZSettings.Default.RecentAddImagePath = recentPath.FilePath;
 
                 Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
             }

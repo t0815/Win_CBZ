@@ -1586,7 +1586,6 @@ namespace Win_CBZ
             return Thumbnail;
         }
 
-
         public LocalFile CreateLocalWorkingCopy(String destination = null)
         {
 
@@ -1947,7 +1946,6 @@ namespace Win_CBZ
                 }
             }
         }
-
 
         public void FreeImage()
         {
