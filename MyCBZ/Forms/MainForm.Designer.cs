@@ -610,27 +610,27 @@ namespace Win_CBZ
             this.NewToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.document_zip;
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
             this.NewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(218, 34);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.NewToolStripMenuItem.Text = "New";
             this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem1
             // 
             this.ToolStripMenuItem1.Name = "ToolStripMenuItem1";
-            this.ToolStripMenuItem1.Size = new System.Drawing.Size(215, 6);
+            this.ToolStripMenuItem1.Size = new System.Drawing.Size(267, 6);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.folder_open;
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(218, 34);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.OpenToolStripMenuItem.Text = "Open";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(215, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(267, 6);
             // 
             // SaveToolStripMenuItem
             // 
@@ -638,7 +638,7 @@ namespace Win_CBZ
             this.SaveToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.floppy_disk;
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
             this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(218, 34);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.ToolButtonSave_Click);
             // 
@@ -646,20 +646,20 @@ namespace Win_CBZ
             // 
             this.SaveAsToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.save_as;
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(218, 34);
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.SaveAsToolStripMenuItem.Text = "Save as...";
             this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(215, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(267, 6);
             // 
             // QuitToolStripMenuItem
             // 
             this.QuitToolStripMenuItem.Image = global::Win_CBZ.Properties.Resources.door_exit;
             this.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
-            this.QuitToolStripMenuItem.Size = new System.Drawing.Size(218, 34);
+            this.QuitToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.QuitToolStripMenuItem.Text = "Quit";
             this.QuitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
             // 

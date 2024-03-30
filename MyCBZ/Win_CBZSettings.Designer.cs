@@ -435,5 +435,17 @@ namespace Win_CBZ {
                 this["RecentAddImagePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string RecentSavedArchivePath {
+            get {
+                return ((string)(this["RecentSavedArchivePath"]));
+            }
+            set {
+                this["RecentSavedArchivePath"] = value;
+            }
+        }
     }
 }

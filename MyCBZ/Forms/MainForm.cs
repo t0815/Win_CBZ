@@ -340,13 +340,24 @@ namespace Win_CBZ
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            LocalFile recentPath;
+
+            if (Win_CBZSettings.Default.RecentSavedArchivePath != null && Win_CBZSettings.Default.RecentSavedArchivePath.Length > 0)
+            {
+                recentPath = new LocalFile(Win_CBZSettings.Default.RecentSavedArchivePath);
+
+                SaveArchiveDialog.InitialDirectory = Win_CBZSettings.Default.RecentSavedArchivePath;
+            }
+
             DialogResult saveDialogResult = SaveArchiveDialog.ShowDialog();
 
             if (saveDialogResult == DialogResult.OK)
             {
                 if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()))
                 {
+                    recentPath = new LocalFile(SaveArchiveDialog.FileName);
 
+                    Win_CBZSettings.Default.RecentSavedArchivePath = recentPath.FilePath;
                 }
             }
         }
