@@ -4554,13 +4554,19 @@ namespace Win_CBZ
                 itempage.Selected = false;
             }
 
+
+            ListViewItem listItem = null;
             foreach (Page item in selectedPages)
             {
                 if (item.Index > -1)
                 {
                     if (PagesList.Items.Count > item.Index)
                     {
-                        PagesList.Items[item.Index].Selected = true;
+                        listItem = FindListViewItemForPage(PagesList, item);
+                        if (listItem != null)
+                        {
+                            listItem.Selected = true;
+                        }
                     }
                 }
             }
