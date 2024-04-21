@@ -425,7 +425,20 @@ namespace Win_CBZ
             {
                 if (search.Length > 0)
                 {
-                    entry.Visible = entry.Value.ToLower().Contains(search.ToLower()) || entry.Key.ToLower().Contains(search.ToLower());
+                    bool keyMatch = false;
+                    bool valueMatch = false;
+
+                    if (entry.Value != null)
+                    {
+                        valueMatch = entry.Value.ToLower().Contains(search.ToLower());
+                    }
+                        
+                    if (entry.Key != null)
+                    {
+                        keyMatch = entry.Key.ToLower().Contains(search.ToLower());
+                    }
+
+                    entry.Visible = keyMatch || valueMatch;
                 } else
                 {
                     entry.Visible = true;

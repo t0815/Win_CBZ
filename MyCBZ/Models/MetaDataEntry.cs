@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.DirectoryServices;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,9 @@ namespace Win_CBZ
 {
     internal class MetaDataEntry
     {
+
+        protected string uid = Guid.NewGuid().ToString();
+
         public String Key { get; set; }
 
         public String Value { get; set; }
@@ -45,7 +49,14 @@ namespace Win_CBZ
 
         public String[] ValueAsList(char separator = ',')
         {
-            return Value.Split(separator).Select((s) => s.TrimEnd().TrimStart()).ToArray();
+            if (Value != null)
+            {
+                return Value.Split(separator).Select((s) => s.TrimEnd().TrimStart()).ToArray();
+            } else
+            {
+                return new string[0];
+            }
+            
         }
     }
 }

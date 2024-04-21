@@ -2607,10 +2607,13 @@ namespace Win_CBZ
         {
             if (MetaDataGrid.SelectedRows.Count > 0)
             {
+               
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
-                    int index = Program.ProjectModel.MetaData.Remove(row.Index);
+                    
+                    int index = Program.ProjectModel.MetaData.Remove(row.Cells[0].Tag as MetaDataEntry);
 
+                   
                     /*
                     if (row.Cells[0].Value != null)
                     {
@@ -2808,7 +2811,7 @@ namespace Win_CBZ
                     {
                         if (entry.Visible)
                         {
-                            MetaDataGrid.Rows.Add(entry.Key, entry.Value);
+                            MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
                         }                     
                     }
 
@@ -2830,10 +2833,17 @@ namespace Win_CBZ
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
                             var key = MetaDataGrid.Rows[i].Cells[0].Value;
+
                             if (key != null && entry.Visible)
                             {
                                 if (entry.Key == key.ToString())
                                 {
+                                    DataGridViewTextBoxCell k = new DataGridViewTextBoxCell();
+                                    k.Value = entry.Key;
+                                    k.Tag = entry;
+
+                                    MetaDataGrid.Rows[i].Cells[0] = k;
+
                                     MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());
                                     if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                     {
@@ -3121,6 +3131,7 @@ namespace Win_CBZ
                 string Val = "";
 
                 object value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                int realIndex = Program.ProjectModel.MetaData.Values.IndexOf(MetaDataGrid.Rows[e.RowIndex].Cells[0].Tag as MetaDataEntry);
 
                 if (e.ColumnIndex == 0)
                 {
@@ -3158,7 +3169,7 @@ namespace Win_CBZ
                     Key = value.ToString();
                 }
 
-                MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(e.RowIndex, new MetaDataEntry(Key, Val));
+                MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(realIndex, new MetaDataEntry(Key, Val));
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
                 MetaDataGrid.Invalidate();
 

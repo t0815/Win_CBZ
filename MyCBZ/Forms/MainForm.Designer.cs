@@ -190,8 +190,6 @@ namespace Win_CBZ
             this.BtnAddMetaData = new System.Windows.Forms.Button();
             this.SmallIconsImages = new System.Windows.Forms.ImageList(this.components);
             this.BtnRemoveMetaData = new System.Windows.Forms.Button();
-            this.ContextMenuPropertyFilter = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ToolstripTextboxFilterProperties = new System.Windows.Forms.ToolStripTextBox();
             this.MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.AddMetaDataRowBtn = new System.Windows.Forms.Button();
             this.RemoveMetadataRowBtn = new System.Windows.Forms.Button();
@@ -203,6 +201,8 @@ namespace Win_CBZ
             this.MessageLogColumnTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MessageLogColumnMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LogMessageImageList = new System.Windows.Forms.ImageList(this.components);
+            this.ContextMenuPropertyFilter = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolstripTextboxFilterProperties = new System.Windows.Forms.ToolStripTextBox();
             this.SaveArchiveDialog = new System.Windows.Forms.SaveFileDialog();
             this.Tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.SelectColorDialog = new System.Windows.Forms.ColorDialog();
@@ -250,10 +250,10 @@ namespace Win_CBZ
             this.SplitBoxItemsList.SuspendLayout();
             this.MetadataPanel.SuspendLayout();
             this.MetadataEditorHeaderFlowLayoutPanel.SuspendLayout();
-            this.ContextMenuPropertyFilter.SuspendLayout();
             this.MetaDataTableActionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MetaDataGrid)).BeginInit();
             this.DataGridContextMenu.SuspendLayout();
+            this.ContextMenuPropertyFilter.SuspendLayout();
             this.SuspendLayout();
             // 
             // ToolBar
@@ -2071,20 +2071,6 @@ namespace Win_CBZ
             this.BtnRemoveMetaData.UseVisualStyleBackColor = true;
             this.BtnRemoveMetaData.Click += new System.EventHandler(this.BtnRemoveMetaData_Click);
             // 
-            // ContextMenuPropertyFilter
-            // 
-            this.ContextMenuPropertyFilter.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ContextMenuPropertyFilter.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolstripTextboxFilterProperties});
-            this.ContextMenuPropertyFilter.Name = "ContextMenuPropertyFilter";
-            this.ContextMenuPropertyFilter.Size = new System.Drawing.Size(161, 33);
-            // 
-            // ToolstripTextboxFilterProperties
-            // 
-            this.ToolstripTextboxFilterProperties.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.ToolstripTextboxFilterProperties.Name = "ToolstripTextboxFilterProperties";
-            this.ToolstripTextboxFilterProperties.Size = new System.Drawing.Size(100, 27);
-            // 
             // MetaDataTableActionsPanel
             // 
             this.MetaDataTableActionsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -2238,6 +2224,20 @@ namespace Win_CBZ
             this.LogMessageImageList.Images.SetKeyName(2, "error.png");
             this.LogMessageImageList.Images.SetKeyName(3, "speech_balloon_answer.png");
             // 
+            // ContextMenuPropertyFilter
+            // 
+            this.ContextMenuPropertyFilter.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.ContextMenuPropertyFilter.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolstripTextboxFilterProperties});
+            this.ContextMenuPropertyFilter.Name = "ContextMenuPropertyFilter";
+            this.ContextMenuPropertyFilter.Size = new System.Drawing.Size(161, 33);
+            // 
+            // ToolstripTextboxFilterProperties
+            // 
+            this.ToolstripTextboxFilterProperties.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.ToolstripTextboxFilterProperties.Name = "ToolstripTextboxFilterProperties";
+            this.ToolstripTextboxFilterProperties.Size = new System.Drawing.Size(100, 27);
+            // 
             // SaveArchiveDialog
             // 
             this.SaveArchiveDialog.Filter = "ComicBookArchive (*.cbz)|*.cbz";
@@ -2350,11 +2350,11 @@ namespace Win_CBZ
             this.MetadataPanel.PerformLayout();
             this.MetadataEditorHeaderFlowLayoutPanel.ResumeLayout(false);
             this.MetadataEditorHeaderFlowLayoutPanel.PerformLayout();
-            this.ContextMenuPropertyFilter.ResumeLayout(false);
-            this.ContextMenuPropertyFilter.PerformLayout();
             this.MetaDataTableActionsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MetaDataGrid)).EndInit();
             this.DataGridContextMenu.ResumeLayout(false);
+            this.ContextMenuPropertyFilter.ResumeLayout(false);
+            this.ContextMenuPropertyFilter.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
