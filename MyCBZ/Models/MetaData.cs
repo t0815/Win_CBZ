@@ -425,7 +425,7 @@ namespace Win_CBZ
             {
                 if (search.Length > 0)
                 {
-                    entry.Visible = entry.Value.Contains(search) || entry.Key.Contains(search);
+                    entry.Visible = entry.Value.ToLower().Contains(search.ToLower()) || entry.Key.ToLower().Contains(search.ToLower());
                 } else
                 {
                     entry.Visible = true;
