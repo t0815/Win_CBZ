@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Win_CBZ
         public String Value { get; set; }
 
         protected bool ReadOnly { get; set; }
+
+        public bool Visible { get; set; } = true;
 
         public MetaDataFieldType Type { get; set; }
 

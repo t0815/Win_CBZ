@@ -2768,7 +2768,7 @@ namespace Win_CBZ
                         if (secondCol != null)
                         {
                             firstCol.Width = 150;
-                            secondCol.Width = 380;
+                            secondCol.Width = 250;
                         }
                     }
                     else
@@ -2806,7 +2806,10 @@ namespace Win_CBZ
                     MetaDataGrid.Rows.Clear();
                     foreach (MetaDataEntry entry in e.MetaData)
                     {
-                        MetaDataGrid.Rows.Add(entry.Key, entry.Value);
+                        if (entry.Visible)
+                        {
+                            MetaDataGrid.Rows.Add(entry.Key, entry.Value);
+                        }                     
                     }
 
                     // DataGridViewCellStyle currentStyle = null;
@@ -2827,7 +2830,7 @@ namespace Win_CBZ
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
                             var key = MetaDataGrid.Rows[i].Cells[0].Value;
-                            if (key != null)
+                            if (key != null && entry.Visible)
                             {
                                 if (entry.Key == key.ToString())
                                 {
@@ -5060,6 +5063,16 @@ namespace Win_CBZ
                     Process.Start(new ProcessStartInfo(helper.FilePath) { UseShellExecute = true });
                 }
             }
+        }
+
+        private void ToolBarSearchInput_TextChanged(object sender, EventArgs e)
+        {
+            if (Program.ProjectModel.MetaData.Values.Count > 0)
+            {
+                Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
+
+                MetaDataLoaded(null, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
+            } 
         }
     }
 }

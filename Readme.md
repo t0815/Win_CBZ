@@ -21,6 +21,7 @@ standard described here: https://github.com/anansi-project/comicinfo
 - Reorder pages
 - Extract pages
 - Rename pages using placeholders
+- Filter Metadata by Key/Value
 - Validate if cbz has minimum required metadata as well as if certain required data is valid
 - Configure MetaData -Editor with various fieldtypes and editors
 
@@ -47,7 +48,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.18.126b released!
+v0.18.127b released!
 
 ## Third party components
 

@@ -419,6 +419,20 @@ namespace Win_CBZ
             }
         }
 
+        public void FilterMetaData(String search)
+        {
+            foreach (MetaDataEntry entry in Values)
+            {
+                if (search.Length > 0)
+                {
+                    entry.Visible = entry.Value.Contains(search) || entry.Key.Contains(search);
+                } else
+                {
+                    entry.Visible = true;
+                }               
+            }
+        }
+
         public MetaDataEntryPage FindIndexEntryForPage(Page page, PageIndexVersion indexFormatVersion = PageIndexVersion.VERSION_1)
         {
             foreach (MetaDataEntryPage entry in PageIndex)
