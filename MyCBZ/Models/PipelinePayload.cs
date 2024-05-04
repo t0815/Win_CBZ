@@ -15,7 +15,7 @@ namespace Win_CBZ
 
         public Dictionary<String, Task> Tasks;
 
-        public List<String> SuccessfullTasks;
+        public List<String> SuccessfulTasks;
 
         public List<String> FailedTasks;
 

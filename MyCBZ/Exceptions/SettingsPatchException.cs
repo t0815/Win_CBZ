@@ -8,11 +8,11 @@ namespace Win_CBZ.Exceptions
 {
     internal class SettingsPatchException : ApplicationException
     {
-        public int LastSuccessFullPatchedVersion {  get; set; }
+        public int LastSuccessFulPatchedVersion {  get; set; }
 
         public SettingsPatchException(string message, int lastSuccessfulPatched, bool showErrorDialog) : base(message, showErrorDialog)
         {
-            LastSuccessFullPatchedVersion = lastSuccessfulPatched;
+            LastSuccessFulPatchedVersion = lastSuccessfulPatched;
         }
     }
 }

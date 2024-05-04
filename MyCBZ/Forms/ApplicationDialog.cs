@@ -45,7 +45,7 @@ namespace Win_CBZ.Forms
                         break;
 
                     case DialogType.MT_CHECK:
-                        Text = "Operation Successfull!";
+                        Text = "Operation Successful!";
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.checks;
                         break;
 

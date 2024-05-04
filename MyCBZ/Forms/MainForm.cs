@@ -133,9 +133,9 @@ namespace Win_CBZ
             {
                 if (ex.ShowErrorDialog)
                 {
-                    ApplicationMessage.ShowWarning("Failed to patch UserSettings to Version: " + ex.LastSuccessFullPatchedVersion.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.ShowWarning("Failed to patch UserSettings to Version: " + ex.LastSuccessFulPatchedVersion.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                 }
-                Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFullPatchedVersion;
+                Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFulPatchedVersion;
                 Win_CBZSettings.Default.Save();
             } catch (Exception e)
             {
@@ -413,7 +413,7 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    ApplicationMessage.Show("Validation Successfull! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successfull!", ApplicationMessage.DialogType.MT_CHECK, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.Show("Validation Successful! CBZ Archive is valid, no problems detected.", "CBZ Archive validation successful!", ApplicationMessage.DialogType.MT_CHECK, ApplicationMessage.DialogButtons.MB_OK);
                 }
             }
         }
