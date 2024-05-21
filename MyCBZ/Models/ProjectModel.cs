@@ -2476,7 +2476,7 @@ namespace Win_CBZ
                 FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);
                 fileStream.SetLength(fs.Length);
                 int bytesRead = -1;
-                int byesTotal = 0;
+                long byesTotal = 0;
                 byte[] bytes = new byte[bufferSize];
 
                 while ((bytesRead = fs.Read(bytes, 0, bufferSize)) > 0)
