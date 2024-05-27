@@ -252,7 +252,17 @@ namespace Win_CBZ
             xmlWriter.WriteStartElement("ComicInfo");
             foreach (MetaDataEntry entry in Values)
             {
+                if (Win_CBZSettings.Default.OmitEmptyXMLTags)
+                {
+                    if (entry.Value != null && entry.Value.Length > 0)
+                    {
+                        xmlWriter.WriteElementString(entry.Key, entry.Value);
+                    }
+                }
+                else
+                {
                     xmlWriter.WriteElementString(entry.Key, entry.Value);
+                }
             }
             xmlWriter.WriteStartElement("Pages");
             foreach (MetaDataEntryPage page in PageIndex)

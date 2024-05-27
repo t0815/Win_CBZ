@@ -75,6 +75,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.ComboBoxPageIndexVersionWrite = new System.Windows.Forms.ComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.CheckBoxPruneEmplyTags = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.AppSettingsTabControl = new System.Windows.Forms.TabControl();
             this.TabPageAppSettings = new System.Windows.Forms.TabPage();
             this.CustomFieldTypesTablePanel = new System.Windows.Forms.TableLayoutPanel();
@@ -647,7 +649,7 @@
             this.CBZSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CBZSettingsTabControl.Name = "CBZSettingsTabControl";
             this.CBZSettingsTabControl.SelectedIndex = 0;
-            this.CBZSettingsTabControl.Size = new System.Drawing.Size(165, 460);
+            this.CBZSettingsTabControl.Size = new System.Drawing.Size(155, 460);
             this.CBZSettingsTabControl.TabIndex = 4;
             // 
             // tabPage2
@@ -656,7 +658,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(157, 427);
+            this.tabPage2.Size = new System.Drawing.Size(147, 427);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Compatibility";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -670,14 +672,18 @@
             this.tableLayoutPanel2.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.ComboBoxPageIndexVersionWrite, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.pictureBox2, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.CheckBoxPruneEmplyTags, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label6, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.55435F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 77.44566F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(157, 427);
+            this.tableLayoutPanel2.RowCount = 4;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.60606F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 247F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(147, 427);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // label5
@@ -686,7 +692,7 @@
             this.label5.Location = new System.Drawing.Point(20, 20);
             this.label5.Margin = new System.Windows.Forms.Padding(20);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 40);
+            this.label5.Size = new System.Drawing.Size(104, 22);
             this.label5.TabIndex = 0;
             this.label5.Text = "Meta Format -Version";
             // 
@@ -709,7 +715,7 @@
             // 
             this.pictureBox2.Image = global::Win_CBZ.Properties.Resources.information;
             this.pictureBox2.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.pictureBox2.Location = new System.Drawing.Point(93, 0);
+            this.pictureBox2.Location = new System.Drawing.Point(83, 0);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Padding = new System.Windows.Forms.Padding(8, 20, 8, 8);
@@ -718,6 +724,27 @@
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             this.TagValidationTooltip.SetToolTip(this.pictureBox2, resources.GetString("pictureBox2.ToolTip"));
+            // 
+            // CheckBoxPruneEmplyTags
+            // 
+            this.CheckBoxPruneEmplyTags.AutoSize = true;
+            this.CheckBoxPruneEmplyTags.Location = new System.Drawing.Point(212, 82);
+            this.CheckBoxPruneEmplyTags.Margin = new System.Windows.Forms.Padding(10, 20, 3, 3);
+            this.CheckBoxPruneEmplyTags.Name = "CheckBoxPruneEmplyTags";
+            this.CheckBoxPruneEmplyTags.Size = new System.Drawing.Size(1, 24);
+            this.CheckBoxPruneEmplyTags.TabIndex = 8;
+            this.CheckBoxPruneEmplyTags.Text = "Omit empty XML- Tags";
+            this.CheckBoxPruneEmplyTags.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(20, 82);
+            this.label6.Margin = new System.Windows.Forms.Padding(20);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(93, 19);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Empty Tags";
             // 
             // AppSettingsTabControl
             // 
@@ -973,5 +1000,7 @@
         private System.Windows.Forms.TableLayoutPanel MetaDataDefaultKeysTable;
         private System.Windows.Forms.ImageList DialogImages;
         private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxSearchTag;
+        private System.Windows.Forms.CheckBox CheckBoxPruneEmplyTags;
+        private System.Windows.Forms.Label label6;
     }
 }

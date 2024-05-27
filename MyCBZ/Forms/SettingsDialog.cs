@@ -38,6 +38,8 @@ namespace Win_CBZ.Forms
 
         public int ConversionQualityValue;
 
+        public bool OmitEmptyXMLTags;
+
         public int ConversionModeValue;
 
         public int MetaPageIndexWriteVersion;
@@ -70,6 +72,8 @@ namespace Win_CBZ.Forms
 
             MetaDataFilename = Win_CBZSettings.Default.MetaDataFilename;
 
+            OmitEmptyXMLTags = Win_CBZSettings.Default.OmitEmptyXMLTags;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
@@ -86,6 +90,8 @@ namespace Win_CBZ.Forms
             ComboBoxPageIndexVersionWrite.SelectedIndex = MetaPageIndexWriteVersion - 1;
             ComboBoxConvertPages.SelectedIndex = ConversionModeValue;
             ImageQualityTrackBar.Value = ConversionQualityValue;
+
+            CheckBoxPruneEmplyTags.Checked = OmitEmptyXMLTags;
 
             ComboBoxFileName.Text = MetaDataFilename;
 
@@ -347,6 +353,7 @@ namespace Win_CBZ.Forms
                     ConversionQualityValue = ImageQualityTrackBar.Value;
                     MetaDataFilename = ComboBoxFileName.Text;
                     MetaPageIndexWriteVersion = ComboBoxPageIndexVersionWrite.SelectedIndex + 1;
+                    OmitEmptyXMLTags = CheckBoxPruneEmplyTags.Checked;
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {

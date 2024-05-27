@@ -3980,6 +3980,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ImageConversionQuality = settingsDialog.ConversionQualityValue;
                 Win_CBZSettings.Default.MetaDataFilename = settingsDialog.MetaDataFilename;
                 Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = settingsDialog.MetaPageIndexWriteVersion;
+                Win_CBZSettings.Default.OmitEmptyXMLTags = settingsDialog.OmitEmptyXMLTags;
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)
