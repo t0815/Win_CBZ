@@ -96,10 +96,42 @@ namespace Win_CBZ
 
             Width = Win_CBZSettings.Default.WindowW;
             Height = Win_CBZSettings.Default.WindowH;
-            MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
-            SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
-            SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
-            PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
+
+            try
+            {
+                MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
+            } catch (Exception e)
+            {
+                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter1'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            }
+
+            try
+            {
+                SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
+            }
+            catch (Exception e)
+            {
+                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter2'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            }
+
+            try
+            {
+                SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
+            }
+            catch (Exception e)
+            {
+                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter3'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            }
+
+            try
+            {
+                PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
+            }
+            catch (Exception e)
+            {
+                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            }
+          
 
             // First Run App, initialize settings with defaults here  
             if (Win_CBZSettings.Default.FirstRun)
