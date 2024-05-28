@@ -190,6 +190,8 @@ namespace Win_CBZ
             MetaDataFileName = name;
 
             FillMissingDefaultProps();
+
+            ReorderProps();
         }
 
         protected MetaDataEntry HandleNewEntry(String key, String value = null, bool readOnly = false)
@@ -856,6 +858,38 @@ namespace Win_CBZ
             }
 
             return i;
+        }
+
+        public void ReorderProps()
+        {
+            List<MetaDataEntry> sortedProps = new List<MetaDataEntry>();
+
+            bool valueAdded;
+
+            foreach (MetaDataEntry entry in Defaults)
+            {
+                valueAdded = false;
+                foreach (MetaDataEntry v in Values)
+                {
+                    if (v.Key.ToLower().Equals(entry.Key.ToLower()))
+                    {
+                        sortedProps.Add(v);
+                        valueAdded = true;
+                        break;
+                    }
+                }
+
+                if (!valueAdded)
+                {
+                    sortedProps.Add(HandleNewEntry(entry.Key, entry.Value));
+                   
+                }
+
+            }
+
+            Values.Clear();
+
+            sortedProps.ForEach(v => { Values.Add(v); });
         }
 
         public void Validate(MetaDataEntry entry, String newKey)
