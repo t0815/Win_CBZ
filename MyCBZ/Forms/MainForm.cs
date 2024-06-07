@@ -2796,6 +2796,8 @@ namespace Win_CBZ
                     BtnAddMetaData.Enabled = false;
                     BtnRemoveMetaData.Enabled = true;
                     ToolStripButtonShowRawMetadata.Enabled = true;
+                    AddMetaDataRowBtn.Enabled = true;
+
                     DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
                     if (firstCol != null)
                     {
