@@ -1009,8 +1009,14 @@ namespace Win_CBZ
                             {
                                 if (page.TemporaryFile.Exists())
                                 {
-                                    page.TemporaryFile.LocalFileInfo.Delete();
-                                    page.TemporaryFile = null;
+                                    try
+                                    {
+                                        page.DeleteTemporaryFile();
+                                      
+                                    } catch (Exception exd)
+                                    {
+                                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + exd.Message + "]");
+                                    }
                                 }
                                 OnTaskProgress(new TaskProgressEvent(page, deletedIndex, Pages.Count));
                                 deletedIndex++;
@@ -1041,6 +1047,18 @@ namespace Win_CBZ
                                     Page page = GetPageByName(entry.Name);
                                     page?.UpdateImageEntry(entry, RandomId.getInstance().make());
                                 }
+
+                                if (Win_CBZ.Win_CBZSettings.Default.AutoDeleteTempFiles)
+                                {
+                                    foreach (Page page in Pages)
+                                    {
+                                        if (!page.TemporaryFile.Exists())
+                                        {
+                                            page.ThumbnailInvalidated = true;
+                                        }
+                                    }
+                                }
+
                                 IsChanged = false;
                                 IsNew = false;
                                 FileName = tParams.FileName;
