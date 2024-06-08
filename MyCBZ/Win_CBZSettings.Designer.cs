@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.18.130b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.18.131b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -457,6 +457,18 @@ namespace Win_CBZ {
             }
             set {
                 this["OmitEmptyXMLTags"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoDeleteTempFiles {
+            get {
+                return ((bool)(this["AutoDeleteTempFiles"]));
+            }
+            set {
+                this["AutoDeleteTempFiles"] = value;
             }
         }
     }
