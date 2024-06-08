@@ -1002,6 +1002,22 @@ namespace Win_CBZ
                             deletedIndex++;
                         }
 
+                        deletedIndex = 0;
+                        if (Win_CBZ.Win_CBZSettings.Default.AutoDeleteTempFiles)
+                        {
+                            foreach (Page page in Pages)
+                            {
+                                if (page.TemporaryFile.Exists())
+                                {
+                                    page.TemporaryFile.LocalFileInfo.Delete();
+                                    page.TemporaryFile = null;
+                                }
+                                OnTaskProgress(new TaskProgressEvent(page, deletedIndex, Pages.Count));
+                                deletedIndex++;
+                            }
+                                
+                        }
+
                     }
                     catch (Exception mvex)
                     {
@@ -1014,7 +1030,10 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                File.Delete(TemporaryFileName);
+                                if (Win_CBZ.Win_CBZSettings.Default.AutoDeleteTempFiles)
+                                {
+                                    File.Delete(TemporaryFileName);
+                                }
                                 // Reopen source file and update image entries
                                 Archive = ZipFile.Open(tParams.FileName, ZipArchiveMode.Read);
                                 foreach (ZipArchiveEntry entry in Archive.Entries)
@@ -2648,7 +2667,7 @@ namespace Win_CBZ
                     {
                         try
                         {
-                            page.Close(false);
+                            page.Close(!Win_CBZSettings.Default.AutoDeleteTempFiles);
                         }
                         catch (Exception e)
                         {

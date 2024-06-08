@@ -44,6 +44,8 @@ namespace Win_CBZ.Forms
 
         public int MetaPageIndexWriteVersion;
 
+        public bool DeleteTempFilesImediately;
+
         DataValidation validation;
 
         public SettingsDialog()
@@ -73,6 +75,8 @@ namespace Win_CBZ.Forms
             MetaDataFilename = Win_CBZSettings.Default.MetaDataFilename;
 
             OmitEmptyXMLTags = Win_CBZSettings.Default.OmitEmptyXMLTags;
+
+            DeleteTempFilesImediately = Win_CBZSettings.Default.AutoDeleteTempFiles;
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
@@ -104,6 +108,8 @@ namespace Win_CBZ.Forms
             ImageProcessingTabControl.Visible = false;
             AppSettingsTabControl.Visible = false;
             CBZSettingsTabControl.Visible = false;
+
+            CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
 
             CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
             {
@@ -354,6 +360,7 @@ namespace Win_CBZ.Forms
                     MetaDataFilename = ComboBoxFileName.Text;
                     MetaPageIndexWriteVersion = ComboBoxPageIndexVersionWrite.SelectedIndex + 1;
                     OmitEmptyXMLTags = CheckBoxPruneEmplyTags.Checked;
+                    DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
