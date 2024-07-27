@@ -506,6 +506,7 @@ namespace Win_CBZ.Forms
                     ms.Position = 0;
                     // Set to the document stream
                     metaDataView.DocumentStream = ms;
+                    metaDataView.Refresh();
                 } catch (Exception ex)
                 {
                     ApplicationMessage.ShowException(ex);
@@ -541,17 +542,17 @@ namespace Win_CBZ.Forms
             ProgressBarReload.Maximum = Pages.Count;
             int index = 0;
 
+            PreviewThumb?.Dispose();
+            ImagePreviewButton.BackgroundImage?.Dispose();
+
             ImagePreviewButton.BackgroundImage = null;
             PreviewThumb = null;
 
             foreach (Page page in Pages)
             {
                 try
-                {
-                    page.FreeImage();
-                    //page.Close(false);
-                    page.CreateLocalWorkingCopy();
-                    page.LoadImageInfo();
+                {                     
+                    page.Reload();                 
                 }
                 catch (Exception ex)
                 {
@@ -585,6 +586,9 @@ namespace Win_CBZ.Forms
                 {
                     ButtonOk.Enabled = false;
                     //ApplicationMessage.ShowException(xe);
+                } finally 
+                {
+                    FirstPage.FreeImage();  
                 }
 
                 ImagePreviewButton.BackgroundImage = PreviewThumb;

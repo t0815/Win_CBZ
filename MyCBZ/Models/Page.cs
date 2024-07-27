@@ -1182,6 +1182,15 @@ namespace Win_CBZ
             return ms;
         }
 
+        public void Reload()
+        {
+            FreeImage();
+            DeleteTemporaryFile();
+            TemporaryFileId = RandomId.getInstance().make();
+            TemporaryFile = RequestTemporaryFile();
+            LoadImageInfo();
+        }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Close(bool keepTemporaryFiles = true)
         {
@@ -1412,7 +1421,7 @@ namespace Win_CBZ
                     TemporaryFile.Refresh();
                 } catch (Exception e)
                 {
-                    throw new PageException(this, "Unable to delete temporary files from disk!", true, e);
+                    throw new PageException(this, "Unable to delete temporary files (" + TemporaryFile.FullPath + ") from disk!", true, e);
                 }
             }
         }
@@ -1591,8 +1600,8 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    Image?.Dispose();
-                    Image = null;
+                    //Image?.Dispose();
+                    //Image = null;
                 }
             }
 
@@ -1922,9 +1931,11 @@ namespace Win_CBZ
                                 else
                                 {
                                     Image imgMeta = null;
+                                    Stream MetaStream = null;
                                     try
                                     {
-                                        imgMeta = Image.FromStream(stream: File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.Read),
+                                        MetaStream = File.Open(TemporaryFile.FullPath, FileMode.Open, FileAccess.Read);
+                                        imgMeta = Image.FromStream(stream: MetaStream,
                                                                             useEmbeddedColorManagement: false,
                                                                             validateImageData: false);
                                         Format.W = imgMeta.Width;
@@ -1940,6 +1951,8 @@ namespace Win_CBZ
                                     finally
                                     {
                                         imgMeta?.Dispose();
+                                        MetaStream?.Close();
+                                        MetaStream?.Dispose();
                                     }
                                 }
                             }
@@ -2005,14 +2018,17 @@ namespace Win_CBZ
                 ImageStream.Dispose();
             }
 
-            if (IsMemoryCopy)
+            if (Thumbnail != null)
             {
-                if (ImageStreamMemoryCopy != null)
-                {
-                    ImageStreamMemoryCopy.Close();
-                    ImageStreamMemoryCopy.Dispose();
-                }
+                Thumbnail = null;
             }
+
+            if (ImageStreamMemoryCopy != null)
+            {
+                ImageStreamMemoryCopy.Close();
+                ImageStreamMemoryCopy.Dispose();
+            }
+            
 
             Invalidated = true;
         }
