@@ -57,7 +57,7 @@ namespace Win_CBZ
 
         public void Refresh()
         {
-            LocalFileInfo.Refresh();
+            LocalFileInfo?.Refresh();
 
             try
             {

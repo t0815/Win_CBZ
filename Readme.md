@@ -34,7 +34,7 @@ standard described here: https://github.com/anansi-project/comicinfo
 
 ## Planned > 1.0
 
-- CBR support (meed to replace default system.io zip compression lib)
+- CBR support (need to replace default system.io zip compression lib)
 - Various UI Improvements
 - Image Editor
 

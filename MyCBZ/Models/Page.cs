@@ -1409,6 +1409,7 @@ namespace Win_CBZ
                 try
                 {
                     File.Delete(TemporaryFile.FullPath);
+                    TemporaryFile.Refresh();
                 } catch (Exception e)
                 {
                     throw new PageException(this, "Unable to delete temporary files from disk!", true, e);
@@ -1421,6 +1422,7 @@ namespace Win_CBZ
             if (!ReadOnly)
             {
                 File.Delete(LocalFile.FullPath);
+                LocalFile.Refresh();
             }           
         }
 

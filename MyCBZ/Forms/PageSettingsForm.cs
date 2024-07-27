@@ -527,5 +527,34 @@ namespace Win_CBZ.Forms
         {
 
         }
+
+        private void ButtonReloadImage_Click(object sender, EventArgs e)
+        {
+            foreach (Page page in Pages)
+            {
+                page.CreateLocalWorkingCopy();
+            }
+
+            try
+            {
+                FirstPage = new Page(Pages[0]);   // todo: maybe use memory copy here too and just set real memorycopy state
+                PreviewThumb = FirstPage.GetThumbnail();
+            }
+            catch (PageMemoryIOException pme)
+            {
+                ButtonOk.Enabled = false;
+                if (pme.ShowErrorDialog)
+                {
+                    ApplicationMessage.ShowException(pme);
+                }
+            }
+            catch (Exception pe)
+            {
+                ButtonOk.Enabled = false;
+                ApplicationMessage.ShowException(pe);
+            }
+
+            ImagePreviewButton.BackgroundImage = PreviewThumb;
+        }
     }
 }
