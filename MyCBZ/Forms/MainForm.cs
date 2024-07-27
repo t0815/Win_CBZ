@@ -3563,8 +3563,17 @@ namespace Win_CBZ
 
                 //Page editPage = new Page(page);
 
+                DialogResult dlgResult = DialogResult.None;
                 PageSettingsForm pageSettingsForm = new PageSettingsForm(pageProperties);
-                DialogResult dlgResult = pageSettingsForm.ShowDialog();
+
+                try
+                {
+                    dlgResult = pageSettingsForm.ShowDialog();
+                } catch (Exception ex)
+                {
+                    ApplicationMessage.ShowException(ex); 
+                }
+            
 
                 if (dlgResult == DialogResult.OK)
                 {

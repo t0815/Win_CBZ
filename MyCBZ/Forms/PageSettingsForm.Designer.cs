@@ -36,6 +36,7 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.InfoIconTooltip = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.ProgressBarReload = new System.Windows.Forms.ProgressBar();
             this.HeaderPanel = new System.Windows.Forms.Panel();
             this.HeaderLabel = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -117,21 +118,23 @@
             this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            this.SettingsTablePanel.Size = new System.Drawing.Size(773, 555);
+            this.SettingsTablePanel.Size = new System.Drawing.Size(724, 555);
             this.SettingsTablePanel.TabIndex = 1;
             // 
             // ImagePreviewTableLayout
             // 
             this.ImagePreviewTableLayout.ColumnCount = 1;
-            this.ImagePreviewTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.ImagePreviewTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.ImagePreviewTableLayout.Controls.Add(this.ImagePreviewButton, 0, 0);
             this.ImagePreviewTableLayout.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.ImagePreviewTableLayout.Controls.Add(this.ProgressBarReload, 0, 2);
             this.ImagePreviewTableLayout.Location = new System.Drawing.Point(15, 82);
             this.ImagePreviewTableLayout.Margin = new System.Windows.Forms.Padding(15, 2, 3, 2);
             this.ImagePreviewTableLayout.Name = "ImagePreviewTableLayout";
-            this.ImagePreviewTableLayout.RowCount = 2;
+            this.ImagePreviewTableLayout.RowCount = 3;
             this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.59016F));
             this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.40984F));
+            this.ImagePreviewTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.ImagePreviewTableLayout.Size = new System.Drawing.Size(232, 366);
             this.ImagePreviewTableLayout.TabIndex = 2;
             // 
@@ -142,7 +145,7 @@
             this.ImagePreviewButton.Location = new System.Drawing.Point(3, 2);
             this.ImagePreviewButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ImagePreviewButton.Name = "ImagePreviewButton";
-            this.ImagePreviewButton.Size = new System.Drawing.Size(226, 260);
+            this.ImagePreviewButton.Size = new System.Drawing.Size(226, 254);
             this.ImagePreviewButton.TabIndex = 7;
             this.ImagePreviewButton.UseVisualStyleBackColor = true;
             this.ImagePreviewButton.Click += new System.EventHandler(this.ImagePreviewButton_Click);
@@ -151,10 +154,10 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.InfoIconTooltip);
             this.flowLayoutPanel1.Controls.Add(this.label12);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 274);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 260);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(226, 87);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(226, 83);
             this.flowLayoutPanel1.TabIndex = 8;
             // 
             // InfoIconTooltip
@@ -177,6 +180,13 @@
             this.label12.TabIndex = 0;
             this.label12.Text = "Click on the Image for enlarged Preview";
             // 
+            // ProgressBarReload
+            // 
+            this.ProgressBarReload.Location = new System.Drawing.Point(3, 348);
+            this.ProgressBarReload.Name = "ProgressBarReload";
+            this.ProgressBarReload.Size = new System.Drawing.Size(226, 15);
+            this.ProgressBarReload.TabIndex = 9;
+            // 
             // HeaderPanel
             // 
             this.HeaderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -188,7 +198,7 @@
             this.HeaderPanel.Location = new System.Drawing.Point(3, 2);
             this.HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(767, 76);
+            this.HeaderPanel.Size = new System.Drawing.Size(718, 76);
             this.HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
@@ -216,7 +226,7 @@
             // 
             this.ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOk.Location = new System.Drawing.Point(526, 509);
+            this.ButtonOk.Location = new System.Drawing.Point(477, 509);
             this.ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(111, 33);
@@ -229,7 +239,7 @@
             // 
             this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ButtonCancel.Location = new System.Drawing.Point(643, 509);
+            this.ButtonCancel.Location = new System.Drawing.Point(594, 509);
             this.ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ButtonCancel.Name = "ButtonCancel";
             this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
@@ -263,7 +273,7 @@
             this.TabControlPageProperties.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TabControlPageProperties.Name = "TabControlPageProperties";
             this.TabControlPageProperties.SelectedIndex = 0;
-            this.TabControlPageProperties.Size = new System.Drawing.Size(517, 412);
+            this.TabControlPageProperties.Size = new System.Drawing.Size(468, 412);
             this.TabControlPageProperties.TabIndex = 6;
             this.TabControlPageProperties.SelectedIndexChanged += new System.EventHandler(this.TabControlPageProperties_SelectedIndexChanged);
             // 
@@ -274,7 +284,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(509, 383);
+            this.tabPage1.Size = new System.Drawing.Size(460, 383);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Properties";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -288,7 +298,7 @@
             this.panel1.Location = new System.Drawing.Point(3, 2);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(503, 379);
+            this.panel1.Size = new System.Drawing.Size(454, 379);
             this.panel1.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -299,8 +309,8 @@
             this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.LabelSize, 1, 2);
@@ -347,7 +357,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(434, 512);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(374, 512);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label3
@@ -443,7 +453,7 @@
             this.PageNameTextBox.Location = new System.Drawing.Point(125, 194);
             this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.PageNameTextBox.Name = "PageNameTextBox";
-            this.PageNameTextBox.Size = new System.Drawing.Size(199, 22);
+            this.PageNameTextBox.Size = new System.Drawing.Size(160, 22);
             this.PageNameTextBox.TabIndex = 2;
             this.PageNameTextBox.TextChanged += new System.EventHandler(this.PageNameTextBox_TextChanged);
             // 
@@ -491,7 +501,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(335, 38);
+            this.label8.Location = new System.Drawing.Point(298, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -503,7 +513,7 @@
             // LabelBits
             // 
             this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(370, 38);
+            this.LabelBits.Location = new System.Drawing.Point(333, 38);
             this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBits.Name = "LabelBits";
             this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -517,7 +527,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(331, 76);
+            this.label7.Location = new System.Drawing.Point(294, 76);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -529,7 +539,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(370, 76);
+            this.LabelImageColors.Location = new System.Drawing.Point(333, 76);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -560,7 +570,7 @@
             this.KeyEditorPanel.Location = new System.Drawing.Point(125, 232);
             this.KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.KeyEditorPanel.Name = "KeyEditorPanel";
-            this.KeyEditorPanel.Size = new System.Drawing.Size(198, 22);
+            this.KeyEditorPanel.Size = new System.Drawing.Size(160, 22);
             this.KeyEditorPanel.TabIndex = 25;
             // 
             // textBoxKey
@@ -681,7 +691,7 @@
             this.ComboBoxPageType.Location = new System.Drawing.Point(123, 270);
             this.ComboBoxPageType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.ComboBoxPageType.Name = "ComboBoxPageType";
-            this.ComboBoxPageType.Size = new System.Drawing.Size(200, 24);
+            this.ComboBoxPageType.Size = new System.Drawing.Size(162, 24);
             this.ComboBoxPageType.TabIndex = 27;
             this.ComboBoxPageType.TextUpdate += new System.EventHandler(this.ComboBoxPageType_TextUpdate);
             this.ComboBoxPageType.TextChanged += new System.EventHandler(this.ComboBoxPageType_TextChanged);
@@ -715,7 +725,7 @@
             // 
             this.pictureBox2.Image = global::Win_CBZ.Properties.Resources.information;
             this.pictureBox2.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.pictureBox2.Location = new System.Drawing.Point(331, 228);
+            this.pictureBox2.Location = new System.Drawing.Point(292, 228);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(23, 23);
@@ -727,7 +737,7 @@
             // ButtonReloadImage
             // 
             this.ButtonReloadImage.Image = global::Win_CBZ.Properties.Resources.arrow_circle2;
-            this.ButtonReloadImage.Location = new System.Drawing.Point(369, 3);
+            this.ButtonReloadImage.Location = new System.Drawing.Point(332, 3);
             this.ButtonReloadImage.Name = "ButtonReloadImage";
             this.ButtonReloadImage.Size = new System.Drawing.Size(32, 23);
             this.ButtonReloadImage.TabIndex = 31;
@@ -743,7 +753,7 @@
             this.TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 4, 3, 2);
             this.TextBoxFileLocation.Name = "TextBoxFileLocation";
             this.TextBoxFileLocation.ReadOnly = true;
-            this.TextBoxFileLocation.Size = new System.Drawing.Size(240, 22);
+            this.TextBoxFileLocation.Size = new System.Drawing.Size(203, 22);
             this.TextBoxFileLocation.TabIndex = 5;
             // 
             // tabPage2
@@ -753,7 +763,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(509, 383);
+            this.tabPage2.Size = new System.Drawing.Size(460, 383);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Page XML";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -788,7 +798,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ButtonCancel;
-            this.ClientSize = new System.Drawing.Size(773, 555);
+            this.ClientSize = new System.Drawing.Size(724, 555);
             this.Controls.Add(this.SettingsTablePanel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -798,6 +808,7 @@
             this.Text = "Page Properties";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PageSettingsForm_FormClosing);
             this.Load += new System.EventHandler(this.PageSettingsForm_Load_1);
+            this.Shown += new System.EventHandler(this.PageSettingsForm_Shown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PageSettingsForm_KeyUp);
             this.SettingsTablePanel.ResumeLayout(false);
             this.ImagePreviewTableLayout.ResumeLayout(false);
@@ -873,5 +884,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ToolTip Tooltip;
         private System.Windows.Forms.Button ButtonReloadImage;
+        private System.Windows.Forms.ProgressBar ProgressBarReload;
     }
 }

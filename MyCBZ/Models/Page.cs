@@ -1561,6 +1561,44 @@ namespace Win_CBZ
             return Thumbnail;
         }
 
+        public Bitmap GetThumbnailBitmap()
+        {
+            if (!Closed)
+            {
+                LoadImage();
+            }
+
+            if (Image != null)
+            {
+                try
+                {
+                    var newBitmap = new Bitmap(ThumbW, ThumbH);
+                    using (Graphics g = Graphics.FromImage(newBitmap))
+                    {
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        g.CompositingQuality = CompositingQuality.HighQuality;
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.DrawImage(Image, new Rectangle(0, 0, ThumbW, ThumbH));
+                    }
+                    
+                    return newBitmap;
+                    //openBitmap.Dispose(); //Clear The Old Large Bitmap From Memory
+                }
+                catch (Exception et)
+                {
+                    throw new PageException(this, et.Message, true, et);
+                }
+                finally
+                {
+                    Image?.Dispose();
+                    Image = null;
+                }
+            }
+
+            return null;
+        }
+
         /*
          * This will use Windows api fetching cached explorer thumbs
          */
@@ -1952,6 +1990,14 @@ namespace Win_CBZ
         public void FreeImage()
         {
             Image?.Dispose();
+
+            Thumbnail?.Dispose();
+
+            ImageInfo?.Dispose();
+
+            ImageMetaDataLoaded = false;
+
+            ImageLoaded = false;
 
             if (ImageStream != null)
             {
