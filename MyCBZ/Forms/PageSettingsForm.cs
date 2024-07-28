@@ -80,7 +80,7 @@ namespace Win_CBZ.Forms
 
                 try
                 {
-                    FirstPage = new Page(pages[0]);   // todo: maybe use memory copy here too and just set real memorycopy state
+                    FirstPage = new Page(pages[0], true);   // todo: maybe use memory copy here too and just set real memorycopy state
                     PreviewThumb = FirstPage.GetThumbnailBitmap();
                 }
                 catch (PageMemoryIOException pme)
@@ -495,7 +495,7 @@ namespace Win_CBZ.Forms
                     // Read the xml string.
                     XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
                     xmlReaderSettings.ConformanceLevel = ConformanceLevel.Fragment;
-                    MemoryStream sr = Pages[0].Serialize(Program.ProjectModel.ProjectGUID, false, true);
+                    MemoryStream sr = FirstPage.Serialize(Program.ProjectModel.ProjectGUID, false, true);
                     XmlReader xReader = XmlReader.Create(sr, xmlReaderSettings);
 
                     // Transform the XML data
@@ -505,8 +505,27 @@ namespace Win_CBZ.Forms
 
                     ms.Position = 0;
                     // Set to the document stream
-                    metaDataView.DocumentStream = ms;
-                    metaDataView.Refresh();
+                    //ms.CopyTo(docStream);
+                    TextReader tr = new StreamReader(ms);
+
+                    string xml = tr.ReadToEnd();
+
+                    metaDataView.DocumentText = xml;
+
+                    //docStream.Position = 0;
+                    //metaDataView.DocumentStream?.Close();
+                    //metaDataView.DocumentStream?.Dispose();
+                    //metaDataView.DocumentStream = null;
+                    //metaDataView.AllowNavigation = false;
+                    //metaDataView.Navigate("about:blank");
+                    //metaDataView.Update();
+                    ///metaDataView.
+                    //metaDataView.Document.OpenNew(false);
+                    
+                    //metaDataView.Refresh();
+                    
+                    
+                    
                 } catch (Exception ex)
                 {
                     ApplicationMessage.ShowException(ex);
@@ -571,12 +590,12 @@ namespace Win_CBZ.Forms
 
                 try
                 {
-                    FirstPage = new Page(Pages[0]);   // todo: maybe use memory copy here too and just set real memorycopy state
+                    FirstPage = new Page(Pages[0], true);   // todo: maybe use memory copy here too and just set real memorycopy state
                     PreviewThumb = FirstPage.GetThumbnailBitmap();
                 }
                 catch (PageMemoryIOException pme)
                 {
-                    ButtonOk.Enabled = false;
+                    //ButtonOk.Enabled = false;
                     if (pme.ShowErrorDialog)
                     {
                         //ApplicationMessage.ShowException(pme);
@@ -584,7 +603,7 @@ namespace Win_CBZ.Forms
                 }
                 catch (Exception xe)
                 {
-                    ButtonOk.Enabled = false;
+                    //ButtonOk.Enabled = false;
                     //ApplicationMessage.ShowException(xe);
                 } finally 
                 {

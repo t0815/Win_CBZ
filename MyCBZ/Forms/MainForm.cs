@@ -847,6 +847,8 @@ namespace Win_CBZ
                 {
                     try
                     {
+                        page.ThumbnailInvalidated = true;
+
                         if (!PageImages.Images.ContainsKey(page.Id))
                         {
                             PageImages.Images.Add(page.Id, page.GetThumbnail());
@@ -1163,6 +1165,7 @@ namespace Win_CBZ
             PageView.Invoke(new Action(() =>
             {
                 PageView.Items.Clear();
+                PageThumbsListBox.Items.Clear();
                 PageImages.Images.Clear();
 
                 foreach (Page page in Program.ProjectModel.Pages)
@@ -3540,6 +3543,7 @@ namespace Win_CBZ
             List<Page> pageProperties = new List<Page>();
             List<Page> originalPages = new List<Page>();
             bool pageIndexUpdateNeeded = false;
+            bool pageImageUpdateNeeded = false;
             String indexRebuildMessage = "";
 
             if (PagesList.SelectedItems.Count > 0)
@@ -3650,9 +3654,12 @@ namespace Win_CBZ
                                 pageResult.Name != pageProperties[i].Name ||
                                 pageResult.Key != pageProperties[i].Key ||
                                 pageResult.Index != pageProperties[i].Index ||
-                                pageResult.ImageType != pageProperties[i].ImageType
+                                pageResult.ImageType != pageProperties[i].ImageType ||
+                                pageResult.TemporaryFileId != pageProperties[i].TemporaryFileId
                                 )
                             {
+                                pageImageUpdateNeeded = pageResult.TemporaryFileId != pageProperties[i].TemporaryFileId;
+
                                 try
                                 {
                                     if (pagesResult.Count == 1)
@@ -3679,6 +3686,7 @@ namespace Win_CBZ
                             }
 
                             pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
+                            
                             if (!pageResult.Deleted)
                             {
                                 if (pageProperties[i].Name != pageResult.Name)
@@ -3708,7 +3716,7 @@ namespace Win_CBZ
                                             //    ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                                             //}
                                         }
-                                        
+
                                         //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
                                         PageChanged(null, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_RENAMED));
@@ -3779,6 +3787,12 @@ namespace Win_CBZ
                 pageSettingsForm.FreeResult();
                 pageSettingsForm.Dispose();
 
+                if (dlgResult == DialogResult.OK && pageImageUpdateNeeded)
+                {
+                    UpdatePageView();
+                }
+                    
+                
                 if (pageIndexUpdateNeeded)
                 {
                     HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));

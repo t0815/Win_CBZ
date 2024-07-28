@@ -186,6 +186,7 @@
             this.ProgressBarReload.Name = "ProgressBarReload";
             this.ProgressBarReload.Size = new System.Drawing.Size(226, 15);
             this.ProgressBarReload.TabIndex = 9;
+            this.ProgressBarReload.Visible = false;
             // 
             // HeaderPanel
             // 
@@ -357,7 +358,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(374, 512);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(353, 512);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label3
@@ -453,7 +454,7 @@
             this.PageNameTextBox.Location = new System.Drawing.Point(125, 194);
             this.PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.PageNameTextBox.Name = "PageNameTextBox";
-            this.PageNameTextBox.Size = new System.Drawing.Size(160, 22);
+            this.PageNameTextBox.Size = new System.Drawing.Size(139, 22);
             this.PageNameTextBox.TabIndex = 2;
             this.PageNameTextBox.TextChanged += new System.EventHandler(this.PageNameTextBox_TextChanged);
             // 
@@ -501,7 +502,7 @@
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(298, 38);
+            this.label8.Location = new System.Drawing.Point(277, 38);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -513,7 +514,7 @@
             // LabelBits
             // 
             this.LabelBits.AutoSize = true;
-            this.LabelBits.Location = new System.Drawing.Point(333, 38);
+            this.LabelBits.Location = new System.Drawing.Point(312, 38);
             this.LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelBits.Name = "LabelBits";
             this.LabelBits.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -527,7 +528,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(294, 76);
+            this.label7.Location = new System.Drawing.Point(273, 76);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -539,7 +540,7 @@
             // LabelImageColors
             // 
             this.LabelImageColors.AutoSize = true;
-            this.LabelImageColors.Location = new System.Drawing.Point(333, 76);
+            this.LabelImageColors.Location = new System.Drawing.Point(312, 76);
             this.LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelImageColors.Name = "LabelImageColors";
             this.LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
@@ -570,7 +571,7 @@
             this.KeyEditorPanel.Location = new System.Drawing.Point(125, 232);
             this.KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 4, 3, 2);
             this.KeyEditorPanel.Name = "KeyEditorPanel";
-            this.KeyEditorPanel.Size = new System.Drawing.Size(160, 22);
+            this.KeyEditorPanel.Size = new System.Drawing.Size(139, 22);
             this.KeyEditorPanel.TabIndex = 25;
             // 
             // textBoxKey
@@ -691,7 +692,7 @@
             this.ComboBoxPageType.Location = new System.Drawing.Point(123, 270);
             this.ComboBoxPageType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.ComboBoxPageType.Name = "ComboBoxPageType";
-            this.ComboBoxPageType.Size = new System.Drawing.Size(162, 24);
+            this.ComboBoxPageType.Size = new System.Drawing.Size(141, 24);
             this.ComboBoxPageType.TabIndex = 27;
             this.ComboBoxPageType.TextUpdate += new System.EventHandler(this.ComboBoxPageType_TextUpdate);
             this.ComboBoxPageType.TextChanged += new System.EventHandler(this.ComboBoxPageType_TextChanged);
@@ -725,7 +726,7 @@
             // 
             this.pictureBox2.Image = global::Win_CBZ.Properties.Resources.information;
             this.pictureBox2.InitialImage = global::Win_CBZ.Properties.Resources.information;
-            this.pictureBox2.Location = new System.Drawing.Point(292, 228);
+            this.pictureBox2.Location = new System.Drawing.Point(271, 228);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(23, 23);
@@ -737,7 +738,7 @@
             // ButtonReloadImage
             // 
             this.ButtonReloadImage.Image = global::Win_CBZ.Properties.Resources.arrow_circle2;
-            this.ButtonReloadImage.Location = new System.Drawing.Point(332, 3);
+            this.ButtonReloadImage.Location = new System.Drawing.Point(311, 3);
             this.ButtonReloadImage.Name = "ButtonReloadImage";
             this.ButtonReloadImage.Size = new System.Drawing.Size(32, 23);
             this.ButtonReloadImage.TabIndex = 31;
@@ -753,7 +754,7 @@
             this.TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 4, 3, 2);
             this.TextBoxFileLocation.Name = "TextBoxFileLocation";
             this.TextBoxFileLocation.ReadOnly = true;
-            this.TextBoxFileLocation.Size = new System.Drawing.Size(203, 22);
+            this.TextBoxFileLocation.Size = new System.Drawing.Size(182, 22);
             this.TextBoxFileLocation.TabIndex = 5;
             // 
             // tabPage2
@@ -780,7 +781,7 @@
             this.metaDataView.MinimumSize = new System.Drawing.Size(20, 20);
             this.metaDataView.Name = "metaDataView";
             this.metaDataView.ScriptErrorsSuppressed = true;
-            this.metaDataView.Size = new System.Drawing.Size(500, 355);
+            this.metaDataView.Size = new System.Drawing.Size(451, 355);
             this.metaDataView.TabIndex = 4;
             this.metaDataView.WebBrowserShortcutsEnabled = false;
             // 
