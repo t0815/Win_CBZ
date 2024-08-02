@@ -1212,7 +1212,7 @@ namespace Win_CBZ
             if (Compressed || CompressedEntry != null)
             {
                 CompressedEntry = null;
-                Compressed = false;
+                //Compressed = false;  // dont reset page compressed state!
             }
         }
 
