@@ -1186,6 +1186,82 @@ namespace Win_CBZ
             }));
         }
 
+        public void RefreshPageView()
+        {
+            if (Win_CBZSettings.Default.PagePreviewEnabled)
+            {
+                if (MovePagesThread != null)
+                {
+                    if (MovePagesThread.IsAlive)
+                    {
+
+                    }
+                }
+
+                if (MoveItemsThread != null)
+                {
+                    if (MoveItemsThread.IsAlive)
+                    {
+
+                    }
+                }
+
+                if (ThumbnailThread != null)
+                {
+                    if (ThumbnailThread.IsAlive)
+                    {
+                        ThumbnailThread.Join();
+                    }
+                }
+
+                if (RequestThumbnailThread != null)
+                {
+                    if (RequestThumbnailThread.IsAlive)
+                    {
+                        RequestImageInfoThread.Abort();
+                    }
+                }
+
+                if (RequestImageInfoThread != null)
+                {
+                    if (RequestImageInfoThread.IsAlive)
+                    {
+                        RequestImageInfoThread.Abort();
+                    }
+                }
+
+                if (UpdatePageViewThread != null)
+                {
+                    if (UpdatePageViewThread.IsAlive)
+                    {
+                        UpdatePageViewThread.Join();
+                    }
+                }
+
+                UpdatePageViewThread = new Thread(new ThreadStart(RefreshPageViewProc));
+                UpdatePageViewThread.Start();
+            }
+        }
+
+        private void RefreshPageViewProc()
+        {
+            PageThumbsListBox.Invoke(new Action(() =>
+            {
+                int thumbIndex = -1;
+                foreach (Page item in PageThumbsListBox.Items)
+                {
+                    thumbIndex = PageThumbsListBox.Items.IndexOf(item);
+
+                    PageImages.Images.RemoveByKey(item.Id);
+                    PageImages.Images.Add(item.Id, item.GetThumbnailBitmap());
+                    item.FreeImage();
+                    PageThumbsListBox.Items[thumbIndex] = item;
+                }
+
+                PageThumbsListBox.Refresh();
+            }));
+        }
+
         private void TaskProgress(object sender, TaskProgressEvent e)
         {
             try
@@ -3582,6 +3658,7 @@ namespace Win_CBZ
                 if (dlgResult == DialogResult.OK)
                 {
                     int i = 0;
+                    int thumbIndex = -1;
                     List<Page> pagesResult = pageSettingsForm.GetResult();
                     foreach (Page pageResult in pagesResult)
                     {
@@ -3649,6 +3726,8 @@ namespace Win_CBZ
                                 //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
                             }
 
+                            
+
                             if (pageResult.Deleted != pageProperties[i].Deleted ||
                                 pageResult.DoublePage != pageProperties[i].DoublePage ||
                                 pageResult.Name != pageProperties[i].Name ||
@@ -3681,6 +3760,8 @@ namespace Win_CBZ
                                     }
                                 }
 
+                                thumbIndex = PageThumbsListBox.Items.IndexOf(pageToUpdate);
+
                                 PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
                                 ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                             }
@@ -3689,6 +3770,19 @@ namespace Win_CBZ
                             
                             if (!pageResult.Deleted)
                             {
+                                if (dlgResult == DialogResult.OK && pageImageUpdateNeeded)
+                                {
+                                    pageToUpdate.ThumbnailInvalidated = true;
+                                    if (thumbIndex > -1)
+                                    {
+                                        PageImages.Images.RemoveByKey(pageToUpdate.Id);
+                                        PageImages.Images.Add(pageToUpdate.Id, pageToUpdate.GetThumbnailBitmap());
+                                        pageToUpdate.FreeImage();
+                                        PageThumbsListBox.Items[thumbIndex] = pageToUpdate;
+                                        PageThumbsListBox.Refresh();
+                                    }
+                                }
+
                                 if (pageProperties[i].Name != pageResult.Name)
                                 {
                                     try
@@ -3778,6 +3872,8 @@ namespace Win_CBZ
 
                                     ApplicationMessage.ShowException(ex);
                                 }
+
+                                
                             }
                         }
                     }
