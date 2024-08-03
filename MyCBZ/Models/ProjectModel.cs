@@ -1070,10 +1070,7 @@ namespace Win_CBZ
                         }
                         else
                         {
-                            foreach (Page page in Pages)
-                            {
-                                page.FreeCompressedEntry();
-                            }
+                            
                         }
                     }
                 }
