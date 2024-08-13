@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Company>Trash s0Ft</Company>
+    <Copyright>Copyright ©  2022-2025</Copyright>
+    <Description>Windows CBZ (ComicBookZip) Archive Editor</Description>
+    <Authors>t0815</Authors>
+  </PropertyGroup>
+  <PropertyGroup>
     <TargetFramework>net8.0-windows7.0</TargetFramework>
     <OutputType>WinExe</OutputType>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -39,6 +45,9 @@
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Properties\AssemblyInfo.cs.bak" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Components\CustomDataGridView\CustomDataGridView.cs" />
     <Compile Update="Components\ExtendedListView\ExtendetListView.cs" />
     <Compile Update="Components\Rating\Rating.cs" />
@@ -64,6 +73,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs.bak" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

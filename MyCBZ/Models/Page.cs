@@ -214,6 +214,7 @@ namespace Win_CBZ
             FileExtension = ExtractFileExtension(entry.Name);
             Name = entry.Name;
             Size = entry.Length;
+            Hash = entry.Crc32.ToString("X");
             EntryName = entry.Name;
             LastModified = entry.LastWriteTime;
             Id = Guid.NewGuid().ToString();
@@ -283,6 +284,7 @@ namespace Win_CBZ
             Deleted = sourcePage.Deleted;
             OriginalName = sourcePage.OriginalName;
             Key = sourcePage.Key;
+            Hash = sourcePage.Hash;
             ThumbH = ThumbHeight;
             ThumbW = ThumbWidth;
 
@@ -356,6 +358,7 @@ namespace Win_CBZ
                 Format = sourcePage.Format;
                 ImageType = sourcePage.ImageType;
                 LastModified = sourcePage.LastModified;
+                Hash = sourcePage.Hash;
 
                 Changed = sourcePage.Changed;
                 ReadOnly = sourcePage.ReadOnly;
@@ -888,7 +891,8 @@ namespace Win_CBZ
             ImageTask = page.ImageTask;
             Format = page.Format;
             DoublePage = page.DoublePage;
-
+            Hash = page.Hash;
+            LastModified = page.LastModified;
 
             TemporaryFile = page.TemporaryFile;
 

@@ -605,7 +605,9 @@ namespace Win_CBZ
                             Number = index + 1,
                             Index = index,
                             OriginalIndex = index,
-                            Size = entry.Length
+                            Size = entry.Length,
+                            Hash = entry.Crc32.ToString("X"),
+                            LastModified = entry.LastWriteTime
                         };
                         // too slow
                         //page.LoadImageInfo();
