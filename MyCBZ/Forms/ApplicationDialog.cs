@@ -142,7 +142,7 @@ namespace Win_CBZ.Forms
             DialogButton.DialogResult = result;
             DialogButton.TabIndex = index;
             DialogButton.Height = 34;
-            // DialogButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            DialogButton.Anchor = AnchorStyles.Right | AnchorStyles.Left;
             ErrorDialogTablePanel.Controls.Add(DialogButton, index, 2);
             _existingButtons |= btn;
 
