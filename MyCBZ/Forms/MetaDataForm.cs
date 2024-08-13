@@ -11,9 +11,11 @@ using System.Xml.Xsl;
 using System.Xml;
 using System.Data.SqlTypes;
 using System.IO;
+using System.Runtime.Versioning;
 
 namespace Win_CBZ.Forms
 {
+    [SupportedOSPlatform("windows")]
     internal partial class MetaDataForm : Form
     {
         MetaData MetaData;
@@ -77,7 +79,7 @@ namespace Win_CBZ.Forms
             xsltManifest.Close();
             xslReader.Close();
 
-            xTrans.TemporaryFiles.Delete();
+            //xTrans.TemporaryFiles.Delete();
             
             xReader.Close();
             xReader.Dispose();

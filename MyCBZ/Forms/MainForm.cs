@@ -36,10 +36,11 @@ using static Win_CBZ.MetaData;
 using SharpCompress.Common;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Diagnostics;
-using System.IdentityModel.Protocols.WSTrust;
+using System.Runtime.Versioning;
 
 namespace Win_CBZ
 {
+    [SupportedOSPlatform("windows")]
     public partial class MainForm : Form
     {
 
@@ -3885,7 +3886,7 @@ namespace Win_CBZ
 
                 if (dlgResult == DialogResult.OK && pageImageUpdateNeeded)
                 {
-                    UpdatePageView();
+                    //RefreshPageView();
                 }
                     
                 

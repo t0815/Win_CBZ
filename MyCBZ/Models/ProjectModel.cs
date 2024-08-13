@@ -19,7 +19,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using File = System.IO.File;
 using Zip = System.IO.Compression.ZipArchive;
 using System.Drawing;
-using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms.VisualStyles;
 using System.Collections;
 using Win_CBZ.Data;
@@ -36,9 +35,11 @@ using Win_CBZ.Helper;
 using System.Xml.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using static Win_CBZ.MetaData;
+using System.Runtime.Versioning;
 
 namespace Win_CBZ
 {
+    [SupportedOSPlatform("windows")]
     internal class ProjectModel
     {
         public String Name { get; set; }
@@ -603,7 +604,8 @@ namespace Win_CBZ
                         {
                             Number = index + 1,
                             Index = index,
-                            OriginalIndex = index
+                            OriginalIndex = index,
+                            Size = entry.Length
                         };
                         // too slow
                         //page.LoadImageInfo();
@@ -673,7 +675,7 @@ namespace Win_CBZ
                         OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
                         OnTaskProgress(new TaskProgressEvent(page, index, countEntries));
 
-                        totalSize += itemSize;
+                        totalSize += page.Size;
                         index++;
                     }
 
@@ -1333,7 +1335,7 @@ namespace Win_CBZ
                                     {
                                         if (frontCover != null && !frontPageHeightErrorLogged && frontCover.Format.H < maxStoryPageHeight)
                                         {
-                                            problems.Add("Pages->Page: Height for page [" + frontCover.Id + "] of type 'FrontCover' is less than max height of page with type 'Story' [" + frontCover.Format.H + " < " + maxStoryPageHeight + "], which may cause in distorted covers being generated!");
+                                            problems.Add("Pages->Page: Height for page [" + frontCover.Id + "] of type 'FrontCover' is less than max height of page with type 'Story' [" + frontCover.Format.H + " < " + maxStoryPageHeight + "], which may result in distorted covers being generated!");
                                             frontPageHeightErrorLogged = true;
                                         }
                                     }

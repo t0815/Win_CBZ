@@ -4,14 +4,15 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using static Win_CBZ.ApplicationMessage;
 
 namespace Win_CBZ.Forms
 {
+    [SupportedOSPlatform("windows")]
     public partial class ApplicationDialog : Form
     {
         private DialogType _type;

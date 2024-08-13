@@ -10,4 +10,57 @@
     <FallbackCulture>de-DE</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Components\CustomDataGridView\CustomDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Components\ExtendedListView\ExtendetListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Components\Rating\Rating.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Forms\AboutDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ApplicationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DebugForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\EditImageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ExtractFilesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ImagePreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\KeyValueEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\LanguageEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\MetaDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\PageSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\TagEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\TextEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

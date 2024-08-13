@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -17,12 +18,14 @@ using static System.Net.Mime.MediaTypeNames;
 using Brush = System.Drawing.Brush;
 using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
+using Font = System.Drawing.Font;
 using Label = System.Windows.Forms.Label;
 using ListViewItem = System.Windows.Forms.ListViewItem;
 using Pen = System.Drawing.Pen;
 
 namespace Win_CBZ.Forms
 {
+    [SupportedOSPlatform("windows")]
     public partial class TagEditorForm : Form
     {
         private partial class TagItem

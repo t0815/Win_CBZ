@@ -1,17 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}</ProjectGuid>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Win_CBZ</RootNamespace>
-    <AssemblyName>Win_CBZ</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -27,45 +17,16 @@
     <ApplicationVersion>0.18.132.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\TrashSoft.ico</ApplicationIcon>
@@ -75,668 +36,21 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Win_CBZ.Program</StartupObject>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutocompleteMenu, Version=1.3.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutocompleteMenu.1.3.5.0\lib\net40\AutocompleteMenu.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry.AccessControl, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.AccessControl.7.0.0\lib\net462\Microsoft.Win32.Registry.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.SystemEvents, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.SystemEvents.7.0.0\lib\net462\Microsoft.Win32.SystemEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="Scintilla.NET, Version=5.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Scintilla.NET.5.3.1\lib\net45\Scintilla.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="ShaperRater, Version=1.0.7978.36932, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\hima.lib.rating.1.0.0\lib\ShaperRater.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpCompress, Version=0.34.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpCompress.0.34.1\lib\net462\SharpCompress.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.CodeDom, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.7.0.0\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.Odbc, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.Odbc.7.0.0\lib\net462\System.Data.Odbc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.OleDb, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.OleDb.7.0.0\lib\net462\System.Data.OleDb.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.OracleClient" />
-    <Reference Include="System.Data.SqlClient, Version=4.6.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SqlClient.4.8.3\lib\net461\System.Data.SqlClient.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.EventLog, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.EventLog.7.0.0\lib\net462\System.Diagnostics.EventLog.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.PerformanceCounter, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.PerformanceCounter.7.0.0\lib\net462\System.Diagnostics.PerformanceCounter.dll</HintPath>
-    </Reference>
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.DirectoryServices.AccountManagement" />
-    <Reference Include="System.DirectoryServices.Protocols" />
-    <Reference Include="System.Drawing.Common, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.7.0.0\lib\net462\System.Drawing.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.IO.FileSystem.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.FileSystem.AccessControl.5.0.0\lib\net461\System.IO.FileSystem.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Hashing, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Hashing.7.0.0\lib\net462\System.IO.Hashing.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Packaging, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Packaging.7.0.0\lib\net462\System.IO.Packaging.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Pipes.AccessControl, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipes.AccessControl.5.0.0\lib\net461\System.IO.Pipes.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Ports, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Ports.7.0.0\lib\net462\System.IO.Ports.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Context" />
-    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security" />
-    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Cng.5.0.0\lib\net47\System.Security.Cryptography.Cng.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Pkcs, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Pkcs.7.0.0\lib\net462\System.Security.Cryptography.Pkcs.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.ProtectedData, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.7.0.0\lib\net462\System.Security.Cryptography.ProtectedData.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Xml, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Xml.7.0.0\lib\net462\System.Security.Cryptography.Xml.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Permissions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Permissions.7.0.0\lib\net462\System.Security.Permissions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Duplex, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Duplex.4.9.0\lib\net461\System.ServiceModel.Duplex.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Http, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Http.4.9.0\lib\net461\System.ServiceModel.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.NetTcp, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.NetTcp.4.9.0\lib\net461\System.ServiceModel.NetTcp.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Primitives, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Primitives.4.9.0\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Security, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Security.4.9.0\lib\net461\System.ServiceModel.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Syndication, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceModel.Syndication.7.0.0\lib\net462\System.ServiceModel.Syndication.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.ServiceProcess.ServiceController, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ServiceProcess.ServiceController.7.0.0\lib\net462\System.ServiceProcess.ServiceController.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Speech" />
-    <Reference Include="System.Text.Encoding.CodePages, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encoding.CodePages.7.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.AccessControl, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.AccessControl.7.0.0\lib\net462\System.Threading.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Web.Services.Description, Version=4.9.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Web.Services.Description.4.9.0\lib\net461\System.Web.Services.Description.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms.DataVisualization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="ZstdSharp, Version=0.7.3.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
-      <HintPath>..\packages\ZstdSharp.Port.0.7.3\lib\net461\ZstdSharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ApplicationMessage.cs" />
-    <Compile Include="Components\CustomDataGridView\CustomDataGridView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components\CustomDataGridView\CustomDataGridView.Designer.cs">
-      <DependentUpon>CustomDataGridView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ExtendedListView\CancelListViewItemDragEventArgs.cs" />
-    <Compile Include="Components\ExtendedListView\ExtendetListView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components\ExtendedListView\ExtendetListView.Designer.cs">
-      <DependentUpon>ExtendetListView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ExtendedListView\InsertionMode.cs" />
-    <Compile Include="Components\ExtendedListView\ListViewItemDragEventArgs.cs" />
-    <Compile Include="Components\Rating\Rating.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components\Rating\Rating.Designer.cs">
-      <DependentUpon>Rating.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\Rating\RatingChangedEvent.cs" />
-    <Compile Include="Components\Rating\Shapes.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Shapes.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Data\AddImagesThreadParams.cs" />
-    <Compile Include="Data\CBZValidationThreadParams.cs" />
-    <Compile Include="Data\EditorTypeConfig.cs" />
-    <Compile Include="Data\ExtractArchiveThreadParams.cs" />
-    <Compile Include="Data\KeyValueItem.cs" />
-    <Compile Include="Data\LanguageList.cs" />
-    <Compile Include="Data\LanguageListItem.cs" />
-    <Compile Include="Data\MetaDataFieldType.cs" />
-    <Compile Include="Data\MinMaxDimensions.cs" />
-    <Compile Include="Data\MoveItemsToThreadParams.cs" />
-    <Compile Include="Data\MovePageThreadParams.cs" />
-    <Compile Include="Data\OpenArchiveThreadParams.cs" />
-    <Compile Include="Data\ParseFilesThreadParams.cs" />
-    <Compile Include="Data\RenamePagesThreadParams.cs" />
-    <Compile Include="Data\SaveArchiveThreadParams.cs" />
-    <Compile Include="Data\StackItem.cs" />
-    <Compile Include="Data\UpdatePageIndicesThreadParams.cs" />
-    <Compile Include="Events\ClipboardChangedEvent.cs" />
-    <Compile Include="Events\ValidatioFinishedEvent.cs" />
-    <Compile Include="Exceptions\ConcurrentOperationException.cs" />
-    <Compile Include="Exceptions\PageMemoryIOException.cs" />
-    <Compile Include="Exceptions\SettingsPatchException.cs" />
-    <Compile Include="Extensions\DataGridExtensions.cs" />
-    <Compile Include="Forms\EditImageForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\EditImageForm.Designer.cs">
-      <DependentUpon>EditImageForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TagEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TagEditorForm.Designer.cs">
-      <DependentUpon>TagEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\KeyValueEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\KeyValueEditor.Designer.cs">
-      <DependentUpon>KeyValueEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\LanguageEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\LanguageEditorForm.Designer.cs">
-      <DependentUpon>LanguageEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Helper\DebugHelper.cs" />
-    <Compile Include="Helper\FactoryDefaults.cs" />
-    <Compile Include="Helper\MetaDataFieldConfig.cs" />
-    <Compile Include="Helper\MetaDataVersionFlavorHandler.cs" />
-    <Compile Include="Helper\PageClipboardMonitor.cs" />
-    <Compile Include="Helper\RandomId.cs" />
-    <Compile Include="Result\ImageTaskResult.cs" />
-    <Compile Include="Result\TaskResult.cs" />
-    <Compile Include="Data\DataValidation.cs" />
-    <Compile Include="Events\GlobalActionRequiredEvent.cs" />
-    <Compile Include="Events\ArchiveOperationEvent.cs" />
-    <Compile Include="Events\ApplicationStatusEvent.cs" />
-    <Compile Include="Events\MetaDataChangedEvent.cs" />
-    <Compile Include="Events\MetaDataLoadEvent.cs" />
-    <Compile Include="Events\PipelineEvent.cs" />
-    <Compile Include="Events\GeneralTaskProgressEvent.cs" />
-    <Compile Include="Events\TaskProgressEvent.cs" />
-    <Compile Include="Exceptions\ApplicationException.cs" />
-    <Compile Include="Exceptions\ImageOperationException.cs" />
-    <Compile Include="Exceptions\MetaDataException.cs" />
-    <Compile Include="Exceptions\MetaDataPageEntryException.cs" />
-    <Compile Include="Exceptions\MetaDataEntryException.cs" />
-    <Compile Include="Exceptions\PageException.cs" />
-    <Compile Include="Exceptions\PageDuplicateNameException.cs" />
-    <Compile Include="Extensions\ZipArchiveExtensions.cs" />
-    <Compile Include="Forms\AboutDialogForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AboutDialogForm.Designer.cs">
-      <DependentUpon>AboutDialogForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ApplicationDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ApplicationDialog.Designer.cs">
-      <DependentUpon>ApplicationDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ExtractFilesDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ExtractFilesDialog.Designer.cs">
-      <DependentUpon>ExtractFilesDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\DebugForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DebugForm.Designer.cs">
-      <DependentUpon>DebugForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\PageSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PageSettingsForm.Designer.cs">
-      <DependentUpon>PageSettingsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MetaDataForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MetaDataForm.Designer.cs">
-      <DependentUpon>MetaDataForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SettingsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SettingsDialog.Designer.cs">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TextEditorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TextEditorForm.Designer.cs">
-      <DependentUpon>TextEditorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Hash\CRC32.cs" />
-    <Compile Include="Img\ImageOperations.cs" />
-    <Compile Include="Img\Jpeg.cs" />
-    <Compile Include="Img\Png.cs" />
-    <Compile Include="MessageLogger.cs" />
-    <Compile Include="Events\ItemExtractedEvent.cs" />
-    <Compile Include="Models\GlobalAction.cs" />
-    <Compile Include="Models\ImageAdjustments.cs" />
-    <Compile Include="Models\ImageTask.cs" />
-    <Compile Include="Models\PageImageFormat.cs" />
-    <Compile Include="Models\PipelinePayload.cs" />
-    <Compile Include="Models\Page.cs" />
-    <Compile Include="ResourceLoader.cs" />
-    <Compile Include="Tasks\ProcessImagesTask.cs" />
-    <Compile Include="Tasks\RebuildPageIndexMetaDataTask.cs" />
-    <Compile Include="Tasks\ReadImageMetaDataTask.cs" />
-    <Compile Include="Validation\EntryValidation.cs" />
-    <Compile Include="Validation\ValidationResult.cs" />
-    <Compile Include="Win_CBZSettings.cs" />
-    <Compile Include="Models\MetaDataEntryPage.cs" />
-    <Compile Include="Models\ProjectModel.cs" />
-    <Compile Include="Models\MetaData.cs" />
-    <Compile Include="Models\MetaDataEntry.cs" />
-    <Compile Include="Models\LocalFile.cs" />
-    <Compile Include="PathHelper.cs" />
-    <Compile Include="HTMLColor.cs" />
-    <Compile Include="Colors.cs" />
-    <Compile Include="Events\LogMessageEvent.cs" />
-    <Compile Include="Events\OperationFinishedEvent.cs" />
-    <Compile Include="Exceptions\MetaDataValidationException.cs" />
-    <Compile Include="Forms\ImagePreviewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ImagePreviewForm.Designer.cs">
-      <DependentUpon>ImagePreviewForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Events\FileOperationEvent.cs" />
-    <Compile Include="Events\PageChangedEvent.cs" />
-    <Compile Include="Events\CBZArchiveStatusEvent.cs" />
-    <Compile Include="Events\MetaDataEntryChangedEvent.cs" />
-    <Compile Include="Events\ItemFailedEvent.cs" />
-    <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win_CBZSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <Compile Update="Components\CustomDataGridView\CustomDataGridView.cs" />
+    <Compile Update="Components\ExtendedListView\ExtendetListView.cs" />
+    <Compile Update="Components\Rating\Rating.cs" />
+    <Compile Update="Win_CBZSettings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
       <DependentUpon>Win_CBZSettings.settings</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Components\CustomDataGridView\CustomDataGridView.resx">
-      <DependentUpon>CustomDataGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\ExtendedListView\ExtendetListView.resx">
-      <DependentUpon>ExtendetListView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\Rating\Shapes.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Shapes.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AboutDialogForm.resx">
-      <DependentUpon>AboutDialogForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ApplicationDialog.resx">
-      <DependentUpon>ApplicationDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DebugForm.resx">
-      <DependentUpon>DebugForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\EditImageForm.resx">
-      <DependentUpon>EditImageForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TagEditorForm.resx">
-      <DependentUpon>TagEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\KeyValueEditor.resx">
-      <DependentUpon>KeyValueEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PageSettingsForm.resx">
-      <DependentUpon>PageSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ImagePreviewForm.resx">
-      <DependentUpon>ImagePreviewForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ExtractFilesDialog.resx">
-      <DependentUpon>ExtractFilesDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MetaDataForm.resx">
-      <DependentUpon>MetaDataForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SettingsDialog.resx">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LanguageEditorForm.resx">
-      <DependentUpon>LanguageEditorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TextEditorForm.resx">
-      <DependentUpon>TextEditorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="packages.config" />
-    <None Include="Properties\LICENSE" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <AdditionalFiles Include="Win_CBZSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Win_CBZSettings.Designer.cs</LastGenOutput>
-    </AdditionalFiles>
-    <None Include="Resources\CBZMageAboutMessage.rtf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Trash_About.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box_surprise_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box_out.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box_surprise.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clipboard_check_edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\clipboard_paste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document_attachment.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document_zip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\error.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\floppy_disk.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_document.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_open.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\hand_money.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\magnifying_glass.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\nav_down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\nav_up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\navigate_plus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\paint_bucket.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\photo_landscape.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\save_as.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sign_warning.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\speech_balloon_answer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window_gear.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window_information.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\document_page_number.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_into.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\delivery_note.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\folder_zip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\garbage.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\information.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\door_exit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box_into.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\validate.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\photos.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\compress2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\elements_selection.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\TrashBannerNew.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\TrashInstallerBanner.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\error_dialog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sign_warning_dialog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\info_dialog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\info_dialog2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\info_dialog_exclamation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\question_dialog.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\window_gear_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\box_out_large.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\checks.png" />
-    <None Include="Resources\arrow_circle2.png" />
-    <None Include="Resources\cut.png" />
-    <None Include="Resources\checkbox.png" />
-    <None Include="Resources\checkbox_unchecked.png" />
     <Content Include="Resources\defaults.xsl" />
-    <None Include="Resources\download.png" />
-    <None Include="Resources\download64.png" />
     <Content Include="Resources\edit_large.png" />
-    <None Include="Resources\edit_large1.png" />
-    <None Include="Resources\painting_landscape.png" />
-    <None Include="Resources\Trash.png" />
-    <None Include="Resources\TrashSoft.ico" />
-    <None Include="Resources\sort_az_ascending2.png" />
-    <None Include="Resources\nav_left.png" />
-    <None Include="Resources\nav_right.png" />
-    <None Include="Resources\placeholder-image.png" />
-    <None Include="Resources\user_earth.png" />
-    <None Include="Resources\monitor_brush.png" />
-    <None Include="Resources\pencil.png" />
-    <None Include="Resources\selection.png" />
-    <None Include="Resources\tags.png" />
-    <None Include="Resources\tag.png" />
-    <None Include="Resources\star.png" />
-    <None Include="Resources\star2.png" />
-    <None Include="Resources\star2_large.png" />
-    <None Include="Resources\star2_yellow.png" />
     <Content Include="Screenshot.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -757,5 +71,60 @@
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="AutocompleteMenu" Version="1.3.5" />
+    <PackageReference Include="hima.lib.rating" Version="1.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" />
+    <PackageReference Include="runtime.native.System.IO.Compression" Version="4.3.2" />
+    <PackageReference Include="Scintilla.NET" Version="5.3.2.9" />
+    <PackageReference Include="SharpCompress" Version="0.37.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.Web.Services.Description" Version="8.0.0" />
+    <PackageReference Include="ZstdSharp.Port" Version="0.8.1" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.7" />
+    <PackageReference Include="System.CodeDom" Version="8.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+    <PackageReference Include="System.Data.Odbc" Version="8.0.0" />
+    <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.0" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="8.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
+    <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
+    <PackageReference Include="System.IO.Packaging" Version="8.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="System.Reflection.Context" Version="8.0.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="8.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="System.Security.AccessControl" Version="6.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.1" />
+    <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="8.0.0" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
+    <PackageReference Include="System.Speech" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+    <PackageReference Include="System.Threading.AccessControl" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Win_CBZSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Win_CBZSettings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
 </Project>
