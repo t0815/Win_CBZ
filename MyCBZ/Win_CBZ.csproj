@@ -4,6 +4,7 @@
     <Copyright>Copyright ©  2022-2025</Copyright>
     <Description>Windows CBZ (ComicBookZip) Archive Editor</Description>
     <Authors>t0815</Authors>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>net8.0-windows7.0</TargetFramework>
