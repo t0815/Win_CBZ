@@ -55,6 +55,7 @@
             ErrorDialogTablePanel.Location = new System.Drawing.Point(0, 0);
             ErrorDialogTablePanel.Margin = new System.Windows.Forms.Padding(0);
             ErrorDialogTablePanel.Name = "ErrorDialogTablePanel";
+            ErrorDialogTablePanel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             ErrorDialogTablePanel.RowCount = 3;
             ErrorDialogTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             ErrorDialogTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -84,7 +85,7 @@
             MessageContainer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MessageContainer.Name = "MessageContainer";
             MessageContainer.Padding = new System.Windows.Forms.Padding(16, 20, 16, 20);
-            MessageContainer.Size = new System.Drawing.Size(561, 287);
+            MessageContainer.Size = new System.Drawing.Size(561, 283);
             MessageContainer.TabIndex = 3;
             // 
             // TextBoxMessage
@@ -98,7 +99,7 @@
             TextBoxMessage.Multiline = true;
             TextBoxMessage.Name = "TextBoxMessage";
             TextBoxMessage.ReadOnly = true;
-            TextBoxMessage.Size = new System.Drawing.Size(527, 245);
+            TextBoxMessage.Size = new System.Drawing.Size(527, 241);
             TextBoxMessage.TabIndex = 99;
             TextBoxMessage.Text = "[Error Message]";
             // 

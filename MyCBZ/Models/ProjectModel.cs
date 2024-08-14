@@ -884,7 +884,7 @@ namespace Win_CBZ
                                 page.CreateLocalWorkingCopy(NewTemporaryFileName.FullName);
                                 if (page.TemporaryFile == null || !page.TemporaryFile.Exists())
                                 {
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract to or create temporary file for entry [" + page.Name + "]");
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to extract or create temporary file for entry [" + page.Name + "]");
                                 }
                             }
 
@@ -968,17 +968,24 @@ namespace Win_CBZ
                 Thread.EndCriticalRegion();
 
                 // Create Metadata
-                if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
+                try
                 {
-                    MemoryStream ms = MetaData.BuildComicInfoXMLStream();
-                    ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry(MetaData.MetaDataFileName);
-                    using (Stream entryStream = metaDataEntry.Open())
+                    if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
                     {
-                        ms.CopyTo(entryStream);
-                        entryStream.Close();
-                        ms.Close();
+                        MemoryStream ms = MetaData.BuildComicInfoXMLStream();
+                        ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry(MetaData.MetaDataFileName);
+                        using (Stream entryStream = metaDataEntry.Open())
+                        {
+                            ms.CopyTo(entryStream);
+                            entryStream.Close();
+                            ms.Close();
+                        }
                     }
                 }
+                catch (Exception me)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error creating metadata entry in archive! No meta-information will be available. [" + me.Message + "]");
+                }               
             }
             catch (Exception ex)
             {
