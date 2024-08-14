@@ -16,9 +16,11 @@ using SharpCompress.Common;
 using System.IO.Pipes;
 using System.Threading.Tasks;
 using System.Drawing.Drawing2D;
+using System.Runtime.Versioning;
 
 namespace Win_CBZ
 {
+    [SupportedOSPlatform("windows")]
     internal class Page
     {
 
@@ -919,6 +921,7 @@ namespace Win_CBZ
             LastModified = entry.LastWriteTime;
             Id = Guid.NewGuid().ToString();
             TemporaryFileId = randomId;
+            Hash = entry.Crc32.ToString("X");
         }
 
         public void UpdateLocalWorkingCopy(LocalFile localFile, FileInfo tempFileName = null)

@@ -14,9 +14,11 @@ using System.Xml.Xsl;
 using System.Xml;
 using Win_CBZ.Helper;
 using System.Drawing.Imaging;
+using System.Runtime.Versioning;
 
 namespace Win_CBZ.Forms
 {
+    [SupportedOSPlatform("windows")]
     internal partial class PageSettingsForm : Form
     {
 
@@ -487,7 +489,7 @@ namespace Win_CBZ.Forms
             {
                 try
                 {
-                    StringReader xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeUriString("defaults").ToLowerInvariant()));
+                    StringReader xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeDataString("defaults").ToLowerInvariant()));
                     XmlReader xslReader = XmlReader.Create(xsltManifest);
                     XslCompiledTransform xTrans = new XslCompiledTransform();
                     xTrans.Load(xslReader);
