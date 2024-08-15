@@ -174,7 +174,9 @@ namespace Win_CBZ
 
         private Thread ArchiveValidationThread;
 
-        private CancellationTokenSource CancellationTokenSource;
+
+
+        private CancellationTokenSource CancellationTokenSourceLoadArchive;
 
         private CancellationToken CancellationToken;
 
@@ -191,7 +193,7 @@ namespace Win_CBZ
             Validation.TaskProgress += TaskProgress;
 
             CancellationTokenSource = new CancellationTokenSource();
-            CancellationToken = CancellationTokenSource.Token;
+            CancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token);
 
             MaxFileIndex = 0;
             Name = "";
@@ -732,35 +734,40 @@ namespace Win_CBZ
             }
             catch (OperationCanceledException oce)
             {
-                Archive.Dispose();
+                //Archive.Dispose();
 
-                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
+                //OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
             }
             catch (Exception e)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error opening Archive\n" + e.Message);
             }
 
-            FileSize = totalSize;
-            MaxFileIndex = index;
 
-            if (MetaDataPageIndexMissingData)
+            if (!tParams.CancelToken.IsCancellationRequested)
             {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
+                FileSize = totalSize;
+                MaxFileIndex = index;
+
+                if (MetaDataPageIndexMissingData)
+                {
+                    OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, ReadImageMetaDataTask.UpdateImageMetadata(Pages, GeneralTaskProgress)));
+                }
+
+                if (MetaDataPageIndexFileMissing)
+                {
+                    OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, MetaData.IndexVersionSpecification, GeneralTaskProgress, PageChanged)));
+                }
+
+                if (missingPages.Count > 0)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Page(s) missing from archive but are present in page-index!");
+                }
+
+
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
             }
 
-            if (MetaDataPageIndexFileMissing)
-            {
-                OnGlobalActionRequired(new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, MetaData.IndexVersionSpecification, GeneralTaskProgress, PageChanged)));
-            }
-
-            if (missingPages.Count > 0)
-            {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Page(s) missing from archive but are present in page-index!");
-            }
-
-
-            OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
