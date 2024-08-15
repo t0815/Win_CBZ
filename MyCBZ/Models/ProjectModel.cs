@@ -174,9 +174,29 @@ namespace Win_CBZ
 
         private Thread ArchiveValidationThread;
 
-
+        private CancellationTokenSource CancellationTokenSourceGlobal;
 
         private CancellationTokenSource CancellationTokenSourceLoadArchive;
+
+        private CancellationTokenSource CancellationTokenSourceExtractArchive;
+
+        private CancellationTokenSource CancellationTokenSourceSaveArchive;
+
+        private CancellationTokenSource CancellationTokenSourceDeleteFile;
+
+        private CancellationTokenSource CancellationTokenSourcePageUpdate;
+
+        private CancellationTokenSource CancellationTokenSourceProcessAddedFiles;
+
+        private CancellationTokenSource CancellationTokenSourceParseAddedFileNames;
+
+        private CancellationTokenSource CancellationTokenSourceRenaming;
+
+        private CancellationTokenSource CancellationTokenSourceAutoRename;
+
+        private CancellationTokenSource CancellationTokenSourceRestoreRenaming;
+
+        private CancellationTokenSource CancellationTokenSourceArchiveValidation;
 
         private CancellationToken CancellationToken;
 
@@ -192,8 +212,11 @@ namespace Win_CBZ
             Validation = new DataValidation();
             Validation.TaskProgress += TaskProgress;
 
-            CancellationTokenSource = new CancellationTokenSource();
-            CancellationToken = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token);
+            CancellationTokenSourceGlobal = new CancellationTokenSource();
+            CancellationTokenSourceLoadArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceExtractArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+
+
 
             MaxFileIndex = 0;
             Name = "";
