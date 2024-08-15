@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.IO;
 using Win_CBZ.Models;
+using System.Runtime.Versioning;
 
 namespace Win_CBZ.Img
 {
+    [SupportedOSPlatform("windows")]
     internal class ImageOperations
     {
 

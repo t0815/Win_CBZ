@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using Image = System.Drawing.Image;
 
 namespace Win_CBZ.Models
 {
+    [SupportedOSPlatform("windows")]
     internal class ImageTask
     {
         public const string TASK_SPLIT_PERCENT = "SplitPercent";

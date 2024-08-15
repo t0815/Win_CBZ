@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ using Win_CBZ.Helper;
 
 namespace Win_CBZ.Forms
 {
+    [SupportedOSPlatform("windows")]
     internal partial class SettingsDialog : Form
     {
 

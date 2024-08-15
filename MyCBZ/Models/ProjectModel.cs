@@ -174,6 +174,10 @@ namespace Win_CBZ
 
         private Thread ArchiveValidationThread;
 
+        private CancellationTokenSource CancellationTokenSource;
+
+        private CancellationToken CancellationToken;
+
 
         public ProjectModel(String workingDir, String metaDataFilename)
         {
@@ -185,6 +189,9 @@ namespace Win_CBZ
             FileEncoding = Encoding.UTF8;
             Validation = new DataValidation();
             Validation.TaskProgress += TaskProgress;
+
+            CancellationTokenSource = new CancellationTokenSource();
+            CancellationToken = CancellationTokenSource.Token;
 
             MaxFileIndex = 0;
             Name = "";
@@ -308,7 +315,7 @@ namespace Win_CBZ
                         MetaData.RebuildPageMetaData(Pages, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).PageIndexVerToWrite);
                     }
                     UpdatePageIndices(true, true, remainingStack);
-                });
+                }, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).CancelToken);
 
                 currentPerformed = e.Task;
             }
@@ -526,7 +533,7 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
                     }
                 }
-            });
+            }, CancellationToken);
         }
 
         public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting)
@@ -549,7 +556,8 @@ namespace Win_CBZ
             {
                 FileName = path,
                 Mode = mode,
-                CurrentPageIndexVer = currentMetaDataVersionWriting
+                CurrentPageIndexVer = currentMetaDataVersionWriting,
+                CancelToken = CancellationToken
             });
 
             return LoadArchiveThread;
@@ -682,6 +690,8 @@ namespace Win_CBZ
                     }
 
                     Thread.Sleep(5);
+                 
+                    tParams.CancelToken.ThrowIfCancellationRequested();
                 }
 
 
@@ -713,10 +723,18 @@ namespace Win_CBZ
                     OnTaskProgress(new TaskProgressEvent(null, index, MetaData.PageIndex.Count));
                     Thread.Sleep(5);
                     index++;
+
+                    tParams.CancelToken.ThrowIfCancellationRequested();
                 }
 
                 IsChanged = false;
                 IsNew = false;
+            }
+            catch (OperationCanceledException oce)
+            {
+                Archive.Dispose();
+
+                OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
             }
             catch (Exception e)
             {
@@ -824,7 +842,8 @@ namespace Win_CBZ
                             ContinuePipeline = true,
                             InitialIndexRebuild = false,
                             Stack = new List<StackItem>(),
-                            PageIndexVerToWrite = metaDataVersionWriting
+                            PageIndexVerToWrite = metaDataVersionWriting,
+                            CancelToken = CancellationToken
                         }
                     },
                     new StackItem()
@@ -836,7 +855,8 @@ namespace Win_CBZ
                             Mode = mode,
                             ContinueOnError = continueOnError,
                             CompressionLevel = CompressionLevel,
-                            PageIndexVerToWrite = metaDataVersionWriting
+                            PageIndexVerToWrite = metaDataVersionWriting,
+                            CancelToken = CancellationToken
                         }
                     }
                 }

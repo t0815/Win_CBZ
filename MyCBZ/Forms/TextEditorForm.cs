@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ using Win_CBZ.Data;
 
 namespace Win_CBZ.Forms
 {
+    [SupportedOSPlatform("windows")]
     public partial class TextEditorForm : Form
     {
 

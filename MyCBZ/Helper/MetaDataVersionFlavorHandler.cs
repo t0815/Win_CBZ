@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using static Win_CBZ.MetaData;
 
 namespace Win_CBZ.Helper
 {
+    [SupportedOSPlatform("windows")]
     internal class MetaDataVersionFlavorHandler
     {
         

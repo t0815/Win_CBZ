@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Versioning;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ
 {
+    [SupportedOSPlatform("windows")]
     internal class MetaData
     {
         public enum PageIndexVersion : ushort

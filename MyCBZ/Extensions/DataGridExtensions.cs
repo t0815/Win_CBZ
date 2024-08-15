@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,14 +12,15 @@ using Win_CBZ.Components.Rating;
 
 namespace Win_CBZ.Extensions
 {
-
+    [SupportedOSPlatform("windows")]
     class Native
     {
         public const uint WM_KEYDOWN = 0x100;
         [DllImport("user32.dll")]
         public static extern bool PostMessage(IntPtr hWnd, UInt32 Msg, Int32 wParam, Int32 lParam);
     }
-  
+
+    [SupportedOSPlatform("windows")]
     public class CustomTextBoxColumn : DataGridViewColumn
     {
         public CustomTextBoxColumn() : base(new CustomTextCell()) { }

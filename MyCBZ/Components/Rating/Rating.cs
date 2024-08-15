@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,7 @@ using System.Windows.Shapes;
 namespace Win_CBZ.Components.Rating
 {
 
+    [SupportedOSPlatform("windows")]
     public partial class Rating : Control
     {
 
