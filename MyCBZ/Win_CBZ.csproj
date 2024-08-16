@@ -21,7 +21,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.18.132.%2a</ApplicationVersion>
+    <ApplicationVersion>0.19.134.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
