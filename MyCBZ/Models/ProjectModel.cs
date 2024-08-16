@@ -2774,9 +2774,9 @@ namespace Win_CBZ
                 }
             }
 
-            Task<TaskResult> tr = AwaitOperationsTask.AwaitOperations(threads);
-            
-            tr.ContinueWith(t => {
+            Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads);
+
+            awaitClosingArchive.ContinueWith(t => {
                 if (t.IsCompleted && t.Result.Result == 0)
                 {
                     CloseArchiveThread = new Thread(new ThreadStart(CloseArchiveProc));
@@ -2787,24 +2787,24 @@ namespace Win_CBZ
                         Task<TaskResult> follow = AwaitOperationsTask.AwaitOperations(new List<Thread>() { CloseArchiveThread });
 
                         follow.ContinueWith(t => {
-                            followUpTask.ContinueWith(t =>
-                            {
-                                if (followUpTask != null)
-                                {
-                                    finalTask.Start();  
-                                }
-                            });
 
-                            followUpTask.Start();
+                            if (t.IsCompletedSuccessfully)
+                            {
+                                followUpTask.ContinueWith(t =>
+                                {
+                                    finalTask?.Start();
+                                });
+
+                                followUpTask.Start();
+                            }
                         });
 
                         follow.Start();
                     }
-                    
                 }
             });
 
-            tr.Start();
+            awaitClosingArchive.Start();
         }
 
         protected void CloseArchiveProc()
