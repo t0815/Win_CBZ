@@ -569,7 +569,7 @@ namespace Win_CBZ
             Close(newFollowTask);           
         }
 
-        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting)
+        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting, bool skipIndexCheck = false)
         {
             FileName = path;
             Mode = mode;
@@ -588,6 +588,7 @@ namespace Win_CBZ
                 FileName = path,
                 Mode = mode,
                 CurrentPageIndexVer = currentMetaDataVersionWriting,
+                SkipIndexCheck = skipIndexCheck,
                 CancelToken = CancellationTokenSourceLoadArchive.Token
             });
 
@@ -724,38 +725,43 @@ namespace Win_CBZ
                  
                     tParams.CancelToken.ThrowIfCancellationRequested();
                 }
-
-
-                // check index and compare with files
-                OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_CHECKING_INDEX));
-                OnTaskProgress(new TaskProgressEvent(null, 0, 100));
                
                 String pageIndexName = "";
                 Page pageCheck = null;
                 index = 0;
-                foreach (MetaDataEntryPage entry in MetaData.PageIndex)
+
+                if (!tParams.SkipIndexCheck)
                 {
-                    if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_2)
+
+                    // check index and compare with files
+                    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_CHECKING_INDEX));
+                    OnTaskProgress(new TaskProgressEvent(null, 0, 100));
+
+                    foreach (MetaDataEntryPage entry in MetaData.PageIndex)
                     {
-                        pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE);
-                    } else if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_1)
-                    {
-                        pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                        if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_2)
+                        {
+                            pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE);
+                        }
+                        else if (MetaData.IndexVersionSpecification == PageIndexVersion.VERSION_1)
+                        {
+                            pageIndexName = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
+                        }
+
+                        pageCheck = GetPageByName(pageIndexName);
+
+                        if (pageCheck == null)
+                        {
+                            missingPages.Add(pageIndexName);
+                        }
+
+                        pageCheck = null;
+                        OnTaskProgress(new TaskProgressEvent(null, index, MetaData.PageIndex.Count));
+                        Thread.Sleep(5);
+                        index++;
+
+                        tParams.CancelToken.ThrowIfCancellationRequested();
                     }
-
-                    pageCheck = GetPageByName(pageIndexName);
-
-                    if (pageCheck == null)
-                    {
-                        missingPages.Add(pageIndexName);
-                    }
-
-                    pageCheck = null;
-                    OnTaskProgress(new TaskProgressEvent(null, index, MetaData.PageIndex.Count));
-                    Thread.Sleep(5);
-                    index++;
-
-                    tParams.CancelToken.ThrowIfCancellationRequested();
                 }
 
                 IsChanged = false;

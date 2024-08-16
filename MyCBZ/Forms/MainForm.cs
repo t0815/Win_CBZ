@@ -367,7 +367,7 @@ namespace Win_CBZ
 
                 Task finalTask = new Task(() =>
                 {
-                    Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read, MetaDataVersionFlavorHandler.GetInstance().TargetVersion());
+                    Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read, MetaDataVersionFlavorHandler.GetInstance().TargetVersion(), Win_CBZSettings.Default.SkipIndexCheck);
                 });
 
                 Program.ProjectModel.Close(followTask, finalTask);
@@ -4103,6 +4103,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite = settingsDialog.MetaPageIndexWriteVersion;
                 Win_CBZSettings.Default.OmitEmptyXMLTags = settingsDialog.OmitEmptyXMLTags;
                 Win_CBZSettings.Default.AutoDeleteTempFiles = settingsDialog.DeleteTempFilesImediately;
+                Win_CBZSettings.Default.SkipIndexCheck = settingsDialog.SkipIndexCheck;
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)

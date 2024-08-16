@@ -471,5 +471,17 @@ namespace Win_CBZ {
                 this["AutoDeleteTempFiles"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SkipIndexCheck {
+            get {
+                return ((bool)(this["SkipIndexCheck"]));
+            }
+            set {
+                this["SkipIndexCheck"] = value;
+            }
+        }
     }
 }

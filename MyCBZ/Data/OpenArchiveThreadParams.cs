@@ -18,6 +18,8 @@ namespace Win_CBZ.Data
 
         public ZipArchiveMode Mode { get; set; }
 
+        public bool SkipIndexCheck { get; set; }    
+
         public CancellationToken CancelToken { get; set; }
     }
 }

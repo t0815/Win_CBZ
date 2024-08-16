@@ -48,6 +48,8 @@ namespace Win_CBZ.Forms
 
         public bool DeleteTempFilesImediately;
 
+        public bool SkipIndexCheck;
+
         DataValidation validation;
 
         public SettingsDialog()
@@ -80,6 +82,8 @@ namespace Win_CBZ.Forms
 
             DeleteTempFilesImediately = Win_CBZSettings.Default.AutoDeleteTempFiles;
 
+            SkipIndexCheck = Win_CBZSettings.Default.SkipIndexCheck;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
@@ -98,6 +102,7 @@ namespace Win_CBZ.Forms
             ImageQualityTrackBar.Value = ConversionQualityValue;
 
             CheckBoxPruneEmplyTags.Checked = OmitEmptyXMLTags;
+            CheckBoxSkipIndexCheck.Checked = SkipIndexCheck;
 
             ComboBoxFileName.Text = MetaDataFilename;
 
@@ -363,6 +368,7 @@ namespace Win_CBZ.Forms
                     MetaPageIndexWriteVersion = ComboBoxPageIndexVersionWrite.SelectedIndex + 1;
                     OmitEmptyXMLTags = CheckBoxPruneEmplyTags.Checked;
                     DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
+                    SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
