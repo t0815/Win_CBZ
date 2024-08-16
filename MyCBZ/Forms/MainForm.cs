@@ -320,8 +320,14 @@ namespace Win_CBZ
 
         private void ClearLog()
         {
-            MessageLogListView.Items.Clear();
-            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+            if (!WindowClosed)
+            {
+                Invoke(new Action(() =>
+                {
+                    MessageLogListView.Items.Clear();
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+                }));
+            }
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -354,22 +360,17 @@ namespace Win_CBZ
                 recentPath = new LocalFile(OpenCBFDialog.FileName);
                 Win_CBZSettings.Default.RecentOpenArchivePath = recentPath.FilePath;
 
-                ClosingTask = Program.ProjectModel.Close();
-
-                ClearLog();
-
-                Task.Factory.StartNew(() =>
+                Task followTask = new Task(() =>
                 {
-                    if (ClosingTask != null)
-                    {
-                        if (ClosingTask.IsAlive)
-                        {
-                            ClosingTask.Join();
-                        }
-                    }
+                    ClearLog();
+                });
 
+                Task finalTask = new Task(() =>
+                {
                     Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read, MetaDataVersionFlavorHandler.GetInstance().TargetVersion());
                 });
+
+                Program.ProjectModel.Close(followTask, finalTask);
             }
         }
 
@@ -1651,16 +1652,19 @@ namespace Win_CBZ
 
                 case CBZArchiveStatusEvent.ARCHIVE_CLOSED:
 
-                    this.Invoke(new Action(() =>
+                    if (!this.WindowClosed)
                     {
-                        Program.ProjectModel.Pages.Clear();
-                        PagesList.Items.Clear();
-                        PageView.Items.Clear();
-                        PageThumbsListBox.Items.Clear();
-                        PageImages.Images.Clear();
-                        filename = "";
-                    }));
-
+                        this.Invoke(new Action(() =>
+                        {
+                            Program.ProjectModel.Pages.Clear();
+                            PagesList.Items.Clear();
+                            PageView.Items.Clear();
+                            PageThumbsListBox.Items.Clear();
+                            PageImages.Images.Clear();
+                            filename = "";
+                        }));
+                    }
+                    
                     filename = "";
 
                     info = "Ready.";
@@ -2075,7 +2079,7 @@ namespace Win_CBZ
                     }
                 }
 
-                ClosingTask = Program.ProjectModel.Close();
+                Program.ProjectModel.Close();
             });
         }
 

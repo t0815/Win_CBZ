@@ -5,44 +5,68 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Forms;
 using Win_CBZ.Helper;
 
 namespace Win_CBZ.Tasks
 {
     internal class AwaitOperationsTask
     {
-        public static Task<TaskResult> AwaitOperationsAndRun(List<Thread> awaitTasks, Thread runTask, object taskParams, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, EventHandler<GeneralTaskProgressEvent> handler = null)
         {
             return new Task<TaskResult>(() =>
             {
                 TaskResult result = new TaskResult();
-                int finishedCount = 0;
+                ApplicationDialog dlg = null;
 
-                foreach (Thread th in awaitTasks)
+                Dictionary<int, bool> finishedThreads = new Dictionary<int, bool>();
+
+                //if (showDialog)
+               // {
+                    //invoke(new Action(() =>
+                    //{
+
+                    //}));
+                 //   dlg = ApplicationMessage.Create("Waiting for operations to finish. Please wait.", "Please stand by");
+                   // dlg.TopMost = true;
+                   // dlg.Show();
+                //}
+
+                while (finishedThreads.Count < awaitTasks.Count)
                 {
-                    
-
-                    if (handler != null)
+                    foreach (Thread th in awaitTasks)
                     {
-                        handler.Invoke(null, new GeneralTaskProgressEvent(
-                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
-                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                            "Waiting for operations to finish...",
-                            finishedCount,
-                            awaitTasks.Count,
-                            true));
+                        if (!th.IsAlive)
+                        {
+                            finishedThreads.Add(th.ManagedThreadId, true);
+                        }
+
+                        if (handler != null)
+                        {
+                            handler.Invoke(null, new GeneralTaskProgressEvent(
+                                GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
+                                GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                                "Waiting for operations to finish...",
+                                finishedThreads.Count,
+                                awaitTasks.Count,
+                                true));
+                        }
+
+                        System.Threading.Thread.Sleep(5);
                     }
-                 
-                    
-                    System.Threading.Thread.Sleep(5);
                 }
 
-                
+                //if (showDialog)
+               // {
+               //     dlg.Close();
+               // }
+
+                result.Result = 0;
 
                 if (handler != null)
                 {
                     handler.Invoke(null, new GeneralTaskProgressEvent(
-                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                        GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         0,

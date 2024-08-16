@@ -48,6 +48,19 @@ namespace Win_CBZ
             return errorDialog.ShowDialog();
         }
 
+        public static ApplicationDialog Create(String message, String title, DialogType type = DialogType.MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None)
+        {
+            ApplicationDialog errorDialog = new ApplicationDialog();
+            errorDialog.Buttons = buttons;
+            errorDialog.DialogType = type;
+            errorDialog.DialogTitle = title;
+            errorDialog.Message = message;
+            errorDialog.ShowMessageScrollbars(ShowScrollBars);
+
+
+            return errorDialog;
+        }
+
         public static DialogResult ShowCustom(String message, String title, DialogType type = DialogType.MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None, int width = 441, int height = 350)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();

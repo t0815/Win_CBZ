@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Win_CBZ.Data
 {
     internal class TaskResult
     {
-        int Result;
+        public int Result { get; set; } = -1;
 
-        string Message;
+        public string Message { get; set; }
+
+        public object[] Payload { get; set; }
 
         public TaskResult() { }
 
@@ -20,6 +18,11 @@ namespace Win_CBZ.Data
             Message = message;
         }
 
-
+        public TaskResult(int result, string message, object[] payload)
+        {
+            Result = result;
+            Message = message;
+            Payload = payload;
+        }
     }
 }

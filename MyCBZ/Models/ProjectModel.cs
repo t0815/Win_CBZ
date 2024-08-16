@@ -533,18 +533,15 @@ namespace Win_CBZ
             //}
         }
 
-        public Task New()
+        public void New()
         {
             if (ThreadRunning())
             {
                 throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
             }
 
-            CloseArchiveThread = Close();
-
-            return Task.Factory.StartNew(() =>
+            Task newFollowTask = new Task(() =>
             {
-                CloseArchiveThread?.Join();
 
                 //Pages.Clear();
                 MetaData.Free();
@@ -568,6 +565,8 @@ namespace Win_CBZ
                     }
                 }
             });
+
+            Close(newFollowTask);           
         }
 
         public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting)
@@ -582,8 +581,6 @@ namespace Win_CBZ
                     throw new ConcurrentOperationException("failed to open. thread already running!", true);
                 }
             }
-
-            CloseArchiveThread?.Join();
 
             LoadArchiveThread = new Thread(OpenArchiveProc);
             LoadArchiveThread.Start(new OpenArchiveThreadParams()
@@ -2748,14 +2745,16 @@ namespace Win_CBZ
 
             OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTED));
         }
-
-        public Thread Close()
+        
+        public void Close(Task followUpTask = null, Task finalTask = null)
         {
+            List<Thread> threads = new List<Thread>();
+
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Join();
+                    threads.Add(LoadArchiveThread); 
                 }
             }
 
@@ -2763,7 +2762,7 @@ namespace Win_CBZ
             {
                 if (SaveArchiveThread.IsAlive)
                 {
-                    SaveArchiveThread.Join();
+                    threads.Add(SaveArchiveThread);
                 }
             }
 
@@ -2771,14 +2770,41 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    return CloseArchiveThread;
+                    threads.Add(CloseArchiveThread);
                 }
             }
 
-            CloseArchiveThread = new Thread(new ThreadStart(CloseArchiveProc));
-            CloseArchiveThread.Start();
+            Task<TaskResult> tr = AwaitOperationsTask.AwaitOperations(threads);
+            
+            tr.ContinueWith(t => {
+                if (t.IsCompleted && t.Result.Result == 0)
+                {
+                    CloseArchiveThread = new Thread(new ThreadStart(CloseArchiveProc));
+                    CloseArchiveThread.Start();
 
-            return CloseArchiveThread;
+                    if (followUpTask != null)
+                    {
+                        Task<TaskResult> follow = AwaitOperationsTask.AwaitOperations(new List<Thread>() { CloseArchiveThread });
+
+                        follow.ContinueWith(t => {
+                            followUpTask.ContinueWith(t =>
+                            {
+                                if (followUpTask != null)
+                                {
+                                    finalTask.Start();  
+                                }
+                            });
+
+                            followUpTask.Start();
+                        });
+
+                        follow.Start();
+                    }
+                    
+                }
+            });
+
+            tr.Start();
         }
 
         protected void CloseArchiveProc()
