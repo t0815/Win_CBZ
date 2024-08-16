@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,7 +21,7 @@ namespace Win_CBZ.Data
             
         }
 
-        public string[] ValidateDuplicateStrings(string[] values)
+        public string[] ValidateDuplicateStrings(string[] values, CancellationToken ?cancellationToken = null)
         {
             List<String> duplicates = new List<String>();
 
@@ -34,18 +35,34 @@ namespace Win_CBZ.Data
                     {
                         occurence++;
                     }
+
+                    if (cancellationToken != null)
+                    {
+                        if (cancellationToken.Value.IsCancellationRequested)
+                        {
+                            break;
+                        }
+                    }
                 }
 
                 if (occurence > 1 && duplicates.IndexOf(entryA) == -1)
                 {
                     duplicates.Add(entryA);
                 }
+
+                if (cancellationToken != null)
+                {
+                    if (cancellationToken.Value.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                }
             }
 
             return duplicates.ToArray();
         }
 
-        public bool ValidateMetaDataInvalidKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
+        public bool ValidateMetaDataInvalidKeys(ref ArrayList metaDataEntryErrors, bool showError = true, CancellationToken? cancellationToken = null)
         {
             bool error = false;
 
@@ -56,6 +73,14 @@ namespace Win_CBZ.Data
                 {
                     metaDataEntryErrors.Add(entryA.Key);
                     error = true;
+                }
+
+                if (cancellationToken != null)
+                {
+                    if (cancellationToken.Value.IsCancellationRequested)
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -76,7 +101,7 @@ namespace Win_CBZ.Data
             return error;
         }
 
-        public bool ValidateMetaDataDuplicateKeys(ref ArrayList metaDataEntryErrors, bool showError = true)
+        public bool ValidateMetaDataDuplicateKeys(ref ArrayList metaDataEntryErrors, bool showError = true, CancellationToken? cancellationToken = null)
         {
             int occurence = 0;
             bool error = false;
@@ -91,12 +116,28 @@ namespace Win_CBZ.Data
                     {
                         occurence++;
                     }
+
+                    if (cancellationToken != null)
+                    {
+                        if (cancellationToken.Value.IsCancellationRequested)
+                        {
+                            break;
+                        }
+                    }
                 }
 
                 if (occurence > 1 && metaDataEntryErrors.IndexOf(entryA.Key) == -1)
                 {
                     metaDataEntryErrors.Add(entryA.Key);
                     error = true;
+                }
+
+                if (cancellationToken != null)
+                {
+                    if (cancellationToken.Value.IsCancellationRequested)
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -120,7 +161,7 @@ namespace Win_CBZ.Data
             return error;
         }
 
-        public bool ValidateTags(ref ArrayList unknownTagsList, bool showError = true, bool calcProgress = false, int startProgress = 0, int totalProgress = 0)
+        public bool ValidateTags(ref ArrayList unknownTagsList, bool showError = true, bool calcProgress = false, int startProgress = 0, int totalProgress = 0, CancellationToken? cancellationToken = null)
         {
             bool tagValidationFailed = false;
             int progressIndex = startProgress;
@@ -167,6 +208,14 @@ namespace Win_CBZ.Data
                         if (!validTags.Contains(tag))
                         {
                             unknownTagsList.Add(tag);
+                        }
+                    }
+
+                    if (cancellationToken != null)
+                    {
+                        if (cancellationToken.Value.IsCancellationRequested)
+                        {
+                            break;
                         }
                     }
 

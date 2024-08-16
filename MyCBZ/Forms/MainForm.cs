@@ -70,6 +70,8 @@ namespace Win_CBZ
 
         private Thread MoveItemsThread;
 
+
+
         private List<Page> ThumbnailPagesSlice;
 
         private List<Page> ImageInfoPagesSlice;
@@ -896,22 +898,15 @@ namespace Win_CBZ
                     }
                 }
 
-                RequestThumbnailThread = new Thread(new ThreadStart(LoadThumbnailSlice));
-                RequestThumbnailThread.Start();
-
-                /*
-                PageView.Invoke(new Action(() =>
+                RequestThumbnailThread = new Thread(LoadThumbnailSlice);
+                RequestThumbnailThread.Start(new ThumbSliceThreadParams()
                 {
-                    foreach (ListViewItem pageItem in PagesList.Items)
-                    {
-                        CreatePagePreviewFromItem((Page)pageItem.Tag);
-                    }
-                }));
-                */
+
+                });
             }
         }
 
-        public void LoadThumbnailSlice()
+        public void LoadThumbnailSlice(object p)
         {
             if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING) {
                 Invoke(new Action(() =>

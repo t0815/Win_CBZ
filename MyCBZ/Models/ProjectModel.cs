@@ -178,6 +178,8 @@ namespace Win_CBZ
 
         private CancellationTokenSource CancellationTokenSourceLoadArchive;
 
+        private CancellationTokenSource CancellationTokenSourceCloseArchive;
+
         private CancellationTokenSource CancellationTokenSourceExtractArchive;
 
         private CancellationTokenSource CancellationTokenSourceSaveArchive;
@@ -198,8 +200,6 @@ namespace Win_CBZ
 
         private CancellationTokenSource CancellationTokenSourceArchiveValidation;
 
-        private CancellationToken CancellationToken;
-
 
         public ProjectModel(String workingDir, String metaDataFilename)
         {
@@ -215,8 +215,16 @@ namespace Win_CBZ
             CancellationTokenSourceGlobal = new CancellationTokenSource();
             CancellationTokenSourceLoadArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
             CancellationTokenSourceExtractArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-
-
+            CancellationTokenSourceCloseArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceSaveArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceDeleteFile = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourcePageUpdate = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceProcessAddedFiles = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceParseAddedFileNames = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceRenaming = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceAutoRename = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceRestoreRenaming = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceArchiveValidation = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
 
             MaxFileIndex = 0;
             Name = "";
@@ -298,7 +306,7 @@ namespace Win_CBZ
                     {
                         if (ExtractArchiveThread.IsAlive)
                         {
-                            ExtractArchiveThread.Abort();
+                            CancellationTokenSourceExtractArchive.Cancel();
                         }
                     }
 
@@ -306,7 +314,7 @@ namespace Win_CBZ
                     {
                         if (PageUpdateThread.IsAlive)
                         {
-                            PageUpdateThread.Abort();
+                            CancellationTokenSourcePageUpdate.Cancel();
                         }
                     }
 
@@ -322,7 +330,8 @@ namespace Win_CBZ
                     ProcessAddedFiles.Start(new AddImagesThreadParams() 
                     { 
                         LocalFiles = new List<LocalFile>((IEnumerable<LocalFile>)e.Data), 
-                        Stack = remainingStack
+                        Stack = remainingStack,
+                        CancelToken = CancellationTokenSourceProcessAddedFiles.Token
                     });
 
                     currentPerformed = e.Task;
@@ -558,7 +567,7 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
                     }
                 }
-            }, CancellationToken);
+            });
         }
 
         public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting)
@@ -582,7 +591,7 @@ namespace Win_CBZ
                 FileName = path,
                 Mode = mode,
                 CurrentPageIndexVer = currentMetaDataVersionWriting,
-                CancelToken = CancellationToken
+                CancelToken = CancellationTokenSourceLoadArchive.Token
             });
 
             return LoadArchiveThread;
@@ -861,7 +870,8 @@ namespace Win_CBZ
                             IgnorePageNameDuplicates = CompatibilityMode,
                             RenameStoryPagePattern = CompatibilityMode ? "" : RenameStoryPagePattern,
                             RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern,
-                            ContinuePipeline = true
+                            ContinuePipeline = true,
+                            CancelToken = CancellationTokenSourceRenaming.Token
                         }
                     },
                     new StackItem()
@@ -873,7 +883,7 @@ namespace Win_CBZ
                             InitialIndexRebuild = false,
                             Stack = new List<StackItem>(),
                             PageIndexVerToWrite = metaDataVersionWriting,
-                            CancelToken = CancellationToken
+                            CancelToken = CancellationTokenSourceGlobal.Token
                         }
                     },
                     new StackItem()
@@ -886,7 +896,7 @@ namespace Win_CBZ
                             ContinueOnError = continueOnError,
                             CompressionLevel = CompressionLevel,
                             PageIndexVerToWrite = metaDataVersionWriting,
-                            CancelToken = CancellationToken
+                            CancelToken = CancellationTokenSourceSaveArchive.Token
                         }
                     }
                 }
@@ -993,6 +1003,12 @@ namespace Win_CBZ
                             // collect all deleted items
                             deletedPages.Add(page);
                         }
+
+                        tParams.CancelToken.ThrowIfCancellationRequested();
+                    }
+                    catch (OperationCanceledException o)
+                    {
+                        errorSavingArchive = true;
                     }
                     catch (Exception efile)
                     {
@@ -1012,6 +1028,8 @@ namespace Win_CBZ
                     }
 
                     OnArchiveOperation(new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
+
+                    
 
                     index++;
                 }
@@ -1060,6 +1078,9 @@ namespace Win_CBZ
 
                             OnPageChanged(new PageChangedEvent(deletedPage, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
                             OnTaskProgress(new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
+                            
+                            tParams.CancelToken.ThrowIfCancellationRequested(); 
+                            
                             deletedIndex++;
                         }
 
@@ -1085,6 +1106,10 @@ namespace Win_CBZ
                                 
                         }
 
+                    }
+                    catch (OperationCanceledException oce)
+                    {
+                        errorSavingArchive = true;
                     }
                     catch (Exception mvex)
                     {
@@ -1208,6 +1233,7 @@ namespace Win_CBZ
             { 
                 OutputPath = outputPath,
                 Pages = Pages,
+                CancelToken = CancellationTokenSourceExtractArchive.Token,
             });
         }
 
@@ -1236,7 +1262,8 @@ namespace Win_CBZ
             ArchiveValidationThread.Start(new CBZValidationThreadParams() 
             { 
                 ShowDialog = showErrorsDialog, 
-                PageIndexVersion = pageIndexVersion 
+                PageIndexVersion = pageIndexVersion,
+                CancelToken = CancellationTokenSourceArchiveValidation.Token,
             });
 
         }
@@ -1415,6 +1442,12 @@ namespace Win_CBZ
                     }
 
                     OnTaskProgress(new TaskProgressEvent(page, progressIndex, totalItemsToProcess));
+                    
+                    if (tParams.CancelToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    
                     Thread.Sleep(5);
                     progressIndex++;
                 }
@@ -1506,7 +1539,7 @@ namespace Win_CBZ
                 {
                     if (Win_CBZSettings.Default.ValidateTags)
                     {
-                        tagValidationFailed = Validation.ValidateTags(ref unknownTags, false, true, progressIndex, totalItemsToProcess);
+                        tagValidationFailed = Validation.ValidateTags(ref unknownTags, false, true, progressIndex, totalItemsToProcess, tParams.CancelToken);
                         if (tagValidationFailed)
                         {
                             foreach (String tag in unknownTags)
@@ -1517,7 +1550,7 @@ namespace Win_CBZ
                     }
 
                     string[] tagList = tags.Split(',');
-                    duplicateTags = Validation.ValidateDuplicateStrings(tagList);
+                    duplicateTags = Validation.ValidateDuplicateStrings(tagList, tParams.CancelToken);
 
                     if (duplicateTags != null)
                     {
@@ -1642,6 +1675,9 @@ namespace Win_CBZ
 
         public void CancelAllThreads()
         {
+            CancellationTokenSourceGlobal.Cancel();
+
+            /*
             Task.Factory.StartNew(() =>
             {
 
@@ -1733,6 +1769,7 @@ namespace Win_CBZ
                     }
                 }               
             });
+            */
         }
 
         public void AddImagesProc(object threadParams)
@@ -1793,12 +1830,18 @@ namespace Win_CBZ
                             Pages.Add(page);
                         }
 
+                        tParams.CancelToken.ThrowIfCancellationRequested();
+
                         OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
                         OnTaskProgress(new TaskProgressEvent(page, progressIndex, total));
 
                         index++;
                         progressIndex++;
                         Thread.Sleep(5);
+                    }
+                    catch (OperationCanceledException oce)
+                    {
+                        // 
                     }
                     catch (Exception ef)
                     {
@@ -1862,6 +1905,7 @@ namespace Win_CBZ
             { 
                 FileNamesToAdd = files,
                 Stack = null,
+                CancelToken = CancellationTokenSourceParseAddedFileNames.Token,
             });
         }
 
@@ -1881,9 +1925,15 @@ namespace Win_CBZ
                     files.Add(new LocalFile(fname));
                     index++;
 
+                    tParams.CancelToken.ThrowIfCancellationRequested();
+
                     OnTaskProgress(new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));
 
                     Thread.Sleep(5);
+                }
+                catch (OperationCanceledException oce)
+                {
+
                 }
                 catch (Exception ex)
                 {
@@ -1891,32 +1941,39 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    tParams.Stack = new List<StackItem>()
+                    if (!tParams.CancelToken.IsCancellationRequested)
                     {
-                        new StackItem
+                        tParams.Stack = new List<StackItem>()
                         {
-                            TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
-                            ThreadParams = new AddImagesThreadParams
+                            new StackItem
                             {
-                                LocalFiles = files.ToList(),
-                            }
-                        },
-                        new StackItem
-                        {
-                            TaskId = MetaData.Exists() ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
-                            ThreadParams = new UpdatePageIndicesThreadParams()
+                                TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
+                                ThreadParams = new AddImagesThreadParams
+                                {
+                                    LocalFiles = files.ToList(),
+                                }
+                            },
+                            new StackItem
                             {
-                                ContinuePipeline = true,
-                                InitialIndexRebuild = false,
+                                TaskId = MetaData.Exists() ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
+                                ThreadParams = new UpdatePageIndicesThreadParams()
+                                {
+                                    ContinuePipeline = true,
+                                    InitialIndexRebuild = false,
+                                }
                             }
-                        }
-                    };
+                        };
+                    }
                 }
             }
 
             OnTaskProgress(new TaskProgressEvent(null, 0, tParams.FileNamesToAdd.Count));
             OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-            OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, files, tParams.Stack));          
+
+            if (!tParams.CancelToken.IsCancellationRequested)
+            {
+                OnPipelineNextTask(new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, files, tParams.Stack));
+            }                     
         }
 
         public int RemoveDeletedPages()
@@ -2785,7 +2842,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    LoadArchiveThread.Abort();
+                    CancellationTokenSourceLoadArchive.Cancel();
                 }
             }
 
@@ -2793,7 +2850,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    CloseArchiveThread.Abort();
+                    CancellationTokenSourceCloseArchive.Cancel();
                 }
             }
 
@@ -2801,7 +2858,7 @@ namespace Win_CBZ
             {
                 if (ExtractArchiveThread.IsAlive)
                 {
-                    ExtractArchiveThread.Abort();
+                    CancellationTokenSourceExtractArchive.Cancel();
                 }
             }
 
