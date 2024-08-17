@@ -382,6 +382,21 @@ namespace Win_CBZ
                 if (imageProcessingTask == null)
                 {
                     imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
+                    imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+                    {
+                        // update pages with results
+
+                        if (currentPerformed != e.Task)
+                        {
+                            if (remainingStack.Count > 0)
+                            {
+                                nextTask = remainingStack[0];
+
+                                OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                            }
+                        }
+                    }));
+                        
                     imageProcessingTask.Start();
 
                     currentPerformed = e.Task;
@@ -391,21 +406,25 @@ namespace Win_CBZ
                     if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
                     {
                         imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
+                        imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+                        {
+                            //
+
+                            if (currentPerformed != e.Task)
+                            {
+                                if (remainingStack.Count > 0)
+                                {
+                                    nextTask = remainingStack[0];
+
+                                    OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                }
+                            }
+                        }));
                         imageProcessingTask.Start();
 
                         currentPerformed = e.Task;
                     }
-                }
-
-                if (currentPerformed != e.Task)
-                {
-                    if (remainingStack.Count > 0)
-                    {
-                        nextTask = remainingStack[0];
-
-                        OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
-                    }
-                }
+                }         
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
