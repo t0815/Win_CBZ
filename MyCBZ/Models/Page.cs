@@ -943,15 +943,31 @@ namespace Win_CBZ
             //TempPath = new FileInfo(newTempFileName).FullName;
         }
 
-        public void UpdateImage(Stream imageStream, LocalFile newImageFile)
+        public void UpdateImage(Stream updateStream, LocalFile newImageFile = null)
         {
-            if (imageStream == null && imageStream.CanRead && newImageFile != null)
+            if (updateStream == null && updateStream.CanRead)
             {
                 FileStream newImageFileStream = null;
                 try
                 {
-                    newImageFileStream = File.Open(newImageFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                    imageStream.CopyTo(newImageFileStream);
+                    if (newImageFile != null) 
+                    { 
+                        newImageFileStream = File.Open(newImageFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                        updateStream.CopyTo(newImageFileStream);
+                    }
+
+                    Stream fs = TemporaryFile.LocalFileInfo.OpenWrite();
+
+                    updateStream.CopyTo(fs);
+
+                    fs.Close();
+
+                    updateStream.Position = 0;
+
+                    updateStream.CopyTo(ImageStream);
+
+                    ImageStream.Position = 0;
+
                 } catch (FileNotFoundException fe)
                 {
 
@@ -966,19 +982,19 @@ namespace Win_CBZ
                 }
 
 
-                ImageFileInfo = new FileInfo(newImageFile.FullPath);
+                //ImageFileInfo = new FileInfo(newImageFile.FullPath);
 
                 //LocalFile = new LocalFile(newImageFile.FullPath);
-                TemporaryFile = null;
+                //TemporaryFile = null;
                 Size = ImageFileInfo.Length;
                 
-                Compressed = false;
+                //Compressed = false;
                 Changed = true;
                 LastModified = LocalFile.LastModified;
                 
-                Key = RandomId.getInstance().make();
+                //Key = RandomId.getInstance().make();
 
-                TemporaryFileId = RandomId.getInstance().make();
+                //TemporaryFileId = RandomId.getInstance().make();
                 Format = new PageImageFormat();
                 Image = null;
                 ImageLoaded = false;

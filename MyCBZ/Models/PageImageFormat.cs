@@ -99,6 +99,17 @@ namespace Win_CBZ.Models
             }           
         }
 
+        public PageImageFormat(PageImageFormat source)
+        {
+            W = source.W;
+            H = source.H;
+            DPI = source.DPI;
+            Format = source.Format;
+            ColorPalette = source.ColorPalette;
+            PixelFormat = source.PixelFormat;
+            Name = source.Name;
+        }
+
         public PageImageFormat(Image image)
         {
             string lookupResult = "";

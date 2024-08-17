@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
@@ -21,20 +22,28 @@ namespace Win_CBZ.Tasks
                 int total = pages.Count;
                 List<ImageTask> collectedTasks = new List<ImageTask>();
                 ImageTaskResult result = new ImageTaskResult();
+                Page taskPage = null;
+
                 foreach (Page page in pages)
                 {
                     if (page.ImageTask.TaskCount() > 0)
                     {
-                        collectedTasks.Add(page.ImageTask);
-                        //page.ImageTask.SetupTasks()
+                        taskPage = new Page(page, false, true);
 
-                        //page.ImageTask.PerformCommands();
-                        if (page.ImageTask.Success)
+
+                        Stream[] results = taskPage.ImageTask.SetupTasks(taskPage)
+                            .Apply()
+                            .CleanUp()
+                            .ResultStream;
+
+                        if (taskPage.ImageTask.Success)
                         {
+                            taskPage.UpdateImage(results[0]);
                             //page.Copy(page.ImageTask.ResultFileName, page.TempPath);
-                            result.AddFinishedPage(page);
+                            result.AddFinishedPage(taskPage);
                         }
 
+                        taskPage.ImageTask.Tasks.Clear();
                         page.ImageTask.Tasks.Clear();
 
                         handler?.Invoke(page.ImageTask, new GeneralTaskProgressEvent(

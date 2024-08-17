@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Helper;
+using Win_CBZ.Img;
 using static System.Net.Mime.MediaTypeNames;
 using Image = System.Drawing.Image;
 
@@ -16,9 +17,9 @@ namespace Win_CBZ.Models
     [SupportedOSPlatform("windows")]
     internal class ImageTask
     {
-        public const string TASK_SPLIT_PERCENT = "SplitPercent";
-        public const string TASK_DETECT_SPLIT_BY_COLOR = "DetectAndSplitByColor";
-        public const string TASK_DETECT_RESIZE = "ResizeImage";
+        public const string TASK_SPLIT = "SplitImage";
+        
+        public const string TASK_RESIZE = "ResizeImage";
 
         public ImageAdjustments ImageAdjustments { get; set; }
 
@@ -29,6 +30,8 @@ namespace Win_CBZ.Models
         public Image[] ResultImage { get; set; }
 
         public Image[] ResultThumbnail { get; set; }
+
+        public Stream[] ResultStream { get; set; }
 
         public LocalFile[] ResultFileName { get; set; }
 
@@ -44,6 +47,8 @@ namespace Win_CBZ.Models
 
         public Page SourcePage { get; set; }
 
+        protected List<LocalFile> FilesToCleanup { get; set; }
+
 
         public ImageTask()
         {
@@ -55,10 +60,11 @@ namespace Win_CBZ.Models
             ResultFileName = new LocalFile[2];
             ImageFormat = new PageImageFormat[2];
             ResultPages = new Page[2];
+            FilesToCleanup = new List<LocalFile>();
 
         }
 
-        public void SetupTasks(Page source, List<String> commandsTodo)
+        public ImageTask SetupTasks(Page source)
         {
             try
             {
@@ -66,7 +72,13 @@ namespace Win_CBZ.Models
                 PreviewFile[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "1.prev");
                 File.Copy(source.TemporaryFile.FullPath, PreviewFile[0].FullPath, true);
                 File.Copy(source.TemporaryFile.FullPath, PreviewFile[1].FullPath, true);
-                Tasks = commandsTodo;
+
+                ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "0.res");
+                ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "1.res");
+                File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
+                File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
+
+                //Tasks = commandsTodo;
                 ImageFormat[0] = source.Format;
                 SourceFormat = source.Format;
                 SourcePage = source;
@@ -74,21 +86,91 @@ namespace Win_CBZ.Models
             catch (Exception)
             {
 
-            }           
+            }    
+            
+            return this;
         }
 
-        public void apply()
+        public ImageTask SetTaskResize() 
         {
+            if (Tasks.IndexOf(TASK_RESIZE) == -1)
+            {
+                Tasks.Add(TASK_RESIZE);
+            }
+
+            return this;
+        }
+
+        public ImageTask SetTaskSplit()
+        {
+            if (Tasks.IndexOf(TASK_SPLIT) == -1)
+            {
+                Tasks.Add(TASK_SPLIT);
+            }
+
+            return this;
+        }
+        
+        public ImageTask Apply()
+        {
+            PageImageFormat targetFormat = null;
+            Stream outputStream = null;
+            Stream inputStream = SourcePage.GetImageStream();
+
+            int tempFileCounter = 0;
+
+            LocalFile inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + tempFileCounter.ToString() + ".tmp");
+
             foreach (String task in Tasks)
             {
-                switch (task)
+                targetFormat = new PageImageFormat(SourcePage.Format);
+                targetFormat.W = ImageAdjustments.ResizeTo.X;
+                targetFormat.H = ImageAdjustments.ResizeTo.Y;
+
+                try
                 {
-                    case TASK_DETECT_RESIZE:
+                    if (outputStream == null)
+                    {
+                        outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);                       
+                    } else
+                    {
+                        outputStream.CopyTo(inputStream);
+                        outputStream.Close();
 
+                        inputStream.Position = 0;
 
-                        break;
+                        inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + tempFileCounter.ToString() + ".tmp");
+
+                        outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    }
+
+                    FilesToCleanup.Add(inProgressFile);
+
+                    switch (task)
+                    {
+                        case TASK_RESIZE:
+                            ImageOperations.ResizeImage(SourcePage.GetImageStream(), ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                            break;
+                    }
                 }
+                catch (Exception e)
+                {
+                }
+                finally
+                {
+                    outputStream?.Dispose();
+                    inputStream?.Dispose();
+                }
+
+                tempFileCounter++;
             }
+
+            inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
+
+
+
+            return this;
         }
 
         public int TaskCount()
@@ -96,9 +178,15 @@ namespace Win_CBZ.Models
             return Tasks.Count;
         }
 
-        public void CleanUp()
+        public ImageTask CleanUp()
         {
 
+            foreach (LocalFile lf in FilesToCleanup)
+            {
+                lf.LocalFileInfo.Delete();
+            }
+
+            return this;
         }
     }
 }
