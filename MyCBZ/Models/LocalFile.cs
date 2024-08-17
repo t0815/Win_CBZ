@@ -30,7 +30,7 @@ namespace Win_CBZ
             LocalFileInfo = new FileInfo(fileName);
             FileName = LocalFileInfo.Name;
             Name = Path.GetFileNameWithoutExtension(fileName);
-            FilePath = LocalFileInfo.Directory.FullName;
+            FilePath = LocalFileInfo.Directory.FullName + Path.DirectorySeparatorChar;
             try
             {
                 if (LocalFileInfo.Exists)
@@ -61,6 +61,9 @@ namespace Win_CBZ
 
             try
             {
+                FullPath = LocalFileInfo?.FullName;
+                Name = LocalFileInfo?.Name;
+
                 if (LocalFileInfo.Exists)
                 {
                     FileSize = LocalFileInfo.Length;

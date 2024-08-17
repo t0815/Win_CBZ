@@ -377,54 +377,58 @@ namespace Win_CBZ
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_PROCESS_IMAGES)
             {
-                //RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
+                ProcessImagesThreadParams p = nextTask.ThreadParams as ProcessImagesThreadParams;
 
-                if (imageProcessingTask == null)
+                if (p.ApplyImageProcessing)
                 {
-                    imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
-                    imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+
+                    if (imageProcessingTask == null)
                     {
-                        // update pages with results
-
-                        if (currentPerformed != e.Task)
-                        {
-                            if (remainingStack.Count > 0)
-                            {
-                                nextTask = remainingStack[0];
-
-                                OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
-                            }
-                        }
-                    }));
-                        
-                    imageProcessingTask.Start();
-
-                    currentPerformed = e.Task;
-                }
-                else
-                {
-                    if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
-                    {
-                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GeneralTaskProgress);
+                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, GeneralTaskProgress);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
-                            //
+                            // update pages with results
 
-                            if (currentPerformed != e.Task)
-                            {
+                           // if (currentPerformed != e.Task)
+                           // {
                                 if (remainingStack.Count > 0)
                                 {
                                     nextTask = remainingStack[0];
 
                                     OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
                                 }
-                            }
+                           // }
                         }));
+
                         imageProcessingTask.Start();
 
                         currentPerformed = e.Task;
                     }
-                }         
+                    else
+                    {
+                        if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
+                        {
+                            imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, GeneralTaskProgress);
+                            imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+                            {
+                                //
+
+                                //if (currentPerformed != e.Task)
+                                
+                                    if (remainingStack.Count > 0)
+                                    {
+                                        nextTask = remainingStack[0];
+
+                                        OnPipelineNextTask(new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                    }
+                                
+                            }));
+                            imageProcessingTask.Start();
+
+                            currentPerformed = e.Task;
+                        }
+                    }
+                }
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
@@ -882,6 +886,14 @@ namespace Win_CBZ
                 null,
                 new List<StackItem>()
                 {
+                    new StackItem()
+                    {
+                        TaskId = PipelineEvent.PIPELINE_PROCESS_IMAGES,
+                        ThreadParams = new ProcessImagesThreadParams()
+                        {
+                            ApplyImageProcessing = true,
+                        }
+                    },
                     new StackItem()
                     {
                         TaskId = PipelineEvent.PIPELINE_RUN_RENAMING,

@@ -68,15 +68,15 @@ namespace Win_CBZ.Models
         {
             try
             {
-                PreviewFile[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "0.prev");
-                PreviewFile[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "1.prev");
-                File.Copy(source.TemporaryFile.FullPath, PreviewFile[0].FullPath, true);
-                File.Copy(source.TemporaryFile.FullPath, PreviewFile[1].FullPath, true);
+                PreviewFile[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".0.prev");
+                PreviewFile[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".1.prev");
+               // File.Copy(source.TemporaryFile.FullPath, PreviewFile[0].FullPath, true);
+               // File.Copy(source.TemporaryFile.FullPath, PreviewFile[1].FullPath, true);
 
-                ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "0.res");
-                ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + "1.res");
-                File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
-                File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
+                ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".0.res");
+                ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".1.res");
+                //File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
+                //File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
 
                 //Tasks = commandsTodo;
                 ImageFormat[0] = source.Format;
@@ -119,7 +119,7 @@ namespace Win_CBZ.Models
 
             int tempFileCounter = 0;
 
-            LocalFile inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + tempFileCounter.ToString() + ".tmp");
+            LocalFile inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + "." + tempFileCounter.ToString() + ".tmp");
 
             foreach (String task in Tasks)
             {
@@ -139,12 +139,14 @@ namespace Win_CBZ.Models
 
                         inputStream.Position = 0;
 
-                        inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + tempFileCounter.ToString() + ".tmp");
+                        inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + "." + tempFileCounter.ToString() + ".tmp");
 
                         outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     }
 
-                    FilesToCleanup.Add(inProgressFile);
+                    inProgressFile.Refresh();
+
+                    FilesToCleanup.Add(new LocalFile(inProgressFile.FullPath));
 
                     switch (task)
                     {
@@ -156,9 +158,13 @@ namespace Win_CBZ.Models
                 }
                 catch (Exception e)
                 {
+                    Success = false;
                 }
                 finally
                 {
+                    outputStream?.Close();
+                    inputStream?.Close();
+
                     outputStream?.Dispose();
                     inputStream?.Dispose();
                 }
@@ -166,7 +172,15 @@ namespace Win_CBZ.Models
                 tempFileCounter++;
             }
 
-            inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
+            try
+            {
+                inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
+
+                ResultFileName[0].Refresh();
+
+                Success = true; 
+            } catch (Exception e) { Success = false; }
+                
 
 
 
@@ -176,6 +190,15 @@ namespace Win_CBZ.Models
         public int TaskCount()
         { 
             return Tasks.Count;
+        }
+
+        public Stream[] GetResultStream()
+        {
+            ResultStream = new Stream[2];
+
+            ResultStream[0] = File.OpenRead(ResultFileName[0].FullPath);
+
+            return ResultStream;    
         }
 
         public ImageTask CleanUp()

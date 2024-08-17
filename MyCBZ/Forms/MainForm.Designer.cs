@@ -1305,7 +1305,6 @@ namespace Win_CBZ
             // RadioButtonResizeIfLarger
             // 
             RadioButtonResizeIfLarger.AutoSize = true;
-            RadioButtonResizeIfLarger.Enabled = false;
             RadioButtonResizeIfLarger.Location = new System.Drawing.Point(32, 60);
             RadioButtonResizeIfLarger.Margin = new System.Windows.Forms.Padding(2);
             RadioButtonResizeIfLarger.Name = "RadioButtonResizeIfLarger";
@@ -1319,7 +1318,6 @@ namespace Win_CBZ
             // 
             RadioButtonResizeNever.AutoSize = true;
             RadioButtonResizeNever.Checked = true;
-            RadioButtonResizeNever.Enabled = false;
             RadioButtonResizeNever.Location = new System.Drawing.Point(32, 28);
             RadioButtonResizeNever.Margin = new System.Windows.Forms.Padding(2);
             RadioButtonResizeNever.Name = "RadioButtonResizeNever";
@@ -1333,7 +1331,6 @@ namespace Win_CBZ
             // RadioButtonResizeTo
             // 
             RadioButtonResizeTo.AutoSize = true;
-            RadioButtonResizeTo.Enabled = false;
             RadioButtonResizeTo.Location = new System.Drawing.Point(32, 95);
             RadioButtonResizeTo.Margin = new System.Windows.Forms.Padding(2);
             RadioButtonResizeTo.Name = "RadioButtonResizeTo";

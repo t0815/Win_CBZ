@@ -14,7 +14,7 @@ namespace Win_CBZ.Tasks
     [SupportedOSPlatform("windows")]
     internal class ProcessImagesTask
     {
-        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, EventHandler<GeneralTaskProgressEvent> handler)
         {
             return new Task<ImageTaskResult>(() =>
             {
@@ -26,6 +26,38 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page page in pages)
                 {
+                    
+
+                    if (page.ImageTask.ImageAdjustments.ResizeMode > 0)
+                    {
+                        page.ImageTask.SetTaskResize();
+                    }
+
+                    if (page.ImageTask.ImageAdjustments.SplitPage)
+                    {
+                        page.ImageTask.SetTaskSplit();
+                    }
+
+                    
+                        if (page.ImageTask.TaskCount() == 0)
+                        {
+                            page.ImageTask = new ImageTask();
+                            //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
+                            page.ImageTask.ImageAdjustments = globalTask.ImageAdjustments;
+
+                            if (page.ImageTask.ImageAdjustments.ResizeMode > 0)
+                            {
+                                page.ImageTask.SetTaskResize();
+                            }
+
+                            if (page.ImageTask.ImageAdjustments.SplitPage)
+                            {
+                                page.ImageTask.SetTaskSplit();
+                            }
+                        }
+                    
+
+
                     if (page.ImageTask.TaskCount() > 0)
                     {
                         taskPage = new Page(page, false, true);
@@ -34,7 +66,7 @@ namespace Win_CBZ.Tasks
                         Stream[] results = taskPage.ImageTask.SetupTasks(taskPage)
                             .Apply()
                             .CleanUp()
-                            .ResultStream;
+                            .GetResultStream();
 
                         if (taskPage.ImageTask.Success)
                         {
