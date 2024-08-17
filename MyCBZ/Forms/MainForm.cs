@@ -70,7 +70,15 @@ namespace Win_CBZ
 
         private Thread MoveItemsThread;
 
+        private CancellationTokenSource CancellationTokenSourceGlobal;
 
+        private CancellationTokenSource CancellationTokenSourceRequestThumbnail;
+
+        private CancellationTokenSource CancellationTokenSourceRequestImageInfo;
+
+        private CancellationTokenSource CancellationTokenSourceUpdatePageView;
+
+        private CancellationTokenSource CancellationTokenSourceMoveItems;
 
         private List<Page> ThumbnailPagesSlice;
 
@@ -87,6 +95,12 @@ namespace Win_CBZ
         public MainForm()
         {
             InitializeComponent();
+
+            CancellationTokenSourceGlobal = new CancellationTokenSource();
+            CancellationTokenSourceRequestThumbnail = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceRequestImageInfo = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceUpdatePageView = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceMoveItems = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
 
             Program.ProjectModel = NewProjectModel();
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
@@ -875,11 +889,16 @@ namespace Win_CBZ
             if (Win_CBZSettings.Default.PagePreviewEnabled)
             {
 
+                List<Thread> threads = new List<Thread>();
+
                 if (ThumbnailThread != null)
                 {
                     if (ThumbnailThread.IsAlive)
                     {
-                        ThumbnailThread.Abort();
+                        //threads.Add(ThumbnailThread);
+
+                        CancellationTokenSourceRequestThumbnail.Cancel();
+                        //ThumbnailThread.Abort();
                     }
                 }
 
@@ -887,7 +906,9 @@ namespace Win_CBZ
                 {
                     if (RequestImageInfoThread.IsAlive)
                     {
-                        RequestImageInfoThread.Abort();
+                        CancellationTokenSourceRequestImageInfo.Cancel();
+                        //threads.Add(RequestImageInfoThread);
+                        //RequestImageInfoThread.Abort();
                     }
                 }
 
@@ -895,6 +916,7 @@ namespace Win_CBZ
                 {
                     if (RequestThumbnailThread.IsAlive)
                     {
+                        //threads.Add(RequestThumbnailThread);
                         RequestThumbnailThread.Join();
                     }
                 }
@@ -902,67 +924,130 @@ namespace Win_CBZ
                 RequestThumbnailThread = new Thread(LoadThumbnailSlice);
                 RequestThumbnailThread.Start(new ThumbSliceThreadParams()
                 {
-
+                    ThumbnailPagesSlice = ThumbnailPagesSlice,
+                    CancelToken = CancellationTokenSourceRequestThumbnail.Token
                 });
+
+                //Task awaitTasks = AwaitOperationsTask.AwaitOperations(threads);
+
+                //Task thenTask = awaitTasks.ContinueWith(task => {
+                    
+                //});
+
+                //thenTask.ContinueWith(task => 
+                //{ 
+                    //ThumbnailPagesSlice.Clear(); 
+                //});
+
+                //awaitTasks.Start();
             }
         }
 
-        public void LoadThumbnailSlice(object p)
+        public void LoadThumbnailSlice(object threadParams)
         {
-            if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING) {
-                Invoke(new Action(() =>
-                {
-                    //PageImages.Images.Clear();
-                    try
-                    {
+            ThumbSliceThreadParams tParams = threadParams as ThumbSliceThreadParams;
 
-                        foreach (Page page in ThumbnailPagesSlice)
+            if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING) {
+
+                if (!WindowClosed)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        //PageImages.Images.Clear();
+                        try
                         {
-                            try
+
+                            foreach (Page page in tParams.ThumbnailPagesSlice)
                             {
-                                if (!page.Closed)
+                                try
                                 {
-                                    if (!PageImages.Images.ContainsKey(page.Id))
+                                    if (!page.Closed)
                                     {
-                                        PageImages.Images.Add(page.Id, page.GetThumbnail());
+                                        if (!PageImages.Images.ContainsKey(page.Id))
+                                        {
+                                            PageImages.Images.Add(page.Id, page.GetThumbnail());
+                                        }
+                                        else
+                                        {
+                                            if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
+                                            {
+                                                PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail();
+                                                page.ThumbnailInvalidated = false;
+                                            }
+                                        }
+
+
                                     }
                                     else
                                     {
-                                        if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
-                                        {
-                                            PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail();
-                                            page.ThumbnailInvalidated = false;
-                                        }
+                                        page.ThumbnailInvalidated = false;
                                     }
+
+                                    tParams.CancelToken.ThrowIfCancellationRequested();
                                 }
-                                else
+                                catch (OperationCanceledException)
                                 {
-                                    page.ThumbnailInvalidated = false;
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                                }
+                                finally
+                                {
+                                    page.FreeImage();
                                 }
                             }
-                            catch (Exception e)
-                            {
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                            }
-                            finally
-                            {
-                                page.FreeImage();
-                            }
+
+                        }
+                        catch (Exception eo)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error in thumb-generation thread! [" + eo.Message + "]");
                         }
 
-                    } catch (Exception eo)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error in thumb-generation thread! [" + eo.Message + "]");
-                    }
+                        
+                        if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
+                        {
+                            //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                            int itemIndex = -1;
 
-                    ThumbnailPagesSlice.Clear();
+                            foreach (Page page in tParams.ThumbnailPagesSlice)
+                            {
+                                try
+                                {
+                                    if (!page.Closed)
+                                    {
+                                        itemIndex = PageThumbsListBox.Items.IndexOf(page);
 
-                    if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
-                    {
-                        //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                                        if (itemIndex > -1)
+                                        {
+                                            PageThumbsListBox.Items[itemIndex] = page;
+                                        }
+                                    }
+
+                                    tParams.CancelToken.ThrowIfCancellationRequested();
+                                }
+                                catch (OperationCanceledException)
+                                {
+                                    break;
+                                }
+                                catch (Exception e)
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                                }
+                                finally
+                                {
+                                    page.FreeImage();
+                                }
+                            }
+
+                        }
+
+                        tParams.ThumbnailPagesSlice.Clear();
+
                         PageThumbsListBox.Refresh();
-                    }
-                }));
+                    }));
+                }
             }
         }
 
@@ -2226,6 +2311,9 @@ namespace Win_CBZ
 
         private void CancelAllThreads()
         {
+            CancellationTokenSourceGlobal.Cancel();
+
+            /*
             Task.Factory.StartNew(() =>
             {
 
@@ -2261,6 +2349,7 @@ namespace Win_CBZ
                     }
                 }
             });
+            */
         }
 
         private void QuitApplication()
@@ -2359,6 +2448,7 @@ namespace Win_CBZ
 
         private void MoveItemsTo(int newIndex, System.Windows.Forms.ListView.SelectedListViewItemCollection items)
         {
+            /*
             if (ThumbnailThread != null)
             {
                 if (ThumbnailThread.IsAlive)
@@ -2398,13 +2488,17 @@ namespace Win_CBZ
                     UpdatePageViewThread.Abort();
                 }
             }
+            */
+
+            CancellationTokenSourceGlobal.Cancel();
 
             MoveItemsThread = new Thread(MoveItemsToProc);
             MoveItemsThread.Start(new MoveItemsToThreadParams()
             {
                 newIndex = newIndex,
                 items = items,
-                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()
+                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
+                CancelToken = CancellationTokenSourceMoveItems.Token
             });
 
         }
@@ -2478,7 +2572,8 @@ namespace Win_CBZ
         }
 
         private void MovePageTo(Page page, int newIndex)
-        {          
+        {
+            /*
             if (ThumbnailThread != null)
             {
                 if (ThumbnailThread.IsAlive)
@@ -2518,13 +2613,17 @@ namespace Win_CBZ
                     UpdatePageViewThread.Abort();
                 }
             }
+            */
+
+            CancellationTokenSourceGlobal.Cancel();
 
             MovePagesThread = new Thread(MovePageProc);
             MovePagesThread.Start(new MovePageThreadParams()
             {
                 newIndex = newIndex,
                 page = page,
-                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()
+                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
+                CancelToken = CancellationTokenSourceMoveItems.Token
             });
         }
 
