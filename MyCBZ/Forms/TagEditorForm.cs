@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -47,6 +48,8 @@ namespace Win_CBZ.Forms
 
         private Point SelectionStart;
 
+        private bool WindowShown;
+
         public TagEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
@@ -56,52 +59,8 @@ namespace Win_CBZ.Forms
 
             Config = editorTypeConfig;
 
-            if (Config != null)
-            {
-                if (Config.Separator != null)
-                {
-                    if (Config.Value != null && Config.Value.Length > 0)
-                    {
-                        string[] lines = Config.Value.Split(Config.Separator[0]);
-
-                        foreach (string line in lines)
-                        {
-                            Lines.Add(line.TrimStart().TrimEnd());
-                        }                     
-                    }
-
-                }
-                else
-                {
-                    if (Config.Value != null && Config.Value.Length > 0)
-                    {
-                        Lines.AddRange(Config.Value.Split('\n'));
-                    }                       
-                }
-
-                if (Config.AutoCompleteItems != null)
-                {
-                    //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
-                    //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
-
-                    var items = new List<AutocompleteItem>();
-                    foreach (var item in Config.AutoCompleteItems)
-                        items.Add(new SnippetAutocompleteItem(item) { ImageIndex = 0 });
-
-                    AutoCompleteItems.SetAutocompleteItems(items);
-
-                    //TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
-                    //TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                    //TagTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-                }
-            }
-
-            foreach (String tag in Lines)
-            {
-                AddTag(CreateTag(tag));
-                AddTag(tag);
-            }
+            
+            
         }
 
         public FlowLayoutPanel CreateTag(string tagName)
@@ -194,7 +153,10 @@ namespace Win_CBZ.Forms
         {
             if (control != null)
             {
-                TagsList.Controls.Add(control);
+                Invoke(new Action(() => {
+                    TagsList.Controls.Add(control);
+                }));
+                
             }
         }
 
@@ -367,6 +329,60 @@ namespace Win_CBZ.Forms
         private void TagEditorForm_Shown(object sender, EventArgs e)
         {
             TagTextBox.Focus();
+
+            Task.Factory.StartNew(() =>
+            {
+                if (Config != null)
+                {
+                    if (Config.Separator != null)
+                    {
+                        if (Config.Value != null && Config.Value.Length > 0)
+                        {
+                            string[] lines = Config.Value.Split(Config.Separator[0]);
+
+                            foreach (string line in lines)
+                            {
+                                Lines.Add(line.TrimStart().TrimEnd());
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        if (Config.Value != null && Config.Value.Length > 0)
+                        {
+                            Lines.AddRange(Config.Value.Split('\n'));
+                        }
+                    }
+
+                    if (Config.AutoCompleteItems != null)
+                    {
+                        //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
+                        //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
+
+                        var items = new List<AutocompleteItem>();
+                        foreach (var item in Config.AutoCompleteItems)
+                            items.Add(new SnippetAutocompleteItem(item) { ImageIndex = 0 });
+
+                        AutoCompleteItems.SetAutocompleteItems(items);
+
+                        //TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
+                        //TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                        //TagTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+                    }
+                }
+
+                foreach (String tag in Lines)
+                {
+                    Invoke(new Action(() => {
+                        AddTag(CreateTag(tag));
+                        AddTag(tag);
+                    }));
+
+                    Thread.Sleep(2);
+                }
+            });
         }
 
         private void DeleteAllTagsToolButton_Click(object sender, EventArgs e)

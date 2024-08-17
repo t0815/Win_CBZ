@@ -1009,6 +1009,8 @@ namespace Win_CBZ
                         if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
                         {
                             //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                            
+                            /*
                             int itemIndex = -1;
 
                             foreach (Page page in tParams.ThumbnailPagesSlice)
@@ -1040,7 +1042,7 @@ namespace Win_CBZ
                                     page.FreeImage();
                                 }
                             }
-
+                            */
                         }
 
                         tParams.ThumbnailPagesSlice.Clear();
