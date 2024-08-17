@@ -61,6 +61,7 @@ namespace Win_CBZ.Tasks
                     if (page.ImageTask.TaskCount() > 0)
                     {
                         taskPage = new Page(page, false, true);
+                        taskPage.Id = page.Id;  // Important! Keep original Id here
 
 
                         Stream[] results = taskPage.ImageTask.SetupTasks(taskPage)

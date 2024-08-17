@@ -13,6 +13,10 @@ namespace Win_CBZ.Data
          
         public List<string> FileNamesToAdd { get; set; }
 
+        public bool HasMetaData { get; set; }
+
+        public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
+
         public CancellationToken CancelToken { get; set; }
     }
 }

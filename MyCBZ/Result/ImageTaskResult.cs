@@ -11,16 +11,16 @@ namespace Win_CBZ.Result
     internal class ImageTaskResult
     {
 
-        public List<Page> pages { get; }
+        public List<Page> Pages { get; }
 
         public void AddFinishedPage(Page page)
         {
-            pages.Add(page);
+            Pages.Add(page);
         }
 
         public ImageTaskResult() 
         {
-            pages = new List<Page>();
+            Pages = new List<Page>();
         }
     }
 }

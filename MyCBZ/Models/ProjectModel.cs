@@ -388,6 +388,13 @@ namespace Win_CBZ
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
                             // update pages with results
+                            Page page = null;
+
+                            foreach (Page resultPage in r.Result.Pages)
+                            {
+                                page = GetPageById(resultPage.Id);
+                                page?.UpdatePage(resultPage);
+                            }
 
                            // if (currentPerformed != e.Task)
                            // {
@@ -413,9 +420,17 @@ namespace Win_CBZ
                             {
                                 //
 
+                                Page page = null;
+
+                                foreach (Page resultPage in r.Result.Pages)
+                                {
+                                    page = GetPageById(resultPage.Id);
+                                    page?.UpdatePage(resultPage);
+                                }
+
                                 //if (currentPerformed != e.Task)
-                                
-                                    if (remainingStack.Count > 0)
+
+                                if (remainingStack.Count > 0)
                                     {
                                         nextTask = remainingStack[0];
 
@@ -1838,13 +1853,13 @@ namespace Win_CBZ
                                 Number = realNewIndex + 1,
                                 Index = realNewIndex,
                                 OriginalIndex = realNewIndex,
-                                Key = RandomId.getInstance().make(),
+                                Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.getInstance().make(),
                             };
                             realNewIndex++;
                         } else
                         {
                             page.UpdateLocalWorkingCopy(fileObject, targetPath);
-                            page.Key = RandomId.getInstance().make();
+                            page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.getInstance().make();
                             page.Changed = true;
                         }
 
@@ -1939,6 +1954,8 @@ namespace Win_CBZ
             { 
                 FileNamesToAdd = files,
                 Stack = null,
+                HasMetaData = MetaData.Exists(),
+                PageIndexVerToWrite = PageIndexVersionWriter,
                 CancelToken = CancellationTokenSourceParseAddedFileNames.Token,
             });
         }
@@ -1985,11 +2002,12 @@ namespace Win_CBZ
                                 ThreadParams = new AddImagesThreadParams
                                 {
                                     LocalFiles = files.ToList(),
+                                    PageIndexVerToWrite = tParams.PageIndexVerToWrite,
                                 }
                             },
                             new StackItem
                             {
-                                TaskId = MetaData.Exists() ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
+                                TaskId = tParams.HasMetaData ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
                                 ThreadParams = new UpdatePageIndicesThreadParams()
                                 {
                                     ContinuePipeline = true,

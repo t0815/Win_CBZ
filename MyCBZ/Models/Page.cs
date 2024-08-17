@@ -937,7 +937,7 @@ namespace Win_CBZ
             Compressed = false;
             LastModified = localFile.LastModified;
             Name = localFile.FileName;
-            Key = RandomId.getInstance().make();
+            //Key = RandomId.getInstance().make();
 
             //String newTempFileName = CreateLocalWorkingCopy(ExtractFileExtension(localFile.FullPath));
             //TempPath = new FileInfo(newTempFileName).FullName;

@@ -11,7 +11,9 @@ namespace Win_CBZ.Data
     {
         public List<LocalFile> LocalFiles { get; set; }
 
-        public List<StackItem> Stack { get; set;}
+        public List<StackItem> Stack { get; set; }
+
+        public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
 
         public CancellationToken CancelToken { get; set; }
     }
