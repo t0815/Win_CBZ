@@ -393,7 +393,15 @@ namespace Win_CBZ
                             foreach (Page resultPage in r.Result.Pages)
                             {
                                 page = GetPageById(resultPage.Id);
-                                page?.UpdatePage(resultPage);
+                                //page?.UpdatePage(resultPage);
+                                //page?.UpdateStreams(resultPage);
+                                page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+
+                                if (page != null)
+                                {
+                                    page.ImageTask.ImageAdjustments.SplitPage = false;
+                                    page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                }
                             }
 
                            // if (currentPerformed != e.Task)
@@ -425,7 +433,16 @@ namespace Win_CBZ
                                 foreach (Page resultPage in r.Result.Pages)
                                 {
                                     page = GetPageById(resultPage.Id);
-                                    page?.UpdatePage(resultPage);
+                                    //page?.UpdatePage(resultPage);
+                                    //page?.UpdateStreams(resultPage);
+                                    page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+
+                                    if (page != null)
+                                    {
+                                        page.ImageTask.ImageAdjustments.SplitPage = false;
+                                        page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                    }
+                                    
                                 }
 
                                 //if (currentPerformed != e.Task)

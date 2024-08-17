@@ -937,10 +937,46 @@ namespace Win_CBZ
             Compressed = false;
             LastModified = localFile.LastModified;
             Name = localFile.FileName;
+
+            Changed = true;
+
+            //Key = RandomId.getInstance().make();
+
+            //TemporaryFileId = RandomId.getInstance().make();
+            Format = new PageImageFormat();
+            Image = null;
+            ImageLoaded = false;
+            ImageInfoRequested = false;
+            ThumbnailInvalidated = true;
+
+            ImageStream?.Close();
+            ImageStream?.Dispose();
+
+            ThumbnailInvalidated = true;
             //Key = RandomId.getInstance().make();
 
             //String newTempFileName = CreateLocalWorkingCopy(ExtractFileExtension(localFile.FullPath));
             //TempPath = new FileInfo(newTempFileName).FullName;
+        }
+
+        public void UpdateTemporaryFile(LocalFile newTempFile)
+        {
+            FreeImage();
+
+            if (TemporaryFile == null)
+            {
+               TemporaryFile = RequestTemporaryFile();
+            }
+
+            Copy(newTempFile.FullPath, TemporaryFile.FullPath);
+
+            TemporaryFile.Refresh();
+
+            //ImageLoaded = false;
+            //ThumbnailInvalidated = true;
+            //ImageInfoRequested = false;
+
+            //Image = null;
         }
 
         public void UpdateImage(Stream updateStream, LocalFile newImageFile = null)
@@ -968,6 +1004,8 @@ namespace Win_CBZ
 
                     ImageStream.Position = 0;
 
+                    TemporaryFile.Refresh();
+
                 } catch (FileNotFoundException fe)
                 {
 
@@ -986,11 +1024,11 @@ namespace Win_CBZ
 
                 //LocalFile = new LocalFile(newImageFile.FullPath);
                 //TemporaryFile = null;
-                Size = ImageFileInfo.Length;
+                Size = TemporaryFile.FileSize;
                 
                 //Compressed = false;
                 Changed = true;
-                LastModified = LocalFile.LastModified;
+                LastModified = TemporaryFile.LastModified;
                 
                 //Key = RandomId.getInstance().make();
 
@@ -998,6 +1036,8 @@ namespace Win_CBZ
                 Format = new PageImageFormat();
                 Image = null;
                 ImageLoaded = false;
+                ImageMetaDataLoaded = false;
+                ImageInfoRequested = false;
                 
                 ThumbnailInvalidated = true;
                 

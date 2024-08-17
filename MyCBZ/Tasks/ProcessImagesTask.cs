@@ -72,6 +72,8 @@ namespace Win_CBZ.Tasks
                         if (taskPage.ImageTask.Success)
                         {
                             taskPage.UpdateImage(results[0]);
+                            taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
+                            
                             //page.Copy(page.ImageTask.ResultFileName, page.TempPath);
                             result.AddFinishedPage(taskPage);
                         }

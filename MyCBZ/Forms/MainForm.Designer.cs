@@ -1305,6 +1305,7 @@ namespace Win_CBZ
             // RadioButtonResizeIfLarger
             // 
             RadioButtonResizeIfLarger.AutoSize = true;
+            RadioButtonResizeIfLarger.Enabled = false;
             RadioButtonResizeIfLarger.Location = new System.Drawing.Point(32, 60);
             RadioButtonResizeIfLarger.Margin = new System.Windows.Forms.Padding(2);
             RadioButtonResizeIfLarger.Name = "RadioButtonResizeIfLarger";
@@ -1435,6 +1436,7 @@ namespace Win_CBZ
             // CheckBoxSplitDoublePages
             // 
             CheckBoxSplitDoublePages.AutoSize = true;
+            CheckBoxSplitDoublePages.Enabled = false;
             CheckBoxSplitDoublePages.Location = new System.Drawing.Point(32, 38);
             CheckBoxSplitDoublePages.Margin = new System.Windows.Forms.Padding(2);
             CheckBoxSplitDoublePages.Name = "CheckBoxSplitDoublePages";
