@@ -2957,7 +2957,7 @@ namespace Win_CBZ
                             }
                         }
 
-                        
+                        long fileLen = 0;
 
                         foreach (FileInfo file in files)
                         {
@@ -2965,8 +2965,9 @@ namespace Win_CBZ
                             {
                                 try
                                 {
+                                    fileLen = file.Length;
                                     file.Delete();
-                                    totalSize += file.Length;
+                                    totalSize += fileLen;
                                     filesDeletedCount++;
                                 }
                                 catch
@@ -2976,7 +2977,7 @@ namespace Win_CBZ
                             }
 
                             OnGeneralTaskProgress(new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_DELETE_FILE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Clearing Cache...", fileIndex, files.Count, false));
-                            Thread.Sleep(5);
+                            Thread.Sleep(2);
                             fileIndex++;
                         }
 
