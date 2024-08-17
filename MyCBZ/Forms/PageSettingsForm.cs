@@ -343,60 +343,71 @@ namespace Win_CBZ.Forms
 
                 FirstPage = new Page(Pages[0], true);   // todo: maybe use memory copy here too and just set real memorycopy state
 
-                Task<Bitmap> imageTask = new Task<Bitmap>(() =>
+
+                if (Pages.Count == 1)
                 {
-
-                    Bitmap thumb = null;
-
-                    try
+                    Task<Bitmap> imageTask = new Task<Bitmap>(() =>
                     {
-                        thumb = FirstPage.GetThumbnailBitmap();
-                    }
-                    catch (PageMemoryIOException pme)
-                    {
-                        //ButtonOk.Enabled = false;
-                        if (pme.ShowErrorDialog)
+
+                        Bitmap thumb = null;
+
+                        try
                         {
-                            //ApplicationMessage.ShowException(pme);
+                            thumb = FirstPage.GetThumbnailBitmap();
                         }
-                    }
-                    catch (Exception xe)
-                    {
-                        //ButtonOk.Enabled = false;
-                        //ApplicationMessage.ShowException(xe);
-                    }
-                    finally
-                    {
-                        FirstPage.FreeImage();
-                    }
-
-                    return thumb;
-                });
-
-                imageTask.ContinueWith(t =>
-                {
-                    try
-                    {
-                        if (t.IsCompletedSuccessfully && t.Result != null)
+                        catch (PageMemoryIOException pme)
                         {
-                            Invoke(new Action(() =>
+                            //ButtonOk.Enabled = false;
+                            if (pme.ShowErrorDialog)
                             {
-                                ImagePreviewButton.BackgroundImage = Image.FromHbitmap(t.Result.GetHbitmap());
-                            }));
+                                //ApplicationMessage.ShowException(pme);
+                            }
                         }
-                    }
-                    catch (Exception ee)
-                    {
-                        ApplicationMessage.ShowException(ee);
-                    }
-                    finally
-                    {
-                        FirstPage.FreeImage();
-                    }
-                });
+                        catch (Exception xe)
+                        {
+                            //ButtonOk.Enabled = false;
+                            //ApplicationMessage.ShowException(xe);
+                        }
+                        finally
+                        {
+                            FirstPage.FreeImage();
+                        }
 
-                imageTask.Start();
+                        return thumb;
+                    });
 
+                    imageTask.ContinueWith(t =>
+                    {
+                        try
+                        {
+                            if (t.IsCompletedSuccessfully && t.Result != null)
+                            {
+                                Invoke(new Action(() =>
+                                {
+                                    ImagePreviewButton.BackgroundImage = Image.FromHbitmap(t.Result.GetHbitmap());
+
+                                    LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";
+                                    LabelDpi.Text = FirstPage.Format.DPI.ToString();
+                                    LabelImageFormat.Text = FirstPage.Format.Name;
+                                    if (FirstPage.Format?.ColorPalette != null)
+                                    {
+                                        LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
+                                    }
+                                }));
+                            }
+                        }
+                        catch (Exception ee)
+                        {
+                            ApplicationMessage.ShowException(ee);
+                        }
+                        finally
+                        {
+                            FirstPage.FreeImage();
+                        }
+                    });
+
+                    imageTask.Start();
+                }
 
                 if (Pages.Count == 1)
                 {
@@ -451,13 +462,7 @@ namespace Win_CBZ.Forms
                     LabelSize.Text = FirstPage.SizeFormat();
                     PageIndexTextbox.Text = (FirstPage.Index + 1).ToString();
                     CheckBoxPageDeleted.Checked = FirstPage.Deleted;
-                    LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";
-                    LabelDpi.Text = FirstPage.Format.DPI.ToString();
-                    LabelImageFormat.Text = FirstPage.Format.Name;
-                    if (FirstPage.Format?.ColorPalette != null)
-                    {
-                        LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
-                    }
+                    
 
                     if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == MetaData.PageIndexVersion.VERSION_2)
                     {
@@ -494,6 +499,12 @@ namespace Win_CBZ.Forms
                     LabelDpi.Text = "Multiple";
                     LabelImageFormat.Text = "Multiple formats";
                     TextBoxFileLocation.Text = "";
+
+                    countDeletedStates = 0;
+                    countCompressedStates = 0;
+                    countDoublePageStates = 0;
+
+                    totalSize = 0;
 
                     foreach (Page page in Pages)
                     {
@@ -636,65 +647,75 @@ namespace Win_CBZ.Forms
 
                 FirstPage = new Page(SelectedPages[0], true);   // todo: maybe use memory copy here too and just set real memorycopy state
 
-                Task<Bitmap> imageTask = new Task<Bitmap>(() =>
+                if (SelectedPages.Count == 1)
                 {
-                    Bitmap thumb = null;
+                    Task<Bitmap> imageTask = new Task<Bitmap>(() =>
+                    {
+                        Bitmap thumb = null;
 
-                    try
-                    {
-                        thumb = FirstPage.GetThumbnailBitmap();
-                    }
-                    catch (PageMemoryIOException pme)
-                    {
-                        Invoke(new Action(() =>
+                        try
                         {
-                            ButtonOk.Enabled = false;
-                            if (pme.ShowErrorDialog)
-                            {
-                                ApplicationMessage.ShowException(pme);
-                            }
-                        }));
-
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        Invoke(new Action(() =>
-                        {
-                            ButtonOk.Enabled = false;
-                            ApplicationMessage.ShowException(ex);
-                        }));
-
-                        
-                    }
-
-                    return thumb;
-                });
-
-                imageTask.ContinueWith(t =>
-                {
-                    try
-                    {
-                        if (t.IsCompletedSuccessfully && t.Result != null)
+                            thumb = FirstPage.GetThumbnailBitmap();
+                        }
+                        catch (PageMemoryIOException pme)
                         {
                             Invoke(new Action(() =>
                             {
-                                ImagePreviewButton.BackgroundImage = Image.FromHbitmap(t.Result.GetHbitmap());
+                                ButtonOk.Enabled = false;
+                                if (pme.ShowErrorDialog)
+                                {
+                                    ApplicationMessage.ShowException(pme);
+                                }
                             }));
+
+
                         }
-                    }
-                    catch (Exception ee)
-                    {
-                        ApplicationMessage.ShowException(ee);
-                    }
-                    finally 
-                    {
-                        FirstPage.FreeImage();
-                    }
-                });
+                        catch (Exception ex)
+                        {
+                            Invoke(new Action(() =>
+                            {
+                                ButtonOk.Enabled = false;
+                                ApplicationMessage.ShowException(ex);
+                            }));
 
-                imageTask.Start();
 
+                        }
+
+                        return thumb;
+                    });
+
+                    imageTask.ContinueWith(t =>
+                    {
+                        try
+                        {
+                            if (t.IsCompletedSuccessfully && t.Result != null)
+                            {
+                                Invoke(new Action(() =>
+                                {
+                                    ImagePreviewButton.BackgroundImage = Image.FromHbitmap(t.Result.GetHbitmap());
+
+                                    LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";
+                                    LabelDpi.Text = FirstPage.Format.DPI.ToString();
+                                    LabelImageFormat.Text = FirstPage.Format.Name;
+                                    if (FirstPage.Format?.ColorPalette != null)
+                                    {
+                                        LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
+                                    }
+                                }));
+                            }
+                        }
+                        catch (Exception ee)
+                        {
+                            ApplicationMessage.ShowException(ee);
+                        }
+                        finally
+                        {
+                            FirstPage.FreeImage();
+                        }
+                    });
+
+                    imageTask.Start();
+                }
 
                 // 
 
@@ -754,13 +775,7 @@ namespace Win_CBZ.Forms
                     LabelSize.Text = FirstPage.SizeFormat();
                     PageIndexTextbox.Text = (FirstPage.Index + 1).ToString();
                     CheckBoxPageDeleted.Checked = FirstPage.Deleted;
-                    LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";
-                    LabelDpi.Text = FirstPage.Format.DPI.ToString();
-                    LabelImageFormat.Text = FirstPage.Format.Name;
-                    if (FirstPage.Format?.ColorPalette != null)
-                    {
-                        LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
-                    }
+                    
 
                     if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == MetaData.PageIndexVersion.VERSION_2)
                     {
