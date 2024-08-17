@@ -140,6 +140,7 @@
             // 
             // ImagePreviewButton
             // 
+            ImagePreviewButton.BackgroundImage = Properties.Resources.placeholder_image;
             ImagePreviewButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             ImagePreviewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ImagePreviewButton.Location = new System.Drawing.Point(3, 2);
@@ -452,7 +453,7 @@
             PageNameTextBox.Location = new System.Drawing.Point(125, 245);
             PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 3, 2);
             PageNameTextBox.Name = "PageNameTextBox";
-            PageNameTextBox.Size = new System.Drawing.Size(181, 27);
+            PageNameTextBox.Size = new System.Drawing.Size(171, 27);
             PageNameTextBox.TabIndex = 2;
             PageNameTextBox.TextChanged += PageNameTextBox_TextChanged;
             // 
@@ -569,7 +570,7 @@
             KeyEditorPanel.Location = new System.Drawing.Point(125, 293);
             KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 5, 3, 2);
             KeyEditorPanel.Name = "KeyEditorPanel";
-            KeyEditorPanel.Size = new System.Drawing.Size(181, 27);
+            KeyEditorPanel.Size = new System.Drawing.Size(171, 27);
             KeyEditorPanel.TabIndex = 25;
             // 
             // textBoxKey
@@ -690,7 +691,7 @@
             ComboBoxPageType.Location = new System.Drawing.Point(123, 341);
             ComboBoxPageType.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
             ComboBoxPageType.Name = "ComboBoxPageType";
-            ComboBoxPageType.Size = new System.Drawing.Size(183, 28);
+            ComboBoxPageType.Size = new System.Drawing.Size(173, 28);
             ComboBoxPageType.TabIndex = 27;
             ComboBoxPageType.TextUpdate += ComboBoxPageType_TextUpdate;
             ComboBoxPageType.TextChanged += ComboBoxPageType_TextChanged;
@@ -753,7 +754,7 @@
             TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 5, 3, 2);
             TextBoxFileLocation.Name = "TextBoxFileLocation";
             TextBoxFileLocation.ReadOnly = true;
-            TextBoxFileLocation.Size = new System.Drawing.Size(224, 27);
+            TextBoxFileLocation.Size = new System.Drawing.Size(214, 27);
             TextBoxFileLocation.TabIndex = 5;
             // 
             // tabPage2
