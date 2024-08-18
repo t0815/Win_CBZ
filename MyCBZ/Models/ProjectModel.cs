@@ -90,6 +90,8 @@ namespace Win_CBZ
 
         public ArrayList RenamerExcludes { get; set; }
 
+        public List<string> FilteredFileNames { get; set; }
+
         public bool PreloadPageImages { get; set; }
 
         public List<Page> Pages { get; set; }
@@ -206,6 +208,7 @@ namespace Win_CBZ
             WorkingDir = workingDir;
             Pages = new List<Page>();
             RenamerExcludes = new ArrayList();
+            FilteredFileNames = new List<string>();
             GlobalImageTask = new ImageTask("");
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
@@ -331,6 +334,7 @@ namespace Win_CBZ
                     { 
                         LocalFiles = new List<LocalFile>((IEnumerable<LocalFile>)e.Data), 
                         Stack = remainingStack,
+                        InvalidFileNames = FilteredFileNames.ToArray(),
                         CancelToken = CancellationTokenSourceProcessAddedFiles.Token
                     });
 
@@ -1863,6 +1867,7 @@ namespace Win_CBZ
             int realNewIndex = MaxFileIndex;
             int total = tParams?.LocalFiles.Count ?? 0;
             int progressIndex = 0;
+            bool pageError = false; 
             FileInfo targetPath;
             FileInfo localPath;
             Page page;
@@ -1874,6 +1879,14 @@ namespace Win_CBZ
                     try
                     {
                         localPath = new FileInfo(fileObject.FileName);
+
+                        if (tParams.InvalidFileNames.Contains(localPath.Name.ToLower()))
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping file ['" + localPath.Name + "'] because of non-allowed filename!");
+
+                            continue;
+                        }
+
                         targetPath = MakeNewTempFileName();
 
                         //CopyFile(fileObject.FullPath, targetPath.FullName);
@@ -1902,6 +1915,8 @@ namespace Win_CBZ
                             page.LoadImage(true);    // dont load full image here!
                         } catch (PageException pe)
                         {
+                            pageError = true;
+
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
                         } finally
                         {
@@ -1915,11 +1930,13 @@ namespace Win_CBZ
 
                         tParams.CancelToken.ThrowIfCancellationRequested();
 
-                        OnPageChanged(new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                        OnPageChanged(new PageChangedEvent(page, null, !pageError ? PageChangedEvent.IMAGE_STATUS_NEW : PageChangedEvent.IMAGE_STATUS_ERROR));
+                        
                         OnTaskProgress(new TaskProgressEvent(page, progressIndex, total));
 
                         index++;
                         progressIndex++;
+                        pageError = false;
                         Thread.Sleep(5);
                     }
                     catch (OperationCanceledException oce)

@@ -114,6 +114,8 @@ namespace Win_CBZ
             Width = Win_CBZSettings.Default.WindowW;
             Height = Win_CBZSettings.Default.WindowH;
 
+            Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
+
             try
             {
                 MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
@@ -553,7 +555,7 @@ namespace Win_CBZ
                                     e.Page.ThumbnailInvalidated = true;
                                     break;
                                 case PageChangedEvent.IMAGE_STATUS_ERROR:
-                                    item.BackColor = HTMLColor.ToColor(Colors.COLOR_LIGHT_ORANGE);
+                                    //
                                     break;
                             }
 
@@ -579,8 +581,15 @@ namespace Win_CBZ
                                 item.ForeColor = Color.Silver;
                                 item.BackColor = Color.Transparent;
                             }
+
+                            if (e.State == PageChangedEvent.IMAGE_STATUS_ERROR)
+                            {
+                                item.ForeColor = Color.White;
+                                item.BackColor = HTMLColor.ToColor(Colors.COLOR_ERROR_RED);
+                            }
                         } else
                         {
+                            item.ForeColor = Color.White;
                             item.BackColor = HTMLColor.ToColor(Colors.COLOR_ERROR_RED);
                         }
                     }
@@ -4231,6 +4240,9 @@ namespace Win_CBZ
 
                 TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
                 Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;
+
+                Program.ProjectModel.FilteredFileNames.Clear();
+                Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
             } else
             {
                 //
