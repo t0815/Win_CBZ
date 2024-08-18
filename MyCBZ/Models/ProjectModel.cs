@@ -402,6 +402,12 @@ namespace Win_CBZ
                                     page.ImageTask.ImageAdjustments.SplitPage = false;
                                     page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                 }
+                                else 
+                                {
+                                    Pages.Add(resultPage);
+
+                                    OnPageChanged(new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                }
                             }
 
                            // if (currentPerformed != e.Task)
@@ -442,7 +448,13 @@ namespace Win_CBZ
                                         page.ImageTask.ImageAdjustments.SplitPage = false;
                                         page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                     }
-                                    
+                                    else
+                                    {
+                                        Pages.Add(resultPage);
+
+                                        OnPageChanged(new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                    }
+
                                 }
 
                                 //if (currentPerformed != e.Task)

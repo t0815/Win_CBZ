@@ -23,6 +23,7 @@ namespace Win_CBZ.Tasks
                 List<ImageTask> collectedTasks = new List<ImageTask>();
                 ImageTaskResult result = new ImageTaskResult();
                 Page taskPage = null;
+                Page secondPage = null;
 
                 foreach (Page page in pages)
                 {
@@ -73,9 +74,21 @@ namespace Win_CBZ.Tasks
                         {
                             taskPage.UpdateImage(results[0]);
                             taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
-                            
-                            //page.Copy(page.ImageTask.ResultFileName, page.TempPath);
                             result.AddFinishedPage(taskPage);
+
+                            if (taskPage.ImageTask.ResultFileName[0].Exists())
+                            {
+                                secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
+                                secondPage.Index = taskPage.Index + 1;
+                                secondPage.Number = taskPage.Number + 1;
+
+                                result.AddFinishedPage(secondPage);
+                            }
+
+                            //page.Copy(page.ImageTask.ResultFileName, page.TempPath);                         
+                        } else
+                        {
+
                         }
 
                         taskPage.ImageTask.Tasks.Clear();
