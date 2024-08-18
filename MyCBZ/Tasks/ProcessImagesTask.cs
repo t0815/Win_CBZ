@@ -14,7 +14,7 @@ namespace Win_CBZ.Tasks
     [SupportedOSPlatform("windows")]
     internal class ProcessImagesTask
     {
-        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, String[] skipPages, EventHandler<GeneralTaskProgressEvent> handler)
         {
             return new Task<ImageTaskResult>(() =>
             {
@@ -27,7 +27,10 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page page in pages)
                 {
-                    
+                    if (Array.IndexOf(skipPages, page.Name) > -1)
+                    {
+                        continue;
+                    }
 
                     if (page.ImageTask.ImageAdjustments.ResizeMode > 0 && 
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||

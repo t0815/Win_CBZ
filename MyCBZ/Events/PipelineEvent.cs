@@ -25,7 +25,7 @@ namespace Win_CBZ
 
         public List<StackItem> Stack { get; set; }
 
-        public PipelinePayload Payload { get; set; }
+        public PipelineAttributes Attributes { get; set; }
 
         public object Data { get; set; }
 
@@ -42,22 +42,22 @@ namespace Win_CBZ
             Stack = stack;
         }
 
-        public PipelineEvent(ProjectModel project, int currentTask, object data, List<StackItem> stack, PipelinePayload pipelineConfig)
+        public PipelineEvent(ProjectModel project, int currentTask, object data, List<StackItem> stack, PipelineAttributes pipelineAttributes)
         {
             ArchiveInfo = project;
             Task = currentTask;
             Data = data;
             Stack = stack;
-            Payload = pipelineConfig;
+            Attributes = pipelineAttributes;
         }
 
-        public PipelineEvent(ProjectModel project, int currentTask, object data, List<StackItem> stack, PipelinePayload pipelineConfig, PipelineEvent.Operation callback)
+        public PipelineEvent(ProjectModel project, int currentTask, object data, List<StackItem> stack, PipelineAttributes pipelineAttributes, PipelineEvent.Operation callback)
         {
             ArchiveInfo = project;
             Task = currentTask;
             Data = data;
             Stack = stack;
-            Payload = pipelineConfig;
+            Attributes = pipelineAttributes;
             Callback = callback;
         }   
     }

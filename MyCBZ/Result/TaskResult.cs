@@ -10,6 +10,10 @@ namespace Win_CBZ.Data
 
         public object[] Payload { get; set; }
 
+        public int Total { get; set; } 
+
+        public int Completed { get; set; }
+
         public TaskResult() { }
 
         public TaskResult(int result, string message) 

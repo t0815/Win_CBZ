@@ -384,7 +384,7 @@ namespace Win_CBZ
 
                     if (imageProcessingTask == null)
                     {
-                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, GeneralTaskProgress);
+                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, GeneralTaskProgress);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
                             // update pages with results
@@ -431,7 +431,7 @@ namespace Win_CBZ
                     {
                         if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
                         {
-                            imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, GeneralTaskProgress);
+                            imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, GeneralTaskProgress);
                             imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                             {
                                 //
@@ -543,13 +543,9 @@ namespace Win_CBZ
                 SaveArchiveThread = new Thread(SaveArchiveProc);
                 SaveArchiveThread.Start(nextTask.ThreadParams);
 
-                if (e.Payload != null)
+                if (e.Attributes != null)
                 {
-                    Task task = e.Payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_RENAME_SCRIPT);
-                    task?.Start();
-
-                    task = e.Payload.GetAttribute(PipelinePayload.PAYLOAD_EXECUTE_IMAGE_PROCESSING);
-                    task?.Start();
+                    
                 }
             }
 
@@ -940,6 +936,7 @@ namespace Win_CBZ
                         ThreadParams = new ProcessImagesThreadParams()
                         {
                             ApplyImageProcessing = true,
+                            ContinuePipeline = true,
                         }
                     },
                     new StackItem()
