@@ -401,6 +401,8 @@ namespace Win_CBZ
                                 {
                                     page.ImageTask.ImageAdjustments.SplitPage = false;
                                     page.ImageTask.ImageAdjustments.ResizeMode = -1;
+
+                                    OnPageChanged(new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                 }
                                 else 
                                 {
@@ -447,6 +449,8 @@ namespace Win_CBZ
                                     {
                                         page.ImageTask.ImageAdjustments.SplitPage = false;
                                         page.ImageTask.ImageAdjustments.ResizeMode = -1;
+
+                                        OnPageChanged(new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                     }
                                     else
                                     {

@@ -1260,7 +1260,7 @@ namespace Win_CBZ
             pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox2.TabIndex = 9;
             pictureBox2.TabStop = false;
-            Tooltip.SetToolTip(pictureBox2, "Not yet implemented!");
+            Tooltip.SetToolTip(pictureBox2, "Work in progress!");
             // 
             // TextBoxResizePageIndexReference
             // 
