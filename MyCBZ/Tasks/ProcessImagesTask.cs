@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Models;
@@ -14,7 +15,7 @@ namespace Win_CBZ.Tasks
     [SupportedOSPlatform("windows")]
     internal class ProcessImagesTask
     {
-        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, String[] skipPages, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, String[] skipPages, EventHandler<GeneralTaskProgressEvent> handler, CancellationToken? cancellationToken = null)
         {
             return new Task<ImageTaskResult>(() =>
             {
@@ -30,6 +31,11 @@ namespace Win_CBZ.Tasks
                     if (Array.IndexOf(skipPages, page.Name) > -1)
                     {
                         continue;
+                    }
+
+                    if (cancellationToken.HasValue && cancellationToken.Value.IsCancellationRequested)
+                    {
+                        break;
                     }
 
                     if (page.ImageTask.ImageAdjustments.ResizeMode > 0 && 
@@ -123,7 +129,7 @@ namespace Win_CBZ.Tasks
                         true));
 
                 return result;
-            });
+            }, cancellationToken.Value);
         }
     }
 }

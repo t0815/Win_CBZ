@@ -384,7 +384,7 @@ namespace Win_CBZ
 
                     if (imageProcessingTask == null)
                     {
-                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, GeneralTaskProgress);
+                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, GeneralTaskProgress, p.CancelToken);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
                             // update pages with results
@@ -431,7 +431,7 @@ namespace Win_CBZ
                     {
                         if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
                         {
-                            imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, GeneralTaskProgress);
+                            imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, GeneralTaskProgress, p.CancelToken);
                             imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                             {
                                 //
@@ -474,6 +474,9 @@ namespace Win_CBZ
                             imageProcessingTask.Start();
 
                             currentPerformed = e.Task;
+                        } else
+                        {
+                            throw new ApplicationException("Previous Task not yet finished! Please try again later.", true);
                         }
                     }
                 }
@@ -937,6 +940,7 @@ namespace Win_CBZ
                         {
                             ApplyImageProcessing = true,
                             ContinuePipeline = true,
+                            CancelToken = CancellationTokenSourceSaveArchive.Token
                         }
                     },
                     new StackItem()
@@ -962,7 +966,7 @@ namespace Win_CBZ
                             InitialIndexRebuild = false,
                             Stack = new List<StackItem>(),
                             PageIndexVerToWrite = metaDataVersionWriting,
-                            CancelToken = CancellationTokenSourceGlobal.Token
+                            CancelToken = CancellationTokenSourceSaveArchive.Token
                         }
                     },
                     new StackItem()

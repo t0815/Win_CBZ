@@ -17,6 +17,7 @@ using System.IO.Pipes;
 using System.Threading.Tasks;
 using System.Drawing.Drawing2D;
 using System.Runtime.Versioning;
+using System.Threading;
 
 namespace Win_CBZ
 {
@@ -141,7 +142,9 @@ namespace Win_CBZ
                 RemoveReadOnlyAttribute(ref ImageFileInfo);
             }
 
-            FileStream ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
+            TemporaryFile = RequestTemporaryFile();
+
+            FileStream ImageStream = TemporaryFile.LocalFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
             Filename = ImageFileInfo.Name;
             FileExtension = ImageFileInfo.Extension;
             //LocalPath = ImageFileInfo.Directory.FullName;               
@@ -150,7 +153,7 @@ namespace Win_CBZ
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask();
-            Key = RandomId.getInstance().make();
+            
         }
 
 
@@ -884,7 +887,7 @@ namespace Win_CBZ
             Size = page.Size;
             Id = page.Id;
             Key = page.Key;
-            Number = page.Number;
+            
             Deleted = page.Deleted;
             LocalFile = page.LocalFile;
             TemporaryFileId = page.TemporaryFileId;
@@ -896,6 +899,8 @@ namespace Win_CBZ
             Hash = page.Hash;
             LastModified = page.LastModified;
 
+            
+
             TemporaryFile = page.TemporaryFile;
 
             if (!skipName)
@@ -906,6 +911,7 @@ namespace Win_CBZ
             if (!skipIndex)
             {
                 Index = page.Index;
+                Number = page.Number;
             }
             //OriginalIndex = page.OriginalIndex;
         }
@@ -1442,11 +1448,13 @@ namespace Win_CBZ
         public void Copy(string inputFilePath, string outputFilePath)
         {           
             int bufferSize = 1024 * 1024;
+            long size = 0;
 
             using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
             {
                 FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                fileStream.SetLength(fs.Length);
+                size = fs.Length;
+                fileStream.SetLength(size);
                 int bytesRead = -1;
                 int byesTotal = 0;
                 byte[] bytes = new byte[bufferSize];
@@ -1456,6 +1464,7 @@ namespace Win_CBZ
                     fileStream.Write(bytes, 0, bytesRead);
                     byesTotal += bytesRead;
                     
+                    Thread.Sleep(10);
                 }
 
                 fs?.Close();  

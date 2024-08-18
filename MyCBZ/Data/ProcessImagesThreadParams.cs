@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
@@ -15,6 +16,7 @@ namespace Win_CBZ.Data
 
         public string[] SkipPages { get; set; } = new string[0];
 
+        public CancellationToken CancelToken { get; set; }
 
     }
 }
