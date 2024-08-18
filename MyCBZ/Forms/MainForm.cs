@@ -2435,7 +2435,7 @@ namespace Win_CBZ
                     try
                     {
                         //Page oldPage = new Page(((Page)changedItem.Tag));  // dont load page here! will cause Access denied
-                        Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label);
+                        Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label, false, true);
                        
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
 
@@ -2455,9 +2455,19 @@ namespace Win_CBZ
                     catch (PageException pe)
                     {
                         e.CancelEdit = true;
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
                         if (pe.ShowErrorDialog)
                         {
                             ApplicationMessage.ShowException(pe, ApplicationMessage.DialogType.MT_ERROR);
+                        }
+                    }
+                    catch (ApplicationException ae)
+                    {
+                        e.CancelEdit = true;
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, ae.Message);
+                        if (ae.ShowErrorDialog)
+                        {
+                            ApplicationMessage.ShowWarning("Error renaming page\r\n" + ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                         }
                     }
                     catch (Exception ex)
@@ -3912,7 +3922,7 @@ namespace Win_CBZ
                                 {
                                     try
                                     {
-                                        Program.ProjectModel.RenamePage(pageToUpdate, pageResult.Name);
+                                        Program.ProjectModel.RenamePage(pageToUpdate, pageResult.Name, false, true);
 
                                         try
                                         {
@@ -3948,6 +3958,29 @@ namespace Win_CBZ
                                         if (ae.ShowErrorDialog)
                                         {
                                             ApplicationMessage.ShowWarning(ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                        }
+
+                                        PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
+
+                                        try
+                                        {
+                                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, pageProperties[i].Key);
+                                        }
+                                        catch (MetaDataPageEntryException em)
+                                        {
+                                            //if (em.ShowErrorDialog)
+                                            //{
+                                            //    ApplicationMessage.ShowWarning(em.Message, em.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                                            //}
+                                        }
+                                    }
+                                    catch (PageException pe)
+                                    {
+                                        pageResult.Name = pageProperties[i].Name;
+                                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
+                                        if (pe.ShowErrorDialog)
+                                        {
+                                            ApplicationMessage.ShowWarning(pe.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                                         }
 
                                         PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));

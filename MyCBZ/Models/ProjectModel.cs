@@ -2449,11 +2449,16 @@ namespace Win_CBZ
         }
 
         
-        public void RenamePage(Page page, String name, bool ignoreDuplicates = false)
+        public void RenamePage(Page page, String name, bool ignoreDuplicates = false, bool showErrors = false)
         {
             if (name == null || name == "")
             {
-                throw new PageException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! The new name must not be NULL.");
+                throw new PageException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! The new name must not be NULL.", showErrors);
+            }
+
+            if (FilteredFileNames.Contains(name.ToLower()))
+            {
+                throw new ApplicationException("Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! The new name [" + name + "] is not permitted.", showErrors);
             }
 
             if (!ignoreDuplicates)
@@ -2464,7 +2469,7 @@ namespace Win_CBZ
                     {
                         if (existingPage.Name.ToLower().Equals(name.ToLower()))
                         {
-                            throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".", true);
+                            throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".", showErrors);
                         }
                     }
                 }
