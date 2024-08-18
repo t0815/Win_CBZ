@@ -80,7 +80,7 @@ namespace Win_CBZ.Tasks
                             taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
                             result.AddFinishedPage(taskPage);
 
-                            if (taskPage.ImageTask.ResultFileName[0].Exists())
+                            if (taskPage.ImageTask.ResultFileName[1].Exists())
                             {
                                 secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
                                 secondPage.Index = taskPage.Index + 1;
