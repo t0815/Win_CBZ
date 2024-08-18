@@ -206,7 +206,7 @@ namespace Win_CBZ
             WorkingDir = workingDir;
             Pages = new List<Page>();
             RenamerExcludes = new ArrayList();
-            GlobalImageTask = new ImageTask();
+            GlobalImageTask = new ImageTask("");
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
             Validation = new DataValidation();

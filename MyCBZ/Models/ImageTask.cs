@@ -21,6 +21,8 @@ namespace Win_CBZ.Models
         
         public const string TASK_RESIZE = "ResizeImage";
 
+        public String PageId { get; set; }
+
         public ImageAdjustments ImageAdjustments { get; set; }
 
         public PageImageFormat[] ImageFormat { get; set; }
@@ -29,50 +31,35 @@ namespace Win_CBZ.Models
 
         public Image[] ResultImage { get; set; }
 
-        public Image[] ResultThumbnail { get; set; }
-
         public Stream[] ResultStream { get; set; }
 
         public LocalFile[] ResultFileName { get; set; }
 
         public LocalFile SourceFileName { get; set; }
 
-        public LocalFile[] PreviewFile { get; set; }
-
         public List<String> Tasks { get; set; }
 
         public bool Success = false;
-
-        public Page[] ResultPages { get; set; }
 
         public Page SourcePage { get; set; }
 
         protected List<LocalFile> FilesToCleanup { get; set; }
 
 
-        public ImageTask()
+        public ImageTask(String pageId)
         {
             Tasks = new List<String>();
             ImageAdjustments = new ImageAdjustments();
             ResultImage = new Image[2];
-            PreviewFile = new LocalFile[2];
-            ResultThumbnail = new Image[2];
             ResultFileName = new LocalFile[2];
-            ImageFormat = new PageImageFormat[2];
-            ResultPages = new Page[2];
             FilesToCleanup = new List<LocalFile>();
-
+            PageId = pageId;
         }
 
         public ImageTask SetupTasks(Page source)
         {
             try
             {
-                PreviewFile[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".0.prev");
-                PreviewFile[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".1.prev");
-               // File.Copy(source.TemporaryFile.FullPath, PreviewFile[0].FullPath, true);
-               // File.Copy(source.TemporaryFile.FullPath, PreviewFile[1].FullPath, true);
-
                 ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".0.res");
                 ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".1.res");
                 //File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);

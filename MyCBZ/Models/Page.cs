@@ -126,7 +126,7 @@ namespace Win_CBZ
         public Page()
         {
             Id = Guid.NewGuid().ToString();
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
             ReadOnly = true;
             Format = new PageImageFormat();
         }
@@ -152,7 +152,7 @@ namespace Win_CBZ
             LastModified = ImageFileInfo.LastWriteTime;
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
             
         }
 
@@ -204,7 +204,7 @@ namespace Win_CBZ
             Name = localFile.FileName;
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
             Key = RandomId.getInstance().make();
             LastModified = localFile.LastModified;
         }
@@ -225,7 +225,7 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             TemporaryFileId = randomId ?? RandomId.getInstance().make();
             WorkingDir = workingDir;
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
         }
 
@@ -239,7 +239,7 @@ namespace Win_CBZ
             FileExtension = ExtractFileExtension(name);
             Size = fileInputStream.Length;
             Id = Guid.NewGuid().ToString();
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
         }
 
@@ -251,7 +251,7 @@ namespace Win_CBZ
             Compressed = true;
             Size = zipInputStream.Length;
             Id = Guid.NewGuid().ToString();
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
         }
 
         public Page(Page sourcePage, String RandomId, int ThumbWidth = 212, int ThumbHeight = 256)
@@ -337,7 +337,7 @@ namespace Win_CBZ
             }
             
             
-            ImageTask = new ImageTask();
+            ImageTask = new ImageTask(Id);
         }
 
         public Page(Page sourcePage, bool inMemory = false, bool newCopy = false)
@@ -689,7 +689,7 @@ namespace Win_CBZ
             }
             else if (type == "ImageTask")
             {
-                ImageTask = new ImageTask();
+                ImageTask = new ImageTask(Id);
                 foreach (XmlNode subNode in node.ChildNodes)
                 {
                     if (subNode.Name == "Tasks")

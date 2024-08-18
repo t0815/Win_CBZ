@@ -54,7 +54,7 @@ namespace Win_CBZ.Tasks
                     
                     if (page.ImageTask.TaskCount() == 0)
                     {
-                        page.ImageTask = new ImageTask();
+                        page.ImageTask = new ImageTask(page.Id);
                         //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
                         page.ImageTask.ImageAdjustments = globalTask.ImageAdjustments;
 
@@ -78,7 +78,8 @@ namespace Win_CBZ.Tasks
                         taskPage.Id = page.Id;  // Important! Keep original Id here
 
 
-                        Stream[] results = taskPage.ImageTask.SetupTasks(taskPage)
+                        Stream[] results = taskPage.ImageTask
+                            .SetupTasks(taskPage)
                             .Apply()
                             .CleanUp()
                             .GetResultStream();
@@ -94,6 +95,7 @@ namespace Win_CBZ.Tasks
                                 secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
                                 secondPage.Index = taskPage.Index + 1;
                                 secondPage.Number = taskPage.Number + 1;
+                                secondPage.Compressed = false;
 
                                 result.AddFinishedPage(secondPage);
                             }
