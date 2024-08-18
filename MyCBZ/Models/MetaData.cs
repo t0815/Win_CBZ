@@ -15,8 +15,10 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 using Win_CBZ.Data;
+using Win_CBZ.Handler;
 using Win_CBZ.Helper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static Win_CBZ.Handler.AppEventHandler;
 
 namespace Win_CBZ
 {
@@ -123,7 +125,7 @@ namespace Win_CBZ
 
         private readonly Stream InputStream;
 
-        public event EventHandler<MetaDataEntryChangedEvent> MetaDataEntryChanged;
+        public MetaDataEntryChangedDelegate MetaDataEntryChanged;
 
 
         public MetaData(bool createDefault = false, String name = "ComicInfo.xml")

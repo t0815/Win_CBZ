@@ -5,6 +5,8 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Handler;
+using static Win_CBZ.Handler.AppEventHandler;
 
 namespace Win_CBZ.Tasks
 {
@@ -12,7 +14,7 @@ namespace Win_CBZ.Tasks
     internal class ReadImageMetaDataTask
     {
 
-        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler)
+        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler)
         {
             return new Task<TaskResult>(() =>
             {

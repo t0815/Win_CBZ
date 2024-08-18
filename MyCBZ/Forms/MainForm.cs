@@ -37,6 +37,7 @@ using SharpCompress.Common;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Diagnostics;
 using System.Runtime.Versioning;
+using Win_CBZ.Handler;
 
 namespace Win_CBZ
 {
@@ -210,20 +211,20 @@ namespace Win_CBZ
         {
             ProjectModel newProjectModel = new ProjectModel(Win_CBZSettings.Default.TempFolderPath, Win_CBZSettings.Default.MetaDataFilename);
 
-            newProjectModel.ArchiveStatusChanged += ArchiveStateChanged;
-            newProjectModel.TaskProgress += TaskProgress;
-            newProjectModel.PageChanged += PageChanged;
-            newProjectModel.CBZValidationEventHandler += ValidationFinished;
-            newProjectModel.MetaDataLoaded += MetaDataLoaded;
-            newProjectModel.MetaDataChanged += MetaDataChanged;
-            newProjectModel.MetaDataEntryChanged += MetaDataEntryChanged;
+            AppEventHandler.ArchiveStatusChanged += ArchiveStateChanged;
+            AppEventHandler.TaskProgress += TaskProgress;
+            AppEventHandler.PageChanged += PageChanged;
+            AppEventHandler.CBZValidationEventHandler += ValidationFinished;
+            AppEventHandler.MetaDataLoaded += MetaDataLoaded;
+            AppEventHandler.MetaDataChanged += MetaDataChanged;
+            AppEventHandler.MetaDataEntryChanged += MetaDataEntryChanged;
             // newProjectModel.ItemExtracted += ItemExtracted;
-            newProjectModel.OperationFinished += OperationFinished;
-            newProjectModel.FileOperation += FileOperationHandler;
-            newProjectModel.ArchiveOperation += ArchiveOperationHandler;
-            newProjectModel.ApplicationStateChanged += ApplicationStateChanged;
-            newProjectModel.GlobalActionRequired += HandleGlobalActionRequired;
-            newProjectModel.GeneralTaskProgress += HandleGlobalTaskProgress;
+            AppEventHandler.OperationFinished += OperationFinished;
+            AppEventHandler.FileOperation += FileOperationHandler;
+            AppEventHandler.ArchiveOperation += ArchiveOperationHandler;
+            AppEventHandler.ApplicationStateChanged += ApplicationStateChanged;
+            AppEventHandler.GlobalActionRequired += HandleGlobalActionRequired;
+            AppEventHandler.GeneralTaskProgress += HandleGlobalTaskProgress;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;

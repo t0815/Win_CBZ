@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Win_CBZ.Handler.AppEventHandler;
 
 namespace Win_CBZ.Data
 {
@@ -14,7 +15,7 @@ namespace Win_CBZ.Data
     internal class DataValidation
     {
 
-        public event EventHandler<TaskProgressEvent> TaskProgress;
+        public TaskProgressDelegate OnTaskProgress { get; set; }    
 
         public DataValidation() 
         {
@@ -219,7 +220,7 @@ namespace Win_CBZ.Data
                         }
                     }
 
-                    OnTaskProgress(new TaskProgressEvent(null, progressIndex, overallProgress));
+                    OnTaskProgress?.Invoke(this, new TaskProgressEvent(null, progressIndex, overallProgress));
 
                     progressIndex++;
                 }
@@ -266,9 +267,6 @@ namespace Win_CBZ.Data
 
         }
 
-        protected virtual void OnTaskProgress(TaskProgressEvent e)
-        {
-            TaskProgress?.Invoke(this, e);
-        }
+        
     }
 }
