@@ -621,7 +621,7 @@ namespace Win_CBZ
                     }
                 }));
 
-                if (TogglePagePreviewToolbutton.Checked)
+                if (TogglePagePreviewToolbutton.Checked && !e.NoThumbRefresh)
                 {
                     if (e.Page != null)
                     {
@@ -632,7 +632,11 @@ namespace Win_CBZ
                                 PageThumbsListBox.Invoke(new Action(() =>
                                 {
                                     CreatePagePreviewFromItem(e.Page, e.OldValue as Page);
+
+                                    return;
                                 }));
+
+                                
                             });
                         }
                     }
@@ -4699,7 +4703,7 @@ namespace Win_CBZ
 
                     if (page != null)
                     {
-                        PageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        PageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
                 }
             }
@@ -5323,37 +5327,25 @@ namespace Win_CBZ
         private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
         {
             int w = 0;
-            int h = 0;
 
             if (TextBoxResizeW.Text.Length > 0)
             {
                 w = int.Parse(TextBoxResizeW.Text);
             }
 
-            if (TextBoxResizeH.Text.Length > 0)
-            {
-                h = int.Parse(TextBoxResizeH.Text);
-            }
-
-            selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, h);
+            selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, selectedImageTask.ImageAdjustments.ResizeTo.Y);
         }
 
         private void TextBoxResizeH_TextChanged(object sender, EventArgs e)
         {
-            int w = 0;
             int h = 0;
-
-            if (TextBoxResizeW.Text.Length > 0)
-            {
-                w = int.Parse(TextBoxResizeW.Text);
-            }
 
             if (TextBoxResizeH.Text.Length > 0)
             {
                 h = int.Parse(TextBoxResizeH.Text);
             }
 
-            selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, h);
+            selectedImageTask.ImageAdjustments.ResizeTo = new Point(selectedImageTask.ImageAdjustments.ResizeTo.X, h);
         }
 
         private void TextBoxSplitPageAt_TextAlignChanged(object sender, EventArgs e)

@@ -29,12 +29,22 @@ namespace Win_CBZ
 
         public object OldValue { get; set; }
 
+        public bool NoThumbRefresh { get; set; }
+
 
         public PageChangedEvent(Page page, object old, int state = PageChangedEvent.IMAGE_STATUS_NEW)
         {
             State = state; 
             Page = page;
             OldValue = old;
-        }   
+        }
+
+        public PageChangedEvent(Page page, object old, int state = PageChangedEvent.IMAGE_STATUS_NEW, bool noThumbRefresh = false)
+        {
+            State = state;
+            Page = page;
+            OldValue = old;
+            NoThumbRefresh = noThumbRefresh;
+        }
     }
 }
