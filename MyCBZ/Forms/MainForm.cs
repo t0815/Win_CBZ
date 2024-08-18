@@ -5146,7 +5146,7 @@ namespace Win_CBZ
 
                                             if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == PageIndexVersion.VERSION_1)
                                             {
-                                                newPage.Key = "Copy_" + newPage.Name + "";
+                                                newPage.Key = newPage.Name;
                                             }
 
                                             if (selectedPage != null)
