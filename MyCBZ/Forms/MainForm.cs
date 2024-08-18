@@ -3978,7 +3978,7 @@ namespace Win_CBZ
                                             //}
                                         }
                                     }
-                                    catch (PageException pe)
+                                    catch (ApplicationException pe)
                                     {
                                         pageResult.Name = pageProperties[i].Name;
                                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
@@ -5143,6 +5143,11 @@ namespace Win_CBZ
                                         {
                                             newPage.Changed = false;
                                             newPage.Name = "Copy_" + newPage.Name + "";
+
+                                            if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == PageIndexVersion.VERSION_1)
+                                            {
+                                                newPage.Key = "Copy_" + newPage.Name + "";
+                                            }
 
                                             if (selectedPage != null)
                                             {
