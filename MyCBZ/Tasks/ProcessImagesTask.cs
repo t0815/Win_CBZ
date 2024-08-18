@@ -29,7 +29,10 @@ namespace Win_CBZ.Tasks
                 {
                     
 
-                    if (page.ImageTask.ImageAdjustments.ResizeMode > 0)
+                    if (page.ImageTask.ImageAdjustments.ResizeMode > 0 && 
+                        (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
+                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
+                        )
                     {
                         page.ImageTask.SetTaskResize();
                     }
@@ -40,25 +43,26 @@ namespace Win_CBZ.Tasks
                     }
 
                     
-                        if (page.ImageTask.TaskCount() == 0)
+                    if (page.ImageTask.TaskCount() == 0)
+                    {
+                        page.ImageTask = new ImageTask();
+                        //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
+                        page.ImageTask.ImageAdjustments = globalTask.ImageAdjustments;
+
+                        if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
+                        (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
+                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
+                        )
                         {
-                            page.ImageTask = new ImageTask();
-                            //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
-                            page.ImageTask.ImageAdjustments = globalTask.ImageAdjustments;
-
-                            if (page.ImageTask.ImageAdjustments.ResizeMode > 0)
-                            {
-                                page.ImageTask.SetTaskResize();
-                            }
-
-                            if (page.ImageTask.ImageAdjustments.SplitPage)
-                            {
-                                page.ImageTask.SetTaskSplit();
-                            }
+                            page.ImageTask.SetTaskResize();
                         }
+
+                        if (page.ImageTask.ImageAdjustments.SplitPage)
+                        {
+                            page.ImageTask.SetTaskSplit();
+                        }
+                    }
                     
-
-
                     if (page.ImageTask.TaskCount() > 0)
                     {
                         taskPage = new Page(page, false, true);
