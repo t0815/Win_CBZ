@@ -173,6 +173,7 @@ namespace Win_CBZ.Forms
         {
             if (sender == this)
             {
+                /*
                 if (e.KeyCode == Keys.Escape)
                 {
                     DialogResult = _cancelResult;
@@ -184,6 +185,7 @@ namespace Win_CBZ.Forms
                     DialogResult = _okResult;
                     Close();
                 }
+                */
             }
         }
 

@@ -2437,6 +2437,13 @@ namespace Win_CBZ
 
         private void PagesList_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
+            if (e.Label == null) 
+            { 
+                e.CancelEdit = true;
+
+                return; 
+            }
+
             if (e.Item > -1)
             {
                 ListViewItem changedItem = PagesList.Items[e.Item];
