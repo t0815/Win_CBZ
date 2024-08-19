@@ -11,7 +11,7 @@ namespace Win_CBZ.Helper
 
         private static RandomId Instance;
 
-        private static Random RandomProvider;
+        private Random RandomProvider;
 
 
         /// <summary>
@@ -20,6 +20,11 @@ namespace Win_CBZ.Helper
         /// <returns>Hexadecimal random string</returns>
         public String Make()
         {
+            if (RandomProvider == null)
+            {
+                throw new ApplicationException("Error! RandomID- Provider not initialized. Call 'GetInstance()' first!", false);
+            }
+
             return RandomProvider.Next().ToString("X");
         }
 

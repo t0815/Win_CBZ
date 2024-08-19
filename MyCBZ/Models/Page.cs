@@ -131,20 +131,49 @@ namespace Win_CBZ
             Format = new PageImageFormat();
         }
 
-        public Page(String fileName, FileAccess mode = FileAccess.Read)
+        /// <summary>
+        /// Create a page from a local file on disk
+        /// </summary>
+        /// <param name="fileName">full path to image</param>
+        /// <param name="workingDir">set projects working dir (temp folder)</param>
+        /// <param name="mode">set id for new page</param>
+        public Page(String fileName, String workingDir, FileAccess mode = FileAccess.Read)
         {
             LocalFile = new LocalFile(fileName);
             ImageFileInfo = new FileInfo(fileName);
             Format = new PageImageFormat(LocalFile.FileExtension);
+
+            TemporaryFileId = RandomId.GetInstance().Make();
+
+            WorkingDir = PathHelper.ResolvePath(workingDir);
+
             ReadOnly = mode == FileAccess.Read || ImageFileInfo.IsReadOnly;
-            if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+            ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
+            try
             {
-                RemoveReadOnlyAttribute(ref ImageFileInfo);
+                if ((mode == FileAccess.Write || mode == FileAccess.ReadWrite) && ImageFileInfo.IsReadOnly)
+                {
+                    RemoveReadOnlyAttribute(ref ImageFileInfo);
+                }
+                ImageStream = ImageFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
+                ReadOnly = !ImageStream.CanWrite;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                ImageStream = ImageFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                ReadOnly = true;
+            }
+            finally
+            {
+                ////LocalFile = localFile;
+                //WorkingDir = TemporaryFile.FilePath;
+                if (ReadOnly)
+                {
+                    TemporaryFile = CreateLocalWorkingCopy();
+                }
             }
 
-            TemporaryFile = RequestTemporaryFile();
 
-            FileStream ImageStream = TemporaryFile.LocalFileInfo.Open(FileMode.Open, mode, FileShare.ReadWrite);
             Filename = ImageFileInfo.Name;
             FileExtension = ImageFileInfo.Extension;
             //LocalPath = ImageFileInfo.Directory.FullName;               
@@ -156,7 +185,12 @@ namespace Win_CBZ
             
         }
 
-
+        /// <summary>
+        /// Create a page from a local file on disk
+        /// </summary>
+        /// <param name="localFile">localfile of source image</param>
+        /// <param name="workingDir">set projects working dir (temp folder)</param>
+        /// <param name="mode">set id for new page</param>
         public Page(LocalFile localFile, String workingDir, FileAccess mode = FileAccess.Read)
         {
             try {
@@ -205,11 +239,16 @@ namespace Win_CBZ
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
-            Key = RandomId.GetInstance().Make();
+            //Key = RandomId.GetInstance().Make();
             LastModified = localFile.LastModified;
         }
 
-
+        /// <summary>
+        /// Create a page from archive entry
+        /// </summary>
+        /// <param name="entry">the ziparchive entry</param>
+        /// <param name="workingDir">set projects working dir (temp folder)</param>
+        /// <param name="randomId">set id for new page</param>
         public Page(ZipArchiveEntry entry, String workingDir, String randomId = null)
         {
             CompressedEntry = entry;
@@ -254,6 +293,7 @@ namespace Win_CBZ
             ImageTask = new ImageTask(Id);
         }
 
+        // <deprecated></deprecated>
         public Page(Page sourcePage, String RandomId, int ThumbWidth = 212, int ThumbHeight = 256)
         {
             WorkingDir = sourcePage.WorkingDir;
@@ -340,6 +380,12 @@ namespace Win_CBZ
             ImageTask = new ImageTask(Id);
         }
 
+        /// <summary>
+        /// Create a page from a source-page, copying all relevant attributes
+        /// </summary>
+        /// <param name="sourcePage">Source Page</param>
+        /// <param name="inMemory">Image will be kept in Memory</param>
+        /// <param name="newCopy">create a new file and id</param>
         public Page(Page sourcePage, bool inMemory = false, bool newCopy = false)
         {
             if (sourcePage != null)
@@ -489,6 +535,12 @@ namespace Win_CBZ
         }
 
 
+        /// <summary>
+        /// Create a page from XML- Data
+        /// </summary>
+        /// <param name="fileInputStream">XML Stream</param>
+        /// <param name="mode">Fileaccess mode</param>
+        /// <returns></returns>
         public Page(Stream fileInputStream, FileAccess mode = FileAccess.Read)
         {
             XmlDocument Document = new XmlDocument();
@@ -878,6 +930,12 @@ namespace Win_CBZ
 
         }
 
+        /// <summary>
+        /// Update a pages attributes with those from specified page
+        /// </summary>
+        /// <param name="page">Page to update attributes from</param>
+        /// <param name="skipIndex">dont update any indices</param>
+        /// <param name="skipName">dont update name</param>
         public void UpdatePage(Page page, bool skipIndex = false, bool skipName = false)
         {
             Compressed = page.Compressed;
@@ -916,6 +974,11 @@ namespace Win_CBZ
             //OriginalIndex = page.OriginalIndex;
         }
 
+        /// <summary>
+        /// Update the compressed entry for given page
+        /// </summary>
+        /// <param name="entry">Archive entry to update image from</param>
+        /// <param name="randomId">set a given random id</param>
         public void UpdateImageEntry(ZipArchiveEntry entry, String randomId)
         {
             CompressedEntry = entry;
@@ -930,6 +993,11 @@ namespace Win_CBZ
             Hash = entry.Crc32.ToString("X");
         }
 
+        /// <summary>
+        /// Update the local working-copy (temporary file) for given page
+        /// </summary>
+        /// <param name="localFile">Localfile info for source imagefile</param>
+        /// <param name="tempFileName">Targetfile info</param>
         public void UpdateLocalWorkingCopy(LocalFile localFile, FileInfo tempFileName = null)
         {
             Copy(localFile.FullPath, tempFileName.FullName);
@@ -965,6 +1033,10 @@ namespace Win_CBZ
             //TempPath = new FileInfo(newTempFileName).FullName;
         }
 
+        /// <summary>
+        /// Update the local working-copy (temporary file) for given page
+        /// </summary>
+        /// <param name="newTempFile">Localfile info for new temporary file</param>
         public void UpdateTemporaryFile(LocalFile newTempFile)
         {
             FreeImage();
@@ -985,6 +1057,11 @@ namespace Win_CBZ
             //Image = null;
         }
 
+        /// <summary>
+        /// Update the image stream for given page
+        /// </summary>
+        /// <param name="updateStream">Sourc- Imagestream</param>
+        /// <param name="newTempFile">Localfile info for new temporary file</param>
         public void UpdateImage(Stream updateStream, LocalFile newImageFile = null)
         {
             if (updateStream == null && updateStream.CanRead)
@@ -1090,6 +1167,12 @@ namespace Win_CBZ
         }
 
 
+        /// <summary>
+        /// Serialize the page to XML- Fragment
+        /// </summary>
+        /// <param name="sourceProjectId">Source- Project ID</param>
+        /// <param name="newCopy">create a new copy from given page</param>
+        /// <param name="withoutXMLHeaderTag">if TRUE, creates only an XML- Fragment</param>
         public MemoryStream Serialize(String sourceProjectId, bool newCopy = false, bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();
