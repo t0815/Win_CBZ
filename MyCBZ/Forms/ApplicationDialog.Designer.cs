@@ -122,13 +122,13 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(567, 425);
             Controls.Add(ErrorDialogTablePanel);
-            KeyPreview = true;
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "ApplicationDialog";
             ShowIcon = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Application Error";
             TopMost = true;
+            KeyPress += ApplicationDialog_KeyPress;
             KeyUp += ApplicationDialog_KeyUp;
             ErrorDialogTablePanel.ResumeLayout(false);
             ErrorDialogTablePanel.PerformLayout();

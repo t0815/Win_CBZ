@@ -35,6 +35,13 @@ namespace Win_CBZ
             MB_QUIT = 128
         };
 
+        public enum AcceptButtonType : ushort
+        {
+            NONE = 0,
+            ACCEPT_BUTTON = 2,
+            CANCEL_BUTTON = 3,
+        }
+
         public static DialogResult Show(String message, String title, DialogType type = DialogType.MT_INFORMATION, DialogButtons buttons = DialogButtons.MB_OK, ScrollBars ShowScrollBars = ScrollBars.None)
         {
             ApplicationDialog errorDialog = new ApplicationDialog();

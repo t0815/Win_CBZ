@@ -24,9 +24,9 @@ namespace Win_CBZ.Forms
         private DialogResult _cancelResult;
         private DialogResult _okResult;
 
-        public DialogType DialogType 
-        { 
-            set 
+        public DialogType DialogType
+        {
+            set
             {
                 switch (value)
                 {
@@ -56,7 +56,7 @@ namespace Win_CBZ.Forms
                         break;
                 }
                 _type = value;
-            } 
+            }
         }
 
         public DialogButtons Buttons
@@ -66,49 +66,49 @@ namespace Win_CBZ.Forms
                 int index = 4;
                 if (value.HasFlag(DialogButtons.MB_ABORT))
                 {
-                    MakeBtn("Abort", DialogButtons.MB_ABORT, DialogResult.Abort, index);
+                    MakeBtn("Abort", DialogButtons.MB_ABORT, DialogResult.Abort, index, AcceptButtonType.CANCEL_BUTTON);
                     _cancelResult = DialogResult.Abort;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_IGNORE))
                 {
-                    MakeBtn("Ignore", DialogButtons.MB_IGNORE, DialogResult.Ignore, index);
+                    MakeBtn("Ignore", DialogButtons.MB_IGNORE, DialogResult.Ignore, index, AcceptButtonType.CANCEL_BUTTON);
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_CANCEL) && !_existingButtons.HasFlag(DialogButtons.MB_ABORT))
                 {
 
-                    MakeBtn("Cancel", DialogButtons.MB_CANCEL, DialogResult.Cancel, index);
+                    MakeBtn("Cancel", DialogButtons.MB_CANCEL, DialogResult.Cancel, index, AcceptButtonType.CANCEL_BUTTON);
                     _cancelResult = DialogResult.Cancel;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_NO) && !_existingButtons.HasFlag(DialogButtons.MB_CANCEL | DialogButtons.MB_ABORT))
                 {
-                    MakeBtn("No", DialogButtons.MB_NO, DialogResult.No, index);
+                    MakeBtn("No", DialogButtons.MB_NO, DialogResult.No, index, AcceptButtonType.CANCEL_BUTTON);
                     _cancelResult = DialogResult.No;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_OK))
                 {
-                    MakeBtn("Ok", DialogButtons.MB_OK, DialogResult.OK, index);
+                    MakeBtn("Ok", DialogButtons.MB_OK, DialogResult.OK, index, AcceptButtonType.ACCEPT_BUTTON);
                     _okResult = DialogResult.OK;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_YES) && !_existingButtons.HasFlag(DialogButtons.MB_OK))
                 {
-                    MakeBtn("Yes", DialogButtons.MB_YES, DialogResult.Yes, index);
+                    MakeBtn("Yes", DialogButtons.MB_YES, DialogResult.Yes, index, AcceptButtonType.ACCEPT_BUTTON);
                     _okResult = DialogResult.Yes;
                     index--;
                 }
 
-                if(value.HasFlag(DialogButtons.MB_QUIT) && !_existingButtons.HasFlag(DialogButtons.MB_OK))
+                if (value.HasFlag(DialogButtons.MB_QUIT) && !_existingButtons.HasFlag(DialogButtons.MB_OK))
                 {
-                    MakeBtn("Quit", DialogButtons.MB_QUIT, DialogResult.Yes, index);
+                    MakeBtn("Quit", DialogButtons.MB_QUIT, DialogResult.Yes, index, AcceptButtonType.ACCEPT_BUTTON);
                     index--;
                 }
 
@@ -135,23 +135,33 @@ namespace Win_CBZ.Forms
             }
         }
 
-        protected Button MakeBtn(String caption, DialogButtons btn, DialogResult result, int index)
+        protected Button MakeBtn(String caption, DialogButtons btn, DialogResult result, int index, AcceptButtonType acceptBtnType)
         {
-            Button DialogButton = new Button();
-            DialogButton.Text = caption;
-            DialogButton.DialogResult = result;
-            DialogButton.TabIndex = index;
-            DialogButton.Height = 34;
-            DialogButton.Anchor = AnchorStyles.Right | AnchorStyles.Left;
-            ErrorDialogTablePanel.Controls.Add(DialogButton, index, 2);
+            Button dialogButton = new Button();
+            dialogButton.Text = caption;
+            dialogButton.DialogResult = result;
+            dialogButton.TabIndex = index;
+            dialogButton.Height = 34;
+            dialogButton.Anchor = AnchorStyles.Right | AnchorStyles.Left;
+            ErrorDialogTablePanel.Controls.Add(dialogButton, index, 2);
             _existingButtons |= btn;
 
-            return DialogButton;
+            switch (acceptBtnType)
+            {
+                case AcceptButtonType.ACCEPT_BUTTON:
+                    AcceptButton = dialogButton;
+                    break;
+                case AcceptButtonType.CANCEL_BUTTON:
+                    CancelButton = dialogButton;
+                    break;
+            }
+
+            return dialogButton;
         }
 
         public void ShowMessageScrollbars(ScrollBars show)
         {
-           TextBoxMessage.ScrollBars = show;
+            TextBoxMessage.ScrollBars = show;
         }
 
         public ApplicationDialog()
@@ -161,17 +171,25 @@ namespace Win_CBZ.Forms
 
         private void ApplicationDialog_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            if (sender == this)
             {
-                DialogResult = _cancelResult;
-                Close();
-            }
+                if (e.KeyCode == Keys.Escape)
+                {
+                    DialogResult = _cancelResult;
+                    Close();
+                }
 
-            if (e.KeyCode == Keys.Return)
-            {
-                DialogResult = _okResult;
-                Close();
+                if (e.KeyCode == Keys.Return)
+                {
+                    DialogResult = _okResult;
+                    Close();
+                }
             }
+        }
+
+        private void ApplicationDialog_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
         }
     }
 }
