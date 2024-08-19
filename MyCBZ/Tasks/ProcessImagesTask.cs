@@ -39,6 +39,11 @@ namespace Win_CBZ.Tasks
                         break;
                     }
 
+                    if (page.ImageTask.ImageAdjustments.ConvertType > 0)
+                    {
+                        page.ImageTask.SetTaskConvert();
+                    }
+
                     if (page.ImageTask.ImageAdjustments.ResizeMode > 0 && 
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
                          page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
@@ -59,6 +64,11 @@ namespace Win_CBZ.Tasks
                         //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
                         page.ImageTask.ImageAdjustments = globalTask.ImageAdjustments;
 
+                        if (page.ImageTask.ImageAdjustments.ConvertType > 0)
+                        {
+                            page.ImageTask.SetTaskConvert();
+                        }
+
                         if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
                          page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
@@ -70,7 +80,7 @@ namespace Win_CBZ.Tasks
                         if (page.ImageTask.ImageAdjustments.SplitPage)
                         {
                             page.ImageTask.SetTaskSplit();
-                        }
+                        }                       
                     }
                     
                     if (page.ImageTask.TaskCount() > 0)

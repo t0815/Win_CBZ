@@ -229,7 +229,7 @@ namespace Win_CBZ
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
             newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
-        
+            newProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
 
             Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
@@ -4293,6 +4293,8 @@ namespace Win_CBZ
                 {
                     Win_CBZSettings.Default.CustomMetadataFields.Add(line);
                 }
+
+                Program.ProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
 
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
 

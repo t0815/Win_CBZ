@@ -27,6 +27,10 @@ namespace Win_CBZ.Models
 
         public int ResizeToPageNumber {  get; set; }
 
+        public int ConvertType { get; set; }
+
+        public PageImageFormat ConvertFormat { get; set; }
+
         public InterpolationMode Interpolation { get; set; }   
     }
 }

@@ -99,8 +99,11 @@ namespace Win_CBZ.Models
             }           
         }
 
-        public PageImageFormat(PageImageFormat source)
+        public PageImageFormat(PageImageFormat source, string newFormat = null)
         {
+            ImageFormat lookupResult = null;
+            String nameResult = null;
+
             W = source.W;
             H = source.H;
             DPI = source.DPI;
@@ -108,6 +111,15 @@ namespace Win_CBZ.Models
             ColorPalette = source.ColorPalette;
             PixelFormat = source.PixelFormat;
             Name = source.Name;
+
+            if (newFormat != null)
+            {
+                ExtensionToImageFormatMap.TryGetValue(newFormat.ToLower().TrimStart('.'), out lookupResult);
+                ExtensionToFormatNameMap.TryGetValue(newFormat.ToLower().TrimStart('.'), out nameResult);
+
+                Format = lookupResult;
+                Name = nameResult;
+            }
         }
 
         public PageImageFormat(Image image)

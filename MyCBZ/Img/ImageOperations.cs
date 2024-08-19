@@ -17,7 +17,7 @@ namespace Win_CBZ.Img
     internal class ImageOperations
     {
 
-        public static void ConvertImage(Stream source, Stream outputStream, PageImageFormat targetFormat)
+        public static void ConvertImage(Stream source,ref Stream outputStream, PageImageFormat targetFormat)
         {
             Image sourceImage = Image.FromStream(source);
 

@@ -21,6 +21,8 @@ namespace Win_CBZ.Models
         
         public const string TASK_RESIZE = "ResizeImage";
 
+        public const string TASK_CONVERT = "ConvertImage";
+
         public String PageId { get; set; }
 
         public ImageAdjustments ImageAdjustments { get; set; }
@@ -97,7 +99,17 @@ namespace Win_CBZ.Models
 
             return this;
         }
-        
+
+        public ImageTask SetTaskConvert()
+        {
+            if (Tasks.IndexOf(TASK_CONVERT) == -1)
+            {
+                Tasks.Add(TASK_CONVERT);
+            }
+
+            return this;
+        }
+
         public ImageTask Apply()
         {
             PageImageFormat targetFormat = null;
@@ -110,9 +122,7 @@ namespace Win_CBZ.Models
 
             foreach (String task in Tasks)
             {
-                targetFormat = new PageImageFormat(SourcePage.Format);
-                targetFormat.W = ImageAdjustments.ResizeTo.X;
-                targetFormat.H = ImageAdjustments.ResizeTo.Y;
+                
 
                 try
                 {
@@ -138,7 +148,18 @@ namespace Win_CBZ.Models
                     switch (task)
                     {
                         case TASK_RESIZE:
+                            targetFormat = new PageImageFormat(SourcePage.Format);
+                            targetFormat.W = ImageAdjustments.ResizeTo.X;
+                            targetFormat.H = ImageAdjustments.ResizeTo.Y;
+
                             ImageOperations.ResizeImage(SourcePage.GetImageStream(), ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                            break;
+                        case TASK_CONVERT:
+                            targetFormat = new PageImageFormat(SourcePage.Format);
+                            targetFormat.Format = ImageAdjustments.ConvertFormat.Format;
+
+                            ImageOperations.ConvertImage(SourcePage.GetImageStream(), ref outputStream, targetFormat);
 
                             break;
                     }
