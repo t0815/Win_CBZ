@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
+    [SupportedOSPlatform("windows")]
     internal class AddImagesThreadParams
     {
         public List<LocalFile> LocalFiles { get; set; }

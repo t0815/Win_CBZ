@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
+    [SupportedOSPlatform("windows")]
     internal class OpenArchiveThreadParams
     {
         public String FileName { get; set; }

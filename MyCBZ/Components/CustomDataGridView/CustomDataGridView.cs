@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,6 +11,7 @@ using Win_CBZ.Extensions;
 
 namespace Win_CBZ.Components.CustomDataGridView
 {
+    [SupportedOSPlatform("windows")]
     public partial class CustomDataGridView : System.Windows.Forms.DataGridView
     {
   
