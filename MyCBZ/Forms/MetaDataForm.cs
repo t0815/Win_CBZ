@@ -43,7 +43,7 @@ namespace Win_CBZ.Forms
 
             // Load the xslt used by IE to render the xml
 
-            xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeUriString("defaults").ToLowerInvariant()));
+            xsltManifest = new StringReader(Properties.Resources.ResourceManager.GetString(Uri.EscapeDataString("defaults").ToLowerInvariant()));
             xslReader = XmlReader.Create(xsltManifest);
             xTrans = new XslCompiledTransform();
             xTrans.Load(xslReader);

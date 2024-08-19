@@ -1014,10 +1014,10 @@ namespace Win_CBZ
 
                 } catch (FileNotFoundException fe)
                 {
-
+                    throw new PageException(this, "Failed to update page [" + Name + "] from source.", false, fe);
                 } catch (IOException ioe) 
-                { 
-                    
+                {
+                    throw new PageException(this, "Failed to update page [" + Name + "] from source stream!", false, ioe);
                 } finally 
                 {
                     newImageFileStream?.Close();

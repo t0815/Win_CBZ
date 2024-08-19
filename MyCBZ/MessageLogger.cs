@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Win_CBZ.Handler;
 
 namespace Win_CBZ
 {
@@ -11,8 +12,6 @@ namespace Win_CBZ
 
         private static MessageLogger MessageLoggerInstance = null;
         private static readonly object InstanceLock = new object();
-
-        private event EventHandler<LogMessageEvent> LoggerEvent;
 
         private MessageLogger() { }
 
@@ -33,25 +32,9 @@ namespace Win_CBZ
             }
         }
 
-        public void SetHandler(EventHandler<LogMessageEvent> handler)
-        {
-            LoggerEvent += handler;
-
-        }
-
-        protected virtual void OnMessageLogged(LogMessageEvent e)
-        {
-            EventHandler<LogMessageEvent> handler = LoggerEvent;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
-
         public void Log(int type, string message)
         {
-            OnMessageLogged(new LogMessageEvent(type, message));
+            AppEventHandler.OnMessageLogged(this, new LogMessageEvent(type, message));
         }
     }
 }

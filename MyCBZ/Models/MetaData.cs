@@ -125,7 +125,7 @@ namespace Win_CBZ
 
         private readonly Stream InputStream;
 
-        public MetaDataEntryChangedDelegate MetaDataEntryChanged;
+        public MetaDataEntryChangedDelegate MetaDataEntryChanged { get; set; }
 
 
         public MetaData(bool createDefault = false, String name = "ComicInfo.xml")

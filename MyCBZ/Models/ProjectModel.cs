@@ -121,10 +121,6 @@ namespace Win_CBZ
 
         DataValidation Validation;
 
-        
-
-
-
         private Thread LoadArchiveThread;
 
         private Thread ExtractArchiveThread;

@@ -87,18 +87,24 @@ namespace Win_CBZ.Tasks
 
                         if (taskPage.ImageTask.Success)
                         {
-                            taskPage.UpdateImage(results[0]);
-                            taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
-                            result.AddFinishedPage(taskPage);
-
-                            if (taskPage.ImageTask.ResultFileName[1].Exists())
+                            try
                             {
-                                secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
-                                secondPage.Index = taskPage.Index + 1;
-                                secondPage.Number = taskPage.Number + 1;
-                                secondPage.Compressed = false;
+                                taskPage.UpdateImage(results[0]);
+                                taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
+                                result.AddFinishedPage(taskPage);
 
-                                result.AddFinishedPage(secondPage);
+                                if (taskPage.ImageTask.ResultFileName[1].Exists())
+                                {
+                                    secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
+                                    secondPage.Index = taskPage.Index + 1;
+                                    secondPage.Number = taskPage.Number + 1;
+                                    secondPage.Compressed = false;
+
+                                    result.AddFinishedPage(secondPage);
+                                }
+                            } catch (PageException pe) 
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
                             }
 
                             //page.Copy(page.ImageTask.ResultFileName, page.TempPath);                         

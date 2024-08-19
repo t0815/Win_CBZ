@@ -9,6 +9,8 @@ namespace Win_CBZ.Handler
     internal static class AppEventHandler
     {
         // events
+        public static event EventHandler<LogMessageEvent> MessageLogged;
+
         public static event EventHandler<TaskProgressEvent> TaskProgress;
 
         public static event EventHandler<PageChangedEvent> PageChanged;
@@ -126,6 +128,11 @@ namespace Win_CBZ.Handler
         public static void OnArchiveOperation(object sender, ArchiveOperationEvent e)
         {
             ArchiveOperation?.Invoke(sender, e);
+        }
+
+        public static void OnMessageLogged(object sender, LogMessageEvent e)
+        {
+            MessageLogged?.Invoke(sender, e);
         }
     }
 }

@@ -106,7 +106,7 @@ namespace Win_CBZ
             Program.ProjectModel = NewProjectModel();
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
-            MessageLogger.Instance.SetHandler(MessageLogged);
+            AppEventHandler.MessageLogged += MessageLogged;
 
             ThumbnailPagesSlice = new List<Page>();
             ImageInfoPagesSlice = new List<Page>();
