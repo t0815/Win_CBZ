@@ -82,7 +82,7 @@ namespace Win_CBZ
                     targetFormat = new PageImageFormat(localFile.FileExtension);
                     using (Stream fos = localFile.LocalFileInfo.OpenWrite())
                     {
-                        ImageOperations.ConvertImage(fis, fos, ref targetFormat);
+                        ImageOperations.ConvertImage(fis, fos, targetFormat);
                         fos.Close();
                     }                       
                 }                 
