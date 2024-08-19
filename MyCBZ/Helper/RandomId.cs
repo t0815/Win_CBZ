@@ -13,17 +13,22 @@ namespace Win_CBZ.Helper
 
         private static Random RandomProvider;
 
-        public String make()
+
+        /// <summary>
+        /// Generate a random id
+        /// </summary>
+        /// <returns>Hexadecimal random string</returns>
+        public String Make()
         {
             return RandomProvider.Next().ToString("X");
         }
 
-        public static RandomId getInstance()
+        public static RandomId GetInstance()
         {
-            if (RandomId.Instance == null)
-            {
-                RandomId.Instance = new RandomId();
-            }
+            //if (RandomId.Instance == null)
+            //{
+                RandomId.Instance ??= new RandomId();
+            //}
 
             return RandomId.Instance;
         }

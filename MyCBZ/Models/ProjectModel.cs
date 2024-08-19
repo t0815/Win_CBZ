@@ -683,7 +683,7 @@ namespace Win_CBZ
                 {
                     if (!entry.FullName.ToLower().Contains(MetaData.MetaDataFileName.ToLower()))
                     {
-                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), RandomId.getInstance().make())
+                        Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), RandomId.GetInstance().Make())
                         {
                             Number = index + 1,
                             Index = index,
@@ -723,7 +723,7 @@ namespace Win_CBZ
                                 page.Key = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY);
                                 if (page.Key == null && tParams.CurrentPageIndexVer.HasFlag(PageIndexVersion.VERSION_2))
                                 {
-                                    page.Key = RandomId.getInstance().make();
+                                    page.Key = RandomId.GetInstance().Make();
                                     MetaDataPageIndexMissingData = true;
                                 }
                                 page.DoublePage = Boolean.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE) ?? "False");
@@ -1036,7 +1036,7 @@ namespace Win_CBZ
                             updatedEntry = BuildingArchive.CreateEntryFromFile(fileToCompress.FullPath, page.Name, CompressionLevel);
                             if (IsNew)
                             {
-                                page.UpdateImageEntry(updatedEntry, RandomId.getInstance().make());
+                                page.UpdateImageEntry(updatedEntry, RandomId.GetInstance().Make());
                                 page.Compressed = true;
                             }
                             page.Changed = false;
@@ -1188,7 +1188,7 @@ namespace Win_CBZ
                                 foreach (ZipArchiveEntry entry in Archive.Entries)
                                 {
                                     Page page = GetPageByName(entry.Name);
-                                    page?.UpdateImageEntry(entry, RandomId.getInstance().make());
+                                    page?.UpdateImageEntry(entry, RandomId.GetInstance().Make());
                                 }
 
                                 if (Win_CBZ.Win_CBZSettings.Default.AutoDeleteTempFiles)
@@ -1870,13 +1870,13 @@ namespace Win_CBZ
                                 Number = realNewIndex + 1,
                                 Index = realNewIndex,
                                 OriginalIndex = realNewIndex,
-                                Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.getInstance().make(),
+                                Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make(),
                             };
                             realNewIndex++;
                         } else
                         {
                             page.UpdateLocalWorkingCopy(fileObject, targetPath);
-                            page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.getInstance().make();
+                            page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
                             page.Changed = true;
                         }
 
@@ -2667,12 +2667,12 @@ namespace Win_CBZ
 
         public FileInfo MakeNewTempFileName(String extension = "")
         {
-            return new FileInfo(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, RandomId.getInstance().make() + extension + ".tmp"));
+            return new FileInfo(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, RandomId.GetInstance().Make() + extension + ".tmp"));
         }
 
         protected DirectoryInfo MakeTempDirectory(String name = "_tmp")
         {
-            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, name, RandomId.getInstance().make()));
+            return Directory.CreateDirectory(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, name, RandomId.GetInstance().Make()));
 
             //return new FileInfo(PathHelper.ResolvePath(WorkingDir) + ProjectGUID + "\\" + MakeNewRandomId() + extension + ".tmp");
         }

@@ -162,7 +162,7 @@ namespace Win_CBZ
             try {
                 //Copy(localFile.FullPath, tempFileName.FullName);
                 LocalFile = new LocalFile(localFile.FullPath);
-                TemporaryFileId = RandomId.getInstance().make();
+                TemporaryFileId = RandomId.GetInstance().Make();
 
                 WorkingDir = PathHelper.ResolvePath(workingDir);
 
@@ -205,7 +205,7 @@ namespace Win_CBZ
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
-            Key = RandomId.getInstance().make();
+            Key = RandomId.GetInstance().Make();
             LastModified = localFile.LastModified;
         }
 
@@ -223,7 +223,7 @@ namespace Win_CBZ
             EntryName = entry.Name;
             LastModified = entry.LastWriteTime;
             Id = Guid.NewGuid().ToString();
-            TemporaryFileId = randomId ?? RandomId.getInstance().make();
+            TemporaryFileId = randomId ?? RandomId.GetInstance().Make();
             WorkingDir = workingDir;
             ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
@@ -354,7 +354,7 @@ namespace Win_CBZ
                 LocalFile = sourcePage.LocalFile;
                 
                 Compressed = sourcePage.Compressed;
-                TemporaryFileId = newCopy ? RandomId.getInstance().make() : sourcePage.TemporaryFileId;
+                TemporaryFileId = newCopy ? RandomId.GetInstance().Make() : sourcePage.TemporaryFileId;
                 EntryName = sourcePage.EntryName;
                 CompressedEntry = sourcePage.CompressedEntry;
                 //ImageStream = sourcePage.ImageStream;
@@ -555,13 +555,13 @@ namespace Win_CBZ
                         String baseDir = currentWorkingDir.Parent.FullName;
 
                         String targetPath = Path.Combine(baseDir, sourceProjectId);
-                        String targetFile = Path.Combine(targetPath, RandomId.getInstance().make() + FileExtension);
+                        String targetFile = Path.Combine(targetPath, RandomId.GetInstance().Make() + FileExtension);
 
                         //String targetFile = Path.Combine(targetPath, TemporaryFileId + ".tmp");
 
                         if (File.Exists(targetFile))
                         {
-                            targetFile = Path.Combine(targetPath, RandomId.getInstance().make() + ".000");
+                            targetFile = Path.Combine(targetPath, RandomId.GetInstance().Make() + ".000");
                         }
 
                         if (LocalFile != null && LocalFile.Exists())
@@ -584,7 +584,7 @@ namespace Win_CBZ
             //
             //}
 
-            TemporaryFileId = RandomId.getInstance().make(); // new id
+            TemporaryFileId = RandomId.GetInstance().Make(); // new id
 
             if (LocalFile != null && LocalFile.Exists())
             {
@@ -1255,7 +1255,7 @@ namespace Win_CBZ
         {
             FreeImage();
             DeleteTemporaryFile();
-            TemporaryFileId = RandomId.getInstance().make();
+            TemporaryFileId = RandomId.GetInstance().Make();
             TemporaryFile = RequestTemporaryFile();
             LoadImageInfo();
         }

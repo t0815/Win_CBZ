@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
@@ -10,7 +9,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ.Tasks
 {
-    [SupportedOSPlatform("windows")]
     internal class RebuildPageIndexMetaDataTask
     {
 
@@ -26,9 +24,9 @@ namespace Win_CBZ.Tasks
 
                 foreach (Page page in pages)
                 {
-                    if (page.Key == null && pageIndexVersion == MetaData.PageIndexVersion.VERSION_2)
+                    if (page.Key == null)
                     {
-                        page.Key = RandomId.getInstance().make();
+                        page.Key = RandomId.GetInstance().Make();
                         isUpdated = true;
                     }
 

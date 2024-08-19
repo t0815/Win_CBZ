@@ -26,10 +26,10 @@ namespace Win_CBZ.Helper
 
         public static MetaDataFieldConfig GetInstance()
         {
-            if (MetaDataFieldConfig.Instance == null)
-            {
-                MetaDataFieldConfig.Instance = new MetaDataFieldConfig();
-            }
+            //if (MetaDataFieldConfig.Instance == null)
+            //{
+                MetaDataFieldConfig.Instance ??= new MetaDataFieldConfig();
+            //}
 
             //MetaDataVersionFlavorHandler.Instance.HandlePageIndexVersion();
 

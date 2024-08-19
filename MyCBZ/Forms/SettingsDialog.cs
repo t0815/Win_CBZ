@@ -1072,14 +1072,10 @@ namespace Win_CBZ.Forms
         
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void SettingsDialog_Shown(object sender, EventArgs e)
         {
             RestoreFieldTypesButton.Size = new System.Drawing.Size(80, 30);
+            SettingsSectionList.SelectedIndex = 0;
         }
 
         private void ToolStripTextBoxSearchTag_KeyUp(object sender, KeyEventArgs e)

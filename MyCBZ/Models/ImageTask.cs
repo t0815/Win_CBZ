@@ -62,8 +62,8 @@ namespace Win_CBZ.Models
         {
             try
             {
-                ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".0.res");
-                ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.getInstance().make() + ".1.res");
+                ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".0.res");
+                ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".1.res");
                 //File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
                 //File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
 
@@ -112,18 +112,17 @@ namespace Win_CBZ.Models
 
         public ImageTask Apply()
         {
-            PageImageFormat targetFormat = null;
+            PageImageFormat targetFormat = new PageImageFormat(SourcePage.Format); ;
             Stream outputStream = null;
             Stream inputStream = SourcePage.GetImageStream();
 
             int tempFileCounter = 0;
 
-            LocalFile inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + "." + tempFileCounter.ToString() + ".tmp");
+            LocalFile inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
 
             foreach (String task in Tasks)
             {
                 
-
                 try
                 {
                     if (outputStream == null)
@@ -136,7 +135,7 @@ namespace Win_CBZ.Models
 
                         inputStream.Position = 0;
 
-                        inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.getInstance().make() + "." + tempFileCounter.ToString() + ".tmp");
+                        inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
 
                         outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     }
@@ -147,19 +146,17 @@ namespace Win_CBZ.Models
 
                     switch (task)
                     {
-                        case TASK_RESIZE:
-                            targetFormat = new PageImageFormat(SourcePage.Format);
+                        case TASK_RESIZE:                           
                             targetFormat.W = ImageAdjustments.ResizeTo.X;
                             targetFormat.H = ImageAdjustments.ResizeTo.Y;
 
-                            ImageOperations.ResizeImage(SourcePage.GetImageStream(), ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+                            ImageOperations.ResizeImage(inputStream, ref outputStream, ref targetFormat, ImageAdjustments.Interpolation);
 
                             break;
                         case TASK_CONVERT:
-                            targetFormat = new PageImageFormat(SourcePage.Format);
                             targetFormat.Format = ImageAdjustments.ConvertFormat.Format;
 
-                            ImageOperations.ConvertImage(SourcePage.GetImageStream(), ref outputStream, targetFormat);
+                            ImageOperations.ConvertImage(inputStream, outputStream, ref targetFormat);
 
                             break;
                     }

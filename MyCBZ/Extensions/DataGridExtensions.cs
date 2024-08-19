@@ -37,7 +37,8 @@ namespace Win_CBZ.Extensions
             }
         }
     }
-   
+
+    [SupportedOSPlatform("windows")]
     public class CustomTextCell : DataGridViewTextBoxCell
     {
         public override Type EditType
@@ -46,7 +47,7 @@ namespace Win_CBZ.Extensions
         }
     }
 
-
+    [SupportedOSPlatform("windows")]
     public class RatingCell : Rating, IDataGridViewEditingControl
     {
         
@@ -81,7 +82,7 @@ namespace Win_CBZ.Extensions
         }
     }
 
-
+    [SupportedOSPlatform("windows")]
     public class CustomTextBoxEditingControl :  DataGridViewTextBoxEditingControl
     {
         protected override void WndProc(ref Message m)

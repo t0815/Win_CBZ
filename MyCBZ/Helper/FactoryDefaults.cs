@@ -38,6 +38,12 @@ namespace Win_CBZ.Helper
             return ValuesToReset.Keys.Last();
         }
 
+
+        /// <summary>
+        /// Patch users config/settings with specific new values
+        /// </summary>
+        /// <param name="lastVersion">Users current config version</param>
+        /// <returns>updated version number</returns>
         public static int PatchUserSettings(int lastVersion)
         {
             int updatedVersion = 0;
