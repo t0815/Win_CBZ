@@ -1440,14 +1440,17 @@ namespace Win_CBZ
             switch (e.State)
             {
                 case ApplicationStatusEvent.STATE_UPDATING_INDEX:
-                    this.Invoke(new Action(() =>
+                    if (!WindowClosed)
                     {
-                        LabelGlobalActionStatusMessage.Text = "";
-                        GlobalAlertTableLayout.Visible = false;
+                        Invoke(new Action(() =>
+                        {
+                            LabelGlobalActionStatusMessage.Text = "";
+                            GlobalAlertTableLayout.Visible = false;
 
-                        CurrentGlobalAction = null;
-                        CurrentGlobalActions.Clear();
-                    }));
+                            CurrentGlobalAction = null;
+                            CurrentGlobalActions.Clear();
+                        }));
+                    }
                     break;
 
                 case ApplicationStatusEvent.STATE_PROCESSING:
@@ -1478,16 +1481,19 @@ namespace Win_CBZ
             {
                 //if (this.InvokeRequired)
                 //{
-                Invoke(new Action(() =>
+                if (!WindowClosed)
                 {
-                    FileNameLabel.Text = filename;
-                    ApplicationStatusLabel.Text = info;
-                    Program.ProjectModel.ArchiveState = e.State;
-                    PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+                    Invoke(new Action(() =>
+                    {
+                        FileNameLabel.Text = filename;
+                        ApplicationStatusLabel.Text = info;
+                        Program.ProjectModel.ArchiveState = e.State;
+                        PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
 
-                    DisableControllsForApplicationState(e.State);
-                }));
-                //}
+                        DisableControllsForApplicationState(e.State);
+                    }));
+                    //}
+                }
             }
             catch (Exception)
             {
@@ -2444,8 +2450,8 @@ namespace Win_CBZ
                        
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
 
-                        PageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
-                        ArchiveStateChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                        AppEventHandler.OnPageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                        AppEventHandler.OnArchiveStatusChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                     }
                     catch (PageDuplicateNameException eduplicate)
                     {
@@ -2531,7 +2537,8 @@ namespace Win_CBZ
             }
             */
 
-            CancellationTokenSourceGlobal.Cancel();
+            CancellationTokenSourceRequestThumbnail.Cancel();
+            CancellationTokenSourceRequestImageInfo.Cancel();
 
             MoveItemsThread = new Thread(MoveItemsToProc);
             MoveItemsThread.Start(new MoveItemsToThreadParams()
@@ -2589,10 +2596,10 @@ namespace Win_CBZ
                     p.Number = newIndex + 1;
                     Program.ProjectModel.Pages.Insert(newIndex, p);
 
-                    PageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
 
                     newIndex++;
                 }
@@ -2760,14 +2767,14 @@ namespace Win_CBZ
                     //}
                 }
 
-                PageChanged(this, new PageChangedEvent(tparams.page, originalPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                AppEventHandler.OnPageChanged(this, new PageChangedEvent(tparams.page, originalPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 if (originalPage != null)
                 {
-                    PageChanged(this, new PageChangedEvent(originalPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(originalPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
-                ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
+                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
 
                 Program.ProjectModel.IsChanged = true;
             }));
@@ -2797,7 +2804,7 @@ namespace Win_CBZ
                 Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
             }
 
-            MetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
+            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
 
             BtnAddMetaData.Enabled = false;
             BtnRemoveMetaData.Enabled = true;
@@ -3191,54 +3198,60 @@ namespace Win_CBZ
 
         private void MetaDataChanged(object sender, MetaDataChangedEvent e)
         {
-            MetaDataGrid.Invoke(new Action(() =>
+            if (!WindowClosed)
             {
-                Program.ProjectModel.IsChanged = true;
-
-                if (Program.ProjectModel.FileName != null)
+                MetaDataGrid.Invoke(new Action(() =>
                 {
+                    Program.ProjectModel.IsChanged = true;
 
-                    ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                    SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                }
-            }));
+                    if (Program.ProjectModel.FileName != null)
+                    {
+
+                        ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                    }
+                }));
+            }
         }
 
         private void MetaDataEntryChanged(object sender, MetaDataEntryChangedEvent e)
         {
-            MetaDataGrid.Invoke(new Action(() =>
+            if (!WindowClosed)
             {
-                Program.ProjectModel.IsChanged = true;
-
-                if (Program.ProjectModel.FileName != null)
+                MetaDataGrid.Invoke(new Action(() =>
                 {
-                    ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                    SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                }
+                    Program.ProjectModel.IsChanged = true;
 
-                if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
-                {
-
-                    foreach (DataGridViewRow r in MetaDataGrid.SelectedRows)
+                    if (Program.ProjectModel.FileName != null)
                     {
-                        r.Selected = false;
+                        ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                     }
 
-                    MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
-
-                    if (e.Entry.Key == "" && e.Entry.Value == null)
+                    if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
                     {
-                        //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
-                        MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
-                        MetaDataGrid.BeginEdit(false);
-                    }
-                }
 
-                if (e.State == MetaDataEntryChangedEvent.ENTRY_DELETED)
-                {
-                    MetaDataGrid.Rows.RemoveAt(e.Index);
-                }
-            }));
+                        foreach (DataGridViewRow r in MetaDataGrid.SelectedRows)
+                        {
+                            r.Selected = false;
+                        }
+
+                        MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
+
+                        if (e.Entry.Key == "" && e.Entry.Value == null)
+                        {
+                            //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
+                            MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
+                            MetaDataGrid.BeginEdit(false);
+                        }
+                    }
+
+                    if (e.State == MetaDataEntryChangedEvent.ENTRY_DELETED)
+                    {
+                        MetaDataGrid.Rows.RemoveAt(e.Index);
+                    }
+                }));
+            }
         }
 
         private void MetaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -3692,11 +3705,11 @@ namespace Win_CBZ
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
 
-                    PageChanged(this, new PageChangedEvent((Page)img.Tag, null, PageChangedEvent.IMAGE_STATUS_DELETED));
-                    ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED));
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent((Page)img.Tag, null, PageChangedEvent.IMAGE_STATUS_DELETED));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
-                HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, versionToWrite, HandleGlobalTaskProgress, PageChanged)));
+                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, versionToWrite, HandleGlobalTaskProgress, PageChanged)));
 
                 //Program.ProjectModel.UpdatePageIndices();
             }
@@ -3727,8 +3740,8 @@ namespace Win_CBZ
                             Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
                         }
 
-                        PageChanged(null, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                        ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                        AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
                     }
                     catch (MetaDataPageEntryException ex)
                     {
@@ -3902,8 +3915,8 @@ namespace Win_CBZ
 
                                 thumbIndex = PageThumbsListBox.Items.IndexOf(pageToUpdate);
 
-                                PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
-                                ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                             }
 
                             pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
@@ -3951,9 +3964,9 @@ namespace Win_CBZ
                                             //}
                                         }
 
-                                        //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
+                                        //AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
-                                        PageChanged(null, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_RENAMED));
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_RENAMED));
 
                                     }
                                     catch (PageDuplicateNameException ae)
@@ -3965,7 +3978,7 @@ namespace Win_CBZ
                                             ApplicationMessage.ShowWarning(ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                                         }
 
-                                        PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
 
                                         try
                                         {
@@ -3988,7 +4001,7 @@ namespace Win_CBZ
                                             ApplicationMessage.ShowWarning(pe.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                                         }
 
-                                        PageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_CHANGED));
 
                                         try
                                         {
@@ -4054,7 +4067,7 @@ namespace Win_CBZ
                 
                 if (pageIndexUpdateNeeded)
                 {
-                    HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                 }
             }
         }
@@ -4208,14 +4221,14 @@ namespace Win_CBZ
                 try {
                     if (PagesList.SelectedItems.Count > 1)
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
                     } else
                     {
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
                     }
 
-                    PageChanged(null, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                    ArchiveStateChanged(null, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
                 } catch (MetaDataPageEntryException ex)
                 {
                     ApplicationMessage.ShowWarning(ex.Message, ex.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
