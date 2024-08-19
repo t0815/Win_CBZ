@@ -4717,7 +4717,7 @@ namespace Win_CBZ
 
                     if (page != null)
                     {
-                        PageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
                 }
             }
@@ -5172,8 +5172,8 @@ namespace Win_CBZ
                                                 Program.ProjectModel.Pages.Add(newPage);
                                             }
 
-                                            PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
-                                            ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
+                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
+                                            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
                                         }
                                         else
                                         {
@@ -5194,8 +5194,8 @@ namespace Win_CBZ
                                                 Program.ProjectModel.Pages.Add(newPage);
                                             }
 
-                                            PageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
-                                            ArchiveStateChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
+                                            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                                         }
 
                                         pagesUpdated++;
@@ -5216,7 +5216,7 @@ namespace Win_CBZ
 
                     if (pagesUpdated > 0)
                     {
-                        HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
+                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
 
                     }
                 }
@@ -5237,8 +5237,9 @@ namespace Win_CBZ
 
                         Program.ProjectModel.MetaData.Values = data.Values;
                         Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
-                        MetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
-                        MetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
+                        
+                        AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
+                        AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
                     }                                 
                 }
                 else
@@ -5419,7 +5420,7 @@ namespace Win_CBZ
             {
                 Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
 
-                MetaDataLoaded(null, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
+                AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
             } 
         }
     }
