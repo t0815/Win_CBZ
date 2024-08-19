@@ -17,7 +17,7 @@ namespace Win_CBZ.Img
     internal class ImageOperations
     {
 
-        public static void ConvertImage(Stream source, Stream outputStream, ref PageImageFormat targetFormat)
+        public static void ConvertImage(Stream source, Stream outputStream, PageImageFormat targetFormat)
         {
             Image sourceImage = Image.FromStream(source);
 
@@ -32,7 +32,7 @@ namespace Win_CBZ.Img
         /// <param name="width">The width to resize to.</param>
         /// <param name="height">The height to resize to.</param>
         /// <returns>The resized image.</returns>
-        public static void ResizeImage(Stream source, ref Stream OutputStream, ref PageImageFormat targetFormat, InterpolationMode interpolation)
+        public static void ResizeImage(Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
         {
             Image sourceImage = Image.FromStream(source);
             var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.W);

@@ -26,6 +26,7 @@ namespace Win_CBZ.Tasks
                 ImageTaskResult result = new ImageTaskResult();
                 Page taskPage = null;
                 Page secondPage = null;
+                string convertFormatName = null;
 
                 foreach (Page page in pages)
                 {
@@ -44,7 +45,7 @@ namespace Win_CBZ.Tasks
                         page.ImageTask.SetTaskConvert();
                     }
 
-                    if (page.ImageTask.ImageAdjustments.ResizeMode > 0 && 
+                    if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
                          page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
                         )
@@ -57,7 +58,7 @@ namespace Win_CBZ.Tasks
                         page.ImageTask.SetTaskSplit();
                     }
 
-                    
+
                     if (page.ImageTask.TaskCount() == 0)
                     {
                         page.ImageTask = new ImageTask(page.Id);
@@ -80,14 +81,15 @@ namespace Win_CBZ.Tasks
                         if (page.ImageTask.ImageAdjustments.SplitPage)
                         {
                             page.ImageTask.SetTaskSplit();
-                        }                       
+                        }
                     }
-                    
+
                     if (page.ImageTask.TaskCount() > 0)
                     {
                         taskPage = new Page(page, false, true);
                         taskPage.Id = page.Id;  // Important! Keep original Id here
-
+                        taskPage.ImageTask.ImageAdjustments.ConvertFormat = page.Format;
+                        taskPage.ImageTask.ImageAdjustments.ConvertFormat.FormatFromString(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(page.ImageTask.ImageAdjustments.ConvertType));
 
                         Stream[] results = taskPage.ImageTask
                             .SetupTasks(taskPage)
@@ -112,13 +114,15 @@ namespace Win_CBZ.Tasks
 
                                     result.AddFinishedPage(secondPage);
                                 }
-                            } catch (PageException pe) 
+                            }
+                            catch (PageException pe)
                             {
                                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
                             }
 
                             //page.Copy(page.ImageTask.ResultFileName, page.TempPath);                         
-                        } else
+                        }
+                        else
                         {
 
                         }
@@ -138,6 +142,7 @@ namespace Win_CBZ.Tasks
                         System.Threading.Thread.Sleep(10);
                     }
                 }
+            
 
                 handler?.Invoke(collectedTasks, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,

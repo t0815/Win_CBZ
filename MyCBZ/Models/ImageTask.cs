@@ -7,6 +7,9 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Win_CBZ.Data;
+using Win_CBZ.Handler;
 using Win_CBZ.Helper;
 using Win_CBZ.Img;
 using static System.Net.Mime.MediaTypeNames;
@@ -150,14 +153,20 @@ namespace Win_CBZ.Models
                             targetFormat.W = ImageAdjustments.ResizeTo.X;
                             targetFormat.H = ImageAdjustments.ResizeTo.Y;
 
-                            ImageOperations.ResizeImage(inputStream, ref outputStream, ref targetFormat, ImageAdjustments.Interpolation);
+                            ImageOperations.ResizeImage(inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                             break;
                         case TASK_CONVERT:
                             targetFormat.Format = ImageAdjustments.ConvertFormat.Format;
 
-                            ImageOperations.ConvertImage(inputStream, outputStream, ref targetFormat);
+                            ImageOperations.ConvertImage(inputStream, outputStream, targetFormat);
 
+                            if (SourcePage.FileExtension.TrimStart('.').ToLower() != IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(SourcePage.ImageTask.ImageAdjustments.ConvertType))
+                            {
+                                SourcePage.UpdateImageExtension(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(SourcePage.ImageTask.ImageAdjustments.ConvertType)) ;
+
+                                AppEventHandler.OnPageChanged(null, new PageChangedEvent(SourcePage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                            }
                             break;
                     }
                 }

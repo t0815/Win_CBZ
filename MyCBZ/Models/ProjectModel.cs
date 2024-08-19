@@ -2601,7 +2601,8 @@ namespace Win_CBZ
             {
                 if (!page.Deleted)
                 {
-                    if (tParams.CompatibilityMode && !PageNameEqualsIndex(page) && RenamerExcludes.IndexOf(page.Name) == -1)
+                    // todo: evaluate if renaming should exclude files for compat-mode
+                    if (tParams.CompatibilityMode && !Page.NameEqualsIndex(page) && RenamerExcludes.IndexOf(page.Name) == -1)
                     {
                         RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.SkipIndexUpdate, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
@@ -2619,21 +2620,6 @@ namespace Win_CBZ
             }
 
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-        }
-
-        public bool PageNameEqualsIndex(Page page)
-        {
-            try
-            {
-                String name = page.Name.Replace(page.FileExtension, "");
-                int pageNumber = 0;
-
-                var isNummeric = int.TryParse(name, out pageNumber);
-                return pageNumber.Equals(page.Number);
-            } catch (Exception ex)
-            {
-                return false;
-            }
         }
 
         /// <summary>

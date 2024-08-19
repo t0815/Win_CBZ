@@ -1137,7 +1137,7 @@ namespace Win_CBZ
             return !ImageFileInfo.IsReadOnly;
         }
 
-        public string ExtractFileExtension(String fileName)
+        public static string ExtractFileExtension(String fileName)
         {
             string[] entryExtensionParts = fileName.Split('.');
 
@@ -1145,6 +1145,37 @@ namespace Win_CBZ
 
             else return "." + entryExtensionParts.Last<string>();
         }
+
+        public static bool NameEqualsIndex(Page page)
+        {
+            try
+            {
+                String name = page.Name.Replace(page.FileExtension, "");
+                int pageNumber = 0;
+
+                var isNummeric = int.TryParse(name, out pageNumber);
+                return pageNumber.Equals(page.Number);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public void UpdateImageExtension(string newExtenaion)
+        {
+            string[] entryExtensionParts = Name.Split('.');
+
+            if (entryExtensionParts.Length == 0) return;
+
+            else {
+                entryExtensionParts[entryExtensionParts.Length - 1] = newExtenaion;
+            }
+
+            Name = String.Join(null, entryExtensionParts);
+        }
+
+
 
         public string SizeFormat()
         {
