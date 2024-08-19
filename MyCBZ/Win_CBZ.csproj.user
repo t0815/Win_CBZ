@@ -64,6 +64,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Forms\SettingsDialog.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Forms\TagEditorForm.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
