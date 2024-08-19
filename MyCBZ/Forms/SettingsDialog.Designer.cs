@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             ButtonOk = new System.Windows.Forms.Button();
             HeaderPanel = new System.Windows.Forms.Panel();
@@ -39,18 +39,6 @@
             SettingsSectionList = new System.Windows.Forms.ListBox();
             ButtonCancel = new System.Windows.Forms.Button();
             SettingsContentPanel = new System.Windows.Forms.Panel();
-            CBZSettingsTabControl = new System.Windows.Forms.TabControl();
-            tabPage2 = new System.Windows.Forms.TabPage();
-            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            label5 = new System.Windows.Forms.Label();
-            ComboBoxPageIndexVersionWrite = new System.Windows.Forms.ComboBox();
-            pictureBox2 = new System.Windows.Forms.PictureBox();
-            CheckBoxPruneEmplyTags = new System.Windows.Forms.CheckBox();
-            label6 = new System.Windows.Forms.Label();
-            tabPage4 = new System.Windows.Forms.TabPage();
-            tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            CheckBoxSkipIndexCheck = new System.Windows.Forms.CheckBox();
-            label9 = new System.Windows.Forms.Label();
             AppSettingsTabControl = new System.Windows.Forms.TabControl();
             TabPageAppSettings = new System.Windows.Forms.TabPage();
             CustomFieldTypesTablePanel = new System.Windows.Forms.TableLayoutPanel();
@@ -59,10 +47,20 @@
             DialogImages = new System.Windows.Forms.ImageList(components);
             RemoveFieldTypeButton = new System.Windows.Forms.Button();
             RestoreFieldTypesButton = new System.Windows.Forms.Button();
-            tabPage3 = new System.Windows.Forms.TabPage();
-            tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            CheckBoxDeleteTempFiles = new System.Windows.Forms.CheckBox();
+            tabPage5 = new System.Windows.Forms.TabPage();
+            tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            CheckBoxSkipIndexCheck = new System.Windows.Forms.CheckBox();
+            label9 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
+            CheckBoxDeleteTempFiles = new System.Windows.Forms.CheckBox();
+            CBZSettingsTabControl = new System.Windows.Forms.TabControl();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            label5 = new System.Windows.Forms.Label();
+            ComboBoxPageIndexVersionWrite = new System.Windows.Forms.ComboBox();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
+            CheckBoxPruneEmplyTags = new System.Windows.Forms.CheckBox();
+            label6 = new System.Windows.Forms.Label();
             ImageProcessingTabControl = new System.Windows.Forms.TabControl();
             ImageConversionTabPage = new System.Windows.Forms.TabPage();
             LabelConvertImages = new System.Windows.Forms.Label();
@@ -99,18 +97,16 @@
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SettingsContentPanel.SuspendLayout();
-            CBZSettingsTabControl.SuspendLayout();
-            tabPage2.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            tabPage4.SuspendLayout();
-            tableLayoutPanel4.SuspendLayout();
             AppSettingsTabControl.SuspendLayout();
             TabPageAppSettings.SuspendLayout();
             CustomFieldTypesTablePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)CustomFieldsDataGrid).BeginInit();
-            tabPage3.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
+            tabPage5.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            CBZSettingsTabControl.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ImageProcessingTabControl.SuspendLayout();
             ImageConversionTabPage.SuspendLayout();
             GroupBoxImageQuality.SuspendLayout();
@@ -228,8 +224,8 @@
             // 
             SettingsContentPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             SettingsTablePanel.SetColumnSpan(SettingsContentPanel, 2);
-            SettingsContentPanel.Controls.Add(CBZSettingsTabControl);
             SettingsContentPanel.Controls.Add(AppSettingsTabControl);
+            SettingsContentPanel.Controls.Add(CBZSettingsTabControl);
             SettingsContentPanel.Controls.Add(ImageProcessingTabControl);
             SettingsContentPanel.Controls.Add(MetaDataConfigTabControl);
             SettingsContentPanel.Location = new System.Drawing.Point(255, 131);
@@ -238,15 +234,212 @@
             SettingsContentPanel.Size = new System.Drawing.Size(740, 592);
             SettingsContentPanel.TabIndex = 2;
             // 
+            // AppSettingsTabControl
+            // 
+            AppSettingsTabControl.Controls.Add(TabPageAppSettings);
+            AppSettingsTabControl.Controls.Add(tabPage5);
+            AppSettingsTabControl.Location = new System.Drawing.Point(393, 2);
+            AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            AppSettingsTabControl.Name = "AppSettingsTabControl";
+            AppSettingsTabControl.SelectedIndex = 0;
+            AppSettingsTabControl.Size = new System.Drawing.Size(130, 575);
+            AppSettingsTabControl.TabIndex = 3;
+            // 
+            // TabPageAppSettings
+            // 
+            TabPageAppSettings.Controls.Add(CustomFieldTypesTablePanel);
+            TabPageAppSettings.Location = new System.Drawing.Point(4, 34);
+            TabPageAppSettings.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            TabPageAppSettings.Name = "TabPageAppSettings";
+            TabPageAppSettings.Padding = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            TabPageAppSettings.Size = new System.Drawing.Size(122, 537);
+            TabPageAppSettings.TabIndex = 0;
+            TabPageAppSettings.Text = "MetaData Editor";
+            TabPageAppSettings.UseVisualStyleBackColor = true;
+            // 
+            // CustomFieldTypesTablePanel
+            // 
+            CustomFieldTypesTablePanel.ColumnCount = 3;
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.85714F));
+            CustomFieldTypesTablePanel.Controls.Add(CustomFieldsDataGrid, 0, 1);
+            CustomFieldTypesTablePanel.Controls.Add(AddFieldTypeButton, 0, 2);
+            CustomFieldTypesTablePanel.Controls.Add(RemoveFieldTypeButton, 1, 2);
+            CustomFieldTypesTablePanel.Controls.Add(RestoreFieldTypesButton, 2, 2);
+            CustomFieldTypesTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            CustomFieldTypesTablePanel.Location = new System.Drawing.Point(4, 6);
+            CustomFieldTypesTablePanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            CustomFieldTypesTablePanel.Name = "CustomFieldTypesTablePanel";
+            CustomFieldTypesTablePanel.RowCount = 3;
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
+            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(114, 525);
+            CustomFieldTypesTablePanel.TabIndex = 1;
+            // 
+            // CustomFieldsDataGrid
+            // 
+            CustomFieldsDataGrid.AllowUserToAddRows = false;
+            CustomFieldsDataGrid.AllowUserToDeleteRows = false;
+            CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            CustomFieldTypesTablePanel.SetColumnSpan(CustomFieldsDataGrid, 3);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            CustomFieldsDataGrid.Location = new System.Drawing.Point(4, 67);
+            CustomFieldsDataGrid.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            CustomFieldsDataGrid.MultiSelect = false;
+            CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
+            CustomFieldsDataGrid.RowHeadersWidth = 51;
+            CustomFieldsDataGrid.RowTemplate.Height = 24;
+            CustomFieldsDataGrid.Size = new System.Drawing.Size(106, 384);
+            CustomFieldsDataGrid.TabIndex = 0;
+            CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
+            CustomFieldsDataGrid.CellValueChanged += CustomFieldsDataGrid_CellValueChanged;
+            CustomFieldsDataGrid.DataError += CustomFieldsDataGrid_DataError;
+            CustomFieldsDataGrid.SelectionChanged += CustomFieldsDataGrid_SelectionChanged;
+            // 
+            // AddFieldTypeButton
+            // 
+            AddFieldTypeButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            AddFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            AddFieldTypeButton.ImageIndex = 0;
+            AddFieldTypeButton.ImageList = DialogImages;
+            AddFieldTypeButton.Location = new System.Drawing.Point(4, 467);
+            AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(4, 10, 4, 5);
+            AddFieldTypeButton.Name = "AddFieldTypeButton";
+            AddFieldTypeButton.Size = new System.Drawing.Size(24, 53);
+            AddFieldTypeButton.TabIndex = 1;
+            AddFieldTypeButton.Text = "Add";
+            AddFieldTypeButton.UseVisualStyleBackColor = true;
+            AddFieldTypeButton.Click += AddFieldTypeButton_Click;
+            // 
+            // DialogImages
+            // 
+            DialogImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+            DialogImages.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("DialogImages.ImageStream");
+            DialogImages.TransparentColor = System.Drawing.Color.Transparent;
+            DialogImages.Images.SetKeyName(0, "navigate_plus.png");
+            DialogImages.Images.SetKeyName(1, "delete.png");
+            // 
+            // RemoveFieldTypeButton
+            // 
+            RemoveFieldTypeButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            RemoveFieldTypeButton.Enabled = false;
+            RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            RemoveFieldTypeButton.ImageIndex = 1;
+            RemoveFieldTypeButton.ImageList = DialogImages;
+            RemoveFieldTypeButton.Location = new System.Drawing.Point(36, 467);
+            RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(4, 10, 4, 5);
+            RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
+            RemoveFieldTypeButton.Size = new System.Drawing.Size(24, 53);
+            RemoveFieldTypeButton.TabIndex = 2;
+            RemoveFieldTypeButton.Text = "Remove";
+            RemoveFieldTypeButton.UseVisualStyleBackColor = true;
+            RemoveFieldTypeButton.Click += RemoveFieldTypeButton_Click;
+            // 
+            // RestoreFieldTypesButton
+            // 
+            RestoreFieldTypesButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            RestoreFieldTypesButton.Location = new System.Drawing.Point(68, 467);
+            RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(4, 10, 4, 5);
+            RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
+            RestoreFieldTypesButton.Size = new System.Drawing.Size(42, 52);
+            RestoreFieldTypesButton.TabIndex = 3;
+            RestoreFieldTypesButton.Text = "Restore";
+            RestoreFieldTypesButton.UseVisualStyleBackColor = true;
+            RestoreFieldTypesButton.Click += RestoreFieldTypesButton_Click;
+            // 
+            // tabPage5
+            // 
+            tabPage5.Controls.Add(tableLayoutPanel4);
+            tabPage5.Location = new System.Drawing.Point(4, 34);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            tabPage5.Size = new System.Drawing.Size(122, 537);
+            tabPage5.TabIndex = 2;
+            tabPage5.Text = "Behaviour";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 3;
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 191F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 9F));
+            tableLayoutPanel4.Controls.Add(CheckBoxSkipIndexCheck, 1, 0);
+            tableLayoutPanel4.Controls.Add(label9, 0, 0);
+            tableLayoutPanel4.Controls.Add(label7, 0, 1);
+            tableLayoutPanel4.Controls.Add(CheckBoxDeleteTempFiles, 1, 1);
+            tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel4.Location = new System.Drawing.Point(3, 3);
+            tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 4;
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.60606F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 310F));
+            tableLayoutPanel4.Size = new System.Drawing.Size(116, 531);
+            tableLayoutPanel4.TabIndex = 2;
+            // 
+            // CheckBoxSkipIndexCheck
+            // 
+            CheckBoxSkipIndexCheck.AutoSize = true;
+            CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(202, 25);
+            CheckBoxSkipIndexCheck.Margin = new System.Windows.Forms.Padding(11, 25, 4, 2);
+            CheckBoxSkipIndexCheck.Name = "CheckBoxSkipIndexCheck";
+            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(1, 29);
+            CheckBoxSkipIndexCheck.TabIndex = 8;
+            CheckBoxSkipIndexCheck.Text = "Skip index check";
+            CheckBoxSkipIndexCheck.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(22, 25);
+            label9.Margin = new System.Windows.Forms.Padding(22, 25, 22, 25);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(55, 23);
+            label9.TabIndex = 9;
+            label9.Text = "Index";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(22, 98);
+            label7.Margin = new System.Windows.Forms.Padding(22, 25, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(135, 25);
+            label7.TabIndex = 10;
+            label7.Text = "Temporary Files";
+            // 
+            // CheckBoxDeleteTempFiles
+            // 
+            CheckBoxDeleteTempFiles.AutoSize = true;
+            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(202, 98);
+            CheckBoxDeleteTempFiles.Margin = new System.Windows.Forms.Padding(11, 25, 4, 5);
+            CheckBoxDeleteTempFiles.Name = "CheckBoxDeleteTempFiles";
+            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(1, 29);
+            CheckBoxDeleteTempFiles.TabIndex = 11;
+            CheckBoxDeleteTempFiles.Text = "Delete Imediately";
+            CheckBoxDeleteTempFiles.UseVisualStyleBackColor = true;
+            // 
             // CBZSettingsTabControl
             // 
             CBZSettingsTabControl.Controls.Add(tabPage2);
-            CBZSettingsTabControl.Controls.Add(tabPage4);
             CBZSettingsTabControl.Location = new System.Drawing.Point(162, 6);
             CBZSettingsTabControl.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             CBZSettingsTabControl.Name = "CBZSettingsTabControl";
             CBZSettingsTabControl.SelectedIndex = 0;
-            CBZSettingsTabControl.Size = new System.Drawing.Size(223, 575);
+            CBZSettingsTabControl.Size = new System.Drawing.Size(183, 575);
             CBZSettingsTabControl.TabIndex = 4;
             // 
             // tabPage2
@@ -255,7 +448,7 @@
             tabPage2.Location = new System.Drawing.Point(4, 34);
             tabPage2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Size = new System.Drawing.Size(215, 537);
+            tabPage2.Size = new System.Drawing.Size(175, 537);
             tabPage2.TabIndex = 0;
             tabPage2.Text = "Compatibility";
             tabPage2.UseVisualStyleBackColor = true;
@@ -280,7 +473,7 @@
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 310F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(215, 537);
+            tableLayoutPanel2.Size = new System.Drawing.Size(175, 537);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // label5
@@ -310,7 +503,7 @@
             // 
             pictureBox2.Image = Properties.Resources.information;
             pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(144, 0);
+            pictureBox2.Location = new System.Drawing.Point(104, 0);
             pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Padding = new System.Windows.Forms.Padding(9, 25, 9, 10);
@@ -340,233 +533,6 @@
             label6.Size = new System.Drawing.Size(103, 24);
             label6.TabIndex = 9;
             label6.Text = "Empty Tags";
-            // 
-            // tabPage4
-            // 
-            tabPage4.Controls.Add(tableLayoutPanel4);
-            tabPage4.Location = new System.Drawing.Point(4, 34);
-            tabPage4.Margin = new System.Windows.Forms.Padding(4);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            tabPage4.Size = new System.Drawing.Size(215, 537);
-            tabPage4.TabIndex = 1;
-            tabPage4.Text = "Behaviour";
-            tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel4
-            // 
-            tableLayoutPanel4.ColumnCount = 3;
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 225F));
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 71F));
-            tableLayoutPanel4.Controls.Add(CheckBoxSkipIndexCheck, 1, 0);
-            tableLayoutPanel4.Controls.Add(label9, 0, 0);
-            tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel4.Location = new System.Drawing.Point(4, 4);
-            tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 4;
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.60606F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 310F));
-            tableLayoutPanel4.Size = new System.Drawing.Size(207, 529);
-            tableLayoutPanel4.TabIndex = 1;
-            // 
-            // CheckBoxSkipIndexCheck
-            // 
-            CheckBoxSkipIndexCheck.AutoSize = true;
-            CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(236, 25);
-            CheckBoxSkipIndexCheck.Margin = new System.Windows.Forms.Padding(11, 25, 4, 2);
-            CheckBoxSkipIndexCheck.Name = "CheckBoxSkipIndexCheck";
-            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(1, 29);
-            CheckBoxSkipIndexCheck.TabIndex = 8;
-            CheckBoxSkipIndexCheck.Text = "Skip index check";
-            CheckBoxSkipIndexCheck.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(22, 25);
-            label9.Margin = new System.Windows.Forms.Padding(22, 25, 22, 25);
-            label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(55, 21);
-            label9.TabIndex = 9;
-            label9.Text = "Index";
-            // 
-            // AppSettingsTabControl
-            // 
-            AppSettingsTabControl.Controls.Add(TabPageAppSettings);
-            AppSettingsTabControl.Controls.Add(tabPage3);
-            AppSettingsTabControl.Location = new System.Drawing.Point(389, 6);
-            AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            AppSettingsTabControl.Name = "AppSettingsTabControl";
-            AppSettingsTabControl.SelectedIndex = 0;
-            AppSettingsTabControl.Size = new System.Drawing.Size(142, 575);
-            AppSettingsTabControl.TabIndex = 3;
-            // 
-            // TabPageAppSettings
-            // 
-            TabPageAppSettings.Controls.Add(CustomFieldTypesTablePanel);
-            TabPageAppSettings.Location = new System.Drawing.Point(4, 34);
-            TabPageAppSettings.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            TabPageAppSettings.Name = "TabPageAppSettings";
-            TabPageAppSettings.Padding = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            TabPageAppSettings.Size = new System.Drawing.Size(134, 537);
-            TabPageAppSettings.TabIndex = 0;
-            TabPageAppSettings.Text = "MetaData Editor";
-            TabPageAppSettings.UseVisualStyleBackColor = true;
-            // 
-            // CustomFieldTypesTablePanel
-            // 
-            CustomFieldTypesTablePanel.ColumnCount = 3;
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.85714F));
-            CustomFieldTypesTablePanel.Controls.Add(CustomFieldsDataGrid, 0, 1);
-            CustomFieldTypesTablePanel.Controls.Add(AddFieldTypeButton, 0, 2);
-            CustomFieldTypesTablePanel.Controls.Add(RemoveFieldTypeButton, 1, 2);
-            CustomFieldTypesTablePanel.Controls.Add(RestoreFieldTypesButton, 2, 2);
-            CustomFieldTypesTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            CustomFieldTypesTablePanel.Location = new System.Drawing.Point(4, 6);
-            CustomFieldTypesTablePanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            CustomFieldTypesTablePanel.Name = "CustomFieldTypesTablePanel";
-            CustomFieldTypesTablePanel.RowCount = 3;
-            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
-            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(126, 525);
-            CustomFieldTypesTablePanel.TabIndex = 1;
-            // 
-            // CustomFieldsDataGrid
-            // 
-            CustomFieldsDataGrid.AllowUserToAddRows = false;
-            CustomFieldsDataGrid.AllowUserToDeleteRows = false;
-            CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            CustomFieldTypesTablePanel.SetColumnSpan(CustomFieldsDataGrid, 3);
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
-            CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            CustomFieldsDataGrid.Location = new System.Drawing.Point(4, 67);
-            CustomFieldsDataGrid.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            CustomFieldsDataGrid.MultiSelect = false;
-            CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
-            CustomFieldsDataGrid.RowHeadersWidth = 51;
-            CustomFieldsDataGrid.RowTemplate.Height = 24;
-            CustomFieldsDataGrid.Size = new System.Drawing.Size(118, 384);
-            CustomFieldsDataGrid.TabIndex = 0;
-            CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
-            CustomFieldsDataGrid.CellValueChanged += CustomFieldsDataGrid_CellValueChanged;
-            CustomFieldsDataGrid.DataError += CustomFieldsDataGrid_DataError;
-            CustomFieldsDataGrid.SelectionChanged += CustomFieldsDataGrid_SelectionChanged;
-            // 
-            // AddFieldTypeButton
-            // 
-            AddFieldTypeButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            AddFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            AddFieldTypeButton.ImageIndex = 0;
-            AddFieldTypeButton.ImageList = DialogImages;
-            AddFieldTypeButton.Location = new System.Drawing.Point(4, 467);
-            AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(4, 10, 4, 5);
-            AddFieldTypeButton.Name = "AddFieldTypeButton";
-            AddFieldTypeButton.Size = new System.Drawing.Size(28, 53);
-            AddFieldTypeButton.TabIndex = 1;
-            AddFieldTypeButton.Text = "Add";
-            AddFieldTypeButton.UseVisualStyleBackColor = true;
-            AddFieldTypeButton.Click += AddFieldTypeButton_Click;
-            // 
-            // DialogImages
-            // 
-            DialogImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
-            DialogImages.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("DialogImages.ImageStream");
-            DialogImages.TransparentColor = System.Drawing.Color.Transparent;
-            DialogImages.Images.SetKeyName(0, "navigate_plus.png");
-            DialogImages.Images.SetKeyName(1, "delete.png");
-            // 
-            // RemoveFieldTypeButton
-            // 
-            RemoveFieldTypeButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            RemoveFieldTypeButton.Enabled = false;
-            RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            RemoveFieldTypeButton.ImageIndex = 1;
-            RemoveFieldTypeButton.ImageList = DialogImages;
-            RemoveFieldTypeButton.Location = new System.Drawing.Point(40, 467);
-            RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(4, 10, 4, 5);
-            RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            RemoveFieldTypeButton.Size = new System.Drawing.Size(28, 53);
-            RemoveFieldTypeButton.TabIndex = 2;
-            RemoveFieldTypeButton.Text = "Remove";
-            RemoveFieldTypeButton.UseVisualStyleBackColor = true;
-            RemoveFieldTypeButton.Click += RemoveFieldTypeButton_Click;
-            // 
-            // RestoreFieldTypesButton
-            // 
-            RestoreFieldTypesButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            RestoreFieldTypesButton.Location = new System.Drawing.Point(76, 467);
-            RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(4, 10, 4, 5);
-            RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
-            RestoreFieldTypesButton.Size = new System.Drawing.Size(46, 52);
-            RestoreFieldTypesButton.TabIndex = 3;
-            RestoreFieldTypesButton.Text = "Restore";
-            RestoreFieldTypesButton.UseVisualStyleBackColor = true;
-            RestoreFieldTypesButton.Click += RestoreFieldTypesButton_Click;
-            // 
-            // tabPage3
-            // 
-            tabPage3.Controls.Add(tableLayoutPanel3);
-            tabPage3.Location = new System.Drawing.Point(4, 34);
-            tabPage3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabPage3.Size = new System.Drawing.Size(134, 537);
-            tabPage3.TabIndex = 1;
-            tabPage3.Text = "Deletion";
-            tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel3
-            // 
-            tableLayoutPanel3.ColumnCount = 2;
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            tableLayoutPanel3.Controls.Add(CheckBoxDeleteTempFiles, 1, 1);
-            tableLayoutPanel3.Controls.Add(label7, 0, 1);
-            tableLayoutPanel3.Location = new System.Drawing.Point(20, 25);
-            tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 4;
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 59.375F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40.625F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(390, 351);
-            tableLayoutPanel3.TabIndex = 0;
-            // 
-            // CheckBoxDeleteTempFiles
-            // 
-            CheckBoxDeleteTempFiles.AutoSize = true;
-            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(199, 104);
-            CheckBoxDeleteTempFiles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            CheckBoxDeleteTempFiles.Name = "CheckBoxDeleteTempFiles";
-            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(175, 29);
-            CheckBoxDeleteTempFiles.TabIndex = 0;
-            CheckBoxDeleteTempFiles.Text = "Delete Imediately";
-            CheckBoxDeleteTempFiles.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(4, 99);
-            label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(135, 25);
-            label7.TabIndex = 1;
-            label7.Text = "Temporary Files";
             // 
             // ImageProcessingTabControl
             // 
@@ -991,21 +957,18 @@
             HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             SettingsContentPanel.ResumeLayout(false);
+            AppSettingsTabControl.ResumeLayout(false);
+            TabPageAppSettings.ResumeLayout(false);
+            CustomFieldTypesTablePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)CustomFieldsDataGrid).EndInit();
+            tabPage5.ResumeLayout(false);
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel4.PerformLayout();
             CBZSettingsTabControl.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            tabPage4.ResumeLayout(false);
-            tableLayoutPanel4.ResumeLayout(false);
-            tableLayoutPanel4.PerformLayout();
-            AppSettingsTabControl.ResumeLayout(false);
-            TabPageAppSettings.ResumeLayout(false);
-            CustomFieldTypesTablePanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)CustomFieldsDataGrid).EndInit();
-            tabPage3.ResumeLayout(false);
-            tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel3.PerformLayout();
             ImageProcessingTabControl.ResumeLayout(false);
             ImageConversionTabPage.ResumeLayout(false);
             ImageConversionTabPage.PerformLayout();
@@ -1081,18 +1044,16 @@
         private System.Windows.Forms.Button AddFieldTypeButton;
         private System.Windows.Forms.Button RemoveFieldTypeButton;
         private System.Windows.Forms.Button RestoreFieldTypesButton;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TableLayoutPanel MetaDataDefaultKeysTable;
         private System.Windows.Forms.ImageList DialogImages;
         private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxSearchTag;
         private System.Windows.Forms.CheckBox CheckBoxPruneEmplyTags;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.CheckBox CheckBoxDeleteTempFiles;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.CheckBox CheckBoxSkipIndexCheck;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox CheckBoxDeleteTempFiles;
     }
 }

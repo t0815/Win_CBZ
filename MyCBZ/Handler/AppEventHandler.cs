@@ -53,8 +53,6 @@ namespace Win_CBZ.Handler
         public delegate void MetaDataEntryChangedDelegate(object sender, MetaDataEntryChangedEvent e);
 
         // handler
-
-
         public static void OnApplicationStateChanged(object sender, ApplicationStatusEvent e)
         {
             ApplicationStateChanged?.Invoke(sender, e);
