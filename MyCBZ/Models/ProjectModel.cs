@@ -371,14 +371,15 @@ namespace Win_CBZ
                                     page = GetPageById(resultPage.Id);
                                     //page?.UpdatePage(resultPage);
                                     //page?.UpdateStreams(resultPage);
+                                    page?.UpdatePageAttributes(resultPage);
                                     page?.UpdateTemporaryFile(resultPage.TemporaryFile);
                                     page?.LoadImageInfo(true);
 
 
                                     if (page != null)
                                     {
-                                        page.Name = resultPage.Name;
-                                        page.Format = resultPage.Format;
+                                        //page.Name = resultPage.Name;
+                                        //page.Format = resultPage.Format;
                                         page.ImageTask.ImageAdjustments.SplitPage = false;
                                         page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                         page.ImageTask.ImageAdjustments.ConvertType = 0;
@@ -431,7 +432,9 @@ namespace Win_CBZ
                                         page = GetPageById(resultPage.Id);
                                         //page?.UpdatePage(resultPage);
                                         //page?.UpdateStreams(resultPage);
+                                        page?.UpdatePageAttributes(resultPage);
                                         page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                        page?.LoadImageInfo(true);
 
                                         if (page != null)
                                         {

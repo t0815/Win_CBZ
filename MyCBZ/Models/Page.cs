@@ -986,6 +986,7 @@ namespace Win_CBZ
             Compressed = page.Compressed;
             
             Filename = page.Filename;
+            FileExtension = page.FileExtension;
 
             EntryName = page.EntryName;
             Size = page.Size;
@@ -1180,6 +1181,8 @@ namespace Win_CBZ
 
         public static string ExtractFileExtension(String fileName)
         {
+            return Path.GetExtension(fileName);
+
             string[] entryExtensionParts = fileName.Split('.');
 
             if (entryExtensionParts.Length == 0) return null;
@@ -1205,6 +1208,9 @@ namespace Win_CBZ
 
         public void UpdateImageExtension(string newExtenaion)
         {
+            Name = Path.ChangeExtension(Name, newExtenaion);
+            Filename = Path.ChangeExtension(Name, newExtenaion);
+
             string[] entryExtensionParts = Name.Split('.');
 
             if (entryExtensionParts.Length == 0) return;
@@ -1214,6 +1220,18 @@ namespace Win_CBZ
             }
 
             Name = String.Join(null, entryExtensionParts);
+
+            entryExtensionParts = Filename.Split('.');
+
+            if (entryExtensionParts.Length == 0) return;
+
+            else
+            {
+                entryExtensionParts[entryExtensionParts.Length - 1] = "." + newExtenaion;
+            }
+
+            Filename = String.Join(null, entryExtensionParts);
+            FileExtension = ExtractFileExtension(Filename);
         }
 
 
@@ -2062,6 +2080,11 @@ namespace Win_CBZ
                                 if (!metaDataOnly)
                                 {
                                     Image = Image.FromStream(ImageStreamMemoryCopy);
+                                    Format.W = Image.Width;
+                                    Format.H = Image.Height;
+                                    Format.DPI = Image.VerticalResolution;
+                                    Format.Format = Image.RawFormat;
+                                    Format.Update();
                                     ImageLoaded = true;
                                 } else
                                 {

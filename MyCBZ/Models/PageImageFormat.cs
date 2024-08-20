@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Win_CBZ.Models
 {
@@ -151,6 +152,15 @@ namespace Win_CBZ.Models
 
                 Name = nameResult;
             }
+        }
+
+        public string ExpectedExtension()
+        {
+            string resultExt;
+
+            ImageFormatToExtensionMap.TryGetValue(Format, out resultExt);
+
+            return "." + resultExt;
         }
 
         public void Update(Image image)
