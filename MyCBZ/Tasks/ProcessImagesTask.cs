@@ -110,7 +110,7 @@ namespace Win_CBZ.Tasks
                                 results[0].LoadImageInfo(true);
                                 result.AddFinishedPage(results[0]);
 
-                                if (results[1].LocalFile.Exists())
+                                if (results[1] != null && results[1].LocalFile.Exists())
                                 {
                                     //secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
                                     results[1].Index = results[0].Index + 1;

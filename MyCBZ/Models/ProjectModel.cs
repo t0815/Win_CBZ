@@ -360,45 +360,53 @@ namespace Win_CBZ
                         imageProcessingTask = ProcessImagesTask.ProcessImages(p.PagesToProcess, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
-                            // update pages with results
-                            Page page = null;
 
-                            foreach (Page resultPage in r.Result.Pages)
+                            if (r.IsCompletedSuccessfully)
                             {
-                                page = GetPageById(resultPage.Id);
-                                //page?.UpdatePage(resultPage);
-                                //page?.UpdateStreams(resultPage);
-                                page?.UpdateTemporaryFile(resultPage.TemporaryFile);
-                                page?.LoadImageInfo(true);
-                                
+                                // update pages with results
+                                Page page = null;
 
-                                if (page != null)
+                                foreach (Page resultPage in r.Result.Pages)
                                 {
-                                    page.Name = resultPage.Name;
-                                    page.Format = resultPage.Format;
-                                    page.ImageTask.ImageAdjustments.SplitPage = false;
-                                    page.ImageTask.ImageAdjustments.ResizeMode = -1;
-                                    page.ImageTask.ImageAdjustments.ConvertType = 0;
+                                    page = GetPageById(resultPage.Id);
+                                    //page?.UpdatePage(resultPage);
+                                    //page?.UpdateStreams(resultPage);
+                                    page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                    page?.LoadImageInfo(true);
 
-                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+
+                                    if (page != null)
+                                    {
+                                        page.Name = resultPage.Name;
+                                        page.Format = resultPage.Format;
+                                        page.ImageTask.ImageAdjustments.SplitPage = false;
+                                        page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                        page.ImageTask.ImageAdjustments.ConvertType = 0;
+
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                    }
+                                    else
+                                    {
+                                        Pages.Add(resultPage);
+
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                    }
                                 }
-                                else 
-                                {
-                                    Pages.Add(resultPage);
 
-                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                                }
-                            }
-
-                           // if (currentPerformed != e.Task)
-                           // {
+                                // if (currentPerformed != e.Task)
+                                // {
                                 if (remainingStack.Count > 0)
                                 {
                                     nextTask = remainingStack[0];
 
                                     AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
                                 }
-                           // }
+                                // }
+                            } else
+                            {
+                                // todo: continue on error?
+                                throw new ApplicationException("Failed to process images! ", true);
+                            }
                         }));
 
                         imageProcessingTask.Start();

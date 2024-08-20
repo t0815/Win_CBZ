@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Drawing.Drawing2D;
 using System.Runtime.Versioning;
 using System.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace Win_CBZ
 {
@@ -975,6 +976,46 @@ namespace Win_CBZ
         }
 
         /// <summary>
+        /// Update a pages attributes with those from specified page
+        /// </summary>
+        /// <param name="page">Page to update attributes from</param>
+        /// <param name="skipIndex">dont update any indices</param>
+        /// <param name="skipName">dont update name</param>
+        public void UpdatePageAttributes(Page page, bool skipIndex = false, bool skipName = false)
+        {
+            Compressed = page.Compressed;
+            
+            Filename = page.Filename;
+
+            EntryName = page.EntryName;
+            Size = page.Size;
+            Id = page.Id;
+            Key = page.Key;
+
+            Deleted = page.Deleted;
+            Changed = page.Changed;
+            ImageType = page.ImageType;
+            ImageTask = page.ImageTask;
+            Format = page.Format;
+            DoublePage = page.DoublePage;
+            Hash = page.Hash;
+            LastModified = page.LastModified;
+
+            if (!skipName)
+            {
+                Name = page.Name;
+                OriginalName = page.OriginalName;
+            }
+
+            if (!skipIndex)
+            {
+                Index = page.Index;
+                Number = page.Number;
+            }
+            //OriginalIndex = page.OriginalIndex;
+        }
+
+        /// <summary>
         /// Update the compressed entry for given page
         /// </summary>
         /// <param name="entry">Archive entry to update image from</param>
@@ -1849,12 +1890,10 @@ namespace Win_CBZ
                     {
                         destinationStream = File.Create(destination);
                         
-                        if (ImageStream != null)
+                        if (ImageStream != null && ImageStream.CanRead)
                         {
-                            if (ImageStream.CanRead)
-                            {
-                                localCopyStream = ImageStream;
-                            }
+                            localCopyStream = ImageStream;
+                            
                         } else
                         {
                             localCopyStream = copyFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.ReadWrite);

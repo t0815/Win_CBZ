@@ -218,9 +218,10 @@ namespace Win_CBZ.Models
         {
             ResultPage = new Page[2];
 
-            ResultPage[0] = new Page(new LocalFile(ResultFileName[0].FullPath), SourcePage.WorkingDir);
+            ResultPage[0] = new Page(new LocalFile(ResultFileName[0].FullPath), SourcePage.WorkingDir, FileAccess.ReadWrite);
             ResultPage[0].UpdatePage(SourcePage);
-            ResultPage[0].CreateLocalWorkingCopy();
+            //ResultPage[0].UpdateTemporaryFile(new LocalFile(ResultFileName[0].FullPath));
+            //ResultPage[0].CreateLocalWorkingCopy();
             //ResultPage[0].IsMemoryCopy = false;
 
             return ResultPage;
