@@ -115,12 +115,15 @@ namespace Win_CBZ
             Width = Win_CBZSettings.Default.WindowW;
             Height = Win_CBZSettings.Default.WindowH;
 
+            ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
+
             Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
 
             try
             {
                 MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter1'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
             }
@@ -151,7 +154,7 @@ namespace Win_CBZ
             {
                 ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
             }
-          
+
 
             // First Run App, initialize settings with defaults here  
             if (Win_CBZSettings.Default.FirstRun)
@@ -181,7 +184,8 @@ namespace Win_CBZ
                     ApplicationMessage.Show("Your configuratio has been updated to version: " + updatedVersion.ToString() + "\r\nPlease revise your applicaiton configuration.", "User settings updated", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
 
                 }
-            } catch (SettingsPatchException ex)
+            }
+            catch (SettingsPatchException ex)
             {
                 if (ex.ShowErrorDialog)
                 {
@@ -189,10 +193,12 @@ namespace Win_CBZ
                 }
                 Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFulPatchedVersion;
                 Win_CBZSettings.Default.Save();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 ApplicationMessage.ShowException(e);
-            } finally
+            }
+            finally
             {
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
@@ -325,7 +331,8 @@ namespace Win_CBZ
                 {
                     Program.ProjectModel.New();
                     ClearLog();
-                } catch (ConcurrentOperationException c)
+                }
+                catch (ConcurrentOperationException c)
                 {
                     if (c.ShowErrorDialog)
                     {
@@ -354,8 +361,8 @@ namespace Win_CBZ
             if (Win_CBZSettings.Default.RecentOpenArchivePath != null && Win_CBZSettings.Default.RecentOpenArchivePath.Length > 0)
             {
                 recentPath = new LocalFile(Win_CBZSettings.Default.RecentOpenArchivePath);
-      
-                OpenCBFDialog.InitialDirectory = Win_CBZSettings.Default.RecentOpenArchivePath;            
+
+                OpenCBFDialog.InitialDirectory = Win_CBZSettings.Default.RecentOpenArchivePath;
             }
 
             DialogResult openCBFResult = DialogResult.None;
@@ -367,7 +374,8 @@ namespace Win_CBZ
                 {
                     openCBFResult = OpenCBFDialog.ShowDialog();
                 }
-            } else
+            }
+            else
             {
                 openCBFResult = OpenCBFDialog.ShowDialog();
             }
@@ -420,7 +428,8 @@ namespace Win_CBZ
             if (Program.ProjectModel.IsNew && !Program.ProjectModel.IsSaved)
             {
                 SaveAsToolStripMenuItem_Click(sender, e);
-            } else
+            }
+            else
             {
                 if (Program.ProjectModel.Exists())
                 {
@@ -428,7 +437,8 @@ namespace Win_CBZ
                     {
 
                     }
-                } else
+                }
+                else
                 {
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Wrong application state. Current File does not exists! [" + Program.ProjectModel.FileName + "]");
                     SaveAsToolStripMenuItem.Enabled = true;
@@ -479,7 +489,8 @@ namespace Win_CBZ
             if (e.Pages != null)
             {
                 PasteToolStripMenuItem.Enabled = true;
-            } else
+            }
+            else
             {
                 PasteToolStripMenuItem.Enabled = false;
             }
@@ -534,7 +545,7 @@ namespace Win_CBZ
                         item.ForeColor = Color.Black;
 
                         if (e.Page != null)
-                        { 
+                        {
                             switch (e.State)
                             {
                                 case PageChangedEvent.IMAGE_STATUS_NEW:
@@ -588,7 +599,8 @@ namespace Win_CBZ
                                 item.ForeColor = Color.White;
                                 item.BackColor = HTMLColor.ToColor(Colors.COLOR_ERROR_RED);
                             }
-                        } else
+                        }
+                        else
                         {
                             item.ForeColor = Color.White;
                             item.BackColor = HTMLColor.ToColor(Colors.COLOR_ERROR_RED);
@@ -596,7 +608,7 @@ namespace Win_CBZ
                     }
                     else
                     {
-                        
+
                         if (e.State == PageChangedEvent.IMAGE_STATUS_CLOSED)
                         {
                             ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Page);
@@ -618,7 +630,7 @@ namespace Win_CBZ
                                 PageView.Items.Remove(existingItem);
                             }
                         }
-                        
+
                     }
                 }));
 
@@ -637,7 +649,7 @@ namespace Win_CBZ
                                     return;
                                 }));
 
-                                
+
                             });
                         }
                     }
@@ -668,7 +680,8 @@ namespace Win_CBZ
                         ApplicationStatusLabel.Text = "Copying file...";
                     }
 
-                } else
+                }
+                else
                 {
                     MainToolStripProgressBar.Value = 0;
                     ApplicationStatusLabel.Text = "Ready.";
@@ -825,7 +838,7 @@ namespace Win_CBZ
                         if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
                         {
                             Program.ProjectModel.MetaDataPageIndexMissingData = false;
-                            Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());                           
+                            Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
                         }
 
                         if (e.PopGlobalState)
@@ -905,7 +918,8 @@ namespace Win_CBZ
                             PageImages.Images.RemoveByKey(page.Name);
                             PageImages.Images.Add(page.Id, page.GetThumbnail());
                         }
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
                     }
@@ -960,12 +974,12 @@ namespace Win_CBZ
                 //Task awaitTasks = AwaitOperationsTask.AwaitOperations(threads);
 
                 //Task thenTask = awaitTasks.ContinueWith(task => {
-                    
+
                 //});
 
                 //thenTask.ContinueWith(task => 
                 //{ 
-                    //ThumbnailPagesSlice.Clear(); 
+                //ThumbnailPagesSlice.Clear(); 
                 //});
 
                 //awaitTasks.Start();
@@ -976,7 +990,8 @@ namespace Win_CBZ
         {
             ThumbSliceThreadParams tParams = threadParams as ThumbSliceThreadParams;
 
-            if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING) {
+            if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING)
+            {
 
                 if (!WindowClosed)
                 {
@@ -1034,11 +1049,11 @@ namespace Win_CBZ
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error in thumb-generation thread! [" + eo.Message + "]");
                         }
 
-                        
+
                         if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
                         {
                             //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
-                            
+
                             /*
                             int itemIndex = -1;
 
@@ -1111,12 +1126,14 @@ namespace Win_CBZ
                 if (insertPageAt == null)
                 {
                     PageThumbsListBox.Items.Add(page);
-                } else
+                }
+                else
                 {
                     PageThumbsListBox.Items.Insert(PageThumbsListBox.Items.IndexOf(insertPageAt), page);
                 }
 
-            } else
+            }
+            else
             {
                 PageThumbsListBox.Items[PageThumbsListBox.Items.IndexOf(existingItem)] = page;
             }
@@ -1206,7 +1223,8 @@ namespace Win_CBZ
                     catch (Exception e)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                    } finally
+                    }
+                    finally
                     {
                         page.FreeImage();
                     }
@@ -1786,7 +1804,7 @@ namespace Win_CBZ
                             filename = "";
                         }));
                     }
-                    
+
                     filename = "";
 
                     info = "Ready.";
@@ -1900,7 +1918,7 @@ namespace Win_CBZ
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
-                        
+
                         break;
 
                     case CBZArchiveStatusEvent.ARCHIVE_SAVING:
@@ -2008,7 +2026,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Enabled = true;
                         ToolButtonAddFolder.Enabled = true;
                         TextboxStoryPageRenamingPattern.Enabled = true;
-                        TextboxSpecialPageRenamingPattern.Enabled = true;               
+                        TextboxSpecialPageRenamingPattern.Enabled = true;
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         Program.ProjectModel.IsSaved = false;
@@ -2133,9 +2151,9 @@ namespace Win_CBZ
                         //CheckBoxDoRenamePages.Checked = false;
                         //if (project.FileName != null && project.FileName.Length > 0)
                         //{
-                            ToolButtonSave.Enabled = true;
-                            SaveToolStripMenuItem.Enabled = true;
-                            SaveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonSave.Enabled = true;
+                        SaveToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         //}
                         break;
 
@@ -2144,27 +2162,27 @@ namespace Win_CBZ
                     case CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
                         //if (project.FileName != null && project.FileName.Length > 0)
                         //{
-                            ToolButtonSave.Enabled = true;
-                            SaveToolStripMenuItem.Enabled = true;
-                            SaveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonSave.Enabled = true;
+                        SaveToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         //}
                         break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
                         //if (project.FileName != null && project.FileName.Length > 0)
                         //{
-                            ToolButtonSave.Enabled = true;
-                            SaveToolStripMenuItem.Enabled = true;
-                            SaveAsToolStripMenuItem.Enabled = true;
+                        ToolButtonSave.Enabled = true;
+                        SaveToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         //}
                         break;
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
                     case CBZArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
                         //if (project.FileName != null && project.FileName.Length > 0)
-                       // {
-                            ToolButtonSave.Enabled = true;
-                            SaveToolStripMenuItem.Enabled = true;
-                            SaveAsToolStripMenuItem.Enabled = true;
+                        // {
+                        ToolButtonSave.Enabled = true;
+                        SaveToolStripMenuItem.Enabled = true;
+                        SaveAsToolStripMenuItem.Enabled = true;
                         //}
                         break;
                 }
@@ -2221,6 +2239,8 @@ namespace Win_CBZ
 
                         MainToolStripProgressBar.Value = 0;
 
+                        ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
+
                         //ClearProject();
                         NewProject();
                     }
@@ -2234,16 +2254,19 @@ namespace Win_CBZ
 
                     MainToolStripProgressBar.Value = 0;
 
+                    ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
+
+
                     //ClearProject();
                     NewProject();
                 }
-            } else
+            }
+            else
             {
 
                 if (ArchiveProcessing())
                 {
                     ApplicationMessage.ShowWarning("Please wait until current operation has finished.", "Still operations in progress", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-
                 }
             }
         }
@@ -2318,7 +2341,8 @@ namespace Win_CBZ
                         {
                             QuitApplication();
                         }
-                    } else
+                    }
+                    else
                     {
                         e.Cancel = true;
                     }
@@ -2418,7 +2442,7 @@ namespace Win_CBZ
             {
                 recentPath = new LocalFile(Win_CBZSettings.Default.RecentAddImagePath);
 
-                OpenImagesDialog.InitialDirectory = Win_CBZSettings.Default.RecentAddImagePath;            
+                OpenImagesDialog.InitialDirectory = Win_CBZSettings.Default.RecentAddImagePath;
             }
 
             DialogResult openImageResult = OpenImagesDialog.ShowDialog();
@@ -2437,11 +2461,11 @@ namespace Win_CBZ
 
         private void PagesList_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
-            if (e.Label == null) 
-            { 
+            if (e.Label == null)
+            {
                 e.CancelEdit = true;
 
-                return; 
+                return;
             }
 
             if (e.Item > -1)
@@ -2454,7 +2478,7 @@ namespace Win_CBZ
                     {
                         //Page oldPage = new Page(((Page)changedItem.Tag));  // dont load page here! will cause Access denied
                         Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label, false, true);
-                       
+
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
 
                         AppEventHandler.OnPageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
@@ -2492,9 +2516,10 @@ namespace Win_CBZ
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                         e.CancelEdit = true;
-                    } finally 
-                    { 
-                        
+                    }
+                    finally
+                    {
+
                     }
                 }
             }
@@ -2617,7 +2642,7 @@ namespace Win_CBZ
                     //pageItem.Text = newIndex.ToString();
                     PageThumbsListBox.Items.Insert(newIndex, pageItem);
 
-                    
+
                     newIndex++;
                 }
 
@@ -2740,7 +2765,8 @@ namespace Win_CBZ
 
                     Program.ProjectModel.Pages.Add((Page)originalItem.Tag);
                     Program.ProjectModel.Pages.Add(tparams.page);
-                } else
+                }
+                else
                 {
                     PagesList.Items.Insert(tparams.newIndex, updateItem);
                     PagesList.Items.Insert(tparams.newIndex + 1, originalItem);
@@ -2754,12 +2780,13 @@ namespace Win_CBZ
                     if (tparams.newIndex > Program.ProjectModel.Pages.Count - 1)
                     {
                         PageThumbsListBox.Items.Add(updatePage);
-                    } else
+                    }
+                    else
                     {
                         PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
                     }
-                        //PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
-                        
+                    //PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
+
                     //UpdatePageView();
 
                     //CreatePagePreviewFromItem(page);
@@ -2846,12 +2873,14 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel != null && Program.ProjectModel.MetaData != null)
             {
-                if ((Program.ProjectModel.MetaData.HasValues() || Program.ProjectModel.MetaData.HasRemovedValues()) && Program.ProjectModel.Exists()) {
+                if ((Program.ProjectModel.MetaData.HasValues() || Program.ProjectModel.MetaData.HasRemovedValues()) && Program.ProjectModel.Exists())
+                {
                     if (ApplicationMessage.ShowConfirmation("Are you sure you want to remove existing Metadata from Archive?", "Remove existing Meta-Data") == DialogResult.Yes)
                     {
                         RemoveMetaData();
                     }
-                } else
+                }
+                else
                 {
                     RemoveMetaData();
                 }
@@ -2872,13 +2901,13 @@ namespace Win_CBZ
         {
             if (MetaDataGrid.SelectedRows.Count > 0)
             {
-               
+
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
-                    
+
                     int index = Program.ProjectModel.MetaData.Remove(row.Cells[0].Tag as MetaDataEntry);
 
-                   
+
                     /*
                     if (row.Cells[0].Value != null)
                     {
@@ -2919,7 +2948,7 @@ namespace Win_CBZ
                 {
                     object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
                     EditorTypeConfig editorTypeConfig = MetaDataGrid.Rows[e.RowIndex].Cells[1].Tag as EditorTypeConfig;
-                
+
                     if (editorTypeConfig != null)
                     {
                         if (editorTypeConfig.Type == "AutoComplete")
@@ -2929,7 +2958,8 @@ namespace Win_CBZ
                         }
                     }
                 }
-            } catch (MetaDataValidationException ve)
+            }
+            catch (MetaDataValidationException ve)
             {
                 MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
                 DialogResult dlgResult = DialogResult.OK;
@@ -2957,7 +2987,8 @@ namespace Win_CBZ
             };
 
             e.CellStyle = dataGridViewCellStyle;
-            if (MetaDataGrid.SelectedCells.Count == 1) {
+            if (MetaDataGrid.SelectedCells.Count == 1)
+            {
                 MetaDataFieldType fieldType = MetaDataGrid.SelectedCells[0].Tag as MetaDataFieldType;
 
                 if (fieldType != null)
@@ -2975,12 +3006,14 @@ namespace Win_CBZ
                         //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
                         //textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
                         //textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                                        
-                    } else
-                    {
-                        
+
                     }
-                } else
+                    else
+                    {
+
+                    }
+                }
+                else
                 {
                     AutoCompleteItems.Items = null;
                     //AutoCompleteItems.SetAutocompleteMenu(null, AutoCompleteItems);
@@ -2990,7 +3023,7 @@ namespace Win_CBZ
                     //textBox.AutoCompleteMode = AutoCompleteMode.None;
                 }
             }
-           
+
         }
 
         private void MetaDataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -3079,7 +3112,7 @@ namespace Win_CBZ
                         if (entry.Visible)
                         {
                             MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
-                        }                     
+                        }
                     }
 
                     // DataGridViewCellStyle currentStyle = null;
@@ -3157,22 +3190,24 @@ namespace Win_CBZ
 
 
                                         MetaDataGrid.Rows[i].Cells[1] = c;
-                                    } else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
-                                    { 
+                                    }
+                                    else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                                    {
                                         DataGridViewImageCell c = new DataGridViewImageCell();
 
                                         c.Value = entry.Value;
                                         c.Tag = entry.Type;
                                         c.ImageLayout = DataGridViewImageCellLayout.Normal;
-                                        
+
                                         MetaDataGrid.Rows[i].Cells[1] = c;
                                         c.ReadOnly = true;
-                                    } else
+                                    }
+                                    else
                                     {
                                         MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type;
                                         MetaDataGrid.Rows[i].Cells[1].Value = entry.Value;
                                     }
-                                    
+
                                     if (entry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
                                     {
                                         DataGridViewButtonCell bc = new DataGridViewButtonCell
@@ -3181,7 +3216,7 @@ namespace Win_CBZ
                                             Tag = entry.Type, // new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, "String", ",", " ", false, entry.Type.OptionsAsList()),
                                             Style = new DataGridViewCellStyle()
                                             {
-                                                
+
                                                 SelectionForeColor = Color.White,
                                                 SelectionBackColor = Color.White,
                                                 ForeColor = Color.Black,
@@ -3190,12 +3225,13 @@ namespace Win_CBZ
                                         };
                                         MetaDataGrid.Rows[i].Cells[2] = bc;
                                     }
-     
-                                } else
-                                {
-                                        //MetaDataGrid.Rows[i].Cells[1] = c;
+
                                 }
-                                    //c.ReadOnly = true;          
+                                else
+                                {
+                                    //MetaDataGrid.Rows[i].Cells[1] = c;
+                                }
+                                //c.ReadOnly = true;          
                             }
                         }
                     }
@@ -3284,7 +3320,7 @@ namespace Win_CBZ
                 if (fieldType != null)
                 {
                     fieldType.EditorConfig.Value = value;
-                    
+
                     if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
                     {
                         senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = 5;
@@ -3348,7 +3384,8 @@ namespace Win_CBZ
                                         SelectionBackColor = Color.Gold,
                                         BackColor = Color.White,
                                     };
-                                } else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+                                }
+                                else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                 {
                                     DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
 
@@ -3385,21 +3422,21 @@ namespace Win_CBZ
 
         private void MetaDataGrid_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)
         {
-            
+
         }
 
         private void MetaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                
+
                 Program.ProjectModel.IsChanged = true;
 
                 ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                 SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
 
                 Program.ProjectModel.IsChanged = true;
-                
+
                 string Key = "";
                 string Val = "";
 
@@ -3447,18 +3484,19 @@ namespace Win_CBZ
                 MetaDataGrid.Invalidate();
 
                 //if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
-               // {
+                // {
 
-               // } else
-               // {
+                // } else
+                // {
 
-               // }
+                // }
 
                 // todo: evaluate maybe only update upon saving cbz
                 MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(updatedEntry.Type.Name, updatedEntry.Value.Split(','));
 
 
-                if (e.ColumnIndex == 0) {
+                if (e.ColumnIndex == 0)
+                {
                     var key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
                     if (key != null)
                     {
@@ -3513,7 +3551,7 @@ namespace Win_CBZ
                                 //c.Items.AddRange(entry.Options.EditorOptions);
                                 c.Value = updatedEntry.Value; // selectedIndex > -1 ? selectedIndex : 0;
                                 c.Tag = updatedEntry.Type;
-                                
+
                                 //c. = isAutoComplete;
                                 //c.DataSource = new List<String>(entry.Options.EditorOptions);
 
@@ -3527,7 +3565,8 @@ namespace Win_CBZ
                                 };
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
-                            } else if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                            }
+                            else if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
                             {
                                 DataGridViewImageCell c = new DataGridViewImageCell();
 
@@ -3541,11 +3580,11 @@ namespace Win_CBZ
                                     SelectionBackColor = Color.Gold,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                 };
-                                
+
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                 c.ReadOnly = true;
                             }
-                            
+
                             if (updatedEntry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
                             {
                                 DataGridViewButtonCell bc = new DataGridViewButtonCell
@@ -3560,11 +3599,11 @@ namespace Win_CBZ
                                         BackColor = Color.White,
                                     }
                                 };
-                                
+
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
                             }
-                        }        
+                        }
                     }
                 }
             }
@@ -3576,7 +3615,8 @@ namespace Win_CBZ
 
         private void MetaDataGrid_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            if (e.Exception != null) {
+            if (e.Exception != null)
+            {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Exception.Message);
             }
         }
@@ -3604,14 +3644,16 @@ namespace Win_CBZ
                     if (extractFilesDialog.ExtractType == 0)
                     {
                         Program.ProjectModel.Extract(extractFilesDialog.TargetFolder);
-                    } else
+                    }
+                    else
                     {
                         Program.ProjectModel.Extract(extractFilesDialog.TargetFolder, selectedPages);
                     }
 
                     LastOutputDirectory = extractFilesDialog.TargetFolder;
                 }
-            } catch (Exception) { }
+            }
+            catch (Exception) { }
         }
 
         private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -3655,7 +3697,8 @@ namespace Win_CBZ
                     UpdateImageAdjustments(((Page)selectedPages[0].Tag).Id);
                 }
                 //RequestImageInfoSlice();
-            } else
+            }
+            else
             {
                 RadioApplyAdjustmentsPage.Text = "(no page selected)";
                 RadioApplyAdjustmentsPage.Enabled = false;
@@ -3704,7 +3747,8 @@ namespace Win_CBZ
                         try
                         {
                             ((Page)img.Tag).DeleteTemporaryFile();
-                        } catch (Exception ex)
+                        }
+                        catch (Exception ex)
                         {
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                         }
@@ -3792,7 +3836,9 @@ namespace Win_CBZ
                         pageProperties.Add(selectedItem.Tag as Page /*, (selectedItem.Tag as Page).Compressed*/);
                         //pageProperties.Add(new Page(selectedItem.Tag as Page /*, (selectedItem.Tag as Page).Compressed*/));
                     }
-                } catch (PageException pe) {
+                }
+                catch (PageException pe)
+                {
                     if (pe.ShowErrorDialog)
                     {
                         ApplicationMessage.ShowException(pe);
@@ -3809,11 +3855,12 @@ namespace Win_CBZ
                 try
                 {
                     dlgResult = pageSettingsForm.ShowDialog();
-                } catch (Exception ex)
-                {
-                    ApplicationMessage.ShowException(ex); 
                 }
-            
+                catch (Exception ex)
+                {
+                    ApplicationMessage.ShowException(ex);
+                }
+
 
                 if (dlgResult == DialogResult.OK)
                 {
@@ -3862,7 +3909,7 @@ namespace Win_CBZ
                                 }
                             }
 
-     
+
                             if (pageResult.Deleted != pageProperties[i].Deleted)
                             {
                                 pageIndexUpdateNeeded = true;
@@ -3886,7 +3933,7 @@ namespace Win_CBZ
                                 //HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
                             }
 
-                            
+
 
                             if (pageResult.Deleted != pageProperties[i].Deleted ||
                                 pageResult.DoublePage != pageProperties[i].DoublePage ||
@@ -3927,7 +3974,7 @@ namespace Win_CBZ
                             }
 
                             pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
-                            
+
                             if (!pageResult.Deleted)
                             {
                                 if (dlgResult == DialogResult.OK && pageImageUpdateNeeded)
@@ -4035,15 +4082,17 @@ namespace Win_CBZ
                                         if (pageResult.Index >= 0 && pageResult.Index < Program.ProjectModel.Pages.Count)
                                         {
                                             MovePageTo(pageToUpdate, pageResult.Index);
-                                        } else
+                                        }
+                                        else
                                         {
                                             ApplicationMessage.ShowWarning("Invalid Pageindex! The target index is out of bounds!", "Failed to move page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
 
                                             RestoreIndex(pageToUpdate, pageProperties[i]);
                                             RestoreIndex(originalPages[i], pageProperties[i]);
                                         }
-                                            
-                                    } else
+
+                                    }
+                                    else
                                     {
                                         pageToUpdate.Number = pageResult.Index + 1;
                                     }
@@ -4056,7 +4105,7 @@ namespace Win_CBZ
                                     ApplicationMessage.ShowException(ex);
                                 }
 
-                                
+
                             }
                         }
                     }
@@ -4070,8 +4119,8 @@ namespace Win_CBZ
                 {
                     //RefreshPageView();
                 }
-                    
-                
+
+
                 if (pageIndexUpdateNeeded)
                 {
                     AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
@@ -4225,21 +4274,25 @@ namespace Win_CBZ
                     item.SubItems[2].Text = (String)((ToolStripSplitButton)sender).Tag;
                 }
 
-                try {
+                try
+                {
                     if (PagesList.SelectedItems.Count > 1)
                     {
                         AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), HandleGlobalTaskProgress, PageChanged)));
-                    } else
+                    }
+                    else
                     {
                         Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
                     }
 
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent((Page)item.Tag, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
-                } catch (MetaDataPageEntryException ex)
+                }
+                catch (MetaDataPageEntryException ex)
                 {
                     ApplicationMessage.ShowWarning(ex.Message, ex.GetType().Name, ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                } catch (Exception eg)
+                }
+                catch (Exception eg)
                 {
                     ApplicationMessage.ShowException(eg);
                 }
@@ -4303,7 +4356,8 @@ namespace Win_CBZ
 
                 Program.ProjectModel.FilteredFileNames.Clear();
                 Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
-            } else
+            }
+            else
             {
                 //
             }
@@ -4418,7 +4472,8 @@ namespace Win_CBZ
                     }
                 }
 
-            } else
+            }
+            else
             {
                 try
                 {
@@ -4459,7 +4514,8 @@ namespace Win_CBZ
             {
                 MetaDataForm metaDataDialog = new MetaDataForm(Program.ProjectModel.MetaData);
                 metaDataDialog.ShowDialog();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ApplicationMessage.ShowException(ex);
             }
@@ -4541,7 +4597,8 @@ namespace Win_CBZ
             try
             {
                 Program.ProjectModel.Validate(MetaDataVersionFlavorHandler.GetInstance().TargetVersion(), true);
-            } catch (ConcurrentOperationException c)
+            }
+            catch (ConcurrentOperationException c)
             {
                 if (c.ShowErrorDialog)
                 {
@@ -4563,7 +4620,8 @@ namespace Win_CBZ
                 {
                     selectedTask = Program.ProjectModel.GlobalImageTask;
 
-                } else
+                }
+                else
                 {
                     page = Program.ProjectModel.GetPageByName(selected);
 
@@ -4700,7 +4758,7 @@ namespace Win_CBZ
 
                 if (selectedImageTask != null)
                 {
-                    
+
 
                     //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
                     switch (selectedImageTask.ImageAdjustments.ResizeMode)
@@ -4723,6 +4781,8 @@ namespace Win_CBZ
                     TextBoxResizePageIndexReference.Text = selectedImageTask.ImageAdjustments.ResizeToPageNumber.ToString();
                     TextBoxResizeW.Text = selectedImageTask.ImageAdjustments.ResizeTo.X.ToString();
                     TextBoxResizeH.Text = selectedImageTask.ImageAdjustments.ResizeTo.Y.ToString();
+                    ComboBoxConvertPages.SelectedIndex = selectedImageTask.ImageAdjustments.ConvertType;
+
 
                     if (page != null)
                     {
@@ -4734,7 +4794,7 @@ namespace Win_CBZ
 
         private void DebugToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            df.Show();
+            df?.Show();
         }
 
         private void PageView_SelectedIndexChanged(object sender, EventArgs e)
@@ -4949,8 +5009,9 @@ namespace Win_CBZ
                 {
                     item.Selected = true;
                 }
-     
-            } else if (MessageLogListView.Focused)
+
+            }
+            else if (MessageLogListView.Focused)
             {
                 foreach (ListViewItem item in MessageLogListView.Items)
                 {
@@ -5001,7 +5062,8 @@ namespace Win_CBZ
                             xmlTextPages += metaData;
 
                             xmlTextPages += "\r\n";
-                        } catch (PageException ex)
+                        }
+                        catch (PageException ex)
                         {
                             if (ex.ShowErrorDialog)
                             {
@@ -5023,7 +5085,8 @@ namespace Win_CBZ
                 {
                     PasteToolStripMenuItem.Enabled = false;
                 }
-            } else if (MessageLogListView.Focused)
+            }
+            else if (MessageLogListView.Focused)
             {
                 String logMessages = "";
                 String messageType = "Info";
@@ -5052,7 +5115,8 @@ namespace Win_CBZ
                 Clipboard.SetDataObject(data);
 
                 PasteToolStripMenuItem.Enabled = true;
-            } else if (MetaDataGrid.Focused)
+            }
+            else if (MetaDataGrid.Focused)
             {
                 try
                 {
@@ -5097,7 +5161,8 @@ namespace Win_CBZ
                 {
                     ApplicationMessage.ShowException(ex);
                 }
-            } else
+            }
+            else
             {
                 TextBox textBox = this.GetActiveTextBox() as TextBox;
                 if (textBox != null)
@@ -5107,8 +5172,8 @@ namespace Win_CBZ
                         textBox.Copy();
                     }
                 }
-                                
-                PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();               
+
+                PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
             }
         }
 
@@ -5246,10 +5311,10 @@ namespace Win_CBZ
 
                         Program.ProjectModel.MetaData.Values = data.Values;
                         Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
-                        
+
                         AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
                         AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
-                    }                                 
+                    }
                 }
                 else
                 {
@@ -5258,12 +5323,13 @@ namespace Win_CBZ
                     {
                         //if (textBox.SelectedText.Length > 0)
                         //{
-                            textBox.Paste();
+                        textBox.Paste();
                         //}
                     }
                 }
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ApplicationMessage.ShowException(ex);
             }
@@ -5283,7 +5349,7 @@ namespace Win_CBZ
                     {
                         activeTextBox = activeContainer.ActiveControl as TextBox;
                     }
-                    
+
 
                 }
             }
@@ -5303,13 +5369,14 @@ namespace Win_CBZ
                         {
                             PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
                         }));
-                    } catch (Exception ex) { }
+                    }
+                    catch (Exception ex) { }
                 }
-                
-                
+
+
                 Thread.Sleep(2000);
             }
-            
+
         }
 
         private void PageThumbsListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -5325,7 +5392,7 @@ namespace Win_CBZ
 
                 return;
             }
-            
+
             ListViewItem selectedItem = PagesList.SelectedItem as ListViewItem;
 
             if (selectedItem != null)
@@ -5338,7 +5405,7 @@ namespace Win_CBZ
                     editForm.ShowDialog();
                 }
             }
-                       
+
         }
 
         private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
@@ -5430,7 +5497,20 @@ namespace Win_CBZ
                 Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
-            } 
+            }
+        }
+
+        private void GetImageProcessExcludesFromSelectedButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (selectedImageTask != null)
+            {
+                selectedImageTask.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
+            }          
         }
     }
 }
