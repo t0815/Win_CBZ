@@ -38,6 +38,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Diagnostics;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
+using Microsoft.VisualBasic.Devices;
 
 namespace Win_CBZ
 {
@@ -4670,8 +4671,13 @@ namespace Win_CBZ
         {
             RadioButton radio = (RadioButton)sender;
 
+            Nullable<int> oldValue;
+
             if (selectedImageTask != null)
             {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeMode;
+
                 switch (radio.Name)
                 {
                     case "RadioButtonResizeNever":
@@ -4683,6 +4689,11 @@ namespace Win_CBZ
                     case "RadioButtonResizeTo":
                         selectedImageTask.ImageAdjustments.ResizeMode = 2;
                         break;
+                }
+
+                if (page != null && oldValue.Value != selectedImageTask.ImageAdjustments.ConvertType)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }
             }
         }
@@ -4782,12 +4793,6 @@ namespace Win_CBZ
                     TextBoxResizeW.Text = selectedImageTask.ImageAdjustments.ResizeTo.X.ToString();
                     TextBoxResizeH.Text = selectedImageTask.ImageAdjustments.ResizeTo.Y.ToString();
                     ComboBoxConvertPages.SelectedIndex = selectedImageTask.ImageAdjustments.ConvertType;
-
-
-                    if (page != null)
-                    {
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    }
                 }
             }
         }
@@ -5423,25 +5428,66 @@ namespace Win_CBZ
         private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
         {
             int w = 0;
+            Nullable<int> oldValue = null;
 
-            if (TextBoxResizeW.Text.Length > 0)
+            if (selectedImageTask != null)
             {
-                w = int.Parse(TextBoxResizeW.Text);
-            }
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+              
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
 
-            selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, selectedImageTask.ImageAdjustments.ResizeTo.Y);
+                if (TextBoxResizeW.Text.Length > 0)
+                {
+                    w = int.Parse(TextBoxResizeW.Text);
+                }
+                else
+                {
+                    if (oldValue.HasValue)
+                    {
+                        w = oldValue.Value;
+                    }
+                   
+                }
+
+                selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, selectedImageTask.ImageAdjustments.ResizeTo.Y);
+
+                if (page != null && oldValue != selectedImageTask.ImageAdjustments.ConvertType)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+            }            
         }
 
         private void TextBoxResizeH_TextChanged(object sender, EventArgs e)
         {
             int h = 0;
 
-            if (TextBoxResizeH.Text.Length > 0)
-            {
-                h = int.Parse(TextBoxResizeH.Text);
-            }
+            Nullable<int> oldValue;
 
-            selectedImageTask.ImageAdjustments.ResizeTo = new Point(selectedImageTask.ImageAdjustments.ResizeTo.X, h);
+            if (selectedImageTask != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.Y;
+
+                if (TextBoxResizeH.Text.Length > 0)
+                {
+                    h = int.Parse(TextBoxResizeH.Text);
+                }
+                else
+                {
+                    if (oldValue.HasValue)
+                    {
+                        h = oldValue.Value;
+                    }
+                }
+
+                selectedImageTask.ImageAdjustments.ResizeTo = new Point(selectedImageTask.ImageAdjustments.ResizeTo.X, h);
+
+                if (page != null && oldValue != selectedImageTask.ImageAdjustments.ConvertType)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+            }
         }
 
         private void TextBoxSplitPageAt_TextAlignChanged(object sender, EventArgs e)
@@ -5456,7 +5502,21 @@ namespace Win_CBZ
 
         private void CheckBoxSplitDoublePages_CheckedChanged(object sender, EventArgs e)
         {
-            selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
+
+            bool oldValue = false;
+
+            if (selectedImageTask != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                oldValue = page.ImageTask.ImageAdjustments.SplitPage;
+
+                selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
+
+                if (page != null && oldValue != selectedImageTask.ImageAdjustments.SplitPage)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+            }
         }
 
         private void AutoCompleteItems_Selected(object sender, AutocompleteMenuNS.SelectedEventArgs e)
@@ -5507,9 +5567,19 @@ namespace Win_CBZ
 
         private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int oldValue = -1;
+
             if (selectedImageTask != null)
             {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                oldValue = page.ImageTask.ImageAdjustments.ConvertType;
+
                 selectedImageTask.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
+
+                if (page != null && oldValue != selectedImageTask.ImageAdjustments.ConvertType)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
             }          
         }
     }
