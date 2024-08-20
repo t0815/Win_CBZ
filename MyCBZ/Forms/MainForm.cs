@@ -5492,27 +5492,57 @@ namespace Win_CBZ
 
         private void TextBoxSplitPageAt_TextAlignChanged(object sender, EventArgs e)
         {
-            selectedImageTask.ImageAdjustments.SplitPageAt = int.Parse(TextBoxSplitPageAt.Text);
-        }
-
-        private void ComboBoxSplitAtType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedImageTask.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
-        }
-
-        private void CheckBoxSplitDoublePages_CheckedChanged(object sender, EventArgs e)
-        {
-
-            bool oldValue = false;
+            Nullable<int> oldValue;
+            string value = "";
 
             if (selectedImageTask != null)
             {
                 Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
-                oldValue = page.ImageTask.ImageAdjustments.SplitPage;
+                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
+
+                if (TextBoxSplitPageAt.Text.Length > 0)
+                {
+                    value = TextBoxSplitPageAt.Text;
+                }
+                else
+                {
+                    value = "0";
+                }
+
+                selectedImageTask.ImageAdjustments.SplitPageAt = int.Parse(value);
+
+                if (page != null && oldValue != selectedImageTask.ImageAdjustments.SplitPageAt)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+            }
+        }
+
+        private void ComboBoxSplitAtType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Nullable<int> oldValue;
+
+            if (selectedImageTask != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
+
+                selectedImageTask.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
+            }
+        }
+
+        private void CheckBoxSplitDoublePages_CheckedChanged(object sender, EventArgs e)
+        {
+            Nullable<bool> oldValue;
+
+            if (selectedImageTask != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.SplitPage;
 
                 selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
 
-                if (page != null && oldValue != selectedImageTask.ImageAdjustments.SplitPage)
+                if (page != null && oldValue.Value != selectedImageTask.ImageAdjustments.SplitPage)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }

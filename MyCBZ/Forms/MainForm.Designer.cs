@@ -527,14 +527,14 @@ namespace Win_CBZ
             // ToolBarSearchLabel
             // 
             ToolBarSearchLabel.Name = "ToolBarSearchLabel";
-            ToolBarSearchLabel.Size = new System.Drawing.Size(37, 28);
-            ToolBarSearchLabel.Text = "Find";
+            ToolBarSearchLabel.Size = new System.Drawing.Size(42, 28);
+            ToolBarSearchLabel.Text = "Filter";
             // 
             // ToolBarSearchInput
             // 
             ToolBarSearchInput.Name = "ToolBarSearchInput";
             ToolBarSearchInput.Size = new System.Drawing.Size(124, 31);
-            ToolBarSearchInput.ToolTipText = "Search...";
+            ToolBarSearchInput.ToolTipText = "Filter items...";
             ToolBarSearchInput.TextChanged += ToolBarSearchInput_TextChanged;
             // 
             // ToolStripButtonSearch
