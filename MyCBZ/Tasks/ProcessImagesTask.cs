@@ -87,32 +87,37 @@ namespace Win_CBZ.Tasks
                     if (page.ImageTask.TaskCount() > 0)
                     {
                         taskPage = new Page(page, false, true);
+                        if (!taskPage.ImageInfoRequested)
+                        {
+                            taskPage.LoadImageInfo();
+                        }
                         taskPage.Id = page.Id;  // Important! Keep original Id here
-                        taskPage.ImageTask.ImageAdjustments.ConvertFormat = page.Format;
+                        taskPage.ImageTask.ImageAdjustments.ConvertFormat = new PageImageFormat(page.Format);
                         taskPage.ImageTask.ImageAdjustments.ConvertFormat.FormatFromString(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(page.ImageTask.ImageAdjustments.ConvertType));
 
-                        Stream[] results = taskPage.ImageTask
-                            .SetupTasks(taskPage)
+                        Page[] results = taskPage.ImageTask
+                            .SetupTasks(ref taskPage)
                             .Apply()
                             .CleanUp()
-                            .GetResultStream();
+                            .GetResultPage();
 
                         if (taskPage.ImageTask.Success)
                         {
                             try
                             {
-                                taskPage.UpdateImage(results[0]);
-                                taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
-                                result.AddFinishedPage(taskPage);
+                                //taskPage.UpdateImage(results[0]);
+                                //taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
+                                results[0].LoadImageInfo(true);
+                                result.AddFinishedPage(results[0]);
 
-                                if (taskPage.ImageTask.ResultFileName[1].Exists())
+                                if (results[1].LocalFile.Exists())
                                 {
-                                    secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
-                                    secondPage.Index = taskPage.Index + 1;
-                                    secondPage.Number = taskPage.Number + 1;
-                                    secondPage.Compressed = false;
-
-                                    result.AddFinishedPage(secondPage);
+                                    //secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
+                                    results[1].Index = results[0].Index + 1;
+                                    results[1].Number = results[0].Number + 1;
+                                    results[1].Compressed = false;
+                                  
+                                    result.AddFinishedPage(results[1]);
                                 }
                             }
                             catch (PageException pe)

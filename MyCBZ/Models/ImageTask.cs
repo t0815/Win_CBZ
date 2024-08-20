@@ -38,6 +38,8 @@ namespace Win_CBZ.Models
 
         public Stream[] ResultStream { get; set; }
 
+        public Page[] ResultPage { get; set; }
+
         public LocalFile[] ResultFileName { get; set; }
 
         public LocalFile SourceFileName { get; set; }
@@ -58,27 +60,24 @@ namespace Win_CBZ.Models
             ResultImage = new Image[2];
             ResultFileName = new LocalFile[2];
             FilesToCleanup = new List<LocalFile>();
+            ImageFormat = new PageImageFormat[2];
+            ResultPage = new Page[2];
             PageId = pageId;
         }
 
-        public ImageTask SetupTasks(Page source)
+        public ImageTask SetupTasks(ref Page source)
         {
-            try
-            {
-                ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".0.res");
-                ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".1.res");
-                //File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
-                //File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
+            
+            ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".0.res");
+            ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".1.res");
+            //File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
+            //File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
 
-                //Tasks = commandsTodo;
-                ImageFormat[0] = source.Format;
-                SourceFormat = source.Format;
-                SourcePage = source;
-            }
-            catch (Exception)
-            {
+            //Tasks = commandsTodo;
 
-            }    
+            ImageFormat[0] = source?.Format;
+            SourceFormat = source?.Format;
+            SourcePage = source;  
             
             return this;
         }
@@ -115,7 +114,7 @@ namespace Win_CBZ.Models
 
         public ImageTask Apply()
         {
-            PageImageFormat targetFormat = new PageImageFormat(SourcePage.Format); ;
+            PageImageFormat targetFormat = new PageImageFormat(SourcePage.Format);
             Stream outputStream = null;
             Stream inputStream = SourcePage.GetImageStream();
 
@@ -165,7 +164,7 @@ namespace Win_CBZ.Models
                             {
                                 SourcePage.UpdateImageExtension(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(SourcePage.ImageTask.ImageAdjustments.ConvertType)) ;
 
-                                AppEventHandler.OnPageChanged(null, new PageChangedEvent(SourcePage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                AppEventHandler.OnPageChanged(null, new PageChangedEvent(SourcePage, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                             }
                             break;
                     }
@@ -195,7 +194,7 @@ namespace Win_CBZ.Models
                 Success = true; 
             } catch (Exception e) { Success = false; }
                 
-
+            
 
 
             return this;
@@ -213,6 +212,18 @@ namespace Win_CBZ.Models
             ResultStream[0] = File.OpenRead(ResultFileName[0].FullPath);
 
             return ResultStream;    
+        }
+
+        public Page[] GetResultPage()
+        {
+            ResultPage = new Page[2];
+
+            ResultPage[0] = new Page(new LocalFile(ResultFileName[0].FullPath), SourcePage.WorkingDir);
+            ResultPage[0].UpdatePage(SourcePage);
+            ResultPage[0].CreateLocalWorkingCopy();
+            //ResultPage[0].IsMemoryCopy = false;
+
+            return ResultPage;
         }
 
         public ImageTask CleanUp()

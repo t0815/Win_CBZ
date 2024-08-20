@@ -26,7 +26,7 @@ namespace Win_CBZ.Tasks
                 {
                     try
                     {
-                        p.LoadImageInfo();
+                        p.LoadImageInfo(true);
                         //
                     } catch 
                     { 

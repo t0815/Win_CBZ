@@ -357,7 +357,7 @@ namespace Win_CBZ
 
                     if (imageProcessingTask == null)
                     {
-                        imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                        imageProcessingTask = ProcessImagesTask.ProcessImages(p.PagesToProcess, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
                             // update pages with results
@@ -369,11 +369,16 @@ namespace Win_CBZ
                                 //page?.UpdatePage(resultPage);
                                 //page?.UpdateStreams(resultPage);
                                 page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                page?.LoadImageInfo(true);
+                                
 
                                 if (page != null)
                                 {
+                                    page.Name = resultPage.Name;
+                                    page.Format = resultPage.Format;
                                     page.ImageTask.ImageAdjustments.SplitPage = false;
                                     page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                    page.ImageTask.ImageAdjustments.ConvertType = 0;
 
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                 }
@@ -408,39 +413,47 @@ namespace Win_CBZ
                             imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                             {
                                 //
-
-                                Page page = null;
-
-                                foreach (Page resultPage in r.Result.Pages)
+                                if (r.IsCompletedSuccessfully)
                                 {
-                                    page = GetPageById(resultPage.Id);
-                                    //page?.UpdatePage(resultPage);
-                                    //page?.UpdateStreams(resultPage);
-                                    page?.UpdateTemporaryFile(resultPage.TemporaryFile);
 
-                                    if (page != null)
+                                    Page page = null;
+
+                                    foreach (Page resultPage in r.Result.Pages)
                                     {
-                                        page.ImageTask.ImageAdjustments.SplitPage = false;
-                                        page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                        page = GetPageById(resultPage.Id);
+                                        //page?.UpdatePage(resultPage);
+                                        //page?.UpdateStreams(resultPage);
+                                        page?.UpdateTemporaryFile(resultPage.TemporaryFile);
 
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        if (page != null)
+                                        {
+                                            page.ImageTask.ImageAdjustments.SplitPage = false;
+                                            page.ImageTask.ImageAdjustments.ResizeMode = -1;
+
+                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        }
+                                        else
+                                        {
+                                            Pages.Add(resultPage);
+
+                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        }
+
                                     }
-                                    else
+
+                                    //if (currentPerformed != e.Task)
+
+                                    if (remainingStack.Count > 0)
                                     {
-                                        Pages.Add(resultPage);
+                                        nextTask = remainingStack[0];
 
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
                                     }
-
                                 }
-
-                                //if (currentPerformed != e.Task)
-
-                                if (remainingStack.Count > 0)
+                                else
                                 {
-                                    nextTask = remainingStack[0];
-
-                                    AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                    // todo: continue on error?
+                                    throw new ApplicationException("Failed to process images! ", true);
                                 }
                                 
                             }));
@@ -913,7 +926,8 @@ namespace Win_CBZ
                         {
                             ApplyImageProcessing = true,
                             ContinuePipeline = true,
-                            CancelToken = CancellationTokenSourceSaveArchive.Token
+                            CancelToken = CancellationTokenSourceSaveArchive.Token,
+                            PagesToProcess = Pages, 
                         }
                     },
                     new StackItem()

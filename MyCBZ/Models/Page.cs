@@ -404,7 +404,7 @@ namespace Win_CBZ
                 EntryName = sourcePage.EntryName;
                 CompressedEntry = sourcePage.CompressedEntry;
                 //ImageStream = sourcePage.ImageStream;
-                IsMemoryCopy = sourcePage.IsMemoryCopy;
+                IsMemoryCopy = inMemory;
                 //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
                 Format = sourcePage.Format;
                 ImageType = sourcePage.ImageType;
@@ -441,7 +441,7 @@ namespace Win_CBZ
                             ImageStreamMemoryCopy = new MemoryStream();
                             sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
                             ImageStreamMemoryCopy.Position = 0;
-                            IsMemoryCopy = true;
+                            //IsMemoryCopy = true;
                         }
                     } else
                     {
@@ -1169,7 +1169,7 @@ namespace Win_CBZ
             if (entryExtensionParts.Length == 0) return;
 
             else {
-                entryExtensionParts[entryExtensionParts.Length - 1] = newExtenaion;
+                entryExtensionParts[entryExtensionParts.Length - 1] = "." + newExtenaion;
             }
 
             Name = String.Join(null, entryExtensionParts);
@@ -1691,7 +1691,7 @@ namespace Win_CBZ
                         }
                     }
 
-                    if (Compressed)
+                    if (Compressed && (TemporaryFile == null || !TemporaryFile.Exists()))
                     {
                         ImageInfo = Image.FromStream(CompressedEntry.Open());
                         Format = new PageImageFormat(ImageInfo);

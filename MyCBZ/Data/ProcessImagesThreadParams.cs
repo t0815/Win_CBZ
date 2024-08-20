@@ -16,6 +16,8 @@ namespace Win_CBZ.Data
 
         public string[] SkipPages { get; set; } = new string[0];
 
+        public List<Page> PagesToProcess { get; set; }
+
         public CancellationToken CancelToken { get; set; }
 
     }

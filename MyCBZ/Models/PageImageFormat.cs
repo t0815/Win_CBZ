@@ -187,12 +187,15 @@ namespace Win_CBZ.Models
         public PageImageFormat FormatFromString(String name)
         {
             ImageFormat resultFormat;
+            string resultName;
 
             ExtensionToImageFormatMap.TryGetValue(name.ToLower().TrimStart('.'), out resultFormat);
+            ExtensionToFormatNameMap.TryGetValue(name.ToLower().TrimStart('.'), out resultName);
 
             if (resultFormat != null)
             {
                 Format = resultFormat;
+                Name = resultName;
             }
 
             return this;
