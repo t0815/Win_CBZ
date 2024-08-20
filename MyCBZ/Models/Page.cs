@@ -1206,17 +1206,18 @@ namespace Win_CBZ
             }
         }
 
-        public void UpdateImageExtension(string newExtenaion)
+        public void UpdateImageExtension(string newExtension)
         {
-            Name = Path.ChangeExtension(Name, newExtenaion);
-            Filename = Path.ChangeExtension(Name, newExtenaion);
+            Name = Path.ChangeExtension(Name, newExtension);
+            Filename = Path.ChangeExtension(Name, newExtension);
 
+            /*
             string[] entryExtensionParts = Name.Split('.');
 
             if (entryExtensionParts.Length == 0) return;
 
             else {
-                entryExtensionParts[entryExtensionParts.Length - 1] = "." + newExtenaion;
+                entryExtensionParts[entryExtensionParts.Length - 1] = "." + newExtension;
             }
 
             Name = String.Join(null, entryExtensionParts);
@@ -1227,10 +1228,11 @@ namespace Win_CBZ
 
             else
             {
-                entryExtensionParts[entryExtensionParts.Length - 1] = "." + newExtenaion;
+                entryExtensionParts[entryExtensionParts.Length - 1] = "." + newExtension;
             }
 
             Filename = String.Join(null, entryExtensionParts);
+            */
             FileExtension = ExtractFileExtension(Filename);
         }
 

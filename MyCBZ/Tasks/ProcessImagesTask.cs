@@ -40,7 +40,9 @@ namespace Win_CBZ.Tasks
                         break;
                     }
 
-                    if (page.ImageTask.ImageAdjustments.ConvertType > 0)
+                    if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
+                        page.Format.Format != page.ImageTask.ImageAdjustments.ConvertFormat.Format
+                    )
                     {
                         page.ImageTask.SetTaskConvert();
                     }

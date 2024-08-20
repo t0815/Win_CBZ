@@ -158,9 +158,12 @@ namespace Win_CBZ.Models
         {
             string resultExt;
 
-            ImageFormatToExtensionMap.TryGetValue(Format, out resultExt);
+            if (ImageFormatToExtensionMap.TryGetValue(Format, out resultExt))
+            {
+                return "." + resultExt;
+            }
 
-            return "." + resultExt;
+            return "";
         }
 
         public void Update(Image image)

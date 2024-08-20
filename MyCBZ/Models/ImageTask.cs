@@ -155,17 +155,18 @@ namespace Win_CBZ.Models
                             ImageOperations.ResizeImage(inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                             break;
-                        case TASK_CONVERT:
+                        case TASK_CONVERT:                           
                             targetFormat.Format = ImageAdjustments.ConvertFormat.Format;
 
                             ImageOperations.ConvertImage(inputStream, outputStream, targetFormat);
 
                             if (SourcePage.FileExtension.TrimStart('.').ToLower() != IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(SourcePage.ImageTask.ImageAdjustments.ConvertType))
                             {
-                                SourcePage.UpdateImageExtension(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(SourcePage.ImageTask.ImageAdjustments.ConvertType)) ;
+                                SourcePage.UpdateImageExtension(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(SourcePage.ImageTask.ImageAdjustments.ConvertType));
 
                                 AppEventHandler.OnPageChanged(null, new PageChangedEvent(SourcePage, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                             }
+                            
                             break;
                     }
                 }
