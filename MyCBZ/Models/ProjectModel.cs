@@ -380,6 +380,7 @@ namespace Win_CBZ
                                     {
                                         //page.Name = resultPage.Name;
                                         //page.Format = resultPage.Format;
+                                        page.Size = resultPage.Size;
                                         page.ImageTask.ImageAdjustments.SplitPage = false;
                                         page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                         page.ImageTask.ImageAdjustments.ConvertType = 0;

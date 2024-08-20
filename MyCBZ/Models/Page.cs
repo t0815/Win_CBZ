@@ -989,7 +989,7 @@ namespace Win_CBZ
             FileExtension = page.FileExtension;
 
             EntryName = page.EntryName;
-            Size = page.Size;
+            //Size = page.Size;
             Id = page.Id;
             Key = page.Key;
 

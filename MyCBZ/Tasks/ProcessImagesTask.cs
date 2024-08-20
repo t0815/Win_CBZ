@@ -41,7 +41,8 @@ namespace Win_CBZ.Tasks
                     }
 
                     if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
-                        page.Format.Format != page.ImageTask.ImageAdjustments.ConvertFormat.Format
+                        (page.ImageTask.ImageAdjustments.ConvertFormat != null &&
+                        page.Format.Format != page.ImageTask.ImageAdjustments.ConvertFormat?.Format)
                     )
                     {
                         page.ImageTask.SetTaskConvert();
@@ -110,6 +111,7 @@ namespace Win_CBZ.Tasks
                                 //taskPage.UpdateImage(results[0]);
                                 //taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
                                 results[0].LoadImageInfo(true);
+                                results[0].FreeImage();
                                 result.AddFinishedPage(results[0]);
 
                                 if (results[1] != null && results[1].LocalFile.Exists())

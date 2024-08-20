@@ -225,6 +225,8 @@ namespace Win_CBZ.Models
             //ResultPage[0].CreateLocalWorkingCopy();
             //ResultPage[0].IsMemoryCopy = false;
 
+            AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[0], null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
             return ResultPage;
         }
 
