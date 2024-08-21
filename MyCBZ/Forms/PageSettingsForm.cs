@@ -252,32 +252,17 @@ namespace Win_CBZ.Forms
 
                     // Transform the XML data
                     MemoryStream ms = new MemoryStream();
-                    //xTrans.OutputSettings.
+            
                     xTrans.Transform(xReader, null, ms);
 
                     ms.Position = 0;
                     // Set to the document stream
-                    //ms.CopyTo(docStream);
+            
                     TextReader tr = new StreamReader(ms);
 
                     string xml = tr.ReadToEnd();
 
                     metaDataView.DocumentText = xml;
-
-                    //docStream.Position = 0;
-                    //metaDataView.DocumentStream?.Close();
-                    //metaDataView.DocumentStream?.Dispose();
-                    //metaDataView.DocumentStream = null;
-                    //metaDataView.AllowNavigation = false;
-                    //metaDataView.Navigate("about:blank");
-                    //metaDataView.Update();
-                    ///metaDataView.
-                    //metaDataView.Document.OpenNew(false);
-
-                    //metaDataView.Refresh();
-
-
-
                 }
                 catch (Exception ex)
                 {
@@ -314,11 +299,9 @@ namespace Win_CBZ.Forms
             ProgressBarReload.Maximum = Pages.Count;
             int index = 0;
 
-            //PreviewThumb?.Dispose();
             ImagePreviewButton.BackgroundImage?.Dispose();
 
             ImagePreviewButton.BackgroundImage = null;
-            //PreviewThumb = null;
 
             foreach (Page page in Pages)
             {
@@ -347,39 +330,14 @@ namespace Win_CBZ.Forms
                 {
                     Task<Bitmap> imageTask = new Task<Bitmap>(() =>
                     {
-
-                        Bitmap thumb = null;
-
-                        try
-                        {
-                            thumb = FirstPage.GetThumbnailBitmap();
-                        }
-                        catch (PageMemoryIOException pme)
-                        {
-                            //ButtonOk.Enabled = false;
-                            if (pme.ShowErrorDialog)
-                            {
-                                //ApplicationMessage.ShowException(pme);
-                            }
-                        }
-                        catch (Exception xe)
-                        {
-                            //ButtonOk.Enabled = false;
-                            //ApplicationMessage.ShowException(xe);
-                        }
-                        finally
-                        {
-                            FirstPage.FreeImage();
-                        }
-
-                        return thumb;
+                        return FirstPage.GetThumbnailBitmap();
                     });
 
                     imageTask.ContinueWith(t =>
                     {
                         try
                         {
-                            if (t.IsCompletedSuccessfully && t.Result != null)
+                            if (t.IsCompletedSuccessfully)
                             {
                                 Invoke(new Action(() =>
                                 {
@@ -394,10 +352,24 @@ namespace Win_CBZ.Forms
                                     }
                                 }));
                             }
+                            else
+                            {
+                                Invoke(new Action(() =>
+                                {
+                                    //ButtonOk.Enabled = false;
+                                    if ((t.Exception.InnerException as ApplicationException).ShowErrorDialog)
+                                    {
+                                        ApplicationMessage.ShowException(t.Exception);
+                                    }
+                                }));
+                            }
                         }
                         catch (Exception ee)
                         {
-                            ApplicationMessage.ShowException(ee);
+                            Invoke(new Action(() =>
+                            {
+                                ApplicationMessage.ShowException(ee);
+                            }));
                         }
                         finally
                         {
@@ -650,44 +622,14 @@ namespace Win_CBZ.Forms
                 {
                     Task<Bitmap> imageTask = new Task<Bitmap>(() =>
                     {
-                        Bitmap thumb = null;
-
-                        try
-                        {
-                            thumb = FirstPage.GetThumbnailBitmap();
-                        }
-                        catch (PageMemoryIOException pme)
-                        {
-                            Invoke(new Action(() =>
-                            {
-                                ButtonOk.Enabled = false;
-                                if (pme.ShowErrorDialog)
-                                {
-                                    ApplicationMessage.ShowException(pme);
-                                }
-                            }));
-
-
-                        }
-                        catch (Exception ex)
-                        {
-                            Invoke(new Action(() =>
-                            {
-                                ButtonOk.Enabled = false;
-                                ApplicationMessage.ShowException(ex);
-                            }));
-
-
-                        }
-
-                        return thumb;
+                        return FirstPage.GetThumbnailBitmap();
                     });
 
                     imageTask.ContinueWith(t =>
                     {
                         try
                         {
-                            if (t.IsCompletedSuccessfully && t.Result != null)
+                            if (t.IsCompletedSuccessfully)
                             {
                                 Invoke(new Action(() =>
                                 {
@@ -702,10 +644,24 @@ namespace Win_CBZ.Forms
                                     }
                                 }));
                             }
+                            else
+                            {
+                                Invoke(new Action(() =>
+                                {
+                                    //ButtonOk.Enabled = false;
+                                    if ((t.Exception.InnerException as ApplicationException).ShowErrorDialog)
+                                    {
+                                        ApplicationMessage.ShowException(t.Exception);
+                                    }
+                                }));
+                            }
                         }
                         catch (Exception ee)
                         {
-                            ApplicationMessage.ShowException(ee);
+                            Invoke(new Action(() =>
+                            {
+                                ApplicationMessage.ShowException(ee);
+                            }));
                         }
                         finally
                         {
