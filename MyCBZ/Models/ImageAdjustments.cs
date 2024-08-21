@@ -23,6 +23,10 @@ namespace Win_CBZ.Models
 
         public Point ResizeTo { get; set; }
 
+        public Point MaxDimensions { get; set; }
+
+        public bool KeepAspectRatio { get; set; }
+
         public int ResizeMode { get; set; }
 
         public int ResizeToPageNumber {  get; set; }
@@ -47,6 +51,7 @@ namespace Win_CBZ.Models
                 ConvertType = copyFrom.ConvertType;
                 ConvertFormat = copyFrom.ConvertFormat;
                 Interpolation = copyFrom.Interpolation;
+                MaxDimensions = copyFrom.MaxDimensions;
             }
         }
     }

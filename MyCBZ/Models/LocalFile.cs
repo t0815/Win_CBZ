@@ -19,6 +19,8 @@ namespace Win_CBZ
 
         public long FileSize { get; set; }
 
+        public string SizeFormatted { get; set; }
+
         public DateTimeOffset LastModified { get; set; }
 
         public FileInfo LocalFileInfo { get; set; }
@@ -44,6 +46,8 @@ namespace Win_CBZ
             {
                 FileSize = 0;
             }
+
+            SizeFormatted = FormatSize(FileSize);
             LastModified = LocalFileInfo.LastWriteTime;
             FileExtension = LocalFileInfo.Extension;
         }
@@ -53,6 +57,26 @@ namespace Win_CBZ
             Refresh();
             
             return LocalFileInfo.Exists;
+        }
+
+        public string FormatSize(long length = -1)
+        {
+            double size = length > -1 ? length : FileSize;
+            string[] units = new string[] { "Bytes", "KB", "MB", "GB" };
+            string selectedUnit = "Bytes";
+
+            foreach (string unit in units)
+            {
+                if (size > 999)
+                    size /= 1024;
+                else
+                {
+                    selectedUnit = unit;
+                    break;
+                }
+            }
+
+            return size.ToString("n2") + " " + selectedUnit;
         }
 
         public void Refresh()
@@ -71,12 +95,14 @@ namespace Win_CBZ
                 {
                     FileSize = 0;
                 }               
+                
             }
             catch (Exception)
             {
                 FileSize = 0;
             }
 
+            SizeFormatted = FormatSize(FileSize);
             LastModified = LocalFileInfo.LastWriteTime;
         }
 

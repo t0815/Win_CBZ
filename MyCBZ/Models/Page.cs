@@ -681,6 +681,61 @@ namespace Win_CBZ
             }
         }
 
+        protected Point HandlePoint(XmlNode node)
+        {
+            int w = 0;
+            int h = 0;
+
+            foreach (XmlNode subNode in node.ChildNodes)
+            {
+                if (subNode.Name == "X")
+                {
+                    w = int.Parse(subNode.InnerText);
+                }
+
+                if (subNode.Name == "Y")
+                {
+                    h = int.Parse(subNode.InnerText);
+                }
+
+            }
+
+            return new Point(w, h);
+        }
+
+        protected PageImageFormat HandleFormat(XmlNode node)
+        {
+            PageImageFormat parsedFormat = new PageImageFormat();
+            foreach (XmlNode subNode in node.ChildNodes)
+            {
+                if (subNode.Name == "W")
+                {
+                    parsedFormat.W = int.Parse(subNode.InnerText);
+                }
+
+                if (subNode.Name == "H")
+                {
+                    parsedFormat.H = int.Parse(subNode.InnerText);
+                }
+
+                if (subNode.Name == "DPI")
+                {
+                    parsedFormat.DPI = float.Parse(subNode.InnerText);
+                }
+
+                if (subNode.Name == "Name")
+                {
+                    parsedFormat.Name = subNode.InnerText;
+                }
+
+                if (subNode.Name == "Format")
+                {
+                    parsedFormat.FormatFromGUID(subNode.InnerText);
+                }
+            }
+            return parsedFormat;
+        }
+
         protected void HandlePageMetaData(XmlNode node, string type = null)
         {
             if (type == "LocalFile")
@@ -707,34 +762,7 @@ namespace Win_CBZ
             }
             else if (type == "Format")
             {
-                Format = new PageImageFormat();
-                foreach (XmlNode subNode in node.ChildNodes)
-                {
-                    if (subNode.Name == "W")
-                    {
-                        Format.W = int.Parse(subNode.InnerText);
-                    }
-
-                    if (subNode.Name == "H")
-                    {
-                        Format.H = int.Parse(subNode.InnerText);
-                    }
-
-                    if (subNode.Name == "DPI")
-                    {
-                        Format.DPI = float.Parse(subNode.InnerText);
-                    }
-
-                    if (subNode.Name == "Name")
-                    {
-                        Format.Name = subNode.InnerText;
-                    }
-
-                    if (subNode.Name == "Format")
-                    {
-                        Format.FormatFromGUID(subNode.InnerText);
-                    }
-                }
+                Format = HandleFormat(node);
             }
             else if (type == "ImageTask")
             {
@@ -787,12 +815,35 @@ namespace Win_CBZ
                             {
                                 ImageTask.ImageAdjustments.ResizeMode = int.Parse(subNode2.InnerText);
                             }
+
+                            if (subNode2.Name == "ResizeTo")
+                            {
+                                ImageTask.ImageAdjustments.ResizeTo = HandlePoint(subNode2);
+                            }
+
+                            if (subNode2.Name == "MaxDimensions")
+                            {
+                                ImageTask.ImageAdjustments.MaxDimensions = HandlePoint(subNode2);
+                            }
+
+                            if (subNode2.Name == "KeepAspectRatio")
+                            {
+                                ImageTask.ImageAdjustments.KeepAspectRatio = bool.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode.Name == "ConvertType")
+                            {
+                                ImageTask.ImageAdjustments.ConvertType = int.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode.Name == "ConvertFormat")
+                            {
+                                ImageTask.ImageAdjustments.ConvertFormat = HandleFormat(subNode);
+                            }
                         }
                             
                         //ImageTask.W = int.Parse(subNode.InnerText);
-                    }
-
-                    
+                    }                  
                 }
             }
             else
@@ -1371,7 +1422,32 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("SplitType", ImageTask.ImageAdjustments.SplitType.ToString());
                 xmlWriter.WriteElementString("SplitPageAt", ImageTask.ImageAdjustments.SplitPageAt.ToString());
                 xmlWriter.WriteElementString("DetectSplitAtColor", HTMLColor.ToHexColor(ImageTask.ImageAdjustments.DetectSplitAtColor));
+                xmlWriter.WriteElementString("KeepAspectRatio", ImageTask.ImageAdjustments.KeepAspectRatio.ToString());
 
+                xmlWriter.WriteStartElement("ResizeTo");
+                xmlWriter.WriteElementString("X", ImageTask.ImageAdjustments.ResizeTo.X.ToString());
+                xmlWriter.WriteElementString("Y", ImageTask.ImageAdjustments.ResizeTo.Y.ToString());
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("MaxDimensions");
+                xmlWriter.WriteElementString("X", ImageTask.ImageAdjustments.MaxDimensions.X.ToString());
+                xmlWriter.WriteElementString("Y", ImageTask.ImageAdjustments.MaxDimensions.Y.ToString());
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteElementString("ConvertType", ImageTask.ImageAdjustments.ConvertType.ToString());
+
+                if (ImageTask.ImageAdjustments.ConvertFormat != null)
+                {
+                    xmlWriter.WriteStartElement("ConvertFormat");
+                    xmlWriter.WriteElementString("W", ImageTask.ImageAdjustments.ConvertFormat.W.ToString());
+                    xmlWriter.WriteElementString("H", ImageTask.ImageAdjustments.ConvertFormat.H.ToString());
+                    xmlWriter.WriteElementString("DPI", ImageTask.ImageAdjustments.ConvertFormat.DPI.ToString());
+                    xmlWriter.WriteElementString("Format", ImageTask.ImageAdjustments.ConvertFormat.Format.Guid.ToString());
+                    xmlWriter.WriteElementString("Name", ImageTask.ImageAdjustments.ConvertFormat.Name.ToString());
+                    xmlWriter.WriteElementString("PixelFormat", ImageTask.ImageAdjustments.ConvertFormat.PixelFormat.ToString());
+
+                    xmlWriter.WriteEndElement();
+                }
 
                 xmlWriter.WriteEndElement();
 
