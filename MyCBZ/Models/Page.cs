@@ -831,7 +831,7 @@ namespace Win_CBZ
                                 ImageTask.ImageAdjustments.KeepAspectRatio = bool.Parse(subNode2.InnerText);
                             }
 
-                            if (subNode.Name == "ConvertType")
+                            if (subNode2.Name == "ConvertType")
                             {
                                 ImageTask.ImageAdjustments.ConvertType = int.Parse(subNode2.InnerText);
                             }
@@ -841,8 +841,6 @@ namespace Win_CBZ
                                 ImageTask.ImageAdjustments.ConvertFormat = HandleFormat(subNode);
                             }
                         }
-                            
-                        //ImageTask.W = int.Parse(subNode.InnerText);
                     }                  
                 }
             }
