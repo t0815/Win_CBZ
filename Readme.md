@@ -48,7 +48,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.19.144b released!
+v0.19.145b released!
 
 ## Third party components
 

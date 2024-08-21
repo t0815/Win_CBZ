@@ -5505,6 +5505,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
               
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
@@ -5524,7 +5525,7 @@ namespace Win_CBZ
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ConvertType)
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.X)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5557,7 +5558,7 @@ namespace Win_CBZ
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ConvertType)
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
