@@ -58,9 +58,12 @@ namespace Win_CBZ {
   <string>{number}</string>
   <string>{month}</string>
   <string>{year}</string>
+  <string>{month}</string>
+  <string>{day}</string>
   <string>{lang}</string>
   <string>{series}</string>
   <string>{type}</string>
+  <string>{hash}</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection RenamerPlaceholders {
             get {

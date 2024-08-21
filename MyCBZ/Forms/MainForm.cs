@@ -335,6 +335,8 @@ namespace Win_CBZ
                 {
                     Program.ProjectModel.New();
                     ClearLog();
+
+                    selectedImageTasks = Program.ProjectModel.GlobalImageTask;
                 }
                 catch (ConcurrentOperationException c)
                 {

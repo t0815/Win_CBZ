@@ -620,6 +620,7 @@ namespace Win_CBZ
                 MaxFileIndex = 0;
                 IsNew = true;
                 IsChanged = false;
+                GlobalImageTask = new ImageTask("");
                 ArchiveState = CBZArchiveStatusEvent.ARCHIVE_NEW;
                 ApplicationState = ApplicationStatusEvent.STATE_READY;
 
@@ -2586,6 +2587,9 @@ namespace Win_CBZ
                 case "{index}":
                     return page.Index.ToString();
 
+                case "{number}":
+                    return page.Number.ToString();
+
                 case "{page}":
                     return FormatLeadingZeros(page.Index + 1, Pages.Count).ToString();
 
@@ -2593,10 +2597,22 @@ namespace Win_CBZ
                     return Pages.Count.ToString();
 
                 case "{size}":
-                    return page.Size.ToString();
+                    return page.SizeFormat().Replace(" ", "_");
 
                 case "{type}":
                     return TransformImageType(page.ImageType.ToString());
+
+                case "{year}":
+                    return MetaData.ValueForKey("Year");
+
+                case "{month}":
+                    return MetaData.ValueForKey("Month");
+
+                case "{day}":
+                    return MetaData.ValueForKey("Day");
+
+                case "{hash}":
+                    return page.Hash;
 
                 default:
                     return MetaData.ValueForKey(placeholder.ToLower().Trim('{', '}'));

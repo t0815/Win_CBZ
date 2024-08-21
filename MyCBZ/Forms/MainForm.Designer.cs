@@ -568,27 +568,27 @@ namespace Win_CBZ
             NewToolStripMenuItem.Image = Properties.Resources.document_zip;
             NewToolStripMenuItem.Name = "NewToolStripMenuItem";
             NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N;
-            NewToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            NewToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             NewToolStripMenuItem.Text = "New";
             NewToolStripMenuItem.Click += NewToolStripMenuItem_Click;
             // 
             // ToolStripMenuItem1
             // 
             ToolStripMenuItem1.Name = "ToolStripMenuItem1";
-            ToolStripMenuItem1.Size = new System.Drawing.Size(176, 6);
+            ToolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
             // 
             // OpenToolStripMenuItem
             // 
             OpenToolStripMenuItem.Image = Properties.Resources.folder_open;
             OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            OpenToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            OpenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             OpenToolStripMenuItem.Text = "Open";
             OpenToolStripMenuItem.Click += OpenToolStripMenuItem_Click;
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new System.Drawing.Size(176, 6);
+            toolStripMenuItem2.Size = new System.Drawing.Size(221, 6);
             // 
             // SaveToolStripMenuItem
             // 
@@ -596,7 +596,7 @@ namespace Win_CBZ
             SaveToolStripMenuItem.Image = Properties.Resources.floppy_disk;
             SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
             SaveToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S;
-            SaveToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            SaveToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             SaveToolStripMenuItem.Text = "Save";
             SaveToolStripMenuItem.Click += ToolButtonSave_Click;
             // 
@@ -604,20 +604,20 @@ namespace Win_CBZ
             // 
             SaveAsToolStripMenuItem.Image = Properties.Resources.save_as;
             SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            SaveAsToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            SaveAsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             SaveAsToolStripMenuItem.Text = "Save as...";
             SaveAsToolStripMenuItem.Click += SaveAsToolStripMenuItem_Click;
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new System.Drawing.Size(176, 6);
+            toolStripMenuItem3.Size = new System.Drawing.Size(221, 6);
             // 
             // QuitToolStripMenuItem
             // 
             QuitToolStripMenuItem.Image = Properties.Resources.door_exit;
             QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
-            QuitToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            QuitToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             QuitToolStripMenuItem.Text = "Quit";
             QuitToolStripMenuItem.Click += QuitToolStripMenuItem_Click;
             // 
@@ -1150,7 +1150,7 @@ namespace Win_CBZ
             // 
             LabelH.AutoSize = true;
             LabelH.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            LabelH.Location = new System.Drawing.Point(238, 32);
+            LabelH.Location = new System.Drawing.Point(238, 34);
             LabelH.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             LabelH.Name = "LabelH";
             LabelH.Size = new System.Drawing.Size(15, 16);
@@ -1161,7 +1161,7 @@ namespace Win_CBZ
             // 
             LabelW.AutoSize = true;
             LabelW.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            LabelW.Location = new System.Drawing.Point(88, 32);
+            LabelW.Location = new System.Drawing.Point(88, 34);
             LabelW.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             LabelW.Name = "LabelW";
             LabelW.Size = new System.Drawing.Size(15, 16);
