@@ -1452,7 +1452,7 @@ namespace Win_CBZ
         private void ApplicationStateChanged(object sender, ApplicationStatusEvent e)
         {
             String info = ApplicationStatusLabel.Text;
-            String filename = e.ArchiveInfo.FileName;
+            String filename = e?.ArchiveInfo?.FileName;
 
             Program.ProjectModel.ApplicationState = e.State;
 
@@ -1507,8 +1507,10 @@ namespace Win_CBZ
                         FileNameLabel.Text = filename;
                         ApplicationStatusLabel.Text = info;
                         Program.ProjectModel.ArchiveState = e.State;
-                        PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
-
+                        if (e.ArchiveInfo != null)
+                        {
+                            PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+                        }
                         DisableControllsForApplicationState(e.State);
                     }));
                     //}

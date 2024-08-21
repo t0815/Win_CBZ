@@ -394,19 +394,17 @@ namespace Win_CBZ
                 WorkingDir = sourcePage.WorkingDir;
                 Name = sourcePage.Name;
                 EntryName = sourcePage.EntryName;
-                //TempPath = sourcePage.TempPath;
+           
                 Filename = sourcePage.Filename;
                 FileExtension = sourcePage.FileExtension;
-                //LocalPath = sourcePage.LocalPath;
+              
                 LocalFile = sourcePage.LocalFile;
                 
                 Compressed = sourcePage.Compressed;
                 TemporaryFileId = newCopy ? RandomId.GetInstance().Make() : sourcePage.TemporaryFileId;
                 EntryName = sourcePage.EntryName;
                 CompressedEntry = sourcePage.CompressedEntry;
-                //ImageStream = sourcePage.ImageStream;
-                IsMemoryCopy = inMemory;
-                //ImageStreamMemoryCopy = sourcePage.ImageStreamMemoryCopy;
+                
                 Format = sourcePage.Format;
                 ImageType = sourcePage.ImageType;
                 LastModified = sourcePage.LastModified;
@@ -430,7 +428,7 @@ namespace Win_CBZ
                 Thumbnail = sourcePage.Thumbnail;
                 ThumbnailInvalidated = sourcePage.ThumbnailInvalidated;
 
-                if (sourcePage.ImageStream != null && !newCopy)
+                if (sourcePage.ImageStream != null && !sourcePage.IsMemoryCopy && !newCopy)
                 {
                     if (sourcePage.ImageStream.CanRead)
                     {
@@ -442,7 +440,6 @@ namespace Win_CBZ
                             ImageStreamMemoryCopy = new MemoryStream();
                             sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
                             ImageStreamMemoryCopy.Position = 0;
-                            //IsMemoryCopy = true;
                         }
                     } else
                     {
@@ -496,7 +493,6 @@ namespace Win_CBZ
                                 ImageStream?.Dispose();
                             }
 
-                            //TemporaryFile = RequestTemporaryFile();
                             try
                             {
                                 IsMemoryCopy = false;
