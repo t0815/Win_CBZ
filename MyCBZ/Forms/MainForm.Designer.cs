@@ -1465,7 +1465,7 @@ namespace Win_CBZ
             TextBoxSplitPageAt.Name = "TextBoxSplitPageAt";
             TextBoxSplitPageAt.Size = new System.Drawing.Size(74, 27);
             TextBoxSplitPageAt.TabIndex = 1;
-            TextBoxSplitPageAt.TextAlignChanged += TextBoxSplitPageAt_TextAlignChanged;
+            TextBoxSplitPageAt.TextChanged += TextBoxSplitPageAt_TextChanged;
             // 
             // CheckBoxSplitDoublePages
             // 

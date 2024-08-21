@@ -1030,7 +1030,7 @@ namespace Win_CBZ
             Name = entry.Name;
             //Size = entry.Length;
             LastModified = entry.LastWriteTime;
-            Id = Guid.NewGuid().ToString();
+            //Id = Guid.NewGuid().ToString();    // dont create new ID
             TemporaryFileId = randomId;
             Hash = entry.Crc32.ToString("X");
         }

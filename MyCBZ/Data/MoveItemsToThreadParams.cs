@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class MoveItemsToThreadParams
+    internal class MoveItemsToThreadParams : ThreadParam
     {
 
-        public int newIndex { get; set; }
+        public int NewIndex { get; set; }
 
-        public System.Windows.Forms.ListView.SelectedListViewItemCollection items { get; set; }
+        public System.Windows.Forms.ListView.SelectedListViewItemCollection Items { get; set; }
 
-        public MetaData.PageIndexVersion pageIndexVersion { get; set; }
-
-        public CancellationToken CancelToken { get; set; }
+        public MetaData.PageIndexVersion PageIndexVersion { get; set; }
     }
 }

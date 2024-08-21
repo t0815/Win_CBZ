@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 namespace Win_CBZ.Data
 {
     [SupportedOSPlatform("windows")]
-    internal class ParseFilesThreadParams
+    internal class ParseFilesThreadParams : ThreadParam
     {
-        public List<StackItem> Stack { get; set; }
          
         public List<string> FileNamesToAdd { get; set; }
 
@@ -19,6 +18,6 @@ namespace Win_CBZ.Data
 
         public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
 
-        public CancellationToken CancelToken { get; set; }
+        public bool ContinuePipeline { get; set; }
     }
 }

@@ -41,8 +41,7 @@ namespace Win_CBZ.Tasks
                     }
 
                     if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
-                        (page.ImageTask.ImageAdjustments.ConvertFormat != null &&
-                        page.Format.Format != page.ImageTask.ImageAdjustments.ConvertFormat?.Format)
+                        page.Format.Format != page.ImageTask.ImageAdjustments?.ConvertFormat?.Format
                     )
                     {
                         page.ImageTask.SetTaskConvert();
@@ -64,11 +63,13 @@ namespace Win_CBZ.Tasks
 
                     if (page.ImageTask.TaskCount() == 0)
                     {
-                        page.ImageTask = new ImageTask(page.Id);
+                        //page.ImageTask = new ImageTask(page.Id);
                         //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
-                        page.ImageTask.ImageAdjustments = globalTask.ImageAdjustments;
+                        page.ImageTask.ImageAdjustments = new ImageAdjustments(globalTask.ImageAdjustments);
 
-                        if (page.ImageTask.ImageAdjustments.ConvertType > 0)
+                        if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
+                            page.Format.Format != page.ImageTask.ImageAdjustments.ConvertFormat?.Format
+                        )
                         {
                             page.ImageTask.SetTaskConvert();
                         }
@@ -95,6 +96,7 @@ namespace Win_CBZ.Tasks
                             taskPage.LoadImageInfo();
                         }
                         taskPage.Id = page.Id;  // Important! Keep original Id here
+                        taskPage.ImageTask.PageId = page.Id;
                         taskPage.ImageTask.ImageAdjustments.ConvertFormat = new PageImageFormat(page.Format);
                         taskPage.ImageTask.ImageAdjustments.ConvertFormat.FormatFromString(IndexToDataMappings.GetInstance().GetImageFormatNameFromIndex(page.ImageTask.ImageAdjustments.ConvertType));
 

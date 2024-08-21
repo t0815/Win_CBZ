@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class CBZValidationThreadParams
+    internal class CBZValidationThreadParams : ThreadParam
     {
         public bool ShowDialog { get; set; }
 
+        public List<Page> Pages { get; set; }   
+
         public MetaData.PageIndexVersion PageIndexVersion { get; set; }
 
-        public CancellationToken CancelToken { get; set; }
     }
 }

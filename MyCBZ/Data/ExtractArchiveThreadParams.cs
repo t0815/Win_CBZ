@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class ExtractArchiveThreadParams
+    internal class ExtractArchiveThreadParams : ThreadParam
     {
         public String OutputPath { get; set; }
 
         public List<Page> Pages { get; set; }
 
-        public CancellationToken CancelToken { get; set; }
+        public bool ContinuePipeline { get; set; }
     }
 }

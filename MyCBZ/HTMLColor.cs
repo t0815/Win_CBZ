@@ -16,9 +16,9 @@ namespace Win_CBZ
             int green = 0;
             int blue = 0;
 
-            if (htmlColor != null)
+            if (htmlColor != null && htmlColor.Length > 0)
             {
-                if (htmlColor.Substring(0, 1).Equals("#"))
+                if (htmlColor[..1].Equals("#"))
                 {
                     red = Convert.ToInt32(htmlColor.Substring(1, 2), 16);
                     green = Convert.ToInt32(htmlColor.Substring(3, 2), 16);

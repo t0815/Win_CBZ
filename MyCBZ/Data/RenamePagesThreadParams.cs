@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class RenamePagesThreadParams
+    internal class RenamePagesThreadParams : ThreadParam
     {
+
+        public List<Page> Pages { get; set; }
+
         public bool IgnorePageNameDuplicates { get; set; }
 
         public bool SkipIndexUpdate { get; set; }
@@ -21,11 +20,7 @@ namespace Win_CBZ.Data
 
         public String RenameSpecialPagePattern { get; set; }
 
-        public bool ContinuePipeline { get; set; } 
-
-        public List<StackItem> Stack { get; set; }
-
-        public CancellationToken CancelToken { get; set; }
+        public bool ContinuePipeline { get; set; }
 
     }
 }

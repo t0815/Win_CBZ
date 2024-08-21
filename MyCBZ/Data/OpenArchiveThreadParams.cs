@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Win_CBZ.Data
 {
     [SupportedOSPlatform("windows")]
-    internal class OpenArchiveThreadParams
+    internal class OpenArchiveThreadParams : ThreadParam
     {
         public String FileName { get; set; }
 
@@ -20,8 +20,8 @@ namespace Win_CBZ.Data
 
         public ZipArchiveMode Mode { get; set; }
 
-        public bool SkipIndexCheck { get; set; }    
+        public bool SkipIndexCheck { get; set; }
 
-        public CancellationToken CancelToken { get; set; }
+        public bool ContinuePipeline { get; set; }
     }
 }

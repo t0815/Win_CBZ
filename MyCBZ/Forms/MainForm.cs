@@ -90,7 +90,7 @@ namespace Win_CBZ
 
         private List<GlobalAction> CurrentGlobalActions;
 
-        private ImageTask selectedImageTask;
+        private ImageTask selectedImageTasks;
 
         private DebugForm df;
 
@@ -314,9 +314,9 @@ namespace Win_CBZ
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
 
-                selectedImageTask = Program.ProjectModel.GlobalImageTask;
+                selectedImageTasks = Program.ProjectModel.GlobalImageTask;
 
-                UpdateImageAdjustments("<Global>");
+                UpdateImageAdjustments(sender, "<Global>");
 
                 backgroundWorker1.RunWorkerAsync();
 
@@ -461,7 +461,7 @@ namespace Win_CBZ
                 Program.ProjectModel.ParseFiles(files);
                 //if (files.Count > 0)
                 //{
-                //    Program.ProjectModel.AddImages(files, newIndex);
+                //    Program.ProjectModel.AddImages(files, NewIndex);
                 //}
 
             }
@@ -2576,9 +2576,9 @@ namespace Win_CBZ
             MoveItemsThread = new Thread(MoveItemsToProc);
             MoveItemsThread.Start(new MoveItemsToThreadParams()
             {
-                newIndex = newIndex,
-                items = items,
-                pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
+                NewIndex = newIndex,
+                Items = items,
+                PageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
                 CancelToken = CancellationTokenSourceMoveItems.Token
             });
 
@@ -2589,19 +2589,19 @@ namespace Win_CBZ
             MoveItemsToThreadParams tparams = threadParams as MoveItemsToThreadParams;
 
             Page pageOriginal;
-            int newIndex = tparams.newIndex;
+            int newIndex = tparams.NewIndex;
 
             PagesList.Invoke(new Action(() =>
             {
                 List<ListViewItem> ItemsSliced = new List<ListViewItem>();
                 List<Page> PageViewItemsSliced = new List<Page>();
                 List<Page> PagesSliced = new List<Page>();
-                if (tparams.newIndex < 0 || tparams.newIndex > PagesList.Items.Count - 1)
+                if (tparams.NewIndex < 0 || tparams.NewIndex > PagesList.Items.Count - 1)
                 {
                     return;
                 }
 
-                foreach (ListViewItem item in tparams.items)
+                foreach (ListViewItem item in tparams.Items)
                 {
                     ItemsSliced.Add(item);
                     PagesSliced.Add((Page)item.Tag);
@@ -2622,7 +2622,7 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
-                newIndex = tparams.newIndex;
+                newIndex = tparams.NewIndex;
                 foreach (Page p in PagesSliced)
                 {
                     p.Index = newIndex;
@@ -2632,15 +2632,15 @@ namespace Win_CBZ
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(p, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                     AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.pageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, tparams.PageIndexVersion, HandleGlobalTaskProgress, PageChanged)));
 
                     newIndex++;
                 }
 
-                newIndex = tparams.newIndex;
+                newIndex = tparams.NewIndex;
                 foreach (Page pageItem in PageViewItemsSliced)
                 {
-                    //pageItem.Text = newIndex.ToString();
+                    //pageItem.Text = NewIndex.ToString();
                     PageThumbsListBox.Items.Insert(newIndex, pageItem);
 
 
@@ -2733,7 +2733,7 @@ namespace Win_CBZ
 
                 int IndexItemToMove = updateItem.Index;
 
-                //if (newIndex < 0 || newIndex > PagesList.Items.Count - 1)
+                //if (NewIndex < 0 || NewIndex > PagesList.Items.Count - 1)
                 // {
                 //    return;
                 //}
@@ -2786,7 +2786,7 @@ namespace Win_CBZ
                     {
                         PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
                     }
-                    //PageThumbsListBox.Items.Insert(tparams.newIndex + 1, originalPage);
+                    //PageThumbsListBox.Items.Insert(tparams.NewIndex + 1, originalPage);
 
                     //UpdatePageView();
 
@@ -3687,7 +3687,7 @@ namespace Win_CBZ
                     LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
                 }
 
-                selectedImageTask = ((Page)selectedPages[0].Tag).ImageTask;
+                selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
 
                 RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
                 RadioApplyAdjustmentsPage.Tag = ((Page)selectedPages[0].Tag).Id;
@@ -3695,7 +3695,7 @@ namespace Win_CBZ
 
                 if (RadioApplyAdjustmentsPage.Checked)
                 {
-                    UpdateImageAdjustments(((Page)selectedPages[0].Tag).Id);
+                    UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id);
                 }
                 //RequestImageInfoSlice();
             }
@@ -4653,16 +4653,16 @@ namespace Win_CBZ
                     TextBoxSplitPageAt.Text = selectedTask.ImageAdjustments.SplitPageAt.ToString();
                     ComboBoxSplitAtType.SelectedIndex = selectedTask.ImageAdjustments.SplitType;
 
-                    selectedImageTask = selectedTask;
+                    selectedImageTasks = selectedTask;
                 }
             }
         }
 
         private void ImageQualityTrackBar_ValueChanged(object sender, EventArgs e)
         {
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                //selectedImageTask.ImageAdjustments.Quality = ImageQualityTrackBar.Value;
+                //selectedImageTasks.ImageAdjustments.Quality = ImageQualityTrackBar.Value;
             }
 
         }
@@ -4673,25 +4673,25 @@ namespace Win_CBZ
 
             Nullable<int> oldValue;
 
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeMode;
 
                 switch (radio.Name)
                 {
                     case "RadioButtonResizeNever":
-                        selectedImageTask.ImageAdjustments.ResizeMode = 0;
+                        selectedImageTasks.ImageAdjustments.ResizeMode = 0;
                         break;
                     case "RadioButtonResizeIfLarger":
-                        selectedImageTask.ImageAdjustments.ResizeMode = 1;
+                        selectedImageTasks.ImageAdjustments.ResizeMode = 1;
                         break;
                     case "RadioButtonResizeTo":
-                        selectedImageTask.ImageAdjustments.ResizeMode = 2;
+                        selectedImageTasks.ImageAdjustments.ResizeMode = 2;
                         break;
                 }
 
-                if (page != null && oldValue.Value != selectedImageTask.ImageAdjustments.ConvertType)
+                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }
@@ -4736,11 +4736,11 @@ namespace Win_CBZ
 
             if (rb.Checked)
             {
-                UpdateImageAdjustments(selected);
+                UpdateImageAdjustments(sender, selected);
             }
         }
 
-        private void UpdateImageAdjustments(string selected)
+        private void UpdateImageAdjustments(object sender, string selected)
         {
             ImageTask selectedTask = null;
             Page page = null;
@@ -4749,7 +4749,7 @@ namespace Win_CBZ
             {
                 if (selected == "<Global>")
                 {
-                    selectedImageTask = Program.ProjectModel.GlobalImageTask;
+                    selectedImageTasks = Program.ProjectModel.GlobalImageTask;
 
                 }
                 else
@@ -4758,21 +4758,21 @@ namespace Win_CBZ
 
                     if (page != null)
                     {
-                        selectedImageTask = page.ImageTask;
+                        selectedImageTasks = page.ImageTask;
 
-                        if (selectedImageTask == null)
+                        if (selectedImageTasks == null)
                         {
                             page.ImageTask = new ImageTask(page.Id);
                         }
                     }
                 }
 
-                if (selectedImageTask != null)
+                if (selectedImageTasks != null)
                 {
 
 
                     //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
-                    switch (selectedImageTask.ImageAdjustments.ResizeMode)
+                    switch (selectedImageTasks.ImageAdjustments.ResizeMode)
                     {
                         case 0:
                             RadioButtonResizeNever.Checked = true;
@@ -4786,13 +4786,13 @@ namespace Win_CBZ
 
                     }
 
-                    CheckBoxSplitDoublePages.Checked = selectedImageTask.ImageAdjustments.SplitPage;
-                    TextBoxSplitPageAt.Text = selectedImageTask.ImageAdjustments.SplitPageAt.ToString();
-                    ComboBoxSplitAtType.SelectedIndex = selectedImageTask.ImageAdjustments.SplitType;
-                    TextBoxResizePageIndexReference.Text = selectedImageTask.ImageAdjustments.ResizeToPageNumber.ToString();
-                    TextBoxResizeW.Text = selectedImageTask.ImageAdjustments.ResizeTo.X.ToString();
-                    TextBoxResizeH.Text = selectedImageTask.ImageAdjustments.ResizeTo.Y.ToString();
-                    ComboBoxConvertPages.SelectedIndex = selectedImageTask.ImageAdjustments.ConvertType;
+                    CheckBoxSplitDoublePages.Checked = selectedImageTasks.ImageAdjustments.SplitPage;
+                    TextBoxSplitPageAt.Text = selectedImageTasks.ImageAdjustments.SplitPageAt.ToString();
+                    ComboBoxSplitAtType.SelectedIndex = selectedImageTasks.ImageAdjustments.SplitType;
+                    TextBoxResizePageIndexReference.Text = selectedImageTasks.ImageAdjustments.ResizeToPageNumber.ToString();
+                    TextBoxResizeW.Text = selectedImageTasks.ImageAdjustments.ResizeTo.X.ToString();
+                    TextBoxResizeH.Text = selectedImageTasks.ImageAdjustments.ResizeTo.Y.ToString();
+                    ComboBoxConvertPages.SelectedIndex = selectedImageTasks.ImageAdjustments.ConvertType;
                 }
             }
         }
@@ -4854,14 +4854,14 @@ namespace Win_CBZ
             items.Add((ListViewItem)e.Item);
             foreach (ListViewItem lvi in PagesList.SelectedItems)
             {
-                //if (!items.Contains(lvi))
+                //if (!Items.Contains(lvi))
                 //{
                 items.Add(lvi);
                 //}
             }
             DataObject data = new DataObject();
             data.SetData(typeof(System.Windows.Forms.ListView.SelectedListViewItemCollection), PagesList.SelectedItems);
-            // pass the items to move...
+            // pass the Items to move...
             PagesList.DoDragDrop(data, DragDropEffects.Move);
         }
 
@@ -5413,6 +5413,32 @@ namespace Win_CBZ
 
         }
 
+        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Nullable<int> oldValue;
+
+            if (selectedImageTasks != null && ComboBoxConvertPages.SelectedIndex > -1)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.ConvertType;
+
+                selectedImageTasks.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
+
+                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+
+                if (page == null && selectedImageTasks.PageId.Length > 0)
+                {
+                    ComboBoxConvertPages.SelectedIndex = -1;
+                }
+            }
+        }
+
         private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
         {
             int pageNumber = 0;
@@ -5422,7 +5448,7 @@ namespace Win_CBZ
                 pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
             }
 
-            selectedImageTask.ImageAdjustments.ResizeToPageNumber = pageNumber;
+            selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
         }
 
         private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
@@ -5430,9 +5456,9 @@ namespace Win_CBZ
             int w = 0;
             Nullable<int> oldValue = null;
 
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
               
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
 
@@ -5449,11 +5475,12 @@ namespace Win_CBZ
                    
                 }
 
-                selectedImageTask.ImageAdjustments.ResizeTo = new Point(w, selectedImageTask.ImageAdjustments.ResizeTo.Y);
+                selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
 
-                if (page != null && oldValue != selectedImageTask.ImageAdjustments.ConvertType)
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ConvertType)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }            
         }
@@ -5464,9 +5491,9 @@ namespace Win_CBZ
 
             Nullable<int> oldValue;
 
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.Y;
 
                 if (TextBoxResizeH.Text.Length > 0)
@@ -5481,23 +5508,24 @@ namespace Win_CBZ
                     }
                 }
 
-                selectedImageTask.ImageAdjustments.ResizeTo = new Point(selectedImageTask.ImageAdjustments.ResizeTo.X, h);
+                selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
 
-                if (page != null && oldValue != selectedImageTask.ImageAdjustments.ConvertType)
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ConvertType)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
         }
 
-        private void TextBoxSplitPageAt_TextAlignChanged(object sender, EventArgs e)
+        private void TextBoxSplitPageAt_TextChanged(object sender, EventArgs e)
         {
             Nullable<int> oldValue;
             string value = "";
 
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
 
                 if (TextBoxSplitPageAt.Text.Length > 0)
@@ -5509,11 +5537,12 @@ namespace Win_CBZ
                     value = "0";
                 }
 
-                selectedImageTask.ImageAdjustments.SplitPageAt = int.Parse(value);
+                selectedImageTasks.ImageAdjustments.SplitPageAt = int.Parse(value);
 
-                if (page != null && oldValue != selectedImageTask.ImageAdjustments.SplitPageAt)
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.SplitPageAt)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
         }
@@ -5522,12 +5551,18 @@ namespace Win_CBZ
         {
             Nullable<int> oldValue;
 
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
 
-                selectedImageTask.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
+                selectedImageTasks.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
+
+                if (page != null && oldValue.Value != selectedImageTasks?.ImageAdjustments.SplitType)
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
             }
         }
 
@@ -5535,16 +5570,17 @@ namespace Win_CBZ
         {
             Nullable<bool> oldValue;
 
-            if (selectedImageTask != null)
+            if (selectedImageTasks != null)
             {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPage;
 
-                selectedImageTask.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
+                selectedImageTasks.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
 
-                if (page != null && oldValue.Value != selectedImageTask.ImageAdjustments.SplitPage)
+                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.SplitPage)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
         }
@@ -5593,24 +5629,6 @@ namespace Win_CBZ
         private void GetImageProcessExcludesFromSelectedButton_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int oldValue = -1;
-
-            if (selectedImageTask != null)
-            {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTask.PageId);
-                oldValue = page.ImageTask.ImageAdjustments.ConvertType;
-
-                selectedImageTask.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
-
-                if (page != null && oldValue != selectedImageTask.ImageAdjustments.ConvertType)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                }
-            }          
         }
     }
 }

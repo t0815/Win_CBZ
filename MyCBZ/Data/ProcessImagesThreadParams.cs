@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class ProcessImagesThreadParams
+    internal class ProcessImagesThreadParams : ThreadParam
     {
 
         public bool ApplyImageProcessing { get; set; }
@@ -16,9 +16,7 @@ namespace Win_CBZ.Data
 
         public string[] SkipPages { get; set; } = new string[0];
 
-        public List<Page> PagesToProcess { get; set; }
-
-        public CancellationToken CancelToken { get; set; }
+        public List<Page> Pages { get; set; }
 
     }
 }

@@ -269,7 +269,7 @@ namespace Win_CBZ
         }
 
         /// <summary>
-        /// Gets or sets the color of the insertion line drawn when dragging items within the control.
+        /// Gets or sets the color of the insertion line drawn when dragging Items within the control.
         /// </summary>
         /// <value>The color of the insertion line.</value>
         [Category("Appearance")]

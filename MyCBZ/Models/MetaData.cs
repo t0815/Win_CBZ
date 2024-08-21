@@ -301,7 +301,15 @@ namespace Win_CBZ
         {
             List<MetaDataEntryPage> originalPageMetaData = PageIndex.ToList<MetaDataEntryPage>();
             
+            if (pages == null) 
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to rebuild Index! [MetaData::RebuildPageMetaData(), parameter PAGES was NULL] "));
+
+                return; 
+            }
+
             PageIndex.Clear();
+
             foreach (Page page in pages)
             {
                 try

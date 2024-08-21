@@ -46,7 +46,7 @@ namespace Win_CBZ.Tasks
                             isUpdated = true;
                         }
                         page.Index = newIndex;
-                        //page.OriginalIndex = newIndex;
+                        //page.OriginalIndex = NewIndex;
                         page.Number = newIndex + 1;
 
                         newIndex++;

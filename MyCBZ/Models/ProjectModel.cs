@@ -260,7 +260,7 @@ namespace Win_CBZ
                 nextTask = remainingStack[0];
                 remainingStack.RemoveAt(0);
             }  
-                     
+            
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_MAKE_PAGES)
             {
                 Task.Factory.StartNew(() =>
@@ -314,14 +314,15 @@ namespace Win_CBZ
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_INDICES)
             {
-           
+                UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
+
                 Task.Factory.StartNew(() =>
                 {
                     if (MetaData.Exists())
                     {
-                        MetaData.RebuildPageMetaData(Pages, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).PageIndexVerToWrite);
+                        MetaData.RebuildPageMetaData(p.Pages, p.PageIndexVerToWrite);
                     }
-                    UpdatePageIndices(true, true, remainingStack);
+                    UpdatePageIndices(p.Pages, true, true, remainingStack);
                 }, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).CancelToken);
 
                 currentPerformed = e.Task;
@@ -329,9 +330,11 @@ namespace Win_CBZ
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_IMAGE_METADATA)
             {
+                UpdatePageMetadataThreadParams p = nextTask.ThreadParams as UpdatePageMetadataThreadParams;
+
                 if (imageInfoUpdater == null)
                 {
-                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(Pages, AppEventHandler.OnGeneralTaskProgress);
+                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress);
                     imageInfoUpdater.Start();
 
                     currentPerformed = e.Task;
@@ -340,7 +343,7 @@ namespace Win_CBZ
                 {
                     if (imageInfoUpdater.IsCompleted || imageInfoUpdater.IsCanceled)
                     {
-                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(Pages, AppEventHandler.OnGeneralTaskProgress);
+                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress);
                         imageInfoUpdater.Start();
 
                         currentPerformed = e.Task;
@@ -357,7 +360,7 @@ namespace Win_CBZ
 
                     if (imageProcessingTask == null)
                     {
-                        imageProcessingTask = ProcessImagesTask.ProcessImages(p.PagesToProcess, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                        imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
 
@@ -419,7 +422,7 @@ namespace Win_CBZ
                     {
                         if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
                         {
-                            imageProcessingTask = ProcessImagesTask.ProcessImages(Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                            imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                             imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                             {
                                 //
@@ -439,6 +442,7 @@ namespace Win_CBZ
 
                                         if (page != null)
                                         {
+                                            page.ImageTask.PageId = resultPage.Id;
                                             page.ImageTask.ImageAdjustments.SplitPage = false;
                                             page.ImageTask.ImageAdjustments.ResizeMode = -1;
 
@@ -939,7 +943,7 @@ namespace Win_CBZ
                             ApplyImageProcessing = true,
                             ContinuePipeline = true,
                             CancelToken = CancellationTokenSourceSaveArchive.Token,
-                            PagesToProcess = Pages, 
+                            Pages = Pages,
                         }
                     },
                     new StackItem()
@@ -947,6 +951,7 @@ namespace Win_CBZ
                         TaskId = PipelineEvent.PIPELINE_RUN_RENAMING,
                         ThreadParams = new RenamePagesThreadParams()
                         {
+                            Pages = Pages,
                             ApplyRenaming = ApplyRenaming,
                             CompatibilityMode = CompatibilityMode,
                             IgnorePageNameDuplicates = CompatibilityMode,
@@ -961,6 +966,7 @@ namespace Win_CBZ
                         TaskId = PipelineEvent.PIPELINE_UPDATE_INDICES,
                         ThreadParams = new UpdatePageIndicesThreadParams() 
                         {
+                            Pages = Pages,
                             ContinuePipeline = true,
                             InitialIndexRebuild = false,
                             Stack = new List<StackItem>(),
@@ -973,6 +979,7 @@ namespace Win_CBZ
                         TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE,
                         ThreadParams = new SaveArchiveThreadParams()
                         {
+                            Pages = Pages,
                             FileName = path,
                             Mode = mode,
                             ContinueOnError = continueOnError,
@@ -1005,7 +1012,7 @@ namespace Win_CBZ
             AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
             // Rebuild ComicInfo.xml's PageIndex
-            MetaData.RebuildPageMetaData(Pages.ToList<Page>(), tParams.PageIndexVerToWrite);
+            MetaData.RebuildPageMetaData(tParams?.Pages?.ToList<Page>(), tParams.PageIndexVerToWrite);
 
             try
             {
@@ -1013,7 +1020,7 @@ namespace Win_CBZ
 
                 // Write files to new temporary archive
                 Thread.BeginCriticalRegion();
-                foreach (Page page in Pages)
+                foreach (Page page in tParams?.Pages)
                 {
                     String sourceFileName = "";
                     try
@@ -1082,7 +1089,7 @@ namespace Win_CBZ
                         }
                         else
                         {
-                            // collect all deleted items
+                            // collect all deleted Items
                             deletedPages.Add(page);
                         }
 
@@ -1219,7 +1226,7 @@ namespace Win_CBZ
 
                                 if (Win_CBZ.Win_CBZSettings.Default.AutoDeleteTempFiles)
                                 {
-                                    foreach (Page page in Pages)
+                                    foreach (Page page in tParams.Pages)
                                     {
                                         if (!page.TemporaryFile.Exists())
                                         {
@@ -1346,6 +1353,7 @@ namespace Win_CBZ
             { 
                 ShowDialog = showErrorsDialog, 
                 PageIndexVersion = pageIndexVersion,
+                Pages = Pages,
                 CancelToken = CancellationTokenSourceArchiveValidation.Token,
             });
 
@@ -1375,7 +1383,7 @@ namespace Win_CBZ
             CBZValidationThreadParams tParams = threadParams as CBZValidationThreadParams;
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_PROCESSING));
 
-            totalItemsToProcess = Pages.Count;
+            totalItemsToProcess = tParams.Pages.Count;
             if (hasMetaData)
             {
                 tags = Program.ProjectModel.MetaData.ValueForKey("Tags");
@@ -1388,7 +1396,7 @@ namespace Win_CBZ
 
             if (hasFiles)
             {
-                foreach (Page page in Pages)
+                foreach (Page page in tParams?.Pages)
                 {
                     if (page.Deleted)
                     {
@@ -1867,94 +1875,91 @@ namespace Win_CBZ
             FileInfo targetPath;
             FileInfo localPath;
             Page page;
-
-            if (tParams.LocalFiles != null)
+            
+            foreach (LocalFile fileObject in tParams?.LocalFiles)
             {
-                foreach (LocalFile fileObject in tParams?.LocalFiles)
+                try
                 {
+                    localPath = new FileInfo(fileObject.FileName);
+
+                    if (tParams.InvalidFileNames.Contains(localPath.Name.ToLower()))
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping file ['" + localPath.Name + "'] because of non-allowed filename!");
+
+                        continue;
+                    }
+
+                    targetPath = MakeNewTempFileName();
+
+                    //CopyFile(fileObject.FullPath, targetPath.FullName);
+
+                    page = GetPageByName(fileObject.FileName);
+
+                    if (page == null)
+                    {
+                        page = new Page(fileObject, targetPath.Directory.FullName, FileAccess.ReadWrite)
+                        {
+                            Number = realNewIndex + 1,
+                            Index = realNewIndex,
+                            OriginalIndex = realNewIndex,
+                            Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make(),
+                        };
+                        realNewIndex++;
+                    } else
+                    {
+                        page.UpdateLocalWorkingCopy(fileObject, targetPath);
+                        page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
+                        page.Changed = true;
+                    }
+
                     try
                     {
-                        localPath = new FileInfo(fileObject.FileName);
-
-                        if (tParams.InvalidFileNames.Contains(localPath.Name.ToLower()))
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping file ['" + localPath.Name + "'] because of non-allowed filename!");
-
-                            continue;
-                        }
-
-                        targetPath = MakeNewTempFileName();
-
-                        //CopyFile(fileObject.FullPath, targetPath.FullName);
-
-                        page = GetPageByName(fileObject.FileName);
-
-                        if (page == null)
-                        {
-                            page = new Page(fileObject, targetPath.Directory.FullName, FileAccess.ReadWrite)
-                            {
-                                Number = realNewIndex + 1,
-                                Index = realNewIndex,
-                                OriginalIndex = realNewIndex,
-                                Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make(),
-                            };
-                            realNewIndex++;
-                        } else
-                        {
-                            page.UpdateLocalWorkingCopy(fileObject, targetPath);
-                            page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
-                            page.Changed = true;
-                        }
-
-                        try
-                        {
-                            page.LoadImage(true);    // dont load full image here!
-                        } catch (PageException pe)
-                        {
-                            pageError = true;
-
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
-                        } finally
-                        {
-                            page.FreeImage();  
-                        }
-
-                        if (!page.Changed)
-                        {
-                            Pages.Add(page);
-                        }
-
-                        tParams.CancelToken.ThrowIfCancellationRequested();
-
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, !pageError ? PageChangedEvent.IMAGE_STATUS_NEW : PageChangedEvent.IMAGE_STATUS_ERROR));
-                        AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, progressIndex, total));
-
-                        index++;
-                        progressIndex++;
-                        pageError = false;
-                        Thread.Sleep(5);
-                    }
-                    catch (OperationCanceledException oce)
+                        page.LoadImage(true);    // dont load full image here!
+                    } catch (PageException pe)
                     {
-                        // 
-                    }
-                    catch (Exception ef)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
-                    }
-                    finally
-                    {
-                        if (realNewIndex > MaxFileIndex)
-                        {
-                            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
+                        pageError = true;
 
-                            IsChanged = true;
-                            MaxFileIndex = realNewIndex;
-                        }
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
+                    } finally
+                    {
+                        page.FreeImage();  
+                    }
+
+                    if (!page.Changed)
+                    {
+                        Pages.Add(page);
+                    }
+
+                    tParams.CancelToken.ThrowIfCancellationRequested();
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, !pageError ? PageChangedEvent.IMAGE_STATUS_NEW : PageChangedEvent.IMAGE_STATUS_ERROR));
+                    AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, progressIndex, total));
+
+                    index++;
+                    progressIndex++;
+                    pageError = false;
+                    Thread.Sleep(5);
+                }
+                catch (OperationCanceledException oce)
+                {
+                    // 
+                }
+                catch (Exception ef)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ef.Message);
+                }
+                finally
+                {
+                    if (realNewIndex > MaxFileIndex)
+                    {
+                        AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
+
+                        IsChanged = true;
+                        MaxFileIndex = realNewIndex;
                     }
                 }
             }
-
+            
             AppEventHandler.OnOperationFinished(this, new OperationFinishedEvent(progressIndex, Pages.Count));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
             AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, null, tParams.Stack));            
@@ -2010,11 +2015,18 @@ namespace Win_CBZ
         {
             ParseFilesThreadParams tParams = threadParams as ParseFilesThreadParams;
 
+            if (tParams?.FileNamesToAdd == null)
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to parse files! [ProjectModel::ParseFilesProc(), parameter FileNamesToAdd was NULL] "));
+
+                return; 
+            }
+                      
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
 
             List<LocalFile> files = new List<LocalFile>();
             int index = 0;
-            foreach (String fname in tParams.FileNamesToAdd)
+            foreach (String fname in tParams?.FileNamesToAdd)
             {
 
                 try
@@ -2095,7 +2107,7 @@ namespace Win_CBZ
             return deletedPagesCount;
         }
 
-        public void UpdatePageIndices(bool initialIndexBulid, bool continuePipeline = false, List<StackItem> stack = null)
+        public void UpdatePageIndices(List<Page> pages, bool initialIndexBulid, bool continuePipeline = false, List<StackItem> stack = null)
         {
             if (LoadArchiveThread != null)
             {
@@ -2116,6 +2128,7 @@ namespace Win_CBZ
             PageUpdateThread = new Thread(UpdatePageIndicesProc);
             PageUpdateThread.Start(new UpdatePageIndicesThreadParams() 
             { 
+                Pages = pages,
                 ContinuePipeline = continuePipeline,
                 InitialIndexRebuild = initialIndexBulid,
                 Stack = stack ?? new List<StackItem> { new StackItem() { TaskId = 0, ThreadParams = null } }
@@ -2124,7 +2137,14 @@ namespace Win_CBZ
 
         protected void UpdatePageIndicesProc(object threadParams)
         {
-            UpdatePageIndicesThreadParams tparams = threadParams as UpdatePageIndicesThreadParams;
+            UpdatePageIndicesThreadParams tParams = threadParams as UpdatePageIndicesThreadParams;
+
+            if (tParams?.Pages == null)
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to update page indices! [ProjectModel::UpdatePageIndicesProc(), parameter PAGES was NULL] "));
+
+                return;
+            }
 
             int newIndex = 0;
             int updated = 1;
@@ -2132,7 +2152,7 @@ namespace Win_CBZ
 
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_UPDATING_INDEX));
 
-            foreach (Page page in Pages)
+            foreach (Page page in tParams?.Pages)
             {
                 if (page.Deleted)
                 {
@@ -2151,7 +2171,7 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
-                if (!tparams.InitialIndexRebuild && isUpdated)
+                if (!tParams.InitialIndexRebuild && isUpdated)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
@@ -2173,14 +2193,14 @@ namespace Win_CBZ
 
             Thread.Sleep(50);
 
-            if (tparams.ContinuePipeline || tparams.Stack.Count == 0)
+            if (tParams.ContinuePipeline || tParams.Stack.Count == 0)
             {
                 AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_READY));
             }
 
-            if (tparams.ContinuePipeline)
+            if (tParams.ContinuePipeline)
             {
-                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_UPDATE_INDICES, null, tparams.Stack));
+                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_UPDATE_INDICES, null, tParams.Stack));
             }         
         }
 
@@ -2335,6 +2355,7 @@ namespace Win_CBZ
             AutoRenameThread = new Thread(AutoRenameAllPagesProc);
             AutoRenameThread.Start(new RenamePagesThreadParams()
             {
+                Pages = Pages,
                 ApplyRenaming = true,
                 CompatibilityMode = false,
                 IgnorePageNameDuplicates = false,
@@ -2347,11 +2368,18 @@ namespace Win_CBZ
 
         public void AutoRenameAllPagesProc(object threadParams)
         {
-            AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
-
             RenamePagesThreadParams tParams = threadParams as RenamePagesThreadParams;
 
-            foreach (Page page in Pages)
+            if (tParams?.Pages == null)
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to apply renaming! [ProjectModel::AutoRenameAllPagesProc(), parameter PAGES was NULL] "));
+
+                return;
+            }
+
+            AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
+
+            foreach (Page page in tParams?.Pages)
             {
                 if (RenamerExcludes.IndexOf(page.Name) == -1 && !page.Deleted)
                 {
@@ -2413,15 +2441,27 @@ namespace Win_CBZ
                 }
             }
 
-            RestoreRenamingThread = new Thread(new ThreadStart(RestoreOriginalNamesProc));
-            RestoreRenamingThread.Start();
+            RestoreRenamingThread = new Thread(RestoreOriginalNamesProc);
+            RestoreRenamingThread.Start(new RestoreRenamedThreadParams()
+            {
+                Pages = Pages,
+            });
         }
 
-        public void RestoreOriginalNamesProc()
+        public void RestoreOriginalNamesProc(object threadParams)
         {
+            RestoreRenamedThreadParams tParams = threadParams as RestoreRenamedThreadParams;
+
+            if (tParams?.Pages == null)
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to restore renaming! [ProjectModel::RestoreOriginalNamesProc(), parameter PAGES was NULL] "));
+
+                return;
+            }
+
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
 
-            foreach (Page page in Pages)
+            foreach (Page page in tParams.Pages)
             {
                 if (RenamerExcludes.IndexOf(page.Name) == -1)
                 {
@@ -2621,9 +2661,16 @@ namespace Win_CBZ
         {
             RenamePagesThreadParams tParams = threadParams as RenamePagesThreadParams;
 
+            if (tParams?.Pages == null)
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Unable to run renaming-script! [ProjectModel::RunRenameScriptsForPages(), parameter PAGES was NULL] "));
+
+                return;
+            }
+
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_RENAMING));
 
-            foreach (Page page in Pages)
+            foreach (Page page in tParams?.Pages)
             {
                 if (!page.Deleted)
                 {
@@ -2729,6 +2776,7 @@ namespace Win_CBZ
                     {
                         AppEventHandler.OnFileOperation(this, new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_RUNNING, byesTotal, fs.Length));
                     }
+                    Thread.Sleep(1);
                 }
 
                 fs.Close();

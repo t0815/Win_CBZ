@@ -543,7 +543,7 @@ namespace Win_CBZ.Forms
             int newIndex = e.RowIndex;
             //for (int i = 0; i < e.RowCount; i++)
             //{
-            //newIndex = newIndex + i;
+            //NewIndex = NewIndex + i;
 
             //foreach (String line in CustomFieldTypesCollection)
             //{

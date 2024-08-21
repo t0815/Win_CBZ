@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Data
 {
-    internal class MovePageThreadParams
+    internal class MovePageThreadParams : ThreadParam
     {
         public Page page { get; set; }
 
         public int newIndex { get; set; }
 
         public MetaData.PageIndexVersion pageIndexVersion { get; set; }
-
-        public CancellationToken CancelToken { get; set; }
     }
 }

@@ -32,5 +32,22 @@ namespace Win_CBZ.Models
         public PageImageFormat ConvertFormat { get; set; }
 
         public InterpolationMode Interpolation { get; set; }   
+
+        public ImageAdjustments(ImageAdjustments copyFrom = null)
+        {
+            if (copyFrom != null)
+            {
+                SplitPage = copyFrom.SplitPage;
+                SplitPageAt = copyFrom.SplitPageAt;
+                SplitType = copyFrom.SplitType;
+                DetectSplitAtColor = copyFrom.DetectSplitAtColor;
+                ResizeTo = copyFrom.ResizeTo;
+                ResizeMode = copyFrom.ResizeMode;
+                ResizeToPageNumber = copyFrom.ResizeToPageNumber;
+                ConvertType = copyFrom.ConvertType;
+                ConvertFormat = copyFrom.ConvertFormat;
+                Interpolation = copyFrom.Interpolation;
+            }
+        }
     }
 }

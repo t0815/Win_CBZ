@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-// Dragging items in a ListView control with visual insertion guides
-// http://www.cyotek.com/blog/dragging-items-in-a-listview-control-with-visual-insertion-guides
+// Dragging Items in a ListView control with visual insertion guides
+// http://www.cyotek.com/blog/dragging-Items-in-a-listview-control-with-visual-insertion-guides
 
 namespace Win_CBZ
 {

@@ -202,13 +202,16 @@ namespace Win_CBZ.Models
             ImageFormat resultFormat;
             string resultName;
 
-            ExtensionToImageFormatMap.TryGetValue(name.ToLower().TrimStart('.'), out resultFormat);
-            ExtensionToFormatNameMap.TryGetValue(name.ToLower().TrimStart('.'), out resultName);
-
-            if (resultFormat != null)
+            if (name != null)
             {
-                Format = resultFormat;
-                Name = resultName;
+                ExtensionToImageFormatMap.TryGetValue(name?.ToLower().TrimStart('.'), out resultFormat);
+                ExtensionToFormatNameMap.TryGetValue(name?.ToLower().TrimStart('.'), out resultName);
+
+                if (resultFormat != null)
+                {
+                    Format = resultFormat;
+                    Name = resultName;
+                }
             }
 
             return this;

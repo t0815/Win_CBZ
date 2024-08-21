@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 namespace Win_CBZ.Data
 {
     [SupportedOSPlatform("windows")]
-    internal class UpdatePageIndicesThreadParams
+    internal class UpdatePageIndicesThreadParams : ThreadParam
     {
         public bool InitialIndexRebuild { get; set; }
 
         public bool ContinuePipeline { get; set; }
 
+        public List<Page> Pages { get; set; }
+
         public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
-
-        public List<StackItem> Stack {  get; set; }
-
-        public CancellationToken CancelToken { get; set; }
     }
 }
