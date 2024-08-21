@@ -347,7 +347,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                Invoke(new Action(() =>
+                MessageLogListView.Invoke(new Action(() =>
                 {
                     MessageLogListView.Items.Clear();
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
@@ -900,7 +900,7 @@ namespace Win_CBZ
 
         public void ReloadPreviewThumbs()
         {
-            Invoke(new Action(() =>
+            PageThumbsListBox.Invoke(new Action(() =>
             {
                 PageImages.Images.Clear();
 
@@ -961,7 +961,7 @@ namespace Win_CBZ
                     if (RequestThumbnailThread.IsAlive)
                     {
                         //threads.Add(RequestThumbnailThread);
-                        RequestThumbnailThread.Join();
+                        //RequestThumbnailThread.Join();
                     }
                 }
 
@@ -996,7 +996,7 @@ namespace Win_CBZ
 
                 if (!WindowClosed)
                 {
-                    Invoke(new Action(() =>
+                    PageThumbsListBox.Invoke(new Action(() =>
                     {
                         //PageImages.Images.Clear();
                         try
@@ -5370,7 +5370,7 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        Invoke(new Action(() =>
+                        MenuBar.Invoke(new Action(() =>
                         {
                             PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
                         }));
