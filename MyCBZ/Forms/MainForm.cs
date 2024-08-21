@@ -2476,53 +2476,56 @@ namespace Win_CBZ
                 ListViewItem changedItem = PagesList.Items[e.Item];
                 if (changedItem != null)
                 {
-
-                    try
+                    Page p = changedItem.Tag as Page;
+                    if (p?.Name != e.Label)
                     {
-                        //Page oldPage = new Page(((Page)changedItem.Tag));  // dont load page here! will cause Access denied
-                        Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label, false, true);
-
-                        Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
-
-                        AppEventHandler.OnPageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
-                        AppEventHandler.OnArchiveStatusChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                    }
-                    catch (PageDuplicateNameException eduplicate)
-                    {
-                        e.CancelEdit = true;
-
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, eduplicate.Message);
-                        if (eduplicate.ShowErrorDialog)
+                        try
                         {
-                            ApplicationMessage.ShowWarning("Error renaming page\r\n" + eduplicate.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                        }
-                    }
-                    catch (PageException pe)
-                    {
-                        e.CancelEdit = true;
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
-                        if (pe.ShowErrorDialog)
-                        {
-                            ApplicationMessage.ShowException(pe, ApplicationMessage.DialogType.MT_ERROR);
-                        }
-                    }
-                    catch (ApplicationException ae)
-                    {
-                        e.CancelEdit = true;
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, ae.Message);
-                        if (ae.ShowErrorDialog)
-                        {
-                            ApplicationMessage.ShowWarning("Error renaming page\r\n" + ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
-                        e.CancelEdit = true;
-                    }
-                    finally
-                    {
+                            //Page oldPage = new Page(((Page)changedItem.Tag));  // dont load page here! will cause Access denied
+                            Program.ProjectModel.RenamePage((Page)changedItem.Tag, e.Label, false, true);
 
+                            Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
+
+                            AppEventHandler.OnPageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                            AppEventHandler.OnArchiveStatusChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                        }
+                        catch (PageDuplicateNameException eduplicate)
+                        {
+                            e.CancelEdit = true;
+
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, eduplicate.Message);
+                            if (eduplicate.ShowErrorDialog)
+                            {
+                                ApplicationMessage.ShowWarning("Error renaming page\r\n" + eduplicate.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                            }
+                        }
+                        catch (PageException pe)
+                        {
+                            e.CancelEdit = true;
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
+                            if (pe.ShowErrorDialog)
+                            {
+                                ApplicationMessage.ShowException(pe, ApplicationMessage.DialogType.MT_ERROR);
+                            }
+                        }
+                        catch (ApplicationException ae)
+                        {
+                            e.CancelEdit = true;
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, ae.Message);
+                            if (ae.ShowErrorDialog)
+                            {
+                                ApplicationMessage.ShowWarning("Error renaming page\r\n" + ae.Message, "Error renaming page", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                            e.CancelEdit = true;
+                        }
+                        finally
+                        {
+
+                        }
                     }
                 }
             }
