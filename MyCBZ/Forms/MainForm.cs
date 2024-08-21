@@ -76,6 +76,8 @@ namespace Win_CBZ
 
         private CancellationTokenSource CancellationTokenSourceRequestThumbnail;
 
+        private CancellationTokenSource CancellationTokenSourceThumbnail;
+
         private CancellationTokenSource CancellationTokenSourceRequestImageInfo;
 
         private CancellationTokenSource CancellationTokenSourceUpdatePageView;
@@ -103,6 +105,7 @@ namespace Win_CBZ
             CancellationTokenSourceRequestImageInfo = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
             CancellationTokenSourceUpdatePageView = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
             CancellationTokenSourceMoveItems = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            CancellationTokenSourceThumbnail = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
 
             Program.ProjectModel = NewProjectModel();
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
@@ -933,15 +936,13 @@ namespace Win_CBZ
             if (Win_CBZSettings.Default.PagePreviewEnabled)
             {
 
-                List<Thread> threads = new List<Thread>();
-
                 if (ThumbnailThread != null)
                 {
                     if (ThumbnailThread.IsAlive)
                     {
                         //threads.Add(ThumbnailThread);
 
-                        CancellationTokenSourceRequestThumbnail.Cancel();
+                        CancellationTokenSourceThumbnail.Cancel();
                         //ThumbnailThread.Abort();
                     }
                 }
@@ -962,14 +963,19 @@ namespace Win_CBZ
                     {
                         //threads.Add(RequestThumbnailThread);
                         //RequestThumbnailThread.Join();
+                        return; 
                     }
                 }
+
+                List<Page> currentSlice = new List<Page>(ThumbnailPagesSlice.ToArray());
+                //ThumbnailPagesSlice.Clear();
 
                 RequestThumbnailThread = new Thread(LoadThumbnailSlice);
                 RequestThumbnailThread.Start(new ThumbSliceThreadParams()
                 {
-                    ThumbnailPagesSlice = ThumbnailPagesSlice,
-                    CancelToken = CancellationTokenSourceRequestThumbnail.Token
+                    ThumbnailPagesSlice = currentSlice,
+                    CancelToken = CancellationTokenSourceRequestThumbnail.Token,
+                    ThumbnailQueue = ThumbnailPagesSlice
                 });
 
                 //Task awaitTasks = AwaitOperationsTask.AwaitOperations(threads);
@@ -991,109 +997,131 @@ namespace Win_CBZ
         {
             ThumbSliceThreadParams tParams = threadParams as ThumbSliceThreadParams;
 
+            bool updateRequired = false;
+            int indexToUpdate = -1;
+
             if (Program.ProjectModel.ArchiveState != CBZArchiveStatusEvent.ARCHIVE_CLOSING)
             {
 
                 if (!WindowClosed)
                 {
-                    PageThumbsListBox.Invoke(new Action(() =>
+                    
+                    //PageImages.Images.Clear();
+                    try
                     {
-                        //PageImages.Images.Clear();
-                        try
+                        foreach (Page page in tParams.ThumbnailPagesSlice)
                         {
-
-                            foreach (Page page in tParams.ThumbnailPagesSlice)
+                            try
                             {
-                                try
-                                {
-                                    if (!page.Closed)
+                                if (!page.Closed)
+                                {                     
+                                    if (!PageImages.Images.ContainsKey(page.Id))
                                     {
-                                        if (!PageImages.Images.ContainsKey(page.Id))
-                                        {
-                                            PageImages.Images.Add(page.Id, page.GetThumbnail());
-                                        }
-                                        else
-                                        {
-                                            if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
-                                            {
-                                                PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail();
-                                                page.ThumbnailInvalidated = false;
-                                            }
-                                        }
-
-
+                                        PageImages.Images.Add(page.Id, page.GetThumbnail());
+                                        updateRequired = true;
                                     }
                                     else
                                     {
-                                        page.ThumbnailInvalidated = false;
-                                    }
-
-                                    tParams.CancelToken.ThrowIfCancellationRequested();
-                                }
-                                catch (OperationCanceledException)
-                                {
-                                    break;
-                                }
-                                catch (Exception e)
-                                {
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                                }
-                                finally
-                                {
-                                    page.FreeImage();
-                                }
-                            }
-
-                        }
-                        catch (Exception eo)
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error in thumb-generation thread! [" + eo.Message + "]");
-                        }
-
-
-                        if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
-                        {
-                            //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
-
-                            /*
-                            int itemIndex = -1;
-
-                            foreach (Page page in tParams.ThumbnailPagesSlice)
-                            {
-                                try
-                                {
-                                    if (!page.Closed)
-                                    {
-                                        itemIndex = PageThumbsListBox.Items.IndexOf(page);
-
-                                        if (itemIndex > -1)
+                                        if (page.ThumbnailInvalidated && PageImages.Images.IndexOfKey(page.Id) > -1)
                                         {
-                                            PageThumbsListBox.Items[itemIndex] = page;
+                                            updateRequired = true;
+                                            PageImages.Images[PageImages.Images.IndexOfKey(page.Id)] = page.GetThumbnail();
+                                            page.ThumbnailInvalidated = false;
                                         }
                                     }
+                                   
+                                    if (updateRequired)
+                                    {
+                                        PageThumbsListBox.Invoke(new Action(() =>
+                                        {
+                                            indexToUpdate = PageThumbsListBox.Items.IndexOf(page);
+                                            if (indexToUpdate > -1) {
+                                                PageThumbsListBox.Items[indexToUpdate] = page;
+                                                
+                                            }
+                                        }));
+                                    }
+                                }
+                                else
+                                {
+                                    page.ThumbnailInvalidated = false;
+                                }
 
-                                    tParams.CancelToken.ThrowIfCancellationRequested();
-                                }
-                                catch (OperationCanceledException)
+                                if (tParams.ThumbnailQueue != null)
                                 {
-                                    break;
+                                    tParams.ThumbnailQueue.Remove(page);
                                 }
-                                catch (Exception e)
-                                {
-                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                                }
-                                finally
-                                {
-                                    page.FreeImage();
-                                }
+
+                                tParams.CancelToken.ThrowIfCancellationRequested();
                             }
-                            */
+                            catch (OperationCanceledException)
+                            {
+                                break;
+                            }
+                            catch (Exception e)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                            }
+                            finally
+                            {
+                                page.FreeImage();
+                            }
+
+                            Thread.Sleep(10);
                         }
 
-                        tParams.ThumbnailPagesSlice.Clear();
+                    }
+                    catch (Exception eo)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error in thumb-generation thread! [" + eo.Message + "]");
+                    }
 
-                        PageThumbsListBox.Refresh();
-                    }));
+
+                    if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) //PageView.Items.Count > 0)
+                    {
+                        //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+
+                        /*
+                        int itemIndex = -1;
+
+                        foreach (Page page in tParams.ThumbnailPagesSlice)
+                        {
+                            try
+                            {
+                                if (!page.Closed)
+                                {
+                                    itemIndex = PageThumbsListBox.Items.IndexOf(page);
+
+                                    if (itemIndex > -1)
+                                    {
+                                        PageThumbsListBox.Items[itemIndex] = page;
+                                    }
+                                }
+
+                                tParams.CancelToken.ThrowIfCancellationRequested();
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                break;
+                            }
+                            catch (Exception e)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                            }
+                            finally
+                            {
+                                page.FreeImage();
+                            }
+                        }
+                        */
+                    }
+
+                    //tParams.ThumbnailPagesSlice.Clear();
+
+                    PageThumbsListBox.Invoke(new Action(() =>
+                    {
+                        PageThumbsListBox.Invalidate();
+                    }));                  
                 }
             }
         }
@@ -4436,6 +4464,7 @@ namespace Win_CBZ
                         if (!page.Closed)
                         {
                             ThumbnailPagesSlice.Add(page);
+                            
                             if (RequestThumbnailThread != null)
                             {
                                 if (!RequestThumbnailThread.IsAlive)
@@ -4911,6 +4940,16 @@ namespace Win_CBZ
                 if (page != null)
                 {
                     e.Graphics.DrawRectangle(borderPen, rectangle);
+                    if (RequestThumbnailThread != null)
+                    {
+                        if (RequestThumbnailThread.IsAlive)
+                        {
+
+                            e.Graphics.DrawImage(global::Win_CBZ.Properties.Resources.placeholder_image, new Point(center + 2, e.Bounds.Y + 4));
+                            return;
+                        }
+                    }
+
                     if (PageImages.Images.IndexOfKey(page.Id) > -1)
                     {
                         if (page.Deleted)
@@ -4928,12 +4967,15 @@ namespace Win_CBZ
 
                         if (!page.Closed)
                         {
-                            ThumbnailPagesSlice.Add(page);
+                            if (ThumbnailPagesSlice.IndexOf(page) == - 1)
+                            {
+                                ThumbnailPagesSlice.Add(page);
+                            }
+                            
                             if (RequestThumbnailThread != null)
                             {
                                 if (!RequestThumbnailThread.IsAlive)
                                 {
-
                                     RequestThumbnailSlice();
                                 }
                             }

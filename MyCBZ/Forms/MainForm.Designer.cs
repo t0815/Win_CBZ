@@ -815,7 +815,7 @@ namespace Win_CBZ
             // 
             PageImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
             PageImages.ImageSize = new System.Drawing.Size(212, 244);
-            PageImages.TransparentColor = System.Drawing.Color.Transparent;
+            PageImages.TransparentColor = System.Drawing.Color.White;
             // 
             // TabImages
             // 

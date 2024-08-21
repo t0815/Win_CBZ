@@ -11,5 +11,7 @@ namespace Win_CBZ.Data
     {
 
         public List<Page> ThumbnailPagesSlice {  get; set; }
+
+        public List<Page> ThumbnailQueue { get; set; }
     }
 }
