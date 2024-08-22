@@ -2987,17 +2987,18 @@ namespace Win_CBZ
 
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
+                    MetaDataEntry selectedEntry = row.Cells[0].Tag as MetaDataEntry;
+                    int index = Program.ProjectModel.MetaData.Remove(selectedEntry);
 
-                    int index = Program.ProjectModel.MetaData.Remove(row.Cells[0].Tag as MetaDataEntry);
+                    //AppEventHandler.OnMetaDataEntryChanged(sender, new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, selectedEntry));
 
 
-                    /*
-                    if (row.Cells[0].Value != null)
+                    if (index > -1)
                     {
-                        var key = row.Cells[0].Value.ToString();  
+                        var key = row.Cells[0].Value.ToString();
 
-                        Program.ProjectModel.MetaData.Remove(key);
-                    } */
+                        Program.ProjectModel.MetaData.Remove(index);
+                    }
                 }
             }
         }
@@ -3350,8 +3351,9 @@ namespace Win_CBZ
 
                     if (Program.ProjectModel.FileName != null)
                     {
-                        ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                        SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        AppEventHandler.OnArchiveStatusChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
+                        //ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        //SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                     }
 
                     if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
@@ -3362,19 +3364,34 @@ namespace Win_CBZ
                             r.Selected = false;
                         }
 
-                        MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
-
-                        if (e.Entry.Key == "" && e.Entry.Value == null)
+                        try
                         {
-                            //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
-                            MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
-                            MetaDataGrid.BeginEdit(false);
+                            MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
+
+                            //Program.ProjectModel.MetaData.Add(new MetaDataEntry())
+
+                            if (e.Entry.Key == "" && e.Entry.Value == null)
+                            {
+                                //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
+                                MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
+                                MetaDataGrid.CurrentCell.Tag = e.Entry;
+                                MetaDataGrid.BeginEdit(false);
+                            }
+                        } catch (Exception e1) 
+                        {
+                            AppEventHandler.OnMessageLogged(sender, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, e1.Message));
                         }
                     }
 
                     if (e.State == MetaDataEntryChangedEvent.ENTRY_DELETED)
                     {
-                        MetaDataGrid.Rows.RemoveAt(e.Index);
+                        if (e.Index > -1)
+                        {
+                            MetaDataGrid.Rows.RemoveAt(e.Index);
+                        } else
+                        {
+                            AppEventHandler.OnMessageLogged(sender, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "MainForm::MetaDataEntryChanged(), index < 0!"));
+                        }
                     }
                 }));
             }
