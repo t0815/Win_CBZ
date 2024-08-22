@@ -590,6 +590,13 @@ namespace Win_CBZ.Forms
             Pages = new List<Page>();
             Page pageList = null;
 
+            if (SelectedPages.Count > 1)
+            {
+                LoadingIndicator.BringToFront();
+                LoadingIndicator.Enabled = true;
+                LoadingIndicator.Visible = true;
+            }
+
             Task<List<Page>> loadingTask = new Task<List<Page>>(() =>
             {
                 List<Page> resultPages = new List<Page>();
@@ -897,6 +904,9 @@ namespace Win_CBZ.Forms
                     Invoke(new Action(() =>
                     {
                         ButtonOk.Enabled = true;
+                        LoadingIndicator.Enabled = false;
+                        LoadingIndicator.Visible = false;
+                        LoadingIndicator.SendToBack();
                     }));
                 }
             });
