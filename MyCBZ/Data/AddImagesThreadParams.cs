@@ -16,5 +16,9 @@ namespace Win_CBZ.Data
         public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
 
         public string[] InvalidFileNames { get; set; } = new string[0];
+
+        public string[] FilterExtensions { get; set; } = new string[0];
+
+        public int MaxCountPages { get; set; } = 0;
     }
 }

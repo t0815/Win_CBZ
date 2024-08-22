@@ -302,13 +302,16 @@ namespace Win_CBZ
                         }
                     }
 
+                    AddImagesThreadParams p = nextTask.ThreadParams as AddImagesThreadParams;
+
                     ProcessAddedFiles = new Thread(AddImagesProc);
-                    ProcessAddedFiles.Start(new AddImagesThreadParams() 
-                    { 
-                        LocalFiles = new List<LocalFile>((IEnumerable<LocalFile>)e.Data), 
+                    ProcessAddedFiles.Start(new AddImagesThreadParams()
+                    {
+                        LocalFiles = new List<LocalFile>((IEnumerable<LocalFile>)e.Data),
                         Stack = remainingStack,
                         InvalidFileNames = FilteredFileNames.ToArray(),
-                        CancelToken = CancellationTokenSourceProcessAddedFiles.Token
+                        CancelToken = CancellationTokenSourceProcessAddedFiles.Token,
+                        MaxCountPages = p.MaxCountPages,
                     });
 
                     currentPerformed = e.Task;
@@ -807,6 +810,7 @@ namespace Win_CBZ
                         else
                         {
                             MetaDataPageIndexFileMissing = true;
+                            MetaDataPageIndexMissingData = true;
                             IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                         }
@@ -1896,8 +1900,8 @@ namespace Win_CBZ
         {
             AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
 
-            int index = MaxFileIndex;
-            int realNewIndex = MaxFileIndex;
+            int index = tParams.MaxCountPages;
+            int realNewIndex = tParams.MaxCountPages;
             int total = tParams?.LocalFiles.Count ?? 0;
             int progressIndex = 0;
             bool pageError = false; 
@@ -1914,6 +1918,13 @@ namespace Win_CBZ
                     if (tParams.InvalidFileNames.Contains(localPath.Name.ToLower()))
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping file ['" + localPath.Name + "'] because of non-allowed filename!");
+
+                        continue;
+                    }
+
+                    if (tParams.FilterExtensions.Contains(localPath.Extension.ToLower()))
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping file ['" + localPath.Name + "'] because of filtered file-extension ['" + localPath.Extension.ToLower() + "']!");
 
                         continue;
                     }
@@ -2037,6 +2048,8 @@ namespace Win_CBZ
                 HasMetaData = MetaData.Exists(),
                 PageIndexVerToWrite = PageIndexVersionWriter,
                 CancelToken = CancellationTokenSourceParseAddedFileNames.Token,
+                Pages = Pages,
+                MaxCountPages = Pages.Count,
             });
         }
 
@@ -2090,6 +2103,7 @@ namespace Win_CBZ
                                 {
                                     LocalFiles = files.ToList(),
                                     PageIndexVerToWrite = tParams.PageIndexVerToWrite,
+                                    MaxCountPages = tParams.MaxCountPages,
                                 }
                             },
                             new StackItem
@@ -2099,6 +2113,7 @@ namespace Win_CBZ
                                 {
                                     ContinuePipeline = true,
                                     InitialIndexRebuild = false,
+                                    Pages = tParams.Pages,
                                 }
                             }
                         };

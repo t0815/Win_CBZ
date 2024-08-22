@@ -2563,8 +2563,9 @@ namespace Win_CBZ
 
                             Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)changedItem.Tag, ((Page)changedItem.Tag).Key);
 
-                            AppEventHandler.OnPageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
-                            AppEventHandler.OnArchiveStatusChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                            // dont fire events again!
+                            //AppEventHandler.OnPageChanged(sender, new PageChangedEvent(((Page)changedItem.Tag), null, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                            //AppEventHandler.OnArchiveStatusChanged(sender, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                         }
                         catch (PageDuplicateNameException eduplicate)
                         {
@@ -2661,7 +2662,7 @@ namespace Win_CBZ
                 NewIndex = newIndex,
                 Items = items,
                 PageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
-                CancelToken = CancellationTokenSourceMoveItems.Token
+                CancelToken = CancellationTokenSourceMoveItems.Token,
             });
 
         }

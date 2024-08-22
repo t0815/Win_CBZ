@@ -1,6 +1,6 @@
 # Win_CBZ
 
-![Screenshot](/meta/Screenshot.jpg)
+![Screenshot](/meta/Screenshot.png)
 
 ## Author
 
@@ -48,7 +48,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.19.149b released!
+v0.19.150b released!
 
 ## Third party components
 

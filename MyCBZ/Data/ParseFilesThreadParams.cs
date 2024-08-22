@@ -16,6 +16,10 @@ namespace Win_CBZ.Data
 
         public bool HasMetaData { get; set; }
 
+        public int MaxCountPages { get; set; } = 0;
+
+        public List<Page> Pages { get; set; }
+
         public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
 
         public bool ContinuePipeline { get; set; }
