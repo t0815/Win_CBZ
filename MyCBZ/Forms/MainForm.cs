@@ -337,7 +337,7 @@ namespace Win_CBZ
                     RadioApplyAdjustmentsGlobal.Checked = true;
                     selectedImageTasks = new ImageTask("");
                     UpdateImageAdjustments(null, "<Global>");
-                    ClearLog();                   
+                    ClearLog();
                 }
                 catch (ConcurrentOperationException c)
                 {
@@ -391,7 +391,7 @@ namespace Win_CBZ
             {
                 recentPath = new LocalFile(OpenCBFDialog.FileName);
                 Win_CBZSettings.Default.RecentOpenArchivePath = recentPath.FilePath;
-                
+
                 Task followTask = new Task(() =>
                 {
                     RadioApplyAdjustmentsGlobal.Checked = true;
@@ -401,6 +401,8 @@ namespace Win_CBZ
                     {
                         Invoke(new Action(() =>
                         {
+                            TextBoxExcludePagesImageProcessing.Text = "";
+                            RenamerExcludePages.Text = "";
                             UpdateImageAdjustments(sender, "<Global>");
                         }));
                         ClearLog();
@@ -522,6 +524,7 @@ namespace Win_CBZ
                 {
                     if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED)
                     {
+                        int oldExcludeNameIndex = -1;
                         ListViewItem item;
                         ListViewItem insertAt = null;
                         ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Page);
@@ -529,6 +532,8 @@ namespace Win_CBZ
                         {
                             insertAt = FindListViewItemForPage(PagesList, e.OldValue as Page);
                         }
+
+                        oldExcludeNameIndex = Array.IndexOf(TextBoxExcludePagesImageProcessing.Lines, e.Page.OriginalName);
 
 
                         if (existingItem == null)
@@ -977,7 +982,7 @@ namespace Win_CBZ
                     {
                         //threads.Add(RequestThumbnailThread);
                         //RequestThumbnailThread.Join();
-                        return; 
+                        return;
                     }
                 }
 
@@ -1019,7 +1024,7 @@ namespace Win_CBZ
 
                 if (!WindowClosed)
                 {
-                    
+
                     //PageImages.Images.Clear();
                     try
                     {
@@ -1028,7 +1033,7 @@ namespace Win_CBZ
                             try
                             {
                                 if (!page.Closed)
-                                {                     
+                                {
                                     if (!PageImages.Images.ContainsKey(page.Id))
                                     {
                                         PageImages.Images.Add(page.Id, page.GetThumbnail());
@@ -1043,15 +1048,16 @@ namespace Win_CBZ
                                             page.ThumbnailInvalidated = false;
                                         }
                                     }
-                                   
+
                                     if (updateRequired)
                                     {
                                         PageThumbsListBox.Invoke(new Action(() =>
                                         {
                                             indexToUpdate = PageThumbsListBox.Items.IndexOf(page);
-                                            if (indexToUpdate > -1) {
+                                            if (indexToUpdate > -1)
+                                            {
                                                 PageThumbsListBox.Items[indexToUpdate] = page;
-                                                
+
                                             }
                                         }));
                                     }
@@ -1135,7 +1141,7 @@ namespace Win_CBZ
                     PageThumbsListBox.Invoke(new Action(() =>
                     {
                         PageThumbsListBox.Invalidate();
-                    }));                  
+                    }));
                 }
             }
         }
@@ -2285,6 +2291,8 @@ namespace Win_CBZ
                         MainToolStripProgressBar.Value = 0;
 
                         ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
+                        TextBoxExcludePagesImageProcessing.Text = "";
+                        RenamerExcludePages.Text = "";
 
                         //ClearProject();
                         NewProject();
@@ -2300,7 +2308,8 @@ namespace Win_CBZ
                     MainToolStripProgressBar.Value = 0;
 
                     ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
-
+                    TextBoxExcludePagesImageProcessing.Text = "";
+                    RenamerExcludePages.Text = "";
 
                     //ClearProject();
                     NewProject();
@@ -4478,7 +4487,7 @@ namespace Win_CBZ
                         if (!page.Closed)
                         {
                             ThumbnailPagesSlice.Add(page);
-                            
+
                             if (RequestThumbnailThread != null)
                             {
                                 if (!RequestThumbnailThread.IsAlive)
@@ -4981,11 +4990,11 @@ namespace Win_CBZ
 
                         if (!page.Closed)
                         {
-                            if (ThumbnailPagesSlice.IndexOf(page) == - 1)
+                            if (ThumbnailPagesSlice.IndexOf(page) == -1)
                             {
                                 ThumbnailPagesSlice.Add(page);
                             }
-                            
+
                             if (RequestThumbnailThread != null)
                             {
                                 if (!RequestThumbnailThread.IsAlive)
@@ -5521,7 +5530,7 @@ namespace Win_CBZ
             {
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-              
+
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
 
                 if (TextBoxResizeW.Text.Length > 0)
@@ -5534,7 +5543,7 @@ namespace Win_CBZ
                     {
                         w = oldValue.Value;
                     }
-                   
+
                 }
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
@@ -5544,7 +5553,7 @@ namespace Win_CBZ
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(Program.ProjectModel, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
-            }            
+            }
         }
 
         private void TextBoxResizeH_TextChanged(object sender, EventArgs e)
@@ -5690,7 +5699,19 @@ namespace Win_CBZ
 
         private void GetImageProcessExcludesFromSelectedButton_Click(object sender, EventArgs e)
         {
+            List<String> excludes = new List<String>();
+            foreach (ListViewItem item in PagesList.SelectedItems)
+            {
+                excludes.Add(((Page)item.Tag).Name);
+            }
 
+            TextBoxExcludePagesImageProcessing.Lines = excludes.ToArray();
+        }
+
+        private void TextBoxExcludePagesImageProcessing_TextChanged(object sender, EventArgs e)
+        {
+            Program.ProjectModel.ConversionExcludes.Clear();
+            Program.ProjectModel.ConversionExcludes.AddRange(TextBoxExcludePagesImageProcessing.Lines);
         }
     }
 }

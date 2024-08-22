@@ -92,6 +92,8 @@ namespace Win_CBZ
 
         public ArrayList RenamerExcludes { get; set; }
 
+        public ArrayList ConversionExcludes { get; set; }
+
         public List<string> FilteredFileNames { get; set; }
 
         public bool PreloadPageImages { get; set; }
@@ -179,6 +181,7 @@ namespace Win_CBZ
             Pages = new List<Page>();
             RenamerExcludes = new ArrayList();
             FilteredFileNames = new List<string>();
+            ConversionExcludes = new ArrayList();
             GlobalImageTask = new ImageTask("");
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
@@ -969,6 +972,7 @@ namespace Win_CBZ
                             ContinuePipeline = true,
                             CancelToken = CancellationTokenSourceSaveArchive.Token,
                             Pages = Pages,
+                            SkipPages = ConversionExcludes.Cast<String>().ToArray(),
                         }
                     },
                     new StackItem()
@@ -2296,6 +2300,34 @@ namespace Win_CBZ
             return pages;
         }
 
+        public Page GetPageByHash(String hash)
+        {
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Hash == hash)
+                {
+                    return page1;
+                }
+            }
+
+            return null;
+        }
+
+        public List<Page> GetPagesByHash(String hash)
+        {
+            List<Page> pages = new List<Page>();
+
+            foreach (Page page1 in Pages)
+            {
+                if (page1.Hash == hash)
+                {
+                    pages.Add(page1);
+                }
+            }
+
+            return pages;
+        }
+
         public Page GetNextAvailablePage(int index, int direction = 1)
         {
             int startIndex = index;
@@ -2539,11 +2571,13 @@ namespace Win_CBZ
 
             if (!page.Name.Equals(name))
             {
+                page.OriginalName = page.Name;
                 page.Name = name;
                 if (MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion() == PageIndexVersion.VERSION_2)
                 {
                     page.Key = name;
                 }
+                page.Renamed = true;
                 IsChanged = true;
 
                 AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_RENAMED));
