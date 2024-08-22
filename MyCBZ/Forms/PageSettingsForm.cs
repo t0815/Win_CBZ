@@ -56,13 +56,7 @@ namespace Win_CBZ.Forms
         {
             FirstPage?.FreeImage();
 
-            foreach (Page page in Pages)
-            {
-                page.FreeImage();
-                page.IsMemoryCopy = false;
-
-            }
-
+            FreeResult();
         }
 
         private bool ThumbAbort()
@@ -77,19 +71,28 @@ namespace Win_CBZ.Forms
 
         public void FreeResult()
         {
-            foreach (Page page in Pages)
+            Task<bool> freeResultTask = new Task<bool>(() =>
             {
-                try
-                {
-                    page.FreeImage();
-                }
-                catch (ApplicationException ex)
-                {
+                bool result = true;
 
+                foreach (Page page in Pages)
+                {
+                    try
+                    {
+                        page.FreeImage();
+                        page.IsMemoryCopy = false;
+                    }
+                    catch (ApplicationException ex)
+                    {
+                        result = false;
+                    }
                 }
-                //page.DeleteTemporaryFile();
 
-            }
+                return result;
+
+            });
+
+            freeResultTask.Start();
         }
 
         private void PageNameTextBox_TextChanged(object sender, EventArgs e)
@@ -252,12 +255,12 @@ namespace Win_CBZ.Forms
 
                     // Transform the XML data
                     MemoryStream ms = new MemoryStream();
-            
+
                     xTrans.Transform(xReader, null, ms);
 
                     ms.Position = 0;
                     // Set to the document stream
-            
+
                     TextReader tr = new StreamReader(ms);
 
                     string xml = tr.ReadToEnd();
@@ -587,31 +590,327 @@ namespace Win_CBZ.Forms
             Pages = new List<Page>();
             Page pageList = null;
 
-            try
+            Task<List<Page>> loadingTask = new Task<List<Page>>(() =>
             {
+                List<Page> resultPages = new List<Page>();
+
                 foreach (Page p in SelectedPages)
                 {
                     bool realMemoryCopyState = p.IsMemoryCopy;
                     pageList = new Page(p, true, false);
+                    pageList.UpdatePageAttributes(p);
 
-                    Pages.Add(pageList);
                     pageList.IsMemoryCopy = realMemoryCopyState;
+                    resultPages.Add(pageList);
+
                     //p.FreeImage();
                 }
-            }
-            catch (Exception ex)
+
+                return resultPages;
+            });
+
+            Task<Tuple<Page, Bitmap, List<Page>>> loadFirstPageTask = loadingTask.ContinueWith<Tuple<Page, Bitmap, List<Page>>>(t =>
             {
-                ApplicationMessage.ShowException(ex);
 
-                ButtonOk.Enabled = false;
+                if (t.IsCompletedSuccessfully)
+                {
+                    if (t.Result != null && t.Result.Count > 0)
+                    {
 
-                return;
-            }
+                        FirstPage = new Page(SelectedPages[0], true);   // todo: maybe use memory copy here too and just set real memorycopy state
+
+                        if (SelectedPages.Count == 1)
+                        {
+                            return Tuple.Create<Page, Bitmap, List<Page>>(FirstPage, FirstPage.GetThumbnailBitmap(), t.Result);
+                        }
+                        else
+                        {
+                            return Tuple.Create<Page, Bitmap, List<Page>>(FirstPage, null, t.Result);
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+
+                return Tuple.Create<Page, Bitmap, List<Page>>(null, null, t.Result);
+            });
+
+            Task<bool> uddateImageMetadata = loadFirstPageTask.ContinueWith(t =>
+            {
+                try
+                {
+                    if (t.IsCompletedSuccessfully)
+                    {
+                        FirstPage = t.Result.Item1;
+                        Pages = t.Result.Item3;
+
+                        if (t.Result.Item2 != null)
+                        {
+                            Invoke(new Action(() =>
+                            {
+                                ImagePreviewButton.BackgroundImage = Image.FromHbitmap(t.Result.Item2.GetHbitmap());
+
+                                LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";
+                                LabelDpi.Text = FirstPage.Format.DPI.ToString();
+                                LabelImageFormat.Text = FirstPage.Format.Name;
+                                if (FirstPage.Format?.ColorPalette != null)
+                                {
+                                    LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
+                                }
+                            }));
+                        }
+                        
+                        bool deletedState = false;
+                        bool doublePageState = false;
+                        bool compressedState = false;
+
+                        if (t.Result.Item3.Count == 1)
+                        {
+                            if (t.Result.Item1 == null)
+                            {
+                                FirstPage = new Page();
+                                ButtonOk.Enabled = false;
+                            }
+
+                            if (FirstPage.LocalFile != null && FirstPage.LocalFile.Exists())
+                            {
+                                if (!FirstPage.Compressed)
+                                {
+                                    imageLocation = FirstPage.LocalFile.FilePath;
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
+                                        imageLocation = "\\\\" + entry.Name;
+                                    }
+                                    catch
+                                    {
+                                        imageLocation = "?\\" + FirstPage.Name;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (!FirstPage.IsMemoryCopy && FirstPage.TemporaryFile != null && FirstPage.TemporaryFile.Exists())
+                                {
+                                    imageLocation = FirstPage.TemporaryFile.FilePath;
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
+                                        imageLocation = "\\\\" + entry.Name;
+                                    }
+                                    catch (Exception eentry)
+                                    {
+                                        imageLocation = "?\\" + FirstPage.Name;
+                                    }
+                                }
+                            }
+
+                            Invoke(new Action(() =>
+                            {
+
+                                ComboBoxPageType.Text = FirstPage.ImageType;
+                                TextBoxFileLocation.Text = imageLocation;
+                                PageNameTextBox.Text = FirstPage.Name;
+                                LabelSize.Text = FirstPage.SizeFormat();
+                                PageIndexTextbox.Text = (FirstPage.Index + 1).ToString();
+                                CheckBoxPageDeleted.Checked = FirstPage.Deleted;
 
 
-            bool deletedState = false;
-            bool doublePageState = false;
-            bool compressedState = false;
+                                if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == MetaData.PageIndexVersion.VERSION_2)
+                                {
+                                    textBoxKey.Text = FirstPage.Key;
+                                    textBoxKey.Enabled = true;
+                                    ButtonNewKey.Enabled = true;
+                                    label10.Enabled = true;
+                                }
+                                else
+                                {
+                                    textBoxKey.Text = "";
+                                    textBoxKey.Enabled = false;
+                                    ButtonNewKey.Enabled = false;
+                                    label10.Enabled = false;
+                                }
+
+                                CheckBoxDoublePage.Checked = FirstPage.DoublePage;
+                                IsCompressedLabel.Text = FirstPage.Compressed ? "Yes" : "No";
+                            }));
+                        }
+                        else
+                        {
+                            Invoke(new Action(() =>
+                            {
+                                PageIndexTextbox.Enabled = false;
+                                PageNameTextBox.Enabled = false;
+                                textBoxKey.Enabled = false;
+
+                                if (SelectedPages.Count > 1)
+                                {
+                                    ImagePreviewButton.Text = "[" + SelectedPages.Count.ToString() + " Pages]";
+                                    ImagePreviewButton.BackgroundImage = null;
+                                }
+
+                                textBoxKey.Text = "";
+                                LabelDimensions.Text = "Multiple dimensions";
+                                LabelDpi.Text = "Multiple";
+                                LabelImageFormat.Text = "Multiple formats";
+                                TextBoxFileLocation.Text = "";
+
+                                foreach (Page page in SelectedPages)
+                                {
+
+                                    if (deletedState != page.Deleted)
+                                    {
+                                        countDeletedStates++;
+                                        deletedState = page.Deleted;
+                                    }
+
+                                    if (compressedState != page.Compressed)
+                                    {
+                                        countCompressedStates++;
+                                        compressedState = page.Compressed;
+                                    }
+
+                                    if (doublePageState != page.DoublePage)
+                                    {
+                                        countDoublePageStates++;
+                                        doublePageState = page.DoublePage;
+                                    }
+
+                                    if (typesList.IndexOf(page.Format.Name) == -1)
+                                    {
+                                        typesList.Add(page.Format.Name);
+                                    }
+
+                                    if (dpiList.IndexOf(page.Format.DPI.ToString()) == -1)
+                                    {
+                                        dpiList.Add(page.Format.DPI.ToString());
+                                    }
+
+                                    if (dimensionsList.IndexOf(page.Format.W.ToString() + " x " + page.Format.H.ToString()) == -1)
+                                    {
+                                        dimensionsList.Add(page.Format.W.ToString() + " x " + page.Format.H.ToString());
+                                    }
+
+                                    if (imageTypeList.IndexOf(page.ImageType) == -1)
+                                    {
+                                        imageTypeList.Add(page.ImageType);
+                                    }
+
+                                    totalSize += page.Size;
+                                }
+
+                                LabelSize.Text = Program.ProjectModel.SizeFormat(totalSize);
+
+
+                                if (typesList.Count == 1)
+                                {
+                                    LabelImageFormat.Text = typesList[0].ToString();
+                                }
+
+                                if (imageTypeList.Count == 1)
+                                {
+                                    ComboBoxPageType.Text = imageTypeList[0].ToString();
+                                }
+
+                                if (dimensionsList.Count == 1)
+                                {
+                                    LabelDimensions.Text = dimensionsList[0].ToString();
+                                }
+
+                                if (dpiList.Count == 1)
+                                {
+                                    LabelDpi.Text = dpiList[0].ToString();
+                                }
+
+                                if (countCompressedStates < 2)
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+
+                                if (countDeletedStates < 2)
+                                {
+                                    CheckBoxPageDeleted.Checked = deletedState;
+                                }
+                                else
+                                {
+                                    CheckBoxPageDeleted.CheckState = CheckState.Indeterminate;
+                                }
+
+                                if (countDoublePageStates < 2)
+                                {
+                                    CheckBoxDoublePage.Checked = doublePageState;
+                                }
+                                else
+                                {
+                                    CheckBoxDoublePage.CheckState = CheckState.Indeterminate;
+                                }
+                            }));
+                        }
+                    }
+                    else
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            //ButtonOk.Enabled = false;
+                            if ((t.Exception.InnerException as ApplicationException).ShowErrorDialog)
+                            {
+                                ApplicationMessage.ShowException(t.Exception);
+                            }
+                        }));
+
+                        return false;
+                    }
+                }
+                catch (Exception ee)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        ApplicationMessage.ShowException(ee);
+                    }));
+
+                    return false;
+                }
+                finally
+                {
+                    FirstPage.FreeImage();
+                }
+
+                return true;
+            });
+
+            Task finalTask = uddateImageMetadata.ContinueWith(t =>
+            {
+                if (t.IsCompletedSuccessfully && t.Result)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        ButtonOk.Enabled = true;
+                    }));
+                }
+            });
+
+
+            loadingTask.Start();
+
+            //////
+            ///
+
+            return;
+
+
+
 
             if (SelectedPages != null && SelectedPages.Count > 0)
             {
@@ -671,198 +970,12 @@ namespace Win_CBZ.Forms
 
                     imageTask.Start();
                 }
-            
+
                 // 
 
                 //PreviewThumbPictureBox.Image = PreviewThumb;
 
-                if (SelectedPages.Count == 1)
-                {
-                    if (FirstPage == null)
-                    {
-                        FirstPage = new Page();
-                        ButtonOk.Enabled = false;
-                    }
 
-                    if (FirstPage.LocalFile != null && FirstPage.LocalFile.Exists())
-                    {
-                        if (!FirstPage.Compressed)
-                        {
-                            imageLocation = FirstPage.LocalFile.FilePath;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
-                                imageLocation = "\\\\" + entry.Name;
-                            }
-                            catch
-                            {
-                                imageLocation = "?\\" + FirstPage.Name;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!FirstPage.IsMemoryCopy && FirstPage.TemporaryFile != null && FirstPage.TemporaryFile.Exists())
-                        {
-                            imageLocation = FirstPage.TemporaryFile.FilePath;
-                        }
-                        else
-                        {
-                            try
-                            {
-                                ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
-                                imageLocation = "\\\\" + entry.Name;
-                            }
-                            catch (Exception eentry)
-                            {
-                                imageLocation = "?\\" + FirstPage.Name;
-                            }
-                        }
-                    }
-
-                    ComboBoxPageType.Text = FirstPage.ImageType;
-                    TextBoxFileLocation.Text = imageLocation;
-                    PageNameTextBox.Text = FirstPage.Name;
-                    LabelSize.Text = FirstPage.SizeFormat();
-                    PageIndexTextbox.Text = (FirstPage.Index + 1).ToString();
-                    CheckBoxPageDeleted.Checked = FirstPage.Deleted;
-                    
-
-                    if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == MetaData.PageIndexVersion.VERSION_2)
-                    {
-                        textBoxKey.Text = FirstPage.Key;
-                        textBoxKey.Enabled = true;
-                        ButtonNewKey.Enabled = true;
-                        label10.Enabled = true;
-                    }
-                    else
-                    {
-                        textBoxKey.Text = "";
-                        textBoxKey.Enabled = false;
-                        ButtonNewKey.Enabled = false;
-                        label10.Enabled = false;
-                    }
-
-                    CheckBoxDoublePage.Checked = FirstPage.DoublePage;
-                    IsCompressedLabel.Text = FirstPage.Compressed ? "Yes" : "No";
-                }
-                else
-                {
-                    PageIndexTextbox.Enabled = false;
-                    PageNameTextBox.Enabled = false;
-                    textBoxKey.Enabled = false;
-
-                    if (SelectedPages.Count > 1)
-                    {
-                        ImagePreviewButton.Text = "[" + SelectedPages.Count.ToString() + " Pages]";
-                        ImagePreviewButton.BackgroundImage = null;
-                    }
-
-                    textBoxKey.Text = "";
-                    LabelDimensions.Text = "Multiple dimensions";
-                    LabelDpi.Text = "Multiple";
-                    LabelImageFormat.Text = "Multiple formats";
-                    TextBoxFileLocation.Text = "";
-
-                    foreach (Page page in SelectedPages)
-                    {
-
-                        if (deletedState != page.Deleted)
-                        {
-                            countDeletedStates++;
-                            deletedState = page.Deleted;
-                        }
-
-                        if (compressedState != page.Compressed)
-                        {
-                            countCompressedStates++;
-                            compressedState = page.Compressed;
-                        }
-
-                        if (doublePageState != page.DoublePage)
-                        {
-                            countDoublePageStates++;
-                            doublePageState = page.DoublePage;
-                        }
-
-                        if (typesList.IndexOf(page.Format.Name) == -1)
-                        {
-                            typesList.Add(page.Format.Name);
-                        }
-
-                        if (dpiList.IndexOf(page.Format.DPI.ToString()) == -1)
-                        {
-                            dpiList.Add(page.Format.DPI.ToString());
-                        }
-
-                        if (dimensionsList.IndexOf(page.Format.W.ToString() + " x " + page.Format.H.ToString()) == -1)
-                        {
-                            dimensionsList.Add(page.Format.W.ToString() + " x " + page.Format.H.ToString());
-                        }
-
-                        if (imageTypeList.IndexOf(page.ImageType) == -1)
-                        {
-                            imageTypeList.Add(page.ImageType);
-                        }
-
-                        totalSize += page.Size;
-                    }
-
-                    LabelSize.Text = Program.ProjectModel.SizeFormat(totalSize);
-
-
-                    if (typesList.Count == 1)
-                    {
-                        LabelImageFormat.Text = typesList[0].ToString();
-                    }
-
-                    if (imageTypeList.Count == 1)
-                    {
-                        ComboBoxPageType.Text = imageTypeList[0].ToString();
-                    }
-
-                    if (dimensionsList.Count == 1)
-                    {
-                        LabelDimensions.Text = dimensionsList[0].ToString();
-                    }
-
-                    if (dpiList.Count == 1)
-                    {
-                        LabelDpi.Text = dpiList[0].ToString();
-                    }
-
-                    if (countCompressedStates < 2)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
-
-                    if (countDeletedStates < 2)
-                    {
-                        CheckBoxPageDeleted.Checked = deletedState;
-                    }
-                    else
-                    {
-                        CheckBoxPageDeleted.CheckState = CheckState.Indeterminate;
-                    }
-
-                    if (countDoublePageStates < 2)
-                    {
-                        CheckBoxDoublePage.Checked = doublePageState;
-                    }
-                    else
-                    {
-                        CheckBoxDoublePage.CheckState = CheckState.Indeterminate;
-                    }
-
-
-                }
             }
 
         }

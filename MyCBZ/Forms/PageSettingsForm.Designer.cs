@@ -228,6 +228,7 @@
             // 
             ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            ButtonOk.Enabled = false;
             ButtonOk.Location = new System.Drawing.Point(477, 636);
             ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonOk.Name = "ButtonOk";
@@ -357,7 +358,7 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(427, 640);
+            tableLayoutPanel1.Size = new System.Drawing.Size(406, 640);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // label3
@@ -501,7 +502,7 @@
             label8.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label8.AutoSize = true;
             label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label8.Location = new System.Drawing.Point(351, 48);
+            label8.Location = new System.Drawing.Point(330, 48);
             label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -513,7 +514,7 @@
             // LabelBits
             // 
             LabelBits.AutoSize = true;
-            LabelBits.Location = new System.Drawing.Point(386, 48);
+            LabelBits.Location = new System.Drawing.Point(365, 48);
             LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelBits.Name = "LabelBits";
             LabelBits.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -527,7 +528,7 @@
             label7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label7.AutoSize = true;
             label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label7.Location = new System.Drawing.Point(347, 96);
+            label7.Location = new System.Drawing.Point(326, 96);
             label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -539,7 +540,7 @@
             // LabelImageColors
             // 
             LabelImageColors.AutoSize = true;
-            LabelImageColors.Location = new System.Drawing.Point(386, 96);
+            LabelImageColors.Location = new System.Drawing.Point(365, 96);
             LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelImageColors.Name = "LabelImageColors";
             LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -725,7 +726,7 @@
             // 
             pictureBox2.Image = Properties.Resources.information;
             pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(345, 288);
+            pictureBox2.Location = new System.Drawing.Point(324, 288);
             pictureBox2.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new System.Drawing.Size(23, 29);
@@ -737,7 +738,7 @@
             // ButtonReloadImage
             // 
             ButtonReloadImage.Image = Properties.Resources.arrow_circle2;
-            ButtonReloadImage.Location = new System.Drawing.Point(385, 4);
+            ButtonReloadImage.Location = new System.Drawing.Point(364, 4);
             ButtonReloadImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             ButtonReloadImage.Name = "ButtonReloadImage";
             ButtonReloadImage.Size = new System.Drawing.Size(32, 29);
