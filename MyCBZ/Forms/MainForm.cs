@@ -524,17 +524,43 @@ namespace Win_CBZ
                 {
                     if (e.State != PageChangedEvent.IMAGE_STATUS_CLOSED)
                     {
-                        int oldExcludeNameIndex = -1;
+                        
                         ListViewItem item;
                         ListViewItem insertAt = null;
                         ListViewItem existingItem = FindListViewItemForPage(PagesList, e.Page);
-                        if (e.OldValue != null)
+                        if (e.OldValue != null && e.State != PageChangedEvent.IMAGE_STATUS_RENAMED)
                         {
                             insertAt = FindListViewItemForPage(PagesList, e.OldValue as Page);
                         }
 
-                        oldExcludeNameIndex = Array.IndexOf(TextBoxExcludePagesImageProcessing.Lines, e.Page.OriginalName);
+                        if (e.State == PageChangedEvent.IMAGE_STATUS_RENAMED)
+                        {
+                            TextBoxExcludePagesImageProcessing.Invoke(new Action(() =>
+                            {
+                                List<string> lines = TextBoxExcludePagesImageProcessing.Lines.ToList();
 
+                                int oldExcludeNameIndex = Array.IndexOf(TextBoxExcludePagesImageProcessing.Lines, (e.OldValue as Page).Name);
+                                if (oldExcludeNameIndex > -1)
+                                {
+                                    lines[oldExcludeNameIndex] = e.Page.Name;
+
+                                    TextBoxExcludePagesImageProcessing.Lines = lines.ToArray();
+                                }
+                            }));
+
+                            RenamerExcludePages.Invoke(new Action(() =>
+                            {
+                                List<string> lines = TextBoxExcludePagesImageProcessing.Lines.ToList();
+
+                                int oldExcludeNameIndex = Array.IndexOf(RenamerExcludePages.Lines, (e.OldValue as Page).Name);
+                                if (oldExcludeNameIndex > -1)
+                                {
+                                    lines[oldExcludeNameIndex] = e.Page.Name;
+
+                                    RenamerExcludePages.Lines = lines.ToArray();
+                                }
+                            }));
+                        }
 
                         if (existingItem == null)
                         {

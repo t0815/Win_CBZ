@@ -2543,6 +2543,9 @@ namespace Win_CBZ
         
         public void RenamePage(Page page, String name, bool ignoreDuplicates = false, bool showErrors = false)
         {
+            Page originalPage = new Page();
+            originalPage.UpdatePageAttributes(page);
+
             if (name == null || name == "")
             {
                 throw new PageException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! The new name must not be NULL.", showErrors);
@@ -2580,7 +2583,7 @@ namespace Win_CBZ
                 page.Renamed = true;
                 IsChanged = true;
 
-                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_RENAMED));
+                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, originalPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
                 AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
             }          
         }
