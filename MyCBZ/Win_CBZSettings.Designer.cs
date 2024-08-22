@@ -56,7 +56,6 @@ namespace Win_CBZ {
   <string>{index}</string>
   <string>{size}</string>
   <string>{number}</string>
-  <string>{month}</string>
   <string>{year}</string>
   <string>{month}</string>
   <string>{day}</string>

@@ -2581,6 +2581,9 @@ namespace Win_CBZ
                 case "{name}":
                     return page.EntryName;
 
+                case "{title}":
+                    return MetaData.ValueForKey("Title");
+
                 case "{ext}":
                     return page.FileExtension.TrimStart('.');
 
