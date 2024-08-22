@@ -18,9 +18,9 @@ namespace Win_CBZ
 
         public ItemExtractedEvent(int index, int total, String file)
         {
-            this.Index = index;
-            this.Total = total;
-            this.LocalFile = file;
+            Index = index;
+            Total = total;
+            LocalFile = file;
         }   
     }
 }

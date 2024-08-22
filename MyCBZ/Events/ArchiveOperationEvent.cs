@@ -28,11 +28,11 @@ namespace Win_CBZ
 
         public ArchiveOperationEvent(int operation, int status, int completed, int total, Page image)
         {
-            this.Operation = operation;
-            this.Status = status;   
-            this.Image = image;
-            this.Completed = completed;
-            this.Total = total;
+            Operation = operation;
+            Status = status;   
+            Image = image;
+            Completed = completed;
+            Total = total;
         }   
     }
 }

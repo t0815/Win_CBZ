@@ -9,9 +9,9 @@ namespace Win_CBZ
     internal class ClipboardChangedEvent
     {
 
-        public List<Page> Pages;
+        public List<Page> Pages { get; set; }
 
-        public bool ShowErrorsDialog = false;
+        public bool ShowErrorsDialog { get; set; } = false;
 
         public ClipboardChangedEvent(List<Page> copiedPages, bool showError = false) 
         {

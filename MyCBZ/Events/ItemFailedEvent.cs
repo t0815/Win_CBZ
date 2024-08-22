@@ -9,18 +9,18 @@ namespace Win_CBZ
     internal class ItemFailedEvent
     {
 
-        public int index { get; set; }  
+        public int Index { get; set; }  
 
-        public String message { get; set; }  
+        public String Message { get; set; }  
 
-        public Page image { get; set; }
+        public Page Image { get; set; }
 
 
         public ItemFailedEvent(int index, String message, Page image)
         {
-            this.index = index;
-            this.message = message;
-            this.image = image;
+            Index = index;
+            Message = message;
+            Image = image;
         }   
     }
 }

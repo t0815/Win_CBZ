@@ -33,16 +33,16 @@ namespace Win_CBZ
 
         public ApplicationStatusEvent(ProjectModel project, int state)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
+            ArchiveInfo = project;
+            State = state;
 
         }
 
         public ApplicationStatusEvent(ProjectModel project, int state, CBZArchiveStatusEvent.Operation callback)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
-            this.Callback = callback;
+            ArchiveInfo = project;
+            State = state;
+            Callback = callback;
         }   
     }
 }
