@@ -28,7 +28,7 @@ namespace Win_CBZ.Tasks
                 Page secondPage = null;
                 string convertFormatName = null;
 
-                AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(null, ApplicationStatusEvent.STATE_PROCESSING));
+                AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
 
                 foreach (Page page in pages)
                 {

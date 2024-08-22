@@ -28,7 +28,7 @@ namespace Win_CBZ
         public delegate void Operation();
 
 
-        public CBZArchiveStatusEvent.Operation Callback;
+        public CBZArchiveStatusEvent.Operation Callback { get; set; }
 
 
         public ApplicationStatusEvent(ProjectModel project, int state)

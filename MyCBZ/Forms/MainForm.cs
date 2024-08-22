@@ -334,9 +334,10 @@ namespace Win_CBZ
                 try
                 {
                     Program.ProjectModel.New();
-                    ClearLog();
-
-                    selectedImageTasks = Program.ProjectModel.GlobalImageTask;
+                    RadioApplyAdjustmentsGlobal.Checked = true;
+                    selectedImageTasks = new ImageTask("");
+                    UpdateImageAdjustments(null, "<Global>");
+                    ClearLog();                   
                 }
                 catch (ConcurrentOperationException c)
                 {
@@ -390,10 +391,20 @@ namespace Win_CBZ
             {
                 recentPath = new LocalFile(OpenCBFDialog.FileName);
                 Win_CBZSettings.Default.RecentOpenArchivePath = recentPath.FilePath;
-
+                
                 Task followTask = new Task(() =>
                 {
-                    ClearLog();
+                    RadioApplyAdjustmentsGlobal.Checked = true;
+                    selectedImageTasks = new ImageTask("");
+
+                    if (!WindowClosed)
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            UpdateImageAdjustments(sender, "<Global>");
+                        }));
+                        ClearLog();
+                    }
                 });
 
                 Task finalTask = new Task(() =>
@@ -420,6 +431,7 @@ namespace Win_CBZ
 
             if (saveDialogResult == DialogResult.OK)
             {
+                PagesList.SelectedItem = null;
                 if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()))
                 {
                     recentPath = new LocalFile(SaveArchiveDialog.FileName);

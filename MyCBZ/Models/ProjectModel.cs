@@ -37,6 +37,7 @@ using System.Runtime.InteropServices.ComTypes;
 using static Win_CBZ.MetaData;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
+using SharpCompress.Compressors.Xz;
 
 namespace Win_CBZ
 {
@@ -363,11 +364,13 @@ namespace Win_CBZ
                         imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                         imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                         {
+                            AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
 
                             if (r.IsCompletedSuccessfully)
                             {
                                 // update pages with results
                                 Page page = null;
+                                int index = 1;
 
                                 foreach (Page resultPage in r.Result.Pages)
                                 {
@@ -388,6 +391,8 @@ namespace Win_CBZ
                                         page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                         page.ImageTask.ImageAdjustments.ConvertType = 0;
 
+                                        resultPage.Close();
+
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                     }
                                     else
@@ -396,6 +401,10 @@ namespace Win_CBZ
 
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                     }
+
+                                    AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
+
+                                    index++;
                                 }
 
                                 // if (currentPerformed != e.Task)
@@ -405,6 +414,10 @@ namespace Win_CBZ
                                     nextTask = remainingStack[0];
 
                                     AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                }
+                                else
+                                {
+                                    AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                                 }
                                 // }
                             } else
@@ -425,11 +438,15 @@ namespace Win_CBZ
                             imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                             imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                             {
+
+                                AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
+
                                 //
                                 if (r.IsCompletedSuccessfully)
                                 {
 
                                     Page page = null;
+                                    int index = 1;
 
                                     foreach (Page resultPage in r.Result.Pages)
                                     {
@@ -446,6 +463,8 @@ namespace Win_CBZ
                                             page.ImageTask.ImageAdjustments.SplitPage = false;
                                             page.ImageTask.ImageAdjustments.ResizeMode = -1;
 
+                                            resultPage.Close();
+
                                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                         }
                                         else
@@ -454,7 +473,9 @@ namespace Win_CBZ
 
                                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                         }
+                                        AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
 
+                                        index++;
                                     }
 
                                     //if (currentPerformed != e.Task)
@@ -464,6 +485,9 @@ namespace Win_CBZ
                                         nextTask = remainingStack[0];
 
                                         AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                    } else
+                                    {
+                                        AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                                     }
                                 }
                                 else
@@ -787,7 +811,7 @@ namespace Win_CBZ
                         Pages.Add(page);
 
                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                        AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
+                        
                         AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, index, countEntries));
 
                         totalSize += page.Size;

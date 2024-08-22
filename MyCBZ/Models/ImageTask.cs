@@ -240,5 +240,15 @@ namespace Win_CBZ.Models
 
             return this;
         }
+
+        public ImageTask FreeResults()
+        {
+            foreach (Page result in ResultPage)
+            {
+                result?.Close();
+            }
+
+            return this;
+        }
     }
 }
