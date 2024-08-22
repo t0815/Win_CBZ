@@ -1,6 +1,6 @@
 # Win_CBZ
 
-![Screenshot](/meta/Screenshot.png)
+![Screenshot](/meta/screenshot.png)
 
 ## Author
 
