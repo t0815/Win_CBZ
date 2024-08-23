@@ -453,6 +453,7 @@ namespace Win_CBZ
             {
                 if (Program.ProjectModel.Exists())
                 {
+                    PagesList.SelectedItem = null;
                     if (Program.ProjectModel.Save())
                     {
 
@@ -926,6 +927,11 @@ namespace Win_CBZ
                                 if (CurrentGlobalActions.Count > 0)
                                     CurrentGlobalActions.Remove(CurrentGlobalAction);
                                 CurrentGlobalAction = null;
+
+                                Invoke(new Action(() =>
+                                {
+                                    GlobalAlertTableLayout.Visible = false;
+                                }));
                             }
                         }
                     }));
@@ -3002,6 +3008,10 @@ namespace Win_CBZ
                 AddMetaDataRowBtn.Enabled = false;
                 RemoveMetadataRowBtn.Enabled = false;
                 ToolStripButtonShowRawMetadata.Enabled = false;
+
+
+                AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_DELETED));
+                //AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
             }
         }
 

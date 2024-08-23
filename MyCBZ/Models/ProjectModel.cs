@@ -327,17 +327,34 @@ namespace Win_CBZ
 
                 indexUpdater.ContinueWith((t) =>
                 {
+                    AppEventHandler.OnGeneralTaskProgress(sender, new GeneralTaskProgressEvent(
+                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                        GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
+                        "Ready", 0, 0, true));
+
                     if (MetaData.Exists())
                     {
                         Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {
-                            if (p.ContinuePipeline)
+                            if (t.IsCompletedSuccessfully)
                             {
-                                AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                AppEventHandler.OnGeneralTaskProgress(sender, new GeneralTaskProgressEvent(
+                                    GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA,
+                                    GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
+                                    "Ready", 0, 0, true));
+
+                                if (p.ContinuePipeline)
+                                {
+                                    AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                }
+                            } else
+                            {
+                                AppEventHandler.OnArchiveStatusChanged(sender, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
+                                AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                             }
-                        });
+                        }, p.CancelToken);
 
                         imageMetaDataUpdater.Start();
                     }
