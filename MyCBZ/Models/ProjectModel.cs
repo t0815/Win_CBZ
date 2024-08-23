@@ -146,34 +146,7 @@ namespace Win_CBZ
 
         private Thread RestoreRenamingThread;
 
-        private Thread ArchiveValidationThread;
-
-        private CancellationTokenSource CancellationTokenSourceGlobal;
-
-        private CancellationTokenSource CancellationTokenSourceLoadArchive;
-
-        private CancellationTokenSource CancellationTokenSourceCloseArchive;
-
-        private CancellationTokenSource CancellationTokenSourceExtractArchive;
-
-        private CancellationTokenSource CancellationTokenSourceSaveArchive;
-
-        private CancellationTokenSource CancellationTokenSourceDeleteFile;
-
-        private CancellationTokenSource CancellationTokenSourcePageUpdate;
-
-        private CancellationTokenSource CancellationTokenSourceProcessAddedFiles;
-
-        private CancellationTokenSource CancellationTokenSourceParseAddedFileNames;
-
-        private CancellationTokenSource CancellationTokenSourceRenaming;
-
-        private CancellationTokenSource CancellationTokenSourceAutoRename;
-
-        private CancellationTokenSource CancellationTokenSourceRestoreRenaming;
-
-        private CancellationTokenSource CancellationTokenSourceArchiveValidation;
-
+        private Thread ArchiveValidationThread;      
 
         public ProjectModel(String workingDir, String metaDataFilename)
         {
@@ -186,21 +159,7 @@ namespace Win_CBZ
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
             Validation = new DataValidation();
-            Validation.OnTaskProgress += AppEventHandler.OnTaskProgress;
-
-            CancellationTokenSourceGlobal = new CancellationTokenSource();
-            CancellationTokenSourceLoadArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceExtractArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceCloseArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceSaveArchive = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceDeleteFile = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourcePageUpdate = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceProcessAddedFiles = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceParseAddedFileNames = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceRenaming = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceAutoRename = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceRestoreRenaming = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceArchiveValidation = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
+            Validation.OnTaskProgress += AppEventHandler.OnTaskProgress;          
 
             MaxFileIndex = 0;
             Name = "";
@@ -253,7 +212,7 @@ namespace Win_CBZ
 
             return MetaData;
         }
-
+        
         private void HandlePipeline(object sender, PipelineEvent e)
         {
             StackItem nextTask = null;
@@ -282,7 +241,7 @@ namespace Win_CBZ
                     {
                         if (ExtractArchiveThread.IsAlive)
                         {
-                            CancellationTokenSourceExtractArchive.Cancel();
+                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.).Cancel();
                         }
                     }
 
@@ -1953,6 +1912,7 @@ namespace Win_CBZ
             int realNewIndex = tParams.MaxCountPages;
             int total = tParams?.LocalFiles.Count ?? 0;
             int progressIndex = 0;
+            int pageStatus = 0;
             bool pageError = false; 
             FileInfo targetPath;
             FileInfo localPath;
@@ -1993,12 +1953,22 @@ namespace Win_CBZ
                             OriginalIndex = realNewIndex,
                             Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make(),
                         };
+                        pageStatus = PageChangedEvent.IMAGE_STATUS_NEW;
                         realNewIndex++;
                     } else
                     {
+                        if (page.LastModified != fileObject.LastModified || page.Size != fileObject.FileSize)
+                        {
+                            pageStatus = PageChangedEvent.IMAGE_STATUS_CHANGED;
+                            page.Deleted = false;
+                            page.FreeImage();
+                            page.Invalidated = true;
+                            page.Index = page.OriginalIndex;
+                            page.ThumbnailInvalidated = true;
+                        }
                         page.UpdateLocalWorkingCopy(fileObject, targetPath);
                         page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
-                        page.Changed = true;
+                        page.Changed = true;                     
                     }
 
                     try
@@ -2006,7 +1976,7 @@ namespace Win_CBZ
                         page.LoadImage(true);    // dont load full image here!
                     } catch (PageException pe)
                     {
-                        pageError = true;
+                        pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
 
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
                     } finally
@@ -2021,7 +1991,7 @@ namespace Win_CBZ
 
                     tParams.CancelToken.ThrowIfCancellationRequested();
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, !pageError ? PageChangedEvent.IMAGE_STATUS_NEW : PageChangedEvent.IMAGE_STATUS_ERROR));
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, pageStatus));
                     AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, progressIndex, total));
 
                     index++;

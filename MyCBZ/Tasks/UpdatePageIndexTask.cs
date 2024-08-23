@@ -25,6 +25,8 @@ namespace Win_CBZ.Tasks
                 int total = pages.Count;
                 TaskResult result = new TaskResult();
 
+                result.Total = total;
+
                 foreach (Page page in pages)
                 {
                     if (page.Key == null)
@@ -61,7 +63,12 @@ namespace Win_CBZ.Tasks
                         }
                     }
 
-                    ((CancellationToken)token).ThrowIfCancellationRequested();
+                    if (((CancellationToken)token).IsCancellationRequested)
+                    {
+                       
+
+                        break;
+                    }
                    
                     handler?.Invoke(null, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, 
@@ -75,6 +82,8 @@ namespace Win_CBZ.Tasks
                     isUpdated = false;
                     System.Threading.Thread.Sleep(5);
                 }
+
+                result.Completed = current;
                
                 handler?.Invoke(null, new GeneralTaskProgressEvent(
                     GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,

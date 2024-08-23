@@ -2966,7 +2966,8 @@ namespace Win_CBZ
                     Program.ProjectModel.MetaData, 
                     MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), 
                     AppEventHandler.OnGeneralTaskProgress, 
-                    AppEventHandler.OnPageChanged);
+                    AppEventHandler.OnPageChanged,
+                    TokenStore.GetInstance().RequestCancellationToken("global"));
 
             updateIndex.ContinueWith((t) =>
                 {

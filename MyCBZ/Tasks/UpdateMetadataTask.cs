@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Handler;
@@ -13,9 +14,9 @@ namespace Win_CBZ.Tasks
     [SupportedOSPlatform("windows")]
     internal class UpdateMetadataTask
     {
-        public static Task<TaskResult> UpdatePageMetadata(List<Page> pages, MetaData metaData, MetaData.PageIndexVersion pageIndexVersion, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
+        public static Task<TaskResult> UpdatePageMetadata(List<Page> pages, MetaData metaData, MetaData.PageIndexVersion pageIndexVersion, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken)
         {
-            return new Task<TaskResult>(() =>
+            return new Task<TaskResult>((token) =>
             {
                 int current = 1;
                 int total = pages.Count;
@@ -64,8 +65,15 @@ namespace Win_CBZ.Tasks
                                     total,
                                     true));
 
+                            result.Completed = current;
+
+                            if (((CancellationToken)token).IsCancellationRequested) 
+                            {
+                                break;
+                            }
+
                             current++;
-                            
+
                             System.Threading.Thread.Sleep(3);
                         }
                     }
@@ -87,7 +95,7 @@ namespace Win_CBZ.Tasks
                         true));
 
                 return result;
-            });
+            }, cancellationToken);
         }
 
     }
