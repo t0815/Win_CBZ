@@ -56,20 +56,17 @@ namespace Win_CBZ.Tasks
 
                             metaData.PageIndex.Add(newPageEntry);
 
-                            if (handler != null)
-                            {
-                                handler.Invoke(null, new GeneralTaskProgressEvent(
+                            handler?.Invoke(null, new GeneralTaskProgressEvent(
                                     GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
                                     GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
                                     "Updating index...",
                                     current,
                                     total,
                                     true));
-                            }
 
                             current++;
                             
-                            System.Threading.Thread.Sleep(2);
+                            System.Threading.Thread.Sleep(3);
                         }
                     }
                     catch (Exception ex)
@@ -81,16 +78,13 @@ namespace Win_CBZ.Tasks
 
                 metaData.IndexVersionSpecification = pageIndexVersion;
 
-                if (handler != null)
-                {
-                    handler.Invoke(null, new GeneralTaskProgressEvent(
+                handler?.Invoke(null, new GeneralTaskProgressEvent(
                         GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready.",
                         current,
                         total,
                         true));
-                }
 
                 return result;
             });

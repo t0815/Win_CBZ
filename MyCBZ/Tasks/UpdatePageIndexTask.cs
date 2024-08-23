@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Helper;
@@ -14,9 +15,9 @@ namespace Win_CBZ.Tasks
     internal class UpdatePageIndexTask
     {
 
-        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
+        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken)
         {
-            return new Task<TaskResult>(() =>
+            return new Task<TaskResult>((token) =>
             {
                 bool isUpdated = false;
                 int newIndex = 0;
@@ -60,34 +61,32 @@ namespace Win_CBZ.Tasks
                         }
                     }
 
-                    if (handler != null)
-                    {
-                        handler.Invoke(null, new GeneralTaskProgressEvent(
-                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, 
-                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                            "Rebuilding index...",
-                            current, 
-                            total,
-                            true));
-                    }
+                    ((CancellationToken)token).ThrowIfCancellationRequested();
+                   
+                    handler?.Invoke(null, new GeneralTaskProgressEvent(
+                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, 
+                        GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
+                        "Rebuilding index...",
+                        current, 
+                        total,
+                        true));
+                    
                     current++;
                     isUpdated = false;
                     System.Threading.Thread.Sleep(5);
                 }
-
-                if (handler != null)
-                {
-                    handler.Invoke(null, new GeneralTaskProgressEvent(
-                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
-                        GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
-                        "Ready.",
-                        current,
-                        total,
-                        true));
-                }
+               
+                handler?.Invoke(null, new GeneralTaskProgressEvent(
+                    GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                    GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
+                    "Ready.",
+                    current,
+                    total,
+                    true));
+                
 
                 return result;
-            });
+            }, cancellationToken);
         }
     }
 }

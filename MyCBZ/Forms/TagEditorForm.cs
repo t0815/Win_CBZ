@@ -89,7 +89,7 @@ namespace Win_CBZ.Forms
             {
                 Text = "",
                 Tag = tagItem,
-                Image = global::Win_CBZ.Properties.Resources.delete,
+                Page = global::Win_CBZ.Properties.Resources.delete,
                 ImageAlign = ContentAlignment.MiddleCenter,
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size()

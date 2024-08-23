@@ -983,7 +983,7 @@ namespace Win_CBZ.Forms
 
                 // 
 
-                //PreviewThumbPictureBox.Image = PreviewThumb;
+                //PreviewThumbPictureBox.Page = PreviewThumb;
 
 
             }

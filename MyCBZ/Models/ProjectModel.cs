@@ -323,23 +323,36 @@ namespace Win_CBZ
             {
                 UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
 
-                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged);
+                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token);
 
                 indexUpdater.ContinueWith((t) =>
                 {
-                    
+                    if (MetaData.Exists())
+                    {
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged);
+
+                        imageMetaDataUpdater.ContinueWith((t) =>
+                        {
+                            if (p.ContinuePipeline)
+                            {
+                                AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                            }
+                        });
+
+                        imageMetaDataUpdater.Start();
+                    }
                 });
 
                 indexUpdater.Start();
 
-                Task.Factory.StartNew(() =>
-                {
-                    if (MetaData.Exists())
-                    {
-                        MetaData.RebuildPageMetaData(p.Pages, p.PageIndexVerToWrite);
-                    }
-                    UpdatePageIndices(p.Pages, true, true, remainingStack);
-                }, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).CancelToken);
+                //Task.Factory.StartNew(() =>
+                //{
+                //    if (MetaData.Exists())
+                //    {
+                //        MetaData.RebuildPageMetaData(p.Pages, p.PageIndexVerToWrite);
+                //    }
+                //    UpdatePageIndices(p.Pages, true, true, remainingStack);
+                //}, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).CancelToken);
 
                 currentPerformed = e.Task;
             }
@@ -350,7 +363,7 @@ namespace Win_CBZ
 
                 if (imageInfoUpdater == null)
                 {
-                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress);
+                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                     imageInfoUpdater.Start();
 
                     currentPerformed = e.Task;
@@ -359,7 +372,7 @@ namespace Win_CBZ
                 {
                     if (imageInfoUpdater.IsCompleted || imageInfoUpdater.IsCanceled)
                     {
-                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress);
+                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                         imageInfoUpdater.Start();
 
                         currentPerformed = e.Task;
@@ -660,7 +673,7 @@ namespace Win_CBZ
                 IsNew = true;
                 IsChanged = false;
                 GlobalImageTask = new ImageTask("");
-                ArchiveState = CBZArchiveStatusEvent.ARCHIVE_NEW;
+                ArchiveState = ArchiveStatusEvent.ARCHIVE_NEW;
                 ApplicationState = ApplicationStatusEvent.STATE_READY;
 
                 ProjectGUID = Guid.NewGuid().ToString();
@@ -720,7 +733,7 @@ namespace Win_CBZ
             String IndexUpdateReasonMessage = "";
             bool MetaDataPageIndexFileMissingShown = false;
 
-            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENING));
+            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_OPENING));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
 
             int countEntries = 0;
@@ -884,7 +897,7 @@ namespace Win_CBZ
             {
                 //Archive.Dispose();
 
-                //OnArchiveStatusChanged(new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
+                //OnArchiveStatusChanged(new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
             }
             catch (Exception e)
             {
@@ -899,7 +912,17 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexMissingData)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, ReadImageMetaDataTask.UpdateImageMetadata(Pages, AppEventHandler.OnGeneralTaskProgress)));
+                    AppEventHandler.OnGlobalActionRequired(this, 
+                        new GlobalActionRequiredEvent(this, 
+                            0, 
+                            "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?", 
+                            "Rebuild", 
+                            GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, 
+                            ReadImageMetaDataTask.UpdateImageMetadata(Pages, 
+                                AppEventHandler.OnGeneralTaskProgress, 
+                                CancellationTokenSourceGlobal.Token)
+                            )
+                        );
                 }
 
                 if (MetaDataPageIndexFileMissing)
@@ -913,7 +936,7 @@ namespace Win_CBZ
                 }
 
 
-                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_OPENED));
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_OPENED));
             }
 
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
@@ -1051,7 +1074,7 @@ namespace Win_CBZ
             ZipArchive BuildingArchive = null;
             ZipArchiveEntry updatedEntry;
 
-            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
+            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_SAVING));
 
             // Rebuild ComicInfo.xml's PageIndex... dont do that here. needs to happen beforehand
             //MetaData.RebuildPageMetaData(tParams?.Pages?.ToList<Page>(), tParams.PageIndexVerToWrite);
@@ -1147,7 +1170,7 @@ namespace Win_CBZ
 
                         if (!Win_CBZSettings.Default.IgnoreErrorsOnSave)
                         {
-                            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
+                            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
                             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
                             errorSavingArchive = true;
                             return;
@@ -1296,10 +1319,10 @@ namespace Win_CBZ
 
             if (!errorSavingArchive) 
             {
-                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVED));
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_SAVED));
             } else
             {
-                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_ERROR_SAVING));
             }
 
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
@@ -2001,7 +2024,7 @@ namespace Win_CBZ
                 {
                     if (realNewIndex > MaxFileIndex)
                     {
-                        AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_ADDED));
+                        AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_FILE_ADDED));
 
                         IsChanged = true;
                         MaxFileIndex = realNewIndex;
@@ -2231,7 +2254,7 @@ namespace Win_CBZ
                 }
 
                 AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Rebuilding index...", updated, Pages.Count, true));
-                //AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                //AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
 
                 IsChanged = true;
                 isUpdated = false;
@@ -2249,7 +2272,7 @@ namespace Win_CBZ
 
             if (tParams.ContinuePipeline || tParams.Stack.Count == 0)
             {
-                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_READY));
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_READY));
             }
 
             if (tParams.ContinuePipeline)
@@ -2609,7 +2632,7 @@ namespace Win_CBZ
                 IsChanged = true;
 
                 AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, originalPage, PageChangedEvent.IMAGE_STATUS_RENAMED));
-                AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
             }          
         }
 
@@ -2785,7 +2808,7 @@ namespace Win_CBZ
                         RenamePageScript(page, tParams.IgnorePageNameDuplicates, tParams.SkipIndexUpdate, tParams.RenameStoryPagePattern, tParams.RenameSpecialPagePattern);
 
                         AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, page.Index + 1, Pages.Count));
-                        AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
+                        AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_FILE_RENAMED));
 
                         Thread.Sleep(5);
                     }
@@ -2898,7 +2921,7 @@ namespace Win_CBZ
         {
             ExtractArchiveThreadParams tparams = threadParams as ExtractArchiveThreadParams;
 
-            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTING));
+            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_EXTRACTING));
 
             int count;
             int index = 0;
@@ -2988,7 +3011,7 @@ namespace Win_CBZ
                 OutputDirectory = null;
             }
 
-            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_EXTRACTED));
+            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_EXTRACTED));
         }
         
         public void Close(Task followUpTask = null, Task finalTask = null)
@@ -3054,7 +3077,7 @@ namespace Win_CBZ
 
         protected void CloseArchiveProc()
         {
-            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
+            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSING));
 
             MetaData.Free();
 
@@ -3080,7 +3103,7 @@ namespace Win_CBZ
                         finally
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
-                            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSING));
+                            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSING));
                             AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, page.Index, Pages.Count));
                             Thread.Sleep(5);
                         }
@@ -3103,7 +3126,7 @@ namespace Win_CBZ
 
             Archive?.Dispose();
 
-            AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_CLOSED));
+            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
         }
 
         public Thread ClearTempFolder()

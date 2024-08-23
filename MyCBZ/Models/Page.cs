@@ -385,7 +385,7 @@ namespace Win_CBZ
         /// Create a page from a source-page, copying all relevant attributes
         /// </summary>
         /// <param name="sourcePage">Source Page</param>
-        /// <param name="inMemory">Image will be kept in Memory</param>
+        /// <param name="inMemory">Page will be kept in Memory</param>
         /// <param name="newCopy">create a new file and id</param>
         public Page(Page sourcePage, bool inMemory = false, bool newCopy = false)
         {
@@ -1141,7 +1141,7 @@ namespace Win_CBZ
             //ThumbnailInvalidated = true;
             //ImageInfoRequested = false;
 
-            //Image = null;
+            //Page = null;
         }
 
         /// <summary>
@@ -1917,8 +1917,8 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    //Image?.Dispose();
-                    //Image = null;
+                    //Page?.Dispose();
+                    //Page = null;
                 }
             }
 

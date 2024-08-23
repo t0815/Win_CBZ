@@ -1,6 +1,6 @@
 ﻿namespace Win_CBZ
 {
-    internal class CBZArchiveStatusEvent
+    internal class ArchiveStatusEvent
     {
         public const int ARCHIVE_NEW = 0;
         public const int ARCHIVE_OPENING = 1;
@@ -27,24 +27,23 @@
         public int State { get; set; }
 
 
-        public delegate void Operation();
+        public delegate void CallbackDelegate(object param);
 
 
-        public CBZArchiveStatusEvent.Operation Callback;
+        public CallbackDelegate Callback;
 
 
-        public CBZArchiveStatusEvent(ProjectModel project, int state)
+        public ArchiveStatusEvent(ProjectModel project, int state)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
-
+            ArchiveInfo = project;
+            State = state;
         }
 
-        public CBZArchiveStatusEvent(ProjectModel project, int state, CBZArchiveStatusEvent.Operation callback)
+        public ArchiveStatusEvent(ProjectModel project, int state, CallbackDelegate callback)
         {
-            this.ArchiveInfo = project;
-            this.State = state;
-            this.Callback = callback;
+            ArchiveInfo = project;
+            State = state;
+            Callback = callback;
         }   
     }
 }

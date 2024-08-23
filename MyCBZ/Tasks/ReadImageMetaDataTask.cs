@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Handler;
@@ -14,9 +15,9 @@ namespace Win_CBZ.Tasks
     internal class ReadImageMetaDataTask
     {
 
-        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler)
+        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken)
         {
-            return new Task<TaskResult>(() =>
+            return new Task<TaskResult>((token) =>
             {
                 int current = 1;
                 int total = pages.Count;    
@@ -43,8 +44,12 @@ namespace Win_CBZ.Tasks
                         current, 
                         total,
                         true));
+                    
                     current++;
+
                     System.Threading.Thread.Sleep(5);
+
+                    ((CancellationToken)token).ThrowIfCancellationRequested();
                 }
 
                 handler?.Invoke(pages, new GeneralTaskProgressEvent(
@@ -56,7 +61,7 @@ namespace Win_CBZ.Tasks
                         true));
 
                 return result;
-            });
+            }, cancellationToken);
         }
     }
 }
