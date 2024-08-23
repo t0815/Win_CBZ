@@ -323,6 +323,15 @@ namespace Win_CBZ
             {
                 UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
 
+                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged);
+
+                indexUpdater.ContinueWith((t) =>
+                {
+                    
+                });
+
+                indexUpdater.Start();
+
                 Task.Factory.StartNew(() =>
                 {
                     if (MetaData.Exists())
@@ -895,7 +904,7 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexFileMissing)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, RebuildPageIndexMetaDataTask.UpdatePageIndexMetadata(Pages, MetaData, MetaData.IndexVersionSpecification, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged)));
                 }
 
                 if (missingPages.Count > 0)
@@ -1044,8 +1053,8 @@ namespace Win_CBZ
 
             AppEventHandler.OnArchiveStatusChanged(this, new CBZArchiveStatusEvent(this, CBZArchiveStatusEvent.ARCHIVE_SAVING));
 
-            // Rebuild ComicInfo.xml's PageIndex
-            MetaData.RebuildPageMetaData(tParams?.Pages?.ToList<Page>(), tParams.PageIndexVerToWrite);
+            // Rebuild ComicInfo.xml's PageIndex... dont do that here. needs to happen beforehand
+            //MetaData.RebuildPageMetaData(tParams?.Pages?.ToList<Page>(), tParams.PageIndexVerToWrite);
 
             try
             {
@@ -2151,6 +2160,7 @@ namespace Win_CBZ
             return deletedPagesCount;
         }
 
+        // <deprecated></deprecated>
         public void UpdatePageIndices(List<Page> pages, bool initialIndexBulid, bool continuePipeline = false, List<StackItem> stack = null)
         {
             if (LoadArchiveThread != null)

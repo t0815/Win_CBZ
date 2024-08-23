@@ -11,10 +11,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Win_CBZ.Tasks
 {
     [SupportedOSPlatform("windows")]
-    internal class RebuildPageIndexMetaDataTask
+    internal class UpdatePageIndexTask
     {
 
-        public static Task<TaskResult> UpdatePageIndexMetadata(List<Page> pages, MetaData metaData, MetaData.PageIndexVersion pageIndexVersion, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
+        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
         {
             return new Task<TaskResult>(() =>
             {
@@ -74,8 +74,6 @@ namespace Win_CBZ.Tasks
                     isUpdated = false;
                     System.Threading.Thread.Sleep(5);
                 }
-
-                metaData.RebuildPageMetaData(pages, pageIndexVersion);
 
                 if (handler != null)
                 {
