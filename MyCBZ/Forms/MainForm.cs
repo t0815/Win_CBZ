@@ -2917,19 +2917,37 @@ namespace Win_CBZ
             //}
 
             Program.ProjectModel.MetaData.FillMissingDefaultProps();
-            if (PagesList.Items.Count > 0)
-            {
-                Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
-            }
+            //if (PagesList.Items.Count > 0)
+            //{
+                Task updateIndex = UpdateMetadataTask.UpdatePageMetadata(Program.ProjectModel.Pages, 
+                    Program.ProjectModel.MetaData, 
+                    MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), 
+                    AppEventHandler.OnGeneralTaskProgress, 
+                    AppEventHandler.OnPageChanged);
 
-            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
+            updateIndex.ContinueWith((t) =>
+                {
+                    Invoke(new Action(() =>
+                    {
+                        BtnRemoveMetaData.Enabled = true;
+                        AddMetaDataRowBtn.Enabled = true;
+                        RemoveMetadataRowBtn.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = true;
+
+                    }));
+                    
+                    AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
+
+                });
+
+            updateIndex.Start();
+
+                //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
+            //}
+
 
             BtnAddMetaData.Enabled = false;
-            BtnRemoveMetaData.Enabled = true;
-            AddMetaDataRowBtn.Enabled = true;
-            RemoveMetadataRowBtn.Enabled = false;
-            ToolStripButtonShowRawMetadata.Enabled = true;
-        }
+                    }
 
         private void RemoveMetaData()
         {
@@ -3033,15 +3051,13 @@ namespace Win_CBZ
                 {
                     object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
                     EditorTypeConfig editorTypeConfig = MetaDataGrid.Rows[e.RowIndex].Cells[1].Tag as EditorTypeConfig;
-
-                    if (editorTypeConfig != null)
+              
+                    if (editorTypeConfig?.Type == "AutoComplete")
                     {
-                        if (editorTypeConfig.Type == "AutoComplete")
-                        {
-                            //e.FormattedValue
-                            //e.Cancel = true;
-                        }
+                        //e.FormattedValue
+                        //e.Cancel = true;
                     }
+                    
                 }
             }
             catch (MetaDataValidationException ve)
