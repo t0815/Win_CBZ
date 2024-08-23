@@ -904,7 +904,7 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexFileMissing)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdateMetadataTask.UpdatePageMetadata(Pages, MetaData, PageIndexVersionWriter, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged)));
                 }
 
                 if (missingPages.Count > 0)
