@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             ToolBar = new System.Windows.Forms.ToolStrip();
             ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -221,6 +221,9 @@ namespace Win_CBZ
             PageCountStatusLabel = new System.Windows.Forms.Label();
             pictureBox3 = new System.Windows.Forms.PictureBox();
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            LinkLabelBackgroundTasks = new System.Windows.Forms.LinkLabel();
+            boxIndicatorControl1 = new LoadingIndicator.WinForms.BoxIndicatorControl();
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -273,6 +276,7 @@ namespace Win_CBZ
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             PrimaryTableLayout.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // ToolBar
@@ -2085,40 +2089,40 @@ namespace Win_CBZ
             // MetaDataGrid
             // 
             MetaDataGrid.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MetaDataGrid.ContextMenuStrip = DataGridContextMenu;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             MetaDataGrid.Location = new System.Drawing.Point(2, 57);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 24;
             MetaDataGrid.Size = new System.Drawing.Size(1115, 202);
@@ -2258,6 +2262,7 @@ namespace Win_CBZ
             StatusToolStripTableLayout.Controls.Add(MainToolStripProgressBar, 2, 0);
             StatusToolStripTableLayout.Controls.Add(PageCountStatusLabel, 6, 0);
             StatusToolStripTableLayout.Controls.Add(pictureBox3, 1, 0);
+            StatusToolStripTableLayout.Controls.Add(flowLayoutPanel1, 8, 0);
             StatusToolStripTableLayout.Location = new System.Drawing.Point(3, 719);
             StatusToolStripTableLayout.Name = "StatusToolStripTableLayout";
             StatusToolStripTableLayout.RowCount = 1;
@@ -2302,8 +2307,8 @@ namespace Win_CBZ
             // 
             ApplicationStatusLabel.AutoEllipsis = true;
             ApplicationStatusLabel.AutoSize = true;
-            ApplicationStatusLabel.Location = new System.Drawing.Point(3, 2);
-            ApplicationStatusLabel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
+            ApplicationStatusLabel.Location = new System.Drawing.Point(3, 3);
+            ApplicationStatusLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             ApplicationStatusLabel.Name = "ApplicationStatusLabel";
             ApplicationStatusLabel.Size = new System.Drawing.Size(60, 25);
             ApplicationStatusLabel.TabIndex = 1;
@@ -2313,10 +2318,10 @@ namespace Win_CBZ
             // 
             FileNameLabel.AutoSize = true;
             FileNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            FileNameLabel.Location = new System.Drawing.Point(369, 2);
-            FileNameLabel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
+            FileNameLabel.Location = new System.Drawing.Point(369, 3);
+            FileNameLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             FileNameLabel.Name = "FileNameLabel";
-            FileNameLabel.Size = new System.Drawing.Size(791, 28);
+            FileNameLabel.Size = new System.Drawing.Size(791, 27);
             FileNameLabel.TabIndex = 2;
             FileNameLabel.Click += FileNameLabel_Click;
             // 
@@ -2333,10 +2338,10 @@ namespace Win_CBZ
             PageCountStatusLabel.AutoEllipsis = true;
             PageCountStatusLabel.AutoSize = true;
             PageCountStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            PageCountStatusLabel.Location = new System.Drawing.Point(1176, 2);
-            PageCountStatusLabel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 0);
+            PageCountStatusLabel.Location = new System.Drawing.Point(1176, 3);
+            PageCountStatusLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             PageCountStatusLabel.Name = "PageCountStatusLabel";
-            PageCountStatusLabel.Size = new System.Drawing.Size(131, 28);
+            PageCountStatusLabel.Size = new System.Drawing.Size(131, 27);
             PageCountStatusLabel.TabIndex = 3;
             PageCountStatusLabel.Text = "0 Pages";
             // 
@@ -2365,6 +2370,40 @@ namespace Win_CBZ
             PrimaryTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             PrimaryTableLayout.Size = new System.Drawing.Size(1558, 752);
             PrimaryTableLayout.TabIndex = 6;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(LinkLabelBackgroundTasks);
+            flowLayoutPanel1.Controls.Add(boxIndicatorControl1);
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            flowLayoutPanel1.Location = new System.Drawing.Point(1323, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(226, 24);
+            flowLayoutPanel1.TabIndex = 8;
+            // 
+            // LinkLabelBackgroundTasks
+            // 
+            LinkLabelBackgroundTasks.AutoSize = true;
+            LinkLabelBackgroundTasks.Location = new System.Drawing.Point(3, 0);
+            LinkLabelBackgroundTasks.Name = "LinkLabelBackgroundTasks";
+            LinkLabelBackgroundTasks.Size = new System.Drawing.Size(68, 25);
+            LinkLabelBackgroundTasks.TabIndex = 0;
+            LinkLabelBackgroundTasks.TabStop = true;
+            LinkLabelBackgroundTasks.Text = "0 Tasks";
+            // 
+            // boxIndicatorControl1
+            // 
+            boxIndicatorControl1.AnimationInterval = System.TimeSpan.Parse("00:00:00.2000000");
+            boxIndicatorControl1.BoxColor = System.Drawing.Color.FromArgb(162, 199, 214);
+            boxIndicatorControl1.BoxSize = 12;
+            boxIndicatorControl1.HighlightedBoxColor = System.Drawing.Color.FromArgb(67, 143, 174);
+            boxIndicatorControl1.Location = new System.Drawing.Point(77, 3);
+            boxIndicatorControl1.Name = "boxIndicatorControl1";
+            boxIndicatorControl1.NumberOfBoxes = 3;
+            boxIndicatorControl1.RoundCornerRadius = 3;
+            boxIndicatorControl1.Size = new System.Drawing.Size(81, 20);
+            boxIndicatorControl1.TabIndex = 1;
+            boxIndicatorControl1.Text = "boxIndicatorControl1";
             // 
             // MainForm
             // 
@@ -2455,6 +2494,8 @@ namespace Win_CBZ
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             PrimaryTableLayout.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -2647,6 +2688,9 @@ namespace Win_CBZ
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.TableLayoutPanel PrimaryTableLayout;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.LinkLabel LinkLabelBackgroundTasks;
+        private LoadingIndicator.WinForms.BoxIndicatorControl boxIndicatorControl1;
     }
 }
 
