@@ -3041,7 +3041,10 @@ namespace Win_CBZ
 
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
 
-            Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads);
+            Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, 
+                AppEventHandler.OnGeneralTaskProgress,
+                TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS)
+                );
 
             awaitClosingArchive.ContinueWith(t => {
                 if (t.IsCompleted && t.Result.Result == 0)
@@ -3051,7 +3054,10 @@ namespace Win_CBZ
 
                     if (followUpTask != null)
                     {
-                        Task<TaskResult> follow = AwaitOperationsTask.AwaitOperations(new List<Thread>() { CloseArchiveThread });
+                        Task<TaskResult> follow = AwaitOperationsTask.AwaitOperations(new List<Thread>() { CloseArchiveThread },
+                            AppEventHandler.OnGeneralTaskProgress,
+                            TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS)
+                            );
 
                         follow.ContinueWith(t => {
 

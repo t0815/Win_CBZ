@@ -24,11 +24,13 @@ namespace Win_CBZ
         public int State { get; set; }
 
 
-        public delegate void CallbackDelegate(object param);
+        public delegate void CallbackDelegate(object sender, params object[] p);
 
 
-        public CallbackDelegate Callback { get; set; }
+        public CallbackDelegate Callback { get; set; } 
 
+
+        public ApplicationStatusEvent() { }
 
         public ApplicationStatusEvent(ProjectModel project, int state)
         {

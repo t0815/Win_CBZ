@@ -334,7 +334,7 @@ namespace Win_CBZ
 
                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
 
-                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads);
+                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
 
                         awaitClosingArchive.ContinueWith(t =>
                         {
@@ -917,7 +917,14 @@ namespace Win_CBZ
                         ApplicationStatusLabel.Text = e.Message;
                         Program.ProjectModel.IsChanged = true;
 
-                        AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                        AppEventHandler.OnApplicationStateChanged(
+                            sender, 
+                            new ApplicationStatusEvent
+                            {
+                                ArchiveInfo = Program.ProjectModel,
+                                State = ApplicationStatusEvent.STATE_READY
+                            }
+                        );
 
                         //Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
 
@@ -3176,6 +3183,11 @@ namespace Win_CBZ
             {
                 MetaDataFieldType fieldType = MetaDataGrid.SelectedCells[0].Tag as MetaDataFieldType;
                 TextBox textBox = e.Control as TextBox;
+
+                if (textBox == null)
+                {
+                    return;
+                }
 
                 if (fieldType != null)
                 {

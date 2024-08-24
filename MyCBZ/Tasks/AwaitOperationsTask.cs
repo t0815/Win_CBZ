@@ -12,9 +12,9 @@ namespace Win_CBZ.Tasks
 {
     internal class AwaitOperationsTask
     {
-        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, EventHandler<GeneralTaskProgressEvent> handler = null)
+        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, EventHandler<GeneralTaskProgressEvent> handler, CancellationToken cancellationToken)
         {
-            return new Task<TaskResult>(() =>
+            return new Task<TaskResult>((token) =>
             {
                 TaskResult result = new TaskResult();
                 ApplicationDialog dlg = null;
@@ -75,7 +75,7 @@ namespace Win_CBZ.Tasks
                 }
 
                 return result;
-            });
+            }, cancellationToken);
         }
     }
 }
