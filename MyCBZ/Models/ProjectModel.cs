@@ -283,7 +283,7 @@ namespace Win_CBZ
             {
                 UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
 
-                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token);
+                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token);
 
                 indexUpdater.ContinueWith((t) =>
                 {
@@ -294,7 +294,7 @@ namespace Win_CBZ
 
                     if (MetaData.Exists())
                     {
-                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token);
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {
@@ -653,6 +653,9 @@ namespace Win_CBZ
                 ArchiveState = ArchiveStatusEvent.ARCHIVE_NEW;
                 ApplicationState = ApplicationStatusEvent.STATE_READY;
 
+                AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_NEW));
+
                 ProjectGUID = Guid.NewGuid().ToString();
 
                 if (!Directory.Exists(Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID)))
@@ -897,7 +900,7 @@ namespace Win_CBZ
                             GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, 
                             ReadImageMetaDataTask.UpdateImageMetadata(Pages, 
                                 AppEventHandler.OnGeneralTaskProgress,
-                                TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token)
+                                TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token)
                             )
                         );
                 }
@@ -2267,6 +2270,13 @@ namespace Win_CBZ
             {
                 AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_UPDATE_INDICES, null, tParams.Stack));
             }         
+        }
+
+        public int GetPageCount()
+        {
+            var res = Pages.Where(p => !p.Deleted).ToList();
+
+            return res.Count;
         }
 
         public Page GetPageById(String id)

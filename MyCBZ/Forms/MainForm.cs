@@ -72,17 +72,6 @@ namespace Win_CBZ
 
         private Thread MoveItemsThread;
 
-
-        private CancellationTokenSource CancellationTokenSourceRequestThumbnail;
-
-        private CancellationTokenSource CancellationTokenSourceThumbnail;
-
-        private CancellationTokenSource CancellationTokenSourceRequestImageInfo;
-
-        private CancellationTokenSource CancellationTokenSourceUpdatePageView;
-
-        private CancellationTokenSource CancellationTokenSourceMoveItems;
-
         private List<Page> ThumbnailPagesSlice;
 
         private List<Page> ImageInfoPagesSlice;
@@ -325,11 +314,39 @@ namespace Win_CBZ
             {
                 try
                 {
-                    Program.ProjectModel.New();
-                    RadioApplyAdjustmentsGlobal.Checked = true;
-                    selectedImageTasks = new ImageTask("");
-                    UpdateImageAdjustments(null, "<Global>");
-                    ClearLog();
+                    List<Thread> threads = new List<Thread>();
+
+                    if (ThumbnailThread != null)
+                    {
+                        if (ThumbnailThread.IsAlive)
+                        {
+                            threads.Add(ThumbnailThread);
+                        }
+                    }
+
+                    if (RequestThumbnailThread != null)
+                    {
+                        if (RequestThumbnailThread.IsAlive)
+                        {
+                            threads.Add(RequestThumbnailThread);
+                        }
+                    }
+
+                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
+
+                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads);
+
+                        awaitClosingArchive.ContinueWith(t =>
+                        {
+
+                            Program.ProjectModel.New();
+                            RadioApplyAdjustmentsGlobal.Checked = true;
+                            selectedImageTasks = new ImageTask("");
+                            UpdateImageAdjustments(null, "<Global>");
+                            ClearLog();
+                        });
+
+                    awaitClosingArchive.Start();    
                 }
                 catch (ConcurrentOperationException c)
                 {
@@ -676,6 +693,14 @@ namespace Win_CBZ
                     }
                 }));
 
+                if (!WindowClosed)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        PageCountStatusLabel.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
+                    }));
+                }
+
                 if (TogglePagePreviewToolbutton.Checked && !e.NoThumbRefresh)
                 {
                     if (e.Page != null)
@@ -996,7 +1021,7 @@ namespace Win_CBZ
 
         public void RequestThumbnailSlice()
         {
-            if (Win_CBZSettings.Default.PagePreviewEnabled && Program.ProjectModel.ArchiveState != ArchiveStatusEvent.ARCHIVE_CLOSING)
+            if (Win_CBZSettings.Default.PagePreviewEnabled)
             {
 
                 if (ThumbnailThread != null)
@@ -1004,8 +1029,8 @@ namespace Win_CBZ
                     if (ThumbnailThread.IsAlive)
                     {
                         //threads.Add(ThumbnailThread);
-
-                        CancellationTokenSourceThumbnail.Cancel();
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL).Cancel();
+                        //CancellationTokenSourceThumbnail.Cancel();
                         //ThumbnailThread.Abort();
                     }
                 }
@@ -1014,7 +1039,8 @@ namespace Win_CBZ
                 {
                     if (RequestImageInfoThread.IsAlive)
                     {
-                        CancellationTokenSourceRequestImageInfo.Cancel();
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Cancel();
+                        //CancellationTokenSourceRequestImageInfo.Cancel();
                         //threads.Add(RequestImageInfoThread);
                         //RequestImageInfoThread.Abort();
                     }
@@ -1599,7 +1625,7 @@ namespace Win_CBZ
                         Program.ProjectModel.ArchiveState = e.State;
                         if (e.ArchiveInfo != null)
                         {
-                            PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+                            PageCountStatusLabel.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
                         }
                         DisableControllsForApplicationState(e.State);
                     }));
@@ -1948,6 +1974,7 @@ namespace Win_CBZ
 
             try
             {
+                Program.ProjectModel.ArchiveState = e.State;
                 //if (this.InvokeRequired)
                 //{
                 Invoke(new Action(() =>
@@ -1960,8 +1987,7 @@ namespace Win_CBZ
 
                     FileNameLabel.Text = filename;
                     ApplicationStatusLabel.Text = info;
-                    Program.ProjectModel.ArchiveState = e.State;
-                    PageCountStatusLabel.Text = e.ArchiveInfo.Pages.Count.ToString() + " Pages";
+                    PageCountStatusLabel.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
 
                     DisableControllsForArchiveState(e.ArchiveInfo, e.State);
                 }));
@@ -2678,8 +2704,8 @@ namespace Win_CBZ
             }
             */
 
-            CancellationTokenSourceRequestThumbnail.Cancel();
-            CancellationTokenSourceRequestImageInfo.Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
+            //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_).Cancel();
 
             MoveItemsThread = new Thread(MoveItemsToProc);
             MoveItemsThread.Start(new MoveItemsToThreadParams()
@@ -2687,7 +2713,7 @@ namespace Win_CBZ
                 NewIndex = newIndex,
                 Items = items,
                 PageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
-                CancelToken = CancellationTokenSourceMoveItems.Token,
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_MOVE_ITEMS).Token,
             });
 
         }
@@ -2752,7 +2778,7 @@ namespace Win_CBZ
                     UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
                         AppEventHandler.OnGeneralTaskProgress, 
                         AppEventHandler.OnPageChanged,
-                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_MOVE_ITEMS).Token
                         )
                     ));
 
@@ -2816,7 +2842,9 @@ namespace Win_CBZ
             }
             */
 
-            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL).Cancel();
 
             MovePagesThread = new Thread(MovePageProc);
             MovePagesThread.Start(new MovePageThreadParams()
@@ -2824,7 +2852,7 @@ namespace Win_CBZ
                 newIndex = newIndex,
                 page = page,
                 pageIndexVersion = MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
-                CancelToken = CancellationTokenSourceMoveItems.Token
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_MOVE_ITEMS).Token
             });
         }
 
@@ -2961,7 +2989,7 @@ namespace Win_CBZ
                     MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), 
                     AppEventHandler.OnGeneralTaskProgress, 
                     AppEventHandler.OnPageChanged,
-                    TokenStore.GetInstance().RequestCancellationToken("global"));
+                    TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX));
 
             updateIndex.ContinueWith((t) =>
                 {
@@ -4135,6 +4163,11 @@ namespace Win_CBZ
                             }
 
                             pageToUpdate.UpdatePage(pageResult, false, true);  // dont update name without rename checks!
+                            if (pageResult.Deleted) 
+                            {
+                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_DELETED));
+                                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_DELETED));
+                            }
 
                             if (!pageResult.Deleted)
                             {
@@ -4928,32 +4961,34 @@ namespace Win_CBZ
                     }
                 }
 
-                if (selectedImageTasks != null)
+                if (selectedImageTasks != null && !WindowClosed)
                 {
 
+                    Invoke(new Action(() => {
+                        //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
+                        switch (selectedImageTasks.ImageAdjustments.ResizeMode)
+                        {
+                            case 0:
+                                RadioButtonResizeNever.Checked = true;
+                                break;
+                            case 1:
+                                RadioButtonResizeIfLarger.Checked = true;
+                                break;
+                            case 2:
+                                RadioButtonResizeTo.Checked = true;
+                                break;
 
-                    //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
-                    switch (selectedImageTasks.ImageAdjustments.ResizeMode)
-                    {
-                        case 0:
-                            RadioButtonResizeNever.Checked = true;
-                            break;
-                        case 1:
-                            RadioButtonResizeIfLarger.Checked = true;
-                            break;
-                        case 2:
-                            RadioButtonResizeTo.Checked = true;
-                            break;
-
-                    }
-
-                    CheckBoxSplitDoublePages.Checked = selectedImageTasks.ImageAdjustments.SplitPage;
-                    TextBoxSplitPageAt.Text = selectedImageTasks.ImageAdjustments.SplitPageAt.ToString();
-                    ComboBoxSplitAtType.SelectedIndex = selectedImageTasks.ImageAdjustments.SplitType;
-                    TextBoxResizePageIndexReference.Text = selectedImageTasks.ImageAdjustments.ResizeToPageNumber.ToString();
-                    TextBoxResizeW.Text = selectedImageTasks.ImageAdjustments.ResizeTo.X.ToString();
-                    TextBoxResizeH.Text = selectedImageTasks.ImageAdjustments.ResizeTo.Y.ToString();
-                    ComboBoxConvertPages.SelectedIndex = selectedImageTasks.ImageAdjustments.ConvertType;
+                        }
+              
+                        CheckBoxSplitDoublePages.Checked = selectedImageTasks.ImageAdjustments.SplitPage;
+                        TextBoxSplitPageAt.Text = selectedImageTasks.ImageAdjustments.SplitPageAt.ToString();
+                        ComboBoxSplitAtType.SelectedIndex = selectedImageTasks.ImageAdjustments.SplitType;
+                        TextBoxResizePageIndexReference.Text = selectedImageTasks.ImageAdjustments.ResizeToPageNumber.ToString();
+                        TextBoxResizeW.Text = selectedImageTasks.ImageAdjustments.ResizeTo.X.ToString();
+                        TextBoxResizeH.Text = selectedImageTasks.ImageAdjustments.ResizeTo.Y.ToString();
+                        ComboBoxConvertPages.SelectedIndex = selectedImageTasks.ImageAdjustments.ConvertType;
+                    }));
+                    
                 }
             }
         }

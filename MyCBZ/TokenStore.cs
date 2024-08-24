@@ -16,6 +16,9 @@ namespace Win_CBZ
         public const string TOKEN_SOURCE_EXTRACT_ARCHIVE = "extractarchive";
         public const string TOKEN_SOURCE_SAVE_ARCHIVE = "savearchive";
         public const string TOKEN_SOURCE_DELETE_FILE = "deletefile";
+        public const string TOKEN_SOURCE_UPDATE_PAGE_INDEX = "updatepageindex";
+        public const string TOKEN_SOURCE_UPDATE_IMAGE_METADATA = "updateimagemetadata";
+        public const string TOKEN_SOURCE_REBUILD_XML_INDEX = "rebuildxmlindex";
         public const string TOKEN_SOURCE_UPDATE_PAGE = "pageupdate";
         public const string TOKEN_SOURCE_UPDATE_IMAGE = "imageupdate";
         public const string TOKEN_SOURCE_PROCESS_FILES = "processaddedfiles";
@@ -55,6 +58,9 @@ namespace Win_CBZ
            {TOKEN_SOURCE_THUMBNAIL_SLICE, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
            {TOKEN_SOURCE_MOVE_ITEMS, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
            {TOKEN_SOURCE_UPDATE_PAGE_VIEW, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_UPDATE_PAGE_INDEX, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_UPDATE_IMAGE_METADATA, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_REBUILD_XML_INDEX, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
         };
 
 

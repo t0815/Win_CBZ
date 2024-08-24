@@ -22,6 +22,7 @@ namespace Win_CBZ.Tasks
                 int current = 1;
                 int total = pages.Count;    
                 TaskResult result = new TaskResult();
+                result.Total = total;
 
                 foreach (Page p in pages)
                 {
@@ -44,12 +45,16 @@ namespace Win_CBZ.Tasks
                         current, 
                         total,
                         true));
-                    
+
+                    if (((CancellationToken)token).IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    result.Completed = current;
                     current++;
 
                     System.Threading.Thread.Sleep(5);
-
-                    ((CancellationToken)token).ThrowIfCancellationRequested();
                 }
 
                 handler?.Invoke(pages, new GeneralTaskProgressEvent(
