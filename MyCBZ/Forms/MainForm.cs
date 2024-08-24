@@ -334,7 +334,7 @@ namespace Win_CBZ
 
                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
 
-                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
+                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnBackgroundTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
 
                         awaitClosingArchive.ContinueWith(t =>
                         {
@@ -699,7 +699,7 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        PageCountStatusLabel.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
+                        PageCountStatusLabel_.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
                     }));
                 }
 
@@ -732,7 +732,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     MainToolStripProgressBar.Maximum = 100;
                     MainToolStripProgressBar.Value = 0;
@@ -744,7 +744,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     if (e.Status == FileOperationEvent.STATUS_RUNNING)
                     {
@@ -771,7 +771,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     MainToolStripProgressBar.Maximum = e.Total;
                     MainToolStripProgressBar.Value = e.Completed;
@@ -783,7 +783,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     MainToolStripProgressBar.Maximum = e.Total;
                     MainToolStripProgressBar.Value = e.Completed;
@@ -883,7 +883,7 @@ namespace Win_CBZ
                 {
                     if (!WindowClosed)
                     {
-                        MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                        MainToolStripProgressBar.Invoke(new Action(() =>
                         {
                             MainToolStripProgressBar.Maximum = e.Total;
                             if (e.Current > -1 && e.Current <= e.Total)
@@ -966,7 +966,7 @@ namespace Win_CBZ
                     {
                         if (!WindowClosed)
                         {
-                            MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                            MainToolStripProgressBar.Invoke(new Action(() =>
                             {
                                 MainToolStripProgressBar.Maximum = e.Total;
 
@@ -1526,7 +1526,7 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                    MainToolStripProgressBar.Invoke(new Action(() =>
                     {
                         MainToolStripProgressBar.Maximum = e.Total;
                         if (e.Current > -1 && e.Current <= e.Total)
@@ -1630,12 +1630,12 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        FileNameLabel.Text = filename;
+                        FileNameLabel_.Text = filename;
                         ApplicationStatusLabel.Text = info;
                         Program.ProjectModel.ArchiveState = e.State;
                         if (e.ArchiveInfo != null)
                         {
-                            PageCountStatusLabel.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
+                            PageCountStatusLabel_.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
                         }
                         DisableControllsForApplicationState(e.State);
                     }));
@@ -1902,7 +1902,7 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                    MainToolStripProgressBar.Invoke(new Action(() =>
                     {
                         if (e.State != ArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != ArchiveStatusEvent.ARCHIVE_FILE_RENAMED && e.State != ArchiveStatusEvent.ARCHIVE_CLOSING)
                         {
@@ -4779,7 +4779,11 @@ namespace Win_CBZ
 
         private void PagesList_DoubleClick(object sender, EventArgs e)
         {
-            ToolButtonEditImageProps_Click(this, e);
+            
+            //if (e.Button == MouseButtons.Left)
+            //{
+                ToolButtonEditImageProps_Click(this, e);
+            //}
         }
 
         private void PageView_DoubleClick(object sender, EventArgs e)
