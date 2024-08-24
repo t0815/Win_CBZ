@@ -4,7 +4,7 @@
 
 
 >[!TIP]
->* The Windows installer has been fixed. Didnt notice for quite a while, since i use IDE to run the app most of the time
+> The Windows installer has been fixed. Didnt notice for quite a while, since i use IDE to run the app most of the time
 
 ## Author
 
@@ -56,7 +56,7 @@ v0.20.151b released!
 
 
 >[!IMPORTANT]
->* This Software is still in development and may contain bugs and non-working features.
+> This Software is still in development and may contain bugs and non-working features.
 
 
 ## Third party components
