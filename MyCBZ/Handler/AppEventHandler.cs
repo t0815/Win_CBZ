@@ -47,7 +47,7 @@ namespace Win_CBZ.Handler
         // delegates definitions
         public delegate void GeneralTaskProgressDelegate(object sender, GeneralTaskProgressEvent e);
 
-        public delegate void BackgroundTaskProgressDelegate(object sender, GeneralTaskProgressEvent e);
+        public delegate void BackgroundTaskProgressDelegate(object sender, BackgroundTaskProgressEvent e);
 
         public delegate void TaskProgressDelegate(object sender, TaskProgressEvent e);
 

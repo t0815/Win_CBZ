@@ -5,14 +5,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Forms;
 using Win_CBZ.Helper;
+using static Win_CBZ.Handler.AppEventHandler;
 
 namespace Win_CBZ.Tasks
 {
     internal class AwaitOperationsTask
     {
-        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, EventHandler<GeneralTaskProgressEvent> handler, CancellationToken cancellationToken)
+        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, BackgroundTaskProgressDelegate handler, CancellationToken cancellationToken)
         {
             return new Task<TaskResult>((token) =>
             {
@@ -41,17 +43,15 @@ namespace Win_CBZ.Tasks
                             finishedThreads.Add(th.ManagedThreadId, true);
                         }
 
-                        if (handler != null)
+                        handler?.Invoke(null, new BackgroundTaskProgressEvent()
                         {
-                            handler.Invoke(null, new GeneralTaskProgressEvent(
-                                GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
-                                GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                                "Waiting for operations to finish...",
-                                finishedThreads.Count,
-                                awaitTasks.Count,
-                                true));
-                        }
-
+                            Type = BackgroundTaskProgressEvent.TASK_WAITING_FOR_TASKS,
+                            Status = BackgroundTaskProgressEvent.TASK_STATUS_RUNNING,
+                            Message = "Waiting for operations to finish...",
+                            Current = finishedThreads.Count,
+                            Total = awaitTasks.Count
+                        });
+                        
                         System.Threading.Thread.Sleep(5);
                     }
                 }
@@ -63,17 +63,15 @@ namespace Win_CBZ.Tasks
 
                 result.Result = 0;
 
-                if (handler != null)
+                handler?.Invoke(null, new BackgroundTaskProgressEvent()
                 {
-                    handler.Invoke(null, new GeneralTaskProgressEvent(
-                        GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
-                        GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
-                        "Ready.",
-                        0,
-                        0,
-                        true));
-                }
-
+                    Type = BackgroundTaskProgressEvent.TASK_WAITING_FOR_TASKS,
+                    Status = BackgroundTaskProgressEvent.TASK_STATUS_COMPLETED,
+                    Message = "Ready.",
+                    Current = 0,
+                    Total = 0
+                });
+                
                 return result;
             }, cancellationToken);
         }
