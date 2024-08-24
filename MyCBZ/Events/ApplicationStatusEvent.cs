@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Win_CBZ
 {
@@ -25,10 +24,10 @@ namespace Win_CBZ
         public int State { get; set; }
 
 
-        public delegate void Operation();
+        public delegate void CallbackDelegate(object param);
 
 
-        public CBZArchiveStatusEvent.Operation Callback { get; set; }
+        public CallbackDelegate Callback { get; set; }
 
 
         public ApplicationStatusEvent(ProjectModel project, int state)
@@ -38,7 +37,7 @@ namespace Win_CBZ
 
         }
 
-        public ApplicationStatusEvent(ProjectModel project, int state, CBZArchiveStatusEvent.Operation callback)
+        public ApplicationStatusEvent(ProjectModel project, int state, CallbackDelegate callback)
         {
             ArchiveInfo = project;
             State = state;

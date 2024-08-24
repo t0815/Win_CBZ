@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Helper;
@@ -11,18 +12,20 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Win_CBZ.Tasks
 {
     [SupportedOSPlatform("windows")]
-    internal class RebuildPageIndexMetaDataTask
+    internal class UpdatePageIndexTask
     {
 
-        public static Task<TaskResult> UpdatePageIndexMetadata(List<Page> pages, MetaData metaData, MetaData.PageIndexVersion pageIndexVersion, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler)
+        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken)
         {
-            return new Task<TaskResult>(() =>
+            return new Task<TaskResult>((token) =>
             {
                 bool isUpdated = false;
                 int newIndex = 0;
                 int current = 1;
                 int total = pages.Count;
                 TaskResult result = new TaskResult();
+
+                result.Total = total;
 
                 foreach (Page page in pages)
                 {
@@ -60,36 +63,38 @@ namespace Win_CBZ.Tasks
                         }
                     }
 
-                    if (handler != null)
+                    if (((CancellationToken)token).IsCancellationRequested)
                     {
-                        handler.Invoke(null, new GeneralTaskProgressEvent(
-                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, 
-                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                            "Rebuilding index...",
-                            current, 
-                            total,
-                            true));
+                        
+                        break;
                     }
+                   
+                    handler?.Invoke(null, new GeneralTaskProgressEvent(
+                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, 
+                        GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
+                        "Rebuilding index...",
+                        current, 
+                        total,
+                        true));
+                    
                     current++;
                     isUpdated = false;
                     System.Threading.Thread.Sleep(5);
                 }
 
-                metaData.RebuildPageMetaData(pages, pageIndexVersion);
-
-                if (handler != null)
-                {
-                    handler.Invoke(null, new GeneralTaskProgressEvent(
-                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
-                        GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
-                        "Ready.",
-                        current,
-                        total,
-                        true));
-                }
+                result.Completed = current;
+               
+                handler?.Invoke(null, new GeneralTaskProgressEvent(
+                    GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                    GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
+                    "Ready.",
+                    current,
+                    total,
+                    true));
+                
 
                 return result;
-            });
+            }, cancellationToken);
         }
     }
 }

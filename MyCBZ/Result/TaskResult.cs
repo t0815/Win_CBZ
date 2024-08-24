@@ -1,5 +1,7 @@
 ﻿
 
+using System.Collections.Generic;
+
 namespace Win_CBZ.Data
 {
     internal class TaskResult
@@ -8,7 +10,7 @@ namespace Win_CBZ.Data
 
         public string Message { get; set; }
 
-        public object[] Payload { get; set; }
+        public Dictionary<string, object> Payload { get; set; } = new Dictionary<string, object>(); 
 
         public int Total { get; set; } 
 
@@ -22,11 +24,21 @@ namespace Win_CBZ.Data
             Message = message;
         }
 
-        public TaskResult(int result, string message, object[] payload)
+        public bool AddPayload(string key, object v) 
+        { 
+            return Payload.TryAdd(key, v);
+        }
+
+        public bool RemovePayload(string key)
         {
-            Result = result;
-            Message = message;
-            Payload = payload;
+            return true;
+        }
+
+        public object GetPayload(string key)
+        {
+            object v = Payload[key];
+
+            return v == null ? null : v;
         }
     }
 }

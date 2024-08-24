@@ -19,18 +19,18 @@ namespace Win_CBZ
 
         public int Status { get; set; }
 
-        public Page Image { get; set; }
+        public Page Page { get; set; }
 
         public int Completed { get; set; }
 
         public int Total { get; set; }
 
 
-        public ArchiveOperationEvent(int operation, int status, int completed, int total, Page image)
+        public ArchiveOperationEvent(int operation, int status, int completed, int total, Page page)
         {
             Operation = operation;
             Status = status;   
-            Image = image;
+            Page = page;
             Completed = completed;
             Total = total;
         }   

@@ -17,7 +17,7 @@ namespace Win_CBZ.Handler
 
         public static event EventHandler<ApplicationStatusEvent> ApplicationStateChanged;
 
-        public static event EventHandler<CBZArchiveStatusEvent> ArchiveStatusChanged;
+        public static event EventHandler<ArchiveStatusEvent> ArchiveStatusChanged;
 
         public static event EventHandler<MetaDataLoadEvent> MetaDataLoaded;
 
@@ -103,7 +103,7 @@ namespace Win_CBZ.Handler
             MetaDataChanged?.Invoke(sender, e);
         }
 
-        public static void OnArchiveStatusChanged(object sender, CBZArchiveStatusEvent e)
+        public static void OnArchiveStatusChanged(object sender, ArchiveStatusEvent e)
         {
             ArchiveStatusChanged?.Invoke(sender, e);
         }

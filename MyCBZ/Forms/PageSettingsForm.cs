@@ -15,6 +15,7 @@ using System.Xml;
 using Win_CBZ.Helper;
 using System.Drawing.Imaging;
 using System.Runtime.Versioning;
+using System.Threading;
 
 namespace Win_CBZ.Forms
 {
@@ -610,6 +611,7 @@ namespace Win_CBZ.Forms
                     pageList.IsMemoryCopy = realMemoryCopyState;
                     resultPages.Add(pageList);
 
+                    Thread.Sleep(10);
                     //p.FreeImage();
                 }
 
@@ -983,7 +985,7 @@ namespace Win_CBZ.Forms
 
                 // 
 
-                //PreviewThumbPictureBox.Image = PreviewThumb;
+                //PreviewThumbPictureBox.Page = PreviewThumb;
 
 
             }
