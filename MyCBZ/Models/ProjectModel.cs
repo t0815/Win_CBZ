@@ -643,7 +643,7 @@ namespace Win_CBZ
 
             Task<string> newFollowTask = new Task<string>(() =>
             {
-                //Pages.Clear();
+                Pages.Clear();
                 MetaData.Free();
                 MaxFileIndex = 0;
                 IsNew = true;
