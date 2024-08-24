@@ -3175,6 +3175,7 @@ namespace Win_CBZ
             if (MetaDataGrid.SelectedCells.Count == 1)
             {
                 MetaDataFieldType fieldType = MetaDataGrid.SelectedCells[0].Tag as MetaDataFieldType;
+                TextBox textBox = e.Control as TextBox;
 
                 if (fieldType != null)
                 {
@@ -3182,7 +3183,7 @@ namespace Win_CBZ
                     {
                         //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                         //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
-                        TextBox textBox = e.Control as TextBox;
+                        
                         textBox.KeyDown += DataGridTextBoxKeyDown;
 
                         AutoCompleteItems.Items = fieldType.EditorConfig.AutoCompleteItems;
@@ -3195,13 +3196,14 @@ namespace Win_CBZ
                     }
                     else
                     {
-
+                        AutoCompleteItems.Items = new string[0];
+                        AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
                     }
                 }
                 else
                 {
-                    AutoCompleteItems.Items = null;
-                    //AutoCompleteItems.SetAutocompleteMenu(null, AutoCompleteItems);
+                    AutoCompleteItems.Items = new string[0];
+                    AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
                     //TextBox textBox = e.Control as TextBox;
                     //textBox.AutoCompleteCustomSource = null;
                     //textBox.AutoCompleteSource = AutoCompleteSource.None;
