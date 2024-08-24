@@ -643,15 +643,12 @@ namespace Win_CBZ
 
             Task newFollowTask = new Task(() =>
             {
-
                 //Pages.Clear();
                 MetaData.Free();
                 MaxFileIndex = 0;
                 IsNew = true;
                 IsChanged = false;
                 GlobalImageTask = new ImageTask("");
-                ArchiveState = ArchiveStatusEvent.ARCHIVE_NEW;
-                ApplicationState = ApplicationStatusEvent.STATE_READY;
 
                 AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_NEW));
@@ -3126,7 +3123,7 @@ namespace Win_CBZ
 
             Archive?.Dispose();
 
-            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
+            //AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
         }
 
         public Thread ClearTempFolder()

@@ -1978,8 +1978,7 @@ namespace Win_CBZ
             // 
             // BtnAddMetaData
             // 
-            BtnAddMetaData.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            BtnAddMetaData.AutoSize = true;
+            BtnAddMetaData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             BtnAddMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             BtnAddMetaData.ImageIndex = 0;
             BtnAddMetaData.ImageList = SmallIconsImages;
@@ -1987,7 +1986,7 @@ namespace Win_CBZ
             BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
             BtnAddMetaData.Name = "BtnAddMetaData";
             BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnAddMetaData.Size = new System.Drawing.Size(190, 35);
+            BtnAddMetaData.Size = new System.Drawing.Size(190, 30);
             BtnAddMetaData.TabIndex = 7;
             BtnAddMetaData.Text = "Add Metadata";
             BtnAddMetaData.UseVisualStyleBackColor = true;
@@ -2013,7 +2012,7 @@ namespace Win_CBZ
             BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(2);
             BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnRemoveMetaData.Size = new System.Drawing.Size(182, 35);
+            BtnRemoveMetaData.Size = new System.Drawing.Size(182, 30);
             BtnRemoveMetaData.TabIndex = 8;
             BtnRemoveMetaData.Text = "Remove Metadata";
             BtnRemoveMetaData.UseVisualStyleBackColor = true;

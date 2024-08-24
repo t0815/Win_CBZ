@@ -338,12 +338,14 @@ namespace Win_CBZ
 
                         awaitClosingArchive.ContinueWith(t =>
                         {
-
+                            RemoveMetaData();
                             Program.ProjectModel.New();
                             RadioApplyAdjustmentsGlobal.Checked = true;
                             selectedImageTasks = new ImageTask("");
                             UpdateImageAdjustments(null, "<Global>");
                             ClearLog();
+
+                            AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_NEW));
                         });
 
                     awaitClosingArchive.Start();    
@@ -1064,7 +1066,8 @@ namespace Win_CBZ
                 {
                     ThumbnailPagesSlice = currentSlice,
                     CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Token,
-                    ThumbnailQueue = ThumbnailPagesSlice
+                    ThumbnailQueue = ThumbnailPagesSlice,
+                    ArchiveState = Program.ProjectModel.ArchiveState
                 });
 
                 //Task awaitTasks = AwaitOperationsTask.AwaitOperations(threads);
@@ -1089,7 +1092,7 @@ namespace Win_CBZ
             bool updateRequired = false;
             int indexToUpdate = -1;
 
-            if (Program.ProjectModel.ArchiveState != ArchiveStatusEvent.ARCHIVE_CLOSING)
+            if (tParams.ArchiveState != ArchiveStatusEvent.ARCHIVE_CLOSING && tParams.ArchiveState != ArchiveStatusEvent.ARCHIVE_CLOSED)
             {
 
                 if (!WindowClosed)
@@ -2227,7 +2230,6 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
                         ToolButtonValidateCBZ.Enabled = false;
-                        RemoveMetaData();
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_CLOSED:
@@ -2271,7 +2273,6 @@ namespace Win_CBZ
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
-                        RemoveMetaData();
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_FILE_ADDED:
@@ -3021,17 +3022,24 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel.MetaData != null)
             {
-                MetaDataGrid.DataSource = null;
-                MetaDataGrid.Rows.Clear();
-                MetaDataGrid.Columns.Clear();
-
                 Program.ProjectModel.MetaData.Values.Clear();
-                BtnAddMetaData.Enabled = true;
-                BtnRemoveMetaData.Enabled = false;
-                AddMetaDataRowBtn.Enabled = false;
-                RemoveMetadataRowBtn.Enabled = false;
-                ToolStripButtonShowRawMetadata.Enabled = false;
+                MetaDataGrid.DataSource = null;
 
+                if (!WindowClosed) 
+                {
+                    Invoke(new Action(() =>
+                    {
+                        MetaDataGrid.Rows.Clear();
+                        MetaDataGrid.Columns.Clear();
+
+
+                        BtnAddMetaData.Enabled = true;
+                        BtnRemoveMetaData.Enabled = false;
+                        AddMetaDataRowBtn.Enabled = false;
+                        RemoveMetadataRowBtn.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = false;
+                    }));
+                }
 
                 AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_DELETED));
                 //AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
