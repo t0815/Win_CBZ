@@ -2,6 +2,10 @@
 
 ![Screenshot](/meta/screenshot.png)
 
+
+>[!TIP]
+>* The Windows installer has been fixed. Didnt notice for quite a while, since i use IDE to run the app most of the time
+
 ## Author
 
 t0815, Trash_s0Ft
