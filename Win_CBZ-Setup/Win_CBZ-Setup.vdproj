@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_2466E606FB64429E9053C8ED3FF9F013"
+        "MsmKey" = "8:_1DAB07B3E40248E0B54293E16EE30178"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
+        "MsmKey" = "8:_2466E606FB64429E9053C8ED3FF9F013"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -248,15 +248,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
-        "ProductCode" = "8:{B383F08E-7C5E-40D2-9FEB-48C1A9E90986}"
-        "PackageCode" = "8:{C7E3D790-092C-42B0-B330-74EFFCC530F4}"
+        "ProductCode" = "8:{365296C8-08A5-437D-A061-59ACAECCB47C}"
+        "PackageCode" = "8:{BA246E53-C72E-4D48-887C-DB04A5E6F202}"
         "UpgradeCode" = "8:{66FAEF81-1CAE-4971-9E0F-796310EFEA5E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.19.150"
+        "ProductVersion" = "8:0.20.151"
         "Manufacturer" = "8:Trash_s0Ft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -369,18 +369,18 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_50588A21F1954C1E843402B2C93BE3A5"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_11C0B9D2BD5246A1A6B2FBC8CB54D9FF"
             {
-            "Name" = "8:Shortcut to %sPrimäre Ausgabe from Win_CBZ (Release x64)"
+            "Name" = "8:Win_CBZ"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
+            "Target" = "8:_1DAB07B3E40248E0B54293E16EE30178"
             "Folder" = "8:_3011687A9D1144F68A697C1BE79810B7"
             "WorkingFolder" = "8:_381C2AC7AD384E1488C6014F95032920"
-            "Icon" = "8:_74A2F3CE81EF4D4CB9DC6C58480F47C9"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E17DE2DDDB0348D2A509E9B26814C8FC"
@@ -391,7 +391,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_6396FCEA903E4B85AEBC5E3B127481F0"
+            "Target" = "8:_1DAB07B3E40248E0B54293E16EE30178"
             "Folder" = "8:_75783053DDA04020B7DE2452742D1BB5"
             "WorkingFolder" = "8:_381C2AC7AD384E1488C6014F95032920"
             "Icon" = "8:_74A2F3CE81EF4D4CB9DC6C58480F47C9"
@@ -806,9 +806,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6396FCEA903E4B85AEBC5E3B127481F0"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1DAB07B3E40248E0B54293E16EE30178"
             {
-            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Release\\net8.0-windows7.0\\Win_CBZ.dll"
+            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Release\\net8.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
@@ -826,8 +826,8 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|x64"
-            "OutputGroupCanonicalName" = "8:Built"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{EAE8AA9F-037C-4B1E-B4CB-1642096649CE}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
