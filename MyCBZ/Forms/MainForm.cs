@@ -3001,10 +3001,9 @@ namespace Win_CBZ
                         RemoveMetadataRowBtn.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
 
+                        
+                        TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
                     }));
-                    
-                    
-
                 });
 
             updateIndex.Start();
@@ -3038,6 +3037,11 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = false;
                         RemoveMetadataRowBtn.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = false;
+                    }));
+
+                    TextBoxCountKeys.Invoke(new Action(() =>
+                    {
+                        TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
                     }));
                 }
 
@@ -3236,6 +3240,11 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
+                TextBoxCountKeys.Invoke(new Action(() =>
+                {
+                    TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
+                }));
+
                 MetaDataGrid.Invoke(new Action(() =>
                 {
                     //MetaDataGrid.DataSource = e.MetaData;
@@ -3430,7 +3439,7 @@ namespace Win_CBZ
 
                     if (Program.ProjectModel.FileName != null)
                     {
-
+                        TextBoxCountKeys.Text = e.Data.Values.Count.ToString();
                         ToolButtonSave.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                         SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                     }
@@ -3442,12 +3451,19 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
+                TextBoxCountKeys.Invoke(new Action(() =>
+                {
+                    TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
+                }));
+
                 MetaDataGrid.Invoke(new Action(() =>
                 {
+                    
                     Program.ProjectModel.IsChanged = true;
 
                     if (Program.ProjectModel.FileName != null)
                     {
+                        
                         AppEventHandler.OnArchiveStatusChanged(sender, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
                         //ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                         //SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;

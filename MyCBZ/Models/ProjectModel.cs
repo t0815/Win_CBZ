@@ -641,7 +641,7 @@ namespace Win_CBZ
                 throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
             }
 
-            Task newFollowTask = new Task(() =>
+            Task<string> newFollowTask = new Task<string>(() =>
             {
                 //Pages.Clear();
                 MetaData.Free();
@@ -666,6 +666,8 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
                     }
                 }
+
+                return ProjectGUID;
             });
 
             Close(newFollowTask);           
