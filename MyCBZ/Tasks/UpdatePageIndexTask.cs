@@ -65,8 +65,7 @@ namespace Win_CBZ.Tasks
 
                     if (((CancellationToken)token).IsCancellationRequested)
                     {
-                       
-
+                        
                         break;
                     }
                    

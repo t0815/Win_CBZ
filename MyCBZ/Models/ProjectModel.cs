@@ -38,6 +38,7 @@ using static Win_CBZ.MetaData;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
 using SharpCompress.Compressors.Xz;
+using System.Windows.Interop;
 
 namespace Win_CBZ
 {
@@ -241,7 +242,7 @@ namespace Win_CBZ
                     {
                         if (ExtractArchiveThread.IsAlive)
                         {
-                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.).Cancel();
+                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_ARCHIVE).Cancel();
                         }
                     }
 
@@ -249,7 +250,7 @@ namespace Win_CBZ
                     {
                         if (PageUpdateThread.IsAlive)
                         {
-                            CancellationTokenSourcePageUpdate.Cancel();
+                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Cancel();
                         }
                     }
 
@@ -269,7 +270,7 @@ namespace Win_CBZ
                         LocalFiles = new List<LocalFile>((IEnumerable<LocalFile>)e.Data),
                         Stack = remainingStack,
                         InvalidFileNames = FilteredFileNames.ToArray(),
-                        CancelToken = CancellationTokenSourceProcessAddedFiles.Token,
+                        CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_PROCESS_FILES).Token,
                         MaxCountPages = p.MaxCountPages,
                     });
 
@@ -282,7 +283,7 @@ namespace Win_CBZ
             {
                 UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
 
-                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token);
+                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token);
 
                 indexUpdater.ContinueWith((t) =>
                 {
@@ -293,7 +294,7 @@ namespace Win_CBZ
 
                     if (MetaData.Exists())
                     {
-                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged);
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {
@@ -690,7 +691,7 @@ namespace Win_CBZ
                 Mode = mode,
                 CurrentPageIndexVer = currentMetaDataVersionWriting,
                 SkipIndexCheck = skipIndexCheck,
-                CancelToken = CancellationTokenSourceLoadArchive.Token
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
             });
 
             return LoadArchiveThread;
@@ -895,15 +896,15 @@ namespace Win_CBZ
                             "Rebuild", 
                             GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, 
                             ReadImageMetaDataTask.UpdateImageMetadata(Pages, 
-                                AppEventHandler.OnGeneralTaskProgress, 
-                                CancellationTokenSourceGlobal.Token)
+                                AppEventHandler.OnGeneralTaskProgress,
+                                TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token)
                             )
                         );
                 }
 
                 if (MetaDataPageIndexFileMissing)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdateMetadataTask.UpdatePageMetadata(Pages, MetaData, PageIndexVersionWriter, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdateMetadataTask.UpdatePageMetadata(Pages, MetaData, PageIndexVersionWriter, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token)));
                 }
 
                 if (missingPages.Count > 0)
@@ -982,7 +983,7 @@ namespace Win_CBZ
                         {
                             ApplyImageProcessing = true,
                             ContinuePipeline = true,
-                            CancelToken = CancellationTokenSourceSaveArchive.Token,
+                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token,
                             Pages = Pages,
                             SkipPages = ConversionExcludes.Cast<String>().ToArray(),
                         }
@@ -999,7 +1000,7 @@ namespace Win_CBZ
                             RenameStoryPagePattern = CompatibilityMode ? "" : RenameStoryPagePattern,
                             RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern,
                             ContinuePipeline = true,
-                            CancelToken = CancellationTokenSourceRenaming.Token
+                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
                         }
                     },
                     new StackItem()
@@ -1012,7 +1013,7 @@ namespace Win_CBZ
                             InitialIndexRebuild = false,
                             Stack = new List<StackItem>(),
                             PageIndexVerToWrite = metaDataVersionWriting,
-                            CancelToken = CancellationTokenSourceSaveArchive.Token
+                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
                         }
                     },
                     new StackItem()
@@ -1026,7 +1027,7 @@ namespace Win_CBZ
                             ContinueOnError = continueOnError,
                             CompressionLevel = CompressionLevel,
                             PageIndexVerToWrite = metaDataVersionWriting,
-                            CancelToken = CancellationTokenSourceSaveArchive.Token
+                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
                         }
                     }
                 }
@@ -1364,7 +1365,7 @@ namespace Win_CBZ
             { 
                 OutputPath = outputPath,
                 Pages = Pages,
-                CancelToken = CancellationTokenSourceExtractArchive.Token,
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_ARCHIVE).Token,
             });
         }
 
@@ -1395,7 +1396,7 @@ namespace Win_CBZ
                 ShowDialog = showErrorsDialog, 
                 PageIndexVersion = pageIndexVersion,
                 Pages = Pages,
-                CancelToken = CancellationTokenSourceArchiveValidation.Token,
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_CBZ_VALIDATION).Token,
             });
 
         }
@@ -1807,7 +1808,7 @@ namespace Win_CBZ
 
         public void CancelAllThreads()
         {
-            CancellationTokenSourceGlobal.Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Cancel();
 
             /*
             Task.Factory.StartNew(() =>
@@ -2066,7 +2067,7 @@ namespace Win_CBZ
                 Stack = null,
                 HasMetaData = MetaData.Exists(),
                 PageIndexVerToWrite = PageIndexVersionWriter,
-                CancelToken = CancellationTokenSourceParseAddedFileNames.Token,
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_PARSE_FILES).Token,
                 Pages = Pages,
                 MaxCountPages = Pages.Count,
             });
@@ -3029,6 +3030,8 @@ namespace Win_CBZ
                 }
             }
 
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
+
             Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads);
 
             awaitClosingArchive.ContinueWith(t => {
@@ -3123,7 +3126,7 @@ namespace Win_CBZ
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    CancellationTokenSourceLoadArchive.Cancel();
+                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Cancel();
                 }
             }
 
@@ -3131,7 +3134,7 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    CancellationTokenSourceCloseArchive.Cancel();
+                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_CLOSE_ARCHIVE).Cancel();
                 }
             }
 
@@ -3139,7 +3142,7 @@ namespace Win_CBZ
             {
                 if (ExtractArchiveThread.IsAlive)
                 {
-                    CancellationTokenSourceExtractArchive.Cancel();
+                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_ARCHIVE).Cancel();
                 }
             }
 

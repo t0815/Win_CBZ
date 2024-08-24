@@ -17,12 +17,18 @@ namespace Win_CBZ
         public const string TOKEN_SOURCE_SAVE_ARCHIVE = "savearchive";
         public const string TOKEN_SOURCE_DELETE_FILE = "deletefile";
         public const string TOKEN_SOURCE_UPDATE_PAGE = "pageupdate";
+        public const string TOKEN_SOURCE_UPDATE_IMAGE = "imageupdate";
         public const string TOKEN_SOURCE_PROCESS_FILES = "processaddedfiles";
         public const string TOKEN_SOURCE_PARSE_FILES = "parsefilenames";
         public const string TOKEN_SOURCE_RENAME = "rename";
         public const string TOKEN_SOURCE_AUTO_RENAME = "autorename";
         public const string TOKEN_SOURCE_RESTORE_RENAMING = "restorerenaming";
-        public const string TOKEN_SOURCE_CBZ_VALIDATION = "archivevalidation"
+        public const string TOKEN_SOURCE_CBZ_VALIDATION = "archivevalidation";
+        public const string TOKEN_SOURCE_THUMBNAIL_SLICE = "thumbnailslice";
+        public const string TOKEN_SOURCE_THUMBNAIL = "thumbnail";
+        public const string TOKEN_SOURCE_MOVE_ITEMS = "moveitems";
+        public const string TOKEN_SOURCE_UPDATE_PAGE_VIEW = "updatepageview";
+
 
         private static TokenStore Instance;
 
@@ -45,6 +51,10 @@ namespace Win_CBZ
            {TOKEN_SOURCE_AUTO_RENAME, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
            {TOKEN_SOURCE_RESTORE_RENAMING, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
            {TOKEN_SOURCE_CBZ_VALIDATION, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_UPDATE_IMAGE, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_THUMBNAIL_SLICE, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_MOVE_ITEMS, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_UPDATE_PAGE_VIEW, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
         };
 
 
@@ -103,12 +113,15 @@ namespace Win_CBZ
                 newSource = new CancellationTokenSource();
             }
 
-            CancellationTokenStore.Add(name, newSource);
-
+            if (!CancellationTokenStore.ContainsKey(name))
+            {
+                CancellationTokenStore.Add(name, newSource);
+            }
+            
             return newSource;
         }
 
-        public bool ResetCancellationToken(string name = null)
+        public bool ResetCancellationToken(string name, string link = null)
         {
             if (CancellationTokenStore.ContainsKey(name))
             {
@@ -142,13 +155,16 @@ namespace Win_CBZ
                 name = x.Key;
                 if (x.Value.Item1.Length > 0 && x.Value.Item2)
                 {
-                    if (CancellationTokenStore.TryGetValue(x.Value.Item1, out linkedSource))
+                    if (CancellationTokenStore.ContainsKey(x.Value.Item1))
                     {
-                        cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(linkedSource.Token);
+                        cancellationTokenSource = AddNewCancellationToken(name, x.Value.Item1);
                     }
                 }
 
-                CancellationTokenStore.Add(x.Key, cancellationTokenSource);
+                if (!CancellationTokenStore.ContainsKey(name))
+                {
+                    AddNewCancellationToken(name);
+                }
             }
         }
 

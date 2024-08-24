@@ -72,7 +72,6 @@ namespace Win_CBZ
 
         private Thread MoveItemsThread;
 
-        private CancellationTokenSource CancellationTokenSourceGlobal;
 
         private CancellationTokenSource CancellationTokenSourceRequestThumbnail;
 
@@ -99,13 +98,6 @@ namespace Win_CBZ
         public MainForm()
         {
             InitializeComponent();
-
-            CancellationTokenSourceGlobal = new CancellationTokenSource();
-            CancellationTokenSourceRequestThumbnail = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceRequestImageInfo = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceUpdatePageView = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceMoveItems = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
-            CancellationTokenSourceThumbnail = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSourceGlobal.Token);
 
             Program.ProjectModel = NewProjectModel();
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
@@ -1004,7 +996,7 @@ namespace Win_CBZ
 
         public void RequestThumbnailSlice()
         {
-            if (Win_CBZSettings.Default.PagePreviewEnabled)
+            if (Win_CBZSettings.Default.PagePreviewEnabled && Program.ProjectModel.ArchiveState != ArchiveStatusEvent.ARCHIVE_CLOSING)
             {
 
                 if (ThumbnailThread != null)
@@ -1045,7 +1037,7 @@ namespace Win_CBZ
                 RequestThumbnailThread.Start(new ThumbSliceThreadParams()
                 {
                     ThumbnailPagesSlice = currentSlice,
-                    CancelToken = CancellationTokenSourceRequestThumbnail.Token,
+                    CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Token,
                     ThumbnailQueue = ThumbnailPagesSlice
                 });
 
@@ -1888,6 +1880,8 @@ namespace Win_CBZ
                 //
             }
 
+            Program.ProjectModel.ArchiveState = e.State;
+
             switch (e.State)
             {
                 case ArchiveStatusEvent.ARCHIVE_OPENED:
@@ -2483,7 +2477,7 @@ namespace Win_CBZ
 
         private void CancelAllThreads()
         {
-            CancellationTokenSourceGlobal.Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Cancel();
 
             /*
             Task.Factory.StartNew(() =>
@@ -2757,8 +2751,8 @@ namespace Win_CBZ
                     GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
                     UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
                         AppEventHandler.OnGeneralTaskProgress, 
-                        AppEventHandler.OnPageChanged, 
-                        CancellationTokenSourceGlobal.Token
+                        AppEventHandler.OnPageChanged,
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token
                         )
                     ));
 
@@ -2822,7 +2816,7 @@ namespace Win_CBZ
             }
             */
 
-            CancellationTokenSourceGlobal.Cancel();
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Cancel();
 
             MovePagesThread = new Thread(MovePageProc);
             MovePagesThread.Start(new MovePageThreadParams()
@@ -2935,7 +2929,7 @@ namespace Win_CBZ
                 }
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token)));
+                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
 
                 Program.ProjectModel.IsChanged = true;
             }));
@@ -3927,7 +3921,7 @@ namespace Win_CBZ
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
-                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token)));
+                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
 
                 //Program.ProjectModel.UpdatePageIndices();
             }
@@ -3951,7 +3945,7 @@ namespace Win_CBZ
                     {
                         if (PagesList.SelectedItems.Count > 1)
                         {
-                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token)));
+                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
                         }
                         else
                         {
@@ -4290,7 +4284,7 @@ namespace Win_CBZ
 
                 if (pageIndexUpdateNeeded)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
                 }
             }
         }
@@ -4445,7 +4439,7 @@ namespace Win_CBZ
                 {
                     if (PagesList.SelectedItems.Count > 1)
                     {
-                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token)));
+                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
                     }
                     else
                     {
@@ -5475,7 +5469,7 @@ namespace Win_CBZ
 
                     if (pagesUpdated > 0)
                     {
-                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, CancellationTokenSourceGlobal.Token)));
+                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
 
                     }
                 }

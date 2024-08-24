@@ -119,7 +119,7 @@
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
-            SettingsTablePanel.Size = new System.Drawing.Size(724, 694);
+            SettingsTablePanel.Size = new System.Drawing.Size(744, 694);
             SettingsTablePanel.TabIndex = 1;
             // 
             // ImagePreviewTableLayout
@@ -201,7 +201,7 @@
             HeaderPanel.Location = new System.Drawing.Point(3, 2);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(718, 95);
+            HeaderPanel.Size = new System.Drawing.Size(738, 95);
             HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
@@ -230,7 +230,7 @@
             ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             ButtonOk.Enabled = false;
-            ButtonOk.Location = new System.Drawing.Point(477, 636);
+            ButtonOk.Location = new System.Drawing.Point(497, 636);
             ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonOk.Name = "ButtonOk";
             ButtonOk.Size = new System.Drawing.Size(111, 41);
@@ -243,7 +243,7 @@
             // 
             ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            ButtonCancel.Location = new System.Drawing.Point(594, 636);
+            ButtonCancel.Location = new System.Drawing.Point(614, 636);
             ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonCancel.Name = "ButtonCancel";
             ButtonCancel.Size = new System.Drawing.Size(119, 41);
@@ -276,7 +276,7 @@
             TabControlPageProperties.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TabControlPageProperties.Name = "TabControlPageProperties";
             TabControlPageProperties.SelectedIndex = 0;
-            TabControlPageProperties.Size = new System.Drawing.Size(468, 516);
+            TabControlPageProperties.Size = new System.Drawing.Size(488, 516);
             TabControlPageProperties.TabIndex = 6;
             TabControlPageProperties.SelectedIndexChanged += TabControlPageProperties_SelectedIndexChanged;
             // 
@@ -287,7 +287,7 @@
             tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage1.Size = new System.Drawing.Size(460, 483);
+            tabPage1.Size = new System.Drawing.Size(480, 483);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Properties";
             tabPage1.UseVisualStyleBackColor = true;
@@ -302,7 +302,8 @@
             panel1.Location = new System.Drawing.Point(3, 2);
             panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(454, 479);
+            panel1.Padding = new System.Windows.Forms.Padding(4);
+            panel1.Size = new System.Drawing.Size(474, 479);
             panel1.TabIndex = 0;
             // 
             // LoadingIndicator
@@ -323,13 +324,13 @@
             // 
             // tableLayoutPanel1
             // 
-            tableLayoutPanel1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.ColumnCount = 4;
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
-            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             tableLayoutPanel1.Controls.Add(label3, 0, 0);
             tableLayoutPanel1.Controls.Add(label5, 0, 2);
             tableLayoutPanel1.Controls.Add(LabelSize, 1, 2);
@@ -360,9 +361,11 @@
             tableLayoutPanel1.Controls.Add(pictureBox2, 2, 6);
             tableLayoutPanel1.Controls.Add(ButtonReloadImage, 3, 0);
             tableLayoutPanel1.Controls.Add(TextBoxFileLocation, 1, 0);
-            tableLayoutPanel1.Location = new System.Drawing.Point(3, 15);
+            tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel1.Location = new System.Drawing.Point(4, 4);
             tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 8, 10, 0);
             tableLayoutPanel1.RowCount = 12;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
@@ -376,7 +379,7 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(326, 640);
+            tableLayoutPanel1.Size = new System.Drawing.Size(466, 471);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // label3
@@ -384,7 +387,7 @@
             label3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label3.Location = new System.Drawing.Point(47, 0);
+            label3.Location = new System.Drawing.Point(47, 8);
             label3.Name = "label3";
             label3.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             label3.Size = new System.Drawing.Size(70, 25);
@@ -397,7 +400,7 @@
             label5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label5.AutoSize = true;
             label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label5.Location = new System.Drawing.Point(78, 96);
+            label5.Location = new System.Drawing.Point(78, 104);
             label5.Name = "label5";
             label5.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
             label5.Size = new System.Drawing.Size(39, 26);
@@ -408,7 +411,7 @@
             // LabelSize
             // 
             LabelSize.AutoSize = true;
-            LabelSize.Location = new System.Drawing.Point(123, 96);
+            LabelSize.Location = new System.Drawing.Point(123, 104);
             LabelSize.Name = "LabelSize";
             LabelSize.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
             LabelSize.Size = new System.Drawing.Size(56, 29);
@@ -421,7 +424,7 @@
             label6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label6.AutoSize = true;
             label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label6.Location = new System.Drawing.Point(25, 144);
+            label6.Location = new System.Drawing.Point(25, 152);
             label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -433,7 +436,7 @@
             // LabelDimensions
             // 
             LabelDimensions.AutoSize = true;
-            LabelDimensions.Location = new System.Drawing.Point(124, 144);
+            LabelDimensions.Location = new System.Drawing.Point(124, 152);
             LabelDimensions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelDimensions.Name = "LabelDimensions";
             LabelDimensions.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -446,7 +449,7 @@
             LabelFormat.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             LabelFormat.AutoSize = true;
             LabelFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            LabelFormat.Location = new System.Drawing.Point(58, 48);
+            LabelFormat.Location = new System.Drawing.Point(58, 56);
             LabelFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelFormat.Name = "LabelFormat";
             LabelFormat.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -458,7 +461,7 @@
             // LabelImageFormat
             // 
             LabelImageFormat.AutoSize = true;
-            LabelImageFormat.Location = new System.Drawing.Point(124, 48);
+            LabelImageFormat.Location = new System.Drawing.Point(124, 56);
             LabelImageFormat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelImageFormat.Name = "LabelImageFormat";
             LabelImageFormat.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -470,10 +473,10 @@
             // PageNameTextBox
             // 
             PageNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            PageNameTextBox.Location = new System.Drawing.Point(125, 245);
+            PageNameTextBox.Location = new System.Drawing.Point(125, 253);
             PageNameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 3, 2);
             PageNameTextBox.Name = "PageNameTextBox";
-            PageNameTextBox.Size = new System.Drawing.Size(112, 27);
+            PageNameTextBox.Size = new System.Drawing.Size(201, 27);
             PageNameTextBox.TabIndex = 2;
             PageNameTextBox.TextChanged += PageNameTextBox_TextChanged;
             // 
@@ -482,7 +485,7 @@
             label2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label2.Location = new System.Drawing.Point(68, 240);
+            label2.Location = new System.Drawing.Point(68, 248);
             label2.Name = "label2";
             label2.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             label2.Size = new System.Drawing.Size(49, 25);
@@ -495,7 +498,7 @@
             label9.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label9.AutoSize = true;
             label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label9.Location = new System.Drawing.Point(83, 192);
+            label9.Location = new System.Drawing.Point(83, 200);
             label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label9.Name = "label9";
             label9.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -507,7 +510,7 @@
             // LabelDpi
             // 
             LabelDpi.AutoSize = true;
-            LabelDpi.Location = new System.Drawing.Point(124, 192);
+            LabelDpi.Location = new System.Drawing.Point(124, 200);
             LabelDpi.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelDpi.Name = "LabelDpi";
             LabelDpi.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -521,7 +524,7 @@
             label8.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label8.AutoSize = true;
             label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label8.Location = new System.Drawing.Point(250, 48);
+            label8.Location = new System.Drawing.Point(339, 56);
             label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label8.Name = "label8";
             label8.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -533,7 +536,7 @@
             // LabelBits
             // 
             LabelBits.AutoSize = true;
-            LabelBits.Location = new System.Drawing.Point(285, 48);
+            LabelBits.Location = new System.Drawing.Point(374, 56);
             LabelBits.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelBits.Name = "LabelBits";
             LabelBits.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -547,7 +550,7 @@
             label7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label7.AutoSize = true;
             label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label7.Location = new System.Drawing.Point(246, 96);
+            label7.Location = new System.Drawing.Point(335, 104);
             label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label7.Name = "label7";
             label7.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -559,7 +562,7 @@
             // LabelImageColors
             // 
             LabelImageColors.AutoSize = true;
-            LabelImageColors.Location = new System.Drawing.Point(285, 96);
+            LabelImageColors.Location = new System.Drawing.Point(374, 104);
             LabelImageColors.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             LabelImageColors.Name = "LabelImageColors";
             LabelImageColors.Padding = new System.Windows.Forms.Padding(0, 9, 0, 0);
@@ -573,7 +576,7 @@
             label10.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label10.AutoSize = true;
             label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label10.Location = new System.Drawing.Point(84, 288);
+            label10.Location = new System.Drawing.Point(84, 296);
             label10.Name = "label10";
             label10.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             label10.Size = new System.Drawing.Size(33, 24);
@@ -588,10 +591,10 @@
             KeyEditorPanel.Controls.Add(textBoxKey);
             KeyEditorPanel.Controls.Add(ButtonNewKey);
             KeyEditorPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            KeyEditorPanel.Location = new System.Drawing.Point(125, 293);
+            KeyEditorPanel.Location = new System.Drawing.Point(125, 301);
             KeyEditorPanel.Margin = new System.Windows.Forms.Padding(5, 5, 3, 2);
             KeyEditorPanel.Name = "KeyEditorPanel";
-            KeyEditorPanel.Size = new System.Drawing.Size(112, 27);
+            KeyEditorPanel.Size = new System.Drawing.Size(201, 27);
             KeyEditorPanel.TabIndex = 25;
             // 
             // textBoxKey
@@ -601,7 +604,7 @@
             textBoxKey.Location = new System.Drawing.Point(0, 0);
             textBoxKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             textBoxKey.Name = "textBoxKey";
-            textBoxKey.Size = new System.Drawing.Size(85, 20);
+            textBoxKey.Size = new System.Drawing.Size(174, 20);
             textBoxKey.TabIndex = 22;
             textBoxKey.TextChanged += textBoxKey_TextChanged;
             // 
@@ -611,7 +614,7 @@
             ButtonNewKey.Enabled = false;
             ButtonNewKey.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonNewKey.Image = Properties.Resources.arrow_circle2;
-            ButtonNewKey.Location = new System.Drawing.Point(85, 0);
+            ButtonNewKey.Location = new System.Drawing.Point(174, 0);
             ButtonNewKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonNewKey.Name = "ButtonNewKey";
             ButtonNewKey.Size = new System.Drawing.Size(25, 25);
@@ -625,7 +628,7 @@
             label11.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label11.AutoSize = true;
             label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label11.Location = new System.Drawing.Point(14, 480);
+            label11.Location = new System.Drawing.Point(14, 488);
             label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label11.Name = "label11";
             label11.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -637,7 +640,7 @@
             // CheckBoxDoublePage
             // 
             CheckBoxDoublePage.AutoSize = true;
-            CheckBoxDoublePage.Location = new System.Drawing.Point(124, 485);
+            CheckBoxDoublePage.Location = new System.Drawing.Point(124, 493);
             CheckBoxDoublePage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CheckBoxDoublePage.Name = "CheckBoxDoublePage";
             CheckBoxDoublePage.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -651,7 +654,7 @@
             label4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label4.Location = new System.Drawing.Point(52, 432);
+            label4.Location = new System.Drawing.Point(52, 440);
             label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -663,7 +666,7 @@
             // CheckBoxPageDeleted
             // 
             CheckBoxPageDeleted.AutoSize = true;
-            CheckBoxPageDeleted.Location = new System.Drawing.Point(124, 437);
+            CheckBoxPageDeleted.Location = new System.Drawing.Point(124, 445);
             CheckBoxPageDeleted.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CheckBoxPageDeleted.Name = "CheckBoxPageDeleted";
             CheckBoxPageDeleted.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
@@ -677,7 +680,7 @@
             label1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label1.Location = new System.Drawing.Point(71, 384);
+            label1.Location = new System.Drawing.Point(71, 392);
             label1.Name = "label1";
             label1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             label1.Size = new System.Drawing.Size(46, 25);
@@ -687,7 +690,7 @@
             // 
             // PageIndexTextbox
             // 
-            PageIndexTextbox.Location = new System.Drawing.Point(125, 389);
+            PageIndexTextbox.Location = new System.Drawing.Point(125, 397);
             PageIndexTextbox.Margin = new System.Windows.Forms.Padding(5, 5, 3, 2);
             PageIndexTextbox.Name = "PageIndexTextbox";
             PageIndexTextbox.Size = new System.Drawing.Size(71, 27);
@@ -699,7 +702,7 @@
             label13.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label13.AutoSize = true;
             label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label13.Location = new System.Drawing.Point(73, 336);
+            label13.Location = new System.Drawing.Point(73, 344);
             label13.Name = "label13";
             label13.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             label13.Size = new System.Drawing.Size(44, 25);
@@ -713,10 +716,10 @@
             ComboBoxPageType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             ComboBoxPageType.Dock = System.Windows.Forms.DockStyle.Top;
             ComboBoxPageType.FormattingEnabled = true;
-            ComboBoxPageType.Location = new System.Drawing.Point(123, 341);
+            ComboBoxPageType.Location = new System.Drawing.Point(123, 349);
             ComboBoxPageType.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
             ComboBoxPageType.Name = "ComboBoxPageType";
-            ComboBoxPageType.Size = new System.Drawing.Size(114, 28);
+            ComboBoxPageType.Size = new System.Drawing.Size(203, 28);
             ComboBoxPageType.TabIndex = 27;
             ComboBoxPageType.TextUpdate += ComboBoxPageType_TextUpdate;
             ComboBoxPageType.TextChanged += ComboBoxPageType_TextChanged;
@@ -726,7 +729,7 @@
             label14.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             label14.AutoSize = true;
             label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label14.Location = new System.Drawing.Point(19, 528);
+            label14.Location = new System.Drawing.Point(19, 536);
             label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             label14.Name = "label14";
             label14.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -738,7 +741,7 @@
             // IsCompressedLabel
             // 
             IsCompressedLabel.AutoSize = true;
-            IsCompressedLabel.Location = new System.Drawing.Point(123, 528);
+            IsCompressedLabel.Location = new System.Drawing.Point(123, 536);
             IsCompressedLabel.Name = "IsCompressedLabel";
             IsCompressedLabel.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
             IsCompressedLabel.Size = new System.Drawing.Size(29, 28);
@@ -750,7 +753,7 @@
             // 
             pictureBox2.Image = Properties.Resources.information;
             pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(244, 288);
+            pictureBox2.Location = new System.Drawing.Point(333, 296);
             pictureBox2.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
@@ -763,7 +766,7 @@
             // ButtonReloadImage
             // 
             ButtonReloadImage.Image = Properties.Resources.arrow_circle2;
-            ButtonReloadImage.Location = new System.Drawing.Point(284, 4);
+            ButtonReloadImage.Location = new System.Drawing.Point(373, 12);
             ButtonReloadImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             ButtonReloadImage.Name = "ButtonReloadImage";
             ButtonReloadImage.Size = new System.Drawing.Size(32, 29);
@@ -776,11 +779,12 @@
             // 
             TextBoxFileLocation.BackColor = System.Drawing.SystemColors.Control;
             tableLayoutPanel1.SetColumnSpan(TextBoxFileLocation, 2);
-            TextBoxFileLocation.Location = new System.Drawing.Point(123, 5);
+            TextBoxFileLocation.Dock = System.Windows.Forms.DockStyle.Top;
+            TextBoxFileLocation.Location = new System.Drawing.Point(123, 13);
             TextBoxFileLocation.Margin = new System.Windows.Forms.Padding(3, 5, 3, 2);
             TextBoxFileLocation.Name = "TextBoxFileLocation";
             TextBoxFileLocation.ReadOnly = true;
-            TextBoxFileLocation.Size = new System.Drawing.Size(155, 27);
+            TextBoxFileLocation.Size = new System.Drawing.Size(244, 27);
             TextBoxFileLocation.TabIndex = 5;
             // 
             // tabPage2
@@ -790,7 +794,7 @@
             tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage2.Size = new System.Drawing.Size(460, 483);
+            tabPage2.Size = new System.Drawing.Size(480, 483);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Page XML";
             tabPage2.UseVisualStyleBackColor = true;
@@ -823,7 +827,7 @@
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             CancelButton = ButtonCancel;
-            ClientSize = new System.Drawing.Size(724, 694);
+            ClientSize = new System.Drawing.Size(744, 694);
             Controls.Add(SettingsTablePanel);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
