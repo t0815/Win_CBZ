@@ -2240,15 +2240,15 @@ namespace Win_CBZ
             // 
             StatusToolStripTableLayout.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             StatusToolStripTableLayout.ColumnCount = 9;
-            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.2148438F));
+            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.0438862F));
             StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.2186813F));
+            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.9224968F));
             StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.014576F));
+            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.5094376F));
             StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.663232F));
+            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.2694645F));
             StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.8886642F));
+            StatusToolStripTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.2547188F));
             StatusToolStripTableLayout.Controls.Add(pictureBox6, 7, 0);
             StatusToolStripTableLayout.Controls.Add(pictureBox5, 5, 0);
             StatusToolStripTableLayout.Controls.Add(pictureBox4, 3, 0);
@@ -2271,7 +2271,7 @@ namespace Win_CBZ
             pictureBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             pictureBox6.ErrorImage = null;
             pictureBox6.Image = Properties.Resources.divider;
-            pictureBox6.Location = new System.Drawing.Point(883, 2);
+            pictureBox6.Location = new System.Drawing.Point(1018, 2);
             pictureBox6.Margin = new System.Windows.Forms.Padding(2);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Size = new System.Drawing.Size(4, 21);
@@ -2283,7 +2283,7 @@ namespace Win_CBZ
             pictureBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             pictureBox5.ErrorImage = null;
             pictureBox5.Image = Properties.Resources.divider;
-            pictureBox5.Location = new System.Drawing.Point(754, 2);
+            pictureBox5.Location = new System.Drawing.Point(881, 2);
             pictureBox5.Margin = new System.Windows.Forms.Padding(2);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new System.Drawing.Size(4, 21);
@@ -2295,7 +2295,7 @@ namespace Win_CBZ
             pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             pictureBox4.ErrorImage = null;
             pictureBox4.Image = Properties.Resources.divider;
-            pictureBox4.Location = new System.Drawing.Point(317, 2);
+            pictureBox4.Location = new System.Drawing.Point(337, 2);
             pictureBox4.Margin = new System.Windows.Forms.Padding(2);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new System.Drawing.Size(4, 21);
@@ -2317,20 +2317,20 @@ namespace Win_CBZ
             // 
             FileNameLabel.AutoSize = true;
             FileNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            FileNameLabel.Location = new System.Drawing.Point(325, 2);
+            FileNameLabel.Location = new System.Drawing.Point(345, 2);
             FileNameLabel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             FileNameLabel.Name = "FileNameLabel";
-            FileNameLabel.Size = new System.Drawing.Size(425, 23);
+            FileNameLabel.Size = new System.Drawing.Size(532, 23);
             FileNameLabel.TabIndex = 2;
             FileNameLabel.Click += FileNameLabel_Click;
             // 
             // MainToolStripProgressBar
             // 
             MainToolStripProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            MainToolStripProgressBar.Location = new System.Drawing.Point(176, 2);
+            MainToolStripProgressBar.Location = new System.Drawing.Point(187, 2);
             MainToolStripProgressBar.Margin = new System.Windows.Forms.Padding(2);
             MainToolStripProgressBar.Name = "MainToolStripProgressBar";
-            MainToolStripProgressBar.Size = new System.Drawing.Size(137, 21);
+            MainToolStripProgressBar.Size = new System.Drawing.Size(146, 21);
             MainToolStripProgressBar.TabIndex = 0;
             // 
             // PageCountStatusLabel
@@ -2338,10 +2338,10 @@ namespace Win_CBZ
             PageCountStatusLabel.AutoEllipsis = true;
             PageCountStatusLabel.AutoSize = true;
             PageCountStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            PageCountStatusLabel.Location = new System.Drawing.Point(762, 2);
+            PageCountStatusLabel.Location = new System.Drawing.Point(889, 2);
             PageCountStatusLabel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             PageCountStatusLabel.Name = "PageCountStatusLabel";
-            PageCountStatusLabel.Size = new System.Drawing.Size(117, 23);
+            PageCountStatusLabel.Size = new System.Drawing.Size(125, 23);
             PageCountStatusLabel.TabIndex = 3;
             PageCountStatusLabel.Text = "0 Pages";
             // 
@@ -2350,7 +2350,7 @@ namespace Win_CBZ
             pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             pictureBox3.ErrorImage = null;
             pictureBox3.Image = Properties.Resources.divider;
-            pictureBox3.Location = new System.Drawing.Point(168, 2);
+            pictureBox3.Location = new System.Drawing.Point(179, 2);
             pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new System.Drawing.Size(4, 21);
@@ -2362,10 +2362,10 @@ namespace Win_CBZ
             BackgroundTaskStatusPanel.Controls.Add(boxIndicatorControl1);
             BackgroundTaskStatusPanel.Controls.Add(BackgroundTaskStatusLabel);
             BackgroundTaskStatusPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            BackgroundTaskStatusPanel.Location = new System.Drawing.Point(891, 2);
+            BackgroundTaskStatusPanel.Location = new System.Drawing.Point(1026, 2);
             BackgroundTaskStatusPanel.Margin = new System.Windows.Forms.Padding(2);
             BackgroundTaskStatusPanel.Name = "BackgroundTaskStatusPanel";
-            BackgroundTaskStatusPanel.Size = new System.Drawing.Size(401, 21);
+            BackgroundTaskStatusPanel.Size = new System.Drawing.Size(266, 21);
             BackgroundTaskStatusPanel.TabIndex = 8;
             BackgroundTaskStatusPanel.Visible = false;
             // 
