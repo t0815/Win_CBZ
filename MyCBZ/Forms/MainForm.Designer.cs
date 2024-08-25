@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             ToolBar = new System.Windows.Forms.ToolStrip();
             ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -897,8 +897,8 @@ namespace Win_CBZ
             // PrimarySplitBox
             // 
             PrimarySplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            PrimarySplitBox.Location = new System.Drawing.Point(2, 2);
-            PrimarySplitBox.Margin = new System.Windows.Forms.Padding(2);
+            PrimarySplitBox.Location = new System.Drawing.Point(2, 0);
+            PrimarySplitBox.Margin = new System.Windows.Forms.Padding(2, 0, 2, 2);
             PrimarySplitBox.Name = "PrimarySplitBox";
             PrimarySplitBox.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -909,8 +909,8 @@ namespace Win_CBZ
             // PrimarySplitBox.Panel2
             // 
             PrimarySplitBox.Panel2.Controls.Add(MessageLogListView);
-            PrimarySplitBox.Size = new System.Drawing.Size(1294, 589);
-            PrimarySplitBox.SplitterDistance = 471;
+            PrimarySplitBox.Size = new System.Drawing.Size(1294, 591);
+            PrimarySplitBox.SplitterDistance = 472;
             PrimarySplitBox.SplitterWidth = 5;
             PrimarySplitBox.TabIndex = 4;
             // 
@@ -922,7 +922,7 @@ namespace Win_CBZ
             MainPanel.Location = new System.Drawing.Point(0, 0);
             MainPanel.Margin = new System.Windows.Forms.Padding(2);
             MainPanel.Name = "MainPanel";
-            MainPanel.Size = new System.Drawing.Size(1294, 471);
+            MainPanel.Size = new System.Drawing.Size(1294, 472);
             MainPanel.TabIndex = 4;
             // 
             // MainPanelTableLayout
@@ -935,12 +935,12 @@ namespace Win_CBZ
             MainPanelTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             MainPanelTableLayout.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             MainPanelTableLayout.Location = new System.Drawing.Point(0, 0);
-            MainPanelTableLayout.Margin = new System.Windows.Forms.Padding(2);
+            MainPanelTableLayout.Margin = new System.Windows.Forms.Padding(2, 0, 2, 2);
             MainPanelTableLayout.Name = "MainPanelTableLayout";
             MainPanelTableLayout.RowCount = 2;
             MainPanelTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             MainPanelTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            MainPanelTableLayout.Size = new System.Drawing.Size(1294, 471);
+            MainPanelTableLayout.Size = new System.Drawing.Size(1294, 472);
             MainPanelTableLayout.TabIndex = 8;
             // 
             // GlobalAlertTableLayout
@@ -956,12 +956,12 @@ namespace Win_CBZ
             GlobalAlertTableLayout.Controls.Add(GlobalAlertMessageIcon, 0, 0);
             GlobalAlertTableLayout.Controls.Add(ExecuteCurrentGlobalAction, 3, 0);
             GlobalAlertTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            GlobalAlertTableLayout.Location = new System.Drawing.Point(5, 5);
-            GlobalAlertTableLayout.Margin = new System.Windows.Forms.Padding(5);
+            GlobalAlertTableLayout.Location = new System.Drawing.Point(2, 1);
+            GlobalAlertTableLayout.Margin = new System.Windows.Forms.Padding(2, 1, 2, 5);
             GlobalAlertTableLayout.Name = "GlobalAlertTableLayout";
             GlobalAlertTableLayout.RowCount = 1;
             GlobalAlertTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            GlobalAlertTableLayout.Size = new System.Drawing.Size(1284, 35);
+            GlobalAlertTableLayout.Size = new System.Drawing.Size(1290, 35);
             GlobalAlertTableLayout.TabIndex = 7;
             GlobalAlertTableLayout.Visible = false;
             // 
@@ -992,7 +992,7 @@ namespace Win_CBZ
             // ExecuteCurrentGlobalAction
             // 
             ExecuteCurrentGlobalAction.Dock = System.Windows.Forms.DockStyle.Right;
-            ExecuteCurrentGlobalAction.Location = new System.Drawing.Point(1119, 5);
+            ExecuteCurrentGlobalAction.Location = new System.Drawing.Point(1125, 5);
             ExecuteCurrentGlobalAction.Margin = new System.Windows.Forms.Padding(5);
             ExecuteCurrentGlobalAction.Name = "ExecuteCurrentGlobalAction";
             ExecuteCurrentGlobalAction.Size = new System.Drawing.Size(160, 25);
@@ -1005,7 +1005,7 @@ namespace Win_CBZ
             // 
             MainSplitBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             MainSplitBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            MainSplitBox.Location = new System.Drawing.Point(2, 47);
+            MainSplitBox.Location = new System.Drawing.Point(2, 43);
             MainSplitBox.Margin = new System.Windows.Forms.Padding(2);
             MainSplitBox.Name = "MainSplitBox";
             // 
@@ -1017,7 +1017,7 @@ namespace Win_CBZ
             // 
             MainSplitBox.Panel2.AutoScroll = true;
             MainSplitBox.Panel2.Controls.Add(SplitBoxItemsList);
-            MainSplitBox.Size = new System.Drawing.Size(1290, 422);
+            MainSplitBox.Size = new System.Drawing.Size(1290, 427);
             MainSplitBox.SplitterDistance = 352;
             MainSplitBox.SplitterWidth = 5;
             MainSplitBox.TabIndex = 6;
@@ -1038,8 +1038,8 @@ namespace Win_CBZ
             // SplitBoxPageView.Panel2
             // 
             SplitBoxPageView.Panel2.Controls.Add(TabControlPageSettings);
-            SplitBoxPageView.Size = new System.Drawing.Size(350, 420);
-            SplitBoxPageView.SplitterDistance = 109;
+            SplitBoxPageView.Size = new System.Drawing.Size(350, 425);
+            SplitBoxPageView.SplitterDistance = 110;
             SplitBoxPageView.SplitterWidth = 5;
             SplitBoxPageView.TabIndex = 6;
             // 
@@ -1053,7 +1053,7 @@ namespace Win_CBZ
             PageThumbsListBox.Location = new System.Drawing.Point(0, 0);
             PageThumbsListBox.Margin = new System.Windows.Forms.Padding(2);
             PageThumbsListBox.Name = "PageThumbsListBox";
-            PageThumbsListBox.Size = new System.Drawing.Size(350, 109);
+            PageThumbsListBox.Size = new System.Drawing.Size(350, 110);
             PageThumbsListBox.TabIndex = 7;
             PageThumbsListBox.DrawItem += PageThumbsListBox_DrawItem;
             PageThumbsListBox.MeasureItem += PageThumbsListBox_MeasureItem;
@@ -1098,7 +1098,7 @@ namespace Win_CBZ
             TabControlPageSettings.Margin = new System.Windows.Forms.Padding(2);
             TabControlPageSettings.Name = "TabControlPageSettings";
             TabControlPageSettings.SelectedIndex = 0;
-            TabControlPageSettings.Size = new System.Drawing.Size(350, 306);
+            TabControlPageSettings.Size = new System.Drawing.Size(350, 310);
             TabControlPageSettings.TabIndex = 0;
             // 
             // TabPagePageSettings
@@ -1110,7 +1110,7 @@ namespace Win_CBZ
             TabPagePageSettings.Margin = new System.Windows.Forms.Padding(2);
             TabPagePageSettings.Name = "TabPagePageSettings";
             TabPagePageSettings.Padding = new System.Windows.Forms.Padding(2);
-            TabPagePageSettings.Size = new System.Drawing.Size(342, 273);
+            TabPagePageSettings.Size = new System.Drawing.Size(342, 277);
             TabPagePageSettings.TabIndex = 0;
             TabPagePageSettings.Text = "Page Adjustments";
             TabPagePageSettings.UseVisualStyleBackColor = true;
@@ -1149,7 +1149,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            TablePanePageAdjustments.Size = new System.Drawing.Size(338, 269);
+            TablePanePageAdjustments.Size = new System.Drawing.Size(338, 273);
             TablePanePageAdjustments.TabIndex = 7;
             // 
             // GroupBoxDimensions
@@ -1865,8 +1865,8 @@ namespace Win_CBZ
             // SplitBoxItemsList.Panel2
             // 
             SplitBoxItemsList.Panel2.Controls.Add(MetadataPanel);
-            SplitBoxItemsList.Size = new System.Drawing.Size(933, 422);
-            SplitBoxItemsList.SplitterDistance = 155;
+            SplitBoxItemsList.Size = new System.Drawing.Size(933, 427);
+            SplitBoxItemsList.SplitterDistance = 156;
             SplitBoxItemsList.SplitterWidth = 5;
             SplitBoxItemsList.TabIndex = 7;
             // 
@@ -1883,7 +1883,7 @@ namespace Win_CBZ
             PagesList.Margin = new System.Windows.Forms.Padding(2);
             PagesList.Name = "PagesList";
             PagesList.ShowItemToolTips = true;
-            PagesList.Size = new System.Drawing.Size(931, 153);
+            PagesList.Size = new System.Drawing.Size(931, 154);
             PagesList.TabIndex = 5;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
@@ -1934,7 +1934,7 @@ namespace Win_CBZ
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            MetadataPanel.Size = new System.Drawing.Size(931, 260);
+            MetadataPanel.Size = new System.Drawing.Size(931, 264);
             MetadataPanel.TabIndex = 10;
             // 
             // MetadataEditorHeaderFlowLayoutPanel
@@ -2047,7 +2047,7 @@ namespace Win_CBZ
             MetaDataTableActionsPanel.AutoSize = true;
             MetaDataTableActionsPanel.Controls.Add(AddMetaDataRowBtn);
             MetaDataTableActionsPanel.Controls.Add(RemoveMetadataRowBtn);
-            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 218);
+            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 222);
             MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
             MetaDataTableActionsPanel.Size = new System.Drawing.Size(925, 39);
             MetaDataTableActionsPanel.TabIndex = 13;
@@ -2085,43 +2085,43 @@ namespace Win_CBZ
             // MetaDataGrid
             // 
             MetaDataGrid.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MetaDataGrid.ContextMenuStrip = DataGridContextMenu;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             MetaDataGrid.Location = new System.Drawing.Point(2, 50);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 24;
-            MetaDataGrid.Size = new System.Drawing.Size(927, 163);
+            MetaDataGrid.Size = new System.Drawing.Size(927, 167);
             MetaDataGrid.TabIndex = 12;
             MetaDataGrid.CellContentClick += MetaDataGrid_CellContentClick;
             MetaDataGrid.CellEndEdit += MetaDataGrid_CellEndEdit;
@@ -2159,7 +2159,7 @@ namespace Win_CBZ
             MessageLogListView.Location = new System.Drawing.Point(0, 0);
             MessageLogListView.Margin = new System.Windows.Forms.Padding(2);
             MessageLogListView.Name = "MessageLogListView";
-            MessageLogListView.Size = new System.Drawing.Size(1294, 113);
+            MessageLogListView.Size = new System.Drawing.Size(1294, 114);
             MessageLogListView.SmallImageList = LogMessageImageList;
             MessageLogListView.TabIndex = 0;
             MessageLogListView.UseCompatibleStateImageBehavior = false;
