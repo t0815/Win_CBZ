@@ -39,6 +39,7 @@ using System.Diagnostics;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
 using Microsoft.VisualBasic.Devices;
+using Win_CBZ.Events;
 
 namespace Win_CBZ
 {
@@ -334,7 +335,7 @@ namespace Win_CBZ
 
                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
 
-                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
+                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS), true);
 
                         awaitClosingArchive.ContinueWith(t =>
                         {
@@ -699,7 +700,7 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        PageCountStatusLabel.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
+                        PageCountStatusLabel_.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
                     }));
                 }
 
@@ -732,7 +733,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     MainToolStripProgressBar.Maximum = 100;
                     MainToolStripProgressBar.Value = 0;
@@ -744,7 +745,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     if (e.Status == FileOperationEvent.STATUS_RUNNING)
                     {
@@ -771,7 +772,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     MainToolStripProgressBar.Maximum = e.Total;
                     MainToolStripProgressBar.Value = e.Completed;
@@ -783,7 +784,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                MainToolStripProgressBar.Invoke(new Action(() =>
                 {
                     MainToolStripProgressBar.Maximum = e.Total;
                     MainToolStripProgressBar.Value = e.Completed;
@@ -875,7 +876,7 @@ namespace Win_CBZ
                         ToolButtonMovePageUp.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
                         NewToolStripMenuItem.Enabled = false;
-                        ApplicationStatusLabel.Text = e.Message;
+                        
                     }));
                 }
 
@@ -883,14 +884,28 @@ namespace Win_CBZ
                 {
                     if (!WindowClosed)
                     {
-                        MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                        if (!e.InBackground)
                         {
-                            MainToolStripProgressBar.Maximum = e.Total;
-                            if (e.Current > -1 && e.Current <= e.Total)
+                            Invoke(() => ApplicationStatusLabel.Text = e.Message);
+
+                            MainToolStripProgressBar.Invoke(new Action(() =>
                             {
-                                MainToolStripProgressBar.Value = e.Current;
-                            }
-                        }));
+                                MainToolStripProgressBar.Maximum = e.Total;
+                                if (e.Current > -1 && e.Current <= e.Total)
+                                {
+                                    MainToolStripProgressBar.Value = e.Current;
+                                }
+                            }));
+                        }
+                        else
+                        {
+                            BackgroundTaskStatusPanel.Invoke(new Action(() =>
+                            {
+                                BackgroundTaskStatusPanel.Visible = true;
+                                BackgroundTaskStatusLabel.Text = e.Message;
+                            }));
+                        }
+
                     }
                 }
                 catch (Exception)
@@ -914,7 +929,7 @@ namespace Win_CBZ
                         ToolButtonMovePageUp.Enabled = true;
                         ToolButtonRemoveFiles.Enabled = true;
                         NewToolStripMenuItem.Enabled = true;
-                        ApplicationStatusLabel.Text = e.Message;
+                        //ApplicationStatusLabel.Text = e.Message;
                         Program.ProjectModel.IsChanged = true;
 
                         AppEventHandler.OnApplicationStateChanged(
@@ -966,13 +981,24 @@ namespace Win_CBZ
                     {
                         if (!WindowClosed)
                         {
-                            MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                            if (!e.InBackground)
                             {
-                                MainToolStripProgressBar.Maximum = e.Total;
+                                Invoke(() => ApplicationStatusLabel.Text = e.Message);
+                                MainToolStripProgressBar.Invoke(new Action(() =>
+                                {
+                                    MainToolStripProgressBar.Maximum = e.Total;
 
-                                MainToolStripProgressBar.Value = 0;
+                                    MainToolStripProgressBar.Value = 0;
 
-                            }));
+                                }));
+                            } else
+                            {
+                                BackgroundTaskStatusPanel.Invoke(new Action(() =>
+                                {
+                                    BackgroundTaskStatusPanel.Visible = false;
+                                    BackgroundTaskStatusLabel.Text = "";
+                                }));
+                            }
                         }
                     }
                     catch (Exception)
@@ -1526,7 +1552,7 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                    MainToolStripProgressBar.Invoke(new Action(() =>
                     {
                         MainToolStripProgressBar.Maximum = e.Total;
                         if (e.Current > -1 && e.Current <= e.Total)
@@ -1630,12 +1656,12 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        FileNameLabel.Text = filename;
+                        FileNameLabel_.Text = filename;
                         ApplicationStatusLabel.Text = info;
                         Program.ProjectModel.ArchiveState = e.State;
                         if (e.ArchiveInfo != null)
                         {
-                            PageCountStatusLabel.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
+                            PageCountStatusLabel_.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
                         }
                         DisableControllsForApplicationState(e.State);
                     }));
@@ -1902,7 +1928,7 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    MainToolStripProgressBar.Control.Invoke(new Action(() =>
+                    MainToolStripProgressBar.Invoke(new Action(() =>
                     {
                         if (e.State != ArchiveStatusEvent.ARCHIVE_FILE_ADDED && e.State != ArchiveStatusEvent.ARCHIVE_FILE_RENAMED && e.State != ArchiveStatusEvent.ARCHIVE_CLOSING)
                         {
@@ -2997,7 +3023,8 @@ namespace Win_CBZ
                     MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), 
                     AppEventHandler.OnGeneralTaskProgress, 
                     AppEventHandler.OnPageChanged,
-                    TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX));
+                    TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX),
+                    true);
 
             updateIndex.ContinueWith((t) =>
                 {
@@ -3008,6 +3035,7 @@ namespace Win_CBZ
                         RemoveMetadataRowBtn.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
 
+                        //AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent());
                         
                         TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
                     }));
@@ -4779,7 +4807,11 @@ namespace Win_CBZ
 
         private void PagesList_DoubleClick(object sender, EventArgs e)
         {
-            ToolButtonEditImageProps_Click(this, e);
+            
+            //if (e.Button == MouseButtons.Left)
+            //{
+                ToolButtonEditImageProps_Click(this, e);
+            //}
         }
 
         private void PageView_DoubleClick(object sender, EventArgs e)

@@ -6,22 +6,55 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Handler;
 using Win_CBZ.Helper;
+using static Win_CBZ.MetaData;
 
 namespace Win_CBZ.Tasks
 {
     [SupportedOSPlatform("windows")]
     internal class UpdateMetadataTask
     {
-        public static Task<TaskResult> UpdatePageMetadata(List<Page> pages, MetaData metaData, MetaData.PageIndexVersion pageIndexVersion, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken)
+        public static Task<TaskResult> UpdatePageMetadata(
+            List<Page> pages, 
+            MetaData metaData, 
+            MetaData.PageIndexVersion pageIndexVersion, 
+            EventHandler<GeneralTaskProgressEvent> handler, 
+            EventHandler<PageChangedEvent> pageChangedHandler, 
+            CancellationToken cancellationToken,
+            bool runInBackground = false,
+            bool popState = false)
         {
-            return new Task<TaskResult>((token) =>
+            return new Task<TaskResult>(UpdateMetadataTask.TaskLambda(pages, 
+                metaData,
+                pageIndexVersion,
+                pageChangedHandler,
+                handler,
+                runInBackground,
+                popState
+                ), cancellationToken);
+        }
+
+        // <description>
+        //      This was just a test, to see how to define lambda-functions as variables
+        // </description>
+        private static Func<object?, TaskResult> TaskLambda(
+            List<Page> pages, 
+            MetaData metaData, 
+            MetaData.PageIndexVersion pageIndexVersion,
+            EventHandler<PageChangedEvent> pageChangedHandler,
+            EventHandler<GeneralTaskProgressEvent> handler = null,
+            bool inBackground = false,
+            bool popState = false
+            )
+        {
+            Func<object?, TaskResult> taskfn = (token) =>
             {
                 int current = 1;
                 int total = pages.Count;
                 TaskResult result = new TaskResult();
-              
+
                 List<MetaDataEntryPage> originalPageMetaData = metaData.PageIndex.ToList<MetaDataEntryPage>();
 
                 result.Total = total;
@@ -63,11 +96,12 @@ namespace Win_CBZ.Tasks
                                     "Updating index...",
                                     current,
                                     total,
-                                    true));
+                                    popState, 
+                                    inBackground));
 
                             result.Completed = current;
 
-                            if (((CancellationToken)token).IsCancellationRequested) 
+                            if (((CancellationToken)token).IsCancellationRequested)
                             {
                                 break;
                             }
@@ -92,11 +126,13 @@ namespace Win_CBZ.Tasks
                         "Ready.",
                         current,
                         total,
-                        true));
+                        popState, 
+                        inBackground));
 
                 return result;
-            }, cancellationToken);
-        }
+            };
 
+            return taskfn;
+        }
     }
 }

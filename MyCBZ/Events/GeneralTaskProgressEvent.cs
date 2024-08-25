@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Win_CBZ
+namespace Win_CBZ.Events
 {
     internal class GeneralTaskProgressEvent
     {
@@ -14,6 +14,7 @@ namespace Win_CBZ
         public const int TASK_PROCESS_IMAGE = 2;
         public const int TASK_DELETE_FILE = 3;
         public const int TASK_WAITING_FOR_TASKS = 4;
+        public const int TASK_VALIDATING_COMICINFO = 5;
 
         public const int TASK_STATUS_IDLE = 10;
         public const int TASK_STATUS_RUNNING = 11;
@@ -31,9 +32,11 @@ namespace Win_CBZ
 
         public bool PopGlobalState { get; set; }
 
+        public bool InBackground { get; set; }
 
+        public GeneralTaskProgressEvent() { }
 
-        public GeneralTaskProgressEvent(int type, int status, string message, int current, int total, bool popState)
+        public GeneralTaskProgressEvent(int type, int status, string message, int current, int total, bool popState, bool inBackground = false)
         {
             Current = current; 
             Total = total;
@@ -41,6 +44,7 @@ namespace Win_CBZ
             Status = status;
             Message = message;
             PopGlobalState = popState;  
+            InBackground = inBackground;
         }   
     }
 }

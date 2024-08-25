@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Handler;
 using Win_CBZ.Helper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;

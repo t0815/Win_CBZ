@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
 
-namespace Win_CBZ
+namespace Win_CBZ.Events
 {
     internal class GlobalActionRequiredEvent
     {

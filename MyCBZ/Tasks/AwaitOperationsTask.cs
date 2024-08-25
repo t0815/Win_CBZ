@@ -14,7 +14,7 @@ namespace Win_CBZ.Tasks
 {
     internal class AwaitOperationsTask
     {
-        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, BackgroundTaskProgressDelegate handler, CancellationToken cancellationToken)
+        public static Task<TaskResult> AwaitOperations(List<Thread> awaitTasks, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = false)
         {
             return new Task<TaskResult>((token) =>
             {
@@ -43,13 +43,15 @@ namespace Win_CBZ.Tasks
                             finishedThreads.Add(th.ManagedThreadId, true);
                         }
 
-                        handler?.Invoke(null, new BackgroundTaskProgressEvent()
+                        handler?.Invoke(null, new GeneralTaskProgressEvent
                         {
-                            Type = BackgroundTaskProgressEvent.TASK_WAITING_FOR_TASKS,
-                            Status = BackgroundTaskProgressEvent.TASK_STATUS_RUNNING,
+                            Type = GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
+                            Status = GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
                             Message = "Waiting for operations to finish...",
                             Current = finishedThreads.Count,
-                            Total = awaitTasks.Count
+                            Total = awaitTasks.Count,
+                            InBackground = inBackground,
+                            PopGlobalState = true
                         });
                         
                         System.Threading.Thread.Sleep(5);
@@ -63,13 +65,14 @@ namespace Win_CBZ.Tasks
 
                 result.Result = 0;
 
-                handler?.Invoke(null, new BackgroundTaskProgressEvent()
+                handler?.Invoke(null, new GeneralTaskProgressEvent()
                 {
-                    Type = BackgroundTaskProgressEvent.TASK_WAITING_FOR_TASKS,
-                    Status = BackgroundTaskProgressEvent.TASK_STATUS_COMPLETED,
+                    Type = GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
+                    Status = GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                     Message = "Ready.",
                     Current = 0,
-                    Total = 0
+                    Total = 0,
+                    InBackground = inBackground,
                 });
                 
                 return result;

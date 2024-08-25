@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Events;
 using static Win_CBZ.Handler.AppEventHandler;
 
 namespace Win_CBZ.Data
