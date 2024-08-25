@@ -223,6 +223,8 @@ namespace Win_CBZ
             newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
             newProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
 
+            selectedImageTasks = newProjectModel.GlobalImageTask;
+
             Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
@@ -299,9 +301,7 @@ namespace Win_CBZ
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
 
-                selectedImageTasks = Program.ProjectModel.GlobalImageTask;
-
-                UpdateImageAdjustments(sender, "<Global>");
+                
 
                 backgroundWorker1.RunWorkerAsync();
 
@@ -341,9 +341,14 @@ namespace Win_CBZ
                         {
                             RemoveMetaData();
                             Program.ProjectModel.New();
-                            RadioApplyAdjustmentsGlobal.Checked = true;
-                            selectedImageTasks = new ImageTask("");
-                            UpdateImageAdjustments(null, "<Global>");
+                            Invoke(new Action(() => {
+                                RadioApplyAdjustmentsGlobal.Checked = true;
+                                //Program.ProjectModel.GlobalImageTask = new ImageTask("");
+                                selectedImageTasks = Program.ProjectModel.GlobalImageTask;
+
+                                UpdateImageAdjustments(null, "<Global>");
+                            }));
+                            
                             ClearLog();
 
                             AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_NEW));
@@ -406,13 +411,15 @@ namespace Win_CBZ
 
                 Task followTask = new Task(() =>
                 {
-                    RadioApplyAdjustmentsGlobal.Checked = true;
-                    selectedImageTasks = new ImageTask("");
+                    
 
                     if (!WindowClosed)
                     {
                         Invoke(new Action(() =>
                         {
+                            RadioApplyAdjustmentsGlobal.Checked = true;
+                            Program.ProjectModel.GlobalImageTask = new ImageTask("");
+                            selectedImageTasks = Program.ProjectModel.GlobalImageTask;
                             TextBoxExcludePagesImageProcessing.Text = "";
                             RenamerExcludePages.Text = "";
                             PageCountStatusLabel.Text = "0 Pages";
@@ -5041,6 +5048,209 @@ namespace Win_CBZ
             }
         }
 
+        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Nullable<int> oldValue;
+
+            if (selectedImageTasks != null && ComboBoxConvertPages.SelectedIndex > -1)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.ConvertType;
+
+                selectedImageTasks.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
+
+                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+
+                if (page == null && selectedImageTasks.PageId.Length > 0)
+                {
+                    ComboBoxConvertPages.SelectedIndex = -1;
+                }
+            }
+        }
+
+        private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
+        {
+            int pageNumber = 0;
+
+            if (TextBoxResizePageIndexReference.Text.Length > 0)
+            {
+                pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
+            }
+
+            selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
+        }
+
+        private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
+        {
+            int w = 0;
+            Nullable<int> oldValue = null;
+
+            if (selectedImageTasks != null)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
+
+                if (TextBoxResizeW.Text.Length > 0)
+                {
+                    w = int.Parse(TextBoxResizeW.Text);
+                }
+                else
+                {
+                    if (oldValue.HasValue)
+                    {
+                        w = oldValue.Value;
+                    }
+
+                }
+
+                selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.X)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void TextBoxResizeH_TextChanged(object sender, EventArgs e)
+        {
+            int h = 0;
+
+            Nullable<int> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.Y;
+
+                if (TextBoxResizeH.Text.Length > 0)
+                {
+                    h = int.Parse(TextBoxResizeH.Text);
+                }
+                else
+                {
+                    if (oldValue.HasValue)
+                    {
+                        h = oldValue.Value;
+                    }
+                }
+
+                selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void TextBoxSplitPageAt_TextChanged(object sender, EventArgs e)
+        {
+            Nullable<int> oldValue;
+            string value = "";
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
+
+                if (TextBoxSplitPageAt.Text.Length > 0)
+                {
+                    value = TextBoxSplitPageAt.Text;
+                }
+                else
+                {
+                    value = "0";
+                }
+
+                selectedImageTasks.ImageAdjustments.SplitPageAt = int.Parse(value);
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.SplitPageAt)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void ComboBoxSplitAtType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Nullable<int> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
+
+                selectedImageTasks.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
+
+                if (page != null && oldValue.Value != selectedImageTasks?.ImageAdjustments.SplitType)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void CheckBoxSplitDoublePages_CheckedChanged(object sender, EventArgs e)
+        {
+            Nullable<bool> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.SplitPage;
+
+                selectedImageTasks.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
+
+                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.SplitPage)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
         private void DebugToolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             df?.Show();
@@ -5668,179 +5878,6 @@ namespace Win_CBZ
                 }
             }
 
-        }
-
-        private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Nullable<int> oldValue;
-
-            if (selectedImageTasks != null && ComboBoxConvertPages.SelectedIndex > -1)
-            {
-                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
-
-                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                oldValue = page?.ImageTask.ImageAdjustments.ConvertType;
-
-                selectedImageTasks.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
-
-                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-
-                if (page == null && selectedImageTasks.PageId.Length > 0)
-                {
-                    ComboBoxConvertPages.SelectedIndex = -1;
-                }
-            }
-        }
-
-        private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
-        {
-            int pageNumber = 0;
-
-            if (TextBoxResizePageIndexReference.Text.Length > 0)
-            {
-                pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
-            }
-
-            selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
-        }
-
-        private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
-        {
-            int w = 0;
-            Nullable<int> oldValue = null;
-
-            if (selectedImageTasks != null)
-            {
-                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
-                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-
-                oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
-
-                if (TextBoxResizeW.Text.Length > 0)
-                {
-                    w = int.Parse(TextBoxResizeW.Text);
-                }
-                else
-                {
-                    if (oldValue.HasValue)
-                    {
-                        w = oldValue.Value;
-                    }
-
-                }
-
-                selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
-
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.X)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-            }
-        }
-
-        private void TextBoxResizeH_TextChanged(object sender, EventArgs e)
-        {
-            int h = 0;
-
-            Nullable<int> oldValue;
-
-            if (selectedImageTasks != null)
-            {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.Y;
-
-                if (TextBoxResizeH.Text.Length > 0)
-                {
-                    h = int.Parse(TextBoxResizeH.Text);
-                }
-                else
-                {
-                    if (oldValue.HasValue)
-                    {
-                        h = oldValue.Value;
-                    }
-                }
-
-                selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
-
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-            }
-        }
-
-        private void TextBoxSplitPageAt_TextChanged(object sender, EventArgs e)
-        {
-            Nullable<int> oldValue;
-            string value = "";
-
-            if (selectedImageTasks != null)
-            {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
-
-                if (TextBoxSplitPageAt.Text.Length > 0)
-                {
-                    value = TextBoxSplitPageAt.Text;
-                }
-                else
-                {
-                    value = "0";
-                }
-
-                selectedImageTasks.ImageAdjustments.SplitPageAt = int.Parse(value);
-
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.SplitPageAt)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-            }
-        }
-
-        private void ComboBoxSplitAtType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Nullable<int> oldValue;
-
-            if (selectedImageTasks != null)
-            {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
-
-                selectedImageTasks.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
-
-                if (page != null && oldValue.Value != selectedImageTasks?.ImageAdjustments.SplitType)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-            }
-        }
-
-        private void CheckBoxSplitDoublePages_CheckedChanged(object sender, EventArgs e)
-        {
-            Nullable<bool> oldValue;
-
-            if (selectedImageTasks != null)
-            {
-                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                oldValue = page?.ImageTask.ImageAdjustments.SplitPage;
-
-                selectedImageTasks.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
-
-                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.SplitPage)
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-            }
         }
 
         private void AutoCompleteItems_Selected(object sender, AutocompleteMenuNS.SelectedEventArgs e)
