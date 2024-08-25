@@ -51,7 +51,7 @@ namespace Win_CBZ.Tasks
                             Current = finishedThreads.Count,
                             Total = awaitTasks.Count,
                             InBackground = inBackground,
-                            PopGlobalState = true
+                            PopGlobalState = false
                         });
                         
                         System.Threading.Thread.Sleep(5);
@@ -73,6 +73,7 @@ namespace Win_CBZ.Tasks
                     Current = 0,
                     Total = 0,
                     InBackground = inBackground,
+                    PopGlobalState = false,
                 });
                 
                 return result;

@@ -295,7 +295,7 @@ namespace Win_CBZ
 
                     if (MetaData.Exists())
                     {
-                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token);
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token, false, true);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {
@@ -907,7 +907,7 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexFileMissing)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdateMetadataTask.UpdatePageMetadata(Pages, MetaData, PageIndexVersionWriter, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token)));
+                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdateMetadataTask.UpdatePageMetadata(Pages, MetaData, PageIndexVersionWriter, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token, false, true)));
                 }
 
                 if (missingPages.Count > 0)
@@ -3044,7 +3044,8 @@ namespace Win_CBZ
 
             Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, 
                 AppEventHandler.OnGeneralTaskProgress,
-                TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS)
+                TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS),
+                true
                 );
 
             awaitClosingArchive.ContinueWith(t => {
@@ -3057,7 +3058,8 @@ namespace Win_CBZ
                     {
                         Task<TaskResult> follow = AwaitOperationsTask.AwaitOperations(new List<Thread>() { CloseArchiveThread },
                             AppEventHandler.OnGeneralTaskProgress,
-                            TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS)
+                            TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS),
+                            true
                             );
 
                         follow.ContinueWith(t => {

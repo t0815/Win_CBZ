@@ -415,7 +415,10 @@ namespace Win_CBZ
                         {
                             TextBoxExcludePagesImageProcessing.Text = "";
                             RenamerExcludePages.Text = "";
+                            PageCountStatusLabel.Text = "0 Pages";
                             UpdateImageAdjustments(sender, "<Global>");
+                            Program.ProjectModel.IsChanged = false;
+                            Program.ProjectModel.Pages.Clear();
                         }));
                         ClearLog();
                     }
@@ -700,7 +703,7 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        PageCountStatusLabel_.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
+                        PageCountStatusLabel.Text = Program.ProjectModel.GetPageCount().ToString() + " Pages";
                     }));
                 }
 
@@ -841,6 +844,9 @@ namespace Win_CBZ
                     LabelGlobalActionStatusMessage.Text = e.Message;
                     GlobalAlertTableLayout.Visible = true;
                     CurrentGlobalAction = action;
+                } else
+                {
+                    GlobalAlertTableLayout.Visible = true;
                 }
             }));
         }
@@ -974,6 +980,9 @@ namespace Win_CBZ
                                     GlobalAlertTableLayout.Visible = false;
                                 }));
                             }
+                        } else
+                        {
+                            CurrentGlobalAction = null;
                         }
                     }));
 
@@ -1017,6 +1026,9 @@ namespace Win_CBZ
                 {
                     CurrentGlobalAction.Action.Start();
                     GlobalAlertTableLayout.Visible = false;
+                } else
+                {
+
                 }
             }
         }
@@ -2351,40 +2363,6 @@ namespace Win_CBZ
             }
         }
 
-        private void ClearProject()
-        {
-            Task.Factory.StartNew(() =>
-            {
-                /*
-                if (OpeningTask != null)
-                {
-                    if (OpeningTask.IsAlive)
-                    {
-                        OpeningTask.Join();
-                    }
-                }
-
-                if (SavingTask != null)
-                {
-                    if (SavingTask.IsAlive)
-                    {
-                        SavingTask.Join();
-                    }
-                }
-                */
-
-                if (ThumbnailThread != null)
-                {
-                    if (ThumbnailThread.IsAlive)
-                    {
-                        ThumbnailThread.Join();
-                    }
-                }
-
-                Program.ProjectModel.Close();
-            });
-        }
-
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!WindowClosed && !ArchiveProcessing())
@@ -2991,7 +2969,7 @@ namespace Win_CBZ
                 }
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
+                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, GlobalActionRequiredEvent.MESSAGE_TYPE_INFO, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, false, true)));
 
                 Program.ProjectModel.IsChanged = true;
             }));
