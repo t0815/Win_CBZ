@@ -35,7 +35,7 @@ namespace Win_CBZ.Img
         public static void ResizeImage(Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
         {
             Image sourceImage = Image.FromStream(source);
-            var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.W);
+            var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.H);
             var destImage = new Bitmap(targetFormat.W, targetFormat.H);
 
             destImage.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
