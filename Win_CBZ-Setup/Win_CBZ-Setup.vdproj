@@ -380,7 +380,7 @@
             "Target" = "8:_1DAB07B3E40248E0B54293E16EE30178"
             "Folder" = "8:_3011687A9D1144F68A697C1BE79810B7"
             "WorkingFolder" = "8:_381C2AC7AD384E1488C6014F95032920"
-            "Icon" = "8:"
+            "Icon" = "8:_74A2F3CE81EF4D4CB9DC6C58480F47C9"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E17DE2DDDB0348D2A509E9B26814C8FC"
@@ -808,7 +808,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1DAB07B3E40248E0B54293E16EE30178"
             {
-            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Release\\net8.0-windows7.0\\apphost.exe"
+            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Debug\\net8.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
