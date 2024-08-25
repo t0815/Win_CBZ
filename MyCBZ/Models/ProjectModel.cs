@@ -39,6 +39,7 @@ using System.Runtime.Versioning;
 using Win_CBZ.Handler;
 using SharpCompress.Compressors.Xz;
 using System.Windows.Interop;
+using Win_CBZ.Events;
 
 namespace Win_CBZ
 {
@@ -2255,7 +2256,7 @@ namespace Win_CBZ
 
             MaxFileIndex = newIndex;
 
-            AppEventHandler.OnOperationFinished(this, new OperationFinishedEvent(0, Pages.Count));
+            AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_COMPLETED, "Ready", 0, Pages.Count, true));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
             Thread.Sleep(50);
@@ -3042,7 +3043,7 @@ namespace Win_CBZ
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
 
             Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, 
-                AppEventHandler.OnBackgroundTaskProgress,
+                AppEventHandler.OnGeneralTaskProgress,
                 TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS)
                 );
 
@@ -3055,7 +3056,7 @@ namespace Win_CBZ
                     if (followUpTask != null)
                     {
                         Task<TaskResult> follow = AwaitOperationsTask.AwaitOperations(new List<Thread>() { CloseArchiveThread },
-                            AppEventHandler.OnBackgroundTaskProgress,
+                            AppEventHandler.OnGeneralTaskProgress,
                             TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS)
                             );
 

@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Imaging;
 using Win_CBZ.Helper;
+using Win_CBZ.Events;
 using System.Xml;
 using SharpCompress.Common;
 using System.IO.Pipes;
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 using System.Drawing.Drawing2D;
 using System.Runtime.Versioning;
 using System.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
+
 
 namespace Win_CBZ
 {

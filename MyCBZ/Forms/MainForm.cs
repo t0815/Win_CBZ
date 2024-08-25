@@ -39,6 +39,7 @@ using System.Diagnostics;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
 using Microsoft.VisualBasic.Devices;
+using Win_CBZ.Events;
 
 namespace Win_CBZ
 {
@@ -334,7 +335,7 @@ namespace Win_CBZ
 
                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
 
-                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnBackgroundTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
+                    Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS), true);
 
                         awaitClosingArchive.ContinueWith(t =>
                         {

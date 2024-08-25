@@ -11,6 +11,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Events;
 
 namespace Win_CBZ.Forms
 {

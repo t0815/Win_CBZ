@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Win_CBZ
+namespace Win_CBZ.Events
 {
     internal class ApplicationStatusEvent
     {

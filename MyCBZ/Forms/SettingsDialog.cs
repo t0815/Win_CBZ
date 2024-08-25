@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Shapes;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Helper;
 
 namespace Win_CBZ.Forms

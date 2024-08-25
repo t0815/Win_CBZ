@@ -42,12 +42,9 @@ namespace Win_CBZ.Handler
 
         public static event EventHandler<ValidationFinishedEvent> CBZValidationEventHandler;
 
-        public static event EventHandler<BackgroundTaskProgressEvent> BackgroundTaskProgress;
 
         // delegates definitions
         public delegate void GeneralTaskProgressDelegate(object sender, GeneralTaskProgressEvent e);
-
-        public delegate void BackgroundTaskProgressDelegate(object sender, BackgroundTaskProgressEvent e);
 
         public delegate void TaskProgressDelegate(object sender, TaskProgressEvent e);
 
@@ -66,11 +63,6 @@ namespace Win_CBZ.Handler
         public static void OnGeneralTaskProgress(object sender, GeneralTaskProgressEvent e)
         {
             GeneralTaskProgress?.Invoke(sender, e);
-        }
-
-        public static void OnBackgroundTaskProgress(object sender, BackgroundTaskProgressEvent e)
-        {
-            BackgroundTaskProgress?.Invoke(sender, e);
         }
 
         public static void OnTaskProgress(object sender, TaskProgressEvent e)

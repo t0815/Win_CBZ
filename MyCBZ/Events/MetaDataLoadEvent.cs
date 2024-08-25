@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Win_CBZ
+namespace Win_CBZ.Events
 {
     internal class MetaDataLoadEvent
     {

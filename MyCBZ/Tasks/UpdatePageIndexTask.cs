@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Helper;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace Win_CBZ.Tasks
 {
@@ -15,7 +16,7 @@ namespace Win_CBZ.Tasks
     internal class UpdatePageIndexTask
     {
 
-        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken)
+        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken, bool inBackground = false)
         {
             return new Task<TaskResult>((token) =>
             {
@@ -75,7 +76,8 @@ namespace Win_CBZ.Tasks
                         "Rebuilding index...",
                         current, 
                         total,
-                        true));
+                        true,
+                        inBackground));
                     
                     current++;
                     isUpdated = false;
@@ -90,7 +92,8 @@ namespace Win_CBZ.Tasks
                     "Ready.",
                     current,
                     total,
-                    true));
+                    true,
+                    inBackground));
                 
 
                 return result;

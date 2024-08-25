@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Handler;
 using Win_CBZ.Models;
 using Win_CBZ.Result;
