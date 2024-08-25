@@ -23,14 +23,16 @@ namespace Win_CBZ.Tasks
             EventHandler<GeneralTaskProgressEvent> handler, 
             EventHandler<PageChangedEvent> pageChangedHandler, 
             CancellationToken cancellationToken,
-            bool runInBackground = false)
+            bool runInBackground = false,
+            bool popState = false)
         {
             return new Task<TaskResult>(UpdateMetadataTask.TaskLambda(pages, 
                 metaData,
                 pageIndexVersion,
                 pageChangedHandler,
                 handler,
-                runInBackground
+                runInBackground,
+                popState
                 ), cancellationToken);
         }
 
@@ -43,7 +45,8 @@ namespace Win_CBZ.Tasks
             MetaData.PageIndexVersion pageIndexVersion,
             EventHandler<PageChangedEvent> pageChangedHandler,
             EventHandler<GeneralTaskProgressEvent> handler = null,
-            bool inBackground = false
+            bool inBackground = false,
+            bool popState = false
             )
         {
             Func<object?, TaskResult> taskfn = (token) =>
@@ -93,7 +96,8 @@ namespace Win_CBZ.Tasks
                                     "Updating index...",
                                     current,
                                     total,
-                                    true, inBackground));
+                                    popState, 
+                                    inBackground));
 
                             result.Completed = current;
 
@@ -122,7 +126,8 @@ namespace Win_CBZ.Tasks
                         "Ready.",
                         current,
                         total,
-                        true, inBackground));
+                        popState, 
+                        inBackground));
 
                 return result;
             };
