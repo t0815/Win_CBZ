@@ -3035,7 +3035,7 @@ namespace Win_CBZ
 
 
             BtnAddMetaData.Enabled = false;
-                    }
+        }
 
         private void RemoveMetaData()
         {
@@ -3272,187 +3272,189 @@ namespace Win_CBZ
                     TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
                 }));
 
-                MetaDataGrid.Invoke(new Action(() =>
-                {
-                    //MetaDataGrid.DataSource = e.MetaData;
-
-                    BtnAddMetaData.Enabled = false;
-                    BtnRemoveMetaData.Enabled = true;
-                    ToolStripButtonShowRawMetadata.Enabled = true;
-                    AddMetaDataRowBtn.Enabled = true;
-
-                    DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
-                    if (firstCol != null)
+                Task fillDataGrid = Task.Factory.StartNew(() => {
+                    MetaDataGrid.Invoke(new Action(() =>
                     {
-                        DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
-                        if (secondCol != null)
+                        //MetaDataGrid.DataSource = e.MetaData;
+
+                        BtnAddMetaData.Enabled = false;
+                        BtnRemoveMetaData.Enabled = true;
+                        ToolStripButtonShowRawMetadata.Enabled = true;
+                        AddMetaDataRowBtn.Enabled = true;
+
+                        DataGridViewColumn firstCol = MetaDataGrid.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
+                        if (firstCol != null)
                         {
-                            firstCol.Width = 150;
-                            secondCol.Width = 250;
+                            DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
+                            if (secondCol != null)
+                            {
+                                firstCol.Width = 150;
+                                secondCol.Width = 250;
+                            }
                         }
-                    }
-                    else
-                    {
-                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                        else
                         {
-                            DataPropertyName = "Key",
-                            HeaderText = "Key",
-                            CellTemplate = new DataGridViewTextBoxCell(),
-                            Width = 150,
-                            SortMode = DataGridViewColumnSortMode.Automatic,
-                        });
+                            MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                            {
+                                DataPropertyName = "Key",
+                                HeaderText = "Key",
+                                CellTemplate = new DataGridViewTextBoxCell(),
+                                Width = 150,
+                                SortMode = DataGridViewColumnSortMode.Automatic,
+                            });
 
-                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
-                        {
-                            DataPropertyName = "Value",
-                            HeaderText = "Value",
-                            CellTemplate = new DataGridViewTextBoxCell(),
-                            Width = 250,
-                            SortMode = DataGridViewColumnSortMode.Automatic,
-                        });
+                            MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                            {
+                                DataPropertyName = "Value",
+                                HeaderText = "Value",
+                                CellTemplate = new DataGridViewTextBoxCell(),
+                                Width = 250,
+                                SortMode = DataGridViewColumnSortMode.Automatic,
+                            });
 
-                        MetaDataGrid.Columns.Add(new DataGridViewColumn()
-                        {
-                            DataPropertyName = "",
-                            HeaderText = "",
-                            CellTemplate = new DataGridViewTextBoxCell(),
-                            Width = 30,
-                            SortMode = DataGridViewColumnSortMode.NotSortable,
-                            Resizable = DataGridViewTriState.False,
+                            MetaDataGrid.Columns.Add(new DataGridViewColumn()
+                            {
+                                DataPropertyName = "",
+                                HeaderText = "",
+                                CellTemplate = new DataGridViewTextBoxCell(),
+                                Width = 30,
+                                SortMode = DataGridViewColumnSortMode.NotSortable,
+                                Resizable = DataGridViewTriState.False,
 
-                        });
-                    }
-
-                    MetaDataGrid.Rows.Clear();
-                    foreach (MetaDataEntry entry in e.MetaData)
-                    {
-                        if (entry.Visible)
-                        {
-                            MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
+                            });
                         }
-                    }
 
-                    // DataGridViewCellStyle currentStyle = null;
-                    for (int i = 0; i < MetaDataGrid.RowCount; i++)
-                    {
-
-                        //currentStyle = new DataGridViewCellStyle(MetaDataGrid.Rows[i].Cells[2].Style);
-                        MetaDataGrid.Rows[i].Cells[2].ReadOnly = true;
-                        /*
-                        MetaDataGrid.Rows[i].Cells[2].Style = new DataGridViewCellStyle()
-                        {
-                            SelectionForeColor = Color.Black,
-                            SelectionBackColor = Color.White,
-                            BackColor = Color.White,
-                        }; 
-                        */
-
+                        MetaDataGrid.Rows.Clear();
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
-                            var key = MetaDataGrid.Rows[i].Cells[0].Value;
-
-                            if (key != null && entry.Visible)
+                            if (entry.Visible)
                             {
-                                if (entry.Key == key.ToString())
+                                MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
+                            }
+                        }
+
+                        // DataGridViewCellStyle currentStyle = null;
+                        for (int i = 0; i < MetaDataGrid.RowCount; i++)
+                        {
+
+                            //currentStyle = new DataGridViewCellStyle(MetaDataGrid.Rows[i].Cells[2].Style);
+                            MetaDataGrid.Rows[i].Cells[2].ReadOnly = true;
+                            /*
+                            MetaDataGrid.Rows[i].Cells[2].Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.Black,
+                                SelectionBackColor = Color.White,
+                                BackColor = Color.White,
+                            }; 
+                            */
+
+                            foreach (MetaDataEntry entry in e.MetaData)
+                            {
+                                var key = MetaDataGrid.Rows[i].Cells[0].Value;
+
+                                if (key != null && entry.Visible)
                                 {
-                                    DataGridViewTextBoxCell k = new DataGridViewTextBoxCell();
-                                    k.Value = entry.Key;
-                                    k.Tag = entry;
-
-                                    MetaDataGrid.Rows[i].Cells[0] = k;
-
-                                    MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());
-                                    if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                                    if (entry.Key == key.ToString())
                                     {
-                                        bool isAutoComplete = entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE;
+                                        DataGridViewTextBoxCell k = new DataGridViewTextBoxCell();
+                                        k.Value = entry.Key;
+                                        k.Tag = entry;
 
-                                        int selectedIndex = Array.IndexOf(entry.Type.OptionsAsList(), entry.Value);
-                                        DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
-                                        c.Items.AddRange(entry.Type.OptionsAsList());
+                                        MetaDataGrid.Rows[i].Cells[0] = k;
 
-                                        c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-                                        c.Tag = entry.Type; //  new EditorConfig("ComboBox", "String", "", " ", false);
-                                        //c.AutoComplete = isAutoComplete;
-                                        //c.DataSource = new List<String>(entry.Options.EditorOptions);
-                                        c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                                        //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
-                                        c.DisplayStyleForCurrentCellOnly = false;
-                                        c.Style = new DataGridViewCellStyle()
+                                        MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());
+                                        if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                         {
-                                            SelectionBackColor = Color.White,
-                                            ForeColor = Color.Black,
-                                            BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
-                                        };
+                                            bool isAutoComplete = entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE;
 
-                                        MetaDataGrid.Rows[i].Cells[1] = c;
-                                    }
-                                    else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
-                                    {
-                                        DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
-                                        //c.Items.AddRange(entry.Options.EditorOptions);
-                                        c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
-                                        c.Tag = entry.Type;  // new EditorConfig("AutoComplete", "String", "", " ", false, entry.Options.EditorOptions);
+                                            int selectedIndex = Array.IndexOf(entry.Type.OptionsAsList(), entry.Value);
+                                            DataGridViewComboBoxCell c = new DataGridViewComboBoxCell();
+                                            c.Items.AddRange(entry.Type.OptionsAsList());
 
-                                        c.Style = new DataGridViewCellStyle()
+                                            c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
+                                            c.Tag = entry.Type; //  new EditorConfig("ComboBox", "String", "", " ", false);
+                                                                //c.AutoComplete = isAutoComplete;
+                                                                //c.DataSource = new List<String>(entry.Options.EditorOptions);
+                                            c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                                            //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
+                                            c.DisplayStyleForCurrentCellOnly = false;
+                                            c.Style = new DataGridViewCellStyle()
+                                            {
+                                                SelectionBackColor = Color.White,
+                                                ForeColor = Color.Black,
+                                                BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                            };
+
+                                            MetaDataGrid.Rows[i].Cells[1] = c;
+                                        }
+                                        else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                         {
-                                            SelectionBackColor = Color.FromKnownColor(KnownColor.Gold),
-                                            SelectionForeColor = Color.Black,
-                                            BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
-                                        };
-                                        //c. = isAutoComplete;
-                                        //c.DataSource = new List<String>(entry.Options.EditorOptions);
+                                            DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                                            //c.Items.AddRange(entry.Options.EditorOptions);
+                                            c.Value = entry.Value; // selectedIndex > -1 ? selectedIndex : 0;
+                                            c.Tag = entry.Type;  // new EditorConfig("AutoComplete", "String", "", " ", false, entry.Options.EditorOptions);
 
-                                        //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
-                                        //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
+                                            c.Style = new DataGridViewCellStyle()
+                                            {
+                                                SelectionBackColor = Color.FromKnownColor(KnownColor.Gold),
+                                                SelectionForeColor = Color.Black,
+                                                BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                            };
+                                            //c. = isAutoComplete;
+                                            //c.DataSource = new List<String>(entry.Options.EditorOptions);
+
+                                            //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
+                                            //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
 
 
-                                        MetaDataGrid.Rows[i].Cells[1] = c;
-                                    }
-                                    else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
-                                    {
-                                        DataGridViewImageCell c = new DataGridViewImageCell();
+                                            MetaDataGrid.Rows[i].Cells[1] = c;
+                                        }
+                                        else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
+                                        {
+                                            DataGridViewImageCell c = new DataGridViewImageCell();
 
-                                        c.Value = entry.Value;
-                                        c.Tag = entry.Type;
-                                        c.ImageLayout = DataGridViewImageCellLayout.Normal;
+                                            c.Value = entry.Value;
+                                            c.Tag = entry.Type;
+                                            c.ImageLayout = DataGridViewImageCellLayout.Normal;
 
-                                        MetaDataGrid.Rows[i].Cells[1] = c;
-                                        c.ReadOnly = true;
+                                            MetaDataGrid.Rows[i].Cells[1] = c;
+                                            c.ReadOnly = true;
+                                        }
+                                        else
+                                        {
+                                            MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type;
+                                            MetaDataGrid.Rows[i].Cells[1].Value = entry.Value;
+                                        }
+
+                                        if (entry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
+                                        {
+                                            DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                            {
+                                                Value = "...",
+                                                Tag = entry.Type, // new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, "String", ",", " ", false, entry.Type.OptionsAsList()),
+                                                Style = new DataGridViewCellStyle()
+                                                {
+
+                                                    SelectionForeColor = Color.White,
+                                                    SelectionBackColor = Color.White,
+                                                    ForeColor = Color.Black,
+                                                    BackColor = Color.White,
+                                                }
+                                            };
+                                            MetaDataGrid.Rows[i].Cells[2] = bc;
+                                        }
+
                                     }
                                     else
                                     {
-                                        MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type;
-                                        MetaDataGrid.Rows[i].Cells[1].Value = entry.Value;
+                                        //MetaDataGrid.Rows[i].Cells[1] = c;
                                     }
-
-                                    if (entry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
-                                    {
-                                        DataGridViewButtonCell bc = new DataGridViewButtonCell
-                                        {
-                                            Value = "...",
-                                            Tag = entry.Type, // new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, "String", ",", " ", false, entry.Type.OptionsAsList()),
-                                            Style = new DataGridViewCellStyle()
-                                            {
-
-                                                SelectionForeColor = Color.White,
-                                                SelectionBackColor = Color.White,
-                                                ForeColor = Color.Black,
-                                                BackColor = Color.White,
-                                            }
-                                        };
-                                        MetaDataGrid.Rows[i].Cells[2] = bc;
-                                    }
-
+                                    //c.ReadOnly = true;          
                                 }
-                                else
-                                {
-                                    //MetaDataGrid.Rows[i].Cells[1] = c;
-                                }
-                                //c.ReadOnly = true;          
                             }
                         }
-                    }
-                }));
+                    }));
+                });               
             }
         }
 
