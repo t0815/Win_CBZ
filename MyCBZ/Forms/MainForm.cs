@@ -1571,12 +1571,17 @@ namespace Win_CBZ
             {
                 if (!WindowClosed)
                 {
-                    MainToolStripProgressBar.Invoke(new Action(() =>
+                    StatusToolStripTableLayout.Invoke(new Action(() =>
                     {
                         MainToolStripProgressBar.Maximum = e.Total;
                         if (e.Current > -1 && e.Current <= e.Total)
                         {
                             MainToolStripProgressBar.Value = e.Current;
+                        }
+
+                        if (e.Message != null)
+                        {
+                            ApplicationStatusLabel.Text = e.Message;
                         }
                     }));
                 }
@@ -2993,83 +2998,6 @@ namespace Win_CBZ
                );
         }
 
-        private void AddMetaData()
-        {
-            //if (Program.ProjectModel.MetaData == null)
-            //{
-            Program.ProjectModel.NewMetaData(true, Win_CBZSettings.Default.MetaDataFilename);
-            //}
-
-            Program.ProjectModel.MetaData.FillMissingDefaultProps();
-            //if (PagesList.Items.Count > 0)
-            //{
-                Task updateIndex = UpdateMetadataTask.UpdatePageMetadata(Program.ProjectModel.Pages, 
-                    Program.ProjectModel.MetaData, 
-                    MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(), 
-                    AppEventHandler.OnGeneralTaskProgress, 
-                    AppEventHandler.OnPageChanged,
-                    TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX),
-                    true);
-
-            updateIndex.ContinueWith((t) =>
-                {
-                    Invoke(new Action(() =>
-                    {
-                        BtnRemoveMetaData.Enabled = true;
-                        AddMetaDataRowBtn.Enabled = true;
-                        RemoveMetadataRowBtn.Enabled = false;
-                        ToolStripButtonShowRawMetadata.Enabled = true;
-
-                        //AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent());
-                        
-                        TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
-                    }));
-                });
-
-            updateIndex.Start();
-
-            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
-
-            //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
-            //}
-
-
-            BtnAddMetaData.Enabled = false;
-        }
-
-        private void RemoveMetaData()
-        {
-            if (Program.ProjectModel.MetaData != null)
-            {
-                Program.ProjectModel.MetaData.Values.Clear();
-                MetaDataGrid.DataSource = null;
-
-                if (!WindowClosed) 
-                {
-                    Invoke(new Action(() =>
-                    {
-                        MetaDataGrid.Rows.Clear();
-                        MetaDataGrid.Columns.Clear();
-
-
-                        BtnAddMetaData.Enabled = true;
-                        BtnRemoveMetaData.Enabled = false;
-                        AddMetaDataRowBtn.Enabled = false;
-                        RemoveMetadataRowBtn.Enabled = false;
-                        ToolStripButtonShowRawMetadata.Enabled = false;
-                    }));
-
-                    TextBoxCountKeys.Invoke(new Action(() =>
-                    {
-                        TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
-                    }));
-                }
-
-                AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_DELETED));
-                //AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
-            }
-        }
-
         private void BtnAddMetaData_Click(object sender, EventArgs e)
         {
             AddMetaData();
@@ -3263,6 +3191,84 @@ namespace Win_CBZ
             }
         }
 
+        private void AddMetaData()
+        {
+            Invoke(new Action(() => { BtnAddMetaData.Enabled = false; }));
+            //if (Program.ProjectModel.MetaData == null)
+            //{
+            Program.ProjectModel.NewMetaData(true, Win_CBZSettings.Default.MetaDataFilename);
+            //}
+
+            Program.ProjectModel.MetaData.FillMissingDefaultProps();
+            //if (PagesList.Items.Count > 0)
+            //{
+            Task updateIndex = UpdateMetadataTask.UpdatePageMetadata(Program.ProjectModel.Pages,
+                Program.ProjectModel.MetaData,
+                MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
+                AppEventHandler.OnGeneralTaskProgress,
+                AppEventHandler.OnPageChanged,
+                TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX),
+                true);
+
+            updateIndex.ContinueWith((t) =>
+            {
+                Invoke(new Action(() =>
+                {
+                    BtnRemoveMetaData.Enabled = true;
+                    AddMetaDataRowBtn.Enabled = true;
+                    RemoveMetadataRowBtn.Enabled = false;
+                    ToolStripButtonShowRawMetadata.Enabled = true;
+
+                    //AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent());
+
+                    TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
+                }));
+            });
+
+            updateIndex.Start();
+
+            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
+
+            //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
+            //}
+
+
+            //BtnAddMetaData.Enabled = false;
+        }
+
+        private void RemoveMetaData()
+        {
+            if (Program.ProjectModel.MetaData != null)
+            {
+                Program.ProjectModel.MetaData.Values.Clear();
+                MetaDataGrid.DataSource = null;
+
+                if (!WindowClosed)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        MetaDataGrid.Rows.Clear();
+                        MetaDataGrid.Columns.Clear();
+
+
+                        BtnAddMetaData.Enabled = true;
+                        BtnRemoveMetaData.Enabled = false;
+                        AddMetaDataRowBtn.Enabled = false;
+                        RemoveMetadataRowBtn.Enabled = false;
+                        ToolStripButtonShowRawMetadata.Enabled = false;
+                    }));
+
+                    TextBoxCountKeys.Invoke(new Action(() =>
+                    {
+                        TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
+                    }));
+                }
+
+                AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_DELETED));
+                //AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+            }
+        }
+
         private void MetaDataLoaded(object sender, MetaDataLoadEvent e)
         {
             if (!WindowClosed)
@@ -3272,8 +3278,8 @@ namespace Win_CBZ
                     TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
                 }));
 
-                Task fillDataGrid = Task.Factory.StartNew(() => {
-                    MetaDataGrid.Invoke(new Action(() =>
+                Task fillDataGrid = new Task(() => {
+                    Invoke(new Action(() =>
                     {
                         //MetaDataGrid.DataSource = e.MetaData;
 
@@ -3331,6 +3337,8 @@ namespace Win_CBZ
                             {
                                 MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
                             }
+
+                            Thread.Sleep(2);
                         }
 
                         // DataGridViewCellStyle currentStyle = null;
@@ -3451,10 +3459,16 @@ namespace Win_CBZ
                                     }
                                     //c.ReadOnly = true;          
                                 }
+
+                                //Thread.Sleep(2);
                             }
+
+                            //Task.Sleep(2);
                         }
                     }));
-                });               
+                });
+
+                fillDataGrid.Start();
             }
         }
 
@@ -5786,7 +5800,7 @@ namespace Win_CBZ
                         Program.ProjectModel.MetaData.Values = data.Values;
                         //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
 
-                        AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values));
+                        AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values.ToList()));
                         //AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
                     }
                 }
@@ -5919,7 +5933,7 @@ namespace Win_CBZ
             {
                 Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
 
-                AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values));
+                AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
             }
         }
 

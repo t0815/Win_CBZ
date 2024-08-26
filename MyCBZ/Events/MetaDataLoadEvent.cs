@@ -11,9 +11,9 @@ namespace Win_CBZ.Events
     internal class MetaDataLoadEvent
     {
 
-        public BindingList<MetaDataEntry> MetaData { get; set; }  
+        public List<MetaDataEntry> MetaData { get; set; }  
 
-        public MetaDataLoadEvent(BindingList<MetaDataEntry> metadata)
+        public MetaDataLoadEvent(List<MetaDataEntry> metadata)
         {
             MetaData = metadata;
         }   

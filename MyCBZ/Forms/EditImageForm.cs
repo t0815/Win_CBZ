@@ -48,8 +48,8 @@ namespace Win_CBZ.Forms
             EditImageForm_Resize(null, e);
 
 
-            //OverlayPictureBox.Page = new Bitmap(300, 200);
-            //OverlayPictureBox.Page.
+            //OverlayPictureBox.Image = new Bitmap(300, 200);
+            //OverlayPictureBox.Image.
         }
 
         private void ToolButtonSave_Click(object sender, EventArgs e)

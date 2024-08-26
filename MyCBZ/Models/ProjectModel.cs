@@ -210,7 +210,7 @@ namespace Win_CBZ
             MetaData = new MetaData(fileInputStream, metaDataFilename);
             MetaData.MetaDataEntryChanged += AppEventHandler.OnMetaDataEntryChanged;
 
-            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(MetaData.Values));
+            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(MetaData.Values.ToList()));
 
             return MetaData;
         }
@@ -1996,7 +1996,7 @@ namespace Win_CBZ
                     tParams.CancelToken.ThrowIfCancellationRequested();
 
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, pageStatus));
-                    AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, progressIndex, total));
+                    AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, progressIndex, total, "Adding image..."));
 
                     index++;
                     progressIndex++;

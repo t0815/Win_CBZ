@@ -985,7 +985,7 @@ namespace Win_CBZ.Forms
 
                 // 
 
-                //PreviewThumbPictureBox.Page = PreviewThumb;
+                //PreviewThumbPictureBox.Image = PreviewThumb;
 
 
             }

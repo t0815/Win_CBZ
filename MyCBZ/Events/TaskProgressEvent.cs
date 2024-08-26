@@ -15,12 +15,15 @@ namespace Win_CBZ.Events
 
         public Page Page { get; set; }
 
+        public string Message { get; set; }
 
-        public TaskProgressEvent(Page page, int current, int total)
+
+        public TaskProgressEvent(Page page, int current, int total, string message = null)
         {
             Page = page;
-            Current = current; 
+            Current = current;
             Total = total;
-        }   
+            Message = message;
+        }
     }
 }

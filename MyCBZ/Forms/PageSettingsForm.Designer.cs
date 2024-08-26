@@ -312,7 +312,7 @@
             LoadingIndicator.BoxColor = System.Drawing.Color.FromArgb(162, 199, 214);
             LoadingIndicator.BoxSize = 12;
             LoadingIndicator.HighlightedBoxColor = System.Drawing.Color.FromArgb(67, 143, 174);
-            LoadingIndicator.Location = new System.Drawing.Point(132, 77);
+            LoadingIndicator.Location = new System.Drawing.Point(132, 71);
             LoadingIndicator.Margin = new System.Windows.Forms.Padding(2);
             LoadingIndicator.Name = "LoadingIndicator";
             LoadingIndicator.NumberOfBoxes = 3;

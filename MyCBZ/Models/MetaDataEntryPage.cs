@@ -52,7 +52,7 @@ namespace Win_CBZ
         /*
          * 
          
-        <xs:attribute name="Page" type="xs:int" use="required" />
+        <xs:attribute name="Image" type="xs:int" use="required" />
         <xs:attribute default="Story" name="Type" type="ComicPageType" />
         <xs:attribute default="false" name="DoublePage" type="xs:boolean" />
         <xs:attribute default="0" name="ImageSize" type="xs:long" />
