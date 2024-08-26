@@ -28,60 +28,60 @@ namespace Win_CBZ.Tasks
 
                 result.Total = total;
 
-                foreach (Page page in pages)
+                lock (pages)
                 {
-                    if (page.Key == null)
+                    foreach (Page page in pages)
                     {
-                        page.Key = RandomId.GetInstance().Make();
-                        isUpdated = true;
-                    }
-
-
-                    if (page.Deleted)
-                    {
-                        page.Index = -1;
-                        page.Number = -1;
-                        isUpdated = true;
-                    }
-                    else
-                    {
-                        if (page.Index != newIndex)
+                        if (page.Key == null)
                         {
+                            page.Key = RandomId.GetInstance().Make();
                             isUpdated = true;
                         }
-                        page.Index = newIndex;
-                        //page.OriginalIndex = NewIndex;
-                        page.Number = newIndex + 1;
 
-                        newIndex++;
-                    }
 
-                    if (pageChangedHandler != null)
-                    {
+                        if (page.Deleted)
+                        {
+                            page.Index = -1;
+                            page.Number = -1;
+                            isUpdated = true;
+                        }
+                        else
+                        {
+                            if (page.Index != newIndex)
+                            {
+                                isUpdated = true;
+                            }
+                            page.Index = newIndex;
+                            //page.OriginalIndex = NewIndex;
+                            page.Number = newIndex + 1;
+
+                            newIndex++;
+                        }
+
                         if (isUpdated)
                         {
-                            pageChangedHandler.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                            pageChangedHandler?.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                         }
-                    }
 
-                    if (((CancellationToken)token).IsCancellationRequested)
-                    {
-                        
-                        break;
+                        if (((CancellationToken)token).IsCancellationRequested)
+                        {
+
+                            break;
+                        }
+
+                        handler?.Invoke(null, new GeneralTaskProgressEvent(
+                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                            "Rebuilding index...",
+                            current,
+                            total,
+                            popState,
+                            inBackground));
+
+                        current++;
+                        isUpdated = false;
+                        System.Threading.Thread.Sleep(5);
                     }
-                   
-                    handler?.Invoke(null, new GeneralTaskProgressEvent(
-                        GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, 
-                        GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                        "Rebuilding index...",
-                        current, 
-                        total,
-                        popState,
-                        inBackground));
-                    
-                    current++;
-                    isUpdated = false;
-                    System.Threading.Thread.Sleep(5);
                 }
 
                 result.Completed = current;

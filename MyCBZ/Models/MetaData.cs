@@ -480,11 +480,17 @@ namespace Win_CBZ
                 {
                     if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_2))
                     {
-                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name);
+                        if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE) != null)
+                        {
+                            condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(page.Name);
+                        }
                     }
                     else if (indexFormatVersion.HasFlag(PageIndexVersion.VERSION_1))
                     {
-                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Name);
+                        if (entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY) != null)
+                        {
+                            condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(page.Name);
+                        }
                     }
                 } catch (Exception e)
                 {

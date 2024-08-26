@@ -345,6 +345,7 @@ namespace Win_CBZ
                                 RadioApplyAdjustmentsGlobal.Checked = true;
                                 //Program.ProjectModel.GlobalImageTask = new ImageTask("");
                                 selectedImageTasks = Program.ProjectModel.GlobalImageTask;
+                                GlobalAlertTableLayout.Visible = false;
 
                                 UpdateImageAdjustments(null, "<Global>");
                             }));
@@ -989,7 +990,7 @@ namespace Win_CBZ
                             }
                         } else
                         {
-                            CurrentGlobalAction = null;
+                            //CurrentGlobalAction = null;
                         }
                     }));
 
@@ -3202,19 +3203,26 @@ namespace Win_CBZ
             Program.ProjectModel.MetaData.FillMissingDefaultProps();
             //if (PagesList.Items.Count > 0)
             //{
-            Task updateIndex = UpdateMetadataTask.UpdatePageMetadata(Program.ProjectModel.Pages,
-                Program.ProjectModel.MetaData,
-                MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
-                AppEventHandler.OnGeneralTaskProgress,
-                AppEventHandler.OnPageChanged,
-                TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX),
-                true);
+            
+
+            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
+
+            //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
+            //}
+
+            Task updateIndex = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(Program.ProjectModel.Pages.ToArray()),
+                            Program.ProjectModel.MetaData,
+                            MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
+                            AppEventHandler.OnGeneralTaskProgress,
+                            AppEventHandler.OnPageChanged,
+                            TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX),
+                            true);
 
             updateIndex.ContinueWith((t) =>
             {
                 Invoke(new Action(() =>
                 {
-                    BtnRemoveMetaData.Enabled = true;
+                    //BtnRemoveMetaData.Enabled = true;
                     AddMetaDataRowBtn.Enabled = true;
                     RemoveMetadataRowBtn.Enabled = false;
                     ToolStripButtonShowRawMetadata.Enabled = true;
@@ -3222,16 +3230,12 @@ namespace Win_CBZ
                     //AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent());
 
                     TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
+
+
                 }));
             });
 
             updateIndex.Start();
-
-            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
-
-            //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
-            //}
-
 
             //BtnAddMetaData.Enabled = false;
         }
@@ -3466,6 +3470,14 @@ namespace Win_CBZ
                             //Task.Sleep(2);
                         }
                     }));
+                });
+
+                fillDataGrid.ContinueWith((t) =>
+                {
+                    if (t.IsCompletedSuccessfully)
+                    {
+                        //
+                    }
                 });
 
                 fillDataGrid.Start();

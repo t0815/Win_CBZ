@@ -25,39 +25,44 @@ namespace Win_CBZ.Tasks
                 TaskResult result = new TaskResult();
                 result.Total = total;
 
-                foreach (Page p in pages)
+                lock (pages)
                 {
-                    try
+                    foreach (Page p in pages)
                     {
-                        p.LoadImageInfo(true);
-                        //
-                    } catch 
-                    { 
+                        try
+                        {
+                            p.LoadImageInfo(true);
+                            //
+                        }
+                        catch
+                        {
 
-                    } finally 
-                    { 
-                        p.FreeImage();
+                        }
+                        finally
+                        {
+                            p.FreeImage();
+                        }
+
+                        handler?.Invoke(p, new GeneralTaskProgressEvent(
+                            GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA,
+                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                            "Rebuilding image metadata...",
+                            current,
+                            total,
+                            true,
+                            inBackground
+                            ));
+
+                        if (((CancellationToken)token).IsCancellationRequested)
+                        {
+                            break;
+                        }
+
+                        result.Completed = current;
+                        current++;
+
+                        System.Threading.Thread.Sleep(5);
                     }
-
-                    handler?.Invoke(p, new GeneralTaskProgressEvent(
-                        GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA, 
-                        GeneralTaskProgressEvent.TASK_STATUS_RUNNING, 
-                        "Rebuilding image metadata...",
-                        current, 
-                        total,
-                        true,
-                        inBackground
-                        ));
-
-                    if (((CancellationToken)token).IsCancellationRequested)
-                    {
-                        break;
-                    }
-
-                    result.Completed = current;
-                    current++;
-
-                    System.Threading.Thread.Sleep(5);
                 }
 
                 handler?.Invoke(pages, new GeneralTaskProgressEvent(

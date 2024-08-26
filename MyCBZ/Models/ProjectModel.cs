@@ -295,7 +295,7 @@ namespace Win_CBZ
 
                     if (MetaData.Exists())
                     {
-                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(p.Pages, Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token, false, true);
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token, false, true);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {
@@ -769,7 +769,7 @@ namespace Win_CBZ
                             }
                         }
 
-                        if (MetaData.IndexVersionSpecification != tParams.CurrentPageIndexVer && !MetaDataPageIndexFileMissingShown)
+                        if ((pageIndexEntry == null || MetaData.IndexVersionSpecification != tParams.CurrentPageIndexVer) && !MetaDataPageIndexFileMissingShown)
                         {
                             IndexUpdateReasonMessage = "Pageindex has invalid/outdated format! Rebuild index to update to current specifications?";
                             MetaDataPageIndexFileMissing = true;
@@ -813,7 +813,10 @@ namespace Win_CBZ
                         {
                             MetaDataPageIndexFileMissing = true;
                             MetaDataPageIndexMissingData = true;
-                            IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
+                            if (!MetaDataPageIndexFileMissingShown)
+                            {
+                                IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
+                            }
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                         }
 
