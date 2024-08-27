@@ -3077,7 +3077,9 @@ namespace Win_CBZ
                         valStr = value.ToString();
                     }
 
-                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), e.FormattedValue.ToString());
+                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), e.FormattedValue.ToString(), !MetaDataGrid.IsCurrentCellInEditMode);
+
+                    MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
                 }
 
                 if (e.ColumnIndex == 1)
@@ -3092,21 +3094,23 @@ namespace Win_CBZ
                     }
                     
                 }
+
+                
             }
             catch (MetaDataValidationException ve)
-            {
-                MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
+            {               
                 DialogResult dlgResult = DialogResult.OK;
+                MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
 
-                if (ve.ShowErrorDialog)
+                if (ve.ShowErrorDialog && MetaDataGrid.IsCurrentCellInEditMode)
                 {
                     dlgResult = ApplicationMessage.ShowWarning(ve.Message, "Metadata validation", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
                 }
 
                 if (ve.RemoveEntry && dlgResult != DialogResult.Ignore)
                 {
-                    e.Cancel = true;
-                }
+                    e.Cancel = MetaDataGrid.IsCurrentCellInEditMode;
+                }               
             }
         }
 
@@ -3748,7 +3752,7 @@ namespace Win_CBZ
                 }
 
                 MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(realIndex, new MetaDataEntry(Key, Val));
-                MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
+                //MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
                 MetaDataGrid.Invalidate();
 
                 //if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
@@ -3851,6 +3855,21 @@ namespace Win_CBZ
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                                 c.ReadOnly = true;
+                            } else
+                            {
+                                DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+
+                                c.Value = updatedEntry.Value;
+                                c.Tag = updatedEntry.Type;
+
+                                c.Style = new DataGridViewCellStyle()
+                                {
+                                    SelectionForeColor = Color.Black,
+                                    SelectionBackColor = Color.Gold,
+                                    BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                };
+
+                                MetaDataGrid.Rows[e.RowIndex].Cells[1] = c;
                             }
 
                             if (updatedEntry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)

@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -711,7 +712,10 @@ namespace Win_CBZ
                     existing.Type = mapping;
                     if (entry.Value == null || entry.Value == "")
                     {
-                        existing.Value = mapping.OptionsAsList()[0] ?? "???";
+                        if (existing.Type.Name == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                        {
+                            existing.Value = mapping.OptionsAsList()[0] ?? "???";
+                        }
                     }
                 } else
                 {
@@ -910,13 +914,19 @@ namespace Win_CBZ
             sortedProps.ForEach(v => { Values.Add(v); });
         }
 
-        public void Validate(MetaDataEntry entry, String newKey)
+        public void Validate(MetaDataEntry entry, String newKey, bool silent = true)
         {
             int occurence = 0;
 
             if (ProtectedKeys.IndexOf(newKey.ToLower()) != -1)
             {
-                throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + newKey + "'] is not allowed!", true, true);
+                throw new MetaDataValidationException(entry, "Metadata Value Error! Key with name ['" + newKey + "'] is not allowed!", !silent, true);
+            }
+
+            //Regex re = Regex.("/[a-z]+$/gi");
+            if (!Regex.IsMatch(newKey, @"^[a-z]+$", RegexOptions.IgnoreCase))
+            {
+                throw new MetaDataValidationException(entry, "Metadata Value Error! Key with name ['" + newKey + "'] must contain only values between ['a-zA-Z']!", !silent, true);
             }
 
             foreach (MetaDataEntry entryA in Values)
@@ -929,7 +939,7 @@ namespace Win_CBZ
 
             if (occurence > 1)
             {
-                throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!");
+                throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!", !silent);
             }
 
 
