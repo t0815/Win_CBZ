@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Win_CBZ.Helper
 {
+    [SupportedOSPlatform("windows")]
     internal class MetaDataFieldConfig
     {
         protected List<MetaDataFieldType> FieldTypes;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Protocols.WsTrust;
+using SharpCompress.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -120,6 +122,8 @@ namespace Win_CBZ
 
         public BindingList<MetaDataEntry> Values { get; set; }
 
+        public List<String> DefaultSortOrderKeys { get; set; }
+
         public BindingList<MetaDataEntryPage> PageIndex { get; set; }
 
         public PageIndexVersion IndexVersionSpecification { get; set; } = PageIndexVersion.VERSION_1;
@@ -137,6 +141,7 @@ namespace Win_CBZ
             PageIndex = new BindingList<MetaDataEntryPage>();
             ProtectedKeys = new List<string>(ProtectedProperties);
             RemovedKeys = new List<string>();
+            DefaultSortOrderKeys = new List<string>();
 
             Document = new XmlDocument();
 
@@ -149,6 +154,7 @@ namespace Win_CBZ
             {
                 foreach (var entry in Defaults)
                 {
+                    DefaultSortOrderKeys.Add(entry.Key);
                     Values.Add(HandleNewEntry(entry.Key, entry.Value));
                 }
             }
@@ -163,6 +169,7 @@ namespace Win_CBZ
             PageIndex = new BindingList<MetaDataEntryPage>();
             ProtectedKeys = new List<string>(ProtectedProperties);
             RemovedKeys = new List<string>();
+            DefaultSortOrderKeys = new List<string>();
 
             MakeDefaultKeys();
             //UpdateCustomEditorMappings();
@@ -185,6 +192,10 @@ namespace Win_CBZ
                                 HandlePageMetaData(subNode);
                                 break;
                             default:
+                                if (!DefaultSortOrderKeys.Contains(subNode.Name))
+                                { 
+                                    DefaultSortOrderKeys.Add(subNode.Name); 
+                                }
                                 Values.Add(HandleNewEntry(subNode.Name, subNode.InnerText));
                                 break;
                         }   
@@ -589,7 +600,11 @@ namespace Win_CBZ
         public int Add(MetaDataEntry entry)
         {
             Values.Add(HandleNewEntry(entry.Key, entry.Value));
-
+            if (!DefaultSortOrderKeys.Contains(entry.Key))
+            {
+                DefaultSortOrderKeys.Add(entry.Key);
+            }
+            
             if (RemovedKeys.IndexOf(entry.Key) > -1)
             {
                 RemovedKeys.Remove(entry.Key);
@@ -603,6 +618,10 @@ namespace Win_CBZ
             MetaDataEntry newEntry = HandleNewEntry(key, value);
 
             Values.Add(newEntry);
+            if (!DefaultSortOrderKeys.Contains(newEntry.Key))
+            {
+                DefaultSortOrderKeys.Add(newEntry.Key);
+            }
 
             if (RemovedKeys.IndexOf(key) > -1)
             {
@@ -622,6 +641,7 @@ namespace Win_CBZ
             {
                 int index = Values.IndexOf(entry);
                 bool success = Values.Remove(entry);
+                DefaultSortOrderKeys.Remove(entry.Key);
 
                 if (success)
                 {
@@ -646,6 +666,7 @@ namespace Win_CBZ
             if (entry != null)
             {
                 Values.RemoveAt(index);
+                DefaultSortOrderKeys.RemoveAt(index);
 
                 if (RemovedKeys.IndexOf(entry.Key) == -1)
                 {
@@ -668,6 +689,7 @@ namespace Win_CBZ
 
             if (success)
             {
+                DefaultSortOrderKeys.Remove(entry.Key);
                 if (RemovedKeys.IndexOf(entry.Key) == -1)
                 {
                     RemovedKeys.Add(entry.Key);
@@ -911,7 +933,7 @@ namespace Win_CBZ
 
             Values.Clear();
 
-            sortedProps.ForEach(v => { Values.Add(v); });
+            sortedProps.ForEach(v => Values.Add(v));
         }
 
         public void Validate(MetaDataEntry entry, String newKey, bool silent = true)
@@ -939,7 +961,7 @@ namespace Win_CBZ
 
             if (occurence > 1)
             {
-                throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!", !silent);
+                throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!", !silent, true);
             }
 
 
@@ -986,6 +1008,7 @@ namespace Win_CBZ
             Defaults.Clear();
             Values.Clear();
             PageIndex.Clear();
+            DefaultSortOrderKeys.Clear();
         }
 
         protected virtual void OnMetaDataEntryChanged(MetaDataEntryChangedEvent e)

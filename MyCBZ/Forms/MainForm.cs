@@ -3573,10 +3573,13 @@ namespace Win_CBZ
         {
             var senderGrid = (DataGridView)sender;
 
-            if ((senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
-                senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell
-                ) &&
-                e.RowIndex >= 0)
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
+                senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
             {
                 String value = "";
                 MetaDataFieldType fieldType = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as MetaDataFieldType;
@@ -3656,6 +3659,8 @@ namespace Win_CBZ
                                         SelectionBackColor = Color.Gold,
                                         BackColor = Color.White,
                                     };
+
+                                    
                                 }
                                 else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                                 {
@@ -3689,7 +3694,19 @@ namespace Win_CBZ
 
         private void ToolStripMenuItemDataGridRemoveSort_Click(object sender, EventArgs e)
         {
+            MetaDataGrid.Rows.Clear();
 
+            List<MetaDataEntry> list = new List<MetaDataEntry>();
+
+            foreach (string key in Program.ProjectModel.MetaData.DefaultSortOrderKeys) 
+            {
+                list.Add(Program.ProjectModel.MetaData.EntryByKey(key));
+            }
+
+            Program.ProjectModel.MetaData.Values.Clear();
+            Program.ProjectModel.MetaData.Values = new BindingList<MetaDataEntry>(list);
+
+            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
         }
 
         private void MetaDataGrid_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)

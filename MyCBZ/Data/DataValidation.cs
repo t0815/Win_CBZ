@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,6 +27,16 @@ namespace Win_CBZ.Data
         public string[] ValidateDuplicateStrings(string[] values, CancellationToken ?cancellationToken = null)
         {
             List<String> duplicates = new List<String>();
+
+            string pattern = @"(?<=,|^)([^,]+)(?=(?>,[^,]*)*,\1(?>,|$)),";
+            string input = String.Join(',', values);
+            foreach (Match match in Regex.Matches(input, pattern, RegexOptions.IgnoreCase))
+            {
+                duplicates.Add(match.Groups[1].Value);
+            }
+                
+            /*
+             *  Use regex for duplicate detection
 
             int occurence = 0;
             foreach (String entryA in values)
@@ -60,6 +71,7 @@ namespace Win_CBZ.Data
                     }
                 }
             }
+            */
 
             return duplicates.ToArray();
         }
@@ -105,9 +117,20 @@ namespace Win_CBZ.Data
 
         public bool ValidateMetaDataDuplicateKeys(ref ArrayList metaDataEntryErrors, bool showError = true, CancellationToken? cancellationToken = null)
         {
-            int occurence = 0;
+            //int occurence = 0;
             bool error = false;
+            List<String> duplicates = new List<String>();
 
+            string[] values = Program.ProjectModel.MetaData.Values.Select(x => x.Key).ToArray();
+
+            string pattern = @"(?<=,|^)([^,]+)(?=(?>,[^,]*)*,\1(?>,|$)),";
+            string input = String.Join(',', values);
+            foreach (Match match in Regex.Matches(input, pattern, RegexOptions.IgnoreCase))
+            {
+                duplicates.Add(match.Groups[1].Value);
+            }
+
+            /*
             foreach (MetaDataEntry entryA in Program.ProjectModel.MetaData.Values)
             {
                 occurence = 0;
@@ -142,9 +165,14 @@ namespace Win_CBZ.Data
                     }
                 }
             }
+            */
 
-            if (error)
+            if (duplicates.Count > 0)
             {
+                error = true;
+
+                metaDataEntryErrors.AddRange(duplicates);
+
                 String lines = string.Join("\r\n", metaDataEntryErrors.ToArray());
                 String errorText = string.Join(", ", metaDataEntryErrors.ToArray());
 
