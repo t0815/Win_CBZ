@@ -40,6 +40,7 @@ using Win_CBZ.Handler;
 using SharpCompress.Compressors.Xz;
 using System.Windows.Interop;
 using Win_CBZ.Events;
+using System.Text.RegularExpressions;
 
 namespace Win_CBZ
 {
@@ -964,6 +965,18 @@ namespace Win_CBZ
             metaDataValidationFailed = Validation.ValidateMetaDataInvalidKeys(ref invalidKeys);
             if (metaDataValidationFailed)
             {
+                AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                return false;
+            }
+
+            string defaultKeys = String.Join("", Program.ProjectModel.MetaData.Values.Select(k => k.Key).ToArray());
+            if (!Regex.IsMatch(defaultKeys, @"^[a-z]+$", RegexOptions.IgnoreCase))
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Metadata-Keys must contain only values between ['a-zA-Z']");
+
+                ApplicationMessage.ShowWarning("Validateion Error! Metadata-Keys must contain only values between ['a-zA-Z']!", "Invalid Metadata", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+
                 AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
                 return false;

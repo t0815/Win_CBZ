@@ -363,7 +363,7 @@
             tabPage5.Margin = new System.Windows.Forms.Padding(2);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            tabPage5.Size = new System.Drawing.Size(240, 427);
+            tabPage5.Size = new System.Drawing.Size(139, 427);
             tabPage5.TabIndex = 2;
             tabPage5.Text = "Behaviour";
             tabPage5.UseVisualStyleBackColor = true;
@@ -387,7 +387,7 @@
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel4.Size = new System.Drawing.Size(236, 423);
+            tableLayoutPanel4.Size = new System.Drawing.Size(135, 423);
             tableLayoutPanel4.TabIndex = 2;
             // 
             // CheckBoxSkipIndexCheck
@@ -396,7 +396,7 @@
             CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(162, 20);
             CheckBoxSkipIndexCheck.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxSkipIndexCheck.Name = "CheckBoxSkipIndexCheck";
-            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(64, 24);
+            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(1, 24);
             CheckBoxSkipIndexCheck.TabIndex = 8;
             CheckBoxSkipIndexCheck.Text = "Skip index check";
             CheckBoxSkipIndexCheck.UseVisualStyleBackColor = true;
@@ -427,7 +427,7 @@
             CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(162, 77);
             CheckBoxDeleteTempFiles.Margin = new System.Windows.Forms.Padding(9, 20, 3, 4);
             CheckBoxDeleteTempFiles.Name = "CheckBoxDeleteTempFiles";
-            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(64, 24);
+            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(1, 24);
             CheckBoxDeleteTempFiles.TabIndex = 11;
             CheckBoxDeleteTempFiles.Text = "Delete Immediately";
             CheckBoxDeleteTempFiles.UseVisualStyleBackColor = true;
@@ -652,7 +652,7 @@
             MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             MetaDataConfigTabControl.SelectedIndex = 0;
-            MetaDataConfigTabControl.Size = new System.Drawing.Size(122, 465);
+            MetaDataConfigTabControl.Size = new System.Drawing.Size(121, 465);
             MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -662,7 +662,7 @@
             tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage1.Size = new System.Drawing.Size(114, 432);
+            tabPage1.Size = new System.Drawing.Size(113, 432);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Default";
             tabPage1.UseVisualStyleBackColor = true;
@@ -674,7 +674,7 @@
             SettingsGroup1Panel.Location = new System.Drawing.Point(3, 2);
             SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            SettingsGroup1Panel.Size = new System.Drawing.Size(108, 428);
+            SettingsGroup1Panel.Size = new System.Drawing.Size(107, 428);
             SettingsGroup1Panel.TabIndex = 4;
             // 
             // MetaDataDefaultKeysTable
@@ -700,7 +700,7 @@
             MetaDataDefaultKeysTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             MetaDataDefaultKeysTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             MetaDataDefaultKeysTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
-            MetaDataDefaultKeysTable.Size = new System.Drawing.Size(108, 428);
+            MetaDataDefaultKeysTable.Size = new System.Drawing.Size(107, 428);
             MetaDataDefaultKeysTable.TabIndex = 7;
             // 
             // label4
@@ -727,7 +727,7 @@
             // button1
             // 
             button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            button1.Location = new System.Drawing.Point(-19, 297);
+            button1.Location = new System.Drawing.Point(-20, 297);
             button1.Margin = new System.Windows.Forms.Padding(3, 15, 6, 2);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(122, 51);
@@ -740,7 +740,7 @@
             // 
             PictureBoxToolTipMetaFileName.Image = Properties.Resources.information;
             PictureBoxToolTipMetaFileName.InitialImage = Properties.Resources.information;
-            PictureBoxToolTipMetaFileName.Location = new System.Drawing.Point(-22, 0);
+            PictureBoxToolTipMetaFileName.Location = new System.Drawing.Point(-23, 0);
             PictureBoxToolTipMetaFileName.Margin = new System.Windows.Forms.Padding(0);
             PictureBoxToolTipMetaFileName.Name = "PictureBoxToolTipMetaFileName";
             PictureBoxToolTipMetaFileName.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
@@ -770,7 +770,7 @@
             CustomDefaultKeys.Multiline = true;
             CustomDefaultKeys.Name = "CustomDefaultKeys";
             CustomDefaultKeys.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            CustomDefaultKeys.Size = new System.Drawing.Size(97, 172);
+            CustomDefaultKeys.Size = new System.Drawing.Size(96, 172);
             CustomDefaultKeys.TabIndex = 0;
             // 
             // label1
@@ -783,7 +783,7 @@
             label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
             label1.Size = new System.Drawing.Size(1, 28);
             label1.TabIndex = 1;
-            label1.Text = "Default MetaData Keys";
+            label1.Text = "Default Metadata Keys";
             // 
             // MetaDataTabPageTags
             // 
@@ -792,7 +792,7 @@
             MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            MetaDataTabPageTags.Size = new System.Drawing.Size(114, 432);
+            MetaDataTabPageTags.Size = new System.Drawing.Size(113, 432);
             MetaDataTabPageTags.TabIndex = 1;
             MetaDataTabPageTags.Text = "Tags";
             MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -818,7 +818,7 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(108, 428);
+            tableLayoutPanel1.Size = new System.Drawing.Size(107, 428);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // CheckBoxValidateTags
@@ -828,7 +828,7 @@
             CheckBoxValidateTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             CheckBoxValidateTags.Name = "CheckBoxValidateTags";
             CheckBoxValidateTags.Padding = new System.Windows.Forms.Padding(5, 9, 0, 0);
-            CheckBoxValidateTags.Size = new System.Drawing.Size(42, 33);
+            CheckBoxValidateTags.Size = new System.Drawing.Size(41, 33);
             CheckBoxValidateTags.TabIndex = 0;
             CheckBoxValidateTags.Text = "Validate Tags against a list of known Tags";
             CheckBoxValidateTags.UseVisualStyleBackColor = true;
@@ -838,7 +838,7 @@
             // 
             InfoIconTooltip.Image = Properties.Resources.information;
             InfoIconTooltip.InitialImage = Properties.Resources.information;
-            InfoIconTooltip.Location = new System.Drawing.Point(48, 0);
+            InfoIconTooltip.Location = new System.Drawing.Point(47, 0);
             InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             InfoIconTooltip.Name = "InfoIconTooltip";
             InfoIconTooltip.Padding = new System.Windows.Forms.Padding(7, 9, 7, 8);
@@ -857,7 +857,7 @@
             CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
             CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(24, 6, 0, 0);
-            CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(40, 6);
+            CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(39, 6);
             CheckBoxTagValidationIgnoreCase.TabIndex = 6;
             CheckBoxTagValidationIgnoreCase.Text = "Case Sensitive";
             CheckBoxTagValidationIgnoreCase.UseVisualStyleBackColor = true;
@@ -883,7 +883,7 @@
             ValidTags.Multiline = true;
             ValidTags.Name = "ValidTags";
             ValidTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            ValidTags.Size = new System.Drawing.Size(102, 233);
+            ValidTags.Size = new System.Drawing.Size(101, 233);
             ValidTags.TabIndex = 3;
             // 
             // ItemEditorToolBar
@@ -901,7 +901,7 @@
             ItemEditorToolBar.Name = "ItemEditorToolBar";
             ItemEditorToolBar.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
             ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            ItemEditorToolBar.Size = new System.Drawing.Size(100, 29);
+            ItemEditorToolBar.Size = new System.Drawing.Size(99, 29);
             ItemEditorToolBar.Stretch = true;
             ItemEditorToolBar.TabIndex = 8;
             // 

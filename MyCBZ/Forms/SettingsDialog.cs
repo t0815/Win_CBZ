@@ -1,4 +1,5 @@
-﻿using SharpCompress.Common;
+﻿using Microsoft.IdentityModel.Protocols.WsTrust;
+using SharpCompress.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -307,6 +309,14 @@ namespace Win_CBZ.Forms
                     Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
 
                     Program.ProjectModel.MetaData.ValidateDefaults();
+
+                    string defaultKeys = String.Join("", Program.ProjectModel.MetaData.GetDefaultEntries().Select(k => k.Key).ToArray());
+                    if (!Regex.IsMatch(defaultKeys, @"^[a-z]+$", RegexOptions.IgnoreCase))
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Default Metadata-Keys must contain only values between ['a-zA-Z']");
+
+                        throw new MetaDataValidationException("", "", "Validateion Error! Default Metadata-Keys must contain only values between ['a-zA-Z']!", true, false);
+                    }
 
                     if (CheckBoxValidateTags.Checked)
                     {

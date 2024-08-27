@@ -864,6 +864,11 @@ namespace Win_CBZ
             return result.ToString();
         }
 
+        public List<MetaDataEntry> GetDefaultEntries()
+        {
+            return Defaults;
+        }
+
         public MetaDataEntry ParseDefaultProp(String prop)
         {
             MetaDataEntry entry = new MetaDataEntry(prop, "");
