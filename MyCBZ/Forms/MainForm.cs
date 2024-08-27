@@ -3304,6 +3304,8 @@ namespace Win_CBZ
                             {
                                 firstCol.Width = 150;
                                 secondCol.Width = 250;
+                                firstCol.SortMode = DataGridViewColumnSortMode.Automatic;
+                                secondCol.SortMode = DataGridViewColumnSortMode.Automatic;
                             }
                         }
                         else
@@ -3695,6 +3697,8 @@ namespace Win_CBZ
         private void ToolStripMenuItemDataGridRemoveSort_Click(object sender, EventArgs e)
         {
             MetaDataGrid.Rows.Clear();
+            MetaDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            MetaDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             List<MetaDataEntry> list = new List<MetaDataEntry>();
 
