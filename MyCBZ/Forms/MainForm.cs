@@ -3079,7 +3079,7 @@ namespace Win_CBZ
 
                     Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), e.FormattedValue.ToString(), !MetaDataGrid.IsCurrentCellInEditMode);
 
-                    MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
+                    MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = null;
                 }
 
                 if (e.ColumnIndex == 1)
@@ -3100,7 +3100,7 @@ namespace Win_CBZ
             catch (MetaDataValidationException ve)
             {               
                 DialogResult dlgResult = DialogResult.OK;
-                MetaDataGrid.Rows[e.RowIndex].ErrorText = ve.Message;
+                MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = ve.Message;
 
                 if (ve.ShowErrorDialog && MetaDataGrid.IsCurrentCellInEditMode)
                 {
@@ -3110,7 +3110,9 @@ namespace Win_CBZ
                 if (ve.RemoveEntry && dlgResult != DialogResult.Ignore)
                 {
                     e.Cancel = MetaDataGrid.IsCurrentCellInEditMode;
-                }               
+                }       
+                
+                MetaDataGrid.InvalidateCell(e.ColumnIndex, e.RowIndex);
             }
         }
 
@@ -3690,7 +3692,7 @@ namespace Win_CBZ
                 var key = row.Cells[0].Value;
                 var val = row.Cells[1].Value;
 
-                Program.ProjectModel.MetaData.Add(new MetaDataEntry(key.ToString(), val.ToString()));
+                Program.ProjectModel.MetaData.Add(new MetaDataEntry(key.ToString(), val?.ToString()));
             }
         }
 

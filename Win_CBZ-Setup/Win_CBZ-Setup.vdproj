@@ -248,15 +248,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Win_CBZ"
-        "ProductCode" = "8:{CEF867B1-9180-4E86-BE25-38C288A1078E}"
-        "PackageCode" = "8:{09C719B8-9F62-4165-B5C6-5C5AA069F5C1}"
+        "ProductCode" = "8:{9EB3C6FD-7921-47BA-93F6-88893864F722}"
+        "PackageCode" = "8:{0F1ECEAC-2FE7-4C63-AE33-938BCF0127B8}"
         "UpgradeCode" = "8:{66FAEF81-1CAE-4971-9E0F-796310EFEA5E}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.20.153"
+        "ProductVersion" = "8:0.20.154"
         "Manufacturer" = "8:Trash_s0Ft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -808,7 +808,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1DAB07B3E40248E0B54293E16EE30178"
             {
-            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Debug\\net8.0-windows7.0\\apphost.exe"
+            "SourcePath" = "8:..\\MyCBZ\\obj\\x64\\Release\\net8.0-windows7.0\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_381C2AC7AD384E1488C6014F95032920"
