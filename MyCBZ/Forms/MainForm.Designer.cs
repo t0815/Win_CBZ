@@ -910,7 +910,7 @@ namespace Win_CBZ
             // 
             PrimarySplitBox.Panel2.Controls.Add(MessageLogListView);
             PrimarySplitBox.Size = new System.Drawing.Size(1294, 591);
-            PrimarySplitBox.SplitterDistance = 472;
+            PrimarySplitBox.SplitterDistance = 471;
             PrimarySplitBox.SplitterWidth = 5;
             PrimarySplitBox.TabIndex = 4;
             // 
@@ -922,7 +922,7 @@ namespace Win_CBZ
             MainPanel.Location = new System.Drawing.Point(0, 0);
             MainPanel.Margin = new System.Windows.Forms.Padding(2);
             MainPanel.Name = "MainPanel";
-            MainPanel.Size = new System.Drawing.Size(1294, 472);
+            MainPanel.Size = new System.Drawing.Size(1294, 471);
             MainPanel.TabIndex = 4;
             // 
             // MainPanelTableLayout
@@ -940,7 +940,7 @@ namespace Win_CBZ
             MainPanelTableLayout.RowCount = 2;
             MainPanelTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             MainPanelTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            MainPanelTableLayout.Size = new System.Drawing.Size(1294, 472);
+            MainPanelTableLayout.Size = new System.Drawing.Size(1294, 471);
             MainPanelTableLayout.TabIndex = 8;
             // 
             // GlobalAlertTableLayout
@@ -1017,7 +1017,7 @@ namespace Win_CBZ
             // 
             MainSplitBox.Panel2.AutoScroll = true;
             MainSplitBox.Panel2.Controls.Add(SplitBoxItemsList);
-            MainSplitBox.Size = new System.Drawing.Size(1290, 427);
+            MainSplitBox.Size = new System.Drawing.Size(1290, 426);
             MainSplitBox.SplitterDistance = 352;
             MainSplitBox.SplitterWidth = 5;
             MainSplitBox.TabIndex = 6;
@@ -1038,8 +1038,8 @@ namespace Win_CBZ
             // SplitBoxPageView.Panel2
             // 
             SplitBoxPageView.Panel2.Controls.Add(TabControlPageSettings);
-            SplitBoxPageView.Size = new System.Drawing.Size(350, 425);
-            SplitBoxPageView.SplitterDistance = 110;
+            SplitBoxPageView.Size = new System.Drawing.Size(350, 424);
+            SplitBoxPageView.SplitterDistance = 109;
             SplitBoxPageView.SplitterWidth = 5;
             SplitBoxPageView.TabIndex = 6;
             // 
@@ -1053,7 +1053,7 @@ namespace Win_CBZ
             PageThumbsListBox.Location = new System.Drawing.Point(0, 0);
             PageThumbsListBox.Margin = new System.Windows.Forms.Padding(2);
             PageThumbsListBox.Name = "PageThumbsListBox";
-            PageThumbsListBox.Size = new System.Drawing.Size(350, 110);
+            PageThumbsListBox.Size = new System.Drawing.Size(350, 109);
             PageThumbsListBox.TabIndex = 7;
             PageThumbsListBox.DrawItem += PageThumbsListBox_DrawItem;
             PageThumbsListBox.MeasureItem += PageThumbsListBox_MeasureItem;
@@ -1536,7 +1536,7 @@ namespace Win_CBZ
             TabPageGlobalSettings.Margin = new System.Windows.Forms.Padding(2);
             TabPageGlobalSettings.Name = "TabPageGlobalSettings";
             TabPageGlobalSettings.Padding = new System.Windows.Forms.Padding(2);
-            TabPageGlobalSettings.Size = new System.Drawing.Size(342, 273);
+            TabPageGlobalSettings.Size = new System.Drawing.Size(342, 277);
             TabPageGlobalSettings.TabIndex = 1;
             TabPageGlobalSettings.Text = "File Settings";
             TabPageGlobalSettings.UseVisualStyleBackColor = true;
@@ -1575,7 +1575,7 @@ namespace Win_CBZ
             FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 132F));
             FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             FileSettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            FileSettingsTablePanel.Size = new System.Drawing.Size(338, 269);
+            FileSettingsTablePanel.Size = new System.Drawing.Size(338, 273);
             FileSettingsTablePanel.TabIndex = 1;
             // 
             // PlaceholdersInfoLabel
@@ -1726,7 +1726,7 @@ namespace Win_CBZ
             TabPageArchiveSettings.Margin = new System.Windows.Forms.Padding(2);
             TabPageArchiveSettings.Name = "TabPageArchiveSettings";
             TabPageArchiveSettings.Padding = new System.Windows.Forms.Padding(2);
-            TabPageArchiveSettings.Size = new System.Drawing.Size(342, 273);
+            TabPageArchiveSettings.Size = new System.Drawing.Size(342, 277);
             TabPageArchiveSettings.TabIndex = 2;
             TabPageArchiveSettings.Text = "Build settings";
             TabPageArchiveSettings.UseVisualStyleBackColor = true;
@@ -1756,7 +1756,7 @@ namespace Win_CBZ
             ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 125F));
             ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(338, 269);
+            ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(338, 273);
             ArchiveBuildSettingsTableLayout.TabIndex = 0;
             // 
             // CompatInfoText
@@ -1766,7 +1766,7 @@ namespace Win_CBZ
             CompatInfoText.Location = new System.Drawing.Point(14, 160);
             CompatInfoText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             CompatInfoText.Name = "CompatInfoText";
-            CompatInfoText.Size = new System.Drawing.Size(289, 42);
+            CompatInfoText.Size = new System.Drawing.Size(310, 42);
             CompatInfoText.TabIndex = 1;
             CompatInfoText.Text = resources.GetString("CompatInfoText.Text");
             CompatInfoText.Visible = false;
@@ -1790,7 +1790,7 @@ namespace Win_CBZ
             CheckBoxIgnoreErrorsOnSave.Margin = new System.Windows.Forms.Padding(0, 2, 2, 2);
             CheckBoxIgnoreErrorsOnSave.Name = "CheckBoxIgnoreErrorsOnSave";
             CheckBoxIgnoreErrorsOnSave.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(130, 32);
+            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(139, 32);
             CheckBoxIgnoreErrorsOnSave.TabIndex = 7;
             CheckBoxIgnoreErrorsOnSave.Text = "Continue on Error";
             CheckBoxIgnoreErrorsOnSave.UseVisualStyleBackColor = true;
@@ -1800,7 +1800,7 @@ namespace Win_CBZ
             // 
             pictureBox1.Image = Properties.Resources.information;
             pictureBox1.InitialImage = Properties.Resources.information;
-            pictureBox1.Location = new System.Drawing.Point(144, 123);
+            pictureBox1.Location = new System.Drawing.Point(153, 123);
             pictureBox1.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new System.Drawing.Size(24, 24);
@@ -1819,7 +1819,7 @@ namespace Win_CBZ
             ComboBoxCompressionLevel.Location = new System.Drawing.Point(12, 34);
             ComboBoxCompressionLevel.Margin = new System.Windows.Forms.Padding(0, 2, 2, 8);
             ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
-            ComboBoxCompressionLevel.Size = new System.Drawing.Size(291, 28);
+            ComboBoxCompressionLevel.Size = new System.Drawing.Size(312, 28);
             ComboBoxCompressionLevel.TabIndex = 0;
             ComboBoxCompressionLevel.SelectedIndexChanged += ComboBoxCompressionLevel_SelectedIndexChanged;
             // 
@@ -1827,7 +1827,7 @@ namespace Win_CBZ
             // 
             InfoIconTooltip.Image = Properties.Resources.information;
             InfoIconTooltip.InitialImage = Properties.Resources.information;
-            InfoIconTooltip.Location = new System.Drawing.Point(144, 78);
+            InfoIconTooltip.Location = new System.Drawing.Point(153, 78);
             InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
             InfoIconTooltip.Name = "InfoIconTooltip";
             InfoIconTooltip.Size = new System.Drawing.Size(24, 24);
@@ -1843,7 +1843,7 @@ namespace Win_CBZ
             CheckBoxCompatibilityMode.Margin = new System.Windows.Forms.Padding(0, 2, 2, 2);
             CheckBoxCompatibilityMode.Name = "CheckBoxCompatibilityMode";
             CheckBoxCompatibilityMode.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(130, 32);
+            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(139, 32);
             CheckBoxCompatibilityMode.TabIndex = 0;
             CheckBoxCompatibilityMode.Text = "Compatibility mode";
             CheckBoxCompatibilityMode.UseVisualStyleBackColor = true;
@@ -1865,8 +1865,8 @@ namespace Win_CBZ
             // SplitBoxItemsList.Panel2
             // 
             SplitBoxItemsList.Panel2.Controls.Add(MetadataPanel);
-            SplitBoxItemsList.Size = new System.Drawing.Size(933, 427);
-            SplitBoxItemsList.SplitterDistance = 156;
+            SplitBoxItemsList.Size = new System.Drawing.Size(933, 426);
+            SplitBoxItemsList.SplitterDistance = 155;
             SplitBoxItemsList.SplitterWidth = 5;
             SplitBoxItemsList.TabIndex = 7;
             // 
@@ -1883,13 +1883,14 @@ namespace Win_CBZ
             PagesList.Margin = new System.Windows.Forms.Padding(2);
             PagesList.Name = "PagesList";
             PagesList.ShowItemToolTips = true;
-            PagesList.Size = new System.Drawing.Size(931, 154);
+            PagesList.Size = new System.Drawing.Size(931, 153);
             PagesList.TabIndex = 5;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
             PagesList.AfterLabelEdit += PagesList_AfterLabelEdit;
             PagesList.ItemDrag += PagesList_ItemDrag;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
+            PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             PagesList.DragDrop += PagesList_DragDrop;
             PagesList.DragOver += PagesList_DragOver;
             PagesList.DoubleClick += PagesList_DoubleClick;
@@ -2159,7 +2160,7 @@ namespace Win_CBZ
             MessageLogListView.Location = new System.Drawing.Point(0, 0);
             MessageLogListView.Margin = new System.Windows.Forms.Padding(2);
             MessageLogListView.Name = "MessageLogListView";
-            MessageLogListView.Size = new System.Drawing.Size(1294, 114);
+            MessageLogListView.Size = new System.Drawing.Size(1294, 115);
             MessageLogListView.SmallImageList = LogMessageImageList;
             MessageLogListView.TabIndex = 0;
             MessageLogListView.UseCompatibleStateImageBehavior = false;
@@ -2310,9 +2311,9 @@ namespace Win_CBZ
             ApplicationStatusLabel.Location = new System.Drawing.Point(2, 2);
             ApplicationStatusLabel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             ApplicationStatusLabel.Name = "ApplicationStatusLabel";
-            ApplicationStatusLabel.Size = new System.Drawing.Size(50, 20);
+            ApplicationStatusLabel.Size = new System.Drawing.Size(53, 20);
             ApplicationStatusLabel.TabIndex = 1;
-            ApplicationStatusLabel.Text = "Ready";
+            ApplicationStatusLabel.Text = "Ready.";
             // 
             // FileNameLabel
             // 
