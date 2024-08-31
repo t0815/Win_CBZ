@@ -348,7 +348,7 @@ namespace Win_CBZ
                             selectedImageTasks = Program.ProjectModel.GlobalImageTask;
                             GlobalAlertTableLayout.Visible = false;
 
-                            UpdateImageAdjustments(null, "<Global>");
+                            UpdateImageAdjustments(null, "<Global>", true);
                         }));
 
                         ClearLog();
@@ -425,7 +425,7 @@ namespace Win_CBZ
                             TextBoxExcludePagesImageProcessing.Text = "";
                             RenamerExcludePages.Text = "";
                             PageCountStatusLabel.Text = "0 Pages";
-                            UpdateImageAdjustments(sender, "<Global>");
+                            UpdateImageAdjustments(sender, "<Global>", true);
                             Program.ProjectModel.IsChanged = false;
                             Program.ProjectModel.Pages.Clear();
                         }));
@@ -4014,15 +4014,16 @@ namespace Win_CBZ
                 }
 
                 selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
+               
+                if (RadioApplyAdjustmentsPage.Checked && RadioApplyAdjustmentsPage.Tag != ((Page)selectedPages[0].Tag).Id)
+                {
+                    UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id, true);
+                }
 
                 RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
                 RadioApplyAdjustmentsPage.Tag = ((Page)selectedPages[0].Tag).Id;
                 RadioApplyAdjustmentsPage.Enabled = true;
 
-                if (RadioApplyAdjustmentsPage.Checked)
-                {
-                    UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id);
-                }
                 //RequestImageInfoSlice();
             }
             else
@@ -5014,6 +5015,9 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                bool dontUpdate = radio.Tag != null ? ((bool)radio.Tag) : true;
+
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeMode;
 
@@ -5033,7 +5037,7 @@ namespace Win_CBZ
                         break;
                 }
 
-                if (page != null && oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeMode)
+                if (!dontUpdate && page != null && oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeMode)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }
@@ -5079,10 +5083,13 @@ namespace Win_CBZ
             if (rb.Checked)
             {
                 UpdateImageAdjustments(sender, selected);
+            } else
+            {
+                UpdateImageAdjustments(sender, selected, true);
             }
         }
 
-        private void UpdateImageAdjustments(object sender, string selected)
+        private void UpdateImageAdjustments(object sender, string selected, bool dontUpdate = false)
         {
             ImageTask selectedTask = null;
             Page page = null;
@@ -5113,20 +5120,24 @@ namespace Win_CBZ
                 {
 
                     Invoke(new Action(() =>
-                    {
+                    {                        
                         //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
                         switch (selectedImageTasks.ImageAdjustments.ResizeMode)
                         {
                             case 0:
+                                RadioButtonResizeNever.Tag = dontUpdate;
                                 RadioButtonResizeNever.Checked = true;
                                 break;
                             case 1:
+                                RadioButtonResizeIfLarger.Tag = dontUpdate;
                                 RadioButtonResizeIfLarger.Checked = true;
                                 break;
                             case 2:
+                                RadioButtonResizeTo.Tag = dontUpdate;
                                 RadioButtonResizeTo.Checked = true;
                                 break;
                             case 3:
+                                RadioButtonResizePercent.Tag = dontUpdate;
                                 RadioButtonResizePercent.Checked = true;
                                 break;
 
@@ -5219,6 +5230,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.KeepAspectRatio;
 
@@ -5300,6 +5312,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.Y;
 
@@ -5352,6 +5365,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeToPercentage;
 
@@ -5397,6 +5411,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.DontStretch;
 
@@ -5422,6 +5437,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
 
@@ -5455,6 +5471,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
 
@@ -5479,6 +5496,7 @@ namespace Win_CBZ
 
             if (selectedImageTasks != null)
             {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPage;
 

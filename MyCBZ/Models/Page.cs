@@ -2353,5 +2353,10 @@ namespace Win_CBZ
 
             Invalidated = true;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
