@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             ToolBar = new System.Windows.Forms.ToolStrip();
             ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -133,6 +133,9 @@ namespace Win_CBZ
             RadioApplyAdjustmentsPage = new System.Windows.Forms.RadioButton();
             GetImageProcessExcludesFromSelectedButton = new System.Windows.Forms.Button();
             GroupBoxResize = new System.Windows.Forms.GroupBox();
+            CheckboxKeepAspectratio = new System.Windows.Forms.CheckBox();
+            TextboxResizePercentage = new System.Windows.Forms.TextBox();
+            RadioButtonResizePercent = new System.Windows.Forms.RadioButton();
             pictureBox2 = new System.Windows.Forms.PictureBox();
             TextBoxResizePageIndexReference = new System.Windows.Forms.TextBox();
             LabelResizeH = new System.Windows.Forms.Label();
@@ -224,6 +227,7 @@ namespace Win_CBZ
             boxIndicatorControl1 = new LoadingIndicator.WinForms.BoxIndicatorControl();
             BackgroundTaskStatusLabel = new System.Windows.Forms.Label();
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            ChechBoxDontStretch = new System.Windows.Forms.CheckBox();
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -1141,8 +1145,8 @@ namespace Win_CBZ
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 181F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 204F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 297F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
@@ -1247,7 +1251,7 @@ namespace Win_CBZ
             // GetImageProcessExcludesFromSelectedButton
             // 
             GetImageProcessExcludesFromSelectedButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 737);
+            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 849);
             GetImageProcessExcludesFromSelectedButton.Margin = new System.Windows.Forms.Padding(2);
             GetImageProcessExcludesFromSelectedButton.Name = "GetImageProcessExcludesFromSelectedButton";
             GetImageProcessExcludesFromSelectedButton.Size = new System.Drawing.Size(146, 27);
@@ -1259,6 +1263,10 @@ namespace Win_CBZ
             // GroupBoxResize
             // 
             TablePanePageAdjustments.SetColumnSpan(GroupBoxResize, 2);
+            GroupBoxResize.Controls.Add(ChechBoxDontStretch);
+            GroupBoxResize.Controls.Add(CheckboxKeepAspectratio);
+            GroupBoxResize.Controls.Add(TextboxResizePercentage);
+            GroupBoxResize.Controls.Add(RadioButtonResizePercent);
             GroupBoxResize.Controls.Add(pictureBox2);
             GroupBoxResize.Controls.Add(TextBoxResizePageIndexReference);
             GroupBoxResize.Controls.Add(LabelResizeH);
@@ -1274,10 +1282,41 @@ namespace Win_CBZ
             GroupBoxResize.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxResize.Name = "GroupBoxResize";
             GroupBoxResize.Padding = new System.Windows.Forms.Padding(2);
-            GroupBoxResize.Size = new System.Drawing.Size(297, 177);
+            GroupBoxResize.Size = new System.Drawing.Size(297, 293);
             GroupBoxResize.TabIndex = 5;
             GroupBoxResize.TabStop = false;
             GroupBoxResize.Text = "Resize";
+            // 
+            // CheckboxKeepAspectratio
+            // 
+            CheckboxKeepAspectratio.AutoSize = true;
+            CheckboxKeepAspectratio.Location = new System.Drawing.Point(61, 169);
+            CheckboxKeepAspectratio.Name = "CheckboxKeepAspectratio";
+            CheckboxKeepAspectratio.Size = new System.Drawing.Size(155, 24);
+            CheckboxKeepAspectratio.TabIndex = 12;
+            CheckboxKeepAspectratio.Text = "Keep Aspect-Ratio";
+            CheckboxKeepAspectratio.UseVisualStyleBackColor = true;
+            // 
+            // TextboxResizePercentage
+            // 
+            AutoCompleteItems.SetAutocompleteMenu(TextboxResizePercentage, null);
+            TextboxResizePercentage.Location = new System.Drawing.Point(176, 247);
+            TextboxResizePercentage.Name = "TextboxResizePercentage";
+            TextboxResizePercentage.Size = new System.Drawing.Size(113, 27);
+            TextboxResizePercentage.TabIndex = 11;
+            TextboxResizePercentage.TextChanged += TextboxResizePercentage_TextChanged;
+            // 
+            // RadioButtonResizePercent
+            // 
+            RadioButtonResizePercent.AutoSize = true;
+            RadioButtonResizePercent.Location = new System.Drawing.Point(32, 250);
+            RadioButtonResizePercent.Name = "RadioButtonResizePercent";
+            RadioButtonResizePercent.Size = new System.Drawing.Size(103, 24);
+            RadioButtonResizePercent.TabIndex = 10;
+            RadioButtonResizePercent.TabStop = true;
+            RadioButtonResizePercent.Text = "Percentage";
+            RadioButtonResizePercent.UseVisualStyleBackColor = true;
+            RadioButtonResizePercent.CheckedChanged += ImageResizeRadioChanged;
             // 
             // pictureBox2
             // 
@@ -1336,7 +1375,6 @@ namespace Win_CBZ
             // RadioButtonResizeIfLarger
             // 
             RadioButtonResizeIfLarger.AutoSize = true;
-            RadioButtonResizeIfLarger.Enabled = false;
             RadioButtonResizeIfLarger.Location = new System.Drawing.Point(32, 60);
             RadioButtonResizeIfLarger.Margin = new System.Windows.Forms.Padding(2);
             RadioButtonResizeIfLarger.Name = "RadioButtonResizeIfLarger";
@@ -1427,11 +1465,11 @@ namespace Win_CBZ
             GroupBoxDoublePages.Controls.Add(ComboBoxSplitAtType);
             GroupBoxDoublePages.Controls.Add(TextBoxSplitPageAt);
             GroupBoxDoublePages.Controls.Add(CheckBoxSplitDoublePages);
-            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 412);
+            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 528);
             GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxDoublePages.Name = "GroupBoxDoublePages";
             GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2);
-            GroupBoxDoublePages.Size = new System.Drawing.Size(297, 200);
+            GroupBoxDoublePages.Size = new System.Drawing.Size(297, 196);
             GroupBoxDoublePages.TabIndex = 6;
             GroupBoxDoublePages.TabStop = false;
             GroupBoxDoublePages.Text = "Split Double-Pages";
@@ -1507,7 +1545,7 @@ namespace Win_CBZ
             // 
             ExcludeHeaderLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             ExcludeHeaderLabel.AutoSize = true;
-            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 629);
+            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 741);
             ExcludeHeaderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             ExcludeHeaderLabel.Name = "ExcludeHeaderLabel";
             ExcludeHeaderLabel.Size = new System.Drawing.Size(60, 20);
@@ -1519,7 +1557,7 @@ namespace Win_CBZ
             AutoCompleteItems.SetAutocompleteMenu(TextBoxExcludePagesImageProcessing, null);
             TablePanePageAdjustments.SetColumnSpan(TextBoxExcludePagesImageProcessing, 2);
             TextBoxExcludePagesImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
-            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 651);
+            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 763);
             TextBoxExcludePagesImageProcessing.Margin = new System.Windows.Forms.Padding(2);
             TextBoxExcludePagesImageProcessing.Multiline = true;
             TextBoxExcludePagesImageProcessing.Name = "TextBoxExcludePagesImageProcessing";
@@ -2086,40 +2124,40 @@ namespace Win_CBZ
             // MetaDataGrid
             // 
             MetaDataGrid.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MetaDataGrid.ContextMenuStrip = DataGridContextMenu;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             MetaDataGrid.Location = new System.Drawing.Point(2, 50);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 24;
             MetaDataGrid.Size = new System.Drawing.Size(927, 167);
@@ -2410,6 +2448,17 @@ namespace Win_CBZ
             PrimaryTableLayout.Size = new System.Drawing.Size(1298, 622);
             PrimaryTableLayout.TabIndex = 6;
             // 
+            // ChechBoxDontStretch
+            // 
+            ChechBoxDontStretch.AutoSize = true;
+            ChechBoxDontStretch.Location = new System.Drawing.Point(32, 210);
+            ChechBoxDontStretch.Name = "ChechBoxDontStretch";
+            ChechBoxDontStretch.Size = new System.Drawing.Size(112, 24);
+            ChechBoxDontStretch.TabIndex = 13;
+            ChechBoxDontStretch.Text = "Dont stretch";
+            ChechBoxDontStretch.UseVisualStyleBackColor = true;
+            ChechBoxDontStretch.CheckedChanged += ChechBoxDontStretch_CheckedChanged;
+            // 
             // MainForm
             // 
             AllowDrop = true;
@@ -2696,6 +2745,10 @@ namespace Win_CBZ
         private System.Windows.Forms.FlowLayoutPanel BackgroundTaskStatusPanel;
         private LoadingIndicator.WinForms.BoxIndicatorControl boxIndicatorControl1;
         private System.Windows.Forms.Label BackgroundTaskStatusLabel;
+        private System.Windows.Forms.TextBox TextboxResizePercentage;
+        private System.Windows.Forms.RadioButton RadioButtonResizePercent;
+        private System.Windows.Forms.CheckBox CheckboxKeepAspectratio;
+        private System.Windows.Forms.CheckBox ChechBoxDontStretch;
     }
 }
 

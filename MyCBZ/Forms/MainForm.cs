@@ -1381,37 +1381,36 @@ namespace Win_CBZ
                     }
                 }
 
-                RequestImageInfoThread = new Thread(new ThreadStart(LoadImageInfoSlice));
+                RequestImageInfoThread = new Thread(LoadImageInfoSlice);
                 RequestImageInfoThread.Start();
             }
         }
 
-        public void LoadImageInfoSlice()
+        public void LoadImageInfoSlice(object threadParams)
         {
-            Invoke(new Action(() =>
-            {
 
-                foreach (Page page in ImageInfoPagesSlice)
+
+
+            foreach (Page page in ImageInfoPagesSlice)
+            {
+                try
                 {
-                    try
+                    if (!page.ImageInfoRequested)
                     {
-                        if (!page.ImageInfoRequested)
-                        {
-                            page.LoadImageInfo();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
-                    }
-                    finally
-                    {
-                        page.FreeImage();
+                        page.LoadImageInfo();
                     }
                 }
+                catch (Exception e)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                }
+                finally
+                {
+                    page.FreeImage();
+                }
+            }
 
-                ImageInfoPagesSlice.Clear();
-            }));
+            ImageInfoPagesSlice.Clear();
         }
 
         public void UpdatePageView()
@@ -1473,7 +1472,7 @@ namespace Win_CBZ
 
         public void UpdatePageViewProc()
         {
-            PageView.Invoke(new Action(() =>
+            PageThumbsListBox.Invoke(new Action(() =>
             {
                 PageView.Items.Clear();
                 PageThumbsListBox.Items.Clear();
@@ -1686,12 +1685,12 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        FileNameLabel_.Text = filename;
+                        FileNameLabel.Text = filename;
                         ApplicationStatusLabel.Text = info;
                         Program.ProjectModel.ArchiveState = e.State;
                         if (e.ArchiveInfo != null)
                         {
-                            PageCountStatusLabel_.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
+                            PageCountStatusLabel.Text = e.ArchiveInfo.GetPageCount().ToString() + " Pages";
                         }
                         DisableControllsForApplicationState(e.State);
                     }));
@@ -3297,7 +3296,8 @@ namespace Win_CBZ
                 {
 
                     //MetaDataGrid.DataSource = e.MetaData;
-                    Invoke(new Action(() => {
+                    Invoke(new Action(() =>
+                    {
                         BtnAddMetaData.Enabled = false;
                         BtnRemoveMetaData.Enabled = true;
                         ToolStripButtonShowRawMetadata.Enabled = true;
@@ -3352,7 +3352,7 @@ namespace Win_CBZ
                     }
 
                     MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows.Clear()));
-                    
+
                     foreach (MetaDataEntry entry in e.MetaData)
                     {
                         if (entry.Visible)
@@ -3392,7 +3392,7 @@ namespace Win_CBZ
                                     k.Value = entry.Key;
                                     k.Tag = entry;
 
-                                MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[0] = k));
+                                    MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[0] = k));
 
                                     MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());
                                     if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
@@ -3417,7 +3417,7 @@ namespace Win_CBZ
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         };
 
-                                            
+
                                         MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1] = c));
                                     }
                                     else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
@@ -3491,7 +3491,7 @@ namespace Win_CBZ
 
                         //Task.Sleep(2);
                     }
-                   
+
                 });
 
                 fillDataGrid.ContinueWith((t) =>
@@ -5025,6 +5025,9 @@ namespace Win_CBZ
                     case "RadioButtonResizeTo":
                         selectedImageTasks.ImageAdjustments.ResizeMode = 2;
                         break;
+                    case "RadioButtonResizePercent":
+                        selectedImageTasks.ImageAdjustments.ResizeMode = 3;
+                        break;
                 }
 
                 if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
@@ -5120,6 +5123,9 @@ namespace Win_CBZ
                             case 2:
                                 RadioButtonResizeTo.Checked = true;
                                 break;
+                            case 3:
+                                RadioButtonResizePercent.Checked = true;
+                                break;
 
                         }
 
@@ -5170,13 +5176,33 @@ namespace Win_CBZ
         private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
         {
             int pageNumber = 0;
+            Nullable<int> oldValue = null;
 
-            if (TextBoxResizePageIndexReference.Text.Length > 0)
+            if (selectedImageTasks != null)
             {
-                pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
-            }
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
 
-            selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeToPageNumber;
+
+                if (TextBoxResizePageIndexReference.Text.Length > 0)
+                {
+                    pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
+                }
+
+                selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeToPageNumber)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
         }
 
         private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
@@ -5245,6 +5271,70 @@ namespace Win_CBZ
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
 
                 if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void TextboxResizePercentage_TextChanged(object sender, EventArgs e)
+        {
+            float percent = 0;
+
+            Nullable<float> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.ResizeToPercentage;
+
+                if (TextboxResizePercentage.Text.Length > 0)
+                {
+                    percent = float.Parse(TextboxResizePercentage.Text);
+                }
+                else
+                {
+                    if (oldValue.HasValue)
+                    {
+                        percent = oldValue.Value;
+                    }
+                }
+
+                selectedImageTasks.ImageAdjustments.ResizeToPercentage = percent;
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeToPercentage)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void ChechBoxDontStretch_CheckedChanged(object sender, EventArgs e)
+        {
+            bool dontStretch = false;
+
+            Nullable<bool> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.DontStretch;
+
+                selectedImageTasks.ImageAdjustments.DontStretch = ChechBoxDontStretch.Checked;
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.DontStretch)
                 {
                     if (selectedImageTasks.PageId == "")
                     {

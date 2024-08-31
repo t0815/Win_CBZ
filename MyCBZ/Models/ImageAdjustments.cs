@@ -31,7 +31,13 @@ namespace Win_CBZ.Models
 
         public int ResizeToPageNumber {  get; set; }
 
+        public float ResizeToPercentage { get; set; }
+
         public int ConvertType { get; set; }
+
+        public bool DontStretch { get; set; }
+
+        public bool Grayscale { get; set; }
 
         public PageImageFormat ConvertFormat { get; set; }
 
