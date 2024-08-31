@@ -169,6 +169,12 @@ namespace Win_CBZ.Models
                                 }
                             }
 
+                            if (ImageAdjustments.ResizeMode == 3)  // Resize percentage
+                            {
+                                targetFormat.W = (int)(SourceFormat.W * (ImageAdjustments.ResizeToPercentage / 100));
+                                targetFormat.H = (int)(SourceFormat.H * (ImageAdjustments.ResizeToPercentage / 100));
+                            }
+
                             ImageOperations.ResizeImage(inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                             break;
