@@ -5136,6 +5136,9 @@ namespace Win_CBZ
                         TextBoxResizeW.Text = selectedImageTasks.ImageAdjustments.ResizeTo.X.ToString();
                         TextBoxResizeH.Text = selectedImageTasks.ImageAdjustments.ResizeTo.Y.ToString();
                         ComboBoxConvertPages.SelectedIndex = selectedImageTasks.ImageAdjustments.ConvertType;
+                        CheckBoxDontStretch.Checked = selectedImageTasks.ImageAdjustments.DontStretch;
+                        TextboxResizePercentage.Text = selectedImageTasks.ImageAdjustments.ResizeToPercentage.ToString();
+                        CheckboxKeepAspectratio.Checked = selectedImageTasks.ImageAdjustments.KeepAspectRatio;
                     }));
 
                 }
@@ -5321,7 +5324,7 @@ namespace Win_CBZ
             }
         }
 
-        private void ChechBoxDontStretch_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxDontStretch_CheckedChanged(object sender, EventArgs e)
         {
             bool dontStretch = false;
 
@@ -5332,7 +5335,7 @@ namespace Win_CBZ
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.DontStretch;
 
-                selectedImageTasks.ImageAdjustments.DontStretch = ChechBoxDontStretch.Checked;
+                selectedImageTasks.ImageAdjustments.DontStretch = CheckBoxDontStretch.Checked;
 
                 if (page != null && oldValue != selectedImageTasks.ImageAdjustments.DontStretch)
                 {

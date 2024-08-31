@@ -133,6 +133,7 @@ namespace Win_CBZ
             RadioApplyAdjustmentsPage = new System.Windows.Forms.RadioButton();
             GetImageProcessExcludesFromSelectedButton = new System.Windows.Forms.Button();
             GroupBoxResize = new System.Windows.Forms.GroupBox();
+            CheckBoxDontStretch = new System.Windows.Forms.CheckBox();
             CheckboxKeepAspectratio = new System.Windows.Forms.CheckBox();
             TextboxResizePercentage = new System.Windows.Forms.TextBox();
             RadioButtonResizePercent = new System.Windows.Forms.RadioButton();
@@ -227,7 +228,6 @@ namespace Win_CBZ
             boxIndicatorControl1 = new LoadingIndicator.WinForms.BoxIndicatorControl();
             BackgroundTaskStatusLabel = new System.Windows.Forms.Label();
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            ChechBoxDontStretch = new System.Windows.Forms.CheckBox();
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -1263,7 +1263,7 @@ namespace Win_CBZ
             // GroupBoxResize
             // 
             TablePanePageAdjustments.SetColumnSpan(GroupBoxResize, 2);
-            GroupBoxResize.Controls.Add(ChechBoxDontStretch);
+            GroupBoxResize.Controls.Add(CheckBoxDontStretch);
             GroupBoxResize.Controls.Add(CheckboxKeepAspectratio);
             GroupBoxResize.Controls.Add(TextboxResizePercentage);
             GroupBoxResize.Controls.Add(RadioButtonResizePercent);
@@ -1286,6 +1286,17 @@ namespace Win_CBZ
             GroupBoxResize.TabIndex = 5;
             GroupBoxResize.TabStop = false;
             GroupBoxResize.Text = "Resize";
+            // 
+            // CheckBoxDontStretch
+            // 
+            CheckBoxDontStretch.AutoSize = true;
+            CheckBoxDontStretch.Location = new System.Drawing.Point(32, 210);
+            CheckBoxDontStretch.Name = "CheckBoxDontStretch";
+            CheckBoxDontStretch.Size = new System.Drawing.Size(112, 24);
+            CheckBoxDontStretch.TabIndex = 13;
+            CheckBoxDontStretch.Text = "Dont stretch";
+            CheckBoxDontStretch.UseVisualStyleBackColor = true;
+            CheckBoxDontStretch.CheckedChanged += CheckBoxDontStretch_CheckedChanged;
             // 
             // CheckboxKeepAspectratio
             // 
@@ -2448,17 +2459,6 @@ namespace Win_CBZ
             PrimaryTableLayout.Size = new System.Drawing.Size(1298, 622);
             PrimaryTableLayout.TabIndex = 6;
             // 
-            // ChechBoxDontStretch
-            // 
-            ChechBoxDontStretch.AutoSize = true;
-            ChechBoxDontStretch.Location = new System.Drawing.Point(32, 210);
-            ChechBoxDontStretch.Name = "ChechBoxDontStretch";
-            ChechBoxDontStretch.Size = new System.Drawing.Size(112, 24);
-            ChechBoxDontStretch.TabIndex = 13;
-            ChechBoxDontStretch.Text = "Dont stretch";
-            ChechBoxDontStretch.UseVisualStyleBackColor = true;
-            ChechBoxDontStretch.CheckedChanged += ChechBoxDontStretch_CheckedChanged;
-            // 
             // MainForm
             // 
             AllowDrop = true;
@@ -2748,7 +2748,7 @@ namespace Win_CBZ
         private System.Windows.Forms.TextBox TextboxResizePercentage;
         private System.Windows.Forms.RadioButton RadioButtonResizePercent;
         private System.Windows.Forms.CheckBox CheckboxKeepAspectratio;
-        private System.Windows.Forms.CheckBox ChechBoxDontStretch;
+        private System.Windows.Forms.CheckBox CheckBoxDontStretch;
     }
 }
 
