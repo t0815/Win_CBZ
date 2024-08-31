@@ -175,6 +175,19 @@ namespace Win_CBZ.Models
                                 targetFormat.H = (int)(SourceFormat.H * (ImageAdjustments.ResizeToPercentage / 100));
                             }
 
+                            if (ImageAdjustments.DontStretch)
+                            {
+                               if (targetFormat.W > SourceFormat.W)
+                                {
+                                    targetFormat.W = SourceFormat.W;
+                                }
+
+                                if (targetFormat.H > SourceFormat.H)
+                                {
+                                    targetFormat.H = SourceFormat.H;
+                                }
+                            }
+
                             ImageOperations.ResizeImage(inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                             break;

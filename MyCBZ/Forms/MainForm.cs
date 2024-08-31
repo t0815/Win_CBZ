@@ -4913,6 +4913,9 @@ namespace Win_CBZ
                 case 2:
                     Program.ProjectModel.CompressionLevel = CompressionLevel.NoCompression;
                     break;
+                case 3:
+                    Program.ProjectModel.CompressionLevel = CompressionLevel.SmallestSize;
+                    break;
 
             }
         }
@@ -5030,7 +5033,7 @@ namespace Win_CBZ
                         break;
                 }
 
-                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
+                if (page != null && oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeMode)
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }
@@ -5208,6 +5211,32 @@ namespace Win_CBZ
             }
         }
 
+        private void CheckboxKeepAspectratio_CheckedChanged(object sender, EventArgs e)
+        {
+            bool keepAspectRatio = false;
+
+            Nullable<bool> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.KeepAspectRatio;
+
+                selectedImageTasks.ImageAdjustments.KeepAspectRatio = CheckboxKeepAspectratio.Checked;
+
+                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.KeepAspectRatio)
+                {
+                    if (selectedImageTasks.PageId == "")
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
         private void TextBoxResizeW_TextChanged(object sender, EventArgs e)
         {
             int w = 0;
@@ -5222,12 +5251,13 @@ namespace Win_CBZ
 
                 if (TextBoxResizeW.Text.Length > 0)
                 {
-                    try { 
-                        w = int.Parse(TextBoxResizeW.Text); 
+                    try
+                    {
+                        w = int.Parse(TextBoxResizeW.Text);
                     }
-                    catch (Exception ex) 
-                    { 
-                        w = 0; 
+                    catch (Exception ex)
+                    {
+                        w = 0;
                     }
                     //w = int.Parse(TextBoxResizeW.Text);
                 }
@@ -5275,7 +5305,6 @@ namespace Win_CBZ
 
                 if (TextBoxResizeH.Text.Length > 0)
                 {
-                    h = int.Parse(TextBoxResizeH.Text);
                     try
                     {
                         h = int.Parse(TextBoxResizeH.Text);
@@ -5328,7 +5357,14 @@ namespace Win_CBZ
 
                 if (TextboxResizePercentage.Text.Length > 0)
                 {
-                    percent = float.Parse(TextboxResizePercentage.Text);
+                    try
+                    {
+                        percent = float.Parse(TextboxResizePercentage.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        percent = 100;
+                    }
                 }
                 else
                 {
@@ -6152,5 +6188,7 @@ namespace Win_CBZ
         {
 
         }
+
+        
     }
 }

@@ -1324,6 +1324,7 @@ namespace Win_CBZ
             CheckboxKeepAspectratio.TabIndex = 12;
             CheckboxKeepAspectratio.Text = "Keep Aspect-Ratio";
             CheckboxKeepAspectratio.UseVisualStyleBackColor = true;
+            CheckboxKeepAspectratio.CheckedChanged += CheckboxKeepAspectratio_CheckedChanged;
             // 
             // TextboxResizePercentage
             // 
