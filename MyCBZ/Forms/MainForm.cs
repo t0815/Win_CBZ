@@ -5222,7 +5222,14 @@ namespace Win_CBZ
 
                 if (TextBoxResizeW.Text.Length > 0)
                 {
-                    w = int.Parse(TextBoxResizeW.Text);
+                    try { 
+                        w = int.Parse(TextBoxResizeW.Text); 
+                    }
+                    catch (Exception ex) 
+                    { 
+                        w = 0; 
+                    }
+                    //w = int.Parse(TextBoxResizeW.Text);
                 }
                 else
                 {
@@ -5231,6 +5238,13 @@ namespace Win_CBZ
                         w = oldValue.Value;
                     }
 
+                }
+
+                if (w != oldValue && w > 0 && CheckboxKeepAspectratio.Checked)
+                {
+                    TextBoxResizeH.Text = "";
+
+                    selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, 0);
                 }
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
@@ -5262,6 +5276,14 @@ namespace Win_CBZ
                 if (TextBoxResizeH.Text.Length > 0)
                 {
                     h = int.Parse(TextBoxResizeH.Text);
+                    try
+                    {
+                        h = int.Parse(TextBoxResizeH.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        h = 0;
+                    }
                 }
                 else
                 {
@@ -5269,6 +5291,13 @@ namespace Win_CBZ
                     {
                         h = oldValue.Value;
                     }
+                }
+
+                if (h != oldValue && h > 0 && CheckboxKeepAspectratio.Checked)
+                {
+                    TextBoxResizeW.Text = "";
+
+                    selectedImageTasks.ImageAdjustments.ResizeTo = new Point(0, h);
                 }
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
