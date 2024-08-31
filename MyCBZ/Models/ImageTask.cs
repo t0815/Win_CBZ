@@ -152,6 +152,23 @@ namespace Win_CBZ.Models
                             targetFormat.W = ImageAdjustments.ResizeTo.X;
                             targetFormat.H = ImageAdjustments.ResizeTo.Y;
 
+                            if (ImageAdjustments.KeepAspectRatio)
+                            {
+                                if (targetFormat.H == 0)
+                                {
+                                    targetFormat.H = (int)(targetFormat.W * (ImageAdjustments.ResizeTo.Y / ImageAdjustments.ResizeTo.X));
+                                }
+                                else if (targetFormat.W == 0)
+                                {
+                                    targetFormat.W = (int)(targetFormat.H * (ImageAdjustments.ResizeTo.X / ImageAdjustments.ResizeTo.Y));
+                                }
+                                else if (targetFormat.W > 0 && targetFormat.H > 0)
+                                {
+                                    //targetFormat.W = (int)(targetFormat.H * (ImageAdjustments.ResizeTo.X / ImageAdjustments.ResizeTo.Y));
+                                    //targetFormat.H = (int)(targetFormat.W * (ImageAdjustments.ResizeTo.Y / ImageAdjustments.ResizeTo.X));
+                                }
+                            }
+
                             ImageOperations.ResizeImage(inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                             break;
