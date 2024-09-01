@@ -4948,6 +4948,7 @@ namespace Win_CBZ
             }
         }
 
+        /*
         private void ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
@@ -4997,6 +4998,7 @@ namespace Win_CBZ
                 }
             }
         }
+        */
 
         private void ImageQualityTrackBar_ValueChanged(object sender, EventArgs e)
         {
@@ -5013,13 +5015,17 @@ namespace Win_CBZ
 
             Nullable<int> oldValue;
 
-            if (selectedImageTasks != null)
+            if (selectedImageTasks != null && radio.Checked)
             {
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 bool dontUpdate = radio.Tag != null ? ((bool)radio.Tag) : true;
 
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeMode;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.ResizeMode;
+                }
 
                 switch (radio.Name)
                 {
@@ -5037,10 +5043,15 @@ namespace Win_CBZ
                         break;
                 }
 
-                if (!dontUpdate && page != null && oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeMode)
+                if (oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeMode)
                 {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                }
+                    if (!dontUpdate && page != null && selectedImageTasks.PageId == page.Id)
+                    {
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }               
             }
         }
 
@@ -5169,17 +5180,25 @@ namespace Win_CBZ
 
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ConvertType;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.ConvertType;
+                }
 
                 selectedImageTasks.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
 
-                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
+                if (oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                    }
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        
+                    }
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
 
@@ -5201,22 +5220,36 @@ namespace Win_CBZ
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
 
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeToPageNumber;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.ResizeToPageNumber;
+                }
 
                 if (TextBoxResizePageIndexReference.Text.Length > 0)
                 {
-                    pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
+                    try {
+                        pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        pageNumber = 0;
+                    }
                 }
 
                 selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeToPageNumber)
+                if (oldValue != selectedImageTasks.ImageAdjustments.ResizeToPageNumber)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                       
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5233,17 +5266,26 @@ namespace Win_CBZ
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.KeepAspectRatio;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.KeepAspectRatio;
+                }
 
                 selectedImageTasks.ImageAdjustments.KeepAspectRatio = CheckboxKeepAspectratio.Checked;
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.KeepAspectRatio)
-                {
-                    if (selectedImageTasks.PageId == "")
+                if (oldValue != selectedImageTasks.ImageAdjustments.KeepAspectRatio)
+                { 
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5260,6 +5302,10 @@ namespace Win_CBZ
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
 
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.X;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.ResizeTo.X;
+                }
 
                 if (TextBoxResizeW.Text.Length > 0)
                 {
@@ -5291,14 +5337,19 @@ namespace Win_CBZ
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(w, selectedImageTasks.ImageAdjustments.ResizeTo.Y);
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.X)
+                if (oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.X)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5315,6 +5366,10 @@ namespace Win_CBZ
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeTo.Y;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.ResizeTo.Y;
+                }
 
                 if (TextBoxResizeH.Text.Length > 0)
                 {
@@ -5344,14 +5399,18 @@ namespace Win_CBZ
 
                 selectedImageTasks.ImageAdjustments.ResizeTo = new Point(selectedImageTasks.ImageAdjustments.ResizeTo.X, h);
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
+                if (oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                      
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5368,6 +5427,10 @@ namespace Win_CBZ
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeToPercentage;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.ResizeToPercentage;
+                }
 
                 if (TextboxResizePercentage.Text.Length > 0)
                 {
@@ -5390,14 +5453,18 @@ namespace Win_CBZ
 
                 selectedImageTasks.ImageAdjustments.ResizeToPercentage = percent;
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeToPercentage)
+                if (oldValue != selectedImageTasks.ImageAdjustments.ResizeToPercentage)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                       
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5414,17 +5481,25 @@ namespace Win_CBZ
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.DontStretch;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.DontStretch;
+                }
 
                 selectedImageTasks.ImageAdjustments.DontStretch = CheckBoxDontStretch.Checked;
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.DontStretch)
-                {
-                    if (selectedImageTasks.PageId == "")
+                if (oldValue != selectedImageTasks.ImageAdjustments.DontStretch)
+                { 
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                       
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5440,6 +5515,10 @@ namespace Win_CBZ
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.SplitPageAt;
+                }
 
                 if (TextBoxSplitPageAt.Text.Length > 0)
                 {
@@ -5452,14 +5531,18 @@ namespace Win_CBZ
 
                 selectedImageTasks.ImageAdjustments.SplitPageAt = int.Parse(value);
 
-                if (page != null && oldValue != selectedImageTasks.ImageAdjustments.SplitPageAt)
+                if (oldValue != selectedImageTasks.ImageAdjustments.SplitPageAt)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                        
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5473,18 +5556,26 @@ namespace Win_CBZ
             {
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                oldValue = page?.ImageTask.ImageAdjustments.SplitPageAt;
+                oldValue = page?.ImageTask.ImageAdjustments.SplitType;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.SplitType;
+                }
 
                 selectedImageTasks.ImageAdjustments.SplitType = ComboBoxSplitAtType.SelectedIndex;
 
-                if (page != null && oldValue.Value != selectedImageTasks?.ImageAdjustments.SplitType)
+                if (oldValue.Value != selectedImageTasks?.ImageAdjustments.SplitType)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                        
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }
@@ -5499,17 +5590,25 @@ namespace Win_CBZ
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitPage;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.SplitPage;
+                }
 
                 selectedImageTasks.ImageAdjustments.SplitPage = CheckBoxSplitDoublePages.Checked;
 
-                if (page != null && oldValue.Value != selectedImageTasks.ImageAdjustments.SplitPage)
+                if (oldValue.Value != selectedImageTasks.ImageAdjustments.SplitPage)
                 {
-                    if (selectedImageTasks.PageId == "")
+                    if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                        
                     }
 
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
             }

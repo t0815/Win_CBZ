@@ -154,19 +154,26 @@ namespace Win_CBZ.Models
 
                             if (ImageAdjustments.KeepAspectRatio)
                             {
+                                float ratio = 1.0f; 
+                                
+                                //Math.Min(targetFormat.W / SourceFormat.W, targetFormat.H / SourceFormat.H);                               
+
                                 if (targetFormat.H == 0)
                                 {
-                                    targetFormat.H = (int)(targetFormat.W * (ImageAdjustments.ResizeTo.Y / ImageAdjustments.ResizeTo.X));
+                                    ratio = (float)targetFormat.W / SourceFormat.W;
                                 }
                                 else if (targetFormat.W == 0)
                                 {
-                                    targetFormat.W = (int)(targetFormat.H * (ImageAdjustments.ResizeTo.X / ImageAdjustments.ResizeTo.Y));
+                                    ratio = (float)targetFormat.H / SourceFormat.H;
                                 }
                                 else if (targetFormat.W > 0 && targetFormat.H > 0)
                                 {
                                     //targetFormat.W = (int)(targetFormat.H * (ImageAdjustments.ResizeTo.X / ImageAdjustments.ResizeTo.Y));
                                     //targetFormat.H = (int)(targetFormat.W * (ImageAdjustments.ResizeTo.Y / ImageAdjustments.ResizeTo.X));
                                 }
+
+                                targetFormat.W = (int)(SourceFormat.W * ratio);
+                                targetFormat.H = (int)(SourceFormat.H * ratio);
                             }
 
                             if (ImageAdjustments.ResizeMode == 3)  // Resize percentage

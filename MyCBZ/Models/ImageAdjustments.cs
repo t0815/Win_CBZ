@@ -58,6 +58,10 @@ namespace Win_CBZ.Models
                 ConvertFormat = copyFrom.ConvertFormat;
                 Interpolation = copyFrom.Interpolation;
                 MaxDimensions = copyFrom.MaxDimensions;
+                KeepAspectRatio = copyFrom.KeepAspectRatio;
+                ResizeToPercentage = copyFrom.ResizeToPercentage;
+                DontStretch = copyFrom.DontStretch;
+                Grayscale = copyFrom.Grayscale;
             }
         }
     }
