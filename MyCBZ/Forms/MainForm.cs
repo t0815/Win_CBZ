@@ -34,11 +34,9 @@ using System.Configuration;
 using System.Xml;
 using static Win_CBZ.MetaData;
 using SharpCompress.Common;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 using System.Diagnostics;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
-using Microsoft.VisualBasic.Devices;
 using Win_CBZ.Events;
 
 namespace Win_CBZ

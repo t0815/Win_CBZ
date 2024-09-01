@@ -229,6 +229,7 @@ namespace Win_CBZ
             boxIndicatorControl1 = new LoadingIndicator.WinForms.BoxIndicatorControl();
             BackgroundTaskStatusLabel = new System.Windows.Forms.Label();
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -2440,28 +2441,25 @@ namespace Win_CBZ
             BackgroundTaskStatusPanel.Name = "BackgroundTaskStatusPanel";
             BackgroundTaskStatusPanel.Size = new System.Drawing.Size(266, 21);
             BackgroundTaskStatusPanel.TabIndex = 8;
-            BackgroundTaskStatusPanel.Visible = false;
             // 
             // boxIndicatorControl1
             // 
             boxIndicatorControl1.AnimationInterval = System.TimeSpan.Parse("00:00:00.2000000");
             boxIndicatorControl1.BoxColor = System.Drawing.Color.FromArgb(162, 199, 214);
-            boxIndicatorControl1.BoxSize = 16;
+            boxIndicatorControl1.BoxSize = 14;
             boxIndicatorControl1.HighlightedBoxColor = System.Drawing.Color.FromArgb(67, 143, 174);
             boxIndicatorControl1.Location = new System.Drawing.Point(2, 2);
             boxIndicatorControl1.Margin = new System.Windows.Forms.Padding(2);
             boxIndicatorControl1.Name = "boxIndicatorControl1";
-            boxIndicatorControl1.NumberOfBoxes = 5;
-            boxIndicatorControl1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            boxIndicatorControl1.RoundCornerRadius = 3;
-            boxIndicatorControl1.Size = new System.Drawing.Size(135, 26);
+            boxIndicatorControl1.NumberOfBoxes = 3;
+            boxIndicatorControl1.RoundCornerRadius = 2;
+            boxIndicatorControl1.Size = new System.Drawing.Size(83, 16);
             boxIndicatorControl1.TabIndex = 1;
-            boxIndicatorControl1.Text = "boxIndicatorControl1";
             // 
             // BackgroundTaskStatusLabel
             // 
             BackgroundTaskStatusLabel.AutoSize = true;
-            BackgroundTaskStatusLabel.Location = new System.Drawing.Point(142, 0);
+            BackgroundTaskStatusLabel.Location = new System.Drawing.Point(90, 0);
             BackgroundTaskStatusLabel.Name = "BackgroundTaskStatusLabel";
             BackgroundTaskStatusLabel.Size = new System.Drawing.Size(0, 20);
             BackgroundTaskStatusLabel.TabIndex = 2;
@@ -2481,6 +2479,13 @@ namespace Win_CBZ
             PrimaryTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             PrimaryTableLayout.Size = new System.Drawing.Size(1298, 622);
             PrimaryTableLayout.TabIndex = 6;
+            // 
+            // autocompleteMenu1
+            // 
+            autocompleteMenu1.Colors = (AutocompleteMenuNS.Colors)resources.GetObject("autocompleteMenu1.Colors");
+            autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            autocompleteMenu1.ImageList = null;
+            autocompleteMenu1.TargetControlWrapper = null;
             // 
             // MainForm
             // 
@@ -2774,6 +2779,7 @@ namespace Win_CBZ
         private System.Windows.Forms.CheckBox CheckboxKeepAspectratio;
         private System.Windows.Forms.CheckBox CheckBoxDontStretch;
         private System.Windows.Forms.PictureBox pictureBox7;
+        private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
     }
 }
 

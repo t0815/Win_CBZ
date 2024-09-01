@@ -142,7 +142,7 @@ namespace Win_CBZ.Forms
             TextBox textBox = e.Control as TextBox;
             //textBox.KeyDown += DataGridTextBoxKeyDown;
 
-            autocompleteMenu1.Items = new string[] { "abc", "a100", "defghij", "best item", "new", "test item", "doomed", "that is a test" };
+            autocompleteMenu1.Items = new string[] { "abc", "a100", "eee", "defghij", "best item", "new", "test item", "doomed", "that is a test", "some item", "very good item" };
             autocompleteMenu1.SetAutocompleteMenu(textBox, autocompleteMenu1);
         }
 

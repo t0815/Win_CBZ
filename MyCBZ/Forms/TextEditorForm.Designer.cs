@@ -196,8 +196,7 @@
             this.ToolButtonSortAscending.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // AutoCompleteItems
-            // 
-            this.AutoCompleteItems.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("AutoCompleteItems.Colors")));
+            //
             this.AutoCompleteItems.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.AutoCompleteItems.ImageList = null;
             this.AutoCompleteItems.Items = new string[0];

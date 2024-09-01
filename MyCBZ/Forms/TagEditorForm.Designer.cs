@@ -303,8 +303,7 @@
             this.TagsList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TagsList_MouseUp);
             // 
             // AutoCompleteItems
-            // 
-            this.AutoCompleteItems.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("AutoCompleteItems.Colors")));
+            //
             this.AutoCompleteItems.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AutoCompleteItems.ImageList = this.TagIcons;
             this.AutoCompleteItems.Items = new string[0];

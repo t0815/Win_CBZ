@@ -29,198 +29,186 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DebugForm));
-            this.button1 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
-            this.cdg = new Win_CBZ.Components.CustomDataGridView.CustomDataGridView();
-            this.rater1 = new ShaperRater.Rater();
-            ((System.ComponentModel.ISupportInitialize)(this.cdg)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rater1)).BeginInit();
-            this.SuspendLayout();
+            button1 = new System.Windows.Forms.Button();
+            openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            listView1 = new System.Windows.Forms.ListView();
+            columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            listView2 = new System.Windows.Forms.ListView();
+            columnHeader6 = new System.Windows.Forms.ColumnHeader();
+            columnHeader7 = new System.Windows.Forms.ColumnHeader();
+            columnHeader8 = new System.Windows.Forms.ColumnHeader();
+            columnHeader9 = new System.Windows.Forms.ColumnHeader();
+            button2 = new System.Windows.Forms.Button();
+            button3 = new System.Windows.Forms.Button();
+            autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
+            cdg = new Components.CustomDataGridView.CustomDataGridView();
+            scintilla1 = new ScintillaNET.Scintilla();
+            progressBar1 = new System.Windows.Forms.ProgressBar();
+            ((System.ComponentModel.ISupportInitialize)cdg).BeginInit();
+            SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 14);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 28);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new System.Drawing.Point(13, 18);
+            button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(100, 35);
+            button1.TabIndex = 0;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // listView1
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(16, 66);
-            this.listView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(566, 314);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5 });
+            listView1.Location = new System.Drawing.Point(16, 82);
+            listView1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            listView1.Name = "listView1";
+            listView1.Size = new System.Drawing.Size(566, 392);
+            listView1.TabIndex = 1;
+            listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = System.Windows.Forms.View.Details;
+            listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Width = 138;
+            columnHeader1.Width = 138;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Width = 119;
+            columnHeader2.Width = 119;
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Width = 92;
+            columnHeader3.Width = 92;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Width = 94;
+            columnHeader4.Width = 94;
             // 
             // columnHeader5
             // 
-            this.columnHeader5.Width = 94;
+            columnHeader5.Width = 94;
             // 
             // listView2
             // 
-            this.listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8,
-            this.columnHeader9});
-            this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(615, 67);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(411, 312);
-            this.listView2.TabIndex = 2;
-            this.listView2.UseCompatibleStateImageBehavior = false;
-            this.listView2.View = System.Windows.Forms.View.Details;
-            this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
+            listView2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader6, columnHeader7, columnHeader8, columnHeader9 });
+            listView2.Location = new System.Drawing.Point(615, 84);
+            listView2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            listView2.Name = "listView2";
+            listView2.Size = new System.Drawing.Size(411, 389);
+            listView2.TabIndex = 2;
+            listView2.UseCompatibleStateImageBehavior = false;
+            listView2.View = System.Windows.Forms.View.Details;
+            listView2.SelectedIndexChanged += listView2_SelectedIndexChanged;
             // 
             // columnHeader6
             // 
-            this.columnHeader6.Width = 100;
+            columnHeader6.Width = 100;
             // 
             // columnHeader7
             // 
-            this.columnHeader7.Width = 100;
+            columnHeader7.Width = 100;
             // 
             // columnHeader8
             // 
-            this.columnHeader8.Width = 86;
+            columnHeader8.Width = 86;
             // 
             // columnHeader9
             // 
-            this.columnHeader9.Width = 73;
+            columnHeader9.Width = 73;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(140, 14);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(83, 28);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.Location = new System.Drawing.Point(140, 18);
+            button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button2.Name = "button2";
+            button2.Size = new System.Drawing.Size(83, 35);
+            button2.TabIndex = 3;
+            button2.Text = "button2";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(615, 403);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(134, 40);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "add row...";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            button3.Location = new System.Drawing.Point(615, 504);
+            button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            button3.Name = "button3";
+            button3.Size = new System.Drawing.Size(134, 50);
+            button3.TabIndex = 5;
+            button3.Text = "add row...";
+            button3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // autocompleteMenu1
             // 
-            this.autocompleteMenu1.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocompleteMenu1.Colors")));
-            this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.autocompleteMenu1.ImageList = null;
-            this.autocompleteMenu1.Items = new string[0];
-            this.autocompleteMenu1.MinFragmentLength = 1;
-            this.autocompleteMenu1.TargetControlWrapper = null;
-            this.autocompleteMenu1.Selected += new System.EventHandler<AutocompleteMenuNS.SelectedEventArgs>(this.autocompleteMenu1_Selected);
+            autocompleteMenu1.Colors = (AutocompleteMenuNS.Colors)resources.GetObject("autocompleteMenu1.Colors");
+            autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            autocompleteMenu1.ImageList = null;
+            autocompleteMenu1.MinFragmentLength = 1;
+            autocompleteMenu1.SearchPattern = "[^\\w\\+]";
+            autocompleteMenu1.TargetControlWrapper = null;
+            autocompleteMenu1.Selected += autocompleteMenu1_Selected;
             // 
             // cdg
             // 
-            this.cdg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.cdg.Location = new System.Drawing.Point(16, 386);
-            this.cdg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cdg.Name = "cdg";
-            this.cdg.RowHeadersWidth = 62;
-            this.cdg.RowTemplate.Height = 28;
-            this.cdg.Size = new System.Drawing.Size(565, 145);
-            this.cdg.TabIndex = 4;
-            this.cdg.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.cdg_EditingControlShowing);
+            cdg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            cdg.Location = new System.Drawing.Point(16, 482);
+            cdg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            cdg.Name = "cdg";
+            cdg.RowHeadersWidth = 62;
+            cdg.RowTemplate.Height = 28;
+            cdg.Size = new System.Drawing.Size(565, 181);
+            cdg.TabIndex = 4;
+            cdg.EditingControlShowing += cdg_EditingControlShowing;
             // 
-            // rater1
+            // scintilla1
             // 
-            this.rater1.CurrentRating = 0;
-            this.rater1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rater1.LabelAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-            this.rater1.LabelText = "RateLabel";
-            this.rater1.LabelTextItems = new string[] {
-        "Poor",
-        "Fair",
-        "Good",
-        "Better",
-        "Best"};
-            this.rater1.Location = new System.Drawing.Point(580, 16);
-            this.rater1.Margin = new System.Windows.Forms.Padding(4);
-            this.rater1.Name = "rater1";
-            this.rater1.RadiusInner = 0F;
-            this.rater1.RadiusOuter = 10F;
-            this.rater1.Shape = ShaperRater.Rater.eShape.Heart;
-            this.rater1.ShapeNumberShow = ShaperRater.Rater.eShapeNumberShow.RateOnly;
-            this.rater1.Size = new System.Drawing.Size(242, 25);
-            this.rater1.TabIndex = 6;
+            scintilla1.AutocompleteListSelectedBackColor = System.Drawing.Color.FromArgb(0, 120, 215);
+            scintilla1.LexerName = null;
+            scintilla1.Location = new System.Drawing.Point(777, 513);
+            scintilla1.Name = "scintilla1";
+            scintilla1.ScrollWidth = 57;
+            scintilla1.Size = new System.Drawing.Size(250, 125);
+            scintilla1.TabIndex = 7;
+            scintilla1.Text = "scintilla1";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new System.Drawing.Point(352, 31);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new System.Drawing.Size(125, 29);
+            progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            progressBar1.TabIndex = 8;
+            progressBar1.Value = 50;
             // 
             // DebugForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1040, 554);
-            this.Controls.Add(this.rater1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.cdg);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.listView2);
-            this.Controls.Add(this.listView1);
-            this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "DebugForm";
-            this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.cdg)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.rater1)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(1040, 692);
+            Controls.Add(progressBar1);
+            Controls.Add(scintilla1);
+            Controls.Add(button3);
+            Controls.Add(cdg);
+            Controls.Add(button2);
+            Controls.Add(listView2);
+            Controls.Add(listView1);
+            Controls.Add(button1);
+            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            Name = "DebugForm";
+            Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)cdg).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -242,6 +230,7 @@
         private Components.CustomDataGridView.CustomDataGridView cdg;
         private System.Windows.Forms.Button button3;
         private AutocompleteMenuNS.AutocompleteMenu autocompleteMenu1;
-        private ShaperRater.Rater rater1;
+        private ScintillaNET.Scintilla scintilla1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
