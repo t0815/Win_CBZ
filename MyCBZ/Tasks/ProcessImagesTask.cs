@@ -52,7 +52,8 @@ namespace Win_CBZ.Tasks
 
                     if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
-                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
+                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
+                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0)
                         )
                     {
                         page.ImageTask.SetTaskResize();
@@ -79,7 +80,8 @@ namespace Win_CBZ.Tasks
 
                         if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
-                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X)
+                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
+                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0)
                         )
                         {
                             page.ImageTask.SetTaskResize();

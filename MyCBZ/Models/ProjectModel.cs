@@ -386,7 +386,7 @@ namespace Win_CBZ
                                     //page?.UpdateStreams(resultPage);
                                     page?.UpdatePageAttributes(resultPage);
                                     page?.UpdateTemporaryFile(resultPage.TemporaryFile);
-                                    page?.LoadImageInfo(true);
+                                    //page?.LoadImageInfo(true);
 
 
                                     if (page != null)
