@@ -3054,7 +3054,12 @@ namespace Win_CBZ
                     if (index > -1)
                     {
                         var key = row.Cells[0].Value.ToString();
-
+                        if (ToolBarSearchInput.Text.Length > 0)
+                        {
+                            
+                            MetaDataGrid.Rows.RemoveAt(row.Index);
+                            
+                        }
                     }
                     else
                     {
@@ -3631,7 +3636,10 @@ namespace Win_CBZ
                     {
                         if (e.Index > -1)
                         {
-                            MetaDataGrid.Rows.RemoveAt(e.Index);
+                            if (ToolBarSearchInput.Text.Length == 0)
+                            {
+                                MetaDataGrid.Rows.RemoveAt(e.Index);
+                            }
                         }
                         else
                         {

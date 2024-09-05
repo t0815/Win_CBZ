@@ -440,7 +440,7 @@
             CBZSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             CBZSettingsTabControl.Name = "CBZSettingsTabControl";
             CBZSettingsTabControl.SelectedIndex = 0;
-            CBZSettingsTabControl.Size = new System.Drawing.Size(146, 460);
+            CBZSettingsTabControl.Size = new System.Drawing.Size(139, 460);
             CBZSettingsTabControl.TabIndex = 4;
             // 
             // tabPage2
@@ -449,7 +449,7 @@
             tabPage2.Location = new System.Drawing.Point(4, 29);
             tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage2.Name = "tabPage2";
-            tabPage2.Size = new System.Drawing.Size(138, 427);
+            tabPage2.Size = new System.Drawing.Size(131, 427);
             tabPage2.TabIndex = 0;
             tabPage2.Text = "Compatibility";
             tabPage2.UseVisualStyleBackColor = true;
@@ -457,8 +457,8 @@
             // tableLayoutPanel2
             // 
             tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.1052628F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 57F));
             tableLayoutPanel2.Controls.Add(label5, 0, 0);
             tableLayoutPanel2.Controls.Add(ComboBoxPageIndexVersionWrite, 1, 0);
@@ -470,20 +470,21 @@
             tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.60606F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(138, 427);
+            tableLayoutPanel2.Size = new System.Drawing.Size(131, 427);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // label5
             // 
+            label5.AutoEllipsis = true;
             label5.AutoSize = true;
             label5.Location = new System.Drawing.Point(18, 20);
             label5.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(98, 21);
+            label5.Size = new System.Drawing.Size(1, 20);
             label5.TabIndex = 0;
             label5.Text = "Meta Format -Version";
             // 
@@ -494,17 +495,17 @@
             ComboBoxPageIndexVersionWrite.Enabled = false;
             ComboBoxPageIndexVersionWrite.FormattingEnabled = true;
             ComboBoxPageIndexVersionWrite.Items.AddRange(new object[] { "VERSION_1", "VERSION_2" });
-            ComboBoxPageIndexVersionWrite.Location = new System.Drawing.Point(189, 20);
+            ComboBoxPageIndexVersionWrite.Location = new System.Drawing.Point(40, 20);
             ComboBoxPageIndexVersionWrite.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
             ComboBoxPageIndexVersionWrite.Name = "ComboBoxPageIndexVersionWrite";
-            ComboBoxPageIndexVersionWrite.Size = new System.Drawing.Size(1, 28);
+            ComboBoxPageIndexVersionWrite.Size = new System.Drawing.Size(15, 28);
             ComboBoxPageIndexVersionWrite.TabIndex = 1;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.information;
             pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(81, 0);
+            pictureBox2.Location = new System.Drawing.Point(73, 0);
             pictureBox2.Margin = new System.Windows.Forms.Padding(0);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -517,21 +518,22 @@
             // CheckBoxPruneEmplyTags
             // 
             CheckBoxPruneEmplyTags.AutoSize = true;
-            CheckBoxPruneEmplyTags.Location = new System.Drawing.Point(189, 81);
+            CheckBoxPruneEmplyTags.Location = new System.Drawing.Point(40, 81);
             CheckBoxPruneEmplyTags.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxPruneEmplyTags.Name = "CheckBoxPruneEmplyTags";
-            CheckBoxPruneEmplyTags.Size = new System.Drawing.Size(1, 24);
+            CheckBoxPruneEmplyTags.Size = new System.Drawing.Size(30, 24);
             CheckBoxPruneEmplyTags.TabIndex = 8;
             CheckBoxPruneEmplyTags.Text = "Omit empty XML- Tags";
             CheckBoxPruneEmplyTags.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
+            label6.AutoEllipsis = true;
             label6.AutoSize = true;
             label6.Location = new System.Drawing.Point(18, 81);
             label6.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(84, 19);
+            label6.Size = new System.Drawing.Size(1, 19);
             label6.TabIndex = 9;
             label6.Text = "Empty Tags";
             // 
@@ -727,11 +729,11 @@
             // 
             // button1
             // 
-            button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            button1.Location = new System.Drawing.Point(-20, 297);
+            button1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            button1.Location = new System.Drawing.Point(-20, 315);
             button1.Margin = new System.Windows.Forms.Padding(3, 15, 6, 2);
             button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(122, 51);
+            button1.Size = new System.Drawing.Size(122, 33);
             button1.TabIndex = 3;
             button1.Text = "Restore";
             button1.UseVisualStyleBackColor = true;
