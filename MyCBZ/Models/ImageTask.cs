@@ -26,6 +26,8 @@ namespace Win_CBZ.Models
 
         public const string TASK_CONVERT = "ConvertImage";
 
+        public const string TASK_ROTATE = "RotateImage";
+
         public String PageId { get; set; }
 
         public ImageAdjustments ImageAdjustments { get; set; }
@@ -102,6 +104,16 @@ namespace Win_CBZ.Models
             return this;
         }
 
+        public ImageTask SetTaskRotate()
+        {
+            if (Tasks.IndexOf(TASK_ROTATE) == -1)
+            {
+                Tasks.Add(TASK_ROTATE);
+            }
+
+            return this;
+        }
+
         public ImageTask SetTaskConvert()
         {
             if (Tasks.IndexOf(TASK_CONVERT) == -1)
@@ -148,6 +160,25 @@ namespace Win_CBZ.Models
 
                     switch (task)
                     {
+                        case TASK_ROTATE:
+                            int rotate = 0;
+
+                            switch (ImageAdjustments.RotateMode)
+                            {
+                                case 1:
+                                    rotate = 90;
+                                    break;
+                                case 2:
+                                    rotate = 180;
+                                    break;
+                                case 3:
+                                    rotate = 270;
+                                    break;
+                            }
+
+                            ImageOperations.RotateImage(ref inputStream, ref outputStream, targetFormat, rotate);
+                            break;
+
                         case TASK_RESIZE:                           
                             targetFormat.W = ImageAdjustments.ResizeTo.X;
                             targetFormat.H = ImageAdjustments.ResizeTo.Y;
@@ -195,7 +226,7 @@ namespace Win_CBZ.Models
                                 }
                             }
 
-                            ImageOperations.ResizeImage(inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+                            ImageOperations.ResizeImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                             break;
                         case TASK_CONVERT:                           
@@ -234,9 +265,52 @@ namespace Win_CBZ.Models
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
                 ResultFileName[0].Refresh();
+               
+                // If the task is split, create a second file
+                if (Tasks.Contains(TASK_SPLIT))
+                {
+                    
+                    ResultFileName[1] = new LocalFile(ResultFileName[0].FullPath.Replace(".0.res", ".1.res"));
+                    
+                    File.Copy(ResultFileName[0].FullPath, ResultFileName[1].FullPath, true);
+
+                    ResultFileName[1].Refresh();
+
+                    inputStream = File.Open(ResultFileName[0].FullPath, FileMode.Open, FileAccess.Read);
+
+                    inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
+                    outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+                    tempFileCounter++;
+
+                    Image image = Image.FromStream(inputStream);
+
+                    switch (ImageAdjustments.SplitType)
+                    {
+                        case 1:
+                            ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+                            break;
+                        case 2:
+                            //
+                            break;
+                    }
+
+                    ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                }
 
                 Success = true; 
-            } catch (Exception e) { Success = false; }
+            } catch (Exception e) 
+            { 
+                Success = false; 
+            } finally
+            {
+                outputStream?.Close();
+                inputStream?.Close();
+
+                outputStream?.Dispose();
+                inputStream?.Dispose();
+            }
                 
             
 

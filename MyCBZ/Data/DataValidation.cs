@@ -24,6 +24,40 @@ namespace Win_CBZ.Data
             
         }
 
+        public bool ValidateItemExists(string itemName, string[] values, bool ignoreCase = true)
+        {
+            if (itemName == null)
+            {
+                return false;
+            }
+
+            if (ignoreCase)
+            {
+                return values.Any(x => x.ToLower().Equals(itemName.ToLower()));
+            }
+            else
+            {
+                return values.Any(x => x.Equals(itemName));
+            }
+        }
+
+        public int ValidateItemOccurence(string itemName, string[] values, bool ignoreCase = true)
+        {
+            if (itemName == null)
+            {
+                return 0;
+            }
+
+            if (ignoreCase)
+            {
+                return values.Where((s, i) => s.ToLower().Equals(itemName.ToLower())).Count();
+            }
+            else
+            {
+                return values.Where((s, i) => s.Equals(itemName)).Count();
+            }
+        }
+
         public string[] ValidateDuplicateStrings(string[] values, CancellationToken ?cancellationToken = null)
         {
             List<String> duplicates = new List<String>();

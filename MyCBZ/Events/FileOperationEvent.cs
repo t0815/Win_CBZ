@@ -21,9 +21,15 @@ namespace Win_CBZ.Events
 
         public int Status { get; set; }
 
+        public string Message { get; set; }
+
         public long Completed { get; set; }
 
+        public bool InBackground { get; set; }
+
         public long Total { get; set; }
+
+        public float BytesPerSecond { get; set; }
         
 
         public FileOperationEvent(int operation, int status, long completed, long total)
@@ -32,6 +38,35 @@ namespace Win_CBZ.Events
             Status = status;   
             Completed = completed;
             Total = total;
-        }   
+        }
+
+        public FileOperationEvent(int operation, int status, long completed, long total, string message, bool inBackground = false)
+        {
+            Operation = operation;
+            Status = status;
+            Completed = completed;
+            Total = total;
+            Message = message;
+            InBackground = inBackground;
+        }
+
+        public FileOperationEvent(int operation, int status, string message, bool inBackground = false)
+        {
+            Operation = operation;
+            Status = status;
+            Message = message;
+            InBackground = inBackground;
+        }
+
+        public FileOperationEvent(int operation, int status, string message, long completed, long total, float bytesPerSecond, bool inBackground = false)
+        {
+            Operation = operation;
+            Status = status;
+            Message = message;
+            Completed = completed;
+            Total = total;
+            BytesPerSecond = bytesPerSecond;
+            InBackground = inBackground;
+        }
     }
 }

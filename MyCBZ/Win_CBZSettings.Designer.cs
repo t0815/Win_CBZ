@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.20.155b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.20.156b")]
         public string Version {
             get {
                 return ((string)(this["Version"]));
@@ -483,6 +483,18 @@ namespace Win_CBZ {
             }
             set {
                 this["SkipIndexCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WhatsNewVersion {
+            get {
+                return ((int)(this["WhatsNewVersion"]));
+            }
+            set {
+                this["WhatsNewVersion"] = value;
             }
         }
     }

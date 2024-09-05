@@ -591,7 +591,7 @@ namespace Win_CBZ.Forms
             Pages = new List<Page>();
             Page pageList = null;
 
-            if (SelectedPages.Count > 1)
+            if (SelectedPages.Count > 0)
             {
                 LoadingIndicator.BringToFront();
                 LoadingIndicator.Enabled = true;
@@ -605,11 +605,30 @@ namespace Win_CBZ.Forms
                 foreach (Page p in SelectedPages)
                 {
                     bool realMemoryCopyState = p.IsMemoryCopy;
-                    pageList = new Page(p, true, false);
-                    pageList.UpdatePageAttributes(p);
+                    //try
+                    //{
+                        pageList = new Page(p, true, false);
+                        pageList?.UpdatePageAttributes(p);
 
-                    pageList.IsMemoryCopy = realMemoryCopyState;
-                    resultPages.Add(pageList);
+                    if (pageList != null)
+                    {
+                        pageList.IsMemoryCopy = realMemoryCopyState;
+                        resultPages.Add(pageList);
+                    }
+                    //}
+                    //catch (PageException pe)
+                    //{
+                        //if (pe.ShowErrorDialog && SelectedPages.Count == 1) 
+                        //{
+                        //    ApplicationMessage.ShowException(pe);
+                        //}
+
+
+                    //}
+                    //catch (Exception ex)
+                    //{
+
+                    //}
 
                     Thread.Sleep(10);
                     //p.FreeImage();
@@ -640,7 +659,7 @@ namespace Win_CBZ.Forms
                 }
                 else
                 {
-
+                    
                 }
 
                 return Tuple.Create<Page, Bitmap, List<Page>>(null, null, t.Result);
@@ -870,30 +889,41 @@ namespace Win_CBZ.Forms
                     }
                     else
                     {
-                        Invoke(new Action(() =>
-                        {
+                        //Invoke(new Action(() =>
+                        //{
                             //ButtonOk.Enabled = false;
-                            if ((t.Exception.InnerException as ApplicationException).ShowErrorDialog)
+                            if (t.Exception.InnerExceptions.Count > 0)
                             {
-                                ApplicationMessage.ShowException(t.Exception);
+                                try
+                                {
+                                if ((t.Exception.InnerExceptions[0] as ApplicationException).ShowErrorDialog)
+                                {
+                                    ApplicationMessage.ShowException(t.Exception.InnerExceptions[0]);
+                                }
+                            } catch (Exception eee)
+                                {
+                                ApplicationMessage.ShowException(t.Exception.InnerException);
                             }
-                        }));
+                            }
+
+                            
+                        //}));
 
                         return false;
                     }
                 }
                 catch (Exception ee)
                 {
-                    Invoke(new Action(() =>
-                    {
+                    //Invoke(new Action(() =>
+                    //{
                         ApplicationMessage.ShowException(ee);
-                    }));
+                    //}));
 
                     return false;
                 }
                 finally
                 {
-                    FirstPage.FreeImage();
+                    FirstPage?.FreeImage();
                 }
 
                 return true;
@@ -953,6 +983,7 @@ namespace Win_CBZ.Forms
                                     {
                                         LabelImageColors.Text = FirstPage.Format.ColorPalette.Entries.Length.ToString();
                                     }
+                                    LoadingIndicator.Visible = false;
                                 }));
                             }
                             else

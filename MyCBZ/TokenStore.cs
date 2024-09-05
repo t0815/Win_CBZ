@@ -133,8 +133,11 @@ namespace Win_CBZ
         {
             if (CancellationTokenStore.ContainsKey(name))
             {
-
+                CancellationTokenStore.Remove(name);
+                AddNewCancellationToken(name, link);
             }
+
+
 
             return true;
         }

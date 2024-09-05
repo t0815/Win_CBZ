@@ -19,6 +19,9 @@ using System.Threading.Tasks;
 using System.Drawing.Drawing2D;
 using System.Runtime.Versioning;
 using System.Threading;
+using Win_CBZ.Data;
+using Win_CBZ.Handler;
+using Win_CBZ.Tasks;
 
 
 namespace Win_CBZ
@@ -1074,6 +1077,7 @@ namespace Win_CBZ
 
             Filename = entry.FullName;
             Name = entry.Name;
+            EntryName = entry.Name;
             //Size = entry.Length;
             LastModified = entry.LastWriteTime;
             //Id = Guid.NewGuid().ToString();    // dont create new ID
@@ -1549,7 +1553,7 @@ namespace Win_CBZ
 
             if (Compressed)
             {
-                if (CompressedEntry != null)
+                if (CompressedEntry != null && EntryName == CompressedEntry.Name)
                 {
                     if ((TemporaryFile == null || 
                         !TemporaryFile.Exists()) || 
@@ -1595,7 +1599,7 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + Name + "] exists in archive!");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + EntryName + "] exists in archive!");
                 }
             } else
             {
@@ -1692,30 +1696,14 @@ namespace Win_CBZ
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Copy(string inputFilePath, string outputFilePath)
-        {           
-            int bufferSize = 1024 * 1024;
-            long size = 0;
+        {
+            TaskResult result = null;
+            Task<TaskResult> copyFile = CopyFileTask.CopyFile(new LocalFile(inputFilePath), new LocalFile(outputFilePath), null, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token);
 
-            using (FileStream fileStream = new FileStream(outputFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
-            {
-                FileStream fs = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                size = fs.Length;
-                fileStream.SetLength(size);
-                int bytesRead = -1;
-                int byesTotal = 0;
-                byte[] bytes = new byte[bufferSize];
-
-                while ((bytesRead = fs.Read(bytes, 0, bufferSize)) > 0)
-                {
-                    fileStream.Write(bytes, 0, bytesRead);
-                    byesTotal += bytesRead;
-                    
-                    Thread.Sleep(10);
-                }
-
-                fs?.Close();  
-                fs?.Dispose();
-            }
+            copyFile.Start();
+            copyFile.Wait(TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token); // run synchronously and wait for completion
+        
+            result = copyFile.Result;
         }
 
         public void DeleteTemporaryFile()
@@ -1739,7 +1727,7 @@ namespace Win_CBZ
                     TemporaryFile.Refresh();
                 } catch (Exception e)
                 {
-                    throw new PageException(this, "Unable to delete temporary files (" + TemporaryFile.FullPath + ") from disk!", true, e);
+                    throw new PageException(this, "Unable to delete temporary files [" + TemporaryFile.FullPath + "] from disk!", true, e);
                 }
             }
         }
@@ -1750,7 +1738,10 @@ namespace Win_CBZ
             {
                 File.Delete(LocalFile.FullPath);
                 LocalFile.Refresh();
-            }           
+            } else
+            {
+               throw new PageException(this, "Unable to delete local file [" + LocalFile.FullPath + "] from disk! File is read-only!", true);
+            }
         }
 
         public Image GetImage()

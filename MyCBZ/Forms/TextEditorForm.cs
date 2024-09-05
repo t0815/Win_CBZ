@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutocompleteMenuNS;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,13 +53,21 @@ namespace Win_CBZ.Forms
                     ItemsText.Text = Config.Value;
                 }
 
-                // does not work... create a tag editor instead
+                // 
                 if (Config.AutoCompleteItems != null)
                 {
                     //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                     //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
 
-                    AutoCompleteItems.Items = Config.AutoCompleteItems;
+                    var items = new List<AutocompleteItem>();
+                    foreach (var item in Config.AutoCompleteItems)
+                        items.Add(new AutocompleteItem(item) { ImageIndex = AutocompleteIcons.Images.IndexOfKey(Config.AutoCompleteImageKey) });
+
+                    if (Config.AutoCompleteImageKey == "" || Config.AutoCompleteImageKey == null)
+                        AutoCompleteItems.LeftPadding = 2; 
+                    else AutoCompleteItems.LeftPadding = 18;
+
+                    AutoCompleteItems.SetAutocompleteItems(items);
 
                     //ItemsText.AutoCompleteCustomSource = autoCompleteStringCollection;
                     //ItemsText.AutoCompleteSource = AutoCompleteSource.CustomSource;

@@ -33,6 +33,8 @@ namespace Win_CBZ.Data
 
         public bool AutoUpdate { get; set; }
 
+        public string AutoCompleteImageKey { get; set; }
+
         public EditorTypeConfig EditorConfig { get; set; } = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_NONE);
         
 
@@ -62,17 +64,18 @@ namespace Win_CBZ.Data
             AutoUpdate = false;
         }
 
-        public MetaDataFieldType(String name, String fieldType, String editorType, String options, bool autoUpdate = false) 
+        public MetaDataFieldType(String name, String fieldType, String editorType, String options, bool autoUpdate = false, string autoCompleteImageKey = null) 
         {
             Name = name;
             FieldType = fieldType;
             EditorType = editorType;
             Options = options;
             AutoUpdate = autoUpdate;
-            MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, ",", "", false, options.Split(','));
+            AutoCompleteImageKey = autoCompleteImageKey;
+            MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, ",", "", false, options.Split(','), autoCompleteImageKey);
         }
 
-        public MetaDataFieldType MakeEditorConfig(string resultType, string separator, string append, bool allowDuplicate = false, string[] autoCompleteItems = null)
+        public MetaDataFieldType MakeEditorConfig(string resultType, string separator, string append, bool allowDuplicate = false, string[] autoCompleteItems = null, string autoCompleteImageIndex = null)
         {
             EditorConfig = new EditorTypeConfig(EditorType);
             EditorConfig.ResultType = resultType;
@@ -80,6 +83,7 @@ namespace Win_CBZ.Data
             EditorConfig.Append = append;
             EditorConfig.AllowDuplicateValues = allowDuplicate;
             EditorConfig.AutoCompleteItems = autoCompleteItems != null ? autoCompleteItems : OptionsAsList().ToArray();
+            EditorConfig.AutoCompleteImageKey = autoCompleteImageIndex;
 
             return this;
         }
@@ -111,7 +115,7 @@ namespace Win_CBZ.Data
 
         public override String ToString()
         {
-            return Name + "|" + FieldType + "|" + EditorType + "|" + Options + "|" + AutoUpdate.ToString();
+            return Name + "|" + FieldType + "|" + EditorType + "|" + Options + "|" + AutoUpdate.ToString() + "|" + AutoCompleteImageKey.ToString();
         }
     }
 }

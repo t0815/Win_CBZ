@@ -42,6 +42,8 @@ namespace Win_CBZ.Data
 
         public bool AllowDuplicateValues { get; set; }
 
+        public string AutoCompleteImageKey { get; set; }
+
 
         public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate, string[] autoCompleteItems)
         {

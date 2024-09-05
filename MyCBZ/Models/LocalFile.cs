@@ -48,8 +48,17 @@ namespace Win_CBZ
             }
 
             SizeFormatted = FormatSize(FileSize);
-            LastModified = LocalFileInfo.LastWriteTime;
+            
             FileExtension = LocalFileInfo.Extension;
+
+            try
+            {
+                LastModified = LocalFileInfo.LastWriteTime;
+            }
+            catch (IOException)
+            {
+
+            }
         }
 
         public bool Exists()

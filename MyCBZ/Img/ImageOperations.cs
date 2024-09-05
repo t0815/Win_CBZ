@@ -32,7 +32,7 @@ namespace Win_CBZ.Img
         /// <param name="width">The width to resize to.</param>
         /// <param name="height">The height to resize to.</param>
         /// <returns>The resized image.</returns>
-        public static void ResizeImage(Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
+        public static void ResizeImage(ref Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
         {
             Image sourceImage = Image.FromStream(source);
             var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.H);
@@ -61,7 +61,39 @@ namespace Win_CBZ.Img
             sourceImage.Dispose();
         }
 
-        public static void CutImage(Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="width">The width to resize to.</param>
+        /// <param name="height">The height to resize to.</param>
+        /// <returns>The resized image.</returns>
+        public static void RotateImage(ref Stream source, ref Stream OutputStream, PageImageFormat targetFormat, int rotation)
+        {
+            Image sourceImage = Image.FromStream(source);
+
+            if (rotation == 90)
+            {
+                sourceImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            }
+            else if (rotation == 180)
+            {
+                sourceImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            }
+            else if (rotation == 270)
+            {
+                sourceImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            }
+            else if (rotation == 360)
+            {
+                
+            }
+
+            sourceImage.Save(OutputStream, targetFormat.Format);
+            sourceImage.Dispose();
+        }
+
+        public static void CutImage(ref Stream source, ref Stream OutputStream, PageImageFormat targetFormat, InterpolationMode interpolation)
         {
             var destRect = new Rectangle(0, 0, targetFormat.W, targetFormat.H);
             var destImage = new Bitmap(targetFormat.W, targetFormat.H);

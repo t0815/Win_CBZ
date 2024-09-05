@@ -93,6 +93,7 @@
             ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
             TagValidationTooltip = new System.Windows.Forms.ToolTip(components);
             SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(components);
+            AutocompleteIcons = new System.Windows.Forms.ImageList(components);
             SettingsTablePanel.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -732,7 +733,7 @@
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(122, 51);
             button1.TabIndex = 3;
-            button1.Text = "Fill Predifined";
+            button1.Text = "Restore";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -934,6 +935,25 @@
             // 
             SettingsValidationErrorProvider.ContainerControl = this;
             // 
+            // AutocompleteIcons
+            // 
+            AutocompleteIcons.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            AutocompleteIcons.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("AutocompleteIcons.ImageStream");
+            AutocompleteIcons.TransparentColor = System.Drawing.Color.Transparent;
+            AutocompleteIcons.Images.SetKeyName(0, "tag");
+            AutocompleteIcons.Images.SetKeyName(1, "star");
+            AutocompleteIcons.Images.SetKeyName(2, "user");
+            AutocompleteIcons.Images.SetKeyName(3, "barcode");
+            AutocompleteIcons.Images.SetKeyName(4, "books");
+            AutocompleteIcons.Images.SetKeyName(5, "users");
+            AutocompleteIcons.Images.SetKeyName(6, "book");
+            AutocompleteIcons.Images.SetKeyName(7, "planet");
+            AutocompleteIcons.Images.SetKeyName(8, "box");
+            AutocompleteIcons.Images.SetKeyName(9, "message");
+            AutocompleteIcons.Images.SetKeyName(10, "earth");
+            AutocompleteIcons.Images.SetKeyName(11, "clock");
+            AutocompleteIcons.Images.SetKeyName(12, "hash");
+            // 
             // SettingsDialog
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -1051,5 +1071,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox CheckBoxDeleteTempFiles;
+        private System.Windows.Forms.ImageList AutocompleteIcons;
     }
 }

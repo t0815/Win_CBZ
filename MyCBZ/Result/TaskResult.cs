@@ -12,9 +12,9 @@ namespace Win_CBZ.Data
 
         public Dictionary<string, object> Payload { get; set; } = new Dictionary<string, object>(); 
 
-        public int Total { get; set; } 
+        public long Total { get; set; } 
 
-        public int Completed { get; set; }
+        public long Completed { get; set; }
 
         public TaskResult() { }
 

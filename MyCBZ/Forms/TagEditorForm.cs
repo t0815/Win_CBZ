@@ -32,7 +32,7 @@ namespace Win_CBZ.Forms
         private partial class TagItem
         {
             public String Tag { get; set; }
-            public bool Selected {  get; set; }
+            public bool Selected { get; set; }
         }
 
 
@@ -59,8 +59,8 @@ namespace Win_CBZ.Forms
 
             Config = editorTypeConfig;
 
-            
-            
+
+
         }
 
         public FlowLayoutPanel CreateTag(string tagName)
@@ -79,7 +79,7 @@ namespace Win_CBZ.Forms
             tagItem.AutoSize = true;
             //tagItem.Click += TagItemClick;
             tagItem.BackColor = System.Drawing.Color.White;
-            
+
             tagItem.BorderStyle = BorderStyle.None;
             tagItem.GotFocus += TagFocused;
             tagItem.LostFocus += TagLostFocus;
@@ -137,7 +137,7 @@ namespace Win_CBZ.Forms
             tagItem.Controls.Add(tagLabel);
 
             tagItem.Controls.Add(closeButton);
-           
+
             tagItem.Parent = TagsList;
 
             return tagItem;
@@ -153,10 +153,11 @@ namespace Win_CBZ.Forms
         {
             if (control != null)
             {
-                Invoke(new Action(() => {
+                Invoke(new Action(() =>
+                {
                     TagsList.Controls.Add(control);
                 }));
-                
+
             }
         }
 
@@ -176,7 +177,7 @@ namespace Win_CBZ.Forms
                 {
                     TagsList.Controls.Remove(tag);
                 }
-            }           
+            }
         }
 
         public void ClearTags()
@@ -197,11 +198,12 @@ namespace Win_CBZ.Forms
                     //Label contentLabel = container.Controls.Find("TAG_LABEL", false)[0] as Label;
                     //if (contentLabel != null)
                     //{
-                        label.BackColor = Color.Gold;
+                    label.BackColor = Color.Gold;
                     //}
                     ((TagItem)container.Tag).Selected = true;
                     SelectedTags.Add(container);
-                } else
+                }
+                else
                 {
 
                     label.BackColor = Color.White;
@@ -211,12 +213,12 @@ namespace Win_CBZ.Forms
                 }
 
                 ToolStripButtonRemoveSelectedTags.Enabled = SelectedTags.Count > 0;
-            }           
+            }
         }
 
         private void TagFocused(object sender, EventArgs e)
         {
-            
+
         }
 
         private void TagLostFocus(object sender, EventArgs e)
@@ -226,7 +228,8 @@ namespace Win_CBZ.Forms
 
         private void TagCloseButtonClick(object sender, System.EventArgs e)
         {
-            if (((PictureBox)sender).Tag != null) {
+            if (((PictureBox)sender).Tag != null)
+            {
                 var tag = ((PictureBox)sender).Tag as FlowLayoutPanel;
                 Lines.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
                 TagsList.Controls.Remove(tag);
@@ -244,7 +247,7 @@ namespace Win_CBZ.Forms
             List<String> duplicates = new List<String>();
 
             if (DialogResult == DialogResult.OK)
-            {              
+            {
                 if (Config != null)
                 {
                     if (!Config.AllowDuplicateValues)
@@ -287,7 +290,7 @@ namespace Win_CBZ.Forms
                     Config.Result = result;
 
                     DialogResult = DialogResult.OK;
-                }                
+                }
             }
         }
 
@@ -319,7 +322,7 @@ namespace Win_CBZ.Forms
                     AddTag(CreateTag(TagTextBox.Text));
                     AddTag(TagTextBox.Text);
                     TagTextBox.Text = string.Empty;
-                    
+
                 }
                 e.SuppressKeyPress = true;
                 e.Handled = true;
@@ -362,9 +365,9 @@ namespace Win_CBZ.Forms
 
                         var items = new List<AutocompleteItem>();
                         foreach (var item in Config.AutoCompleteItems)
-                            items.Add(new SnippetAutocompleteItem(item) { ImageIndex = 0 });
+                            items.Add(new AutocompleteItem(item) { ImageIndex = 0 });
 
-                        AutoCompleteItems.SetAutocompleteItems(items);
+                        Autocomplete.SetAutocompleteItems(items);
 
                         //TagTextBox.AutoCompleteCustomSource = autoCompleteStringCollection;
                         //TagTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -375,7 +378,8 @@ namespace Win_CBZ.Forms
 
                 foreach (String tag in Lines)
                 {
-                    Invoke(new Action(() => {
+                    Invoke(new Action(() =>
+                    {
                         AddTag(CreateTag(tag));
                         AddTag(tag);
                     }));
@@ -416,7 +420,7 @@ namespace Win_CBZ.Forms
             if (TagListView.SelectedItems.Count > 0)
             {
 
-            } 
+            }
 
         }
 
@@ -453,7 +457,7 @@ namespace Win_CBZ.Forms
             {
                 MouseBtnDown = true;
                 SelectionStart = new Point(e.X, e.Y);
-            }           
+            }
         }
 
         private void TagsList_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)

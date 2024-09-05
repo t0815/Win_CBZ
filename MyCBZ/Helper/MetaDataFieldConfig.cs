@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Win_CBZ.Helper
@@ -183,7 +184,7 @@ namespace Win_CBZ.Helper
             {
                 String[] typeParts = line.Split('|');
 
-                if (typeParts.Length == 5)
+                if (typeParts.Length >= 5)
                 {
                     try
                     {
@@ -192,12 +193,13 @@ namespace Win_CBZ.Helper
                             typeParts[1],
                             typeParts[2],
                             typeParts[3],
-                            bool.Parse(typeParts[4].ToLower())
+                            bool.Parse(typeParts[4].ToLower()),
+                            typeParts.Length == 6 ? typeParts[5] : ""
                         ));
                     }
                     catch (Exception e)
                     {
-
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Field-Type configuration Error! Unable to load Fieldtype for Field [" + typeParts[0] + "] !");
                     }
                 }
             }

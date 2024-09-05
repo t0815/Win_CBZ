@@ -41,8 +41,8 @@ namespace Win_CBZ
             "Series", "SeriesGroup", "AlternateSeries", "Number", "Count", "Volume", "StoryArc", "StoryArcNumber", 
             "Manga", "Web", "Summary", "Publisher", "Imprint", "Genre", "Tags", "LanguageISO", "Format",
             "Artist", "Writer", "Penciller", "Inker", "Colorist", "Cover", "Translator", "Editor", "Letterer", 
-            "Year", "Month", "Day", "Characters", "BlackAndWhite", "Review", "Rating", "CommunityRating", 
-            "Locations", "Notes", "PageCount", "GTIN" };
+            "Year", "Month", "Day", "Characters", "MainCharacterOrTeam", "Teams", "BlackAndWhite", "Review", 
+            "Rating", "CommunityRating", "Locations", "Notes", "ScanInformation", "PageCount", "GTIN" };
 
         /*
         protected static readonly string[] Ratings =
@@ -861,7 +861,7 @@ namespace Win_CBZ
                 result.AppendLine(prop);
             }
 
-            return result.ToString();
+            return result.ToString().TrimEnd('\r').TrimEnd('\n');
         }
 
         public List<MetaDataEntry> GetDefaultEntries()
@@ -941,35 +941,40 @@ namespace Win_CBZ
             sortedProps.ForEach(v => Values.Add(v));
         }
 
-        public void Validate(MetaDataEntry entry, String newKey, bool silent = true)
+        public void Validate(MetaDataEntry entry, String newKey = null, String newVal = null, bool silent = true)
         {
             int occurence = 0;
+            DataValidation validation = new DataValidation();
 
-            if (ProtectedKeys.IndexOf(newKey.ToLower()) != -1)
+            if (ProtectedKeys.IndexOf(newKey?.ToLower()) != -1)
             {
                 throw new MetaDataValidationException(entry, "Metadata Value Error! Key with name ['" + newKey + "'] is not allowed!", !silent, true);
             }
 
             //Regex re = Regex.("/[a-z]+$/gi");
-            if (!Regex.IsMatch(newKey, @"^[a-z]+$", RegexOptions.IgnoreCase))
+       
+            if (newKey != null && !Regex.IsMatch(newKey, @"^[a-z]+$", RegexOptions.IgnoreCase))
             {
                 throw new MetaDataValidationException(entry, "Metadata Value Error! Key with name ['" + newKey + "'] must contain only values between ['a-zA-Z']!", !silent, true);
             }
+            
+            string[] duplicates = validation.ValidateDuplicateStrings(Values.ToArray().Select(s => s.Key).ToArray());
+            string[] checkValues = Values.ToArray().Select(s => s.Key).ToArray();
 
-            foreach (MetaDataEntry entryA in Values)
+            if (newKey != entry.Key && duplicates.Length == 0)
             {
-                if (entryA.Key.ToLower().Equals(newKey.ToLower()))
-                {
-                    occurence++;
-                }
+                checkValues = checkValues.Append(newKey).ToArray();
             }
 
-            if (occurence > 1)
+            if (validation.ValidateItemOccurence(newKey, checkValues) > 1)
             {
                 throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!", !silent, true);
             }
 
-
+            if (duplicates.Length > 0 && Array.IndexOf(duplicates, newKey) > -1)
+            {
+                throw new MetaDataValidationException(entry, "Duplicate keys ['" + String.Join(",", duplicates) + "'] not allowed!", !silent, true);
+            }
         }
 
         public void ValidateDefaults()

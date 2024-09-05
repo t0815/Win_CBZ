@@ -29,6 +29,8 @@ namespace Win_CBZ.Models
 
         public int ResizeMode { get; set; }
 
+        public int RotateMode { get; set; }
+
         public int ResizeToPageNumber {  get; set; }
 
         public float ResizeToPercentage { get; set; }
@@ -62,6 +64,7 @@ namespace Win_CBZ.Models
                 ResizeToPercentage = copyFrom.ResizeToPercentage;
                 DontStretch = copyFrom.DontStretch;
                 Grayscale = copyFrom.Grayscale;
+                RotateMode = copyFrom.RotateMode;
             }
         }
     }

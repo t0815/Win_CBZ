@@ -59,6 +59,11 @@ namespace Win_CBZ.Tasks
                         page.ImageTask.SetTaskResize();
                     }
 
+                    if (page.ImageTask.ImageAdjustments.RotateMode > 0)
+                    {
+                        page.ImageTask.SetTaskRotate();
+                    }
+
                     if (page.ImageTask.ImageAdjustments.SplitPage)
                     {
                         page.ImageTask.SetTaskSplit();
@@ -85,6 +90,11 @@ namespace Win_CBZ.Tasks
                         )
                         {
                             page.ImageTask.SetTaskResize();
+                        }
+
+                        if (page.ImageTask.ImageAdjustments.RotateMode > 0)
+                        {
+                            page.ImageTask.SetTaskRotate();
                         }
 
                         if (page.ImageTask.ImageAdjustments.SplitPage)

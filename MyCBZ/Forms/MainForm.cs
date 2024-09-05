@@ -38,6 +38,7 @@ using System.Diagnostics;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
 using Win_CBZ.Events;
+using AutocompleteMenuNS;
 
 namespace Win_CBZ
 {
@@ -165,7 +166,7 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.SettingsVersion = updatedVersion;
                     Win_CBZSettings.Default.Save();
 
-                    ApplicationMessage.Show("Your configuratio has been updated to version: " + updatedVersion.ToString() + "\r\nPlease revise your applicaiton configuration.", "User settings updated", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.Show("Your configuration has been updated to version: " + updatedVersion.ToString() + "\r\nPlease revise your applicaiton configuration.", "User settings updated", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
 
                 }
             }
@@ -173,7 +174,7 @@ namespace Win_CBZ
             {
                 if (ex.ShowErrorDialog)
                 {
-                    ApplicationMessage.ShowWarning("Failed to patch UserSettings to Version: " + ex.LastSuccessFulPatchedVersion.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.ShowWarning("Failed to patch User-Settings to Version: " + ex.LastSuccessFulPatchedVersion.ToString() + "\r\n" + ex.SourceException.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                 }
                 Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFulPatchedVersion;
                 Win_CBZSettings.Default.Save();
@@ -596,7 +597,7 @@ namespace Win_CBZ
                                 item = PagesList.Items.Add(e.Page?.Name);
                             }
 
-                            item.ImageKey = e.Page?.Id;
+                            item.ImageKey = "photo_landscape";
                             item.SubItems.Add(e.Page?.Number.ToString());
                             item.SubItems.Add(e.Page?.ImageType.ToString());
                             item.SubItems.Add(e.Page?.LastModified.ToString());
@@ -1113,6 +1114,8 @@ namespace Win_CBZ
                         return;
                     }
                 }
+
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE);
 
                 List<Page> currentSlice = new List<Page>(ThumbnailPagesSlice.ToArray());
                 //ThumbnailPagesSlice.Clear();
@@ -2589,6 +2592,7 @@ namespace Win_CBZ
             WindowClosed = true;
             CancelAllThreads();
             Program.ProjectModel.CancelAllThreads();
+            backgroundWorker1.CancelAsync();
             Application.ExitThread();
         }
 
@@ -3051,7 +3055,10 @@ namespace Win_CBZ
                     {
                         var key = row.Cells[0].Value.ToString();
 
-                        Program.ProjectModel.MetaData.Remove(index);
+                    }
+                    else
+                    {
+                        ApplicationMessage.ShowWarning("Error removing Metadata entry. Given entry does not exist in Collection.", "Error removing Metadata entry", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                     }
                 }
             }
@@ -3061,43 +3068,60 @@ namespace Win_CBZ
         {
             try
             {
+                EditorTypeConfig editorTypeConfig = MetaDataGrid.Rows[e.RowIndex].Cells[1].Tag as EditorTypeConfig;
+                MetaDataEntry metaDataEntry = Program.ProjectModel.MetaData.EntryByIndex(e.RowIndex);
+
+                String formattedKey = "";
+                String formattedValue = "";
+
+                object key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
+                object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
+
+                String keyStr = "";
+                String valStr = "";
+
+                if (key != null)
+                {
+                    keyStr = key.ToString();
+                }
+
+                if (value != null)
+                {
+                    valStr = value.ToString();
+                }
+
+                
                 if (e.ColumnIndex == 0)
                 {
-                    object key = MetaDataGrid.Rows[e.RowIndex].Cells[0].Value;
-                    object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
+                    formattedKey = e.FormattedValue.ToString();
+                    formattedValue = valStr;
 
-                    String keyStr = "";
-                    String valStr = "";
-
-                    if (key != null)
+                    if (!MetaDataGrid.IsCurrentCellInEditMode)
                     {
-                        keyStr = key.ToString();
+                        formattedKey = keyStr;
                     }
 
-                    if (value != null)
-                    {
-                        valStr = value.ToString();
-                    }
-
-                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), e.FormattedValue.ToString(), !MetaDataGrid.IsCurrentCellInEditMode);
+                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(keyStr, valStr), formattedKey, formattedValue, !MetaDataGrid.IsCurrentCellInEditMode);
 
                     MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = null;
                 }
 
                 if (e.ColumnIndex == 1)
                 {
-                    object value = MetaDataGrid.Rows[e.RowIndex].Cells[1].Value;
-                    EditorTypeConfig editorTypeConfig = MetaDataGrid.Rows[e.RowIndex].Cells[1].Tag as EditorTypeConfig;
+                    formattedKey = keyStr;
+                    formattedValue = e.FormattedValue.ToString().ToLower().Equals(valStr) ? null : e.FormattedValue.ToString();
+
+                    if (!MetaDataGrid.IsCurrentCellInEditMode)
+                    {
+                        formattedValue = valStr;
+                    }
 
                     if (editorTypeConfig?.Type == "AutoComplete")
                     {
                         //e.FormattedValue
                         //e.Cancel = true;
                     }
-
                 }
-
-
             }
             catch (MetaDataValidationException ve)
             {
@@ -3148,7 +3172,15 @@ namespace Win_CBZ
 
                         textBox.KeyDown += DataGridTextBoxKeyDown;
 
-                        AutoCompleteItems.Items = fieldType.EditorConfig.AutoCompleteItems;
+                        var items = new List<AutocompleteItem>();
+                        foreach (var item in fieldType.EditorConfig.AutoCompleteItems)
+                            items.Add(new AutocompleteItem(item) { ImageIndex = AutocompleteIcons.Images.IndexOfKey(fieldType.AutoCompleteImageKey) });
+
+                        if (fieldType.AutoCompleteImageKey == "" || fieldType.AutoCompleteImageKey == null)
+                            AutoCompleteItems.LeftPadding = 2;
+                        else AutoCompleteItems.LeftPadding = 18;
+
+                        AutoCompleteItems.SetAutocompleteItems(items);
                         AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
                         //AutoCompleteItems. = textBox
                         //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
@@ -3363,20 +3395,16 @@ namespace Win_CBZ
                         }
                     }
 
+                    int[] colIndices = new int[] { 0, 2 };
+                    Color selectionColor = Color.Gold;
+
                     // DataGridViewCellStyle currentStyle = null;
                     for (int i = 0; i < MetaDataGrid.RowCount; i++)
                     {
 
                         //currentStyle = new DataGridViewCellStyle(MetaDataGrid.Rows[i].Cells[2].Style);
                         MetaDataGrid.Rows[i].Cells[2].ReadOnly = true;
-                        /*
-                        MetaDataGrid.Rows[i].Cells[2].Style = new DataGridViewCellStyle()
-                        {
-                            SelectionForeColor = Color.Black,
-                            SelectionBackColor = Color.White,
-                            BackColor = Color.White,
-                        }; 
-                        */
+
 
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
@@ -3410,11 +3438,10 @@ namespace Win_CBZ
                                         c.DisplayStyleForCurrentCellOnly = false;
                                         c.Style = new DataGridViewCellStyle()
                                         {
-                                            SelectionBackColor = Color.White,
+                                            SelectionBackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                             ForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         };
-
 
                                         MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1] = c));
                                     }
@@ -3453,8 +3480,20 @@ namespace Win_CBZ
                                     }
                                     else
                                     {
-                                        MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type));
-                                        MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1].Value = entry.Value));
+                                        DataGridViewTextBoxCell c = new DataGridViewTextBoxCell();
+                                        c.Value = entry.Value;
+                                        c.Tag = entry.Type;
+                                        c.Style = new DataGridViewCellStyle()
+                                        {
+                                            SelectionBackColor = Color.Gold,
+                                            ForeColor = Color.Black,
+                                            BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                        };
+
+                                        MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1] = c));
+
+                                        //MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1].Tag = entry.Type));
+                                        //MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1].Value = entry.Value));
                                     }
 
                                     if (entry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
@@ -3487,6 +3526,22 @@ namespace Win_CBZ
                             //Thread.Sleep(2);
                         }
 
+                        foreach (int colIndex in colIndices)
+                        {
+                            selectionColor = Color.Gold;
+
+                            if (MetaDataGrid.Rows[i].Cells[colIndex] is DataGridViewButtonCell)
+                            {
+                                selectionColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight);
+                            }
+
+                            MetaDataGrid.Rows[i].Cells[colIndex].Style = new DataGridViewCellStyle()
+                            {
+                                SelectionBackColor = selectionColor,
+                                ForeColor = Color.Black,
+                                BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                            };
+                        }
                         //Task.Sleep(2);
                     }
 
@@ -3554,14 +3609,14 @@ namespace Win_CBZ
 
                         try
                         {
-                            MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
+                            int newRowIndex = MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
 
-                            //Program.ProjectModel.MetaData.Add(new MetaDataEntry())
+                            //---
 
                             if (e.Entry.Key == "" && e.Entry.Value == null)
                             {
                                 //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
-                                MetaDataGrid.CurrentCell = MetaDataGrid.Rows[MetaDataGrid.Rows.Count - 1].Cells[0];
+                                MetaDataGrid.CurrentCell = MetaDataGrid.Rows[newRowIndex].Cells[0];
                                 MetaDataGrid.CurrentCell.Tag = e.Entry;
                                 MetaDataGrid.BeginEdit(false);
                             }
@@ -3708,6 +3763,50 @@ namespace Win_CBZ
 
                 Program.ProjectModel.MetaData.Add(new MetaDataEntry(key.ToString(), val?.ToString()));
             }
+
+            Color selectionColor = Color.Gold;
+
+            for (int i = 0; i < MetaDataGrid.RowCount; i++)
+            {
+                for (int j = 0; j < MetaDataGrid.ColumnCount; j++)
+                {
+
+
+                    MetaDataFieldType metaDataFieldType = MetaDataGrid.Rows[i].Cells[j].Tag as MetaDataFieldType;
+
+                    if (metaDataFieldType != null)
+                    {
+                        switch (metaDataFieldType.FieldType)
+                        {
+                            case MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX:
+                                {
+                                    selectionColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight);
+                                }
+                                break;
+                            default:
+                                {
+                                    selectionColor = Color.Gold;
+                                }
+                                break;
+                        }
+                    }
+
+                    if (MetaDataGrid.Rows[i].Cells[j] is DataGridViewButtonCell)
+                    {
+                        selectionColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight);
+                    }
+
+                    MetaDataGrid.Rows[i].Cells[j].Style = new DataGridViewCellStyle()
+                    {
+                        SelectionBackColor = selectionColor,
+                        ForeColor = Color.Black,
+                        BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                    };
+
+                    // reset color
+                    selectionColor = Color.Gold;
+                }
+            }
         }
 
         private void ToolStripMenuItemDataGridRemoveSort_Click(object sender, EventArgs e)
@@ -3731,6 +3830,76 @@ namespace Win_CBZ
 
         private void MetaDataGrid_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)
         {
+
+        }
+
+        private void MetaDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            { 
+                string Key = "";
+                string Val = "";
+
+                object value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                int realIndex = Program.ProjectModel.MetaData.Values.IndexOf(MetaDataGrid.Rows[e.RowIndex].Cells[0].Tag as MetaDataEntry);
+
+                if (e.ColumnIndex == 0)
+                {
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Key = value.ToString();
+                    value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Val = value.ToString();
+                }
+
+                if (e.ColumnIndex == 1)
+                {
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Val = value.ToString();
+                    value = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
+
+                    if (value == null)
+                    {
+                        value = "";
+                    }
+
+                    Key = value.ToString();
+                }
+
+                if (e.ColumnIndex == 0)
+                {
+                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(Key, Val), Key, Val, false);
+                }
+                else
+                {
+                    Program.ProjectModel.MetaData.Validate(new MetaDataEntry(Key, Val), null, Val, false);
+                }
+            }
+            catch (MetaDataValidationException ve)
+            {                
+                //MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = ve.Message;
+                //MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex]. = ve.Message;
+
+                MetaDataGrid.InvalidateCell(e.ColumnIndex, e.RowIndex);
+
+            }
+            catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+            }
 
         }
 
@@ -3790,7 +3959,7 @@ namespace Win_CBZ
 
                 MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(realIndex, new MetaDataEntry(Key, Val));
                 //MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
-                MetaDataGrid.Invalidate();
+                
 
                 //if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                 // {
@@ -3927,10 +4096,45 @@ namespace Win_CBZ
 
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+                            } else
+                            {
+                                DataGridViewTextBoxCell bc = new DataGridViewTextBoxCell();
+
+                                bc.Value = "";
+                                bc.Tag = null;
+
+                                bc.Style = new DataGridViewCellStyle()
+                                {
+                                    SelectionForeColor = Color.Black,
+                                    SelectionBackColor = Color.Gold,
+                                    BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                };
+
+                                MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
+                                MetaDataGrid.Rows[e.RowIndex].Cells[2].ReadOnly = true;
                             }
                         }
                     }
+
+                    MetaDataGrid.Invalidate();
                 }
+            }
+            catch (MetaDataValidationException ve) 
+            {
+                DialogResult dlgResult = DialogResult.OK;
+                MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = ve.Message;
+
+                if (ve.ShowErrorDialog && MetaDataGrid.IsCurrentCellInEditMode)
+                {
+                    dlgResult = ApplicationMessage.ShowWarning(ve.Message, "Metadata validation", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
+                }
+
+                if (ve.RemoveEntry && dlgResult != DialogResult.Ignore)
+                {
+                    //e. = MetaDataGrid.IsCurrentCellInEditMode;
+                }
+
+                MetaDataGrid.InvalidateCell(e.ColumnIndex, e.RowIndex);
             }
             catch (Exception ex)
             {
@@ -3968,6 +4172,7 @@ namespace Win_CBZ
                     ExtractSelectedPages.Enabled = false;
                     if (extractFilesDialog.ExtractType == 0)
                     {
+
                         Program.ProjectModel.Extract(extractFilesDialog.TargetFolder);
                     }
                     else
@@ -4012,7 +4217,7 @@ namespace Win_CBZ
                 }
 
                 selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
-               
+
                 if (RadioApplyAdjustmentsPage.Checked && RadioApplyAdjustmentsPage.Tag != ((Page)selectedPages[0].Tag).Id)
                 {
                     UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id, true);
@@ -4545,7 +4750,17 @@ namespace Win_CBZ
 
             if (result == DialogResult.Yes)
             {
-                Program.ProjectModel.ClearTempFolder();
+                try
+                {
+                    Program.ProjectModel.ClearTempFolder();
+                }
+                catch (ConcurrentOperationException c)
+                {
+                    if (c.ShowErrorDialog)
+                    {
+                        ApplicationMessage.ShowWarning(c.Message, "ConcurrentOperationException", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+                }
             }
         }
 
@@ -4558,13 +4773,17 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.PagePreviewEnabled && PageView.Items.Count == 0)
             {
-                PageView.Invoke(new Action(() =>
+                Task.Factory.StartNew(() =>
                 {
-                    foreach (ListViewItem pageItem in PagesList.Items)
+                    PageView.Invoke(new Action(() =>
                     {
-                        CreatePagePreviewFromItem((Page)pageItem.Tag);
-                    }
-                }));
+                        foreach (ListViewItem pageItem in PagesList.Items)
+                        {
+                            CreatePagePreviewFromItem((Page)pageItem.Tag);
+                        }
+                    }));
+                });
+
 
                 /*
                 if (ThumbnailThread != null)
@@ -5049,7 +5268,53 @@ namespace Win_CBZ
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }               
+                }
+            }
+        }
+
+        private void ImageRotateRadioChanged(object sender, EventArgs e)
+        {
+            RadioButton radio = (RadioButton)sender;
+
+            Nullable<int> oldValue;
+
+            if (selectedImageTasks != null && radio.Checked)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                bool dontUpdate = radio.Tag != null ? ((bool)radio.Tag) : true;
+
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.RotateMode;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.RotateMode;
+                }
+
+                switch (radio.Name)
+                {
+                    case "RadioButtonRotateNone":
+                        selectedImageTasks.ImageAdjustments.RotateMode = 0;
+                        break;
+                    case "RadioButtonRotate90":
+                        selectedImageTasks.ImageAdjustments.RotateMode = 1;
+                        break;
+                    case "RadioButtonRotate180":
+                        selectedImageTasks.ImageAdjustments.RotateMode = 2;
+                        break;
+                    case "RadioButtonRotate270":
+                        selectedImageTasks.ImageAdjustments.RotateMode = 3;
+                        break;
+                }
+
+                if (oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.RotateMode)
+                {
+                    if (!dontUpdate && page != null && selectedImageTasks.PageId == page.Id)
+                    {
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
             }
         }
 
@@ -5092,7 +5357,8 @@ namespace Win_CBZ
             if (rb.Checked)
             {
                 UpdateImageAdjustments(sender, selected);
-            } else
+            }
+            else
             {
                 UpdateImageAdjustments(sender, selected, true);
             }
@@ -5129,7 +5395,7 @@ namespace Win_CBZ
                 {
 
                     Invoke(new Action(() =>
-                    {                        
+                    {
                         //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
                         switch (selectedImageTasks.ImageAdjustments.ResizeMode)
                         {
@@ -5148,6 +5414,27 @@ namespace Win_CBZ
                             case 3:
                                 RadioButtonResizePercent.Tag = dontUpdate;
                                 RadioButtonResizePercent.Checked = true;
+                                break;
+
+                        }
+
+                        switch (selectedImageTasks.ImageAdjustments.RotateMode)
+                        {
+                            case 0:
+                                RadioButtonRotateNone.Tag = dontUpdate;
+                                RadioButtonRotateNone.Checked = true;
+                                break;
+                            case 1:
+                                RadioButtonRotate90.Tag = dontUpdate;
+                                RadioButtonRotate90.Checked = true;
+                                break;
+                            case 2:
+                                RadioButtonRotate180.Tag = dontUpdate;
+                                RadioButtonRotate180.Checked = true;
+                                break;
+                            case 3:
+                                RadioButtonRotate270.Tag = dontUpdate;
+                                RadioButtonRotate270.Checked = true;
                                 break;
 
                         }
@@ -5195,7 +5482,7 @@ namespace Win_CBZ
                         }
 
                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                        
+
                     }
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
@@ -5225,7 +5512,8 @@ namespace Win_CBZ
 
                 if (TextBoxResizePageIndexReference.Text.Length > 0)
                 {
-                    try {
+                    try
+                    {
                         pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
                     }
                     catch (Exception ex)
@@ -5245,7 +5533,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                       
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5272,7 +5560,7 @@ namespace Win_CBZ
                 selectedImageTasks.ImageAdjustments.KeepAspectRatio = CheckboxKeepAspectratio.Checked;
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.KeepAspectRatio)
-                { 
+                {
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
                         if (selectedImageTasks.PageId == "")
@@ -5281,7 +5569,7 @@ namespace Win_CBZ
                         }
 
                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                        
+
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5345,7 +5633,7 @@ namespace Win_CBZ
                         }
 
                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                        
+
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5406,7 +5694,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                      
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5460,7 +5748,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                       
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5487,7 +5775,7 @@ namespace Win_CBZ
                 selectedImageTasks.ImageAdjustments.DontStretch = CheckBoxDontStretch.Checked;
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.DontStretch)
-                { 
+                {
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
                         if (selectedImageTasks.PageId == "")
@@ -5495,7 +5783,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                       
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5538,7 +5826,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                        
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5571,7 +5859,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                        
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -5604,7 +5892,7 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));                        
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6244,11 +6532,6 @@ namespace Win_CBZ
         private void AutoCompleteItems_Selected(object sender, AutocompleteMenuNS.SelectedEventArgs e)
         {
             e.Control.Text = e.Item.Text;
-        }
-
-        private void MetaDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            //
         }
 
         private void MetaDataGrid_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)

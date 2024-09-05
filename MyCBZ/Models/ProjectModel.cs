@@ -264,6 +264,8 @@ namespace Win_CBZ
                         }
                     }
 
+                    TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_PROCESS_FILES);
+
                     AddImagesThreadParams p = nextTask.ThreadParams as AddImagesThreadParams;
 
                     ProcessAddedFiles = new Thread(AddImagesProc);
@@ -366,152 +368,77 @@ namespace Win_CBZ
                 if (p.ApplyImageProcessing)
                 {
 
-                    if (imageProcessingTask == null)
+                    
+                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                    imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                     {
-                        imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
-                        imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+                        AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
+
+                        if (r.IsCompletedSuccessfully)
                         {
-                            AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
+                            // update pages with results
+                            Page page = null;
+                            int index = 1;
 
-                            if (r.IsCompletedSuccessfully)
+                            foreach (Page resultPage in r.Result.Pages)
                             {
-                                // update pages with results
-                                Page page = null;
-                                int index = 1;
+                                page = GetPageById(resultPage.Id);
+                                //page?.UpdatePage(resultPage);
+                                //page?.UpdateStreams(resultPage);
+                                page?.UpdatePageAttributes(resultPage);
+                                page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                //page?.LoadImageInfo(true);
 
-                                foreach (Page resultPage in r.Result.Pages)
+
+                                if (page != null)
                                 {
-                                    page = GetPageById(resultPage.Id);
-                                    //page?.UpdatePage(resultPage);
-                                    //page?.UpdateStreams(resultPage);
-                                    page?.UpdatePageAttributes(resultPage);
-                                    page?.UpdateTemporaryFile(resultPage.TemporaryFile);
-                                    //page?.LoadImageInfo(true);
+                                    //page.Name = resultPage.Name;
+                                    //page.Format = resultPage.Format;
+                                    page.Size = resultPage.Size;
+                                    page.ImageTask.ImageAdjustments.SplitPage = false;
+                                    page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                    page.ImageTask.ImageAdjustments.ConvertType = 0;
 
+                                    resultPage.Close();
 
-                                    if (page != null)
-                                    {
-                                        //page.Name = resultPage.Name;
-                                        //page.Format = resultPage.Format;
-                                        page.Size = resultPage.Size;
-                                        page.ImageTask.ImageAdjustments.SplitPage = false;
-                                        page.ImageTask.ImageAdjustments.ResizeMode = -1;
-                                        page.ImageTask.ImageAdjustments.ConvertType = 0;
-
-                                        resultPage.Close();
-
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                                    }
-                                    else
-                                    {
-                                        Pages.Add(resultPage);
-
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                                    }
-
-                                    AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
-
-                                    index++;
-                                }
-
-                                // if (currentPerformed != e.Task)
-                                // {
-                                if (remainingStack.Count > 0)
-                                {
-                                    nextTask = remainingStack[0];
-
-                                    AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                 }
                                 else
                                 {
-                                    AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                                    Pages.Add(resultPage);
+
+                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                 }
-                                // }
-                            } else
-                            {
-                                // todo: continue on error?
-                                throw new ApplicationException("Failed to process images! ", true);
+
+                                AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
+
+                                index++;
                             }
-                        }));
 
-                        imageProcessingTask.Start();
-
-                        currentPerformed = e.Task;
-                    }
-                    else
-                    {
-                        if (imageProcessingTask.IsCompleted || imageProcessingTask.IsCanceled)
-                        {
-                            imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
-                            imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+                            // if (currentPerformed != e.Task)
+                            // {
+                            if (remainingStack.Count > 0)
                             {
+                                nextTask = remainingStack[0];
 
-                                AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
-
-                                //
-                                if (r.IsCompletedSuccessfully)
-                                {
-
-                                    Page page = null;
-                                    int index = 1;
-
-                                    foreach (Page resultPage in r.Result.Pages)
-                                    {
-                                        page = GetPageById(resultPage.Id);
-                                        //page?.UpdatePage(resultPage);
-                                        //page?.UpdateStreams(resultPage);
-                                        page?.UpdatePageAttributes(resultPage);
-                                        page?.UpdateTemporaryFile(resultPage.TemporaryFile);
-                                        page?.LoadImageInfo(true);
-
-                                        if (page != null)
-                                        {
-                                            page.ImageTask.PageId = resultPage.Id;
-                                            page.ImageTask.ImageAdjustments.SplitPage = false;
-                                            page.ImageTask.ImageAdjustments.ResizeMode = -1;
-
-                                            resultPage.Close();
-
-                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                                        }
-                                        else
-                                        {
-                                            Pages.Add(resultPage);
-
-                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                                        }
-                                        AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
-
-                                        index++;
-                                    }
-
-                                    //if (currentPerformed != e.Task)
-
-                                    if (remainingStack.Count > 0)
-                                    {
-                                        nextTask = remainingStack[0];
-
-                                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
-                                    } else
-                                    {
-                                        AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
-                                    }
-                                }
-                                else
-                                {
-                                    // todo: continue on error?
-                                    throw new ApplicationException("Failed to process images! ", true);
-                                }
-                                
-                            }));
-                            imageProcessingTask.Start();
-
-                            currentPerformed = e.Task;
+                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                            }
+                            else
+                            {
+                                AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                            }
+                            // }
                         } else
                         {
-                            throw new ApplicationException("Previous Task not yet finished! Please try again later.", true);
+                            // todo: continue on error?
+                            throw new ApplicationException("Failed to process images! ", true);
                         }
-                    }
+                    }));
+
+                    imageProcessingTask.Start();
+
+                    currentPerformed = e.Task;
+                    
                 }
             }
 
@@ -688,6 +615,8 @@ namespace Win_CBZ
                 }
             }
 
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE);
+
             LoadArchiveThread = new Thread(OpenArchiveProc);
             LoadArchiveThread.Start(new OpenArchiveThreadParams()
             {
@@ -751,9 +680,6 @@ namespace Win_CBZ
                             Number = index + 1,
                             Index = index,
                             OriginalIndex = index,
-                            Size = entry.Length,
-                            Hash = entry.Crc32.ToString("X"),
-                            LastModified = entry.LastWriteTime
                         };
                         // too slow
                         //page.LoadImageInfo();
@@ -989,9 +915,11 @@ namespace Win_CBZ
 
             PageIndexVersionWriter = metaDataVersionWriting;
 
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE);
+
             AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(
                 this,
-                PipelineEvent.PIPELINE_RUN_RENAMING,
+                PipelineEvent.PIPELINE_PROCESS_IMAGES,
                 null,
                 new List<StackItem>()
                 {
@@ -1219,7 +1147,12 @@ namespace Win_CBZ
                         BuildingArchive?.Dispose();
                         Archive?.Dispose();
 
-                        CopyFile(TemporaryFileName, tParams.FileName, true);
+                        Task<TaskResult> copyFile = CopyFileTask.CopyFile(new LocalFile(TemporaryFileName), new LocalFile(tParams.FileName), AppEventHandler.OnFileOperation, tParams.CancelToken);
+
+                        copyFile.Start();
+                        copyFile.Wait(tParams.CancelToken); // run synchronously and wait for completion
+
+                        //CopyFile(TemporaryFileName, tParams.FileName, true);
 
                         int deletedIndex = 0;
                         foreach (Page deletedPage in deletedPages)
@@ -1379,6 +1312,8 @@ namespace Win_CBZ
                 pagesToExtract = Pages;
             } else {}
 
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_EXTRACT_ARCHIVE);
+
             ExtractArchiveThread = new Thread(ExtractArchiveProc);
             ExtractArchiveThread.Start(new ExtractArchiveThreadParams() 
             { 
@@ -1408,6 +1343,8 @@ namespace Win_CBZ
                     throw new ConcurrentOperationException("Validation alrady running!", true);
                 }
             }
+
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_CBZ_VALIDATION);
 
             ArchiveValidationThread = new Thread(ValidateProc);
             ArchiveValidationThread.Start(new CBZValidationThreadParams() 
@@ -2079,6 +2016,8 @@ namespace Win_CBZ
                 }
             }
 
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_PARSE_FILES);
+
             ParseAddedFileNames = new Thread(ParseFilesProc);
             ParseAddedFileNames.Start(new ParseFilesThreadParams() 
             { 
@@ -2133,29 +2072,33 @@ namespace Win_CBZ
                 {
                     if (!tParams.CancelToken.IsCancellationRequested)
                     {
-                        tParams.Stack = new List<StackItem>()
-                        {
-                            new StackItem
+                        // if no stack is provided, create the default one
+                        if (tParams.Stack == null)
+                        { 
+                            tParams.Stack = new List<StackItem>()
                             {
-                                TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
-                                ThreadParams = new AddImagesThreadParams
+                                new StackItem
                                 {
-                                    LocalFiles = files.ToList(),
-                                    PageIndexVerToWrite = tParams.PageIndexVerToWrite,
-                                    MaxCountPages = tParams.MaxCountPages,
-                                }
-                            },
-                            new StackItem
-                            {
-                                TaskId = tParams.HasMetaData ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
-                                ThreadParams = new UpdatePageIndicesThreadParams()
+                                    TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
+                                    ThreadParams = new AddImagesThreadParams
+                                    {
+                                        LocalFiles = files.ToList(),
+                                        PageIndexVerToWrite = tParams.PageIndexVerToWrite,
+                                        MaxCountPages = tParams.MaxCountPages,
+                                    }
+                                },
+                                new StackItem
                                 {
-                                    ContinuePipeline = true,
-                                    InitialIndexRebuild = false,
-                                    Pages = tParams.Pages,
+                                    TaskId = tParams.HasMetaData ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
+                                    ThreadParams = new UpdatePageIndicesThreadParams()
+                                    {
+                                        ContinuePipeline = true,
+                                        InitialIndexRebuild = false,
+                                        Pages = tParams.Pages,
+                                    }
                                 }
-                            }
-                        };
+                            };
+                        }
                     }
                 }
             }
@@ -2169,6 +2112,7 @@ namespace Win_CBZ
             }                     
         }
 
+        // <deprecated></deprecated>
         public int RemoveDeletedPages()
         {
             int deletedPagesCount = 0;
@@ -2219,6 +2163,7 @@ namespace Win_CBZ
             });
         }
 
+        // <deprecated></deprecated>
         protected void UpdatePageIndicesProc(object threadParams)
         {
             UpdatePageIndicesThreadParams tParams = threadParams as UpdatePageIndicesThreadParams;
@@ -2471,6 +2416,8 @@ namespace Win_CBZ
                 }
             }
 
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_AUTO_RENAME);
+
             AutoRenameThread = new Thread(AutoRenameAllPagesProc);
             AutoRenameThread.Start(new RenamePagesThreadParams()
             {
@@ -2481,7 +2428,8 @@ namespace Win_CBZ
                 RenameStoryPagePattern = RenameStoryPagePattern,
                 RenameSpecialPagePattern = RenameSpecialPagePattern,
                 ContinuePipeline = false,
-                Stack = new List<StackItem> { new StackItem() }
+                Stack = null,
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_AUTO_RENAME).Token
             });
         }
 
@@ -2510,6 +2458,11 @@ namespace Win_CBZ
 
             AppEventHandler.OnOperationFinished(this, new OperationFinishedEvent(0, Pages.Count));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+        
+            if (tParams.ContinuePipeline && tParams.Stack != null)
+            {
+                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_RUN_RENAMING, null, tParams.Stack));
+            }
         }
 
         public void RestoreOriginalNames()
@@ -2560,10 +2513,13 @@ namespace Win_CBZ
                 }
             }
 
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_RESTORE_RENAMING);
+
             RestoreRenamingThread = new Thread(RestoreOriginalNamesProc);
             RestoreRenamingThread.Start(new RestoreRenamedThreadParams()
             {
                 Pages = Pages,
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_RESTORE_RENAMING).Token
             });
         }
 
@@ -2779,11 +2735,13 @@ namespace Win_CBZ
             return String.Format("{0,-" + maxDigits + ":D" + maxDigits + "}", value);
         }
 
+        /// <deprecated></deprecated>
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>DEPRECATED</remarks>
         /// <param name="page"></param>
+        /// 
         /// <returns></returns>
         public String RequestTemporaryFile(Page page)
         {
@@ -2829,7 +2787,7 @@ namespace Win_CBZ
                 }
             }
 
-            if (tParams.ContinuePipeline)
+            if (tParams.ContinuePipeline && tParams.Stack != null)
             {
                 AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_RUN_RENAMING, null, tParams.Stack, null));
             }
@@ -2837,6 +2795,7 @@ namespace Win_CBZ
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
 
+        /// <deprecated></deprecated>
         /// <summary>
         /// 
         /// </summary>
@@ -2857,12 +2816,12 @@ namespace Win_CBZ
                     AppEventHandler.OnItemExtracted(this, new ItemExtractedEvent(1, 1, NewTemporaryFileName.FullName));
                 } else
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + page.Name + "] exists in archive!");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Entry with name [" + page.EntryName + "] exists in archive!");
                 }
             }
             catch (Exception efile)
             {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File from Archive [" + efile.Message + "]");
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting File [" + page.EntryName + "] from Archive [" + efile.Message + "]");
             }
         }
 
@@ -2896,6 +2855,14 @@ namespace Win_CBZ
             directoryInfo.SetAccessControl(dSecurity);
         }
 
+
+        /// <deprecated>use copyfile task</deprecated>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputFilePath"></param>
+        /// <param name="outputFilePath"></param>
+        /// <param name="propagateEvents"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void CopyFile(string inputFilePath, string outputFilePath, bool propagateEvents = false)
         {
@@ -3057,6 +3024,7 @@ namespace Win_CBZ
             }
 
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS);
 
             Task<TaskResult> awaitClosingArchive = AwaitOperationsTask.AwaitOperations(threads, 
                 AppEventHandler.OnGeneralTaskProgress,
@@ -3153,14 +3121,15 @@ namespace Win_CBZ
             //AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
         }
 
-        public Thread ClearTempFolder()
+        public void ClearTempFolder()
         {
 
             if (LoadArchiveThread != null)
             {
                 if (LoadArchiveThread.IsAlive)
                 {
-                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Cancel();
+                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
+                    //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Cancel();
                 }
             }
 
@@ -3168,7 +3137,8 @@ namespace Win_CBZ
             {
                 if (CloseArchiveThread.IsAlive)
                 {
-                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_CLOSE_ARCHIVE).Cancel();
+                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
+                    //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_CLOSE_ARCHIVE).Cancel();
                 }
             }
 
@@ -3176,38 +3146,42 @@ namespace Win_CBZ
             {
                 if (ExtractArchiveThread.IsAlive)
                 {
-                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_ARCHIVE).Cancel();
+                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
+                    //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_ARCHIVE).Cancel();
                 }
             }
 
-            DeleteFileThread = new Thread(new ThreadStart(DeleteTempFolderItems));
-            DeleteFileThread.Start();
-
-            return DeleteFileThread;
-        }
-
-        public string SizeFormat(long value)
-        {
-            double size = value;
-            string[] units = new string[] { "Bytes", "KB", "MB", "GB" };
-            string selectedUnit = "Bytes";
-
-            foreach (string unit in units)
+            if (SaveArchiveThread != null)
             {
-                if (size > 1024)
-                    size /= 1024;
-                else
+                if (SaveArchiveThread.IsAlive)
                 {
-                    selectedUnit = unit;
-                    break;
+                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
+                    //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Cancel();
                 }
             }
 
-            return size.ToString("n2") + " " + selectedUnit;
-        }
+            if (DeleteFileThread != null)
+            {
+                if (DeleteFileThread.IsAlive)
+                {
+                    throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
+                    //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_DELETE_FILE).Cancel();
+                }
+            }
 
-        public void DeleteTempFolderItems()
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_DELETE_FILE);
+
+            DeleteFileThread = new Thread(DeleteTempFolderItems);
+            DeleteFileThread.Start(new DeleteTemporaryFilesThreadParams() 
+            { 
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_DELETE_FILE).Token
+            });
+        }      
+
+        public void DeleteTempFolderItems(object threadParams)
         {
+            DeleteTemporaryFilesThreadParams tParams = threadParams as DeleteTemporaryFilesThreadParams;
+
             List<string> filesToDelete = new List<string>();
             List<string> foldersToDelete = new List<string>();
             String path = PathHelper.ResolvePath(WorkingDir);
@@ -3240,6 +3214,8 @@ namespace Win_CBZ
                             {
                                 files.AddRange(folder.GetFiles());
                                 foldersToDelete.Add(folder.FullName);
+
+                                tParams.CancelToken.ThrowIfCancellationRequested();
                             }
                         }
 
@@ -3262,6 +3238,8 @@ namespace Win_CBZ
                                 }
                             }
 
+                            tParams.CancelToken.ThrowIfCancellationRequested();
+
                             AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_DELETE_FILE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Clearing Cache...", fileIndex, files.Count, false));
                             Thread.Sleep(2);
                             fileIndex++;
@@ -3272,10 +3250,16 @@ namespace Win_CBZ
                             if (folder.Name != ProjectGUID)
                             {
                                 folder.Delete(false);
+
+                                tParams.CancelToken.ThrowIfCancellationRequested();
                             }
                         }
                     }
                 }
+            }
+            catch (OperationCanceledException oce)
+            {                 
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Operation canceled [" + oce.Message + "]");
             }
             catch (Exception e)
             {
@@ -3288,6 +3272,26 @@ namespace Win_CBZ
 
             AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_DELETE_FILE, GeneralTaskProgressEvent.TASK_STATUS_COMPLETED, "", 0, 100, false));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+        }
+
+        public string SizeFormat(long value)
+        {
+            double size = value;
+            string[] units = new string[] { "Bytes", "KB", "MB", "GB" };
+            string selectedUnit = "Bytes";
+
+            foreach (string unit in units)
+            {
+                if (size > 1024)
+                    size /= 1024;
+                else
+                {
+                    selectedUnit = unit;
+                    break;
+                }
+            }
+
+            return size.ToString("n2") + " " + selectedUnit;
         }
 
         public void CopyTo(ProjectModel destination)

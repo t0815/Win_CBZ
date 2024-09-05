@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%APPDATA%\WIN_CBZ\Temp\</Value>
     </Setting>
     <Setting Name="Version" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.20.155b</Value>
+      <Value Profile="(Default)">0.20.156b</Value>
     </Setting>
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -137,6 +137,9 @@
     </Setting>
     <Setting Name="SkipIndexCheck" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WhatsNewVersion" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
   </Settings>
 </SettingsFile>
