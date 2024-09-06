@@ -1425,10 +1425,10 @@ namespace Win_CBZ
             RadioButtonResizeNever.Location = new System.Drawing.Point(32, 28);
             RadioButtonResizeNever.Margin = new System.Windows.Forms.Padding(2);
             RadioButtonResizeNever.Name = "RadioButtonResizeNever";
-            RadioButtonResizeNever.Size = new System.Drawing.Size(115, 24);
+            RadioButtonResizeNever.Size = new System.Drawing.Size(109, 24);
             RadioButtonResizeNever.TabIndex = 3;
             RadioButtonResizeNever.TabStop = true;
-            RadioButtonResizeNever.Text = "Never Resize";
+            RadioButtonResizeNever.Text = "Dont Resize";
             RadioButtonResizeNever.UseVisualStyleBackColor = true;
             RadioButtonResizeNever.CheckedChanged += ImageResizeRadioChanged;
             // 
@@ -1896,8 +1896,8 @@ namespace Win_CBZ
             // 
             ArchiveBuildSettingsTableLayout.AutoScroll = true;
             ArchiveBuildSettingsTableLayout.ColumnCount = 2;
-            ArchiveBuildSettingsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.07042F));
-            ArchiveBuildSettingsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.92958F));
+            ArchiveBuildSettingsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            ArchiveBuildSettingsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 15F));
             ArchiveBuildSettingsTableLayout.Controls.Add(CompatInfoText, 0, 4);
             ArchiveBuildSettingsTableLayout.Controls.Add(label7, 0, 0);
             ArchiveBuildSettingsTableLayout.Controls.Add(CheckBoxIgnoreErrorsOnSave, 0, 3);
@@ -1916,7 +1916,6 @@ namespace Win_CBZ
             ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 125F));
-            ArchiveBuildSettingsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             ArchiveBuildSettingsTableLayout.Size = new System.Drawing.Size(338, 273);
             ArchiveBuildSettingsTableLayout.TabIndex = 0;
             // 
@@ -1951,7 +1950,7 @@ namespace Win_CBZ
             CheckBoxIgnoreErrorsOnSave.Margin = new System.Windows.Forms.Padding(0, 2, 2, 2);
             CheckBoxIgnoreErrorsOnSave.Name = "CheckBoxIgnoreErrorsOnSave";
             CheckBoxIgnoreErrorsOnSave.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(139, 32);
+            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(147, 32);
             CheckBoxIgnoreErrorsOnSave.TabIndex = 7;
             CheckBoxIgnoreErrorsOnSave.Text = "Continue on Error";
             CheckBoxIgnoreErrorsOnSave.UseVisualStyleBackColor = true;
@@ -1961,7 +1960,7 @@ namespace Win_CBZ
             // 
             pictureBox1.Image = Properties.Resources.information;
             pictureBox1.InitialImage = Properties.Resources.information;
-            pictureBox1.Location = new System.Drawing.Point(153, 123);
+            pictureBox1.Location = new System.Drawing.Point(278, 123);
             pictureBox1.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new System.Drawing.Size(24, 24);
@@ -1988,7 +1987,7 @@ namespace Win_CBZ
             // 
             InfoIconTooltip.Image = Properties.Resources.information;
             InfoIconTooltip.InitialImage = Properties.Resources.information;
-            InfoIconTooltip.Location = new System.Drawing.Point(153, 78);
+            InfoIconTooltip.Location = new System.Drawing.Point(278, 78);
             InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0, 8, 0, 0);
             InfoIconTooltip.Name = "InfoIconTooltip";
             InfoIconTooltip.Size = new System.Drawing.Size(24, 24);
@@ -2004,7 +2003,7 @@ namespace Win_CBZ
             CheckBoxCompatibilityMode.Margin = new System.Windows.Forms.Padding(0, 2, 2, 2);
             CheckBoxCompatibilityMode.Name = "CheckBoxCompatibilityMode";
             CheckBoxCompatibilityMode.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(139, 32);
+            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(164, 32);
             CheckBoxCompatibilityMode.TabIndex = 0;
             CheckBoxCompatibilityMode.Text = "Compatibility mode";
             CheckBoxCompatibilityMode.UseVisualStyleBackColor = true;

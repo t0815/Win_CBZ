@@ -501,7 +501,7 @@ namespace Win_CBZ
                 var maxIndex = PagesList.Items.Count - 1;
                 var newIndex = maxIndex < 0 ? 0 : maxIndex;
                 var files = Program.ProjectModel.LoadDirectory(AddPagesDirDialog.SelectedPath);
-                Program.ProjectModel.ParseFiles(files);
+                Program.ProjectModel.ParseFiles(files, Win_CBZ.Win_CBZSettings.Default.CalculateHash);
                 //if (files.Count > 0)
                 //{
                 //    Program.ProjectModel.AddImages(files, NewIndex);
@@ -2617,7 +2617,7 @@ namespace Win_CBZ
                 recentPath = new LocalFile(OpenImagesDialog.FileName);
                 Win_CBZSettings.Default.RecentAddImagePath = recentPath.FilePath;
 
-                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames));
+                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames), Win_CBZSettings.Default.CalculateHash);
             }
         }
 
@@ -3053,7 +3053,7 @@ namespace Win_CBZ
 
                     if (index > -1)
                     {
-                        var key = row.Cells[0].Value.ToString();
+                        var key = row.Cells[0].Value?.ToString();
                         if (ToolBarSearchInput.Text.Length > 0)
                         {
                             

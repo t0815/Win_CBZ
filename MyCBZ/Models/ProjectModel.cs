@@ -2145,7 +2145,7 @@ namespace Win_CBZ
             return files;
         }
 
-        public void ParseFiles(List<String> files)
+        public void ParseFiles(List<String> files, bool hashFiles = false)
         {
 
             if (ParseAddedFileNames != null)
@@ -2168,7 +2168,7 @@ namespace Win_CBZ
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_PARSE_FILES).Token,
                 Pages = Pages,
                 MaxCountPages = Pages.Count,
-                HashFiles = Win_CBZSettings.Default.CalculateHash,
+                HashFiles = hashFiles,
             });
         }
 
@@ -2203,7 +2203,7 @@ namespace Win_CBZ
                 }
                 catch (OperationCanceledException oce)
                 {
-
+                    break;
                 }
                 catch (Exception ex)
                 {
@@ -2211,38 +2211,40 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    if (!tParams.CancelToken.IsCancellationRequested)
+                    
+                }
+            }
+
+            if (!tParams.CancelToken.IsCancellationRequested)
+            {
+                // if no stack is provided, create the default one
+                if (tParams.Stack == null)
+                {
+                    tParams.Stack = new List<StackItem>()
                     {
-                        // if no stack is provided, create the default one
-                        if (tParams.Stack == null)
-                        { 
-                            tParams.Stack = new List<StackItem>()
+                        new StackItem
+                        {
+                            TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
+                            ThreadParams = new AddImagesThreadParams
                             {
-                                new StackItem
-                                {
-                                    TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
-                                    ThreadParams = new AddImagesThreadParams
-                                    {
-                                        LocalFiles = files.ToList(),
-                                        PageIndexVerToWrite = tParams.PageIndexVerToWrite,
-                                        MaxCountPages = tParams.MaxCountPages,
-                                        CancelToken = tParams.CancelToken,
-                                        HashFiles = tParams.HashFiles,
-                                    }
-                                },
-                                new StackItem
-                                {
-                                    TaskId = tParams.HasMetaData ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
-                                    ThreadParams = new UpdatePageIndicesThreadParams()
-                                    {
-                                        ContinuePipeline = true,
-                                        InitialIndexRebuild = false,
-                                        Pages = tParams.Pages,
-                                    }
-                                }
-                            };
+                                LocalFiles = files.ToList(),
+                                PageIndexVerToWrite = tParams.PageIndexVerToWrite,
+                                MaxCountPages = tParams.MaxCountPages,
+                                CancelToken = tParams.CancelToken,
+                                HashFiles = tParams.HashFiles,
+                            }
+                        },
+                        new StackItem
+                        {
+                            TaskId = tParams.HasMetaData ? PipelineEvent.PIPELINE_UPDATE_INDICES : -1,
+                            ThreadParams = new UpdatePageIndicesThreadParams()
+                            {
+                                ContinuePipeline = true,
+                                InitialIndexRebuild = false,
+                                Pages = tParams.Pages,
+                            }
                         }
-                    }
+                    };
                 }
             }
 
