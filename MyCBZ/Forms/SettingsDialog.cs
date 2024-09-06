@@ -53,6 +53,8 @@ namespace Win_CBZ.Forms
 
         public bool SkipIndexCheck;
 
+        public bool CalculateCrc32;
+
         DataValidation validation;
 
         public SettingsDialog()
@@ -87,6 +89,8 @@ namespace Win_CBZ.Forms
 
             SkipIndexCheck = Win_CBZSettings.Default.SkipIndexCheck;
 
+            CalculateCrc32 = Win_CBZSettings.Default.CalculateHash;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
@@ -106,6 +110,7 @@ namespace Win_CBZ.Forms
 
             CheckBoxPruneEmplyTags.Checked = OmitEmptyXMLTags;
             CheckBoxSkipIndexCheck.Checked = SkipIndexCheck;
+            CheckBoxCalculateCrc.Checked = CalculateCrc32;
 
             ComboBoxFileName.Text = MetaDataFilename;
 
@@ -422,6 +427,7 @@ namespace Win_CBZ.Forms
                     OmitEmptyXMLTags = CheckBoxPruneEmplyTags.Checked;
                     DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
                     SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
+                    CalculateCrc32 = CheckBoxCalculateCrc.Checked;
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {

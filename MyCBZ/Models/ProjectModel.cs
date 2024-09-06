@@ -41,6 +41,7 @@ using SharpCompress.Compressors.Xz;
 using System.Windows.Interop;
 using Win_CBZ.Events;
 using System.Text.RegularExpressions;
+using Win_CBZ.Hash;
 
 namespace Win_CBZ
 {
@@ -276,6 +277,7 @@ namespace Win_CBZ
                         InvalidFileNames = FilteredFileNames.ToArray(),
                         CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_PROCESS_FILES).Token,
                         MaxCountPages = p.MaxCountPages,
+                        HashFiles = p.HashFiles,
                     });
 
                     currentPerformed = e.Task;
@@ -1861,6 +1863,129 @@ namespace Win_CBZ
             */
         }
 
+
+        public Page AddPageFromFile(LocalFile localFile, PageIndexVersion version, int insertAt = -1)
+        {
+            int pageStatus = 0;
+            bool pageError = false;
+            FileInfo targetPath;
+            FileInfo localPath;
+            int realNewIndex = Pages.Count;
+            Page page;
+            Page insertPage = null;
+
+            if (insertAt >= 0 && insertAt < Pages.Count)
+            {
+                realNewIndex = insertAt;
+                insertPage = GetPageByIndex(realNewIndex);
+            }
+
+            targetPath = MakeNewTempFileName();
+
+            //CopyFile(fileObject.FullPath, targetPath.FullName);
+
+            page = GetPageByName(localFile.Name);
+
+            if (page == null)
+            {
+                page = new Page(localFile, targetPath.Directory.FullName, FileAccess.ReadWrite)
+                {
+                    Number = realNewIndex + 1,
+                    Index = realNewIndex,
+                    OriginalIndex = realNewIndex,
+                    Key = version == PageIndexVersion.VERSION_1 ? localFile.Name : RandomId.GetInstance().Make(),
+                };
+                pageStatus = PageChangedEvent.IMAGE_STATUS_NEW;
+            }
+            else
+            {
+                throw new PageException(page, "Page already exists!", true);
+            }
+
+            try
+            {
+                page.LoadImage(true);    // dont load full image here!
+            }
+            catch (PageException pe)
+            {
+                pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
+
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
+            }
+            finally
+            {
+                page.FreeImage();
+            }
+
+            if (insertAt > -1 && insertAt < Pages.Count)
+            {
+                Pages.Insert(realNewIndex, page);
+                
+            } else
+            {
+                Pages.Add(page);
+            }
+
+            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, insertPage, pageStatus));
+            
+            return page;
+        }
+
+        public Page AddPage(Page page, int insertAt = -1)
+        {
+            int pageStatus = 0;
+            int realNewIndex = Pages.Count;
+            Page insertPage = null;
+
+            if (insertAt >= 0 && insertAt < Pages.Count)
+            {
+                realNewIndex = insertAt;
+                insertPage = GetPageByIndex(realNewIndex);
+            }
+
+            if (page != null)
+            {
+                pageStatus = PageChangedEvent.IMAGE_STATUS_NEW;
+
+                try
+                {
+                    page.LoadImage(true);    // dont load full image here!
+                }
+                catch (PageException pe)
+                {
+                    pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
+
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
+                }
+                finally
+                {
+                    page.FreeImage();
+                }
+
+                page.Index = realNewIndex;
+                page.Number = realNewIndex + 1;
+
+                if (insertAt > -1 && insertAt < Pages.Count)
+                {
+                    Pages.Insert(realNewIndex, page);
+
+                }
+                else
+                {
+                    Pages.Add(page);
+                }
+
+                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, insertPage, pageStatus));
+            }
+            else
+            {
+                throw new PageException(page, "Page already exists!", true);
+            }
+
+            
+            return page;
+        }
+
         public void AddImagesProc(object threadParams)
         {
             AddImagesThreadParams tParams = threadParams as AddImagesThreadParams;
@@ -1926,6 +2051,21 @@ namespace Win_CBZ
                         page.UpdateLocalWorkingCopy(fileObject, targetPath);
                         page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
                         page.Changed = true;                     
+                    }
+
+                    try {
+                        if (tParams.HashFiles)
+                        {
+                            HashCrc32.Calculate(ref page);
+                        }                       
+                    } catch (Exception pe)
+                    {
+                        pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
+
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed calculate crc32 for page ['" + page.Name + "']! [" + pe.Message + "]");
+                    } finally
+                    {
+                        //
                     }
 
                     try
@@ -2028,6 +2168,7 @@ namespace Win_CBZ
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_PARSE_FILES).Token,
                 Pages = Pages,
                 MaxCountPages = Pages.Count,
+                HashFiles = Win_CBZSettings.Default.CalculateHash,
             });
         }
 
@@ -2085,6 +2226,8 @@ namespace Win_CBZ
                                         LocalFiles = files.ToList(),
                                         PageIndexVerToWrite = tParams.PageIndexVerToWrite,
                                         MaxCountPages = tParams.MaxCountPages,
+                                        CancelToken = tParams.CancelToken,
+                                        HashFiles = tParams.HashFiles,
                                     }
                                 },
                                 new StackItem
@@ -2557,7 +2700,6 @@ namespace Win_CBZ
             AppEventHandler.OnOperationFinished(this, new OperationFinishedEvent(0, Pages.Count));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
         }
-
         
         public void RenamePage(Page page, String name, bool ignoreDuplicates = false, bool showErrors = false)
         {

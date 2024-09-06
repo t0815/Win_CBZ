@@ -273,7 +273,6 @@ namespace Win_CBZ
             Format = new PageImageFormat(FileExtension);
         }
 
-
         public Page(Stream fileInputStream, String name)
         {
             
@@ -1286,8 +1285,6 @@ namespace Win_CBZ
             FileExtension = ExtractFileExtension(Filename);
         }
 
-
-
         public string SizeFormat()
         {
             double size = Size;
@@ -1307,7 +1304,6 @@ namespace Win_CBZ
 
             return size.ToString("n2") + " " + selectedUnit;
         }
-
 
         /// <summary>
         /// Serialize the page to XML- Fragment
@@ -1843,25 +1839,35 @@ namespace Win_CBZ
             }
         }
 
-        public Image GetThumbnail()
+        public Image GetThumbnail(int w = 0, int h = 0)
         {
             if (!Closed)
             {
                 LoadImage();
             }
 
+            if (w == 0)
+            {
+                w = ThumbW;
+            }
+
+            if (h == 0)
+            {
+                h = ThumbH;
+            }
+
             if (Image != null)
             {
                 try
                 {
-                    var newBitmap = new Bitmap(ThumbW, ThumbH);
+                    var newBitmap = new Bitmap(w, h);
                     using (Graphics g = Graphics.FromImage(newBitmap))
                     {
                         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         g.CompositingQuality = CompositingQuality.HighQuality;
                         g.SmoothingMode = SmoothingMode.HighQuality;
                         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.DrawImage(Image, new Rectangle(0, 0, ThumbW, ThumbH));
+                        g.DrawImage(Image, new Rectangle(0, 0, w, h));
                     }
                     Thumbnail = Image.FromHbitmap(newBitmap.GetHbitmap());
                     //openBitmap.Dispose(); //Clear The Old Large Bitmap From Memory
@@ -1879,25 +1885,34 @@ namespace Win_CBZ
             return Thumbnail;
         }
 
-        public Bitmap GetThumbnailBitmap()
+        public Bitmap GetThumbnailBitmap(int w = 0, int h = 0)
         {
             if (!Closed)
             {
                 LoadImage();
             }
 
+            if (w == 0) {
+                w = ThumbW;
+            }
+
+            if (h == 0)
+            {
+                h = ThumbH;
+            }
+
             if (Image != null)
             {
                 try
                 {
-                    var newBitmap = new Bitmap(ThumbW, ThumbH);
+                    var newBitmap = new Bitmap(w, h);
                     using (Graphics g = Graphics.FromImage(newBitmap))
                     {
                         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                         g.CompositingQuality = CompositingQuality.HighQuality;
                         g.SmoothingMode = SmoothingMode.HighQuality;
                         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.DrawImage(Image, new Rectangle(0, 0, ThumbW, ThumbH));
+                        g.DrawImage(Image, new Rectangle(0, 0, w, h));
                     }
                     
                     return newBitmap;
@@ -1920,7 +1935,7 @@ namespace Win_CBZ
         /*
          * This will use Windows api fetching cached explorer thumbs
          */
-        public Image GetWindowsThumbnail(Image.GetThumbnailImageAbort callback, IntPtr data)
+        public Image GetWindowsThumbnail(Image.GetThumbnailImageAbort callback, IntPtr callbackData)
         {
             if (!Closed)
             {
@@ -1931,7 +1946,7 @@ namespace Win_CBZ
             {
                 try
                 {
-                    Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, data);
+                    Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, callbackData);
 
                     Image?.Dispose();
                     Image = null;

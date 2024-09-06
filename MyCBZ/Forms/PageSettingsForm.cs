@@ -16,6 +16,7 @@ using Win_CBZ.Helper;
 using System.Drawing.Imaging;
 using System.Runtime.Versioning;
 using System.Threading;
+using Win_CBZ.Hash;
 
 namespace Win_CBZ.Forms
 {
@@ -345,6 +346,11 @@ namespace Win_CBZ.Forms
                             {
                                 Invoke(new Action(() =>
                                 {
+                                    if (Win_CBZ.Win_CBZSettings.Default.CalculateHash)
+                                    {
+                                        HashCrc32.Calculate(ref FirstPage);
+                                    }
+
                                     ImagePreviewButton.BackgroundImage = Image.FromHbitmap(t.Result.GetHbitmap());
 
                                     LabelDimensions.Text = FirstPage.Format.W.ToString() + " x " + FirstPage.Format.H.ToString() + " px";

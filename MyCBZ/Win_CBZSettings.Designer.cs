@@ -497,5 +497,29 @@ namespace Win_CBZ {
                 this["WhatsNewVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CalculateHash {
+            get {
+                return ((bool)(this["CalculateHash"]));
+            }
+            set {
+                this["CalculateHash"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CheckDuplicatePages {
+            get {
+                return ((bool)(this["CheckDuplicatePages"]));
+            }
+            set {
+                this["CheckDuplicatePages"] = value;
+            }
+        }
     }
 }

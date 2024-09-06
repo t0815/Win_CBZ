@@ -254,7 +254,6 @@ namespace Win_CBZ
             }
         }
 
-
         public MemoryStream BuildComicInfoXMLStream(bool withoutXMLHeaderTag = false)
         {
             MemoryStream ms = new MemoryStream();

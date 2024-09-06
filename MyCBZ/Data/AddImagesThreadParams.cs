@@ -20,5 +20,7 @@ namespace Win_CBZ.Data
         public string[] FilterExtensions { get; set; } = new string[0];
 
         public int MaxCountPages { get; set; } = 0;
+
+        public bool HashFiles { get; set; } = false;
     }
 }

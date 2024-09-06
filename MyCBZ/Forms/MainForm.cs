@@ -4898,6 +4898,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.OmitEmptyXMLTags = settingsDialog.OmitEmptyXMLTags;
                 Win_CBZSettings.Default.AutoDeleteTempFiles = settingsDialog.DeleteTempFilesImediately;
                 Win_CBZSettings.Default.SkipIndexCheck = settingsDialog.SkipIndexCheck;
+                Win_CBZSettings.Default.CalculateHash = settingsDialog.CalculateCrc32;
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)

@@ -49,10 +49,14 @@
             RestoreFieldTypesButton = new System.Windows.Forms.Button();
             tabPage5 = new System.Windows.Forms.TabPage();
             tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            pictureBox3 = new System.Windows.Forms.PictureBox();
             CheckBoxSkipIndexCheck = new System.Windows.Forms.CheckBox();
             label9 = new System.Windows.Forms.Label();
             label7 = new System.Windows.Forms.Label();
             CheckBoxDeleteTempFiles = new System.Windows.Forms.CheckBox();
+            label8 = new System.Windows.Forms.Label();
+            CheckBoxCalculateCrc = new System.Windows.Forms.CheckBox();
+            pictureBox4 = new System.Windows.Forms.PictureBox();
             CBZSettingsTabControl = new System.Windows.Forms.TabControl();
             tabPage2 = new System.Windows.Forms.TabPage();
             tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -104,6 +108,8 @@
             ((System.ComponentModel.ISupportInitialize)CustomFieldsDataGrid).BeginInit();
             tabPage5.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             CBZSettingsTabControl.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -238,11 +244,11 @@
             // 
             AppSettingsTabControl.Controls.Add(TabPageAppSettings);
             AppSettingsTabControl.Controls.Add(tabPage5);
-            AppSettingsTabControl.Location = new System.Drawing.Point(271, 2);
+            AppSettingsTabControl.Location = new System.Drawing.Point(275, 2);
             AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             AppSettingsTabControl.Name = "AppSettingsTabControl";
             AppSettingsTabControl.SelectedIndex = 0;
-            AppSettingsTabControl.Size = new System.Drawing.Size(147, 460);
+            AppSettingsTabControl.Size = new System.Drawing.Size(144, 460);
             AppSettingsTabControl.TabIndex = 3;
             // 
             // TabPageAppSettings
@@ -252,7 +258,7 @@
             TabPageAppSettings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             TabPageAppSettings.Name = "TabPageAppSettings";
             TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            TabPageAppSettings.Size = new System.Drawing.Size(139, 427);
+            TabPageAppSettings.Size = new System.Drawing.Size(136, 427);
             TabPageAppSettings.TabIndex = 0;
             TabPageAppSettings.Text = "Metadata Editor";
             TabPageAppSettings.UseVisualStyleBackColor = true;
@@ -275,7 +281,7 @@
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
-            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(133, 417);
+            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(130, 417);
             CustomFieldTypesTablePanel.TabIndex = 1;
             // 
             // CustomFieldsDataGrid
@@ -299,7 +305,7 @@
             CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             CustomFieldsDataGrid.RowHeadersWidth = 51;
             CustomFieldsDataGrid.RowTemplate.Height = 24;
-            CustomFieldsDataGrid.Size = new System.Drawing.Size(127, 304);
+            CustomFieldsDataGrid.Size = new System.Drawing.Size(124, 304);
             CustomFieldsDataGrid.TabIndex = 0;
             CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
             CustomFieldsDataGrid.CellValueChanged += CustomFieldsDataGrid_CellValueChanged;
@@ -315,7 +321,7 @@
             AddFieldTypeButton.Location = new System.Drawing.Point(3, 371);
             AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             AddFieldTypeButton.Name = "AddFieldTypeButton";
-            AddFieldTypeButton.Size = new System.Drawing.Size(32, 42);
+            AddFieldTypeButton.Size = new System.Drawing.Size(31, 42);
             AddFieldTypeButton.TabIndex = 1;
             AddFieldTypeButton.Text = "Add";
             AddFieldTypeButton.UseVisualStyleBackColor = true;
@@ -336,10 +342,10 @@
             RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             RemoveFieldTypeButton.ImageIndex = 1;
             RemoveFieldTypeButton.ImageList = DialogImages;
-            RemoveFieldTypeButton.Location = new System.Drawing.Point(41, 371);
+            RemoveFieldTypeButton.Location = new System.Drawing.Point(40, 371);
             RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            RemoveFieldTypeButton.Size = new System.Drawing.Size(32, 42);
+            RemoveFieldTypeButton.Size = new System.Drawing.Size(31, 42);
             RemoveFieldTypeButton.TabIndex = 2;
             RemoveFieldTypeButton.Text = "Remove";
             RemoveFieldTypeButton.UseVisualStyleBackColor = true;
@@ -348,7 +354,7 @@
             // RestoreFieldTypesButton
             // 
             RestoreFieldTypesButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            RestoreFieldTypesButton.Location = new System.Drawing.Point(96, 371);
+            RestoreFieldTypesButton.Location = new System.Drawing.Point(93, 371);
             RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
             RestoreFieldTypesButton.Size = new System.Drawing.Size(34, 42);
@@ -364,7 +370,7 @@
             tabPage5.Margin = new System.Windows.Forms.Padding(2);
             tabPage5.Name = "tabPage5";
             tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            tabPage5.Size = new System.Drawing.Size(139, 427);
+            tabPage5.Size = new System.Drawing.Size(136, 427);
             tabPage5.TabIndex = 2;
             tabPage5.Text = "Behaviour";
             tabPage5.UseVisualStyleBackColor = true;
@@ -373,23 +379,43 @@
             // 
             tableLayoutPanel4.ColumnCount = 3;
             tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 7F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85.7816849F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.2183151F));
+            tableLayoutPanel4.Controls.Add(pictureBox3, 2, 0);
             tableLayoutPanel4.Controls.Add(CheckBoxSkipIndexCheck, 1, 0);
             tableLayoutPanel4.Controls.Add(label9, 0, 0);
             tableLayoutPanel4.Controls.Add(label7, 0, 1);
             tableLayoutPanel4.Controls.Add(CheckBoxDeleteTempFiles, 1, 1);
+            tableLayoutPanel4.Controls.Add(label8, 0, 2);
+            tableLayoutPanel4.Controls.Add(CheckBoxCalculateCrc, 1, 2);
+            tableLayoutPanel4.Controls.Add(pictureBox4, 2, 2);
             tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel4.Location = new System.Drawing.Point(2, 2);
             tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 4;
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60.60606F));
+            tableLayoutPanel4.RowCount = 6;
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel4.Size = new System.Drawing.Size(135, 423);
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel4.Size = new System.Drawing.Size(132, 423);
             tableLayoutPanel4.TabIndex = 2;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = Properties.Resources.information;
+            pictureBox3.InitialImage = Properties.Resources.information;
+            pictureBox3.Location = new System.Drawing.Point(135, 0);
+            pictureBox3.Margin = new System.Windows.Forms.Padding(0);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
+            pictureBox3.Size = new System.Drawing.Size(1, 52);
+            pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox3.TabIndex = 14;
+            pictureBox3.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox3, "By default, when opening a cbz-archive, all files and info from the\r\nComicInfo.xml -Pageindex is verified with actual image data.\r\nBy enabling this, opening archives will be significatly faster.");
             // 
             // CheckBoxSkipIndexCheck
             // 
@@ -408,14 +434,14 @@
             label9.Location = new System.Drawing.Point(18, 20);
             label9.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(45, 17);
+            label9.Size = new System.Drawing.Size(45, 19);
             label9.TabIndex = 9;
             label9.Text = "Index";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(18, 77);
+            label7.Location = new System.Drawing.Point(18, 79);
             label7.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label7.Name = "label7";
             label7.Size = new System.Drawing.Size(113, 20);
@@ -425,13 +451,48 @@
             // CheckBoxDeleteTempFiles
             // 
             CheckBoxDeleteTempFiles.AutoSize = true;
-            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(162, 77);
+            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(162, 79);
             CheckBoxDeleteTempFiles.Margin = new System.Windows.Forms.Padding(9, 20, 3, 4);
             CheckBoxDeleteTempFiles.Name = "CheckBoxDeleteTempFiles";
             CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(1, 24);
             CheckBoxDeleteTempFiles.TabIndex = 11;
             CheckBoxDeleteTempFiles.Text = "Delete Immediately";
             CheckBoxDeleteTempFiles.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(18, 138);
+            label8.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(63, 20);
+            label8.TabIndex = 12;
+            label8.Text = "Hashing";
+            // 
+            // CheckBoxCalculateCrc
+            // 
+            CheckBoxCalculateCrc.AutoSize = true;
+            CheckBoxCalculateCrc.Location = new System.Drawing.Point(162, 138);
+            CheckBoxCalculateCrc.Margin = new System.Windows.Forms.Padding(9, 20, 3, 3);
+            CheckBoxCalculateCrc.Name = "CheckBoxCalculateCrc";
+            CheckBoxCalculateCrc.Size = new System.Drawing.Size(1, 24);
+            CheckBoxCalculateCrc.TabIndex = 13;
+            CheckBoxCalculateCrc.Text = "Calculate crc32 for new pages";
+            CheckBoxCalculateCrc.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = Properties.Resources.information;
+            pictureBox4.InitialImage = Properties.Resources.information;
+            pictureBox4.Location = new System.Drawing.Point(135, 118);
+            pictureBox4.Margin = new System.Windows.Forms.Padding(0);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
+            pictureBox4.Size = new System.Drawing.Size(1, 52);
+            pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox4.TabIndex = 15;
+            pictureBox4.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox4, "Caldulates a hash for every newly added page. \r\nThis is helpful when identifying duplicate pages, but slows down\r\nadding new images significantly!");
             // 
             // CBZSettingsTabControl
             // 
@@ -982,6 +1043,8 @@
             tabPage5.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             CBZSettingsTabControl.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
@@ -1074,5 +1137,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox CheckBoxDeleteTempFiles;
         private System.Windows.Forms.ImageList AutocompleteIcons;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox CheckBoxCalculateCrc;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }
