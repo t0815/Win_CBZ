@@ -39,6 +39,7 @@ using System.Runtime.Versioning;
 using Win_CBZ.Handler;
 using Win_CBZ.Events;
 using AutocompleteMenuNS;
+using Win_CBZ.Properties;
 
 namespace Win_CBZ
 {
@@ -89,13 +90,28 @@ namespace Win_CBZ
             InitializeComponent();
 
             Program.ProjectModel = NewProjectModel();
-            Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
-
+            
             AppEventHandler.MessageLogged += MessageLogged;
 
             ThumbnailPagesSlice = new List<Page>();
             ImageInfoPagesSlice = new List<Page>();
             CurrentGlobalActions = new List<GlobalAction>();
+
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            // restore old settings
+            if (Win_CBZSettings.Default.MigrationRequired)
+            {
+                Win_CBZSettings.Default.Upgrade();
+                Win_CBZSettings.Default.MigrationRequired = false;
+                Win_CBZSettings.Default.Save();
+            }
+
+            Win_CBZSettings.Default.Version = version;
+
+            Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
+
+            Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
             Width = Win_CBZSettings.Default.WindowW;
             Height = Win_CBZSettings.Default.WindowH;
@@ -140,6 +156,7 @@ namespace Win_CBZ
                 ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
             }
 
+            
 
             // First Run App, initialize settings with defaults here  
             if (Win_CBZSettings.Default.FirstRun)
@@ -174,9 +191,19 @@ namespace Win_CBZ
             {
                 if (ex.ShowErrorDialog)
                 {
-                    ApplicationMessage.ShowWarning("Failed to patch User-Settings to Version: " + ex.LastSuccessFulPatchedVersion.ToString() + "\r\n" + ex.SourceException.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    DialogResult res = ApplicationMessage.ShowWarning("Failed to patch User-Settings to Version: " + ex.CurrentVersion.ToString() + "\r\n" + ex.SourceException.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
+                    if (res == DialogResult.OK)
+                    {
+                        Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFulPatchedVersion;
+                    }
+
+                    if (res == DialogResult.Ignore)
+                    {
+                        Win_CBZSettings.Default.SettingsVersion = ex.CurrentVersion;
+                    }
+                
                 }
-                Win_CBZSettings.Default.SettingsVersion = ex.LastSuccessFulPatchedVersion;
+                
                 Win_CBZSettings.Default.Save();
             }
             catch (Exception e)
@@ -223,8 +250,6 @@ namespace Win_CBZ
             newProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
 
             selectedImageTasks = newProjectModel.GlobalImageTask;
-
-            Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
 
             return newProjectModel;
         }
@@ -4899,6 +4924,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.AutoDeleteTempFiles = settingsDialog.DeleteTempFilesImediately;
                 Win_CBZSettings.Default.SkipIndexCheck = settingsDialog.SkipIndexCheck;
                 Win_CBZSettings.Default.CalculateHash = settingsDialog.CalculateCrc32;
+                Win_CBZSettings.Default.InterpolationMode = settingsDialog.InterpolationMode;
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)

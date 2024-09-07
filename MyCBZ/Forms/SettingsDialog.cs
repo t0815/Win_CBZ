@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
@@ -55,6 +56,8 @@ namespace Win_CBZ.Forms
 
         public bool CalculateCrc32;
 
+        public int InterpolationMode;
+
         DataValidation validation;
 
         public SettingsDialog()
@@ -91,9 +94,12 @@ namespace Win_CBZ.Forms
 
             CalculateCrc32 = Win_CBZSettings.Default.CalculateHash;
 
+            InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
+
 
             // ----------------------------------------
 
@@ -117,7 +123,7 @@ namespace Win_CBZ.Forms
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
             AppSettingsTabControl.Dock = DockStyle.Fill;
-            CBZSettingsTabControl.Dock = DockStyle.Fill;    
+            CBZSettingsTabControl.Dock = DockStyle.Fill;
 
             MetaDataConfigTabControl.Visible = true;
             ImageProcessingTabControl.Visible = false;
@@ -125,6 +131,7 @@ namespace Win_CBZ.Forms
             CBZSettingsTabControl.Visible = false;
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
+            ComboBoxInterpolationModes.SelectedIndex = InterpolationMode;
 
             CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
             {
@@ -191,7 +198,7 @@ namespace Win_CBZ.Forms
                 Width = 30,
                 SortMode = DataGridViewColumnSortMode.NotSortable,
                 Resizable = DataGridViewTriState.False,
-                
+
 
             });
 
@@ -212,10 +219,10 @@ namespace Win_CBZ.Forms
 
                 //if (typeParts.Length == 5)
                 //{
-                    //CustomFieldTypesSettings.Add(new MetaDataFieldType(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate));
-                    CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoCompleteImageKey, type.AutoUpdate);
+                //CustomFieldTypesSettings.Add(new MetaDataFieldType(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate));
+                CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoCompleteImageKey, type.AutoUpdate);
 
-               // }
+                // }
             }
 
 
@@ -281,9 +288,9 @@ namespace Win_CBZ.Forms
                                 {
                                     ci.Items.Add(imgKey.ToString());
                                 }
-                                
+
                                 ci.Value = type.AutoCompleteImageKey.ToString(); // selectedIndex > -1 ? selectedIndex : 0;
-                                                                                   //ci.Tag = MetaDataFieldType.MakeComboBoxField("", "");    //new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                                                                                 //ci.Tag = MetaDataFieldType.MakeComboBoxField("", "");    //new EditorTypeConfig("ComboBox", "String", "", " ", false);
                                 ci.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                                 ci.DisplayStyleForCurrentCellOnly = false;
                                 ci.Style = new DataGridViewCellStyle()
@@ -295,7 +302,8 @@ namespace Win_CBZ.Forms
 
                                 CustomFieldsDataGrid.Rows[i].Cells[4].ReadOnly = false;
                                 CustomFieldsDataGrid.Rows[i].Cells[4] = ci;
-                            } else
+                            }
+                            else
                             {
                                 CustomFieldsDataGrid.Rows[i].Cells[4].ReadOnly = true;
                                 CustomFieldsDataGrid.Rows[i].Cells[4].Value = "";
@@ -310,7 +318,7 @@ namespace Win_CBZ.Forms
                                 BackColor = Color.White,
                             };
 
-                            
+
 
                             CustomFieldsDataGrid.Rows[i].Cells[5] = cb;
 
@@ -343,14 +351,14 @@ namespace Win_CBZ.Forms
 
         private void ButtonOk_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;  
+            DialogResult = DialogResult.OK;
         }
 
         private void SettingsDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (DialogResult == DialogResult.OK)
             {
-                Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());            
+                Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());
                 try
                 {
                     Program.ProjectModel.MetaData.MakeDefaultKeys(Program.ProjectModel.MetaData.CustomDefaultProperties);
@@ -428,13 +436,14 @@ namespace Win_CBZ.Forms
                     DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
                     SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
+                    InterpolationMode = ComboBoxInterpolationModes.SelectedIndex;
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
                         fieldConfigItems.Add(fieldTypeCnf.ToString());
-                        
+
                     }
-                    CustomFieldTypesCollection = fieldConfigItems.ToArray();    
+                    CustomFieldTypesCollection = fieldConfigItems.ToArray();
                 }
                 catch (MetaDataValidationException mv)
                 {
@@ -455,7 +464,9 @@ namespace Win_CBZ.Forms
                 {
                     CustomDefaultKeys.Text = Program.ProjectModel.MetaData.GetDefaultKeys();
                 }
-            } else {
+            }
+            else
+            {
                 CustomDefaultKeys.Text = Program.ProjectModel.MetaData.GetDefaultKeys();
             }
         }
@@ -686,7 +697,7 @@ namespace Win_CBZ.Forms
                 }
             }
             */
-            
+
         }
 
         private void CustomFieldsDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -1007,7 +1018,7 @@ namespace Win_CBZ.Forms
                 CustomFieldsDataGrid.Rows[e.RowIndex].ErrorText = null;
                 CustomFieldsDataGrid.Invalidate();
 
-               
+
                 if (updatedEntry != null)
                 {
                     CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = true;
@@ -1060,7 +1071,7 @@ namespace Win_CBZ.Forms
                             ci.Items.Add(key.ToString());
                         }
                         ci.Value = updatedEntry.AutoCompleteImageKey; // selectedIndex > -1 ? selectedIndex : 0;
-                                                                           //ci.Tag = MetaDataFieldType.MakeComboBoxField("", "");    //new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                                                                      //ci.Tag = MetaDataFieldType.MakeComboBoxField("", "");    //new EditorTypeConfig("ComboBox", "String", "", " ", false);
                         ci.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                         ci.DisplayStyleForCurrentCellOnly = false;
                         ci.Style = new DataGridViewCellStyle()
@@ -1089,12 +1100,12 @@ namespace Win_CBZ.Forms
                         };
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = bc;
                     }
-                    
+
                 }
-                            
+
                 if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
                 {
-                                
+
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR)
                 {
@@ -1116,7 +1127,7 @@ namespace Win_CBZ.Forms
                     //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] = c;
 
                 }
-                                  
+
             }
             catch (Exception ex)
             {
@@ -1174,7 +1185,7 @@ namespace Win_CBZ.Forms
                     ci.Items.Add(key.ToString());
                 }
                 ci.Value = newEntry.AutoCompleteImageKey; // selectedIndex > -1 ? selectedIndex : 0;
-                                                                           //ci.Tag = MetaDataFieldType.MakeComboBoxField("", "");    //new EditorTypeConfig("ComboBox", "String", "", " ", false);
+                                                          //ci.Tag = MetaDataFieldType.MakeComboBoxField("", "");    //new EditorTypeConfig("ComboBox", "String", "", " ", false);
                 ci.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                 ci.DisplayStyleForCurrentCellOnly = false;
                 ci.Style = new DataGridViewCellStyle()
@@ -1205,7 +1216,7 @@ namespace Win_CBZ.Forms
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[5] = cb;
 
-            if (newEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX || 
+            if (newEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX ||
                 newEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
             {
                 DataGridViewButtonCell bc = new DataGridViewButtonCell
@@ -1235,7 +1246,7 @@ namespace Win_CBZ.Forms
             {
                 foreach (DataGridViewRow row in CustomFieldsDataGrid.SelectedRows)
                 {
-                    rowsToRemove.Add(row);  
+                    rowsToRemove.Add(row);
                     //int index = .Remove(row.Index);
 
                     /*
@@ -1247,7 +1258,7 @@ namespace Win_CBZ.Forms
                     } */
                 }
 
-                foreach (DataGridViewRow row in rowsToRemove) 
+                foreach (DataGridViewRow row in rowsToRemove)
                 {
                     CustomFieldTypesSettings.RemoveAt(row.Index);
                     CustomFieldsDataGrid.Rows.Remove(row);
@@ -1263,33 +1274,33 @@ namespace Win_CBZ.Forms
                 CustomFieldTypesSettings.Clear();
                 foreach (string row in FactoryDefaults.DefaultMetaDataFieldTypes)
                 {
-                    
-                        String[] typeParts = row.Split('|');
 
-                        if (typeParts.Length >= 5)
+                    String[] typeParts = row.Split('|');
+
+                    if (typeParts.Length >= 5)
+                    {
+                        try
                         {
-                            try
-                            {
-                                CustomFieldTypesSettings.Add(new MetaDataFieldType(
-                                    typeParts[0],
-                                    typeParts[1],
-                                    typeParts[2],
-                                    typeParts[3],
-                                    bool.Parse(typeParts[4].ToLower()),
-                                    typeParts.Length > 5 ? typeParts[5] : ""
-                                ));
-                            }
-                            catch (Exception ex)
-                            {
+                            CustomFieldTypesSettings.Add(new MetaDataFieldType(
+                                typeParts[0],
+                                typeParts[1],
+                                typeParts[2],
+                                typeParts[3],
+                                bool.Parse(typeParts[4].ToLower()),
+                                typeParts.Length > 5 ? typeParts[5] : ""
+                            ));
+                        }
+                        catch (Exception ex)
+                        {
 
-                            }
-                        }   
+                        }
+                    }
                 }
-                
-                
+
+
                 PopulateFieldTypeEditor();
             }
-        
+
         }
 
         private void SettingsDialog_Shown(object sender, EventArgs e)

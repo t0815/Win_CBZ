@@ -15,14 +15,16 @@ namespace Win_CBZ.Helper
     {
         public static readonly String[] DefaultMetaDataFieldTypes =
         {
-            "AgeRating|ComboBox||Unknown,Unknown,Rating Pending,Early Childhood,Everyone,Everyone 10+,G,PG,Kids to Adults,Teen,M,MA15+,Mature 17+,Adults Only 18+,R18+,X18+|False",
-            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False",
-            "BlackAndWhite|ComboBox||Unknown,Yes,No|False",
-            "LanguageISO|Text|LanguageEditor||False",
+            "AgeRating|ComboBox||Unknown,Unknown,Rating Pending,Early Childhood,Everyone,Everyone 10+,G,PG,Kids to Adults,Teen,M,MA15+,Mature 17+,Adults Only 18+,R18+,X18+|False|",
+            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False|",
+            "BlackAndWhite|ComboBox||Unknown,Yes,No|False|",
+            "LanguageISO|Text|LanguageEditor||False|",
             "Tags|AutoComplete|TagEditor||True|tag",
             "Writer|AutoComplete|||True|user",
             "Characters|Text|MultiLineTextEditor||False|users"
         };
+
+        public const String DefaultTempfolderLocation = "%APPDATA%\\WIN_CBZ\\Temp\\";
 
         public const String DefaultMetaDataFileName = "ComicInfo.xml";
 
@@ -80,7 +82,7 @@ namespace Win_CBZ.Helper
         public static readonly Dictionary<int, String[]> ValuesToReset = new Dictionary<int, String[]>()
         {
             { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } },
-            { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4", "DefaultMetaDataFieldTypes.1.$.*.4", "DefaultMetaDataFieldTypes.2.$.*.4", "DefaultMetaDataFieldTypes.3.$.*.4", "DefaultMetaDataFieldTypes.4.$.*.4", "DefaultMetaDataFieldTypes.0.$.*.5" } },
+            { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4", "DefaultMetaDataFieldTypes.1.$.*.4", "DefaultMetaDataFieldTypes.2.$.*.4", "DefaultMetaDataFieldTypes.3.$.*.4", "DefaultMetaDataFieldTypes.4.$.*.4", "DefaultMetaDataFieldTypes.0.$.*.4" } },
             { 3, new string[] { "DefaultMetaDataFieldTypes.6.+" } },
             { 4, new string[] { "DefaultMetaDataFieldTypes.4.$.*.5", "DefaultMetaDataFieldTypes.5.$.*.5", "DefaultMetaDataFieldTypes.6.$.*.5", "DefaultKeys.6.+", "DefaultKeys.11.+", "DefaultKeys.12.+", "DefaultKeys.20.+", "DefaultKeys.34.+", "DefaultKeys.35.+", "DefaultKeys.42.+", "Messages.0" } }
         };
@@ -111,6 +113,9 @@ namespace Win_CBZ.Helper
             string match = "";
             string key;
             bool update = false;
+            bool userHasCustomKeys = false;
+
+            updatedVersion = lastVersion;
 
             foreach (int v in ValuesToReset.Keys)
             { 
@@ -170,28 +175,44 @@ namespace Win_CBZ.Helper
                                         {
                                             if (update)
                                             {
-                                                if (Win_CBZSettings.Default.CustomDefaultProperties.Count > index)
+                                                if (Win_CBZSettings.Default.CustomDefaultProperties != null)
                                                 {
-                                                    Win_CBZSettings.Default.CustomDefaultProperties[index] = FactoryDefaults.DefaultKeys[index];
-                                                }
-                                                else
+                                                    userHasCustomKeys = true;
+                                                    if (Win_CBZSettings.Default.CustomDefaultProperties.Count > index)
+                                                    {
+                                                        Win_CBZSettings.Default.CustomDefaultProperties[index] = FactoryDefaults.DefaultKeys[index];
+                                                    }
+                                                    else
+                                                    {
+                                                        Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
+                                                    }
+                                                } else
                                                 {
-                                                    Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
+                                                    userHasCustomKeys = false;
                                                 }
                                             }
                                             else
                                             {
                                                 bool found = false;
-                                                foreach (String keyName in Win_CBZSettings.Default.CustomDefaultProperties)
+                                                if (Win_CBZSettings.Default.CustomDefaultProperties != null)
                                                 {
-                                                    if (keyName.ToLower().Contains(FactoryDefaults.DefaultKeys[index].ToLower()))
+                                                    userHasCustomKeys = true;
+                                                    foreach (String keyName in Win_CBZSettings.Default.CustomDefaultProperties)
                                                     {
-                                                        found = true;
-                                                        break;
+                                                        if (keyName != null && keyName.ToLower().Contains(FactoryDefaults.DefaultKeys[index].ToLower()))
+                                                        {
+                                                            found = true;
+                                                            break;
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    userHasCustomKeys = false;
+                                                    //Win_CBZSettings.Default.CustomDefaultProperties = new System.Collections.Specialized.StringCollection();
+                                                }
 
-                                                if (!found)
+                                                if (!found && userHasCustomKeys)
                                                 {
                                                     try
                                                     {
@@ -268,6 +289,7 @@ namespace Win_CBZ.Helper
                                                                 }
                                                             }
                                                         }
+
                                                         Win_CBZSettings.Default.CustomMetadataFields[index] = String.Join("|", result);
                                                     }
                                                     else
@@ -301,13 +323,15 @@ namespace Win_CBZ.Helper
 
                                 update = false;
                             }
+
+                            updatedVersion = v;
                         }
                         catch (Exception ex)
                         {
-                            throw new SettingsPatchException(ex.Message, index, true, ex);
+                            throw new SettingsPatchException(ex.Message, updatedVersion, v, true, ex);
                         }
                     }
-                    updatedVersion = v;
+                    
                 }
                 
             }

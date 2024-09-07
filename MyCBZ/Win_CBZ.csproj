@@ -21,7 +21,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>154</ApplicationRevision>
-    <ApplicationVersion>0.20.154.%2a</ApplicationVersion>
+    <ApplicationVersion>0.20.157.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -47,6 +47,8 @@
     <StartupObject>Win_CBZ.Program</StartupObject>
     <NeutralLanguage>en</NeutralLanguage>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <AssemblyVersion>0.20.157</AssemblyVersion>
+    <FileVersion>0.20.157</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>embedded</DebugType>
@@ -54,9 +56,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>embedded</DebugType>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Properties\AssemblyInfo.cs.bak" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Update="Components\CustomDataGridView\CustomDataGridView.cs" />
     <Compile Update="Components\ExtendedListView\ExtendetListView.cs" />
@@ -83,9 +82,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs.bak" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

@@ -37,10 +37,10 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.20.156b")]
-        public string Version {
+        [global::System.Configuration.DefaultSettingValueAttribute("0.20.158b")]
+        public string InstalledVersion {
             get {
-                return ((string)(this["Version"]));
+                return ((string)(this["InstalledVersion"]));
             }
         }
         
@@ -519,6 +519,42 @@ namespace Win_CBZ {
             }
             set {
                 this["CheckDuplicatePages"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int InterpolationMode {
+            get {
+                return ((int)(this["InterpolationMode"]));
+            }
+            set {
+                this["InterpolationMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MigrationRequired {
+            get {
+                return ((bool)(this["MigrationRequired"]));
+            }
+            set {
+                this["MigrationRequired"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Version {
+            get {
+                return ((string)(this["Version"]));
+            }
+            set {
+                this["Version"] = value;
             }
         }
     }

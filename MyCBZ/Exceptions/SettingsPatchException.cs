@@ -10,11 +10,14 @@ namespace Win_CBZ.Exceptions
     {
         public int LastSuccessFulPatchedVersion {  get; set; }
 
+        public int CurrentVersion { get; set; } 
+
         public Exception SourceException { get; set; }
 
-        public SettingsPatchException(string message, int lastSuccessfulPatched, bool showErrorDialog, Exception source) : base(message, showErrorDialog)
+        public SettingsPatchException(string message, int lastSuccessfulPatched, int currentVersion, bool showErrorDialog, Exception source) : base(message, showErrorDialog)
         {
             LastSuccessFulPatchedVersion = lastSuccessfulPatched;
+            CurrentVersion = currentVersion;
             SourceException = source;
         }
     }
