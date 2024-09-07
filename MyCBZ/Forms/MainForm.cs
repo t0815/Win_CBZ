@@ -109,7 +109,7 @@ namespace Win_CBZ
 
             Win_CBZSettings.Default.Version = version;
 
-            Text = Win_CBZSettings.Default.AppName + " (c) Trash_s0Ft";
+            Text = Assembly.GetExecutingAssembly().GetName().Name + " (c) Trash_s0Ft";
 
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
@@ -260,7 +260,7 @@ namespace Win_CBZ
             {
 
 
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Assembly.GetExecutingAssembly().GetName().Name + " v" + Assembly.GetExecutingAssembly().GetName().Version + "  - Welcome!");
 
                 FileSettingsTablePanel.Width = MainSplitBox.SplitterDistance - 24;
                 TablePanePageAdjustments.Width = MainSplitBox.SplitterDistance - 32;
@@ -399,7 +399,7 @@ namespace Win_CBZ
                 MessageLogListView.Invoke(new Action(() =>
                 {
                     MessageLogListView.Items.Clear();
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Win_CBZSettings.Default.AppName + " v" + Win_CBZSettings.Default.Version + "  - Welcome!");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Assembly.GetExecutingAssembly().GetName().Name + " v" + Assembly.GetExecutingAssembly().GetName().Version + "  - Welcome!");
                 }));
             }
         }

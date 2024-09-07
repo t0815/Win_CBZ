@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,8 +19,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
-            AppNameLabel.Text = Win_CBZSettings.Default.AppName;
-            AppVersionLabel.Text = "v" + Win_CBZSettings.Default.Version;
+            AppNameLabel.Text = Assembly.GetExecutingAssembly().GetName().Name;
+            AppVersionLabel.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version;
             LicenseInfoRichtextBox.Rtf = global::Win_CBZ.Properties.Resources.CBZMageAboutMessage;
         }
 
