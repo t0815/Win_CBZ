@@ -54,7 +54,7 @@ namespace Win_CBZ.Forms
 
         public bool CalculateCrc32;
 
-        public int InterpolationMode;
+        public string InterpolationMode;
 
         public string TempPath;
 
@@ -133,7 +133,20 @@ namespace Win_CBZ.Forms
             CBZSettingsTabControl.Visible = false;
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
-            ComboBoxInterpolationModes.SelectedIndex = InterpolationMode;
+            if (ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode) > -1)
+            {
+                ComboBoxInterpolationModes.SelectedIndex = ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode);
+            } else
+            {
+                try {
+                    ComboBoxInterpolationModes.SelectedIndex = int.Parse(InterpolationMode);
+                } catch
+                {
+                    ComboBoxInterpolationModes.SelectedIndex = 0;
+                }
+                
+            }
+            
 
             TextBoxTempPath.Text = TempPath;
 
@@ -450,7 +463,7 @@ namespace Win_CBZ.Forms
                     DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
                     SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
-                    InterpolationMode = ComboBoxInterpolationModes.SelectedIndex;
+                    InterpolationMode = ComboBoxInterpolationModes.SelectedItem.ToString();// ComboBoxInterpolationModes.SelectedIndex;
                     TempPath = TextBoxTempPath.Text;
 
                     List<String> fieldConfigItems = new List<string>();
@@ -1343,6 +1356,7 @@ namespace Win_CBZ.Forms
 
         private void ButtonSelectFolder_Click(object sender, EventArgs e)
         {
+            OpenTargetDirectory.InitialDirectory = PathHelper.ResolvePath(TextBoxTempPath.Text);
             if (OpenTargetDirectory.ShowDialog() == DialogResult.OK)
             {
                 LocalFile localFile = new LocalFile(OpenTargetDirectory.FileName);

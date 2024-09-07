@@ -37,6 +37,7 @@ using SharpCompress.Compressors.Xz;
 using Win_CBZ.Events;
 using System.Text.RegularExpressions;
 using Win_CBZ.Hash;
+using System.Drawing.Drawing2D;
 
 namespace Win_CBZ
 {
@@ -272,6 +273,7 @@ namespace Win_CBZ
                         InvalidFileNames = FilteredFileNames.ToArray(),
                         CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_PROCESS_FILES).Token,
                         MaxCountPages = p.MaxCountPages,
+                        Interpolation = p.Interpolation,
                         HashFiles = p.HashFiles,
                     });
 
@@ -599,7 +601,7 @@ namespace Win_CBZ
             Close(newFollowTask);           
         }
 
-        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting, bool skipIndexCheck = false)
+        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting, bool skipIndexCheck = false, string interpolationMode = "Default")
         {
             FileName = path;
             Mode = mode;
@@ -621,6 +623,7 @@ namespace Win_CBZ
                 Mode = mode,
                 CurrentPageIndexVer = currentMetaDataVersionWriting,
                 SkipIndexCheck = skipIndexCheck,
+                InterPolation = interpolationMode,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
             });
 
@@ -2031,8 +2034,10 @@ namespace Win_CBZ
                             Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make(),
                         };
                         pageStatus = PageChangedEvent.IMAGE_STATUS_NEW;
+
                         realNewIndex++;
-                    } else
+                    }
+                    else
                     {
                         if (page.LastModified != fileObject.LastModified || page.Size != fileObject.FileSize)
                         {
@@ -2045,28 +2050,41 @@ namespace Win_CBZ
                         }
                         page.UpdateLocalWorkingCopy(fileObject, targetPath);
                         page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
-                        page.Changed = true;                     
+                        page.Changed = true;
                     }
 
-                    try {
+                    try
+                    {
                         if (tParams.HashFiles)
                         {
                             HashCrc32.Calculate(ref page);
-                        }                       
-                    } catch (Exception pe)
+                        }
+                    }
+                    catch (Exception pe)
                     {
                         pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
 
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed calculate crc32 for page ['" + page.Name + "']! [" + pe.Message + "]");
-                    } finally
+                    }
+                    finally
                     {
                         //
                     }
 
                     try
                     {
+                        page.ImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(tParams.Interpolation);
+                    } catch (Exception ex)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to set interpolation mode ['"+ tParams.Interpolation +"'] for page ['" + page.Name + "']! [" + ex.Message + "]");
+                    }
+
+                    try
+                    {
                         page.LoadImage(true);    // dont load full image here!
-                    } catch (PageException pe)
+                        
+                    }
+                    catch (PageException pe)
                     {
                         pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
 
@@ -2140,7 +2158,7 @@ namespace Win_CBZ
             return files;
         }
 
-        public void ParseFiles(List<String> files, bool hashFiles = false)
+        public void ParseFiles(List<String> files, bool hashFiles = false, string interpolationMode = "Default")
         {
 
             if (ParseAddedFileNames != null)
@@ -2164,6 +2182,7 @@ namespace Win_CBZ
                 Pages = Pages,
                 MaxCountPages = Pages.Count,
                 HashFiles = hashFiles,
+                Interpolation = interpolationMode,
             });
         }
 
@@ -2227,6 +2246,7 @@ namespace Win_CBZ
                                 MaxCountPages = tParams.MaxCountPages,
                                 CancelToken = tParams.CancelToken,
                                 HashFiles = tParams.HashFiles,
+                                Interpolation = tParams.Interpolation,
                             }
                         },
                         new StackItem

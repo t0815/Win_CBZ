@@ -22,5 +22,7 @@ namespace Win_CBZ.Data
         public int MaxCountPages { get; set; } = 0;
 
         public bool HashFiles { get; set; } = false;
+
+        public string Interpolation { get; set; } = "Default";
     }
 }

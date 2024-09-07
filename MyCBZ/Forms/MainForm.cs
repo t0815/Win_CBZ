@@ -40,6 +40,8 @@ using Win_CBZ.Handler;
 using Win_CBZ.Events;
 using AutocompleteMenuNS;
 using Win_CBZ.Properties;
+using System.Drawing.Drawing2D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Win_CBZ
 {
@@ -248,6 +250,7 @@ namespace Win_CBZ
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
             newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
             newProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
+            newProjectModel.GlobalImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
 
             selectedImageTasks = newProjectModel.GlobalImageTask;
 
@@ -459,7 +462,12 @@ namespace Win_CBZ
 
                 Task finalTask = new Task(() =>
                 {
-                    Program.ProjectModel.Open(OpenCBFDialog.FileName, ZipArchiveMode.Read, MetaDataVersionFlavorHandler.GetInstance().TargetVersion(), Win_CBZSettings.Default.SkipIndexCheck);
+                    Program.ProjectModel.Open(OpenCBFDialog.FileName, 
+                        ZipArchiveMode.Read, 
+                        MetaDataVersionFlavorHandler.GetInstance().TargetVersion(), 
+                        Win_CBZSettings.Default.SkipIndexCheck,
+                        Win_CBZSettings.Default.InterpolationMode
+                        );
                 });
 
                 Program.ProjectModel.Close(followTask, finalTask);
@@ -2642,7 +2650,7 @@ namespace Win_CBZ
                 recentPath = new LocalFile(OpenImagesDialog.FileName);
                 Win_CBZSettings.Default.RecentAddImagePath = recentPath.FilePath;
 
-                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames), Win_CBZSettings.Default.CalculateHash);
+                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames), Win_CBZSettings.Default.CalculateHash, Win_CBZSettings.Default.InterpolationMode);
             }
         }
 
@@ -3300,7 +3308,6 @@ namespace Win_CBZ
                     //AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent());
 
                     TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
-
 
                 }));
             });
@@ -4936,6 +4943,37 @@ namespace Win_CBZ
                 }
 
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
+                Program.ProjectModel.GlobalImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
+
+                // todo: update pages interpolation mode
+
+                Task.Factory.StartNew((token) =>
+                {
+                    int current = 0;
+                    foreach (Page page in Program.ProjectModel.Pages)
+                    {
+                        //page.ImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
+                        page.ImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
+
+                        AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(
+                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                            "Updating pages settings...",
+                            current,
+                            Program.ProjectModel.Pages.Count,
+                            false,
+                            true));
+                    }
+
+                    AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(
+                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                            GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
+                            "Ready.",
+                            0,
+                            0,
+                            false,
+                            true));
+                }, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS));
 
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
 

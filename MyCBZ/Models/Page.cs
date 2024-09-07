@@ -843,6 +843,31 @@ namespace Win_CBZ
                             {
                                 ImageTask.ImageAdjustments.ConvertFormat = HandleFormat(subNode);
                             }
+
+                            if (subNode2.Name == "ResizeToPercentage")
+                            {
+                                ImageTask.ImageAdjustments.ResizeToPercentage = float.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "DontStretch")
+                            {
+                                ImageTask.ImageAdjustments.DontStretch = bool.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "Grayscale")
+                            {
+                                ImageTask.ImageAdjustments.Grayscale = bool.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "RotateMode")
+                            {
+                                ImageTask.ImageAdjustments.RotateMode = int.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "Interpolation")
+                            {
+                                ImageTask.ImageAdjustments.Interpolation = (InterpolationMode)Enum.Parse(typeof(InterpolationMode), subNode2.InnerText);
+                            }
                         }
                     }                  
                 }
@@ -1422,6 +1447,12 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("SplitPageAt", ImageTask.ImageAdjustments.SplitPageAt.ToString());
                 xmlWriter.WriteElementString("DetectSplitAtColor", HTMLColor.ToHexColor(ImageTask.ImageAdjustments.DetectSplitAtColor));
                 xmlWriter.WriteElementString("KeepAspectRatio", ImageTask.ImageAdjustments.KeepAspectRatio.ToString());
+                xmlWriter.WriteElementString("ResizeToPercentage", ImageTask.ImageAdjustments.ResizeToPercentage.ToString());
+
+                xmlWriter.WriteElementString("DontStretch", ImageTask.ImageAdjustments.DontStretch.ToString());
+                xmlWriter.WriteElementString("Grayscale", ImageTask.ImageAdjustments.Grayscale.ToString());
+                xmlWriter.WriteElementString("RotateMode", ImageTask.ImageAdjustments.RotateMode.ToString());
+                xmlWriter.WriteElementString("Interpolation", ImageTask.ImageAdjustments.Interpolation.ToString());
 
                 xmlWriter.WriteStartElement("ResizeTo");
                 xmlWriter.WriteElementString("X", ImageTask.ImageAdjustments.ResizeTo.X.ToString());

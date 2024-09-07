@@ -524,10 +524,10 @@ namespace Win_CBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int InterpolationMode {
+        [global::System.Configuration.DefaultSettingValueAttribute("Default")]
+        public string InterpolationMode {
             get {
-                return ((int)(this["InterpolationMode"]));
+                return ((string)(this["InterpolationMode"]));
             }
             set {
                 this["InterpolationMode"] = value;
