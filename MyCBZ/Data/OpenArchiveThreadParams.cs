@@ -24,6 +24,6 @@ namespace Win_CBZ.Data
 
         public bool ContinuePipeline { get; set; }
 
-        public string InterPolation { get; set; } = "Default";
+        public string Interpolation { get; set; } = "Default";
     }
 }

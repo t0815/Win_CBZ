@@ -4947,6 +4947,8 @@ namespace Win_CBZ
 
                 // todo: update pages interpolation mode
 
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS);
+
                 Task.Factory.StartNew((token) =>
                 {
                     int current = 0;

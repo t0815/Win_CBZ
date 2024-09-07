@@ -623,7 +623,7 @@ namespace Win_CBZ
                 Mode = mode,
                 CurrentPageIndexVer = currentMetaDataVersionWriting,
                 SkipIndexCheck = skipIndexCheck,
-                InterPolation = interpolationMode,
+                Interpolation = interpolationMode,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
             });
 
@@ -745,6 +745,15 @@ namespace Win_CBZ
                                 IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
                             }
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
+                        }
+
+                        try
+                        {
+                            page.ImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(tParams.Interpolation);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to set interpolation mode ['" + tParams.Interpolation + "'] for page ['" + page.Name + "']! [" + ex.Message + "]");
                         }
 
                         Pages.Add(page);
