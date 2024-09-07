@@ -214,7 +214,7 @@ namespace Win_CBZ
         {
             if (ProtectedKeys.IndexOf(key.ToLower()) != -1)
             {
-                throw new MetaDataValidationException(new MetaDataEntry(key, value, null, readOnly), "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
+                throw new MetaDataValidationException(new MetaDataEntry(key, value, null, readOnly), null, "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
             }
 
             if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key).Name == key)
@@ -721,7 +721,7 @@ namespace Win_CBZ
                 existing.Key = entry.Key;
                 if (ProtectedKeys.IndexOf(entry.Key.ToLower()) != -1)
                 {
-                    throw new MetaDataValidationException(entry, "Metadata Value Error! Value with key ['" + entry.Key + "'] is not allowed!", true, true);
+                    throw new MetaDataValidationException(entry, null, "Metadata Value Error! Value with key ['" + entry.Key + "'] is not allowed!", true, true);
                 }
                 
                 existing.Value = entry.Value;
@@ -947,14 +947,14 @@ namespace Win_CBZ
 
             if (ProtectedKeys.IndexOf(newKey?.ToLower()) != -1)
             {
-                throw new MetaDataValidationException(entry, "Metadata Value Error! Key with name ['" + newKey + "'] is not allowed!", !silent, true);
+                throw new MetaDataValidationException(entry, null, "Metadata Value Error! Key with name ['" + newKey + "'] is not allowed!", !silent, true);
             }
 
             //Regex re = Regex.("/[a-z]+$/gi");
        
             if (newKey != null && !Regex.IsMatch(newKey, @"^[a-z]+$", RegexOptions.IgnoreCase))
             {
-                throw new MetaDataValidationException(entry, "Metadata Value Error! Key with name ['" + newKey + "'] must contain only values between ['a-zA-Z']!", !silent, true);
+                throw new MetaDataValidationException(entry, null, "Metadata Value Error! Key with name ['" + newKey + "'] must contain only values between ['a-zA-Z']!", !silent, true);
             }
             
             string[] duplicates = validation.ValidateDuplicateStrings(Values.ToArray().Select(s => s.Key).ToArray());
@@ -967,12 +967,12 @@ namespace Win_CBZ
 
             if (validation.ValidateItemOccurence(newKey, checkValues) > 1)
             {
-                throw new MetaDataValidationException(entry, "Duplicate keys ['" + newKey + "'] not allowed!", !silent, true);
+                throw new MetaDataValidationException(entry, null, "Duplicate keys ['" + newKey + "'] not allowed!", !silent, true);
             }
 
             if (duplicates.Length > 0 && Array.IndexOf(duplicates, newKey) > -1)
             {
-                throw new MetaDataValidationException(entry, "Duplicate keys ['" + String.Join(",", duplicates) + "'] not allowed!", !silent, true);
+                throw new MetaDataValidationException(entry, null, "Duplicate keys ['" + String.Join(",", duplicates) + "'] not allowed!", !silent, true);
             }
         }
 
@@ -992,7 +992,7 @@ namespace Win_CBZ
 
                 if (occurence > 1)
                 {
-                    throw new MetaDataValidationException(entryA, "Duplicate keys ['" + entryA.Key + "'] not allowed!");
+                    throw new MetaDataValidationException(entryA, null, "Duplicate keys ['" + entryA.Key + "'] not allowed!");
                 }              
             }  
         }

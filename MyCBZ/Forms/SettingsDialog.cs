@@ -387,7 +387,7 @@ namespace Win_CBZ.Forms
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Default Metadata-Keys must contain only values between ['a-zA-Z']");
 
-                        throw new MetaDataValidationException("", defaultKeys, "Validation Error! Default Metadata-Keys must contain only values between ['a-zA-Z']!", true, false);
+                        throw new MetaDataValidationException("", defaultKeys, "CustomDefaultKeys", "Validation Error! Default Metadata-Keys must contain only values between ['a-zA-Z']!", true, false);
                     }
 
                     if (CheckBoxValidateTags.Checked)
@@ -399,35 +399,38 @@ namespace Win_CBZ.Forms
                             //ApplicationMessage.ShowWarning("Validateion Error! Duplicate Tags [" + duplicateTags.Select(r => r + ", ") + "] not allowed!", "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
 
-                            throw new MetaDataValidationException("", ValidTags.Text, "Validation Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
+                            throw new MetaDataValidationException("", ValidTags.Text, "ValidTags", "Validation Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
                         }
                     }
 
                     if (ComboBoxFileName.Text.Length == 0)
                     {
-                        throw new MetaDataValidationException("", ComboBoxFileName.Text, "Validation Error! Empty MetaData- Filename not allowed!");
+                        throw new MetaDataValidationException("", ComboBoxFileName.Text, "ComboBoxFileName", "Validation Error! Empty MetaData- Filename not allowed!");
                     }
                     else
                     {
 
                     }
 
+                    int rowIndex = 0;
                     foreach (MetaDataFieldType t in CustomFieldTypesSettings)
                     {
                         if (t.Name.Length == 0)
                         {
-                            throw new MetaDataValidationException("", t.Name, "Validation Error! Empty MetaData- Editor Key/Fieldname not allowed!");
+                            throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + rowIndex.ToString(), "Validation Error! Empty MetaData- Editor Key/Fieldname not allowed!");
                         }
+
+                        rowIndex++;
                     }
 
                     if (TextBoxTempPath.Text.Length == 0)
                     {
-                        throw new MetaDataValidationException("", TextBoxTempPath.Text, "Validation Error! Empty Temporary-Path not allowed!");
+                        throw new MetaDataValidationException("", TextBoxTempPath.Text, "TextBoxTempPath", "Validation Error! Empty Temporary-Path not allowed!");
                     }
 
                     if (!System.IO.Directory.Exists(PathHelper.ResolvePath(TextBoxTempPath.Text)))
                     {
-                        throw new MetaDataValidationException("", TextBoxTempPath.Text, "Validation Error! Temporary-Path ['" + TextBoxTempPath.Text + "'] does not exist!");
+                        throw new MetaDataValidationException("", TextBoxTempPath.Text, "TextBoxTempPath", "Validation Error! Temporary-Path ['" + PathHelper.ResolvePath(TextBoxTempPath.Text) + "'] does not exist!");
                     }
 
                     // -------------- DANGER!  All validation goes above this line --------------------
@@ -476,6 +479,23 @@ namespace Win_CBZ.Forms
                 }
                 catch (MetaDataValidationException mv)
                 {
+                    string controlName = mv.ControlName;
+                    string row = null;
+
+                    if (controlName.Contains("."))
+                    {
+                        string[] parts = controlName.Split('.');
+                        controlName = parts[0];
+                        row = parts[1];
+                    }
+
+                    SettingsValidationErrorProvider.SetError(this.Controls.Find(controlName, true)[0], mv.Message);
+                    
+                    if (row != null && row.Length > 0)
+                    {
+                        CustomFieldsDataGrid.Rows[int.Parse(row)].ErrorText = mv.Message;
+                    }
+                    
                     DialogResult = DialogResult.Cancel;
                     e.Cancel = true;
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);

@@ -265,11 +265,11 @@
             // 
             ImageProcessingTabControl.Controls.Add(ImageConversionTabPage);
             ImageProcessingTabControl.Controls.Add(ImageProcessingTabPage);
-            ImageProcessingTabControl.Location = new System.Drawing.Point(174, 5);
+            ImageProcessingTabControl.Location = new System.Drawing.Point(448, 5);
             ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             ImageProcessingTabControl.Name = "ImageProcessingTabControl";
             ImageProcessingTabControl.SelectedIndex = 0;
-            ImageProcessingTabControl.Size = new System.Drawing.Size(409, 458);
+            ImageProcessingTabControl.Size = new System.Drawing.Size(135, 458);
             ImageProcessingTabControl.TabIndex = 2;
             // 
             // ImageConversionTabPage
@@ -281,7 +281,7 @@
             ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             ImageConversionTabPage.Name = "ImageConversionTabPage";
             ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            ImageConversionTabPage.Size = new System.Drawing.Size(401, 425);
+            ImageConversionTabPage.Size = new System.Drawing.Size(127, 425);
             ImageConversionTabPage.TabIndex = 0;
             ImageConversionTabPage.Text = "Image Conversion";
             ImageConversionTabPage.UseVisualStyleBackColor = true;
@@ -307,7 +307,7 @@
             ComboBoxConvertPages.Location = new System.Drawing.Point(144, 52);
             ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             ComboBoxConvertPages.Name = "ComboBoxConvertPages";
-            ComboBoxConvertPages.Size = new System.Drawing.Size(252, 28);
+            ComboBoxConvertPages.Size = new System.Drawing.Size(0, 28);
             ComboBoxConvertPages.TabIndex = 23;
             // 
             // GroupBoxImageQuality
@@ -320,7 +320,7 @@
             GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             GroupBoxImageQuality.Name = "GroupBoxImageQuality";
             GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            GroupBoxImageQuality.Size = new System.Drawing.Size(370, 134);
+            GroupBoxImageQuality.Size = new System.Drawing.Size(96, 134);
             GroupBoxImageQuality.TabIndex = 21;
             GroupBoxImageQuality.TabStop = false;
             GroupBoxImageQuality.Text = "Image Quality";
@@ -330,7 +330,7 @@
             // 
             ImageQualitySliderMaxLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             ImageQualitySliderMaxLabel.AutoSize = true;
-            ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(237, 102);
+            ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(-37, 102);
             ImageQualitySliderMaxLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
             ImageQualitySliderMaxLabel.Size = new System.Drawing.Size(41, 20);
@@ -357,7 +357,7 @@
             ImageQualityTrackBar.Maximum = 100;
             ImageQualityTrackBar.Minimum = 10;
             ImageQualityTrackBar.Name = "ImageQualityTrackBar";
-            ImageQualityTrackBar.Size = new System.Drawing.Size(351, 56);
+            ImageQualityTrackBar.Size = new System.Drawing.Size(77, 56);
             ImageQualityTrackBar.TabIndex = 3;
             ImageQualityTrackBar.Value = 85;
             // 
@@ -368,7 +368,7 @@
             ImageProcessingTabPage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             ImageProcessingTabPage.Name = "ImageProcessingTabPage";
             ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            ImageProcessingTabPage.Size = new System.Drawing.Size(401, 425);
+            ImageProcessingTabPage.Size = new System.Drawing.Size(127, 425);
             ImageProcessingTabPage.TabIndex = 1;
             ImageProcessingTabPage.Text = "Image Processing";
             ImageProcessingTabPage.UseVisualStyleBackColor = true;
@@ -393,7 +393,7 @@
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(395, 415);
+            tableLayoutPanel3.Size = new System.Drawing.Size(121, 415);
             tableLayoutPanel3.TabIndex = 1;
             // 
             // label10
@@ -404,7 +404,7 @@
             label10.Location = new System.Drawing.Point(18, 20);
             label10.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(106, 19);
+            label10.Size = new System.Drawing.Size(1, 19);
             label10.TabIndex = 0;
             label10.Text = "Interpolation";
             // 
@@ -412,7 +412,7 @@
             // 
             pictureBox5.Image = Properties.Resources.information;
             pictureBox5.InitialImage = Properties.Resources.information;
-            pictureBox5.Location = new System.Drawing.Point(337, 0);
+            pictureBox5.Location = new System.Drawing.Point(63, 0);
             pictureBox5.Margin = new System.Windows.Forms.Padding(0);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -429,7 +429,7 @@
             label11.Location = new System.Drawing.Point(18, 79);
             label11.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label11.Name = "label11";
-            label11.Size = new System.Drawing.Size(55, 19);
+            label11.Size = new System.Drawing.Size(1, 19);
             label11.TabIndex = 9;
             label11.Text = "Option";
             label11.Visible = false;
@@ -440,19 +440,19 @@
             ComboBoxInterpolationModes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxInterpolationModes.FormattingEnabled = true;
             ComboBoxInterpolationModes.Items.AddRange(new object[] { "Default", "Low", "High", "Bilinear", "Bicubic", "NearestNeighbor", "HighQualityBilinear", "HighQualityBicubic" });
-            ComboBoxInterpolationModes.Location = new System.Drawing.Point(151, 20);
+            ComboBoxInterpolationModes.Location = new System.Drawing.Point(35, 20);
             ComboBoxInterpolationModes.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
             ComboBoxInterpolationModes.Name = "ComboBoxInterpolationModes";
-            ComboBoxInterpolationModes.Size = new System.Drawing.Size(168, 28);
+            ComboBoxInterpolationModes.Size = new System.Drawing.Size(10, 28);
             ComboBoxInterpolationModes.TabIndex = 1;
             // 
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new System.Drawing.Point(151, 79);
+            checkBox1.Location = new System.Drawing.Point(35, 79);
             checkBox1.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new System.Drawing.Size(67, 24);
+            checkBox1.Size = new System.Drawing.Size(25, 24);
             checkBox1.TabIndex = 8;
             checkBox1.Text = "Value";
             checkBox1.UseVisualStyleBackColor = true;
@@ -463,11 +463,11 @@
             AppSettingsTabControl.Controls.Add(TabPageEssential);
             AppSettingsTabControl.Controls.Add(TabPageAppSettings);
             AppSettingsTabControl.Controls.Add(TabPageBehaviour);
-            AppSettingsTabControl.Location = new System.Drawing.Point(275, 2);
+            AppSettingsTabControl.Location = new System.Drawing.Point(296, 2);
             AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             AppSettingsTabControl.Name = "AppSettingsTabControl";
             AppSettingsTabControl.SelectedIndex = 0;
-            AppSettingsTabControl.Size = new System.Drawing.Size(144, 460);
+            AppSettingsTabControl.Size = new System.Drawing.Size(123, 460);
             AppSettingsTabControl.TabIndex = 3;
             // 
             // TabPageEssential
@@ -476,7 +476,7 @@
             TabPageEssential.Location = new System.Drawing.Point(4, 29);
             TabPageEssential.Name = "TabPageEssential";
             TabPageEssential.Padding = new System.Windows.Forms.Padding(3);
-            TabPageEssential.Size = new System.Drawing.Size(136, 427);
+            TabPageEssential.Size = new System.Drawing.Size(115, 427);
             TabPageEssential.TabIndex = 3;
             TabPageEssential.Text = "Essential";
             TabPageEssential.UseVisualStyleBackColor = true;
@@ -499,7 +499,7 @@
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel5.Size = new System.Drawing.Size(130, 421);
+            tableLayoutPanel5.Size = new System.Drawing.Size(109, 421);
             tableLayoutPanel5.TabIndex = 1;
             // 
             // DirectoryPathTextBox
@@ -509,20 +509,21 @@
             DirectoryPathTextBox.Controls.Add(TextBoxTempPath);
             DirectoryPathTextBox.Controls.Add(ButtonSelectFolder);
             DirectoryPathTextBox.Dock = System.Windows.Forms.DockStyle.Top;
-            DirectoryPathTextBox.Location = new System.Drawing.Point(35, 20);
+            DirectoryPathTextBox.Location = new System.Drawing.Point(26, 20);
             DirectoryPathTextBox.Margin = new System.Windows.Forms.Padding(5, 20, 3, 2);
             DirectoryPathTextBox.Name = "DirectoryPathTextBox";
-            DirectoryPathTextBox.Size = new System.Drawing.Size(34, 27);
+            DirectoryPathTextBox.Size = new System.Drawing.Size(22, 27);
             DirectoryPathTextBox.TabIndex = 26;
             // 
             // TextBoxTempPath
             // 
             TextBoxTempPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
             TextBoxTempPath.Dock = System.Windows.Forms.DockStyle.Fill;
+            SettingsValidationErrorProvider.SetIconPadding(TextBoxTempPath, -20);
             TextBoxTempPath.Location = new System.Drawing.Point(0, 0);
             TextBoxTempPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TextBoxTempPath.Name = "TextBoxTempPath";
-            TextBoxTempPath.Size = new System.Drawing.Size(7, 20);
+            TextBoxTempPath.Size = new System.Drawing.Size(0, 20);
             TextBoxTempPath.TabIndex = 22;
             // 
             // ButtonSelectFolder
@@ -530,7 +531,7 @@
             ButtonSelectFolder.Dock = System.Windows.Forms.DockStyle.Right;
             ButtonSelectFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSelectFolder.Image = Properties.Resources.folder_small;
-            ButtonSelectFolder.Location = new System.Drawing.Point(7, 0);
+            ButtonSelectFolder.Location = new System.Drawing.Point(-5, 0);
             ButtonSelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonSelectFolder.Name = "ButtonSelectFolder";
             ButtonSelectFolder.Size = new System.Drawing.Size(25, 25);
@@ -554,7 +555,7 @@
             // 
             pictureBox6.Image = Properties.Resources.information;
             pictureBox6.InitialImage = Properties.Resources.information;
-            pictureBox6.Location = new System.Drawing.Point(72, 0);
+            pictureBox6.Location = new System.Drawing.Point(51, 0);
             pictureBox6.Margin = new System.Windows.Forms.Padding(0);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -571,7 +572,7 @@
             TabPageAppSettings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             TabPageAppSettings.Name = "TabPageAppSettings";
             TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            TabPageAppSettings.Size = new System.Drawing.Size(136, 427);
+            TabPageAppSettings.Size = new System.Drawing.Size(115, 427);
             TabPageAppSettings.TabIndex = 0;
             TabPageAppSettings.Text = "Metadata Editor";
             TabPageAppSettings.UseVisualStyleBackColor = true;
@@ -594,7 +595,7 @@
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
-            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(130, 417);
+            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(109, 417);
             CustomFieldTypesTablePanel.TabIndex = 1;
             // 
             // CustomFieldsDataGrid
@@ -618,7 +619,7 @@
             CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             CustomFieldsDataGrid.RowHeadersWidth = 51;
             CustomFieldsDataGrid.RowTemplate.Height = 24;
-            CustomFieldsDataGrid.Size = new System.Drawing.Size(124, 304);
+            CustomFieldsDataGrid.Size = new System.Drawing.Size(103, 304);
             CustomFieldsDataGrid.TabIndex = 0;
             CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
             CustomFieldsDataGrid.CellValueChanged += CustomFieldsDataGrid_CellValueChanged;
@@ -634,7 +635,7 @@
             AddFieldTypeButton.Location = new System.Drawing.Point(3, 371);
             AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             AddFieldTypeButton.Name = "AddFieldTypeButton";
-            AddFieldTypeButton.Size = new System.Drawing.Size(31, 42);
+            AddFieldTypeButton.Size = new System.Drawing.Size(25, 42);
             AddFieldTypeButton.TabIndex = 1;
             AddFieldTypeButton.Text = "Add";
             AddFieldTypeButton.UseVisualStyleBackColor = true;
@@ -655,10 +656,10 @@
             RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             RemoveFieldTypeButton.ImageIndex = 1;
             RemoveFieldTypeButton.ImageList = DialogImages;
-            RemoveFieldTypeButton.Location = new System.Drawing.Point(40, 371);
+            RemoveFieldTypeButton.Location = new System.Drawing.Point(34, 371);
             RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            RemoveFieldTypeButton.Size = new System.Drawing.Size(31, 42);
+            RemoveFieldTypeButton.Size = new System.Drawing.Size(25, 42);
             RemoveFieldTypeButton.TabIndex = 2;
             RemoveFieldTypeButton.Text = "Remove";
             RemoveFieldTypeButton.UseVisualStyleBackColor = true;
@@ -667,7 +668,7 @@
             // RestoreFieldTypesButton
             // 
             RestoreFieldTypesButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            RestoreFieldTypesButton.Location = new System.Drawing.Point(93, 371);
+            RestoreFieldTypesButton.Location = new System.Drawing.Point(72, 371);
             RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
             RestoreFieldTypesButton.Size = new System.Drawing.Size(34, 42);
@@ -683,7 +684,7 @@
             TabPageBehaviour.Margin = new System.Windows.Forms.Padding(2);
             TabPageBehaviour.Name = "TabPageBehaviour";
             TabPageBehaviour.Padding = new System.Windows.Forms.Padding(2);
-            TabPageBehaviour.Size = new System.Drawing.Size(136, 427);
+            TabPageBehaviour.Size = new System.Drawing.Size(115, 427);
             TabPageBehaviour.TabIndex = 2;
             TabPageBehaviour.Text = "Behaviour";
             TabPageBehaviour.UseVisualStyleBackColor = true;
@@ -713,14 +714,14 @@
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel4.Size = new System.Drawing.Size(132, 423);
+            tableLayoutPanel4.Size = new System.Drawing.Size(111, 423);
             tableLayoutPanel4.TabIndex = 2;
             // 
             // pictureBox3
             // 
             pictureBox3.Image = Properties.Resources.information;
             pictureBox3.InitialImage = Properties.Resources.information;
-            pictureBox3.Location = new System.Drawing.Point(135, 0);
+            pictureBox3.Location = new System.Drawing.Point(117, 0);
             pictureBox3.Margin = new System.Windows.Forms.Padding(0);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -797,7 +798,7 @@
             // 
             pictureBox4.Image = Properties.Resources.information;
             pictureBox4.InitialImage = Properties.Resources.information;
-            pictureBox4.Location = new System.Drawing.Point(135, 118);
+            pictureBox4.Location = new System.Drawing.Point(117, 118);
             pictureBox4.Margin = new System.Windows.Forms.Padding(0);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -919,7 +920,7 @@
             MetaDataConfigTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MetaDataConfigTabControl.Name = "MetaDataConfigTabControl";
             MetaDataConfigTabControl.SelectedIndex = 0;
-            MetaDataConfigTabControl.Size = new System.Drawing.Size(121, 465);
+            MetaDataConfigTabControl.Size = new System.Drawing.Size(279, 465);
             MetaDataConfigTabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -929,7 +930,7 @@
             tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage1.Size = new System.Drawing.Size(113, 432);
+            tabPage1.Size = new System.Drawing.Size(271, 432);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Default";
             tabPage1.UseVisualStyleBackColor = true;
@@ -941,7 +942,7 @@
             SettingsGroup1Panel.Location = new System.Drawing.Point(3, 2);
             SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            SettingsGroup1Panel.Size = new System.Drawing.Size(107, 428);
+            SettingsGroup1Panel.Size = new System.Drawing.Size(265, 428);
             SettingsGroup1Panel.TabIndex = 4;
             // 
             // MetaDataDefaultKeysTable
@@ -967,7 +968,7 @@
             MetaDataDefaultKeysTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             MetaDataDefaultKeysTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
             MetaDataDefaultKeysTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
-            MetaDataDefaultKeysTable.Size = new System.Drawing.Size(107, 428);
+            MetaDataDefaultKeysTable.Size = new System.Drawing.Size(265, 428);
             MetaDataDefaultKeysTable.TabIndex = 7;
             // 
             // label4
@@ -976,7 +977,7 @@
             label4.Location = new System.Drawing.Point(3, 0);
             label4.Name = "label4";
             label4.Padding = new System.Windows.Forms.Padding(0, 10, 4, 0);
-            label4.Size = new System.Drawing.Size(1, 30);
+            label4.Size = new System.Drawing.Size(29, 53);
             label4.TabIndex = 5;
             label4.Text = "Filename:";
             // 
@@ -987,17 +988,17 @@
             label2.Location = new System.Drawing.Point(3, 356);
             label2.Name = "label2";
             label2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            label2.Size = new System.Drawing.Size(1, 72);
+            label2.Size = new System.Drawing.Size(127, 72);
             label2.TabIndex = 2;
             label2.Text = "One Key per Line\r\nTo set a default value for a given key use <key>=<value> format";
             // 
             // button1
             // 
             button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            button1.Location = new System.Drawing.Point(-20, 315);
+            button1.Location = new System.Drawing.Point(136, 315);
             button1.Margin = new System.Windows.Forms.Padding(3, 15, 6, 2);
             button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(122, 33);
+            button1.Size = new System.Drawing.Size(123, 33);
             button1.TabIndex = 3;
             button1.Text = "Restore";
             button1.UseVisualStyleBackColor = true;
@@ -1007,7 +1008,7 @@
             // 
             PictureBoxToolTipMetaFileName.Image = Properties.Resources.information;
             PictureBoxToolTipMetaFileName.InitialImage = Properties.Resources.information;
-            PictureBoxToolTipMetaFileName.Location = new System.Drawing.Point(-23, 0);
+            PictureBoxToolTipMetaFileName.Location = new System.Drawing.Point(133, 0);
             PictureBoxToolTipMetaFileName.Margin = new System.Windows.Forms.Padding(0);
             PictureBoxToolTipMetaFileName.Name = "PictureBoxToolTipMetaFileName";
             PictureBoxToolTipMetaFileName.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
@@ -1020,11 +1021,12 @@
             // ComboBoxFileName
             // 
             ComboBoxFileName.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            SettingsValidationErrorProvider.SetIconPadding(ComboBoxFileName, -35);
             ComboBoxFileName.Items.AddRange(new object[] { "ComicInfo.xml" });
-            ComboBoxFileName.Location = new System.Drawing.Point(-3, 10);
+            ComboBoxFileName.Location = new System.Drawing.Point(39, 10);
             ComboBoxFileName.Margin = new System.Windows.Forms.Padding(3, 10, 20, 5);
             ComboBoxFileName.Name = "ComboBoxFileName";
-            ComboBoxFileName.Size = new System.Drawing.Size(1, 28);
+            ComboBoxFileName.Size = new System.Drawing.Size(74, 28);
             ComboBoxFileName.TabIndex = 4;
             // 
             // CustomDefaultKeys
@@ -1032,12 +1034,13 @@
             CustomDefaultKeys.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             MetaDataDefaultKeysTable.SetColumnSpan(CustomDefaultKeys, 3);
             CustomDefaultKeys.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            SettingsValidationErrorProvider.SetIconPadding(CustomDefaultKeys, -35);
             CustomDefaultKeys.Location = new System.Drawing.Point(6, 108);
             CustomDefaultKeys.Margin = new System.Windows.Forms.Padding(6, 2, 6, 2);
             CustomDefaultKeys.Multiline = true;
             CustomDefaultKeys.Name = "CustomDefaultKeys";
             CustomDefaultKeys.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            CustomDefaultKeys.Size = new System.Drawing.Size(96, 172);
+            CustomDefaultKeys.Size = new System.Drawing.Size(253, 172);
             CustomDefaultKeys.TabIndex = 0;
             // 
             // label1
@@ -1045,10 +1048,10 @@
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label1.AutoSize = true;
             MetaDataDefaultKeysTable.SetColumnSpan(label1, 2);
-            label1.Location = new System.Drawing.Point(3, 78);
+            label1.Location = new System.Drawing.Point(3, 58);
             label1.Name = "label1";
             label1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 8);
-            label1.Size = new System.Drawing.Size(1, 28);
+            label1.Size = new System.Drawing.Size(126, 48);
             label1.TabIndex = 1;
             label1.Text = "Default Metadata Keys";
             // 
@@ -1059,7 +1062,7 @@
             MetaDataTabPageTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MetaDataTabPageTags.Name = "MetaDataTabPageTags";
             MetaDataTabPageTags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            MetaDataTabPageTags.Size = new System.Drawing.Size(113, 432);
+            MetaDataTabPageTags.Size = new System.Drawing.Size(271, 432);
             MetaDataTabPageTags.TabIndex = 1;
             MetaDataTabPageTags.Text = "Tags";
             MetaDataTabPageTags.UseVisualStyleBackColor = true;
@@ -1085,7 +1088,7 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 72F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(107, 428);
+            tableLayoutPanel1.Size = new System.Drawing.Size(265, 428);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // CheckBoxValidateTags
@@ -1095,7 +1098,7 @@
             CheckBoxValidateTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             CheckBoxValidateTags.Name = "CheckBoxValidateTags";
             CheckBoxValidateTags.Padding = new System.Windows.Forms.Padding(5, 9, 0, 0);
-            CheckBoxValidateTags.Size = new System.Drawing.Size(41, 33);
+            CheckBoxValidateTags.Size = new System.Drawing.Size(199, 33);
             CheckBoxValidateTags.TabIndex = 0;
             CheckBoxValidateTags.Text = "Validate Tags against a list of known Tags";
             CheckBoxValidateTags.UseVisualStyleBackColor = true;
@@ -1105,7 +1108,7 @@
             // 
             InfoIconTooltip.Image = Properties.Resources.information;
             InfoIconTooltip.InitialImage = Properties.Resources.information;
-            InfoIconTooltip.Location = new System.Drawing.Point(47, 0);
+            InfoIconTooltip.Location = new System.Drawing.Point(205, 0);
             InfoIconTooltip.Margin = new System.Windows.Forms.Padding(0);
             InfoIconTooltip.Name = "InfoIconTooltip";
             InfoIconTooltip.Padding = new System.Windows.Forms.Padding(7, 9, 7, 8);
@@ -1124,7 +1127,7 @@
             CheckBoxTagValidationIgnoreCase.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CheckBoxTagValidationIgnoreCase.Name = "CheckBoxTagValidationIgnoreCase";
             CheckBoxTagValidationIgnoreCase.Padding = new System.Windows.Forms.Padding(24, 6, 0, 0);
-            CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(39, 6);
+            CheckBoxTagValidationIgnoreCase.Size = new System.Drawing.Size(148, 6);
             CheckBoxTagValidationIgnoreCase.TabIndex = 6;
             CheckBoxTagValidationIgnoreCase.Text = "Case Sensitive";
             CheckBoxTagValidationIgnoreCase.UseVisualStyleBackColor = true;
@@ -1135,7 +1138,7 @@
             label3.AutoSize = true;
             label3.Location = new System.Drawing.Point(3, 383);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(40, 45);
+            label3.Size = new System.Drawing.Size(120, 20);
             label3.TabIndex = 4;
             label3.Text = "One Tag per Line";
             // 
@@ -1145,12 +1148,13 @@
             ValidTags.Dock = System.Windows.Forms.DockStyle.Fill;
             ValidTags.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             ValidTags.HideSelection = false;
+            SettingsValidationErrorProvider.SetIconPadding(ValidTags, -35);
             ValidTags.Location = new System.Drawing.Point(3, 140);
             ValidTags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 10);
             ValidTags.Multiline = true;
             ValidTags.Name = "ValidTags";
             ValidTags.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            ValidTags.Size = new System.Drawing.Size(101, 233);
+            ValidTags.Size = new System.Drawing.Size(259, 233);
             ValidTags.TabIndex = 3;
             // 
             // ItemEditorToolBar
@@ -1163,12 +1167,12 @@
             ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripTextBoxSearchTag, ToolButtonSortAscending });
-            ItemEditorToolBar.Location = new System.Drawing.Point(8, 105);
+            ItemEditorToolBar.Location = new System.Drawing.Point(79, 107);
             ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 4);
             ItemEditorToolBar.Name = "ItemEditorToolBar";
             ItemEditorToolBar.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
             ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            ItemEditorToolBar.Size = new System.Drawing.Size(99, 29);
+            ItemEditorToolBar.Size = new System.Drawing.Size(186, 27);
             ItemEditorToolBar.Stretch = true;
             ItemEditorToolBar.TabIndex = 8;
             // 
