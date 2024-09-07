@@ -1,4 +1,4 @@
-﻿using Microsoft.IdentityModel.Protocols.WsTrust;
+﻿
 using SharpCompress.Common;
 using System;
 using System.Collections;
@@ -14,9 +14,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Forms;
-using System.Windows.Shapes;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Helper;
@@ -58,6 +56,8 @@ namespace Win_CBZ.Forms
 
         public int InterpolationMode;
 
+        public string TempPath;
+
         DataValidation validation;
 
         public SettingsDialog()
@@ -96,6 +96,8 @@ namespace Win_CBZ.Forms
 
             InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
 
+            TempPath = Win_CBZSettings.Default.TempFolderPath;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
@@ -132,6 +134,8 @@ namespace Win_CBZ.Forms
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
             ComboBoxInterpolationModes.SelectedIndex = InterpolationMode;
+
+            TextBoxTempPath.Text = TempPath;
 
             CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
             {
@@ -370,7 +374,7 @@ namespace Win_CBZ.Forms
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Default Metadata-Keys must contain only values between ['a-zA-Z']");
 
-                        throw new MetaDataValidationException("", "", "Validation Error! Default Metadata-Keys must contain only values between ['a-zA-Z']!", true, false);
+                        throw new MetaDataValidationException("", defaultKeys, "Validation Error! Default Metadata-Keys must contain only values between ['a-zA-Z']!", true, false);
                     }
 
                     if (CheckBoxValidateTags.Checked)
@@ -382,13 +386,13 @@ namespace Win_CBZ.Forms
                             //ApplicationMessage.ShowWarning("Validateion Error! Duplicate Tags [" + duplicateTags.Select(r => r + ", ") + "] not allowed!", "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
 
-                            throw new MetaDataValidationException("", "", "Validation Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
+                            throw new MetaDataValidationException("", ValidTags.Text, "Validation Error! Duplicate Tags [" + String.Join(",", duplicateTags) + "] not allowed!");
                         }
                     }
 
                     if (ComboBoxFileName.Text.Length == 0)
                     {
-                        throw new MetaDataValidationException("", "", "Validation Error! Empty MetaData- Filename not allowed!");
+                        throw new MetaDataValidationException("", ComboBoxFileName.Text, "Validation Error! Empty MetaData- Filename not allowed!");
                     }
                     else
                     {
@@ -399,8 +403,18 @@ namespace Win_CBZ.Forms
                     {
                         if (t.Name.Length == 0)
                         {
-                            throw new MetaDataValidationException("", "", "Validation Error! Empty MetaData- Editor Key/Fieldname not allowed!");
+                            throw new MetaDataValidationException("", t.Name, "Validation Error! Empty MetaData- Editor Key/Fieldname not allowed!");
                         }
+                    }
+
+                    if (TextBoxTempPath.Text.Length == 0)
+                    {
+                        throw new MetaDataValidationException("", TextBoxTempPath.Text, "Validation Error! Empty Temporary-Path not allowed!");
+                    }
+
+                    if (!System.IO.Directory.Exists(PathHelper.ResolvePath(TextBoxTempPath.Text)))
+                    {
+                        throw new MetaDataValidationException("", TextBoxTempPath.Text, "Validation Error! Temporary-Path ['" + TextBoxTempPath.Text + "'] does not exist!");
                     }
 
                     // -------------- DANGER!  All validation goes above this line --------------------
@@ -437,6 +451,8 @@ namespace Win_CBZ.Forms
                     SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
                     InterpolationMode = ComboBoxInterpolationModes.SelectedIndex;
+                    TempPath = TextBoxTempPath.Text;
+
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
@@ -1322,6 +1338,16 @@ namespace Win_CBZ.Forms
                 ValidTags.SelectionStart = occurence;
                 ValidTags.SelectionLength = ToolStripTextBoxSearchTag.Text.Length;
                 ValidTags.ScrollToCaret();
+            }
+        }
+
+        private void ButtonSelectFolder_Click(object sender, EventArgs e)
+        {
+            if (OpenTargetDirectory.ShowDialog() == DialogResult.OK)
+            {
+                LocalFile localFile = new LocalFile(OpenTargetDirectory.FileName);
+
+                TextBoxTempPath.Text = localFile.FilePath;
             }
         }
     }

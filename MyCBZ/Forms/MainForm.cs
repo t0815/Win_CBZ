@@ -4925,6 +4925,9 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.SkipIndexCheck = settingsDialog.SkipIndexCheck;
                 Win_CBZSettings.Default.CalculateHash = settingsDialog.CalculateCrc32;
                 Win_CBZSettings.Default.InterpolationMode = settingsDialog.InterpolationMode;
+                Win_CBZSettings.Default.TempFolderPath = settingsDialog.TempPath;
+
+                Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)

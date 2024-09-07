@@ -4,10 +4,8 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Win_CBZ.Helper
 {

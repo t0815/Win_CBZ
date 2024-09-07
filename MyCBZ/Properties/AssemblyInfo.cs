@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Win_CBZ")]
 [assembly: AssemblyDescription("Windows CBZ (ComicBookZip) Archive Editor")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Trash s0Ft")]
+[assembly: AssemblyCompany("Trash_s0Ft")]
 [assembly: AssemblyProduct("Win_CBZ")]
 [assembly: AssemblyCopyright("Copyright ©  2022-2024")]
 [assembly: AssemblyTrademark("")]
@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.20.157")]
-[assembly: AssemblyFileVersion("0.20.157")]
+[assembly: AssemblyVersion("0.20.158")]
+[assembly: AssemblyFileVersion("0.20.158")]
 [assembly: NeutralResourcesLanguage("en")]

@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
 using System.IO;
 using Win_CBZ.Models;
 using System.Runtime.Versioning;

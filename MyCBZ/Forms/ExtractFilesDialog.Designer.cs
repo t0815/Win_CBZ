@@ -29,251 +29,249 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ExtractFilesDialog));
-            this.ExtractToTablePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.HeaderPanel = new System.Windows.Forms.Panel();
-            this.HeaderLabel = new System.Windows.Forms.Label();
-            this.HeaderPicture = new System.Windows.Forms.PictureBox();
-            this.ButtonOk = new System.Windows.Forms.Button();
-            this.ButtonCancel = new System.Windows.Forms.Button();
-            this.SettingsGroup1Panel = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.TextBoxOutputFolder = new System.Windows.Forms.TextBox();
-            this.ButtonBrowse = new System.Windows.Forms.Button();
-            this.RadioButtonExtractAll = new System.Windows.Forms.RadioButton();
-            this.RadioButtonExtractSelected = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.OpenTargetDirectory = new System.Windows.Forms.OpenFileDialog();
-            this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.ExtractToTablePanel.SuspendLayout();
-            this.HeaderPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
-            this.SettingsGroup1Panel.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
+            ExtractToTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            HeaderPanel = new System.Windows.Forms.Panel();
+            HeaderLabel = new System.Windows.Forms.Label();
+            HeaderPicture = new System.Windows.Forms.PictureBox();
+            ButtonOk = new System.Windows.Forms.Button();
+            ButtonCancel = new System.Windows.Forms.Button();
+            SettingsGroup1Panel = new System.Windows.Forms.Panel();
+            label3 = new System.Windows.Forms.Label();
+            tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            TextBoxOutputFolder = new System.Windows.Forms.TextBox();
+            ButtonBrowse = new System.Windows.Forms.Button();
+            RadioButtonExtractAll = new System.Windows.Forms.RadioButton();
+            RadioButtonExtractSelected = new System.Windows.Forms.RadioButton();
+            label2 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            OpenTargetDirectory = new System.Windows.Forms.OpenFileDialog();
+            FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            ExtractToTablePanel.SuspendLayout();
+            HeaderPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
+            SettingsGroup1Panel.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            SuspendLayout();
             // 
             // ExtractToTablePanel
             // 
-            this.ExtractToTablePanel.ColumnCount = 3;
-            this.ExtractToTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.40752F));
-            this.ExtractToTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.59248F));
-            this.ExtractToTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
-            this.ExtractToTablePanel.Controls.Add(this.HeaderPanel, 0, 0);
-            this.ExtractToTablePanel.Controls.Add(this.ButtonOk, 1, 2);
-            this.ExtractToTablePanel.Controls.Add(this.ButtonCancel, 2, 2);
-            this.ExtractToTablePanel.Controls.Add(this.SettingsGroup1Panel, 0, 1);
-            this.ExtractToTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ExtractToTablePanel.Location = new System.Drawing.Point(0, 0);
-            this.ExtractToTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ExtractToTablePanel.Name = "ExtractToTablePanel";
-            this.ExtractToTablePanel.RowCount = 3;
-            this.ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            this.ExtractToTablePanel.Size = new System.Drawing.Size(576, 428);
-            this.ExtractToTablePanel.TabIndex = 0;
+            ExtractToTablePanel.ColumnCount = 3;
+            ExtractToTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.40752F));
+            ExtractToTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.59248F));
+            ExtractToTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+            ExtractToTablePanel.Controls.Add(HeaderPanel, 0, 0);
+            ExtractToTablePanel.Controls.Add(ButtonOk, 1, 2);
+            ExtractToTablePanel.Controls.Add(ButtonCancel, 2, 2);
+            ExtractToTablePanel.Controls.Add(SettingsGroup1Panel, 0, 1);
+            ExtractToTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            ExtractToTablePanel.Location = new System.Drawing.Point(0, 0);
+            ExtractToTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            ExtractToTablePanel.Name = "ExtractToTablePanel";
+            ExtractToTablePanel.RowCount = 3;
+            ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            ExtractToTablePanel.Size = new System.Drawing.Size(576, 535);
+            ExtractToTablePanel.TabIndex = 0;
             // 
             // HeaderPanel
             // 
-            this.HeaderPanel.BackColor = System.Drawing.Color.White;
-            this.ExtractToTablePanel.SetColumnSpan(this.HeaderPanel, 3);
-            this.HeaderPanel.Controls.Add(this.HeaderLabel);
-            this.HeaderPanel.Controls.Add(this.HeaderPicture);
-            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(570, 76);
-            this.HeaderPanel.TabIndex = 0;
+            HeaderPanel.BackColor = System.Drawing.Color.White;
+            ExtractToTablePanel.SetColumnSpan(HeaderPanel, 3);
+            HeaderPanel.Controls.Add(HeaderLabel);
+            HeaderPanel.Controls.Add(HeaderPicture);
+            HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            HeaderPanel.Location = new System.Drawing.Point(3, 2);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPanel.Name = "HeaderPanel";
+            HeaderPanel.Size = new System.Drawing.Size(570, 96);
+            HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
             // 
-            this.HeaderLabel.AutoSize = true;
-            this.HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeaderLabel.Location = new System.Drawing.Point(111, 18);
-            this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(321, 28);
-            this.HeaderLabel.TabIndex = 1;
-            this.HeaderLabel.Text = "Extract selected pages from Archive";
+            HeaderLabel.AutoSize = true;
+            HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            HeaderLabel.Location = new System.Drawing.Point(111, 22);
+            HeaderLabel.Name = "HeaderLabel";
+            HeaderLabel.Size = new System.Drawing.Size(321, 28);
+            HeaderLabel.TabIndex = 1;
+            HeaderLabel.Text = "Extract selected pages from Archive";
             // 
             // HeaderPicture
             // 
-            this.HeaderPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.box_out_large;
-            this.HeaderPicture.Location = new System.Drawing.Point(24, 0);
-            this.HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.HeaderPicture.Name = "HeaderPicture";
-            this.HeaderPicture.Size = new System.Drawing.Size(65, 74);
-            this.HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.HeaderPicture.TabIndex = 0;
-            this.HeaderPicture.TabStop = false;
+            HeaderPicture.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            HeaderPicture.Image = Properties.Resources.box_out_large;
+            HeaderPicture.Location = new System.Drawing.Point(24, 0);
+            HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPicture.Name = "HeaderPicture";
+            HeaderPicture.Size = new System.Drawing.Size(65, 93);
+            HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            HeaderPicture.TabIndex = 0;
+            HeaderPicture.TabStop = false;
             // 
             // ButtonOk
             // 
-            this.ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOk.Location = new System.Drawing.Point(329, 380);
-            this.ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ButtonOk.Name = "ButtonOk";
-            this.ButtonOk.Size = new System.Drawing.Size(111, 33);
-            this.ButtonOk.TabIndex = 2;
-            this.ButtonOk.Text = "Ok";
-            this.ButtonOk.UseVisualStyleBackColor = true;
-            this.ButtonOk.Click += new System.EventHandler(this.ButtonOk_Click);
+            ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            ButtonOk.Location = new System.Drawing.Point(329, 475);
+            ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            ButtonOk.Name = "ButtonOk";
+            ButtonOk.Size = new System.Drawing.Size(111, 41);
+            ButtonOk.TabIndex = 2;
+            ButtonOk.Text = "Ok";
+            ButtonOk.UseVisualStyleBackColor = true;
+            ButtonOk.Click += ButtonOk_Click;
             // 
             // ButtonCancel
             // 
-            this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ButtonCancel.Location = new System.Drawing.Point(454, 380);
-            this.ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
-            this.ButtonCancel.TabIndex = 3;
-            this.ButtonCancel.Text = "Cancel";
-            this.ButtonCancel.UseVisualStyleBackColor = true;
-            this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+            ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            ButtonCancel.Location = new System.Drawing.Point(454, 475);
+            ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            ButtonCancel.Name = "ButtonCancel";
+            ButtonCancel.Size = new System.Drawing.Size(119, 41);
+            ButtonCancel.TabIndex = 3;
+            ButtonCancel.Text = "Cancel";
+            ButtonCancel.UseVisualStyleBackColor = true;
+            ButtonCancel.Click += ButtonCancel_Click;
             // 
             // SettingsGroup1Panel
             // 
-            this.ExtractToTablePanel.SetColumnSpan(this.SettingsGroup1Panel, 3);
-            this.SettingsGroup1Panel.Controls.Add(this.label3);
-            this.SettingsGroup1Panel.Controls.Add(this.tableLayoutPanel1);
-            this.SettingsGroup1Panel.Controls.Add(this.RadioButtonExtractAll);
-            this.SettingsGroup1Panel.Controls.Add(this.RadioButtonExtractSelected);
-            this.SettingsGroup1Panel.Controls.Add(this.label2);
-            this.SettingsGroup1Panel.Controls.Add(this.label1);
-            this.SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SettingsGroup1Panel.Location = new System.Drawing.Point(3, 82);
-            this.SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            this.SettingsGroup1Panel.Size = new System.Drawing.Size(570, 282);
-            this.SettingsGroup1Panel.TabIndex = 4;
+            ExtractToTablePanel.SetColumnSpan(SettingsGroup1Panel, 3);
+            SettingsGroup1Panel.Controls.Add(label3);
+            SettingsGroup1Panel.Controls.Add(tableLayoutPanel1);
+            SettingsGroup1Panel.Controls.Add(RadioButtonExtractAll);
+            SettingsGroup1Panel.Controls.Add(RadioButtonExtractSelected);
+            SettingsGroup1Panel.Controls.Add(label2);
+            SettingsGroup1Panel.Controls.Add(label1);
+            SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            SettingsGroup1Panel.Location = new System.Drawing.Point(3, 102);
+            SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            SettingsGroup1Panel.Name = "SettingsGroup1Panel";
+            SettingsGroup1Panel.Size = new System.Drawing.Size(570, 353);
+            SettingsGroup1Panel.TabIndex = 4;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(68, 153);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 16);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Destination";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(68, 191);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(85, 20);
+            label3.TabIndex = 6;
+            label3.Text = "Destination";
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.11175F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.88825F));
-            this.tableLayoutPanel1.Controls.Add(this.TextBoxOutputFolder, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ButtonBrowse, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(68, 172);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(427, 32);
-            this.tableLayoutPanel1.TabIndex = 5;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.11175F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.88825F));
+            tableLayoutPanel1.Controls.Add(TextBoxOutputFolder, 0, 0);
+            tableLayoutPanel1.Controls.Add(ButtonBrowse, 1, 0);
+            tableLayoutPanel1.Location = new System.Drawing.Point(68, 215);
+            tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            tableLayoutPanel1.Size = new System.Drawing.Size(427, 40);
+            tableLayoutPanel1.TabIndex = 5;
             // 
             // TextBoxOutputFolder
             // 
-            this.TextBoxOutputFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBoxOutputFolder.Location = new System.Drawing.Point(3, 2);
-            this.TextBoxOutputFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.TextBoxOutputFolder.Name = "TextBoxOutputFolder";
-            this.TextBoxOutputFolder.Size = new System.Drawing.Size(374, 22);
-            this.TextBoxOutputFolder.TabIndex = 0;
+            TextBoxOutputFolder.Dock = System.Windows.Forms.DockStyle.Fill;
+            TextBoxOutputFolder.Location = new System.Drawing.Point(3, 2);
+            TextBoxOutputFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            TextBoxOutputFolder.Name = "TextBoxOutputFolder";
+            TextBoxOutputFolder.Size = new System.Drawing.Size(374, 27);
+            TextBoxOutputFolder.TabIndex = 0;
             // 
             // ButtonBrowse
             // 
-            this.ButtonBrowse.Location = new System.Drawing.Point(383, 2);
-            this.ButtonBrowse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ButtonBrowse.Name = "ButtonBrowse";
-            this.ButtonBrowse.Size = new System.Drawing.Size(32, 23);
-            this.ButtonBrowse.TabIndex = 1;
-            this.ButtonBrowse.Text = "...";
-            this.ButtonBrowse.UseVisualStyleBackColor = true;
-            this.ButtonBrowse.Click += new System.EventHandler(this.ButtonBrowse_Click);
+            ButtonBrowse.Image = Properties.Resources.folder_small;
+            ButtonBrowse.Location = new System.Drawing.Point(383, 2);
+            ButtonBrowse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            ButtonBrowse.Name = "ButtonBrowse";
+            ButtonBrowse.Size = new System.Drawing.Size(32, 29);
+            ButtonBrowse.TabIndex = 1;
+            ButtonBrowse.UseVisualStyleBackColor = true;
+            ButtonBrowse.Click += ButtonBrowse_Click;
             // 
             // RadioButtonExtractAll
             // 
-            this.RadioButtonExtractAll.AutoSize = true;
-            this.RadioButtonExtractAll.Checked = true;
-            this.RadioButtonExtractAll.Location = new System.Drawing.Point(71, 110);
-            this.RadioButtonExtractAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.RadioButtonExtractAll.Name = "RadioButtonExtractAll";
-            this.RadioButtonExtractAll.Size = new System.Drawing.Size(86, 20);
-            this.RadioButtonExtractAll.TabIndex = 4;
-            this.RadioButtonExtractAll.TabStop = true;
-            this.RadioButtonExtractAll.Text = "All Pages";
-            this.RadioButtonExtractAll.UseVisualStyleBackColor = true;
-            this.RadioButtonExtractAll.CheckedChanged += new System.EventHandler(this.RadioButtonExtractAll_CheckedChanged);
+            RadioButtonExtractAll.AutoSize = true;
+            RadioButtonExtractAll.Checked = true;
+            RadioButtonExtractAll.Location = new System.Drawing.Point(71, 138);
+            RadioButtonExtractAll.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            RadioButtonExtractAll.Name = "RadioButtonExtractAll";
+            RadioButtonExtractAll.Size = new System.Drawing.Size(90, 24);
+            RadioButtonExtractAll.TabIndex = 4;
+            RadioButtonExtractAll.TabStop = true;
+            RadioButtonExtractAll.Text = "All Pages";
+            RadioButtonExtractAll.UseVisualStyleBackColor = true;
+            RadioButtonExtractAll.CheckedChanged += RadioButtonExtractAll_CheckedChanged;
             // 
             // RadioButtonExtractSelected
             // 
-            this.RadioButtonExtractSelected.AutoSize = true;
-            this.RadioButtonExtractSelected.Enabled = false;
-            this.RadioButtonExtractSelected.Location = new System.Drawing.Point(71, 66);
-            this.RadioButtonExtractSelected.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.RadioButtonExtractSelected.Name = "RadioButtonExtractSelected";
-            this.RadioButtonExtractSelected.Size = new System.Drawing.Size(125, 20);
-            this.RadioButtonExtractSelected.TabIndex = 3;
-            this.RadioButtonExtractSelected.Text = "Selected Pages";
-            this.RadioButtonExtractSelected.UseVisualStyleBackColor = true;
-            this.RadioButtonExtractSelected.CheckedChanged += new System.EventHandler(this.RadioButtonExtractSelected_CheckedChanged_1);
+            RadioButtonExtractSelected.AutoSize = true;
+            RadioButtonExtractSelected.Enabled = false;
+            RadioButtonExtractSelected.Location = new System.Drawing.Point(71, 82);
+            RadioButtonExtractSelected.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            RadioButtonExtractSelected.Name = "RadioButtonExtractSelected";
+            RadioButtonExtractSelected.Size = new System.Drawing.Size(129, 24);
+            RadioButtonExtractSelected.TabIndex = 3;
+            RadioButtonExtractSelected.Text = "Selected Pages";
+            RadioButtonExtractSelected.UseVisualStyleBackColor = true;
+            RadioButtonExtractSelected.CheckedChanged += RadioButtonExtractSelected_CheckedChanged_1;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 242);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 16);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Click \"Ok\" to extract";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(24, 309);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(141, 20);
+            label2.TabIndex = 2;
+            label2.Text = "Click \"Ok\" to extract";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Select what to extract";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(21, 39);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(152, 20);
+            label1.TabIndex = 1;
+            label1.Text = "Select what to extract";
             // 
             // OpenTargetDirectory
             // 
-            this.OpenTargetDirectory.AddExtension = false;
-            this.OpenTargetDirectory.CheckFileExists = false;
-            this.OpenTargetDirectory.Filter = "All Files (*.*)|*.*";
+            OpenTargetDirectory.AddExtension = false;
+            OpenTargetDirectory.CheckFileExists = false;
+            OpenTargetDirectory.Filter = "All Files (*.*)|*.*";
             // 
             // FolderBrowserDialog
             // 
-            this.FolderBrowserDialog.SelectedPath = ".\\";
+            FolderBrowserDialog.SelectedPath = ".\\";
             // 
             // ExtractFilesDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 428);
-            this.Controls.Add(this.ExtractToTablePanel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "ExtractFilesDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Extract Pages...";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExtractFilesDialog_FormClosing);
-            this.Shown += new System.EventHandler(this.ExtractFilesDialog_Shown);
-            this.ExtractToTablePanel.ResumeLayout(false);
-            this.HeaderPanel.ResumeLayout(false);
-            this.HeaderPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).EndInit();
-            this.SettingsGroup1Panel.ResumeLayout(false);
-            this.SettingsGroup1Panel.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(576, 535);
+            Controls.Add(ExtractToTablePanel);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            Name = "ExtractFilesDialog";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Extract Pages...";
+            FormClosing += ExtractFilesDialog_FormClosing;
+            Shown += ExtractFilesDialog_Shown;
+            ExtractToTablePanel.ResumeLayout(false);
+            HeaderPanel.ResumeLayout(false);
+            HeaderPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)HeaderPicture).EndInit();
+            SettingsGroup1Panel.ResumeLayout(false);
+            SettingsGroup1Panel.PerformLayout();
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
