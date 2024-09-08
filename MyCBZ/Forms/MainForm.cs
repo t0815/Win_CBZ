@@ -4972,8 +4972,28 @@ namespace Win_CBZ
                     int current = 0;
                     foreach (Page page in Program.ProjectModel.Pages)
                     {
+                        string newPath = Path.Combine(Program.ProjectModel.WorkingDir, Program.ProjectModel.ProjectGUID);
+
+                        if (!Directory.Exists(newPath))
+                        {
+                            Directory.CreateDirectory(newPath);
+                        }
+
                         //page.ImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
                         page.ImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
+                        page.WorkingDir = Path.Combine(Program.ProjectModel.WorkingDir, Program.ProjectModel.ProjectGUID);
+
+
+                        if (page.TemporaryFile != null && page.TemporaryFile.FilePath != newPath)
+                        {
+                            try { 
+                                page.CreateLocalWorkingCopy();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                            }
+                        }
 
                         AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(
                             GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,

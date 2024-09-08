@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%APPDATA%\WIN_CBZ\Temp\</Value>
     </Setting>
     <Setting Name="InstalledVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.20.158b</Value>
+      <Value Profile="(Default)">0.20.159b</Value>
     </Setting>
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -93,7 +93,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DebugMode" Type="System.String" Scope="User">
-      <Value Profile="(Default)">3ab980acc9ab16b</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="ImageConversionMode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.20.158b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.20.159b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
@@ -308,7 +308,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3ab980acc9ab16b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string DebugMode {
             get {
                 return ((string)(this["DebugMode"]));
