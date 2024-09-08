@@ -1192,7 +1192,6 @@ namespace Win_CBZ.Forms
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[6].ReadOnly = true;
 
-            int selectedIndex = -1;
             DataGridViewComboBoxCell cc = new DataGridViewComboBoxCell();
             cc.Items.AddRange(MetaDataFieldType.FieldTypes);
             cc.Value = newEntry.FieldType; // selectedIndex > -1 ? selectedIndex : 0;
@@ -1208,7 +1207,6 @@ namespace Win_CBZ.Forms
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[1] = cc;
 
-            selectedIndex = -1;
             cc = new DataGridViewComboBoxCell();
             cc.Items.AddRange(EditorTypeConfig.Editors);
             cc.Value = newEntry.EditorType; // selectedIndex > -1 ? selectedIndex : 0;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Protocols.WsTrust;
+using SharpCompress;
 using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
@@ -219,11 +220,12 @@ namespace Win_CBZ
 
             if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key).Name == key)
             {
+                // todo: make case insensitive
                 var mapping = MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key);
 
                 if (mapping.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                 {
-                    int index = mapping != null ? Array.IndexOf(mapping.OptionsAsList(), value) : -1;
+                    int index = mapping != null ? Array.IndexOf(mapping.OptionsAsList().Select(s => s.ToLower()).ToArray(), value) : -1;
 
                     value = value != null && index > -1 ? value : (mapping.OptionsAsList()[0] ?? "???");
 
@@ -788,17 +790,33 @@ namespace Win_CBZ
 
         public void MakeDefaultKeys(List<string> custom = null)
         {
+            List<String> itemsToMerge = new List<String>();
+            string[] customDefaults = null;
+
             Defaults.Clear();
             if (custom == null) {
+                if (Win_CBZSettings.Default.CustomDefaultProperties != null)
+                {
+                    customDefaults = new string[Win_CBZSettings.Default.CustomDefaultProperties.Count];
+                    Win_CBZSettings.Default.CustomDefaultProperties.CopyTo(customDefaults, 0);
+                }
+            } else
+            {
+                customDefaults = new string[custom.Count];
+                custom.CopyTo(customDefaults, 0);
+            }
 
-                if (Win_CBZSettings.Default.CustomDefaultProperties != null) {
-                    foreach (String prop in Win_CBZSettings.Default.CustomDefaultProperties)
-                    {
-                        try
-                        {
+
+            if (customDefaults != null)
+            { 
+                foreach (String prop in customDefaults)
+                {
+                        //try
+                        //{
                             MetaDataEntry defaultEntry = ParseDefaultProp(prop);
 
                             Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
+                        /*
                         }
                         catch (MetaDataValidationException ve)
                         {
@@ -806,38 +824,15 @@ namespace Win_CBZ
 
                             if (ve.ShowErrorDialog)
                             {
-                                throw ve;
+                                throw new MetaDataValidationException(ve.Item, ve.ControlName, ve.Message, ve.ShowErrorDialog, ve.RemoveEntry);
                             }
                         }
                         catch (Exception e)
                         {
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']! [" + e.Message + "]");
                         }
-                    }
-                }
-            } else
-            {
-                foreach (String prop in custom)
-                {
-                    try
-                    {
-                        MetaDataEntry defaultEntry = ParseDefaultProp(prop);
-
-                        Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
-                    }
-                    catch (MetaDataValidationException ve)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!  [" + ve.Message + "]");
-                    
-                        if (ve.ShowErrorDialog)
-                        {
-                            throw ve;
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']! With error  [" + e.Message + "]");
-                    }
+                        */
+                    //}
                 }
             }
 

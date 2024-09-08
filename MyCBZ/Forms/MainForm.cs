@@ -13,19 +13,13 @@ using Win_CBZ.Forms;
 using System.Threading;
 using System.IO;
 using System.Collections.Specialized;
-using System.Net.NetworkInformation;
 using System.Collections;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Win_CBZ.Data;
-using System.Windows.Forms.VisualStyles;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Status;
 using Win_CBZ.Tasks;
 using System.Security.Policy;
 using Win_CBZ.Models;
 using System.Windows.Input;
 using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
-using SharpCompress;
 using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
 using TextBox = System.Windows.Forms.TextBox;
@@ -33,7 +27,6 @@ using Cursors = System.Windows.Forms.Cursors;
 using System.Configuration;
 using System.Xml;
 using static Win_CBZ.MetaData;
-using SharpCompress.Common;
 using System.Diagnostics;
 using System.Runtime.Versioning;
 using Win_CBZ.Handler;
@@ -41,7 +34,6 @@ using Win_CBZ.Events;
 using AutocompleteMenuNS;
 using Win_CBZ.Properties;
 using System.Drawing.Drawing2D;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace Win_CBZ
 {
@@ -91,8 +83,25 @@ namespace Win_CBZ
         {
             InitializeComponent();
 
-            Program.ProjectModel = NewProjectModel();
-            
+            try
+            {
+                Program.ProjectModel = NewProjectModel();
+            }
+            catch (MetaDataValidationException ve)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to initialize ProjectModel.\nFailed to parse default metadata entry ['" + ve.Item.Key + "']!  [" + ve.Message + "]");
+
+                if (ve.ShowErrorDialog)
+                {
+                    ApplicationMessage.ShowWarning("Failed to initialize ProjectModel.\n" + ve.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry! [" + e.Message + "]");
+            }
+
+
             AppEventHandler.MessageLogged += MessageLogged;
 
             ThumbnailPagesSlice = new List<Page>();
@@ -3273,14 +3282,23 @@ namespace Win_CBZ
         private void AddMetaData()
         {
             Invoke(new Action(() => { BtnAddMetaData.Enabled = false; }));
-            //if (Program.ProjectModel.MetaData == null)
-            //{
-            Program.ProjectModel.NewMetaData(true, Win_CBZSettings.Default.MetaDataFilename);
-            //}
+            
+            try {
+                Program.ProjectModel.NewMetaData(true, Win_CBZSettings.Default.MetaDataFilename);
+            }
+            catch (MetaDataValidationException ve)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + ve.Item.Key + "']!  [" + ve.Message + "]");
 
-            Program.ProjectModel.MetaData.FillMissingDefaultProps();
-            //if (PagesList.Items.Count > 0)
-            //{
+                if (ve.ShowErrorDialog)
+                {
+                    ApplicationMessage.ShowWarning("Failed to create Metadata.\n" + ve.Message, "Metadata Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry! [" + e.Message + "]");
+            }
 
 
             AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));

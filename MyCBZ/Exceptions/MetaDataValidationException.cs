@@ -9,11 +9,11 @@ namespace Win_CBZ
     internal class MetaDataValidationException : ApplicationException
     {
 
-        public MetaDataEntry Item;
+        public MetaDataEntry Item { get; set; }
 
-        public string ControlName;
+        public string ControlName { get; set; }
 
-        public bool RemoveEntry;
+        public bool RemoveEntry { get; set; }
 
         public MetaDataValidationException(MetaDataEntry item, string control, String message, bool showErrorDialog = false, bool removeEntry = false) : base(message, showErrorDialog)
         {
