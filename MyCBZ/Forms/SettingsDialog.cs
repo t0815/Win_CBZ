@@ -447,11 +447,6 @@ namespace Win_CBZ.Forms
                             checkRowÍndex++;
                         }
 
-                        if (t.Name.Length == 0)
-                        {
-                            throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + checkRowÍndex.ToString(), "Validation Error! Empty Metadata- Editor Key/Fieldname not allowed!");
-                        }
-
                         rowIndex++;
                     }
 
