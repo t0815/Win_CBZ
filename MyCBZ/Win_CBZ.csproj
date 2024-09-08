@@ -60,6 +60,9 @@
     <Compile Update="Components\CustomDataGridView\CustomDataGridView.cs" />
     <Compile Update="Components\ExtendedListView\ExtendetListView.cs" />
     <Compile Update="Components\Rating\Rating.cs" />
+    <Compile Update="Forms\RomajiEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Win_CBZSettings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>

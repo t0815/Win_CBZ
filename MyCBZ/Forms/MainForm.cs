@@ -231,7 +231,7 @@ namespace Win_CBZ
 
             df = new DebugForm(PageView);
 
-
+            
             //pageClipboardMonitor = new PageClipboardMonitor();
             //pageClipboardMonitor.ClipboardChanged += ClipBoardChanged;
         }
@@ -337,7 +337,7 @@ namespace Win_CBZ
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
 
-
+                UpdateImageAdjustments(RadioApplyAdjustmentsGlobal, "<Global>", true);
 
                 backgroundWorker1.RunWorkerAsync();
 
@@ -384,7 +384,7 @@ namespace Win_CBZ
                             selectedImageTasks = Program.ProjectModel.GlobalImageTask;
                             GlobalAlertTableLayout.Visible = false;
 
-                            UpdateImageAdjustments(null, "<Global>", true);
+                            UpdateImageAdjustments(RadioApplyAdjustmentsGlobal, "<Global>", true);
                         }));
 
                         ClearLog();
@@ -461,7 +461,7 @@ namespace Win_CBZ
                             TextBoxExcludePagesImageProcessing.Text = "";
                             RenamerExcludePages.Text = "";
                             PageCountStatusLabel.Text = "0 Pages";
-                            UpdateImageAdjustments(sender, "<Global>", true);
+                            UpdateImageAdjustments(RadioApplyAdjustmentsGlobal, "<Global>", true);
                             Program.ProjectModel.IsChanged = false;
                             Program.ProjectModel.Pages.Clear();
                         }));
@@ -5533,6 +5533,8 @@ namespace Win_CBZ
                                 break;
 
                         }
+
+                        PropertyGridTaskOrder.SelectedObject = selectedImageTasks.TaskOrder;
 
                         switch (selectedImageTasks.ImageAdjustments.RotateMode)
                         {

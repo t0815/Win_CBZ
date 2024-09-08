@@ -15,6 +15,9 @@ namespace Win_CBZ.Data
         public const String EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR = "MultiLineTextEditor";
         public const String EDITOR_TYPE_LANGUAGE_EDITOR = "LanguageEditor";
         public const String EDITOR_TYPE_TAG_EDITOR = "TagEditor";
+        public const String EDITOR_TYPE_DATE_EDITOR = "DateEditor";
+        public const String EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR = "GlobalLookupEditor";
+        public const String EDITOR_TYPE_ROMAJI_EDITOR = "RomajiEditor";
 
         public static string[] Editors = 
         {
@@ -43,6 +46,8 @@ namespace Win_CBZ.Data
         public bool AllowDuplicateValues { get; set; }
 
         public string AutoCompleteImageKey { get; set; }
+
+        public string[] ComposeValuFrom { get; set; }
 
 
         public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate, string[] autoCompleteItems)

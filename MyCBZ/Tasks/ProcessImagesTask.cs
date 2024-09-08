@@ -137,7 +137,9 @@ namespace Win_CBZ.Tasks
                                     results[1].Index = results[0].Index + 1;
                                     results[1].Number = results[0].Number + 1;
                                     results[1].Compressed = false;
-                                  
+                                    results[0].LoadImageInfo(true);
+                                    results[0].FreeImage();
+
                                     result.AddFinishedPage(results[1]);
                                 }
                             }

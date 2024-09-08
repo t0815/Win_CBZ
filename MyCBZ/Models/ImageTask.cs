@@ -48,6 +48,8 @@ namespace Win_CBZ.Models
 
         public List<String> Tasks { get; set; }
 
+        public ImageTaskOrder TaskOrder { get; set; }
+
         public bool Success = false;
 
         public Page SourcePage { get; set; }
@@ -65,6 +67,7 @@ namespace Win_CBZ.Models
             ImageFormat = new PageImageFormat[2];
             ResultPage = new Page[2];
             PageId = pageId;
+            TaskOrder = new ImageTaskOrder();
         }
 
         public ImageTask SetupTasks(ref Page source)
@@ -79,7 +82,37 @@ namespace Win_CBZ.Models
 
             ImageFormat[0] = source?.Format;
             SourceFormat = source?.Format;
-            SourcePage = source;  
+            SourcePage = source;
+            string[] orderedTasks = new string[4];
+            int index = 0;  
+            int autoIndex = 0;
+            foreach (string task in Tasks) 
+            {
+                switch (task) 
+                {
+                    case TASK_ROTATE:
+                        index = TaskOrder.Rotate.HasFlag(ImageTaskOrderValue.Auto) ? autoIndex : (int)TaskOrder.Rotate - 1;
+                        orderedTasks[index] = task;
+                        break;
+                    case TASK_RESIZE:
+                        index = TaskOrder.Resize.HasFlag(ImageTaskOrderValue.Auto) ? autoIndex : (int)TaskOrder.Resize - 1;
+                        orderedTasks[index] = task;
+                        break;
+                    case TASK_CONVERT:
+                        index = TaskOrder.Convert.HasFlag(ImageTaskOrderValue.Auto) ? autoIndex : (int)TaskOrder.Convert - 1;
+                        orderedTasks[index] = task;
+                        break;
+                    case TASK_SPLIT:
+                        index = TaskOrder.Split.HasFlag(ImageTaskOrderValue.Auto) ? autoIndex : (int)TaskOrder.Split - 1;
+                        orderedTasks[index] = task;
+                        break;
+                }
+
+                autoIndex++;
+                
+            }
+
+            Tasks = orderedTasks.ToList();  
             
             return this;
         }

@@ -39,7 +39,7 @@ namespace Win_CBZ.Tasks
         // <description>
         //      This was just a test, to see how to define lambda-functions as variables
         // </description>
-        private static Func<object?, TaskResult> TaskLambda(
+        private static Func<object, TaskResult> TaskLambda(
             List<Page> pages, 
             MetaData metaData, 
             MetaData.PageIndexVersion pageIndexVersion,
@@ -49,7 +49,7 @@ namespace Win_CBZ.Tasks
             bool popState = false
             )
         {
-            Func<object?, TaskResult> taskfn = (token) =>
+            Func<object, TaskResult> taskfn = (token) =>
             {
                 int current = 1;
                 int total = pages.Count;
