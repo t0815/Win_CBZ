@@ -405,7 +405,7 @@ namespace Win_CBZ.Forms
 
                     if (ComboBoxFileName.Text.Length == 0)
                     {
-                        throw new MetaDataValidationException("", ComboBoxFileName.Text, "ComboBoxFileName", "Validation Error! Empty MetaData- Filename not allowed!");
+                        throw new MetaDataValidationException("", ComboBoxFileName.Text, "ComboBoxFileName", "Validation Error! Empty Metadata- Filename not allowed!");
                     }
                     else
                     {
@@ -413,11 +413,43 @@ namespace Win_CBZ.Forms
                     }
 
                     int rowIndex = 0;
+                    int checkRowÍndex = 0;
                     foreach (MetaDataFieldType t in CustomFieldTypesSettings)
                     {
                         if (t.Name.Length == 0)
                         {
-                            throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + rowIndex.ToString(), "Validation Error! Empty MetaData- Editor Key/Fieldname not allowed!");
+                            throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + rowIndex.ToString(), "Validation Error! Empty Metadata- Editor Key/Fieldname not allowed!");
+                        }
+
+                        if (!Regex.IsMatch(t.Name, @"^[a-z]+$", RegexOptions.IgnoreCase))
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Default Metadata-Keys must contain only values between ['a-zA-Z']");
+
+                            throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + rowIndex.ToString(), "Validation Error! Metadata- Editor Key/Fieldname must contain only values between ['a-zA-Z']!", true, false);
+                        }
+
+                        int checkedRows = 0;
+                        foreach (DataGridViewRow row in CustomFieldsDataGrid.Rows)
+                        {
+                            if (row.Cells[0].Value != null)
+                            {
+                                if (row.Cells[0].Value.ToString() == t.Name)
+                                {
+                                    checkedRows++;
+                                }
+                            }
+
+                            if (checkedRows > 1)
+                            {
+                                throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + checkRowÍndex.ToString(), "Validation Error! Duplicate Metadata- Editor Key/Fieldname not allowed!");
+                            }
+
+                            checkRowÍndex++;
+                        }
+
+                        if (t.Name.Length == 0)
+                        {
+                            throw new MetaDataValidationException("", t.Name, "CustomFieldsDataGrid." + checkRowÍndex.ToString(), "Validation Error! Empty Metadata- Editor Key/Fieldname not allowed!");
                         }
 
                         rowIndex++;
