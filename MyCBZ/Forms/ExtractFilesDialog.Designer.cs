@@ -248,7 +248,7 @@
             // 
             // FolderBrowserDialog
             // 
-            FolderBrowserDialog.SelectedPath = ".\\";
+            FolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // ExtractFilesDialog
             // 

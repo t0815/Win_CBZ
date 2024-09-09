@@ -111,7 +111,7 @@
             TagValidationTooltip = new System.Windows.Forms.ToolTip(components);
             SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(components);
             AutocompleteIcons = new System.Windows.Forms.ImageList(components);
-            OpenTargetDirectory = new System.Windows.Forms.OpenFileDialog();
+            OpenTargetDirectory = new System.Windows.Forms.FolderBrowserDialog();
             SettingsTablePanel.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -1226,11 +1226,7 @@
             // 
             // OpenTargetDirectory
             // 
-            OpenTargetDirectory.AddExtension = false;
-            OpenTargetDirectory.AddToRecent = false;
-            OpenTargetDirectory.CheckFileExists = false;
-            OpenTargetDirectory.FileName = "folder";
-            OpenTargetDirectory.Filter = "All Files (*.*)|*.*";
+            OpenTargetDirectory.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // SettingsDialog
             // 
@@ -1379,6 +1375,6 @@
         private System.Windows.Forms.Panel DirectoryPathTextBox;
         private System.Windows.Forms.TextBox TextBoxTempPath;
         private System.Windows.Forms.Button ButtonSelectFolder;
-        private System.Windows.Forms.OpenFileDialog OpenTargetDirectory;
+        private System.Windows.Forms.FolderBrowserDialog OpenTargetDirectory;
     }
 }

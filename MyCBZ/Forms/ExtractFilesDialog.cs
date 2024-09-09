@@ -24,7 +24,6 @@ namespace Win_CBZ.Forms
 
         public int ExtractType = 0;
 
-        private bool FormShown = false;
         private bool CanClose;
 
         public ExtractFilesDialog()
@@ -51,7 +50,9 @@ namespace Win_CBZ.Forms
 
         private void ButtonBrowse_Click(object sender, EventArgs e)
         {
-            if (FolderBrowserDialog.ShowDialog() == DialogResult.OK)
+            DialogResult res = FolderBrowserDialog.ShowDialog();
+
+            if (res == DialogResult.OK)
             {
                 TextBoxOutputFolder.Text = FolderBrowserDialog.SelectedPath.ToString();
             }
@@ -59,18 +60,14 @@ namespace Win_CBZ.Forms
 
         private void ExtractFilesDialog_Shown(object sender, EventArgs e)
         {
-            if (!FormShown)
+            TextBoxOutputFolder.Text = TargetFolder;
+            if (SelectedPages != null && SelectedPages.Count > 0)
             {
-                TextBoxOutputFolder.Text = TargetFolder;
-                if (SelectedPages != null && SelectedPages.Count > 0)
-                {
-                    RadioButtonExtractSelected.Enabled = true;
-                    RadioButtonExtractSelected.Text = "Selected Pages (" + SelectedPages.Count.ToString() + ")";
-                    RadioButtonExtractSelected.Checked = true;
-                    ExtractType = 1;
-                }
-                FormShown = true;
-            }
+                RadioButtonExtractSelected.Enabled = true;
+                RadioButtonExtractSelected.Text = "Selected Pages (" + SelectedPages.Count.ToString() + ")";
+                RadioButtonExtractSelected.Checked = true;
+                ExtractType = 1;
+            }           
         }
 
         private void ButtonOk_Click(object sender, EventArgs e)

@@ -1404,9 +1404,9 @@ namespace Win_CBZ.Forms
             OpenTargetDirectory.InitialDirectory = PathHelper.ResolvePath(TextBoxTempPath.Text);
             if (OpenTargetDirectory.ShowDialog() == DialogResult.OK)
             {
-                LocalFile localFile = new LocalFile(OpenTargetDirectory.FileName);
+                //LocalFile localFile = new LocalFile(OpenTargetDirectory.SelectedPath);
 
-                TextBoxTempPath.Text = localFile.FilePath;
+                TextBoxTempPath.Text = OpenTargetDirectory.SelectedPath;
             }
         }
     }
