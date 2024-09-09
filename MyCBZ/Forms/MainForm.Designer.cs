@@ -1161,7 +1161,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -1276,7 +1276,7 @@ namespace Win_CBZ
             // GetImageProcessExcludesFromSelectedButton
             // 
             GetImageProcessExcludesFromSelectedButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1319);
+            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1324);
             GetImageProcessExcludesFromSelectedButton.Margin = new System.Windows.Forms.Padding(2);
             GetImageProcessExcludesFromSelectedButton.Name = "GetImageProcessExcludesFromSelectedButton";
             GetImageProcessExcludesFromSelectedButton.Size = new System.Drawing.Size(146, 27);
@@ -1303,7 +1303,7 @@ namespace Win_CBZ
             GroupBoxResize.Controls.Add(TextBoxResizeH);
             GroupBoxResize.Controls.Add(TextBoxResizeW);
             GroupBoxResize.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxResize.Location = new System.Drawing.Point(10, 478);
+            GroupBoxResize.Location = new System.Drawing.Point(10, 483);
             GroupBoxResize.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxResize.Name = "GroupBoxResize";
             GroupBoxResize.Padding = new System.Windows.Forms.Padding(2);
@@ -1475,7 +1475,7 @@ namespace Win_CBZ
             GroupBoxImageConversion.Controls.Add(label1);
             GroupBoxImageConversion.Controls.Add(ComboBoxConvertPages);
             GroupBoxImageConversion.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxImageConversion.Location = new System.Drawing.Point(11, 339);
+            GroupBoxImageConversion.Location = new System.Drawing.Point(11, 344);
             GroupBoxImageConversion.Name = "GroupBoxImageConversion";
             GroupBoxImageConversion.Size = new System.Drawing.Size(295, 114);
             GroupBoxImageConversion.TabIndex = 19;
@@ -1515,7 +1515,7 @@ namespace Win_CBZ
             GroupBoxDoublePages.Controls.Add(ComboBoxSplitAtType);
             GroupBoxDoublePages.Controls.Add(TextBoxSplitPageAt);
             GroupBoxDoublePages.Controls.Add(CheckBoxSplitDoublePages);
-            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 998);
+            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 1003);
             GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxDoublePages.Name = "GroupBoxDoublePages";
             GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2);
@@ -1609,7 +1609,7 @@ namespace Win_CBZ
             // 
             ExcludeHeaderLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             ExcludeHeaderLabel.AutoSize = true;
-            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 1211);
+            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 1216);
             ExcludeHeaderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             ExcludeHeaderLabel.Name = "ExcludeHeaderLabel";
             ExcludeHeaderLabel.Size = new System.Drawing.Size(60, 20);
@@ -1621,7 +1621,7 @@ namespace Win_CBZ
             AutoCompleteItems.SetAutocompleteMenu(TextBoxExcludePagesImageProcessing, null);
             TablePanePageAdjustments.SetColumnSpan(TextBoxExcludePagesImageProcessing, 2);
             TextBoxExcludePagesImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
-            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 1233);
+            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 1238);
             TextBoxExcludePagesImageProcessing.Margin = new System.Windows.Forms.Padding(2);
             TextBoxExcludePagesImageProcessing.Multiline = true;
             TextBoxExcludePagesImageProcessing.Name = "TextBoxExcludePagesImageProcessing";
@@ -1638,7 +1638,7 @@ namespace Win_CBZ
             GroupBoxRotate.Controls.Add(RadioButtonRotate90);
             GroupBoxRotate.Controls.Add(RadioButtonRotateNone);
             GroupBoxRotate.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxRotate.Location = new System.Drawing.Point(11, 809);
+            GroupBoxRotate.Location = new System.Drawing.Point(11, 814);
             GroupBoxRotate.Name = "GroupBoxRotate";
             GroupBoxRotate.Size = new System.Drawing.Size(295, 164);
             GroupBoxRotate.TabIndex = 20;
@@ -1698,7 +1698,7 @@ namespace Win_CBZ
             GroupBoxTasksOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             GroupBoxTasksOrder.Location = new System.Drawing.Point(11, 159);
             GroupBoxTasksOrder.Name = "GroupBoxTasksOrder";
-            GroupBoxTasksOrder.Size = new System.Drawing.Size(295, 154);
+            GroupBoxTasksOrder.Size = new System.Drawing.Size(295, 159);
             GroupBoxTasksOrder.TabIndex = 21;
             GroupBoxTasksOrder.TabStop = false;
             GroupBoxTasksOrder.Text = "Task Order";
@@ -1708,7 +1708,8 @@ namespace Win_CBZ
             PropertyGridTaskOrder.HelpVisible = false;
             PropertyGridTaskOrder.Location = new System.Drawing.Point(10, 26);
             PropertyGridTaskOrder.Name = "PropertyGridTaskOrder";
-            PropertyGridTaskOrder.Size = new System.Drawing.Size(273, 132);
+            PropertyGridTaskOrder.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            PropertyGridTaskOrder.Size = new System.Drawing.Size(273, 119);
             PropertyGridTaskOrder.TabIndex = 0;
             PropertyGridTaskOrder.ToolbarVisible = false;
             // 

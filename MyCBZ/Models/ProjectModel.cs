@@ -1672,202 +1672,26 @@ namespace Win_CBZ
 
         public bool ThreadRunning()
         {
-            if (LoadArchiveThread != null)
-            {
-                if (LoadArchiveThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (ExtractArchiveThread != null)
-            {
-                if (ExtractArchiveThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (PageUpdateThread != null)
-            {
-                if (PageUpdateThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (RenamingThread != null)
-            {
-                if (RenamingThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (CloseArchiveThread != null)
-            {
-                if (CloseArchiveThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (SaveArchiveThread != null)
-            {
-                if (SaveArchiveThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (PageUpdateThread != null)
-            {
-                if (PageUpdateThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (ProcessAddedFiles != null)
-            {
-                if (ProcessAddedFiles.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (ParseAddedFileNames != null)
-            {
-                if (ParseAddedFileNames.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (RestoreRenamingThread != null)
-            {
-                if (RestoreRenamingThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (AutoRenameThread != null)
-            {
-                if (AutoRenameThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            if (ArchiveValidationThread != null)
-            {
-                if (ArchiveValidationThread.IsAlive)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            var a = PageUpdateThread?.IsAlive ?? false;
+            var b = LoadArchiveThread?.IsAlive ?? false;
+            var c = ExtractArchiveThread?.IsAlive ?? false;
+            var d = RenamingThread?.IsAlive ?? false;
+            var e = CloseArchiveThread?.IsAlive ?? false;
+            var f = SaveArchiveThread?.IsAlive ?? false;
+            var g = PageUpdateThread?.IsAlive ?? false;
+            var h = ProcessAddedFiles?.IsAlive ?? false;
+            var i = ParseAddedFileNames?.IsAlive ?? false;
+            var j = RestoreRenamingThread?.IsAlive ?? false;
+            var k = AutoRenameThread?.IsAlive ?? false;
+            var l = ArchiveValidationThread?.IsAlive ?? false;
+            
+            return a || b || c || d || e || f || g || h || i || j || k || l;
         }
 
         public void CancelAllThreads()
         {
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Cancel();
 
-            /*
-            Task.Factory.StartNew(() =>
-            {
-
-                if (LoadArchiveThread != null)
-                {
-                    if (LoadArchiveThread.IsAlive)
-                    {
-                        LoadArchiveThread.Abort();
-                    }
-                }
-
-                if (ExtractArchiveThread != null)
-                {
-                    if (ExtractArchiveThread.IsAlive)
-                    {
-                        ExtractArchiveThread.Abort();
-                    }
-                }
-
-                if (PageUpdateThread != null)
-                {
-                    if (PageUpdateThread.IsAlive)
-                    {
-                        PageUpdateThread.Abort();
-                    }
-                }
-
-                if (RenamingThread != null)
-                {
-                    if (RenamingThread.IsAlive)
-                    {
-                        RenamingThread.Abort();
-                    }
-                }
-
-                if (CloseArchiveThread != null)
-                {
-                    if (CloseArchiveThread.IsAlive)
-                    {
-                        CloseArchiveThread.Abort();
-                    }
-                }
-
-                if (SaveArchiveThread != null)
-                {
-                    if (SaveArchiveThread.IsAlive)
-                    {
-                        SaveArchiveThread.Abort();
-                    }
-                }
-
-                if (PageUpdateThread != null)
-                {
-                    if (PageUpdateThread.IsAlive)
-                    {
-                        PageUpdateThread.Abort();
-                    }
-                }
-
-                if (ProcessAddedFiles != null)
-                {
-                    if (ProcessAddedFiles.IsAlive)
-                    {
-                        ProcessAddedFiles.Abort();
-                    }
-                }
-
-                if (ParseAddedFileNames != null)
-                {
-                    if (ParseAddedFileNames.IsAlive)
-                    {
-                        ParseAddedFileNames.Abort();
-                    }
-                }
-
-                if (RestoreRenamingThread != null)
-                {
-                    if (RestoreRenamingThread.IsAlive)
-                    {
-                        RestoreRenamingThread.Abort();
-                    }
-                }
-
-                if (ArchiveValidationThread != null)
-                {
-                    if (ArchiveValidationThread.IsAlive)
-                    {
-                        ArchiveValidationThread.Abort();
-                    }
-                }               
-            });
-            */
         }
 
 
