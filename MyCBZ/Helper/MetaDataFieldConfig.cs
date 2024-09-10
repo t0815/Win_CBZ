@@ -38,13 +38,13 @@ namespace Win_CBZ.Helper
         }
 
 
-        public MetaDataFieldType GetFieldConfigFor(String name)
+        public MetaDataFieldType GetFieldConfigFor(string name)
         {
             if (FieldTypes != null)
             {
                 foreach (MetaDataFieldType fieldType in FieldTypes)
                 {
-                    if (fieldType.Name == name)
+                    if (fieldType.Name.ToLower() == name.ToLower())
                     {
                         return fieldType;
                     }

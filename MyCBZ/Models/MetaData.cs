@@ -728,14 +728,14 @@ namespace Win_CBZ
                 
                 existing.Value = entry.Value;
 
-                if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(entry.Key).Name == entry.Key)
+                if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(entry.Key).Name.ToLower() == entry.Key.ToLower())
                 {
                     var mapping = MetaDataFieldConfig.GetInstance().GetFieldConfigFor(entry.Key);
 
                     existing.Type = mapping;
                     if (entry.Value == null || entry.Value == "")
                     {
-                        if (existing.Type.Name == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                        if (existing.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                         {
                             existing.Value = mapping.OptionsAsList()[0] ?? "???";
                         }
