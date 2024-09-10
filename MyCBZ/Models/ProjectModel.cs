@@ -658,6 +658,11 @@ namespace Win_CBZ
 
                     if (metaDataEntry != null)
                     {
+                        if (metaDataEntry.IsEncrypted)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Metadata ['" + MetaData.MetaDataFileName + "'] is encrypted! Encryption is not supported.");
+                        }
+
                         MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
                     }
                     else

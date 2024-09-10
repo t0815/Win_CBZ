@@ -225,7 +225,7 @@ namespace Win_CBZ
 
                 if (mapping.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                 {
-                    int index = mapping != null ? Array.IndexOf(mapping.OptionsAsList().Select(s => s.ToLower()).ToArray(), value) : -1;
+                    int index = mapping != null ? Array.IndexOf(mapping.OptionsAsList().Select(s => s.ToLower()).ToArray(), value.ToLower()) : -1;
 
                     value = value != null && index > -1 ? value : (mapping.OptionsAsList()[0] ?? "???");
 
