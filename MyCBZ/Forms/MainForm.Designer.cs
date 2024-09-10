@@ -1121,7 +1121,6 @@ namespace Win_CBZ
             // 
             // TabPagePageSettings
             // 
-            TabPagePageSettings.AutoScroll = true;
             TabPagePageSettings.Controls.Add(TablePanePageAdjustments);
             TabPagePageSettings.ImageIndex = 0;
             TabPagePageSettings.Location = new System.Drawing.Point(4, 29);
@@ -1136,7 +1135,6 @@ namespace Win_CBZ
             // TablePanePageAdjustments
             // 
             TablePanePageAdjustments.AutoScroll = true;
-            TablePanePageAdjustments.AutoSize = true;
             TablePanePageAdjustments.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             TablePanePageAdjustments.ColumnCount = 2;
             TablePanePageAdjustments.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -1705,11 +1703,13 @@ namespace Win_CBZ
             // 
             // PropertyGridTaskOrder
             // 
+            PropertyGridTaskOrder.CausesValidation = false;
+            PropertyGridTaskOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             PropertyGridTaskOrder.HelpVisible = false;
-            PropertyGridTaskOrder.Location = new System.Drawing.Point(10, 26);
+            PropertyGridTaskOrder.Location = new System.Drawing.Point(3, 23);
             PropertyGridTaskOrder.Name = "PropertyGridTaskOrder";
             PropertyGridTaskOrder.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            PropertyGridTaskOrder.Size = new System.Drawing.Size(273, 119);
+            PropertyGridTaskOrder.Size = new System.Drawing.Size(289, 133);
             PropertyGridTaskOrder.TabIndex = 0;
             PropertyGridTaskOrder.ToolbarVisible = false;
             // 
@@ -2671,7 +2671,6 @@ namespace Win_CBZ
             SplitBoxPageView.ResumeLayout(false);
             TabControlPageSettings.ResumeLayout(false);
             TabPagePageSettings.ResumeLayout(false);
-            TabPagePageSettings.PerformLayout();
             TablePanePageAdjustments.ResumeLayout(false);
             TablePanePageAdjustments.PerformLayout();
             GroupBoxDimensions.ResumeLayout(false);

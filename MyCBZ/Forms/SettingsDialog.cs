@@ -136,17 +136,20 @@ namespace Win_CBZ.Forms
             if (ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode) > -1)
             {
                 ComboBoxInterpolationModes.SelectedIndex = ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode);
-            } else
+            }
+            else
             {
-                try {
+                try
+                {
                     ComboBoxInterpolationModes.SelectedIndex = int.Parse(InterpolationMode);
-                } catch
+                }
+                catch
                 {
                     ComboBoxInterpolationModes.SelectedIndex = 0;
                 }
-                
+
             }
-            
+
 
             TextBoxTempPath.Text = TempPath;
 
@@ -517,12 +520,12 @@ namespace Win_CBZ.Forms
                     }
 
                     SettingsValidationErrorProvider.SetError(this.Controls.Find(controlName, true)[0], mv.Message);
-                    
+
                     if (row != null && row.Length > 0)
                     {
                         CustomFieldsDataGrid.Rows[int.Parse(row)].ErrorText = mv.Message;
                     }
-                    
+
                     DialogResult = DialogResult.Cancel;
                     e.Cancel = true;
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
@@ -626,6 +629,16 @@ namespace Win_CBZ.Forms
                         if (value != null)
                         {
                             valueText += value.ToString();
+                        }
+                    }
+
+                    if (e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 4)
+                    {
+                        if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
+                        {
+                            // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
+                            DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                            senderGrid.BeginEdit(true);
                         }
                     }
 
@@ -1407,6 +1420,26 @@ namespace Win_CBZ.Forms
                 //LocalFile localFile = new LocalFile(OpenTargetDirectory.SelectedPath);
 
                 TextBoxTempPath.Text = OpenTargetDirectory.SelectedPath;
+            }
+        }
+
+        private void CustomFieldsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = sender as DataGridView;
+
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            if (e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 4)
+            {
+                if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
+                {
+                    // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
+                    DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                    senderGrid.BeginEdit(true);
+                }
             }
         }
     }

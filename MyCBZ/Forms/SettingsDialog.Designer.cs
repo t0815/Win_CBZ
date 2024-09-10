@@ -621,6 +621,7 @@
             CustomFieldsDataGrid.RowTemplate.Height = 24;
             CustomFieldsDataGrid.Size = new System.Drawing.Size(103, 304);
             CustomFieldsDataGrid.TabIndex = 0;
+            CustomFieldsDataGrid.CellClick += CustomFieldsDataGrid_CellClick;
             CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
             CustomFieldsDataGrid.CellValueChanged += CustomFieldsDataGrid_CellValueChanged;
             CustomFieldsDataGrid.DataError += CustomFieldsDataGrid_DataError;
