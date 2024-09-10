@@ -218,7 +218,7 @@ namespace Win_CBZ
                 throw new MetaDataValidationException(new MetaDataEntry(key, value, null, readOnly), null, "Metadata Value Error! Value with key ['" + key + "'] is not allowed!", true, true);
             }
 
-            if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key).Name == key)
+            if (MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key).Name.ToLower() == key.ToLower())
             {
                 // todo: make case insensitive
                 var mapping = MetaDataFieldConfig.GetInstance().GetFieldConfigFor(key);
