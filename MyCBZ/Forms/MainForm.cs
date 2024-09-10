@@ -167,7 +167,7 @@ namespace Win_CBZ
                 ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
             }
 
-            
+
 
             // First Run App, initialize settings with defaults here  
             if (Win_CBZSettings.Default.FirstRun)
@@ -212,9 +212,9 @@ namespace Win_CBZ
                     {
                         Win_CBZSettings.Default.SettingsVersion = ex.CurrentVersion;
                     }
-                
+
                 }
-                
+
                 Win_CBZSettings.Default.Save();
             }
             catch (Exception e)
@@ -231,7 +231,7 @@ namespace Win_CBZ
 
             df = new DebugForm(PageView);
 
-            
+
             //pageClipboardMonitor = new PageClipboardMonitor();
             //pageClipboardMonitor.ClipboardChanged += ClipBoardChanged;
         }
@@ -471,9 +471,9 @@ namespace Win_CBZ
 
                 Task finalTask = new Task(() =>
                 {
-                    Program.ProjectModel.Open(OpenCBFDialog.FileName, 
-                        ZipArchiveMode.Read, 
-                        MetaDataVersionFlavorHandler.GetInstance().TargetVersion(), 
+                    Program.ProjectModel.Open(OpenCBFDialog.FileName,
+                        ZipArchiveMode.Read,
+                        MetaDataVersionFlavorHandler.GetInstance().TargetVersion(),
                         Win_CBZSettings.Default.SkipIndexCheck,
                         Win_CBZSettings.Default.InterpolationMode
                         );
@@ -3078,6 +3078,27 @@ namespace Win_CBZ
         private void MetaDataGrid_SelectionChanged(object sender, EventArgs e)
         {
             RemoveMetadataRowBtn.Enabled = MetaDataGrid.SelectedRows.Count > 0;
+
+            if (MetaDataGrid.SelectedCells.Count == 1)
+            {
+                
+
+                if (MetaDataGrid.SelectedCells[0].ColumnIndex == 1)
+                {
+                    if (MetaDataGrid.SelectedCells[0] is DataGridViewComboBoxCell)
+                    {
+                        // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
+                        DataGridViewComboBoxCell comboCell = MetaDataGrid.SelectedCells[0] as DataGridViewComboBoxCell;
+                        MetaDataGrid.BeginEdit(true);
+                    }
+                    //else if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewTextBoxCell)
+                    //{ // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE) {
+                      //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
+                      //value = textCell.Value?.ToString();
+                    //}
+
+                }
+            }
         }
 
         private void RemoveMetadataRowBtn_Click(object sender, EventArgs e)
@@ -3098,9 +3119,9 @@ namespace Win_CBZ
                         var key = row.Cells[0].Value?.ToString();
                         if (ToolBarSearchInput.Text.Length > 0)
                         {
-                            
+
                             MetaDataGrid.Rows.RemoveAt(row.Index);
-                            
+
                         }
                     }
                     else
@@ -3137,7 +3158,7 @@ namespace Win_CBZ
                     valStr = value.ToString();
                 }
 
-                
+
                 if (e.ColumnIndex == 0)
                 {
                     formattedKey = e.FormattedValue.ToString();
@@ -3282,8 +3303,9 @@ namespace Win_CBZ
         private void AddMetaData()
         {
             Invoke(new Action(() => { BtnAddMetaData.Enabled = false; }));
-            
-            try {
+
+            try
+            {
                 Program.ProjectModel.NewMetaData(true, Win_CBZSettings.Default.MetaDataFilename);
             }
             catch (MetaDataValidationException ve)
@@ -3700,6 +3722,33 @@ namespace Win_CBZ
             }
         }
 
+        private void MetaDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            var senderGrid = (DataGridView)sender;
+
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            if (e.ColumnIndex == 1)
+            {
+                if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
+                {
+                    // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
+                    DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                    senderGrid.BeginEdit(true);
+                }
+                else if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewTextBoxCell)
+                { // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE) {
+                  //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
+                  //value = textCell.Value?.ToString();
+                }
+
+            }
+        }
+
         private void MetaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -3709,105 +3758,121 @@ namespace Win_CBZ
                 return;
             }
 
-            if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
-                senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
+            //if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewButtonCell ||
+            //    senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
+            //{
+            String value = "";
+            MetaDataFieldType fieldType = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as MetaDataFieldType;
+            if (e.ColumnIndex == 2)
             {
-                String value = "";
-                MetaDataFieldType fieldType = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as MetaDataFieldType;
-                if (e.ColumnIndex == 2)
+                value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value?.ToString();
+            }
+            else
+            {
+                value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+            }
+
+            if (e.ColumnIndex == 1)
+            {
+                if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
                 {
-                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value?.ToString();
+                    // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
+                    DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                    senderGrid.BeginEdit(true);
                 }
-                else
-                {
-                    value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+                else if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewTextBoxCell)
+                { // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE) {
+                  //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
+                  //value = textCell.Value?.ToString();
                 }
 
-                if (fieldType != null)
+            }
+
+            if (e.ColumnIndex == 2 && fieldType != null)
+            {
+                fieldType.EditorConfig.Value = value;
+
+                if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
                 {
-                    fieldType.EditorConfig.Value = value;
+                    senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = 5;
+                }
 
-                    if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
-                    {
-                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = 5;
-                    }
-
-                    switch (fieldType.EditorType)
-                    {
-                        case EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR:
+                switch (fieldType.EditorType)
+                {
+                    case EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR:
+                        {
+                            TextEditorForm textEditor = new TextEditorForm(fieldType.EditorConfig);
+                            DialogResult r = textEditor.ShowDialog();
+                            if (r == DialogResult.OK)
                             {
-                                TextEditorForm textEditor = new TextEditorForm(fieldType.EditorConfig);
-                                DialogResult r = textEditor.ShowDialog();
-                                if (r == DialogResult.OK)
+                                if (textEditor.Config.Result != null)
                                 {
-                                    if (textEditor.Config.Result != null)
-                                    {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.Config.Result.ToString();
-                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
-                                        //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
-                                    }
+                                    senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.Config.Result.ToString();
+                                    // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                    //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                 }
                             }
-                            break;
-                        case EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR:
+                        }
+                        break;
+                    case EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR:
+                        {
+                            TagEditorForm textEditor = new TagEditorForm(fieldType.EditorConfig);
+                            DialogResult r = textEditor.ShowDialog();
+                            if (r == DialogResult.OK)
                             {
-                                TagEditorForm textEditor = new TagEditorForm(fieldType.EditorConfig);
-                                DialogResult r = textEditor.ShowDialog();
-                                if (r == DialogResult.OK)
+                                if (textEditor.Config.Result != null)
                                 {
-                                    if (textEditor.Config.Result != null)
-                                    {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.Config.Result.ToString();
-                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
-                                        //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
-                                    }
+                                    senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = textEditor.Config.Result.ToString();
+                                    // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                    //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, textEditor.config.Result.ToString().Split(','));
                                 }
                             }
-                            break;
-                        case EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR:
+                        }
+                        break;
+                    case EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR:
+                        {
+                            LanguageEditorForm langEditor = new LanguageEditorForm(fieldType.EditorConfig);
+                            DialogResult r = langEditor.ShowDialog();
+                            if (r == DialogResult.OK)
                             {
-                                LanguageEditorForm langEditor = new LanguageEditorForm(fieldType.EditorConfig);
-                                DialogResult r = langEditor.ShowDialog();
-                                if (r == DialogResult.OK)
+                                if (langEditor.config.Result != null)
                                 {
-                                    if (langEditor.config.Result != null)
-                                    {
-                                        senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
-                                        // todo: evaluate-> dont directly update autocompletes... only after saving?
-                                        //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, langEditor.config.Result.ToString());
-                                    }
+                                    senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value = langEditor.config.Result.ToString();
+                                    // todo: evaluate-> dont directly update autocompletes... only after saving?
+                                    //MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(fieldType.Name, langEditor.config.Result.ToString());
                                 }
                             }
-                            break;
-                        default:
+                        }
+                        break;
+                    default:
+                        {
+                            if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                             {
-                                if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                                DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                                comboCell.Style = new DataGridViewCellStyle()
                                 {
-                                    DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
-                                    comboCell.Style = new DataGridViewCellStyle()
-                                    {
-                                        SelectionForeColor = Color.Black,
-                                        SelectionBackColor = Color.Gold,
-                                        BackColor = Color.White,
-                                    };
+                                    SelectionForeColor = Color.Black,
+                                    SelectionBackColor = Color.Gold,
+                                    BackColor = Color.White,
+                                };
 
-
-                                }
-                                else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
-                                {
-                                    DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
-
-                                }
-
-
-                                MetaDataGrid.BeginEdit(true);
 
                             }
-                            break;
+                            else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+                            {
+                                DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
 
-                    }
+                            }
+
+
+                            MetaDataGrid.BeginEdit(true);
+
+                        }
+                        break;
+
                 }
             }
+            //}
         }
 
         private void MetaDataGrid_Sorted(object sender, EventArgs e)
@@ -3894,7 +3959,7 @@ namespace Win_CBZ
         private void MetaDataGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             try
-            { 
+            {
                 string Key = "";
                 string Val = "";
 
@@ -3947,7 +4012,7 @@ namespace Win_CBZ
                 }
             }
             catch (MetaDataValidationException ve)
-            {                
+            {
                 //MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = ve.Message;
                 //MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex]. = ve.Message;
 
@@ -4017,7 +4082,7 @@ namespace Win_CBZ
 
                 MetaDataEntry updatedEntry = Program.ProjectModel.MetaData.UpdateEntry(realIndex, new MetaDataEntry(Key, Val));
                 //MetaDataGrid.Rows[e.RowIndex].ErrorText = null;
-                
+
 
                 //if (updatedEntry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                 // {
@@ -4154,7 +4219,8 @@ namespace Win_CBZ
 
 
                                 MetaDataGrid.Rows[e.RowIndex].Cells[2] = bc;
-                            } else
+                            }
+                            else
                             {
                                 DataGridViewTextBoxCell bc = new DataGridViewTextBoxCell();
 
@@ -4177,7 +4243,7 @@ namespace Win_CBZ
                     MetaDataGrid.Invalidate();
                 }
             }
-            catch (MetaDataValidationException ve) 
+            catch (MetaDataValidationException ve)
             {
                 DialogResult dlgResult = DialogResult.OK;
                 MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText = ve.Message;
@@ -4986,7 +5052,8 @@ namespace Win_CBZ
 
                         if (page.TemporaryFile != null && page.TemporaryFile.FilePath != newPath)
                         {
-                            try { 
+                            try
+                            {
                                 page.CreateLocalWorkingCopy();
                             }
                             catch (Exception ex)
@@ -6704,7 +6771,5 @@ namespace Win_CBZ
         {
 
         }
-
-        
     }
 }
