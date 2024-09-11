@@ -26,7 +26,7 @@ namespace Win_CBZ.Data
             EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR,
             EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR,
             EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR,
-            EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR,
+            // EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR,  // todo: implement v1.1
         };
 
         public string[] AutoCompleteItems { get; set; }
@@ -118,7 +118,7 @@ namespace Win_CBZ.Data
                     name = "Romaji Editor";
                     break;
                 case EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR:
-                    name = "Variable Editor";
+                    name = "Insert...";
                     break;
             }
 
