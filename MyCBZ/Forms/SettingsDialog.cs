@@ -358,6 +358,19 @@ namespace Win_CBZ.Forms
 
                                 CustomFieldsDataGrid.Rows[i].Cells[6] = bc;
                             }
+
+                            if (type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
+                            {
+                                string[] variables = Win_CBZSettings.Default.RenamerPlaceholders.OfType<String>().ToArray();
+
+                                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                                {
+                                    Value = "...",
+                                    Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, "", "", false, variables)
+                                };
+                                CustomFieldsDataGrid.Rows[i].Cells[6] = bc;
+
+                            }
                         }
                     }
                 }
@@ -674,6 +687,19 @@ namespace Win_CBZ.Forms
                                         if (langEditor.config.Result != null)
                                         {
                                             senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value = langEditor.config.Result.ToString();
+                                        }
+                                    }
+                                }
+                                break;
+                            case EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR:
+                                {
+                                    VariableInsertionEditorConfigForm varEditor = new VariableInsertionEditorConfigForm(editorConfig);
+                                    DialogResult r = varEditor.ShowDialog();
+                                    if (r == DialogResult.OK)
+                                    {
+                                        if (varEditor.Config.Result != null)
+                                        {
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value = varEditor.Config.Result.ToString();
                                         }
                                     }
                                 }
@@ -1194,6 +1220,18 @@ namespace Win_CBZ.Forms
 
                 if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
                 {
+                    
+                }
+                else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
+                {
+                    string[] variables = Win_CBZSettings.Default.RenamerPlaceholders.OfType<String>().ToArray();
+
+                    DataGridViewButtonCell bc = new DataGridViewButtonCell
+                    {
+                        Value = "...",
+                        Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, "", "", false, variables)
+                    };
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = bc;
 
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR)
@@ -1318,6 +1356,19 @@ namespace Win_CBZ.Forms
                 };
 
                 CustomFieldsDataGrid.Rows[newIndex].Cells[6] = bc;
+            }
+
+            if (newEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
+            {
+                string[] variables = Win_CBZSettings.Default.RenamerPlaceholders.OfType<String>().ToArray();
+
+                DataGridViewButtonCell bc = new DataGridViewButtonCell
+                {
+                    Value = "...",
+                    Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, "", "", false, variables)
+                };
+                CustomFieldsDataGrid.Rows[newIndex].Cells[6] = bc;
+
             }
         }
 

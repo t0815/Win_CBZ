@@ -3513,11 +3513,13 @@ namespace Win_CBZ
                                         c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         c.DisplayStyleForCurrentCellOnly = false;
+                                        
                                         c.Style = new DataGridViewCellStyle()
                                         {
                                             SelectionBackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                             ForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                            //Font = new Font("Tahoma", 10f, FontStyle.Regular),
                                         };
 
                                         MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1] = c));
@@ -3575,18 +3577,30 @@ namespace Win_CBZ
 
                                     if (entry.Type.EditorType != EditorTypeConfig.EDITOR_TYPE_NONE)
                                     {
+                                        string btnCaption = "...";
+
+                                        if (entry.Type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
+                                        {
+                                            btnCaption = "$";
+                                        }
+
+                                        if (entry.Type.EditorType == EditorTypeConfig.EDITOR_TYPE_ROMAJI_EDITOR)
+                                        {
+                                            btnCaption = "?";
+                                        }
+
                                         DataGridViewButtonCell bc = new DataGridViewButtonCell
                                         {
-                                            Value = "...",
+                                            Value = btnCaption,
                                             Tag = entry.Type, // new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, "String", ",", " ", false, entry.Type.OptionsAsList()),
                                             Style = new DataGridViewCellStyle()
                                             {
-
                                                 SelectionForeColor = Color.White,
                                                 SelectionBackColor = Color.White,
                                                 ForeColor = Color.Black,
                                                 BackColor = Color.White,
-                                            }
+                                            },
+                                            ToolTipText = entry.Type.EditorConfig.ToString(),
                                         };
 
                                         MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[2] = bc));

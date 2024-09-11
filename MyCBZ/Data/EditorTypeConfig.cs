@@ -18,6 +18,7 @@ namespace Win_CBZ.Data
         public const String EDITOR_TYPE_DATE_EDITOR = "DateEditor";
         public const String EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR = "GlobalLookupEditor";
         public const String EDITOR_TYPE_ROMAJI_EDITOR = "RomajiEditor";
+        public const String EDITOR_TYPE_VARIABLE_EDITOR = "VariableEditor";
 
         public static string[] Editors = 
         {
@@ -25,6 +26,7 @@ namespace Win_CBZ.Data
             EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR,
             EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR,
             EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR,
+            EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR,
         };
 
         public string[] AutoCompleteItems { get; set; }
@@ -86,6 +88,41 @@ namespace Win_CBZ.Data
             Append = " ";
             ResultType = EditorTypeConfig.RESULT_TYPE_STRING;
             AutoCompleteItems = new String[0];
+        }
+
+        public override string ToString()
+        {
+            string name = Type;
+
+            switch (Type)
+            {
+                case EditorTypeConfig.EDITOR_TYPE_NONE:
+                    name = "";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR:
+                    name = "Multi Line Text Editor";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR:
+                    name = "Language Editor";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR:
+                    name = "Tag Editor";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_DATE_EDITOR:
+                    name = "Date Editor";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR:
+                    name = "Global Lookup Editor";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_ROMAJI_EDITOR:
+                    name = "Romaji Editor";
+                    break;
+                case EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR:
+                    name = "Variable Editor";
+                    break;
+            }
+
+            return name;
         }
     }
 }

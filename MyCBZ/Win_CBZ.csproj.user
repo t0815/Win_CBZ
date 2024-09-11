@@ -62,6 +62,9 @@
     <Compile Update="Forms\TextEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\VariableInsertionEditorConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Forms\MainForm.resx">
