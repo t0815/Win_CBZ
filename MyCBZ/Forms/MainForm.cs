@@ -3081,7 +3081,7 @@ namespace Win_CBZ
 
             if (MetaDataGrid.SelectedCells.Count == 1)
             {
-                
+
 
                 if (MetaDataGrid.SelectedCells[0].ColumnIndex == 1)
                 {
@@ -3093,8 +3093,8 @@ namespace Win_CBZ
                     }
                     //else if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewTextBoxCell)
                     //{ // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE) {
-                      //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
-                      //value = textCell.Value?.ToString();
+                    //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
+                    //value = textCell.Value?.ToString();
                     //}
 
                 }
@@ -3513,7 +3513,7 @@ namespace Win_CBZ
                                         c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         c.DisplayStyleForCurrentCellOnly = false;
-                                        
+
                                         c.Style = new DataGridViewCellStyle()
                                         {
                                             SelectionBackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -5615,7 +5615,11 @@ namespace Win_CBZ
 
                         }
 
-                        PropertyGridTaskOrder.SelectedObject = selectedImageTasks.TaskOrder;
+                        ComboBoxTaskOrderConversion.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Convert);
+                        ComboBoxTaskOrderResize.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Resize);
+                        ComboBoxTaskOrderRotation.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Rotate);
+                        ComboBoxTaskOrderSplit.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Split);
+                        //PropertyGridTaskOrder.SelectedObject = selectedImageTasks.TaskOrder;
 
                         switch (selectedImageTasks.ImageAdjustments.RotateMode)
                         {
@@ -5651,6 +5655,27 @@ namespace Win_CBZ
                     }));
 
                 }
+            }
+        }
+
+        private void ComboBoxTaskOrder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var cb = sender as ComboBox;
+
+            switch (cb.Name)
+            {
+                case "ComboBoxTaskOrderConversion":
+                    selectedImageTasks.TaskOrder.Convert = (ImageTaskOrderValue)cb.SelectedIndex;
+                    break;
+                case "ComboBoxTaskOrderResize":
+                    selectedImageTasks.TaskOrder.Resize = (ImageTaskOrderValue)cb.SelectedIndex;
+                    break;
+                case "ComboBoxTaskOrderRotation":
+                    selectedImageTasks.TaskOrder.Rotate = (ImageTaskOrderValue)cb.SelectedIndex;
+                    break;
+                case "ComboBoxTaskOrderSplit":
+                    selectedImageTasks.TaskOrder.Split = (ImageTaskOrderValue)cb.SelectedIndex;
+                    break;
             }
         }
 
@@ -6785,5 +6810,7 @@ namespace Win_CBZ
         {
 
         }
+
+        
     }
 }

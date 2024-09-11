@@ -166,7 +166,15 @@ namespace Win_CBZ
             RadioButtonRotate90 = new System.Windows.Forms.RadioButton();
             RadioButtonRotateNone = new System.Windows.Forms.RadioButton();
             GroupBoxTasksOrder = new System.Windows.Forms.GroupBox();
-            PropertyGridTaskOrder = new System.Windows.Forms.PropertyGrid();
+            tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            label4 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
+            ComboBoxTaskOrderConversion = new System.Windows.Forms.ComboBox();
+            ComboBoxTaskOrderResize = new System.Windows.Forms.ComboBox();
+            ComboBoxTaskOrderRotation = new System.Windows.Forms.ComboBox();
+            ComboBoxTaskOrderSplit = new System.Windows.Forms.ComboBox();
             TabPageGlobalSettings = new System.Windows.Forms.TabPage();
             FileSettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             PlaceholdersInfoLabel = new System.Windows.Forms.Label();
@@ -272,6 +280,7 @@ namespace Win_CBZ
             ((System.ComponentModel.ISupportInitialize)PictureBoxColorSelect).BeginInit();
             GroupBoxRotate.SuspendLayout();
             GroupBoxTasksOrder.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             TabPageGlobalSettings.SuspendLayout();
             FileSettingsTablePanel.SuspendLayout();
             TabPageArchiveSettings.SuspendLayout();
@@ -1692,7 +1701,7 @@ namespace Win_CBZ
             // GroupBoxTasksOrder
             // 
             TablePanePageAdjustments.SetColumnSpan(GroupBoxTasksOrder, 2);
-            GroupBoxTasksOrder.Controls.Add(PropertyGridTaskOrder);
+            GroupBoxTasksOrder.Controls.Add(tableLayoutPanel1);
             GroupBoxTasksOrder.Dock = System.Windows.Forms.DockStyle.Fill;
             GroupBoxTasksOrder.Location = new System.Drawing.Point(11, 159);
             GroupBoxTasksOrder.Name = "GroupBoxTasksOrder";
@@ -1701,17 +1710,113 @@ namespace Win_CBZ
             GroupBoxTasksOrder.TabStop = false;
             GroupBoxTasksOrder.Text = "Task Order";
             // 
-            // PropertyGridTaskOrder
+            // tableLayoutPanel1
             // 
-            PropertyGridTaskOrder.CausesValidation = false;
-            PropertyGridTaskOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            PropertyGridTaskOrder.HelpVisible = false;
-            PropertyGridTaskOrder.Location = new System.Drawing.Point(3, 23);
-            PropertyGridTaskOrder.Name = "PropertyGridTaskOrder";
-            PropertyGridTaskOrder.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            PropertyGridTaskOrder.Size = new System.Drawing.Size(289, 133);
-            PropertyGridTaskOrder.TabIndex = 0;
-            PropertyGridTaskOrder.ToolbarVisible = false;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            tableLayoutPanel1.Controls.Add(label4, 0, 0);
+            tableLayoutPanel1.Controls.Add(label5, 0, 1);
+            tableLayoutPanel1.Controls.Add(label6, 0, 2);
+            tableLayoutPanel1.Controls.Add(label8, 0, 3);
+            tableLayoutPanel1.Controls.Add(ComboBoxTaskOrderConversion, 1, 0);
+            tableLayoutPanel1.Controls.Add(ComboBoxTaskOrderResize, 1, 1);
+            tableLayoutPanel1.Controls.Add(ComboBoxTaskOrderRotation, 1, 2);
+            tableLayoutPanel1.Controls.Add(ComboBoxTaskOrderSplit, 1, 3);
+            tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel1.Location = new System.Drawing.Point(3, 23);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 4;
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            tableLayoutPanel1.Size = new System.Drawing.Size(289, 133);
+            tableLayoutPanel1.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(3, 5);
+            label4.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(82, 20);
+            label4.TabIndex = 0;
+            label4.Text = "Conversion";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(3, 38);
+            label5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(51, 20);
+            label5.TabIndex = 1;
+            label5.Text = "Resize";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(3, 71);
+            label6.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(53, 20);
+            label6.TabIndex = 2;
+            label6.Text = "Rotate";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(3, 104);
+            label8.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(39, 20);
+            label8.TabIndex = 3;
+            label8.Text = "Split";
+            // 
+            // ComboBoxTaskOrderConversion
+            // 
+            ComboBoxTaskOrderConversion.Dock = System.Windows.Forms.DockStyle.Fill;
+            ComboBoxTaskOrderConversion.FormattingEnabled = true;
+            ComboBoxTaskOrderConversion.Items.AddRange(new object[] { "auto", "1", "2", "3", "4" });
+            ComboBoxTaskOrderConversion.Location = new System.Drawing.Point(147, 3);
+            ComboBoxTaskOrderConversion.Name = "ComboBoxTaskOrderConversion";
+            ComboBoxTaskOrderConversion.Size = new System.Drawing.Size(139, 28);
+            ComboBoxTaskOrderConversion.TabIndex = 4;
+            ComboBoxTaskOrderConversion.SelectedIndexChanged += ComboBoxTaskOrder_SelectedIndexChanged;
+            // 
+            // ComboBoxTaskOrderResize
+            // 
+            ComboBoxTaskOrderResize.Dock = System.Windows.Forms.DockStyle.Fill;
+            ComboBoxTaskOrderResize.FormattingEnabled = true;
+            ComboBoxTaskOrderResize.Items.AddRange(new object[] { "auto", "1", "2", "3", "4" });
+            ComboBoxTaskOrderResize.Location = new System.Drawing.Point(147, 36);
+            ComboBoxTaskOrderResize.Name = "ComboBoxTaskOrderResize";
+            ComboBoxTaskOrderResize.Size = new System.Drawing.Size(139, 28);
+            ComboBoxTaskOrderResize.TabIndex = 5;
+            ComboBoxTaskOrderResize.SelectedIndexChanged += ComboBoxTaskOrder_SelectedIndexChanged;
+            // 
+            // ComboBoxTaskOrderRotation
+            // 
+            ComboBoxTaskOrderRotation.Dock = System.Windows.Forms.DockStyle.Fill;
+            ComboBoxTaskOrderRotation.FormattingEnabled = true;
+            ComboBoxTaskOrderRotation.Items.AddRange(new object[] { "auto", "1", "2", "3", "4" });
+            ComboBoxTaskOrderRotation.Location = new System.Drawing.Point(147, 69);
+            ComboBoxTaskOrderRotation.Name = "ComboBoxTaskOrderRotation";
+            ComboBoxTaskOrderRotation.Size = new System.Drawing.Size(139, 28);
+            ComboBoxTaskOrderRotation.TabIndex = 6;
+            ComboBoxTaskOrderRotation.SelectedIndexChanged += ComboBoxTaskOrder_SelectedIndexChanged;
+            // 
+            // ComboBoxTaskOrderSplit
+            // 
+            ComboBoxTaskOrderSplit.Dock = System.Windows.Forms.DockStyle.Fill;
+            ComboBoxTaskOrderSplit.FormattingEnabled = true;
+            ComboBoxTaskOrderSplit.Items.AddRange(new object[] { "auto", "1", "2", "3", "4" });
+            ComboBoxTaskOrderSplit.Location = new System.Drawing.Point(147, 102);
+            ComboBoxTaskOrderSplit.Name = "ComboBoxTaskOrderSplit";
+            ComboBoxTaskOrderSplit.Size = new System.Drawing.Size(139, 28);
+            ComboBoxTaskOrderSplit.TabIndex = 7;
+            ComboBoxTaskOrderSplit.SelectedIndexChanged += ComboBoxTaskOrder_SelectedIndexChanged;
             // 
             // TabPageGlobalSettings
             // 
@@ -2688,6 +2793,8 @@ namespace Win_CBZ
             GroupBoxRotate.ResumeLayout(false);
             GroupBoxRotate.PerformLayout();
             GroupBoxTasksOrder.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
             TabPageGlobalSettings.ResumeLayout(false);
             FileSettingsTablePanel.ResumeLayout(false);
             FileSettingsTablePanel.PerformLayout();
@@ -2927,7 +3034,15 @@ namespace Win_CBZ
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.GroupBox GroupBoxTasksOrder;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PropertyGrid PropertyGridTaskOrder;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox ComboBoxTaskOrderConversion;
+        private System.Windows.Forms.ComboBox ComboBoxTaskOrderResize;
+        private System.Windows.Forms.ComboBox ComboBoxTaskOrderRotation;
+        private System.Windows.Forms.ComboBox ComboBoxTaskOrderSplit;
     }
 }
 

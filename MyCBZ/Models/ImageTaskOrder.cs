@@ -19,13 +19,13 @@ namespace Win_CBZ.Models
     internal class ImageTaskOrder
     {
 
-        public ImageTaskOrderValue Convert { get; set; }
+        public ImageTaskOrderValue Convert { get; set; } = ImageTaskOrderValue.Auto;
 
-        public ImageTaskOrderValue Resize { get; set; }
+        public ImageTaskOrderValue Resize { get; set; } = ImageTaskOrderValue.Auto;
 
         public ImageTaskOrderValue Rotate { get; set; } = ImageTaskOrderValue.Auto;
 
-        public ImageTaskOrderValue Split { get; set; }
+        public ImageTaskOrderValue Split { get; set; } = ImageTaskOrderValue.Auto;
 
 
     }
