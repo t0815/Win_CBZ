@@ -151,6 +151,7 @@ namespace Win_CBZ
             label1 = new System.Windows.Forms.Label();
             ComboBoxConvertPages = new System.Windows.Forms.ComboBox();
             GroupBoxDoublePages = new System.Windows.Forms.GroupBox();
+            CheckBoxSplitOnlyIfDoubleSize = new System.Windows.Forms.CheckBox();
             pictureBox2 = new System.Windows.Forms.PictureBox();
             panel2 = new System.Windows.Forms.Panel();
             PictureBoxColorSelect = new System.Windows.Forms.PictureBox();
@@ -1164,7 +1165,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.Margin = new System.Windows.Forms.Padding(2);
             TablePanePageAdjustments.Name = "TablePanePageAdjustments";
             TablePanePageAdjustments.Padding = new System.Windows.Forms.Padding(8);
-            TablePanePageAdjustments.RowCount = 18;
+            TablePanePageAdjustments.RowCount = 17;
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -1176,13 +1177,13 @@ namespace Win_CBZ
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             TablePanePageAdjustments.Size = new System.Drawing.Size(338, 273);
             TablePanePageAdjustments.TabIndex = 7;
             // 
@@ -1283,7 +1284,7 @@ namespace Win_CBZ
             // GetImageProcessExcludesFromSelectedButton
             // 
             GetImageProcessExcludesFromSelectedButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1324);
+            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1344);
             GetImageProcessExcludesFromSelectedButton.Margin = new System.Windows.Forms.Padding(2);
             GetImageProcessExcludesFromSelectedButton.Name = "GetImageProcessExcludesFromSelectedButton";
             GetImageProcessExcludesFromSelectedButton.Size = new System.Drawing.Size(146, 27);
@@ -1516,6 +1517,7 @@ namespace Win_CBZ
             // 
             GroupBoxDoublePages.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TablePanePageAdjustments.SetColumnSpan(GroupBoxDoublePages, 2);
+            GroupBoxDoublePages.Controls.Add(CheckBoxSplitOnlyIfDoubleSize);
             GroupBoxDoublePages.Controls.Add(pictureBox2);
             GroupBoxDoublePages.Controls.Add(panel2);
             GroupBoxDoublePages.Controls.Add(LabelDetectSplitColor);
@@ -1526,10 +1528,20 @@ namespace Win_CBZ
             GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxDoublePages.Name = "GroupBoxDoublePages";
             GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2);
-            GroupBoxDoublePages.Size = new System.Drawing.Size(297, 196);
+            GroupBoxDoublePages.Size = new System.Drawing.Size(297, 216);
             GroupBoxDoublePages.TabIndex = 6;
             GroupBoxDoublePages.TabStop = false;
             GroupBoxDoublePages.Text = "Split Double-Pages";
+            // 
+            // CheckBoxSplitOnlyIfDoubleSize
+            // 
+            CheckBoxSplitOnlyIfDoubleSize.AutoSize = true;
+            CheckBoxSplitOnlyIfDoubleSize.Location = new System.Drawing.Point(62, 125);
+            CheckBoxSplitOnlyIfDoubleSize.Name = "CheckBoxSplitOnlyIfDoubleSize";
+            CheckBoxSplitOnlyIfDoubleSize.Size = new System.Drawing.Size(195, 24);
+            CheckBoxSplitOnlyIfDoubleSize.TabIndex = 11;
+            CheckBoxSplitOnlyIfDoubleSize.Text = "Apply only if double size";
+            CheckBoxSplitOnlyIfDoubleSize.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
             // 
@@ -1549,10 +1561,10 @@ namespace Win_CBZ
             // 
             panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             panel2.Controls.Add(PictureBoxColorSelect);
-            panel2.Location = new System.Drawing.Point(60, 132);
+            panel2.Location = new System.Drawing.Point(60, 171);
             panel2.Margin = new System.Windows.Forms.Padding(2);
             panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(50, 44);
+            panel2.Size = new System.Drawing.Size(50, 29);
             panel2.TabIndex = 6;
             // 
             // PictureBoxColorSelect
@@ -1562,7 +1574,7 @@ namespace Win_CBZ
             PictureBoxColorSelect.Location = new System.Drawing.Point(0, 0);
             PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(2);
             PictureBoxColorSelect.Name = "PictureBoxColorSelect";
-            PictureBoxColorSelect.Size = new System.Drawing.Size(48, 42);
+            PictureBoxColorSelect.Size = new System.Drawing.Size(48, 27);
             PictureBoxColorSelect.TabIndex = 5;
             PictureBoxColorSelect.TabStop = false;
             PictureBoxColorSelect.Click += PictureBoxColorSelect_Click;
@@ -1570,7 +1582,7 @@ namespace Win_CBZ
             // LabelDetectSplitColor
             // 
             LabelDetectSplitColor.AutoSize = true;
-            LabelDetectSplitColor.Location = new System.Drawing.Point(132, 148);
+            LabelDetectSplitColor.Location = new System.Drawing.Point(123, 176);
             LabelDetectSplitColor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             LabelDetectSplitColor.Name = "LabelDetectSplitColor";
             LabelDetectSplitColor.Size = new System.Drawing.Size(166, 20);
@@ -1616,7 +1628,7 @@ namespace Win_CBZ
             // 
             ExcludeHeaderLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             ExcludeHeaderLabel.AutoSize = true;
-            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 1216);
+            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 1236);
             ExcludeHeaderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             ExcludeHeaderLabel.Name = "ExcludeHeaderLabel";
             ExcludeHeaderLabel.Size = new System.Drawing.Size(60, 20);
@@ -1628,7 +1640,7 @@ namespace Win_CBZ
             AutoCompleteItems.SetAutocompleteMenu(TextBoxExcludePagesImageProcessing, null);
             TablePanePageAdjustments.SetColumnSpan(TextBoxExcludePagesImageProcessing, 2);
             TextBoxExcludePagesImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
-            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 1238);
+            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 1258);
             TextBoxExcludePagesImageProcessing.Margin = new System.Windows.Forms.Padding(2);
             TextBoxExcludePagesImageProcessing.Multiline = true;
             TextBoxExcludePagesImageProcessing.Name = "TextBoxExcludePagesImageProcessing";
@@ -3043,6 +3055,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ComboBox ComboBoxTaskOrderResize;
         private System.Windows.Forms.ComboBox ComboBoxTaskOrderRotation;
         private System.Windows.Forms.ComboBox ComboBoxTaskOrderSplit;
+        private System.Windows.Forms.CheckBox CheckBoxSplitOnlyIfDoubleSize;
     }
 }
 

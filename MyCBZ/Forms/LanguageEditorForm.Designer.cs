@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
             HeaderPanel = new System.Windows.Forms.Panel();
             HeaderLabel = new System.Windows.Forms.Label();
@@ -182,6 +183,14 @@
             LanguageListDatagrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             LanguageListDatagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             ItemEditorTableLayout.SetColumnSpan(LanguageListDatagrid, 2);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            LanguageListDatagrid.DefaultCellStyle = dataGridViewCellStyle2;
             LanguageListDatagrid.Dock = System.Windows.Forms.DockStyle.Fill;
             LanguageListDatagrid.Location = new System.Drawing.Point(3, 140);
             LanguageListDatagrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
