@@ -24,6 +24,12 @@ namespace Win_CBZ.Forms
 
         private DataValidation Validation;
 
+        private int lastSearchOccurence = 0;
+
+        private int occurence = 0;
+
+        private int nextOccurence = 0;
+
         public TextEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
@@ -163,7 +169,28 @@ namespace Win_CBZ.Forms
         {
             String itemsText = ItemsText.Text;
 
-            int occurence = itemsText.IndexOf(ToolStripTextBoxSearch.Text, 0, StringComparison.CurrentCultureIgnoreCase);
+            if (e.KeyCode == Keys.F3)
+            {
+                lastSearchOccurence = occurence + ToolStripTextBoxSearch.Text.Length;
+
+                ItemsText.SelectionStart = lastSearchOccurence + ToolStripTextBoxSearch.Text.Length;
+                ItemsText.SelectionLength = 0;
+
+                nextOccurence = itemsText.IndexOf(ToolStripTextBoxSearch.Text, lastSearchOccurence, StringComparison.CurrentCultureIgnoreCase);
+
+
+                if (nextOccurence < 0)
+                {
+                    ApplicationMessage.Show("Search reached the end of the document. Starting from the beginning.", "Search", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                    lastSearchOccurence = 0;
+                }
+            } else
+            {
+                lastSearchOccurence = 0;
+            }
+
+            occurence = itemsText.IndexOf(ToolStripTextBoxSearch.Text, lastSearchOccurence, StringComparison.CurrentCultureIgnoreCase);
 
             ItemsText.SelectionStart = 0;
             ItemsText.SelectionLength = 0;
@@ -172,7 +199,11 @@ namespace Win_CBZ.Forms
                 ItemsText.SelectionStart = occurence;
                 ItemsText.SelectionLength = ToolStripTextBoxSearch.Text.Length;
                 ItemsText.ScrollToCaret();
-            }           
+
+                lastSearchOccurence = occurence;
+            }   
+            
+            
         }
     }
 }

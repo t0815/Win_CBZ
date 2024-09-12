@@ -297,6 +297,9 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
+  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>167, 17</value>
+  </metadata>
   <metadata name="DialogImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>615, 17</value>
   </metadata>
@@ -305,7 +308,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAoAIAAAJNU0Z0AUkBTAIBAQIB
-        AAHAAQYBwAEGARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
+        AAHwAQYB8AEGARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
         AAwAA+cBUgFUAVUD+g8AA7gBtgK4ewAD9gO+A70D4BgAA+YDUAMlA30D+gYAA/0DtAMrAyUDungAAdEC
         0gYlAYoCixUAA+cMJQNGA/oDAAO0DCUBtgK4dQAB0QLSBiUBigKLFQAD6AM1DCUDfQO0AysJJQMrA7h1
         AAHRAtIGJQGKAosYAAPzAzUbJQO0bwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4A8AA+AD
@@ -328,9 +331,6 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
 
 (VERSION_1 is the current comicinfo.xml specification)</value>
   </data>
-  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>167, 17</value>
-  </metadata>
   <metadata name="AutocompleteIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>768, 17</value>
   </metadata>
@@ -339,7 +339,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAGCIAAAJNU0Z0AUkBTAIBAQ0B
-        AAEwAQUBMAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
+        AAFgAQUBYAEFARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
         ABsAA0wBkAMlAf8DYgHhCAADJAE0AyUB/wMlAf8DKgE/3AADMgFPAyUB/wMlAf8DGgEkBAAEAgNZAe8D
         JQH/A0YBgNgAAxABFQMbASYDQAH9AyUB/wNAAW8DEAEVAxABFQNYAboDJQH/A1oBxAMQARUDDwET0AAD
         XAHZAyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMrAfwDDgESzAADTgGXAyUB

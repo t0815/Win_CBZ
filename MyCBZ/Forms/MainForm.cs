@@ -289,7 +289,12 @@ namespace Win_CBZ
 
                 ComboBoxCompressionLevel.SelectedIndex = 0;
 
+                // ---------------------------- DEBUG --------------------------------
                 DebugToolsToolStripMenuItem.Visible = Program.DebugMode;
+                CheckBoxSplitDoublePages.Enabled = Program.DebugMode;
+
+                // -------------------------------------------------------------------
+
 
                 TextBoxMetaDataFilename.Text = Win_CBZSettings.Default.MetaDataFilename;
 

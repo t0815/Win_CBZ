@@ -146,11 +146,11 @@
             ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripTextBoxSearch, ToolButtonSortAscending });
-            ItemEditorToolBar.Location = new System.Drawing.Point(390, 103);
+            ItemEditorToolBar.Location = new System.Drawing.Point(371, 103);
             ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 8, 2);
             ItemEditorToolBar.Name = "ItemEditorToolBar";
             ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            ItemEditorToolBar.Size = new System.Drawing.Size(168, 27);
+            ItemEditorToolBar.Size = new System.Drawing.Size(206, 27);
             ItemEditorToolBar.Stretch = true;
             ItemEditorToolBar.TabIndex = 7;
             ItemEditorToolBar.Text = "toolStrip1";
@@ -159,6 +159,7 @@
             // 
             ToolStripTextBoxSearch.Name = "ToolStripTextBoxSearch";
             ToolStripTextBoxSearch.Size = new System.Drawing.Size(134, 27);
+            ToolStripTextBoxSearch.ToolTipText = "Type to search, F3 to find next occurence.";
             ToolStripTextBoxSearch.KeyUp += ToolStripTextBoxSearch_KeyUp;
             // 
             // ToolButtonSortAscending

@@ -60,6 +60,12 @@ namespace Win_CBZ.Forms
 
         DataValidation validation;
 
+        private int lastSearchOccurence = 0;
+
+        private int occurence = 0;
+
+        private int nextOccurence = 0;
+
         public SettingsDialog()
         {
             InitializeComponent();
@@ -1451,7 +1457,29 @@ namespace Win_CBZ.Forms
         {
             String itemsText = ValidTags.Text;
 
-            int occurence = itemsText.IndexOf(ToolStripTextBoxSearchTag.Text, 0, StringComparison.CurrentCultureIgnoreCase);
+            if (e.KeyCode == Keys.F3)
+            {
+                lastSearchOccurence = occurence + ToolStripTextBoxSearchTag.Text.Length;
+
+                ValidTags.SelectionStart = lastSearchOccurence + ToolStripTextBoxSearchTag.Text.Length;
+                ValidTags.SelectionLength = 0;
+
+                nextOccurence = itemsText.IndexOf(ToolStripTextBoxSearchTag.Text, lastSearchOccurence, StringComparison.CurrentCultureIgnoreCase);
+
+
+                if (nextOccurence < 0)
+                {
+                    ApplicationMessage.Show("Search reached the end of the document. Starting from the beginning.", "Search", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                    lastSearchOccurence = 0;
+                }
+            }
+            else
+            {
+                lastSearchOccurence = 0;
+            }
+
+            occurence = itemsText.IndexOf(ToolStripTextBoxSearchTag.Text, lastSearchOccurence, StringComparison.CurrentCultureIgnoreCase);
 
             ValidTags.SelectionStart = 0;
             ValidTags.SelectionLength = 0;
@@ -1460,6 +1488,8 @@ namespace Win_CBZ.Forms
                 ValidTags.SelectionStart = occurence;
                 ValidTags.SelectionLength = ToolStripTextBoxSearchTag.Text.Length;
                 ValidTags.ScrollToCaret();
+
+                lastSearchOccurence = occurence;
             }
         }
 
