@@ -15,9 +15,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Helper;
+using Color = System.Drawing.Color;
 
 namespace Win_CBZ.Forms
 {
@@ -581,7 +583,7 @@ namespace Win_CBZ.Forms
 
         private void SettingsSectionList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SettingsSectionList.SelectedIndex == 0)
+            if (SettingsSectionList.SelectedIndex == 1)
             {
                 MetaDataConfigTabControl.Visible = true;
                 ImageProcessingTabControl.Visible = false;
@@ -589,7 +591,7 @@ namespace Win_CBZ.Forms
                 CBZSettingsTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 1)
+            if (SettingsSectionList.SelectedIndex == 0)
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
@@ -1226,7 +1228,7 @@ namespace Win_CBZ.Forms
 
                 if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
                 {
-                    
+
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
                 {
@@ -1521,6 +1523,36 @@ namespace Win_CBZ.Forms
                     DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
                     senderGrid.BeginEdit(true);
                 }
+            }
+        }
+
+        private void SettingsSectionList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Color backgroundColor = Color.White;
+            Color textColor = Color.Black;
+            System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
+            
+            System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
+
+            Font f = SystemFonts.CaptionFont;
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                backgroundColor = Color.Gold;
+            }
+            else {
+                backgroundColor = SystemColors.Window;
+            }
+
+            string name = SettingsSectionList.Items[e.Index] as string;
+
+            System.Drawing.SolidBrush bg = new SolidBrush(backgroundColor);
+
+            e.Graphics.FillRectangle(bg, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
+            e.Graphics.DrawString(name, f, tb, e.Bounds.X + 26, e.Bounds.Y + 6);
+            if (CategoryImages.Images.ContainsKey(name.ToLower().Replace(' ', '_')))
+            {
+                e.Graphics.DrawImage(CategoryImages.Images[name.ToLower().Replace(' ','_')], e.Bounds.X + 1, e.Bounds.Y + 3);
             }
         }
     }
