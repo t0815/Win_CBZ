@@ -551,7 +551,8 @@ namespace Win_CBZ.Forms
                         controlName == "ComboBoxFileName")
                     {
                         errorSection = "metadata";
-                    } else if (controlName == "CustomFieldsDataGrid")
+                    } else if (controlName == "CustomFieldsDataGrid" ||
+                        controlName == "TextBoxTempPath")
                     {
                         errorSection = "application";
                     }
