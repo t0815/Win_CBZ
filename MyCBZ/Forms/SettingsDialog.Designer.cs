@@ -113,6 +113,7 @@
             AutocompleteIcons = new System.Windows.Forms.ImageList(components);
             OpenTargetDirectory = new System.Windows.Forms.FolderBrowserDialog();
             CategoryImages = new System.Windows.Forms.ImageList(components);
+            ErrorImages = new System.Windows.Forms.ImageList(components);
             SettingsTablePanel.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -1242,6 +1243,14 @@
             CategoryImages.Images.SetKeyName(1, "metadata");
             CategoryImages.Images.SetKeyName(2, "cbz");
             CategoryImages.Images.SetKeyName(3, "application");
+            CategoryImages.Images.SetKeyName(4, "error");
+            // 
+            // ErrorImages
+            // 
+            ErrorImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            ErrorImages.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("ErrorImages.ImageStream");
+            ErrorImages.TransparentColor = System.Drawing.Color.Transparent;
+            ErrorImages.Images.SetKeyName(0, "error");
             // 
             // SettingsDialog
             // 
@@ -1392,5 +1401,6 @@
         private System.Windows.Forms.Button ButtonSelectFolder;
         private System.Windows.Forms.FolderBrowserDialog OpenTargetDirectory;
         private System.Windows.Forms.ImageList CategoryImages;
+        private System.Windows.Forms.ImageList ErrorImages;
     }
 }

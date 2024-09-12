@@ -68,6 +68,8 @@ namespace Win_CBZ.Forms
 
         private int nextOccurence = 0;
 
+        private List<string> errorCategories = new List<string>();
+
         public SettingsDialog()
         {
             InitializeComponent();
@@ -399,6 +401,8 @@ namespace Win_CBZ.Forms
         {
             if (DialogResult == DialogResult.OK)
             {
+                errorCategories.Clear();
+
                 Program.ProjectModel.MetaData.CustomDefaultProperties = new List<String>(CustomDefaultKeys.Lines.ToArray<String>());
                 try
                 {
@@ -538,6 +542,25 @@ namespace Win_CBZ.Forms
                         string[] parts = controlName.Split('.');
                         controlName = parts[0];
                         row = parts[1];
+                    }
+
+                    string errorSection = "";
+
+                    if (controlName == "CustomDefaultKeys" ||
+                        controlName == "ValidTags" || 
+                        controlName == "ComboBoxFileName")
+                    {
+                        errorSection = "metadata";
+                    } else if (controlName == "CustomFieldsDataGrid")
+                    {
+                        errorSection = "application";
+                    }
+
+                    if (errorSection.Length > 0)
+                    {
+                        errorCategories.Add(errorSection);
+
+                        SettingsSectionList.Refresh();
                     }
 
                     SettingsValidationErrorProvider.SetError(this.Controls.Find(controlName, true)[0], mv.Message);
@@ -1553,6 +1576,11 @@ namespace Win_CBZ.Forms
             if (CategoryImages.Images.ContainsKey(name.ToLower().Replace(' ', '_')))
             {
                 e.Graphics.DrawImage(CategoryImages.Images[name.ToLower().Replace(' ','_')], e.Bounds.X + 1, e.Bounds.Y + 3);
+            }
+
+            if (errorCategories.IndexOf(name.ToLower()) > -1) 
+            {
+                e.Graphics.DrawImage(ErrorImages.Images["error"], e.Bounds.Right - 20, e.Bounds.Y + 8);
             }
         }
     }
