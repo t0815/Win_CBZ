@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Win_CBZ.Data
+namespace Win_CBZ.Models
 {
     internal class LanguageListItem
     {
 
-        public LanguageListItem(String name, String iso) 
+        public LanguageListItem(string name, string iso)
         {
             Name = name;
             Iso = iso;
         }
 
-        public String Name { get; set; }
+        public string Name { get; set; }
 
-        public String Iso { get; set; }
+        public string Iso { get; set; }
 
     }
 }

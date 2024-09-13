@@ -4,28 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Win_CBZ.Data
+namespace Win_CBZ.Models
 {
     public class EditorTypeConfig
     {
-        public const String RESULT_TYPE_STRING = "string";
-        public const String RESULT_TYPE_STRINGS = "string[]";
+        public const string RESULT_TYPE_STRING = "string";
+        public const string RESULT_TYPE_STRINGS = "string[]";
 
-        public const String EDITOR_TYPE_NONE = "";
-        public const String EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR = "MultiLineTextEditor";
-        public const String EDITOR_TYPE_LANGUAGE_EDITOR = "LanguageEditor";
-        public const String EDITOR_TYPE_TAG_EDITOR = "TagEditor";
-        public const String EDITOR_TYPE_DATE_EDITOR = "DateEditor";
-        public const String EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR = "GlobalLookupEditor";
-        public const String EDITOR_TYPE_ROMAJI_EDITOR = "RomajiEditor";
-        public const String EDITOR_TYPE_VARIABLE_EDITOR = "VariableEditor";
+        public const string EDITOR_TYPE_NONE = "";
+        public const string EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR = "MultiLineTextEditor";
+        public const string EDITOR_TYPE_LANGUAGE_EDITOR = "LanguageEditor";
+        public const string EDITOR_TYPE_TAG_EDITOR = "TagEditor";
+        public const string EDITOR_TYPE_DATE_EDITOR = "DateEditor";
+        public const string EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR = "GlobalLookupEditor";
+        public const string EDITOR_TYPE_ROMAJI_EDITOR = "RomajiEditor";
+        public const string EDITOR_TYPE_VARIABLE_EDITOR = "VariableEditor";
 
-        public static string[] Editors = 
+        public static string[] Editors =
         {
-            EditorTypeConfig.EDITOR_TYPE_NONE,
-            EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR,
-            EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR,
-            EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR,
+            EDITOR_TYPE_NONE,
+            EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR,
+            EDITOR_TYPE_LANGUAGE_EDITOR,
+            EDITOR_TYPE_TAG_EDITOR,
             // EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR,  // todo: implement v1.1
         };
 
@@ -35,7 +35,7 @@ namespace Win_CBZ.Data
 
         public string Separator { get; set; }
 
-        public String Value { get; set; }
+        public string Value { get; set; }
 
         public object DefaultValue { get; set; }
 
@@ -62,14 +62,14 @@ namespace Win_CBZ.Data
             AutoCompleteItems = autoCompleteItems;
         }
 
-        public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate) 
+        public EditorTypeConfig(string type, string resultType, string separator, string append, bool allowDuplicate)
         {
             ResultType = resultType;
             Type = type;
             Separator = separator;
             Append = append;
             AllowDuplicateValues = allowDuplicate;
-            AutoCompleteItems = new String[0];
+            AutoCompleteItems = new string[0];
         }
 
         public EditorTypeConfig(string type, string resultType)
@@ -78,7 +78,7 @@ namespace Win_CBZ.Data
             Type = type;
             Separator = ",";
             Append = " ";
-            AutoCompleteItems = new String[0];
+            AutoCompleteItems = new string[0];
         }
 
         public EditorTypeConfig(string type)
@@ -86,8 +86,8 @@ namespace Win_CBZ.Data
             Type = type;
             Separator = ",";
             Append = " ";
-            ResultType = EditorTypeConfig.RESULT_TYPE_STRING;
-            AutoCompleteItems = new String[0];
+            ResultType = RESULT_TYPE_STRING;
+            AutoCompleteItems = new string[0];
         }
 
         public override string ToString()
@@ -96,28 +96,28 @@ namespace Win_CBZ.Data
 
             switch (Type)
             {
-                case EditorTypeConfig.EDITOR_TYPE_NONE:
+                case EDITOR_TYPE_NONE:
                     name = "";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR:
+                case EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR:
                     name = "Multi Line Text Editor";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR:
+                case EDITOR_TYPE_LANGUAGE_EDITOR:
                     name = "Language Editor";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR:
+                case EDITOR_TYPE_TAG_EDITOR:
                     name = "Tag Editor";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_DATE_EDITOR:
+                case EDITOR_TYPE_DATE_EDITOR:
                     name = "Date Editor";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR:
+                case EDITOR_TYPE_GLOBAL_LOOKUP_EDITOR:
                     name = "Global Lookup Editor";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_ROMAJI_EDITOR:
+                case EDITOR_TYPE_ROMAJI_EDITOR:
                     name = "Romaji Editor";
                     break;
-                case EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR:
+                case EDITOR_TYPE_VARIABLE_EDITOR:
                     name = "Insert...";
                     break;
             }

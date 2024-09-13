@@ -5,7 +5,7 @@ using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Win_CBZ.Data;
+using Win_CBZ.Models;
 
 namespace Win_CBZ
 {

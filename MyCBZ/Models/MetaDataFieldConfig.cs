@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 
-namespace Win_CBZ.Helper
+namespace Win_CBZ.Models
 {
     [SupportedOSPlatform("windows")]
     internal class MetaDataFieldConfig
@@ -18,7 +18,7 @@ namespace Win_CBZ.Helper
 
         private readonly DataValidation Validation;
 
-        private MetaDataFieldConfig() 
+        private MetaDataFieldConfig()
         {
             FieldTypes = new List<MetaDataFieldType>();
             Validation = new DataValidation();
@@ -29,12 +29,12 @@ namespace Win_CBZ.Helper
         {
             //if (MetaDataFieldConfig.Instance == null)
             //{
-                MetaDataFieldConfig.Instance ??= new MetaDataFieldConfig();
+            Instance ??= new MetaDataFieldConfig();
             //}
 
             //MetaDataVersionFlavorHandler.Instance.HandlePageIndexVersion();
 
-            return MetaDataFieldConfig.Instance;
+            return Instance;
         }
 
 
@@ -50,16 +50,16 @@ namespace Win_CBZ.Helper
                     }
                 }
             }
-            
+
             return new MetaDataFieldType(name, MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX);
         }
 
         public List<MetaDataFieldType> GetAllTypes()
         {
-            return FieldTypes.ToList<MetaDataFieldType>();
+            return FieldTypes.ToList();
         }
 
-        public void UpdateItem(String name, MetaDataFieldType field) 
+        public void UpdateItem(string name, MetaDataFieldType field)
         {
             MetaDataFieldType existing = GetFieldConfigFor(name);
 
@@ -73,10 +73,10 @@ namespace Win_CBZ.Helper
             }
         }
 
-        public void UpdateAutoCompleteOptions(String name, String option)
+        public void UpdateAutoCompleteOptions(string name, string option)
         {
-            List<String> optionList = new List<String>();
-            List<String> validationTest = new List<String>();
+            List<string> optionList = new List<string>();
+            List<string> validationTest = new List<string>();
             MetaDataFieldType existing = GetFieldConfigFor(name);
 
             if (existing != null)
@@ -90,7 +90,8 @@ namespace Win_CBZ.Helper
                         if (existing.EditorConfig.AllowDuplicateValues)
                         {
                             optionList.Add(option);
-                        } else
+                        }
+                        else
                         {
                             validationTest.Add(option);
                             validationTest.AddRange(existing.OptionsAsList().Where((s, index) => s.Length > 0).ToArray());
@@ -104,18 +105,18 @@ namespace Win_CBZ.Helper
 
                         }
 
-                        existing.Options = String.Join(",", optionList);
+                        existing.Options = string.Join(",", optionList);
                         existing.EditorConfig.AutoCompleteItems = optionList.ToArray();
                     }
                 }
             }
         }
 
-        public void UpdateAutoCompleteOptions(String name, String[] options)
+        public void UpdateAutoCompleteOptions(string name, string[] options)
         {
-            List<String> optionList = new List<String>();
-            List<String> validationTest = new List<String>();
-            List<String> duplicatesList = new List<String>();
+            List<string> optionList = new List<string>();
+            List<string> validationTest = new List<string>();
+            List<string> duplicatesList = new List<string>();
             MetaDataFieldType existing = GetFieldConfigFor(name);
 
             if (existing != null)
@@ -126,7 +127,7 @@ namespace Win_CBZ.Helper
                     {
                         optionList.AddRange(existing.OptionsAsList().Where((s, index) => s.Length > 0).ToArray());
                         if (existing.EditorConfig.AllowDuplicateValues)
-                        {                           
+                        {
                             optionList.AddRange(options.Where((s, index) => s.Length > 0).ToArray());
                         }
                         else
@@ -144,17 +145,18 @@ namespace Win_CBZ.Helper
                                     {
                                         optionList.Add(item);
                                     }
-                                } else
+                                }
+                                else
                                 {
                                     if (item.Length > 0)
                                     {
                                         optionList.Add(item);
-                                    }                                   
-                                }                                
+                                    }
+                                }
                             }
                         }
 
-                        existing.Options = String.Join(",", optionList);
+                        existing.Options = string.Join(",", optionList);
                         existing.EditorConfig.AutoCompleteItems = optionList.ToArray();
                     }
                 }
@@ -164,7 +166,7 @@ namespace Win_CBZ.Helper
 
         public string[] PrepareForConfig()
         {
-            List<String> result = new List<String>(); 
+            List<string> result = new List<string>();
 
             foreach (MetaDataFieldType fieldType in FieldTypes)
             {
@@ -178,9 +180,9 @@ namespace Win_CBZ.Helper
         {
             FieldTypes.Clear();
 
-            foreach (String line in settingsList)
+            foreach (string line in settingsList)
             {
-                String[] typeParts = line.Split('|');
+                string[] typeParts = line.Split('|');
 
                 if (typeParts.Length >= 5)
                 {
@@ -192,7 +194,9 @@ namespace Win_CBZ.Helper
                             typeParts[2],
                             typeParts[3],
                             bool.Parse(typeParts[4].ToLower()),
-                            typeParts.Length == 6 ? typeParts[5] : ""
+                            typeParts.Length == 6 ? typeParts[5] : "",
+                            typeParts.Length == 7 ? bool.Parse(typeParts[6]) : false,
+                            typeParts.Length == 8 ? typeParts[7] : ","
                         ));
                     }
                     catch (Exception e)

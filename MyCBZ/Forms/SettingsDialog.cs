@@ -19,6 +19,7 @@ using System.Windows.Media;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Helper;
+using Win_CBZ.Models;
 using Color = System.Drawing.Color;
 
 namespace Win_CBZ.Forms
@@ -858,308 +859,72 @@ namespace Win_CBZ.Forms
                 bool AutoUpdate = false;
                 string AutoCompleteImageKey = null;
                 string Val = "";
+                bool Multivalued = false;
+                string MultivalueSeparator = "";
 
-                object value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-
-                if (e.ColumnIndex == 0)
+                object value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[0].Value;
+                if (value == null)
                 {
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Key = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    FieldType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    EditorType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 3].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Val = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 4].Value;
-                    if (value == null || (string)value == "")
-                    {
-                        value = "";
-                    }
-
-                    AutoCompleteImageKey = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 5].Value;
-                    if (value == null)
-                    {
-                        value = "False";
-                    }
-
-                    AutoUpdate = Boolean.Parse(value.ToString());
+                    value = "";
                 }
 
-                if (e.ColumnIndex == 1)
+                Key = value.ToString();
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1].Value;
+                if (value == null)
                 {
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    FieldType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Key = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    EditorType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Val = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 3].Value;
-                    if (value == null || (string)value == "")
-                    {
-                        value = "";
-                    }
-
-                    AutoCompleteImageKey = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 4].Value;
-                    if (value == null)
-                    {
-                        value = "False";
-                    }
-
-                    AutoUpdate = Boolean.Parse(value.ToString());
+                    value = "";
                 }
 
-                if (e.ColumnIndex == 2)
+                FieldType = value.ToString();
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2].Value;
+                if (value == null)
                 {
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    EditorType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Key = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    FieldType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Val = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Value;
-                    if (value == null || (string)value == "")
-                    {
-                        value = "";
-                    }
-
-                    AutoCompleteImageKey = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 3].Value;
-                    if (value == null)
-                    {
-                        value = "False";
-                    }
-
-                    AutoUpdate = Boolean.Parse(value.ToString());
+                   value = "";
                 }
 
-                if (e.ColumnIndex == 3)
+                EditorType = value.ToString();
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[3].Value;
+                if (value == null)
                 {
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Val = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Key = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    FieldType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    EditorType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
-                    if (value == null || (string)value == "")
-                    {
-                        value = "";
-                    }
-
-                    AutoCompleteImageKey = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 2].Value;
-                    if (value == null)
-                    {
-                        value = "False";
-                    }
-
-                    AutoUpdate = Boolean.Parse(value.ToString());
+                    value = "";
                 }
 
-                if (e.ColumnIndex == 4)
+                Val = value.ToString();
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4].Value;
+                if (value == null || (string)value == "")
                 {
-                    if (value == null || (string)value == "")
-                    {
-                        value = "";
-                    }
-
-                    AutoCompleteImageKey = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 4].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Key = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    FieldType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    EditorType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Val = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex + 1].Value;
-                    if (value == null)
-                    {
-                        value = "False";
-                    }
-
-                    AutoUpdate = Boolean.Parse(value.ToString());
+                    value = "";
                 }
 
-                if (e.ColumnIndex == 5)
+                AutoCompleteImageKey = value.ToString();
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value;
+                if (value == null)
                 {
-                    if (value == null)
-                    {
-                        value = "False";
-                    }
-
-                    AutoUpdate = Boolean.Parse(value.ToString());
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 5].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Key = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 4].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    FieldType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    EditorType = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 2].Value;
-                    if (value == null)
-                    {
-                        value = "";
-                    }
-
-                    Val = value.ToString();
-
-                    value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 1].Value;
-                    if (value == null || (string)value == "")
-                    {
-                        value = "-1";
-                    }
-
-                    AutoCompleteImageKey = value.ToString();
+                   value = "False";
                 }
+
+                AutoUpdate = Boolean.Parse(value.ToString());
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].Value;
+                if (value == null)
+                {
+                    value = "False";
+                }
+
+                Multivalued = Boolean.Parse(value.ToString());
+
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[7].Value;
+                if (value == null)
+                {
+                    value = "";
+                }
+
+                MultivalueSeparator = value.ToString();
 
                 MetaDataFieldType updatedEntry = CustomFieldTypesSettings[e.RowIndex];
                 CustomFieldsDataGrid.Rows[e.RowIndex].ErrorText = null;
@@ -1175,6 +940,8 @@ namespace Win_CBZ.Forms
                     updatedEntry.EditorType = EditorType;
                     updatedEntry.AutoUpdate = AutoUpdate;
                     updatedEntry.AutoCompleteImageKey = AutoCompleteImageKey;
+                    updatedEntry.MultiValued = Multivalued;
+                    updatedEntry.MultiValueSeparator = MultivalueSeparator;
 
                     int selectedIndex = Array.IndexOf(MetaDataFieldType.FieldTypes, FieldType);
                     DataGridViewComboBoxCell cc = new DataGridViewComboBoxCell();
@@ -1233,8 +1000,12 @@ namespace Win_CBZ.Forms
                     }
                     else
                     {
+                        DataGridViewTextBoxCell tc = new DataGridViewTextBoxCell();
+                        tc.Value = "";
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = tc;
+
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4].ReadOnly = true;
-                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4].Value = "";
+                        
                     }
 
                     if (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX ||
@@ -1246,6 +1017,11 @@ namespace Win_CBZ.Forms
                             Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, ",", " ", false)
                         };
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = bc;
+                    } else
+                    {
+                        DataGridViewTextBoxCell tc = new DataGridViewTextBoxCell();
+
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = tc;
                     }
 
                 }

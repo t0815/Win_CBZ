@@ -22,6 +22,7 @@ using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Handler;
 using Win_CBZ.Helper;
+using Win_CBZ.Models;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static Win_CBZ.Handler.AppEventHandler;
 

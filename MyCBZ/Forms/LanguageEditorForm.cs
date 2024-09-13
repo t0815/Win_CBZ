@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Win_CBZ.Data;
+using Win_CBZ.Models;
 
 namespace Win_CBZ.Forms
 {

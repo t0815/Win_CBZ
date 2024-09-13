@@ -4,69 +4,83 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Win_CBZ.Data
+namespace Win_CBZ.Models
 {
     internal class MetaDataFieldType
     {
 
-        public const String METADATA_FIELD_TYPE_TEXT_BOX = "TextBox";
-        public const String METADATA_FIELD_TYPE_COMBO_BOX = "ComboBox";
-        public const String METADATA_FIELD_TYPE_AUTO_COMPLETE = "AutoComplete";
-        public const String METADATA_FIELD_TYPE_RATING = "Rating";
-        public const String METADATA_FIELD_TYPE_CHECK_BOX = "CheckBox";
-        
+        public const string METADATA_FIELD_TYPE_TEXT_BOX = "TextBox";
+        public const string METADATA_FIELD_TYPE_COMBO_BOX = "ComboBox";
+        public const string METADATA_FIELD_TYPE_AUTO_COMPLETE = "AutoComplete";
+        public const string METADATA_FIELD_TYPE_RATING = "Rating";
+        public const string METADATA_FIELD_TYPE_CHECK_BOX = "CheckBox";
+
 
         public static string[] FieldTypes =
         {
-            MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX,
-            MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX,
-            MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE,
+            METADATA_FIELD_TYPE_TEXT_BOX,
+            METADATA_FIELD_TYPE_COMBO_BOX,
+            METADATA_FIELD_TYPE_AUTO_COMPLETE,
             /* MetaDataFieldType.METADATA_FIELD_TYPE_RATING, */
         };
 
 
-        public String Name { get; set; }
+        public string Name { get; set; }
 
-        public String FieldType { get; set; }
+        public string FieldType { get; set; }
 
-        public String EditorType { get; set; }
+        public string EditorType { get; set; }
 
-        public String Options { get; set; }
+        public string Options { get; set; }
 
         public bool AutoUpdate { get; set; }
 
         public string AutoCompleteImageKey { get; set; }
 
-        public EditorTypeConfig EditorConfig { get; set; } = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_NONE);
-        
+        public string MultiValueSeparator { get; set; } = ",";
 
-        public MetaDataFieldType() 
+        public bool MultiValued { get; set; }
+
+        public EditorTypeConfig EditorConfig { get; set; } = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_NONE);
+
+
+        public MetaDataFieldType()
         {
-            FieldType = MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX;
+            FieldType = METADATA_FIELD_TYPE_TEXT_BOX;
             EditorType = EditorTypeConfig.EDITOR_TYPE_NONE;
             AutoUpdate = false;
+            MultiValued = false;
         }
 
 
-        public MetaDataFieldType(String name)
+        public MetaDataFieldType(string name)
         {
             Name = name;
-            FieldType = MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX;
+            FieldType = METADATA_FIELD_TYPE_TEXT_BOX;
             EditorType = EditorTypeConfig.EDITOR_TYPE_NONE;
             Options = "";
             AutoUpdate = false;
+            MultiValued = false;
         }
 
-        public MetaDataFieldType(String name, String type)
+        public MetaDataFieldType(string name, string type)
         {
             Name = name;
             FieldType = type;
             EditorType = EditorTypeConfig.EDITOR_TYPE_NONE;
             Options = "";
             AutoUpdate = false;
+            MultiValued = false;
         }
 
-        public MetaDataFieldType(String name, String fieldType, String editorType, String options, bool autoUpdate = false, string autoCompleteImageKey = null) 
+        public MetaDataFieldType(string name, 
+            string fieldType, 
+            string editorType, 
+            string options, 
+            bool autoUpdate = false, 
+            string autoCompleteImageKey = null,
+            bool multiValued = false,
+            string multiValueSeparator = ",")
         {
             Name = name;
             FieldType = fieldType;
@@ -74,7 +88,9 @@ namespace Win_CBZ.Data
             Options = options;
             AutoUpdate = autoUpdate;
             AutoCompleteImageKey = autoCompleteImageKey;
-            MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, ",", "", false, options.Split(','), autoCompleteImageKey);
+            MultiValueSeparator = multiValueSeparator;
+            MultiValued = multiValued;
+            MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, MultiValueSeparator, "", false, options.Split(MultiValueSeparator), autoCompleteImageKey);
         }
 
         public MetaDataFieldType MakeEditorConfig(string resultType, string separator, string append, bool allowDuplicate = false, string[] autoCompleteItems = null, string autoCompleteImageIndex = null)
@@ -91,33 +107,34 @@ namespace Win_CBZ.Data
         }
 
 
-        public static MetaDataFieldType MakeComboBoxField(String name, String options, String editorType = EditorTypeConfig.EDITOR_TYPE_NONE)
+        public static MetaDataFieldType MakeComboBoxField(string name, string options, string editorType = EditorTypeConfig.EDITOR_TYPE_NONE)
         {
             MetaDataFieldType result = new MetaDataFieldType(name);
             result.EditorType = editorType;
             result.Options = options;
-            result.FieldType = MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX;
+            result.FieldType = METADATA_FIELD_TYPE_COMBO_BOX;
+            result.MultiValued = false;
             result.MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, ",", "");
 
             return result;
         }
 
 
-        public String[] OptionsAsList(char separator = ',')
+        public string[] OptionsAsList(char separator = ',')
         {
             return Options.Split(separator).Select((s) => s.TrimEnd(' ').TrimStart(' ')).ToArray();
         }
 
-        public MetaDataFieldType MakeOptionsFromStrings(string[] options, String separator = ",")
+        public MetaDataFieldType MakeOptionsFromStrings(string[] options, string separator = ",")
         {
-            Options = String.Join(separator, options);
+            Options = string.Join(separator, options);
 
             return this;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return Name + "|" + FieldType + "|" + EditorType + "|" + Options + "|" + AutoUpdate.ToString() + "|" + AutoCompleteImageKey.ToString();
+            return Name + "|" + FieldType + "|" + EditorType + "|" + Options + "|" + AutoUpdate.ToString() + "|" + AutoCompleteImageKey.ToString() + "|" + MultiValued.ToString() + "|" + MultiValueSeparator;
         }
     }
 }

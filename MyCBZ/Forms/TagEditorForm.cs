@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Win_CBZ.Data;
+using Win_CBZ.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Brush = System.Drawing.Brush;
 using Brushes = System.Drawing.Brushes;
