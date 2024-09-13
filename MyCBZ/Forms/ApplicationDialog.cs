@@ -191,7 +191,12 @@ namespace Win_CBZ.Forms
 
         private void ApplicationDialog_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
+        }
+
+        private void ApplicationDialog_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

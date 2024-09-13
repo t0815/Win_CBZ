@@ -863,7 +863,7 @@ namespace Win_CBZ
             // 
             // PageImages
             // 
-            PageImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+            PageImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             PageImages.ImageSize = new System.Drawing.Size(212, 244);
             PageImages.TransparentColor = System.Drawing.Color.White;
             // 
@@ -2493,13 +2493,13 @@ namespace Win_CBZ
             // 
             // LogMessageImageList
             // 
-            LogMessageImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            LogMessageImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             LogMessageImageList.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("LogMessageImageList.ImageStream");
             LogMessageImageList.TransparentColor = System.Drawing.Color.Transparent;
-            LogMessageImageList.Images.SetKeyName(0, "information.png");
-            LogMessageImageList.Images.SetKeyName(1, "sign_warning.png");
-            LogMessageImageList.Images.SetKeyName(2, "error.png");
-            LogMessageImageList.Images.SetKeyName(3, "speech_balloon_answer.png");
+            LogMessageImageList.Images.SetKeyName(0, "information");
+            LogMessageImageList.Images.SetKeyName(1, "earning");
+            LogMessageImageList.Images.SetKeyName(2, "error");
+            LogMessageImageList.Images.SetKeyName(3, "balloon");
             // 
             // ContextMenuPropertyFilter
             // 
