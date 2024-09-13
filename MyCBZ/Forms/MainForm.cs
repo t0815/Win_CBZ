@@ -3959,21 +3959,25 @@ namespace Win_CBZ
 
         private void ToolStripMenuItemDataGridRemoveSort_Click(object sender, EventArgs e)
         {
-            MetaDataGrid.Rows.Clear();
-            MetaDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
-            MetaDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-            List<MetaDataEntry> list = new List<MetaDataEntry>();
-
-            foreach (string key in Program.ProjectModel.MetaData.DefaultSortOrderKeys)
+            if (MetaDataGrid.Columns.Count > 0)
             {
-                list.Add(Program.ProjectModel.MetaData.EntryByKey(key));
+
+                MetaDataGrid.Rows.Clear();
+                MetaDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+                MetaDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+                List<MetaDataEntry> list = new List<MetaDataEntry>();
+
+                foreach (string key in Program.ProjectModel.MetaData.DefaultSortOrderKeys)
+                {
+                    list.Add(Program.ProjectModel.MetaData.EntryByKey(key));
+                }
+
+                Program.ProjectModel.MetaData.Values.Clear();
+                Program.ProjectModel.MetaData.Values = new BindingList<MetaDataEntry>(list);
+
+                AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
             }
-
-            Program.ProjectModel.MetaData.Values.Clear();
-            Program.ProjectModel.MetaData.Values = new BindingList<MetaDataEntry>(list);
-
-            AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
         }
 
         private void MetaDataGrid_ColumnSortModeChanged(object sender, DataGridViewColumnEventArgs e)

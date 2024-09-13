@@ -2470,12 +2470,12 @@ namespace Win_CBZ
             DataGridContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             DataGridContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripMenuItemDataGridRemoveSort });
             DataGridContextMenu.Name = "DataGridContextMenu";
-            DataGridContextMenu.Size = new System.Drawing.Size(164, 28);
+            DataGridContextMenu.Size = new System.Drawing.Size(211, 56);
             // 
             // ToolStripMenuItemDataGridRemoveSort
             // 
             ToolStripMenuItemDataGridRemoveSort.Name = "ToolStripMenuItemDataGridRemoveSort";
-            ToolStripMenuItemDataGridRemoveSort.Size = new System.Drawing.Size(163, 24);
+            ToolStripMenuItemDataGridRemoveSort.Size = new System.Drawing.Size(210, 24);
             ToolStripMenuItemDataGridRemoveSort.Text = "Remove Sort";
             ToolStripMenuItemDataGridRemoveSort.Click += ToolStripMenuItemDataGridRemoveSort_Click;
             // 
