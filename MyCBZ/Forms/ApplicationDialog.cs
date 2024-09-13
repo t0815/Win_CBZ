@@ -193,10 +193,5 @@ namespace Win_CBZ.Forms
         {
 
         }
-
-        private void ApplicationDialog_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

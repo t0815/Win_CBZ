@@ -4336,6 +4336,7 @@ namespace Win_CBZ
             bool propsButtonAvailable = selectedPages.Count == 1;
 
             ToolButtonRemoveFiles.Enabled = buttonStateSelected;
+            deleteToolStripMenuItem.Enabled = buttonStateSelected;
             ToolButtonMovePageDown.Enabled = buttonStateSelected && selectedPages.Count != PagesList.Items.Count;
             ToolButtonMovePageUp.Enabled = buttonStateSelected && selectedPages.Count != PagesList.Items.Count;
             ToolButtonEditImageProps.Enabled = buttonStateSelected;
@@ -6213,7 +6214,7 @@ namespace Win_CBZ
             Font textFont = SystemFonts.CaptionFont;
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                borderPen = new Pen(Color.DodgerBlue, 2);
+                borderPen = new Pen(Color.Gold, 2);
             }
             else
             {
