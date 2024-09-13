@@ -200,6 +200,8 @@ namespace Win_CBZ
             }
             catch (SettingsPatchException ex)
             {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+
                 if (ex.ShowErrorDialog)
                 {
                     DialogResult res = ApplicationMessage.ShowWarning("Failed to patch User-Settings to Version: " + ex.CurrentVersion.ToString() + "\r\n" + ex.SourceException.ToString(), "Could not patch UserSettings", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK | ApplicationMessage.DialogButtons.MB_IGNORE);
@@ -219,6 +221,8 @@ namespace Win_CBZ
             }
             catch (Exception e)
             {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
+
                 ApplicationMessage.ShowException(e);
             }
             finally
@@ -401,6 +405,8 @@ namespace Win_CBZ
                 }
                 catch (ConcurrentOperationException c)
                 {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, c.Message);
+
                     if (c.ShowErrorDialog)
                     {
                         ApplicationMessage.ShowWarning(c.Message, "Concurrency Exception", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
@@ -5271,6 +5277,7 @@ namespace Win_CBZ
             }
             catch (Exception ex)
             {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
                 ApplicationMessage.ShowException(ex);
             }
 
@@ -5361,6 +5368,7 @@ namespace Win_CBZ
             }
             catch (ConcurrentOperationException c)
             {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, c.Message);
                 if (c.ShowErrorDialog)
                 {
                     ApplicationMessage.ShowWarning(c.Message, "Concurrency Exception", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
@@ -5544,6 +5552,8 @@ namespace Win_CBZ
                 }
                 catch (ConcurrentOperationException c)
                 {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, c.Message);
+
                     if (c.ShowErrorDialog)
                     {
                         ApplicationMessage.ShowWarning(c.Message, "ConcurrentOperationException", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
@@ -6682,6 +6692,8 @@ namespace Win_CBZ
             }
             catch (Exception ex)
             {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+
                 ApplicationMessage.ShowException(ex);
             }
         }

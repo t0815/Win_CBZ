@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Win_CBZ.Forms
 {
@@ -35,6 +37,13 @@ namespace Win_CBZ.Forms
             {
                 Close();
             }
+        }
+
+        private void LicenseInfoRichtextBox_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            var link = e.LinkText;
+
+            Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
         }
     }
 }
