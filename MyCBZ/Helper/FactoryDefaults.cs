@@ -182,7 +182,7 @@ namespace Win_CBZ.Helper
                                                     userHasCustomKeys = true;
                                                     if (Win_CBZSettings.Default.CustomDefaultProperties.Count > index)
                                                     {
-                                                        if (!Win_CBZSettings.Default.CustomDefaultProperties.contains(FactoryDefaults.DefaultKeys[index])
+                                                        if (!Win_CBZSettings.Default.CustomDefaultProperties.Contains(FactoryDefaults.DefaultKeys[index]))
                                                         {
                                                             Win_CBZSettings.Default.CustomDefaultProperties[index] = FactoryDefaults.DefaultKeys[index];
 
@@ -190,7 +190,7 @@ namespace Win_CBZ.Helper
                                                     }
                                                     else
                                                     {
-                                                        if (!Win_CBZSettings.Default.CustomDefaultProperties.contains(FactoryDefaults.DefaultKeys[index])
+                                                        if (!Win_CBZSettings.Default.CustomDefaultProperties.Contains(FactoryDefaults.DefaultKeys[index]))
                                                         {
                                                             Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
                                                         }
@@ -223,7 +223,7 @@ namespace Win_CBZ.Helper
 
                                                 if (!found && userHasCustomKeys)
                                                 {
-                                                    if (!Win_CBZSettings.Default.CustomDefaultProperties.contains(FactoryDefaults.DefaultKeys[index])
+                                                    if (!Win_CBZSettings.Default.CustomDefaultProperties.Contains(FactoryDefaults.DefaultKeys[index]))
                                                         {
                                                         try
                                                         {
