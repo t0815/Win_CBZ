@@ -15,13 +15,14 @@ namespace Win_CBZ.Helper
     {
         public static readonly String[] DefaultMetaDataFieldTypes =
         {
-            "AgeRating|ComboBox||Unknown,Unknown,Rating Pending,Early Childhood,Everyone,Everyone 10+,G,PG,Kids to Adults,Teen,M,MA15+,Mature 17+,Adults Only 18+,R18+,X18+|False|",
-            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False|",
-            "BlackAndWhite|ComboBox||Unknown,Yes,No|False|",
-            "LanguageISO|Text|LanguageEditor||False|",
-            "Tags|AutoComplete|TagEditor||True|tag",
-            "Writer|AutoComplete|||True|user",
-            "Characters|Text|MultiLineTextEditor||False|users"
+            "AgeRating|ComboBox||Unknown,Unknown,Rating Pending,Early Childhood,Everyone,Everyone 10+,G,PG,Kids to Adults,Teen,M,MA15+,Mature 17+,Adults Only 18+,R18+,X18+|False||False|",
+            "Manga|ComboBox||Unknown,Yes,YesAndLeftToRight,No|False||False|",
+            "BlackAndWhite|ComboBox||Unknown,Yes,No|False||False|",
+            "LanguageISO|Text|LanguageEditor||False||False|",
+            "Tags|AutoComplete|TagEditor||True|tag|True|,",
+            "Writer|AutoComplete|||True|user|True|,",
+            "Characters|Text|MultiLineTextEditor||False|users|True|,",
+            "Web|Text|MultiLineTextEditor||False||True| ",
         };
 
         public const String DefaultTempfolderLocation = "%APPDATA%\\WIN_CBZ\\Temp\\";
@@ -84,7 +85,8 @@ namespace Win_CBZ.Helper
             { 1, new string[] { "DefaultMetaDataFileIndexVersion", "DefaultMetaDataFieldTypes.4.$.0=Tags.1", "DefaultMetaDataFieldTypes.4.$.0=Tags.2", "DefaultMetaDataFieldTypes.5.+" } },
             { 2, new string[] { "DefaultMetaDataFieldTypes.0.$.*.4", "DefaultMetaDataFieldTypes.1.$.*.4", "DefaultMetaDataFieldTypes.2.$.*.4", "DefaultMetaDataFieldTypes.3.$.*.4", "DefaultMetaDataFieldTypes.4.$.*.4", "DefaultMetaDataFieldTypes.0.$.*.4" } },
             { 3, new string[] { "DefaultMetaDataFieldTypes.6.+" } },
-            { 4, new string[] { "DefaultMetaDataFieldTypes.4.$.*.5", "DefaultMetaDataFieldTypes.5.$.*.5", "DefaultMetaDataFieldTypes.6.$.*.5", "DefaultKeys.6.+", "DefaultKeys.11.+", "DefaultKeys.12.+", "DefaultKeys.20.+", "DefaultKeys.34.+", "DefaultKeys.35.+", "DefaultKeys.42.+", "Messages.0" } }
+            { 4, new string[] { "DefaultMetaDataFieldTypes.4.$.*.5", "DefaultMetaDataFieldTypes.5.$.*.5", "DefaultMetaDataFieldTypes.6.$.*.5", "DefaultKeys.6.+", "DefaultKeys.11.+", "DefaultKeys.12.+", "DefaultKeys.20.+", "DefaultKeys.34.+", "DefaultKeys.35.+", "DefaultKeys.42.+", "Messages.0" } },
+            { 5, new string[] { "DefaultMetaDataFieldTypes.7.+", "DefaultMetaDataFieldTypes.0.$.*.6", "DefaultMetaDataFieldTypes.0.$.*.7", "DefaultMetaDataFieldTypes.1.$.*.6", "DefaultMetaDataFieldTypes.1.$.*.7", "DefaultMetaDataFieldTypes.2.$.*.6", "DefaultMetaDataFieldTypes.2.$.*.7", "DefaultMetaDataFieldTypes.3.$.*.6", "DefaultMetaDataFieldTypes.3.$.*.7", "DefaultMetaDataFieldTypes.4.$.*.6", "DefaultMetaDataFieldTypes.4.$.*.7", "DefaultMetaDataFieldTypes.5.$.*.6", "DefaultMetaDataFieldTypes.5.$.*.7", "DefaultMetaDataFieldTypes.6.$.*.6", "DefaultMetaDataFieldTypes.6.$.*.7" } },
         };
 
         public static readonly string[] Messages = new string[]

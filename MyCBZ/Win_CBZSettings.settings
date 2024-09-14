@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%APPDATA%\WIN_CBZ\Temp\</Value>
     </Setting>
     <Setting Name="InstalledVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.20.161b</Value>
+      <Value Profile="(Default)">0.21.162b</Value>
     </Setting>
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
