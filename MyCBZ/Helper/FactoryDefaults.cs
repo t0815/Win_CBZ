@@ -182,11 +182,18 @@ namespace Win_CBZ.Helper
                                                     userHasCustomKeys = true;
                                                     if (Win_CBZSettings.Default.CustomDefaultProperties.Count > index)
                                                     {
-                                                        Win_CBZSettings.Default.CustomDefaultProperties[index] = FactoryDefaults.DefaultKeys[index];
+                                                        if (!Win_CBZSettings.Default.CustomDefaultProperties.contains(FactoryDefaults.DefaultKeys[index])
+                                                        {
+                                                            Win_CBZSettings.Default.CustomDefaultProperties[index] = FactoryDefaults.DefaultKeys[index];
+
+                                                        }
                                                     }
                                                     else
                                                     {
-                                                        Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
+                                                        if (!Win_CBZSettings.Default.CustomDefaultProperties.contains(FactoryDefaults.DefaultKeys[index])
+                                                        {
+                                                            Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
+                                                        }
                                                     }
                                                 } else
                                                 {
@@ -216,17 +223,19 @@ namespace Win_CBZ.Helper
 
                                                 if (!found && userHasCustomKeys)
                                                 {
-                                                    try
-                                                    {
-                                                        Win_CBZSettings.Default.CustomDefaultProperties.Insert(index, FactoryDefaults.DefaultKeys[index]);
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
+                                                    if (!Win_CBZSettings.Default.CustomDefaultProperties.contains(FactoryDefaults.DefaultKeys[index])
+                                                        {
+                                                        try
+                                                        {
+                                                            Win_CBZSettings.Default.CustomDefaultProperties.Insert(index, FactoryDefaults.DefaultKeys[index]);
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            Win_CBZSettings.Default.CustomDefaultProperties.Add(FactoryDefaults.DefaultKeys[index]);
+                                                        }
                                                     }
                                                 }
                                             }
-
                                         }
                                         else
                                         {
