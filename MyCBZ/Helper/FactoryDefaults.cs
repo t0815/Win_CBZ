@@ -238,15 +238,16 @@ namespace Win_CBZ.Helper
                                     case "DefaultMetaDataFieldTypes":
                                         if (index > -1)
                                         {
+                                            int userIndex = 0;
+                                            int updatedIndex = 0;
+                                            // factory default values
+                                            string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
+
                                             if (update)
                                             {
-                                                if (Win_CBZSettings.Default.CustomMetadataFields.Count > index)
+                                                if (Win_CBZSettings.Default.CustomMetadataFields.Contains(factParts[0]))
                                                 {
-                                                    int userIndex = 0;
-                                                    int updatedIndex = 0;
-                                                    // factory default values
-                                                    string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
-
+                                                    
                                                     if (subIndex > -1)
                                                     {
 
