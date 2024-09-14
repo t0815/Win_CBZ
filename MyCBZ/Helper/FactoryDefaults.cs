@@ -242,61 +242,108 @@ namespace Win_CBZ.Helper
                                             {
                                                 if (Win_CBZSettings.Default.CustomMetadataFields.Count > index)
                                                 {
+                                                    int userIndex = 0;
+                                                    int updatedIndex = 0;
+                                                    // factory default values
+                                                    string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
+
                                                     if (subIndex > -1)
                                                     {
-                                                        string[] matching = match.Split('=');
-                                                        string[] factParts = FactoryDefaults.DefaultMetaDataFieldTypes[index].Split('|');
-                                                        string[] parts = Win_CBZSettings.Default.CustomMetadataFields[index].Split('|');
-                                                        string[] result = new string[Math.Max(parts.Length, factParts.Length)];
-                                                        for (int i = 0; i < Math.Max(parts.Length, factParts.Length); i++)
+
+                                                        string fieldName = "";
+                                                        string facFieldName = "";
+                                                        string[] matching = match.Split('=');                                                        
+                                                        string[] result = new string[factParts.Length];
+                                                        for (int i = 0; i < factParts.Length; i++)
                                                         {
-                                                            if (i != subIndex)
+                                                            if (i == 0)
                                                             {
-                                                                result[i] = parts[i];
+                                                                facFieldName = factParts[i];
                                                             }
-                                                            else
+
+                                                            // user values
+                                                            for (userIndex = 0; userIndex < Win_CBZSettings.Default.CustomMetadataFields.Count; userIndex++)
                                                             {
-                                                                if (matching.Length == 2)
+
+                                                                string[] parts = Win_CBZSettings.Default.CustomMetadataFields[userIndex].Split('|');
+
+                                                                for (int j = 0; j < parts.Length; j++)
                                                                 {
-                                                                    if (parts[int.Parse(matching[0])] == factParts[int.Parse(matching[0])])
+                                                                    if (j == 0)
                                                                     {
-                                                                        result[i] = factParts[i];
+                                                                        fieldName = parts[j];
+
                                                                     }
-                                                                }
-                                                                else if (matching.Length == 1)
-                                                                {
-                                                                    if (matching[0] == "*")
+
+                                                                    // if field name matches
+                                                                    if (fieldName.ToLower() == facFieldName.ToLower())
                                                                     {
-                                                                        if (i == subIndex)
+                                                                        Array.Resize(ref result, Math.Max(parts.Length, factParts.Length));
+                                                                        updatedIndex = userIndex;
+                                                                        if (i == j)
                                                                         {
-                                                                            result[i] = factParts[i];
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            if (subIndex < i)
-                                                                            {
-                                                                                result[i] = "";
-                                                                            }
-                                                                            else
+                                                                            if (i != subIndex)
                                                                             {
                                                                                 result[i] = parts[i];
                                                                             }
+                                                                            else
+                                                                            {
+                                                                                if (matching.Length == 2)
+                                                                                {
+                                                                                    if (parts[int.Parse(matching[0])] == factParts[int.Parse(matching[0])])
+                                                                                    {
+                                                                                        result[i] = factParts[i];
+                                                                                    }
+                                                                                }
+                                                                                else if (matching.Length == 1)
+                                                                                {
+                                                                                    if (matching[0] == "*")
+                                                                                    {
+                                                                                        if (i == subIndex)
+                                                                                        {
+                                                                                            result[i] = factParts[i];
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            if (subIndex < j)
+                                                                                            {
+                                                                                                result[j] = "";
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                result[j] = parts[j];
+                                                                                            }
+                                                                                        }
+                                                                                    }
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    result[i] = factParts[i];
+                                                                                }
+                                                                            }
                                                                         }
                                                                     }
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    result[i] = factParts[i];
                                                                 }
                                                             }
                                                         }
 
-                                                        Win_CBZSettings.Default.CustomMetadataFields[index] = String.Join("|", result);
+                                                        Win_CBZSettings.Default.CustomMetadataFields[updatedIndex] = String.Join("|", result);
+
                                                     }
                                                     else
                                                     {
-                                                        Win_CBZSettings.Default.CustomMetadataFields[index] = FactoryDefaults.DefaultMetaDataFieldTypes[index];
+                                                        for (userIndex = 0; userIndex < Win_CBZSettings.Default.CustomMetadataFields.Count; userIndex++)
+                                                        {
+                                                            string[] parts = Win_CBZSettings.Default.CustomMetadataFields[userIndex].Split('|');
+
+                                                            if (parts[0].ToLower() == factParts[0].ToLower())
+                                                            {
+                                                                Win_CBZSettings.Default.CustomMetadataFields[userIndex] = FactoryDefaults.DefaultMetaDataFieldTypes[index];
+                                                                break;
+                                                            }
+                                           
+                                                        }
                                                     }
 
                                                 }
