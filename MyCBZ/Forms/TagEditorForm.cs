@@ -268,13 +268,13 @@ namespace Win_CBZ.Forms
                     }
 
                     var check = String.Join("", Lines);
-                    if (check.Contains("|") || check.Contains(","))
+                    if (check.Contains("|") || check.Contains(Config.Separator))
                     {
-                        ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\",\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                        ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\"" + Config.Separator == " " ? "<SPACE>" : Config.Separator + "\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
                         e.Cancel = true;
                     }
-
+                   
 
                     if (Config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
                     {

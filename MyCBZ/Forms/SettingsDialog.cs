@@ -376,13 +376,23 @@ namespace Win_CBZ.Forms
                                 BackColor = Color.White,
                             };
 
-                            CustomFieldsDataGrid.Rows[i].Cells[5] = cb;
-
-                            CustomFieldsDataGrid.Rows[i].Cells[5].ReadOnly = type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR ||
+                            CustomFieldsDataGrid.Rows[i].Cells[5] = cb;                         
+                            
+                            bool disable =
+                                type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR ||
                                 type.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR ||
                                 type.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR ||
                                 type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX;
 
+                            if (type.MultiValued)
+                            {
+                                if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                                {
+                                    CustomFieldsDataGrid.Rows[i].Cells[5].Value = false;
+                                }   
+                            }
+
+                            CustomFieldsDataGrid.Rows[i].Cells[5].ReadOnly = disable;
 
                             DataGridViewTextBoxCell tb = new DataGridViewTextBoxCell();
                             tb.Value = type.MultiValueSeparator;
@@ -396,7 +406,7 @@ namespace Win_CBZ.Forms
 
                             CustomFieldsDataGrid.Rows[i].Cells[6] = tb;
 
-                            CustomFieldsDataGrid.Rows[i].Cells[6].ReadOnly = type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX;
+                            CustomFieldsDataGrid.Rows[i].Cells[6].ReadOnly = !type.MultiValued;
 
                             cb = new DataGridViewCheckBoxCell();
                             cb.Value = type.AutoUpdate;
@@ -958,7 +968,7 @@ namespace Win_CBZ.Forms
 
                 AutoCompleteImageKey = value.ToString();
 
-                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value;
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[7].Value;
                 if (value == null)
                 {
                    value = "False";
@@ -966,7 +976,7 @@ namespace Win_CBZ.Forms
 
                 AutoUpdate = Boolean.Parse(value.ToString());
 
-                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[7].Value;
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value;
                 if (value == null)
                 {
                     value = "False";
@@ -1064,6 +1074,30 @@ namespace Win_CBZ.Forms
                         
                     }
 
+                    if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
+                    {
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = true;
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = false;
+                        updatedEntry.MultiValued = true;
+
+                    }
+                    else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR)
+                    {
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = true;
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = false;
+                        updatedEntry.MultiValued = true;
+
+                        if (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                        {
+                            updatedEntry.FieldType = MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX;
+                            if (CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1] is DataGridViewComboBoxCell)
+                            {
+                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[1].Value = updatedEntry.FieldType;
+
+                            }
+                        }
+                    }
+
                     if (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX ||
                         updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                     {
@@ -1074,8 +1108,21 @@ namespace Win_CBZ.Forms
                         };
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[8] = bc;
 
-                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = !(updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX);
-                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX); ;
+                        if (updatedEntry.MultiValued)
+                        {
+                            if (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                            {
+                                updatedEntry.MultiValued = false;
+                                CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = false;
+                            }
+                           
+                        } else
+                        {
+
+                        }
+                        
+                        //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = !(updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX);
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = !updatedEntry.MultiValued;
                     } else
                     {
                         DataGridViewTextBoxCell tc = new DataGridViewTextBoxCell();
@@ -1088,8 +1135,12 @@ namespace Win_CBZ.Forms
 
                 if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
                 {
-                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = true;
-                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = false;
+                        
+
+                }
+                else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR)
+                {
+                    
 
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)

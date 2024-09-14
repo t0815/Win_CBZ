@@ -122,9 +122,9 @@ namespace Win_CBZ.Forms
                         }
                     }
 
-                    if (ItemsText.Text.Contains("|") || ItemsText.Text.Contains(","))
+                    if (ItemsText.Text.Contains("|") || ItemsText.Text.Contains(Config.Separator))
                     {
-                        ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\",\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                        ApplicationMessage.ShowError("Invalid Value! The following characters are not allowed:\r\n\r\n" + String.Join("\r\n", new string[] { "\"" + Config.Separator == " " ? "<SPACE>" : Config.Separator + "\"", "\"|\"" }), "Invalid Value", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
                         e.Cancel = true;
                     }
