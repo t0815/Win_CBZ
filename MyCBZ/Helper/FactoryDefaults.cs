@@ -350,12 +350,44 @@ namespace Win_CBZ.Helper
                                                 }
                                                 else
                                                 {
-                                                    Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
+                                                    bool doAdd = true;
+                                                    for (userIndex = 0; userIndex < Win_CBZSettings.Default.CustomMetadataFields.Count; userIndex++)
+                                                    {
+                                                        string[] parts = Win_CBZSettings.Default.CustomMetadataFields[userIndex].Split('|');
+
+                                                        if (parts[0].ToLower() == factParts[0].ToLower())
+                                                        {
+                                                            doAdd = false;
+                                                            break;
+                                                        }
+
+                                                    }
+
+                                                    if (doAdd)
+                                                    {
+                                                        Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
+                                                    }
                                                 }
                                             }
                                             else
                                             {
-                                                Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
+                                                bool doAdd = true;
+                                                for (userIndex = 0; userIndex < Win_CBZSettings.Default.CustomMetadataFields.Count; userIndex++)
+                                                {
+                                                    string[] parts = Win_CBZSettings.Default.CustomMetadataFields[userIndex].Split('|');
+
+                                                    if (parts[0].ToLower() == factParts[0].ToLower())
+                                                    {
+                                                        doAdd = false;
+                                                        break;
+                                                    }
+
+                                                }
+
+                                                if (doAdd)
+                                                {
+                                                    Win_CBZSettings.Default.CustomMetadataFields.Add(FactoryDefaults.DefaultMetaDataFieldTypes[index]);
+                                                }
                                             }
 
                                         }
