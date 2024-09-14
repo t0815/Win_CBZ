@@ -70,6 +70,9 @@ namespace Win_CBZ.Models
                 existing.EditorType = field.EditorType;
                 existing.FieldType = field.FieldType;
                 existing.Name = field.Name;
+                existing.AutoCompleteImageKey = field.AutoCompleteImageKey;
+                existing.MultiValued = field.MultiValued;
+                existing.MultiValueSeparator = field.MultiValueSeparator;
             }
         }
 
@@ -194,9 +197,9 @@ namespace Win_CBZ.Models
                             typeParts[2],
                             typeParts[3],
                             bool.Parse(typeParts[4].ToLower()),
-                            typeParts.Length == 6 ? typeParts[5] : "",
-                            typeParts.Length == 7 ? bool.Parse(typeParts[6]) : false,
-                            typeParts.Length == 8 ? typeParts[7] : ","
+                            typeParts.Length >= 6 ? typeParts[5] : "",
+                            typeParts.Length >= 7 ? bool.Parse(typeParts[6]) : false,
+                            typeParts.Length >= 8 ? typeParts[7] : ","
                         ));
                     }
                     catch (Exception e)

@@ -90,6 +90,11 @@ namespace Win_CBZ.Models
             AutoCompleteImageKey = autoCompleteImageKey;
             MultiValueSeparator = multiValueSeparator;
             MultiValued = multiValued;
+            if (EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR ||
+                EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR)
+            {
+                MultiValued = true;
+            }
             MakeEditorConfig(EditorTypeConfig.RESULT_TYPE_STRING, MultiValueSeparator, "", false, options.Split(MultiValueSeparator), autoCompleteImageKey);
         }
 
@@ -134,7 +139,7 @@ namespace Win_CBZ.Models
 
         public override string ToString()
         {
-            return Name + "|" + FieldType + "|" + EditorType + "|" + Options + "|" + AutoUpdate.ToString() + "|" + AutoCompleteImageKey.ToString() + "|" + MultiValued.ToString() + "|" + MultiValueSeparator;
+            return Name + "|" + FieldType + "|" + EditorType + "|" + Options + "|" + AutoUpdate.ToString() + "|" + AutoCompleteImageKey + "|" + MultiValued.ToString() + "|" + MultiValueSeparator;
         }
     }
 }

@@ -5056,6 +5056,8 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.CustomMetadataFields.Add(line);
                 }
 
+                MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
+
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
 

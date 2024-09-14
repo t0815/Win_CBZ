@@ -213,6 +213,26 @@ namespace Win_CBZ.Forms
 
             CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
             {
+                DataPropertyName = "MultiValued",
+                HeaderText = "Multi- valued",
+                ToolTipText = "Indicates, this field can have multiple values",
+                CellTemplate = new DataGridViewCheckBoxCell(),
+                Width = 30,
+                SortMode = DataGridViewColumnSortMode.Automatic,
+            });
+
+            CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
+            {
+                DataPropertyName = "ValueSeparator",
+                HeaderText = "Value Separator",
+                ToolTipText = "Set separator for multivalued field",
+                CellTemplate = new DataGridViewTextBoxCell(),
+                Width = 70,
+                SortMode = DataGridViewColumnSortMode.Automatic,
+            });
+
+            CustomFieldsDataGrid.Columns.Add(new DataGridViewColumn()
+            {
                 DataPropertyName = "AutoAddNew",
                 HeaderText = "[+]",
                 ToolTipText = "Update this Itemlist with new user-input values automatically",
@@ -251,7 +271,7 @@ namespace Win_CBZ.Forms
                 //if (typeParts.Length == 5)
                 //{
                 //CustomFieldTypesSettings.Add(new MetaDataFieldType(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate));
-                CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoCompleteImageKey, type.AutoUpdate);
+                CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoCompleteImageKey, type.MultiValued, type.MultiValueSeparator, type.AutoUpdate);
 
                 // }
             }
@@ -341,6 +361,44 @@ namespace Win_CBZ.Forms
                             }
 
                             DataGridViewCheckBoxCell cb = new DataGridViewCheckBoxCell();
+                            cb.Value = type.MultiValued;
+
+                            if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                            {
+                                cb.Value = false;
+                                
+                            }
+
+                            cb.Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.Black,
+                                SelectionBackColor = Color.Gold,
+                                BackColor = Color.White,
+                            };
+
+                            CustomFieldsDataGrid.Rows[i].Cells[5] = cb;
+
+                            CustomFieldsDataGrid.Rows[i].Cells[5].ReadOnly = type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR ||
+                                type.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR ||
+                                type.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR ||
+                                type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX;
+
+
+                            DataGridViewTextBoxCell tb = new DataGridViewTextBoxCell();
+                            tb.Value = type.MultiValueSeparator;
+                            
+                            tb.Style = new DataGridViewCellStyle()
+                            {
+                                SelectionForeColor = Color.Black,
+                                SelectionBackColor = Color.Gold,
+                                BackColor = Color.White,
+                            };
+
+                            CustomFieldsDataGrid.Rows[i].Cells[6] = tb;
+
+                            CustomFieldsDataGrid.Rows[i].Cells[6].ReadOnly = type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX;
+
+                            cb = new DataGridViewCheckBoxCell();
                             cb.Value = type.AutoUpdate;
                             cb.Style = new DataGridViewCellStyle()
                             {
@@ -349,9 +407,7 @@ namespace Win_CBZ.Forms
                                 BackColor = Color.White,
                             };
 
-
-
-                            CustomFieldsDataGrid.Rows[i].Cells[5] = cb;
+                            CustomFieldsDataGrid.Rows[i].Cells[7] = cb;
 
                             if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX ||
                                 type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
@@ -367,7 +423,7 @@ namespace Win_CBZ.Forms
                                     }
                                 };
 
-                                CustomFieldsDataGrid.Rows[i].Cells[6] = bc;
+                                CustomFieldsDataGrid.Rows[i].Cells[8] = bc;
                             }
 
                             if (type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
@@ -379,7 +435,7 @@ namespace Win_CBZ.Forms
                                     Value = "...",
                                     Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, "", "", false, variables)
                                 };
-                                CustomFieldsDataGrid.Rows[i].Cells[6] = bc;
+                                CustomFieldsDataGrid.Rows[i].Cells[8] = bc;
 
                             }
                         }
@@ -661,9 +717,9 @@ namespace Win_CBZ.Forms
                     object value = null;
                     String valueText = "";
                     EditorTypeConfig editorConfig = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as EditorTypeConfig;
-                    if (e.ColumnIndex == 6)
+                    if (e.ColumnIndex == 8)
                     {
-                        value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value;
+                        value = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 5].Value;
                         if (value != null)
                         {
                             valueText = value.ToString();
@@ -706,7 +762,7 @@ namespace Win_CBZ.Forms
                                     {
                                         if (textEditor.Config.Result != null)
                                         {
-                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value = textEditor.Config.Result.ToString();
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 5].Value = textEditor.Config.Result.ToString();
                                         }
                                     }
                                 }
@@ -719,7 +775,7 @@ namespace Win_CBZ.Forms
                                     {
                                         if (langEditor.config.Result != null)
                                         {
-                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value = langEditor.config.Result.ToString();
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 5].Value = langEditor.config.Result.ToString();
                                         }
                                     }
                                 }
@@ -732,7 +788,7 @@ namespace Win_CBZ.Forms
                                     {
                                         if (varEditor.Config.Result != null)
                                         {
-                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 3].Value = varEditor.Config.Result.ToString();
+                                            senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex - 5].Value = varEditor.Config.Result.ToString();
                                         }
                                     }
                                 }
@@ -910,7 +966,7 @@ namespace Win_CBZ.Forms
 
                 AutoUpdate = Boolean.Parse(value.ToString());
 
-                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].Value;
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[7].Value;
                 if (value == null)
                 {
                     value = "False";
@@ -918,7 +974,7 @@ namespace Win_CBZ.Forms
 
                 Multivalued = Boolean.Parse(value.ToString());
 
-                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[7].Value;
+                value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].Value;
                 if (value == null)
                 {
                     value = "";
@@ -1016,18 +1072,24 @@ namespace Win_CBZ.Forms
                             Value = "...",
                             Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, ",", " ", false)
                         };
-                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = bc;
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[8] = bc;
+
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = !(updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX);
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX); ;
                     } else
                     {
                         DataGridViewTextBoxCell tc = new DataGridViewTextBoxCell();
 
-                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = tc;
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[8] = tc;
+                        CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = !updatedEntry.MultiValued;
                     }
 
                 }
 
                 if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
                 {
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = true;
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = false;
 
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
@@ -1039,7 +1101,8 @@ namespace Win_CBZ.Forms
                         Value = "...",
                         Tag = new EditorTypeConfig(EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR, EditorTypeConfig.RESULT_TYPE_STRING, "", "", false, variables)
                     };
-                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6] = bc;
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[8] = bc;
+                    CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = false;
 
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_LANGUAGE_EDITOR)
@@ -1137,9 +1200,8 @@ namespace Win_CBZ.Forms
                 CustomFieldsDataGrid.Rows[newIndex].Cells[4].Value = "";
             }
 
-
             DataGridViewCheckBoxCell cb = new DataGridViewCheckBoxCell();
-            cb.Value = newEntry.AutoUpdate;
+            cb.Value = newEntry.MultiValued;
             cb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
@@ -1148,6 +1210,33 @@ namespace Win_CBZ.Forms
             };
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[5] = cb;
+
+            CustomFieldsDataGrid.Rows[newIndex].Cells[5].ReadOnly = newEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR ||
+                newEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR ||
+                newEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR;
+
+            DataGridViewTextBoxCell tb = new DataGridViewTextBoxCell();
+            tb.Value = newEntry.MultiValueSeparator;
+            tb.Style = new DataGridViewCellStyle()
+            {
+                SelectionForeColor = Color.Black,
+                SelectionBackColor = Color.Gold,
+                BackColor = Color.White,
+            };
+
+            CustomFieldsDataGrid.Rows[newIndex].Cells[6] = tb;
+            
+
+            cb = new DataGridViewCheckBoxCell();
+            cb.Value = newEntry.AutoUpdate;
+            cb.Style = new DataGridViewCellStyle()
+            {
+                SelectionForeColor = Color.Black,
+                SelectionBackColor = Color.Gold,
+                BackColor = Color.White,
+            };
+
+            CustomFieldsDataGrid.Rows[newIndex].Cells[7] = cb;
 
             if (newEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX ||
                 newEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
@@ -1163,7 +1252,7 @@ namespace Win_CBZ.Forms
                     }
                 };
 
-                CustomFieldsDataGrid.Rows[newIndex].Cells[6] = bc;
+                CustomFieldsDataGrid.Rows[newIndex].Cells[8] = bc;
             }
 
             if (newEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
