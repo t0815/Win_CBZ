@@ -5397,7 +5397,7 @@ namespace Win_CBZ
         {
             try
             {
-                MetaDataForm metaDataDialog = new MetaDataForm(Program.ProjectModel.MetaData);
+                MetaDataForm metaDataDialog = new MetaDataForm(Program.ProjectModel.MetaData, Win_CBZSettings.Default.WriteXmlPageIndex);
                 metaDataDialog.ShowDialog();
             }
             catch (Exception ex)

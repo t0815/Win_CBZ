@@ -14,6 +14,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Xml;
@@ -257,7 +258,7 @@ namespace Win_CBZ
             }
         }
 
-        public MemoryStream BuildComicInfoXMLStream(bool withoutXMLHeaderTag = false)
+        public MemoryStream BuildComicInfoXMLStream(bool withoutXMLHeaderTag = false, bool writePageIndex = true)
         {
             MemoryStream ms = new MemoryStream();
             XmlWriterSettings writerSettings = new XmlWriterSettings
@@ -284,22 +285,29 @@ namespace Win_CBZ
                     xmlWriter.WriteElementString(entry.Key, entry.Value);
                 }
             }
-            xmlWriter.WriteStartElement("Pages");
-            foreach (MetaDataEntryPage page in PageIndex)
-            {
-                xmlWriter.WriteStartElement("Page");
-                foreach (KeyValuePair<String, String> attibute in page.Attributes)
-                {
-                    xmlWriter.WriteAttributeString(attibute.Key, attibute.Value);
-                }
-                xmlWriter.WriteEndElement();
-            }
 
-            xmlWriter.WriteEndElement();
+            if (writePageIndex)
+            {
+                xmlWriter.WriteStartElement("Pages");
+                foreach (MetaDataEntryPage page in PageIndex)
+                {
+                    xmlWriter.WriteStartElement("Page");
+                    foreach (KeyValuePair<String, String> attibute in page.Attributes)
+                    {
+                        xmlWriter.WriteAttributeString(attibute.Key, attibute.Value);
+                    }
+                    xmlWriter.WriteEndElement();
+                }
+
+                xmlWriter.WriteEndElement();
+            } else
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Page-Index written, because it has been disabled in settings. [WriteXMLPageIndex = False]");
+            }
 
             //if (!withoutXMLHeaderTag)
             //{
-                xmlWriter.WriteEndDocument();
+            xmlWriter.WriteEndDocument();
             //}
 
             xmlWriter.Close();

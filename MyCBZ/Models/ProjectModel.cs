@@ -988,6 +988,7 @@ namespace Win_CBZ
                             ContinueOnError = continueOnError,
                             CompressionLevel = CompressionLevel,
                             PageIndexVerToWrite = metaDataVersionWriting,
+                            WriteIndex = Win_CBZSettings.Default.WriteXmlPageIndex,
                             CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
                         }
                     }
@@ -1132,7 +1133,7 @@ namespace Win_CBZ
                 {
                     if (MetaData.Values.Count > 0 || MetaData.PageIndex.Count > 0)
                     {
-                        MemoryStream ms = MetaData.BuildComicInfoXMLStream();
+                        MemoryStream ms = MetaData.BuildComicInfoXMLStream(false, tParams.WriteIndex);
                         ZipArchiveEntry metaDataEntry = BuildingArchive.CreateEntry(MetaData.MetaDataFileName);
                         using (Stream entryStream = metaDataEntry.Open())
                         {

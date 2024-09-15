@@ -27,14 +27,16 @@ namespace Win_CBZ.Forms
         XmlReader xReader;
         StringReader sr;
         XmlReaderSettings xmlReaderSettings;
+        bool WriteXmlIndex;
 
-        public MetaDataForm(MetaData metaData)
+        public MetaDataForm(MetaData metaData, bool writeIndex = true)
         {
             InitializeComponent();
 
             MetaData = metaData;
+            WriteXmlIndex = writeIndex;
 
-            MemoryStream fragmentStream = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true);
+            MemoryStream fragmentStream = Program.ProjectModel.MetaData.BuildComicInfoXMLStream(true, writeIndex);
             
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
             String metaDataString = utf8WithoutBom.GetString(fragmentStream.ToArray());
