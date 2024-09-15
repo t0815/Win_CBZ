@@ -207,6 +207,10 @@ namespace Win_CBZ
             TypePageCol = new System.Windows.Forms.ColumnHeader();
             ModifiedPageCol = new System.Windows.Forms.ColumnHeader();
             SizeFormatedPageCol = new System.Windows.Forms.ColumnHeader();
+            PageListContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
+            removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             PageSmallIcons = new System.Windows.Forms.ImageList(components);
             MetadataPanel = new System.Windows.Forms.TableLayoutPanel();
             MetadataEditorHeaderFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -294,6 +298,7 @@ namespace Win_CBZ
             SplitBoxItemsList.Panel1.SuspendLayout();
             SplitBoxItemsList.Panel2.SuspendLayout();
             SplitBoxItemsList.SuspendLayout();
+            PageListContextMenu.SuspendLayout();
             MetadataPanel.SuspendLayout();
             MetadataEditorHeaderFlowLayoutPanel.SuspendLayout();
             MetaDataTableActionsPanel.SuspendLayout();
@@ -2194,6 +2199,7 @@ namespace Win_CBZ
             PagesList.AllowDrop = true;
             PagesList.AllowItemDrag = true;
             PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { NamePageCol, IndexPageCol, TypePageCol, ModifiedPageCol, SizeFormatedPageCol });
+            PagesList.ContextMenuStrip = PageListContextMenu;
             PagesList.Dock = System.Windows.Forms.DockStyle.Fill;
             PagesList.FullRowSelect = true;
             PagesList.InsertionLineColor = System.Drawing.Color.DodgerBlue;
@@ -2238,6 +2244,35 @@ namespace Win_CBZ
             // 
             SizeFormatedPageCol.Text = "Size";
             SizeFormatedPageCol.Width = 100;
+            // 
+            // PageListContextMenu
+            // 
+            PageListContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            PageListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { removeToolStripMenuItem, toolStripSeparator13, propertiesToolStripMenuItem });
+            PageListContextMenu.Name = "PageListContextMenu";
+            PageListContextMenu.Size = new System.Drawing.Size(150, 62);
+            // 
+            // removeToolStripMenuItem
+            // 
+            removeToolStripMenuItem.Image = Properties.Resources.garbage;
+            removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            removeToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            removeToolStripMenuItem.Text = "Remove";
+            removeToolStripMenuItem.Click += ToolButtonRemoveFiles_Click;
+            // 
+            // toolStripSeparator13
+            // 
+            toolStripSeparator13.Name = "toolStripSeparator13";
+            toolStripSeparator13.Size = new System.Drawing.Size(146, 6);
+            // 
+            // propertiesToolStripMenuItem
+            // 
+            propertiesToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            propertiesToolStripMenuItem.Image = Properties.Resources.edit;
+            propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
+            propertiesToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            propertiesToolStripMenuItem.Text = "Properties";
+            propertiesToolStripMenuItem.Click += ToolButtonEditImageProps_Click;
             // 
             // PageSmallIcons
             // 
@@ -2837,6 +2872,7 @@ namespace Win_CBZ
             SplitBoxItemsList.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)SplitBoxItemsList).EndInit();
             SplitBoxItemsList.ResumeLayout(false);
+            PageListContextMenu.ResumeLayout(false);
             MetadataPanel.ResumeLayout(false);
             MetadataPanel.PerformLayout();
             MetadataEditorHeaderFlowLayoutPanel.ResumeLayout(false);
@@ -3076,6 +3112,10 @@ namespace Win_CBZ
         private System.Windows.Forms.CheckBox CheckBoxSplitOnlyIfDoubleSize;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
+        private System.Windows.Forms.ContextMenuStrip PageListContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
     }
 }
 
