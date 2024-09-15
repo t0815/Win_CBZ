@@ -1996,7 +1996,12 @@ namespace Win_CBZ
             return files;
         }
 
-        public void ParseFiles(List<String> files, bool hashFiles = false, string interpolationMode = "Default")
+        public void ParseFiles(List<String> files, 
+            bool hashFiles = false, 
+            string interpolationMode = "Default",
+            bool filterExtensions = false,
+            string filterExtensionList = ""
+            )
         {
 
             if (ParseAddedFileNames != null)
@@ -2021,6 +2026,8 @@ namespace Win_CBZ
                 MaxCountPages = Pages.Count,
                 HashFiles = hashFiles,
                 Interpolation = interpolationMode,
+                FilterExtensions = filterExtensions,
+                AllowedExtensions = filterExtensionList.Split('|').ToArray<String>(),
             });
         }
 
@@ -2038,12 +2045,30 @@ namespace Win_CBZ
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_ANALYZING));
 
             List<LocalFile> files = new List<LocalFile>();
+            LocalFile fileToAdd = null;
             int index = 0;
             foreach (String fname in tParams?.FileNamesToAdd)
             {
 
                 try
                 {
+                    fileToAdd = new LocalFile(fname);
+
+                    if (tParams.FilterExtensions)
+                    {
+                        if (!tParams.AllowedExtensions.Contains(fileToAdd.FileExtension.Trim('.').ToLower()))
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Skipping file [] because of extension-filter! ");
+                            index++;
+
+                            AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));
+
+                            Thread.Sleep(5);
+
+                            continue;
+                        }
+                    }
+
                     files.Add(new LocalFile(fname));
                     index++;
 
