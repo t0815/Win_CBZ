@@ -120,16 +120,6 @@
   <metadata name="TagValidationTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>807, 17</value>
   </metadata>
-  <data name="pictureBox2.ToolTip" xml:space="preserve">
-    <value>Specifies the MetaData -Format that is written to the archive.
-Where:
-
-VERSION_1 = &lt;Image="[Page #]" Key="[FileName]" ... &gt;
-
-VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
-
-(VERSION_1 is the current comicinfo.xml specification)</value>
-  </data>
   <metadata name="SettingsValidationErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>198, 17</value>
   </metadata>
@@ -307,9 +297,6 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
-  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="DialogImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>465, 17</value>
   </metadata>
@@ -318,7 +305,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAoAIAAAJNU0Z0AUkBTAIBAQIB
-        AAEQAQoBEAEKARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
+        AAEYAQoBGAEKARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
         AAwAA+cBUgFUAVUD+g8AA7gBtgK4ewAD9gO+A70D4BgAA+YDUAMlA30D+gYAA/0DtAMrAyUDungAAdEC
         0gYlAYoCixUAA+cMJQNGA/oDAAO0DCUBtgK4dQAB0QLSBiUBigKLFQAD6AM1DCUDfQO0AysJJQMrA7h1
         AAHRAtIGJQGKAosYAAPzAzUbJQO0bwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4A8AA+AD
@@ -331,6 +318,25 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         4AEDAeABAwQAAfwBPwGAAQEEAAH8AT8BgAEBBAAB/AE/AYABgQQAAv8B4wHDBAAC/wHjAecEAAT/BAAL
 </value>
   </data>
+  <data name="pictureBox3.ToolTip" xml:space="preserve">
+    <value>By default, when opening a cbz-archive, all files and info from the
+ComicInfo.xml -Pageindex is verified with actual image data.
+By enabling this, opening archives will be significatly faster.
+(Default = False)</value>
+  </data>
+  <data name="pictureBox2.ToolTip" xml:space="preserve">
+    <value>Specifies the MetaData -Format that is written to the archive.
+Where:
+
+VERSION_1 = &lt;Image="[Page #]" Key="[FileName]" ... &gt;
+
+VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
+
+(VERSION_1 is the current comicinfo.xml specification)</value>
+  </data>
+  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="AutocompleteIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>618, 17</value>
   </metadata>
@@ -339,7 +345,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAGCIAAAJNU0Z0AUkBTAIBAQ0B
-        AAGAAQgBgAEIARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
+        AAGIAQgBiAEIARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
         ABsAA0wBkAMlAf8DYgHhCAADJAE0AyUB/wMlAf8DKgE/3AADMgFPAyUB/wMlAf8DGgEkBAAEAgNZAe8D
         JQH/A0YBgNgAAxABFQMbASYDQAH9AyUB/wNAAW8DEAEVAxABFQNYAboDJQH/A1oBxAMQARUDDwET0AAD
         XAHZAyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMrAfwDDgESzAADTgGXAyUB
@@ -498,7 +504,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAVhwAAAJNU0Z0AUkBTAIBAQUB
-        AAGoAQIBqAECARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
+        AAGwAQIBsAECARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
         AK8AAw8BEwM/AW0DVgG1A1sB5AMmAfsDJgH7A1sB5ANWAbUDPwFtAw8BE/8AUQADBwEJA0kBhQNaAfUD
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNaAfUDSQGFAwcBCf8ARQADGgEjA10B1AMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNdAdQDGgEj/wA9AAMaASMD
@@ -507,7 +513,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         JQH/A1gBugNdAckDJQH/AyUB/wMlAf8DXQHUAwcBCf8AMQADSQGFAyUB/wMlAf8DJQH/A0oBiwQAAw8B
         FANbAdMDJQH/AyUB/wMlAf8DJQH/A1IBqAMCAQMDCAEKA1gBvQMlAf8DJQH/AyUB/wNJAYX/AC0AAw8B
         EwNaAfUDJQH/AyUB/wNgAdsMAAMSARcDXAHWAyUB/wMlAf8DVQGtAwMBBAgAAxIBGAMlAf8DJQH/AyUB
-        /wNaAfUDDwET/wApAAM/AW0DJQH/AyUB/wMlAf8DdQH+AzsBZQwAAxMBGgNfAdoDVgGyAwUBBggABAID
+        /wNaAfUDDwET/wApAAM/AW0DJQH/AyUB/wMlAf8DdgH+AzsBZQwAAxMBGgNfAdoDVgGyAwUBBggABAID
         UQGeAyUB/wMlAf8DJQH/AyUB/wM/AW3/ACkAA1YBtQMlAf8DJQH/AyUB/wMlAf8DQAH9AzkBXwwAAxMB
         GQMGAQcIAAQBA04BmAMlAf8DJQH/AyUB/wMlAf8DJQH/A1YBtf8AKQADWwHkAyUB/wMlAf8DJQH/AyUB
         /wMlAf8DKwH8AzYBWRQABAEDTQGSAyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/A1sB5P8AKQADJgH7AyUB
@@ -517,8 +523,8 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         DxgAAx4BKgNaAekDJQH/AyUB/wMlAf8DJQH/AyUB/wNbAeT/ACkAA1YBtQMlAf8DJQH/AyUB/wMlAf8D
         XQHOAw0BEQwAA0IBdQMtAUUMAAMgAS4DXQHsAyUB/wMlAf8DJQH/AyUB/wNWAbX/ACkAAz8BbQMlAf8D
         JQH/AyUB/wNaAekDDwETDAADQQFyAyUB/wNaAfUDKgFADAADJgE5AyUB/wMlAf8DJQH/AyUB/wM/AW3/
-        ACkAAw8BEwNaAfUDJQH/AyUB/wNlAfEDHAEnCAADPwFsA3UB/gMlAf8DJQH/A2AB8wMoATwIAAM0AVQD
-        JQH/AyUB/wMlAf8DWgH1Aw8BE/8ALQADSQGFAyUB/wMlAf8DJQH/A18B5QMhATADPgFrA3UB/gMlAf8D
+        ACkAAw8BEwNaAfUDJQH/AyUB/wNlAfEDHAEnCAADPwFsA3YB/gMlAf8DJQH/A2AB8wMoATwIAAM0AVQD
+        JQH/AyUB/wMlAf8DWgH1Aw8BE/8ALQADSQGFAyUB/wMlAf8DJQH/A18B5QMhATADPgFrA3YB/gMlAf8D
         JQH/AyUB/wMlAf8DZQHxAyoBPwM1AVUDQQH5AyUB/wMlAf8DJQH/A0kBhf8AMQADBwEJA10B1AMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8D
         XQHUAwcBCf8ANQADGgEjA2EB5gMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8D
@@ -534,8 +540,8 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         0gH6Af8BAAHSAfoB/wEAAdIB+gH/AQAB0gH6Af8BAAHSAfoB/wFRAm8B9wEAAdIB+gH/AQAB0gH6Af8B
         AAHSAfoB/wFGAkcBgBwAAyUB/wNaAb8DRgGAA0YBgANGAYADRgGAA0YBgANGAYADRgGAA0YBgANGAYAD
         RgGAA0YBgANGAYADRgGAA0YBgANaAb8DJQH/MAADBgEIAyYBOQMGAQgEAAMIAQoDKgE/AyoBPwMIAQoE
-        AAMGAQgDJgE5AwYBCBAAAzoBYgN3Af4DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8D
-        JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DdwH+AzoBYRQAAUYCRwGAAQAB0gH6Af8B
+        AAMGAQgDJgE5AwYBCBAAAzoBYgN4Af4DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8D
+        JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DeAH+AzoBYRQAAUYCRwGAAQAB0gH6Af8B
         OAI5AV0DEwEZAVsCXwHTAxQBGwFRAlIBpAFAAr4B/QNOAZUBVwJaAcIBRwJIAYMDCQELAV8CZgHlAQAB
         0gH6Af8BAAHSAfoB/wFGAkcBgBwAAyUB/wNGAYA4AANGAYADJQH/MAADWQHAAyUB/wNdAcwDRgGAA1gB
         uAMlAf8DJQH/A1gBuANGAYADXQHMAyUB/wNZAcAQAANGAYADJQH/A0YBgANGAYADRgGAA0YBgANGAYAD
@@ -554,8 +560,8 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         XgHNAVECbwH3Ay4BSBAAAy4BSAFRAm8B9wFbAl4BzQMOARIEAANGAYADJQH/GAADKQE+A1MB9AMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DVgGwBAIUAANGAYAD
         JQH/EAADDwEUA0cBgQFXAcABoQH/AVcBwAGhAf8BVwHAAaEB/wFXAcABoQH/AVcBwAGhAf8BVwHAAaEB
-        /wNHAYIDFwEfEAADJQH/A0YBgBQAAzoBYgN3Af4DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB
-        /wMlAf8DJQH/AyUB/wMlAf8DdwH+AzoBYhwAAyUB/wNGAYAEAAFOAk8BlwEAAdIB+gH/AUYCRwGAGAAB
+        /wNHAYIDFwEfEAADJQH/A0YBgBQAAzoBYgN4Af4DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB
+        /wMlAf8DJQH/AyUB/wMlAf8DeAH+AzoBYhwAAyUB/wNGAYAEAAFOAk8BlwEAAdIB+gH/AUYCRwGAGAAB
         RgJHAYABAAHSAfoB/wFOAk8BlwQAA0YBgAMlAf8YAANdAc8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DMAFKFAADRgGAAyUB/wwAAx4BKgFXAcAB
         oQH/AVcBwAGhAf8BVwHAAaEB/wFbAl8B2AMXAR8DFwEfAVsCXwHYAVcBwAGhAf8BVwHAAaEB/wFXAcAB
@@ -629,7 +635,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6gQAAAJNU0Z0AUkBTAMBAQAB
-        aAECAWgBAgEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
+        cAECAXABAgEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
         AAMTARoDSQGIAV0CYQHUAUUBaAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa3AADNwFaAmABbwHzAUQB
         YwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAzcBWtQAAzcB
         WgOAAf4BRAFjAdgB/wJgAW8B8wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAUQB
