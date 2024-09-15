@@ -593,5 +593,17 @@ namespace Win_CBZ {
                 this["MetadataGridInstantEditMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MetadataGridInstantEditModeValueCol {
+            get {
+                return ((bool)(this["MetadataGridInstantEditModeValueCol"]));
+            }
+            set {
+                this["MetadataGridInstantEditModeValueCol"] = value;
+            }
+        }
     }
 }

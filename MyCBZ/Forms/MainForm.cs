@@ -3783,7 +3783,7 @@ namespace Win_CBZ
                         try
                         {
                             int newRowIndex = MetaDataGrid.Rows.Add(e.Entry.Key, e.Entry.Value, "");
-
+                            MetaDataGrid.Rows[newRowIndex].Cells[2].ReadOnly = true;
                             //---
 
                             if (e.Entry.Key == "" && e.Entry.Value == null)
@@ -3830,7 +3830,7 @@ namespace Win_CBZ
 
             if (e.ColumnIndex == 0)
             {
-                if (Win_CBZSettings.Default.MetadataGridInstantEditMode)
+                if (Win_CBZSettings.Default.MetadataGridInstantEditMode && !Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol)
                 {
                     senderGrid.BeginEdit(true);
                 }
@@ -5133,7 +5133,8 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ImageExtenstionList = String.Join('|', settingsDialog.ImageFileExtensions.ToArray());
                 Win_CBZSettings.Default.FilterByExtension = settingsDialog.FilterNewPagesByExt;
                 Win_CBZSettings.Default.MetadataGridInstantEditMode = settingsDialog.MetadataGridEditMode;
-                 
+                Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol = settingsDialog.MetadataGridEditModeValueCol; 
+
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
                 
 

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             ButtonOk = new System.Windows.Forms.Button();
@@ -59,11 +59,14 @@
             FilterNewPagesByExtCheckBox = new System.Windows.Forms.CheckBox();
             TabPageAppSettings = new System.Windows.Forms.TabPage();
             CustomFieldTypesTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            pictureBox8 = new System.Windows.Forms.PictureBox();
             CustomFieldsDataGrid = new System.Windows.Forms.DataGridView();
             AddFieldTypeButton = new System.Windows.Forms.Button();
             DialogImages = new System.Windows.Forms.ImageList(components);
             RemoveFieldTypeButton = new System.Windows.Forms.Button();
             RestoreFieldTypesButton = new System.Windows.Forms.Button();
+            CheckboxAlwaysInEditMode = new System.Windows.Forms.CheckBox();
+            CheckBoxEditModeOnlyValueCol = new System.Windows.Forms.CheckBox();
             TabPageBehaviour = new System.Windows.Forms.TabPage();
             tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -125,7 +128,6 @@
             OpenTargetDirectory = new System.Windows.Forms.FolderBrowserDialog();
             CategoryImages = new System.Windows.Forms.ImageList(components);
             ErrorImages = new System.Windows.Forms.ImageList(components);
-            CheckboxAlwaysInEditMode = new System.Windows.Forms.CheckBox();
             SettingsTablePanel.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -140,6 +142,7 @@
             panel1.SuspendLayout();
             TabPageAppSettings.SuspendLayout();
             CustomFieldTypesTablePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CustomFieldsDataGrid).BeginInit();
             TabPageBehaviour.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
@@ -519,58 +522,77 @@
             // 
             // CustomFieldTypesTablePanel
             // 
-            CustomFieldTypesTablePanel.ColumnCount = 3;
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.57143F));
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.0674858F));
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.4049072F));
-            CustomFieldTypesTablePanel.Controls.Add(CustomFieldsDataGrid, 0, 1);
-            CustomFieldTypesTablePanel.Controls.Add(AddFieldTypeButton, 0, 2);
-            CustomFieldTypesTablePanel.Controls.Add(RemoveFieldTypeButton, 1, 2);
-            CustomFieldTypesTablePanel.Controls.Add(RestoreFieldTypesButton, 2, 2);
+            CustomFieldTypesTablePanel.ColumnCount = 4;
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.90184F));
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.636364F));
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.363636F));
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            CustomFieldTypesTablePanel.Controls.Add(CustomFieldsDataGrid, 0, 2);
+            CustomFieldTypesTablePanel.Controls.Add(AddFieldTypeButton, 0, 3);
+            CustomFieldTypesTablePanel.Controls.Add(RemoveFieldTypeButton, 1, 3);
             CustomFieldTypesTablePanel.Controls.Add(CheckboxAlwaysInEditMode, 0, 0);
+            CustomFieldTypesTablePanel.Controls.Add(CheckBoxEditModeOnlyValueCol, 0, 1);
+            CustomFieldTypesTablePanel.Controls.Add(pictureBox8, 3, 0);
+            CustomFieldTypesTablePanel.Controls.Add(RestoreFieldTypesButton, 2, 3);
             CustomFieldTypesTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             CustomFieldTypesTablePanel.Location = new System.Drawing.Point(3, 5);
             CustomFieldTypesTablePanel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             CustomFieldTypesTablePanel.Name = "CustomFieldTypesTablePanel";
-            CustomFieldTypesTablePanel.RowCount = 3;
-            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            CustomFieldTypesTablePanel.RowCount = 4;
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             CustomFieldTypesTablePanel.Size = new System.Drawing.Size(326, 417);
             CustomFieldTypesTablePanel.TabIndex = 1;
+            // 
+            // pictureBox8
+            // 
+            pictureBox8.Image = Properties.Resources.information;
+            pictureBox8.InitialImage = Properties.Resources.information;
+            pictureBox8.Location = new System.Drawing.Point(275, 0);
+            pictureBox8.Margin = new System.Windows.Forms.Padding(0);
+            pictureBox8.Name = "pictureBox8";
+            pictureBox8.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
+            pictureBox8.Size = new System.Drawing.Size(38, 40);
+            pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox8.TabIndex = 7;
+            pictureBox8.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox8, "Begin editing (showing cells Editor) immediately, once the user selects a cell.");
             // 
             // CustomFieldsDataGrid
             // 
             CustomFieldsDataGrid.AllowUserToAddRows = false;
             CustomFieldsDataGrid.AllowUserToDeleteRows = false;
             CustomFieldsDataGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            CustomFieldsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            CustomFieldsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            CustomFieldTypesTablePanel.SetColumnSpan(CustomFieldsDataGrid, 3);
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle4;
+            CustomFieldTypesTablePanel.SetColumnSpan(CustomFieldsDataGrid, 4);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             CustomFieldsDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 66);
+            CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 79);
             CustomFieldsDataGrid.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             CustomFieldsDataGrid.MultiSelect = false;
             CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             CustomFieldsDataGrid.RowHeadersWidth = 51;
             CustomFieldsDataGrid.RowTemplate.Height = 24;
-            CustomFieldsDataGrid.Size = new System.Drawing.Size(320, 292);
+            CustomFieldsDataGrid.Size = new System.Drawing.Size(320, 289);
             CustomFieldsDataGrid.TabIndex = 0;
             CustomFieldsDataGrid.CellClick += CustomFieldsDataGrid_CellClick;
             CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
@@ -584,10 +606,10 @@
             AddFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             AddFieldTypeButton.ImageIndex = 0;
             AddFieldTypeButton.ImageList = DialogImages;
-            AddFieldTypeButton.Location = new System.Drawing.Point(3, 371);
+            AddFieldTypeButton.Location = new System.Drawing.Point(3, 381);
             AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             AddFieldTypeButton.Name = "AddFieldTypeButton";
-            AddFieldTypeButton.Size = new System.Drawing.Size(87, 42);
+            AddFieldTypeButton.Size = new System.Drawing.Size(82, 32);
             AddFieldTypeButton.TabIndex = 1;
             AddFieldTypeButton.Text = "Add";
             AddFieldTypeButton.UseVisualStyleBackColor = true;
@@ -608,10 +630,10 @@
             RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             RemoveFieldTypeButton.ImageIndex = 1;
             RemoveFieldTypeButton.ImageList = DialogImages;
-            RemoveFieldTypeButton.Location = new System.Drawing.Point(96, 371);
+            RemoveFieldTypeButton.Location = new System.Drawing.Point(91, 381);
             RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            RemoveFieldTypeButton.Size = new System.Drawing.Size(166, 42);
+            RemoveFieldTypeButton.Size = new System.Drawing.Size(103, 32);
             RemoveFieldTypeButton.TabIndex = 2;
             RemoveFieldTypeButton.Text = "Remove";
             RemoveFieldTypeButton.UseVisualStyleBackColor = true;
@@ -620,14 +642,40 @@
             // RestoreFieldTypesButton
             // 
             RestoreFieldTypesButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            RestoreFieldTypesButton.Location = new System.Drawing.Point(289, 371);
+            CustomFieldTypesTablePanel.SetColumnSpan(RestoreFieldTypesButton, 2);
+            RestoreFieldTypesButton.Location = new System.Drawing.Point(230, 381);
             RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
-            RestoreFieldTypesButton.Size = new System.Drawing.Size(34, 42);
+            RestoreFieldTypesButton.Size = new System.Drawing.Size(93, 32);
             RestoreFieldTypesButton.TabIndex = 3;
             RestoreFieldTypesButton.Text = "Restore";
             RestoreFieldTypesButton.UseVisualStyleBackColor = true;
             RestoreFieldTypesButton.Click += RestoreFieldTypesButton_Click;
+            // 
+            // CheckboxAlwaysInEditMode
+            // 
+            CustomFieldTypesTablePanel.SetColumnSpan(CheckboxAlwaysInEditMode, 3);
+            CheckboxAlwaysInEditMode.Dock = System.Windows.Forms.DockStyle.Fill;
+            CheckboxAlwaysInEditMode.Location = new System.Drawing.Point(10, 3);
+            CheckboxAlwaysInEditMode.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
+            CheckboxAlwaysInEditMode.Name = "CheckboxAlwaysInEditMode";
+            CheckboxAlwaysInEditMode.Size = new System.Drawing.Size(262, 35);
+            CheckboxAlwaysInEditMode.TabIndex = 4;
+            CheckboxAlwaysInEditMode.Text = "Begin editing cells immediately";
+            CheckboxAlwaysInEditMode.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxEditModeOnlyValueCol
+            // 
+            CheckBoxEditModeOnlyValueCol.AutoSize = true;
+            CustomFieldTypesTablePanel.SetColumnSpan(CheckBoxEditModeOnlyValueCol, 3);
+            CheckBoxEditModeOnlyValueCol.Dock = System.Windows.Forms.DockStyle.Fill;
+            CheckBoxEditModeOnlyValueCol.Location = new System.Drawing.Point(36, 44);
+            CheckBoxEditModeOnlyValueCol.Margin = new System.Windows.Forms.Padding(36, 3, 3, 3);
+            CheckBoxEditModeOnlyValueCol.Name = "CheckBoxEditModeOnlyValueCol";
+            CheckBoxEditModeOnlyValueCol.Size = new System.Drawing.Size(236, 27);
+            CheckBoxEditModeOnlyValueCol.TabIndex = 5;
+            CheckBoxEditModeOnlyValueCol.Text = "Only apply to \"Value\"- Column";
+            CheckBoxEditModeOnlyValueCol.UseVisualStyleBackColor = true;
             // 
             // TabPageBehaviour
             // 
@@ -1413,17 +1461,6 @@
             ErrorImages.TransparentColor = System.Drawing.Color.Transparent;
             ErrorImages.Images.SetKeyName(0, "error");
             // 
-            // CheckboxAlwaysInEditMode
-            // 
-            CustomFieldTypesTablePanel.SetColumnSpan(CheckboxAlwaysInEditMode, 2);
-            CheckboxAlwaysInEditMode.Location = new System.Drawing.Point(10, 3);
-            CheckboxAlwaysInEditMode.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
-            CheckboxAlwaysInEditMode.Name = "CheckboxAlwaysInEditMode";
-            CheckboxAlwaysInEditMode.Size = new System.Drawing.Size(252, 51);
-            CheckboxAlwaysInEditMode.TabIndex = 4;
-            CheckboxAlwaysInEditMode.Text = "Begin editing cells when selecting a cell";
-            CheckboxAlwaysInEditMode.UseVisualStyleBackColor = true;
-            // 
             // SettingsDialog
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -1456,6 +1493,8 @@
             panel1.PerformLayout();
             TabPageAppSettings.ResumeLayout(false);
             CustomFieldTypesTablePanel.ResumeLayout(false);
+            CustomFieldTypesTablePanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             ((System.ComponentModel.ISupportInitialize)CustomFieldsDataGrid).EndInit();
             TabPageBehaviour.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
@@ -1590,5 +1629,7 @@
         private System.Windows.Forms.CheckBox FilterNewPagesByExtCheckBox;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.CheckBox CheckboxAlwaysInEditMode;
+        private System.Windows.Forms.CheckBox CheckBoxEditModeOnlyValueCol;
+        private System.Windows.Forms.PictureBox pictureBox8;
     }
 }

@@ -69,6 +69,8 @@ namespace Win_CBZ.Forms
 
         public bool MetadataGridEditMode;
 
+        public bool MetadataGridEditModeValueCol;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -123,6 +125,7 @@ namespace Win_CBZ.Forms
             InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
 
             MetadataGridEditMode = Win_CBZSettings.Default.MetadataGridInstantEditMode;
+            MetadataGridEditModeValueCol = Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol;
 
             TempPath = Win_CBZSettings.Default.TempFolderPath;
             FilterNewPagesByExt = Win_CBZSettings.Default.FilterByExtension;
@@ -151,6 +154,7 @@ namespace Win_CBZ.Forms
 
             ComboBoxFileName.Text = MetaDataFilename;
             CheckboxAlwaysInEditMode.Checked = MetadataGridEditMode;
+            CheckBoxEditModeOnlyValueCol.Checked = MetadataGridEditModeValueCol;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -621,6 +625,8 @@ namespace Win_CBZ.Forms
                     InterpolationMode = ComboBoxInterpolationModes.SelectedItem.ToString();// ComboBoxInterpolationModes.SelectedIndex;
                     TempPath = TextBoxTempPath.Text;
                     FilterNewPagesByExt = FilterNewPagesByExtCheckBox.Checked;
+                    MetadataGridEditMode = CheckboxAlwaysInEditMode.Checked;
+                    MetadataGridEditModeValueCol = CheckBoxEditModeOnlyValueCol.Checked;
 
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
