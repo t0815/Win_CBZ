@@ -2058,7 +2058,7 @@ namespace Win_CBZ
                     {
                         if (!tParams.AllowedExtensions.Contains(fileToAdd.FileExtension.Trim('.').ToLower()))
                         {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Skipping file [] because of extension-filter! ");
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Skipping file [" + fileToAdd.FileName + "] because of extension-filter! ");
                             index++;
 
                             AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));

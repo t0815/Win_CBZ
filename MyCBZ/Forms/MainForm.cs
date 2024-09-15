@@ -557,9 +557,9 @@ namespace Win_CBZ
 
                 Program.ProjectModel.ParseFiles(files,
                     Win_CBZSettings.Default.CalculateHash,
-                    Win_CBZSettings.Default.InterpolationMode
+                    Win_CBZSettings.Default.InterpolationMode,
                     Win_CBZSettings.Default.FilterByExtension,
-                    Win_CBZSettings.Default.ImageExtenstionList,
+                    Win_CBZSettings.Default.ImageExtenstionList
                     );
                 //if (files.Count > 0)
                 //{
@@ -2678,9 +2678,9 @@ namespace Win_CBZ
 
                 Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames), 
                     Win_CBZSettings.Default.CalculateHash, 
-                    Win_CBZSettings.Default.InterpolationMode
+                    Win_CBZSettings.Default.InterpolationMode,
                     Win_CBZSettings.Default.FilterByExtension,
-                    Win_CBZSettings.Default.ImageExtenstionList,
+                    Win_CBZSettings.Default.ImageExtenstionList
                     );
             }
         }
