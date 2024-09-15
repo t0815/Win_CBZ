@@ -21,6 +21,11 @@ namespace Win_CBZ.Events
         public const int TASK_STATUS_RUNNING = 11;
         public const int TASK_STATUS_COMPLETED = 12;
 
+
+        public string Id { get; set; }
+
+        public string Key { get; set; }
+        
         public int Type { get; set; }
 
         public int Status { get; set; }
@@ -37,7 +42,7 @@ namespace Win_CBZ.Events
 
         public GeneralTaskProgressEvent() { }
 
-        public GeneralTaskProgressEvent(int type, int status, string message, int current, int total, bool popState, bool inBackground = false)
+        public GeneralTaskProgressEvent(int type, int status, string message, int current, int total, bool popState, bool inBackground = false, string key = null)
         {
             Current = current; 
             Total = total;
@@ -46,6 +51,7 @@ namespace Win_CBZ.Events
             Message = message;
             PopGlobalState = popState;  
             InBackground = inBackground;
+            Key = key;
         }   
     }
 }

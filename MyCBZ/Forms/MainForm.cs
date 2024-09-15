@@ -892,31 +892,34 @@ namespace Win_CBZ
 
         private void HandleGlobalActionRequired(object sender, GlobalActionRequiredEvent e)
         {
-            Invoke(new Action(() =>
+            if (!WindowClosed)
             {
-                GlobalAction action = new GlobalAction
+                Invoke(new Action(() =>
                 {
-                    Message = e.Message,
-                    Action = e.Task,
-                    Key = e.TaskType
-                };
+                    GlobalAction action = new GlobalAction
+                    {
+                        Message = e.Message,
+                        Action = e.Task,
+                        Key = e.TaskType
+                    };
 
-                if (GetGlobalActionByKey(action.Key) == null)
-                {
-                    CurrentGlobalActions.Add(action);
-                }
+                    if (GetGlobalActionByKey(action.Key) == null)
+                    {
+                        CurrentGlobalActions.Add(action);
+                    }
 
-                if (CurrentGlobalAction == null)
-                {
-                    LabelGlobalActionStatusMessage.Text = e.Message;
-                    GlobalAlertTableLayout.Visible = true;
-                    CurrentGlobalAction = action;
-                }
-                else
-                {
-                    GlobalAlertTableLayout.Visible = true;
-                }
-            }));
+                    if (CurrentGlobalAction == null)
+                    {
+                        LabelGlobalActionStatusMessage.Text = e.Message;
+                        GlobalAlertTableLayout.Visible = true;
+                        CurrentGlobalAction = action;
+                    }
+                    else
+                    {
+                        GlobalAlertTableLayout.Visible = true;
+                    }
+                }));
+            }
         }
 
         private GlobalAction GetGlobalActionByKey(string key)
@@ -1051,6 +1054,21 @@ namespace Win_CBZ
                         }
                         else
                         {
+
+                            if (CurrentGlobalActions.Count > 0)
+                            {
+                                if (CurrentGlobalAction.Key == e.Key)
+                                {
+                                    CurrentGlobalActions.Remove(CurrentGlobalAction);
+                                    CurrentGlobalAction = null;
+
+                                    Invoke(new Action(() =>
+                                    {
+                                        GlobalAlertTableLayout.Visible = false;
+                                    }));
+                                }   
+                            }                           
+
                             //CurrentGlobalAction = null;
                         }
                     }));
@@ -4541,7 +4559,7 @@ namespace Win_CBZ
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
-                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
+                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token, false, true)));
 
                 //Program.ProjectModel.UpdatePageIndices();
             }
