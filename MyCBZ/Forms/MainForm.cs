@@ -3236,7 +3236,7 @@ namespace Win_CBZ
             MetaDataFieldType fieldType = ((ComboBox)sender).Tag as MetaDataFieldType;
 
             Pen pen = new Pen(Color.Black, 1);
-            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+            Font font = new Font("Verdana", 8.5f, FontStyle.Regular);
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
@@ -3252,14 +3252,14 @@ namespace Win_CBZ
                 {
                     Image img = AutocompleteIcons.Images[fieldType.AutoCompleteImageKey];
                     e.Graphics.DrawImage(img, new Point(e.Bounds.X + 2, e.Bounds.Y + 2));
-                    e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y));
+                    e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
                 } else
                 {
-                    e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y));
+                    e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y + 1));
                 }
             } else
             {
-                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y + 1));
             }
 
         }
@@ -3288,11 +3288,11 @@ namespace Win_CBZ
                         if (comboBox != null)
                         {
                             Font dgFont = MetaDataGrid.DefaultCellStyle.Font;
-                            comboBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            comboBox.Font = new Font("Verdana", 8.5f, FontStyle.Regular);
                             comboBox.FlatStyle = FlatStyle.Popup;
-                            comboBox.Height = MetaDataGrid.RowTemplate.Height - 2;
+                            comboBox.Height = 20;
                             comboBox.DrawMode = DrawMode.OwnerDrawFixed;
-                            comboBox.ItemHeight = 16;
+                            comboBox.ItemHeight = 18;
                             comboBox.DrawItem += MetaDataGrid_ComboBoxDrawItem;
                             comboBox.Tag = fieldType;
                         }
@@ -3302,7 +3302,7 @@ namespace Win_CBZ
                         TextBox textBox = e.Control as TextBox;
                         if (textBox != null)
                         {
-                            textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            textBox.Font = new Font("Verdana", 8.5f, FontStyle.Regular);
                             
                         }
                     }
@@ -3314,6 +3314,7 @@ namespace Win_CBZ
                         if (textBox != null)
                         {
                             textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            
                             textBox.KeyDown += DataGridTextBoxKeyDown;
 
                             var items = new List<AutocompleteItem>();
