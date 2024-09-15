@@ -67,6 +67,8 @@ namespace Win_CBZ.Forms
 
         public bool FilterNewPagesByExt;
 
+        public bool MetadataGridEditMode;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -120,6 +122,8 @@ namespace Win_CBZ.Forms
 
             InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
 
+            MetadataGridEditMode = Win_CBZSettings.Default.MetadataGridInstantEditMode;
+
             TempPath = Win_CBZSettings.Default.TempFolderPath;
             FilterNewPagesByExt = Win_CBZSettings.Default.FilterByExtension;
 
@@ -146,6 +150,7 @@ namespace Win_CBZ.Forms
             CheckBoxCalculateCrc.Checked = CalculateCrc32;
 
             ComboBoxFileName.Text = MetaDataFilename;
+            CheckboxAlwaysInEditMode.Checked = MetadataGridEditMode;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -451,6 +456,9 @@ namespace Win_CBZ.Forms
                                 };
 
                                 CustomFieldsDataGrid.Rows[i].Cells[8] = bc;
+                            } else
+                            {
+                                CustomFieldsDataGrid.Rows[i].Cells[8].ReadOnly = true;
                             }
 
                             if (type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
@@ -1429,7 +1437,7 @@ namespace Win_CBZ.Forms
                 // todo: create extension list
                 if (ext.Trim(' ').Length > 0)
                 {
-                    AddTag(CreateExt(ext));
+                    AddExt(CreateExt(ext));
                 }
                 
             });
@@ -1554,8 +1562,8 @@ namespace Win_CBZ.Forms
             if (ExtensionTextBox.Text.Trim(' ').Length > 0)
             {
                 ImageFileExtensions.Add(ExtensionTextBox.Text);
-                AddTag(CreateExt(ExtensionTextBox.Text));
-                AddTag(ExtensionTextBox.Text);
+                AddExt(CreateExt(ExtensionTextBox.Text));
+                //AddTag(ExtensionTextBox.Text);
                 ExtensionTextBox.Text = string.Empty;
             }
             ExtensionTextBox.Focus();
@@ -1568,8 +1576,7 @@ namespace Win_CBZ.Forms
                 if (ExtensionTextBox.Text.Trim(' ').Length > 0)
                 {
                     ImageFileExtensions.Add(ExtensionTextBox.Text);
-                    AddTag(CreateExt(ExtensionTextBox.Text));
-                    AddTag(ExtensionTextBox.Text);
+                    AddExt(CreateExt(ExtensionTextBox.Text));
                     ExtensionTextBox.Text = string.Empty;
 
                 }
@@ -1638,7 +1645,7 @@ namespace Win_CBZ.Forms
                 Font = new Font("Segoe UI", 8, FontStyle.Regular)
             };
 
-            closeButton.Click += TagCloseButtonClick;
+            closeButton.Click += ExtCloseButtonClick;
             tagLabel.Click += TagItemClick;
 
             /*
@@ -1661,13 +1668,7 @@ namespace Win_CBZ.Forms
             return tagItem;
         }
 
-        public void AddTag(string tagName)
-        {
-            //ListViewItem newItem = TagListView.Items.Add(tagName);
-            //newItem.ImageKey = "tag";
-        }
-
-        public void AddTag(System.Windows.Forms.Control control)
+        public void AddExt(System.Windows.Forms.Control control)
         {
             if (control != null)
             {
@@ -1679,7 +1680,7 @@ namespace Win_CBZ.Forms
             }
         }
 
-        public void RemoveTag(string tagName)
+        public void RemoveExt(string tagName)
         {
             if (string.IsNullOrEmpty(tagName))
             {
@@ -1698,7 +1699,7 @@ namespace Win_CBZ.Forms
             }
         }
 
-        public void ClearTags()
+        public void ClearExtensions()
         {
             ExtensionList.Controls.Clear();
             //TagListView.Items.Clear();
@@ -1716,7 +1717,7 @@ namespace Win_CBZ.Forms
                     //Label contentLabel = container.Controls.Find("TAG_LABEL", false)[0] as Label;
                     //if (contentLabel != null)
                     //{
-                    label.BackColor = Color.Gold;
+                    //label.BackColor = Color.Gold;
                     //}
                     //((TagItem)container.Tag).Selected = true;
                     //SelectedTags.Add(container);
@@ -1724,7 +1725,7 @@ namespace Win_CBZ.Forms
                 else
                 {
 
-                    label.BackColor = Color.White;
+                    //label.BackColor = Color.White;
                     //}
                     //((TagItem)container.Tag).Selected = false;
                     //SelectedTags.Remove(container);
@@ -1744,7 +1745,7 @@ namespace Win_CBZ.Forms
 
         }
 
-        private void TagCloseButtonClick(object sender, System.EventArgs e)
+        private void ExtCloseButtonClick(object sender, System.EventArgs e)
         {
             if (((PictureBox)sender).Tag != null)
             {

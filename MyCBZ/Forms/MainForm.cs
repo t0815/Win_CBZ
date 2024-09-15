@@ -3828,6 +3828,14 @@ namespace Win_CBZ
                 return;
             }
 
+            if (e.ColumnIndex == 0)
+            {
+                if (Win_CBZSettings.Default.MetadataGridInstantEditMode)
+                {
+                    senderGrid.BeginEdit(true);
+                }
+            }
+
             if (e.ColumnIndex == 1)
             {
                 if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
@@ -3840,6 +3848,10 @@ namespace Win_CBZ
                 { // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE) {
                   //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
                   //value = textCell.Value?.ToString();
+                  if (Win_CBZSettings.Default.MetadataGridInstantEditMode)
+                    {
+                        senderGrid.BeginEdit(true);
+                    }
                 }
 
             }
@@ -5120,7 +5132,8 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.TempFolderPath = settingsDialog.TempPath;
                 Win_CBZSettings.Default.ImageExtenstionList = String.Join('|', settingsDialog.ImageFileExtensions.ToArray());
                 Win_CBZSettings.Default.FilterByExtension = settingsDialog.FilterNewPagesByExt;
-
+                Win_CBZSettings.Default.MetadataGridInstantEditMode = settingsDialog.MetadataGridEditMode;
+                 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
                 
 

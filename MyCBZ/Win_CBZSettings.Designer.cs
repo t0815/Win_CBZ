@@ -581,5 +581,17 @@ namespace Win_CBZ {
                 this["FilterByExtension"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool MetadataGridInstantEditMode {
+            get {
+                return ((bool)(this["MetadataGridInstantEditMode"]));
+            }
+            set {
+                this["MetadataGridInstantEditMode"] = value;
+            }
+        }
     }
 }
