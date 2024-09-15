@@ -49,6 +49,8 @@ namespace Win_CBZ.Forms
 
         public int ConversionQualityValue;
 
+        public bool WriteXMLPageIndex;
+
         public bool OmitEmptyXMLTags;
 
         public int ConversionModeValue;
@@ -123,6 +125,7 @@ namespace Win_CBZ.Forms
             CalculateCrc32 = Win_CBZSettings.Default.CalculateHash;
 
             InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
+            WriteXMLPageIndex = Win_CBZSettings.Default.WriteXmlPageIndex;
 
             MetadataGridEditMode = Win_CBZSettings.Default.MetadataGridInstantEditMode;
             MetadataGridEditModeValueCol = Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol;
@@ -155,6 +158,7 @@ namespace Win_CBZ.Forms
             ComboBoxFileName.Text = MetaDataFilename;
             CheckboxAlwaysInEditMode.Checked = MetadataGridEditMode;
             CheckBoxEditModeOnlyValueCol.Checked = MetadataGridEditModeValueCol;
+            CheckBoxWriteIndex.Checked = WriteXMLPageIndex;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -627,6 +631,7 @@ namespace Win_CBZ.Forms
                     FilterNewPagesByExt = FilterNewPagesByExtCheckBox.Checked;
                     MetadataGridEditMode = CheckboxAlwaysInEditMode.Checked;
                     MetadataGridEditModeValueCol = CheckBoxEditModeOnlyValueCol.Checked;
+                    WriteXMLPageIndex = CheckBoxWriteIndex.Checked;
 
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)

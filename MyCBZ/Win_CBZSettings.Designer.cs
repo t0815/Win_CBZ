@@ -605,5 +605,17 @@ namespace Win_CBZ {
                 this["MetadataGridInstantEditModeValueCol"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool WriteXmlPageIndex {
+            get {
+                return ((bool)(this["WriteXmlPageIndex"]));
+            }
+            set {
+                this["WriteXmlPageIndex"] = value;
+            }
+        }
     }
 }

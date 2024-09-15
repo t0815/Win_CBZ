@@ -5164,7 +5164,8 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ImageExtenstionList = String.Join('|', settingsDialog.ImageFileExtensions.ToArray());
                 Win_CBZSettings.Default.FilterByExtension = settingsDialog.FilterNewPagesByExt;
                 Win_CBZSettings.Default.MetadataGridInstantEditMode = settingsDialog.MetadataGridEditMode;
-                Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol = settingsDialog.MetadataGridEditModeValueCol; 
+                Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol = settingsDialog.MetadataGridEditModeValueCol;
+                Win_CBZSettings.Default.WriteXmlPageIndex = settingsDialog.WriteXMLPageIndex;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
                 
