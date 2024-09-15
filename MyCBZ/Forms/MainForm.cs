@@ -5118,6 +5118,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.CalculateHash = settingsDialog.CalculateCrc32;
                 Win_CBZSettings.Default.InterpolationMode = settingsDialog.InterpolationMode;
                 Win_CBZSettings.Default.TempFolderPath = settingsDialog.TempPath;
+                Win_CBZSettings.Default.ImageExtenstionList = String.Join('|', settingsDialog.ImageFileExtensions.ToArray());
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 
@@ -5131,7 +5132,7 @@ namespace Win_CBZ
 
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
-
+                
 
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS);
 

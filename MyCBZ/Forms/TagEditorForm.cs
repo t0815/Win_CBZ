@@ -28,12 +28,6 @@ namespace Win_CBZ.Forms
     [SupportedOSPlatform("windows")]
     public partial class TagEditorForm : Form
     {
-        private partial class TagItem
-        {
-            public String Tag { get; set; }
-            public bool Selected { get; set; }
-        }
-
 
         public List<String> Lines = new List<String>();
 

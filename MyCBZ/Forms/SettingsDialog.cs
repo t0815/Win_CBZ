@@ -1,4 +1,5 @@
 ﻿
+using LoadingIndicator.WinForms;
 using SharpCompress.Common;
 using System;
 using System.Collections;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -33,6 +35,8 @@ namespace Win_CBZ.Forms
         public String[] NewValidTagList;
 
         public String[] CustomFieldTypesCollection;
+
+        public List<String> ImageFileExtensions;
 
         public List<MetaDataFieldType> CustomFieldTypesSettings;
 
@@ -76,10 +80,16 @@ namespace Win_CBZ.Forms
             InitializeComponent();
 
             CustomFieldTypesSettings = new List<MetaDataFieldType>();
+            ImageFileExtensions = new List<String>();
 
             if (Win_CBZSettings.Default.CustomDefaultProperties != null)
             {
                 NewDefaults = Win_CBZSettings.Default.CustomDefaultProperties.OfType<String>().ToArray();
+            }
+
+            if (Win_CBZSettings.Default.ImageExtenstionList != null)
+            {
+                ImageFileExtensions.AddRange(Win_CBZSettings.Default.ImageExtenstionList.Split('|'));
             }
 
             if (Win_CBZSettings.Default.ValidKnownTags != null)
@@ -367,7 +377,7 @@ namespace Win_CBZ.Forms
                             if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                             {
                                 cb.Value = false;
-                                
+
                             }
 
                             cb.Style = new DataGridViewCellStyle()
@@ -377,8 +387,8 @@ namespace Win_CBZ.Forms
                                 BackColor = Color.White,
                             };
 
-                            CustomFieldsDataGrid.Rows[i].Cells[5] = cb;                         
-                            
+                            CustomFieldsDataGrid.Rows[i].Cells[5] = cb;
+
                             bool disable =
                                 type.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR ||
                                 type.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR ||
@@ -390,14 +400,14 @@ namespace Win_CBZ.Forms
                                 if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                                 {
                                     CustomFieldsDataGrid.Rows[i].Cells[5].Value = false;
-                                }   
+                                }
                             }
 
                             CustomFieldsDataGrid.Rows[i].Cells[5].ReadOnly = disable;
 
                             DataGridViewTextBoxCell tb = new DataGridViewTextBoxCell();
                             tb.Value = type.MultiValueSeparator;
-                            
+
                             tb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
@@ -615,11 +625,12 @@ namespace Win_CBZ.Forms
                     string errorSection = "";
 
                     if (controlName == "CustomDefaultKeys" ||
-                        controlName == "ValidTags" || 
+                        controlName == "ValidTags" ||
                         controlName == "ComboBoxFileName")
                     {
                         errorSection = "metadata";
-                    } else if (controlName == "CustomFieldsDataGrid" ||
+                    }
+                    else if (controlName == "CustomFieldsDataGrid" ||
                         controlName == "TextBoxTempPath")
                     {
                         errorSection = "application";
@@ -948,7 +959,7 @@ namespace Win_CBZ.Forms
                 value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2].Value;
                 if (value == null)
                 {
-                   value = "";
+                    value = "";
                 }
 
                 EditorType = value.ToString();
@@ -972,7 +983,7 @@ namespace Win_CBZ.Forms
                 value = CustomFieldsDataGrid.Rows[e.RowIndex].Cells[7].Value;
                 if (value == null)
                 {
-                   value = "False";
+                    value = "False";
                 }
 
                 AutoUpdate = Boolean.Parse(value.ToString());
@@ -1074,7 +1085,7 @@ namespace Win_CBZ.Forms
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4] = tc;
 
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[4].ReadOnly = true;
-                        
+
                     }
 
                     if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
@@ -1118,15 +1129,17 @@ namespace Win_CBZ.Forms
                                 updatedEntry.MultiValued = false;
                                 CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = false;
                             }
-                           
-                        } else
+
+                        }
+                        else
                         {
 
                         }
-                        
+
                         //CustomFieldsDataGrid.Rows[e.RowIndex].Cells[5].Value = !(updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX);
                         CustomFieldsDataGrid.Rows[e.RowIndex].Cells[6].ReadOnly = !updatedEntry.MultiValued;
-                    } else
+                    }
+                    else
                     {
                         DataGridViewTextBoxCell tc = new DataGridViewTextBoxCell();
 
@@ -1138,12 +1151,12 @@ namespace Win_CBZ.Forms
 
                 if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_MULTI_LINE_TEXT_EDITOR)
                 {
-                        
+
 
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_TAG_EDITOR)
                 {
-                    
+
 
                 }
                 else if (updatedEntry.EditorType == EditorTypeConfig.EDITOR_TYPE_VARIABLE_EDITOR)
@@ -1279,7 +1292,7 @@ namespace Win_CBZ.Forms
             };
 
             CustomFieldsDataGrid.Rows[newIndex].Cells[6] = tb;
-            
+
 
             cb = new DataGridViewCheckBoxCell();
             cb.Value = newEntry.AutoUpdate;
@@ -1396,6 +1409,12 @@ namespace Win_CBZ.Forms
         {
             RestoreFieldTypesButton.Size = new System.Drawing.Size(80, 30);
             SettingsSectionList.SelectedIndex = 0;
+
+            ImageFileExtensions.ForEach((String ext) =>
+            {
+                // todo: create extension list
+                AddTag(CreateExt(ext));
+            });
         }
 
         private void ToolStripTextBoxSearchTag_KeyUp(object sender, KeyEventArgs e)
@@ -1458,12 +1477,19 @@ namespace Win_CBZ.Forms
                 return;
             }
 
-            if (e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 4)
+            if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 || e.ColumnIndex == 4)
             {
                 if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
                 {
                     // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
                     DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
+                    senderGrid.BeginEdit(true);
+                }
+
+                if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewTextBoxCell)
+                {
+                    // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
+                    //DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
                     senderGrid.BeginEdit(true);
                 }
             }
@@ -1474,7 +1500,7 @@ namespace Win_CBZ.Forms
             Color backgroundColor = Color.White;
             Color textColor = Color.Black;
             System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
-            
+
             System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
 
             Font f = SystemFonts.CaptionFont;
@@ -1483,7 +1509,8 @@ namespace Win_CBZ.Forms
             {
                 backgroundColor = Color.Gold;
             }
-            else {
+            else
+            {
                 backgroundColor = SystemColors.Window;
             }
 
@@ -1495,12 +1522,217 @@ namespace Win_CBZ.Forms
             e.Graphics.DrawString(name, f, tb, e.Bounds.X + 26, e.Bounds.Y + 6);
             if (CategoryImages.Images.ContainsKey(name.ToLower().Replace(' ', '_')))
             {
-                e.Graphics.DrawImage(CategoryImages.Images[name.ToLower().Replace(' ','_')], e.Bounds.X + 1, e.Bounds.Y + 3);
+                e.Graphics.DrawImage(CategoryImages.Images[name.ToLower().Replace(' ', '_')], e.Bounds.X + 1, e.Bounds.Y + 3);
             }
 
-            if (errorCategories.IndexOf(name.ToLower()) > -1) 
+            if (errorCategories.IndexOf(name.ToLower()) > -1)
             {
                 e.Graphics.DrawImage(ErrorImages.Images["error"], e.Bounds.Right - 20, e.Bounds.Y + 8);
+            }
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            if (ExtensionTextBox.Text.Length > 0)
+            {
+                ImageFileExtensions.Add(ExtensionTextBox.Text);
+                AddTag(CreateExt(ExtensionTextBox.Text));
+                AddTag(ExtensionTextBox.Text);
+                ExtensionTextBox.Text = string.Empty;
+            }
+            ExtensionTextBox.Focus();
+        }
+
+        private void ExtensionTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (ExtensionTextBox.Text.Length > 0)
+                {
+                    ImageFileExtensions.Add(ExtensionTextBox.Text);
+                    AddTag(CreateExt(ExtensionTextBox.Text));
+                    AddTag(ExtensionTextBox.Text);
+                    ExtensionTextBox.Text = string.Empty;
+
+                }
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
+        }
+
+        public FlowLayoutPanel CreateExt(string tagName)
+        {
+            if (string.IsNullOrEmpty(tagName))
+            {
+                return null;
+            }
+
+            FlowLayoutPanel tagItem = new FlowLayoutPanel();
+            tagItem.Name = "TAG_" + tagName;
+            tagItem.Tag = new TagItem()
+            {
+                Tag = tagName
+            };
+            tagItem.AutoSize = true;
+            //tagItem.Click += TagItemClick;
+            tagItem.BackColor = System.Drawing.Color.White;
+
+            tagItem.BorderStyle = BorderStyle.None;
+            tagItem.GotFocus += TagFocused;
+            tagItem.LostFocus += TagLostFocus;
+
+            /*
+            System.Windows.Forms.Button closeButton = new System.Windows.Forms.Button()
+            {
+                Text = "",
+                Tag = tagItem,
+                Image = global::Win_CBZ.Properties.Resources.delete,
+                ImageAlign = ContentAlignment.MiddleCenter,
+                FlatStyle = FlatStyle.Flat,
+                Size = new Size()
+                {
+                    Width = 15,
+                    Height = 15
+                },
+            };
+            */
+
+            PictureBox closeButton = new PictureBox()
+            {
+                Image = global::Win_CBZ.Properties.Resources.delete,
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                Width = 15,
+                Height = 15,
+                Tag = tagItem,
+                Cursor = System.Windows.Forms.Cursors.Hand,
+                Margin = new Padding(0, 2, 2, 2),
+                Padding = new Padding(0, 2, 1, 1)
+            };
+
+            System.Windows.Forms.Label tagLabel = new System.Windows.Forms.Label()
+            {
+                Name = "TAG_LABEL",
+                Text = tagName,
+                AutoSize = true,
+                Tag = tagItem,
+                Padding = new Padding(1, 1, 1, 1),
+                Margin = new Padding(0, 2, 0, 1),
+                Font = new Font("Segoe UI", 8, FontStyle.Regular)
+            };
+
+            closeButton.Click += TagCloseButtonClick;
+            tagLabel.Click += TagItemClick;
+
+            /*
+            tagItem.Controls.Add(new PictureBox()
+            {
+                Image = global::Win_CBZ.Properties.Resources.tag,
+                SizeMode = PictureBoxSizeMode.AutoSize,
+                Width = 15,
+                Height = 15,
+                Margin = new Padding(3, 1, 1, 2)
+            });
+
+            */
+            tagItem.Controls.Add(tagLabel);
+
+            tagItem.Controls.Add(closeButton);
+
+            tagItem.Parent = ExtensionList;
+
+            return tagItem;
+        }
+
+        public void AddTag(string tagName)
+        {
+            //ListViewItem newItem = TagListView.Items.Add(tagName);
+            //newItem.ImageKey = "tag";
+        }
+
+        public void AddTag(System.Windows.Forms.Control control)
+        {
+            if (control != null)
+            {
+                Invoke(new Action(() =>
+                {
+                    ExtensionList.Controls.Add(control);
+                }));
+
+            }
+        }
+
+        public void RemoveTag(string tagName)
+        {
+            if (string.IsNullOrEmpty(tagName))
+            {
+                return;
+            }
+
+            System.Windows.Forms.Control[] tags = ExtensionList.Controls.Find("TAG_" + tagName, false);
+            if (tags != null && tags.Length > 0)
+            {
+                FlowLayoutPanel tag = ExtensionList.Controls.Find("TAG_" + tagName, false)[0] as FlowLayoutPanel;
+
+                if (tag != null)
+                {
+                    ExtensionList.Controls.Remove(tag);
+                }
+            }
+        }
+
+        public void ClearTags()
+        {
+            ExtensionList.Controls.Clear();
+            //TagListView.Items.Clear();
+        }
+
+        private void TagItemClick(object sender, EventArgs e)
+        {
+            Label label = sender as Label;
+            FlowLayoutPanel container = label.Parent as FlowLayoutPanel;
+
+            if (container != null)
+            {
+                if (!((TagItem)container.Tag).Selected)
+                {
+                    //Label contentLabel = container.Controls.Find("TAG_LABEL", false)[0] as Label;
+                    //if (contentLabel != null)
+                    //{
+                    label.BackColor = Color.Gold;
+                    //}
+                    //((TagItem)container.Tag).Selected = true;
+                    //SelectedTags.Add(container);
+                }
+                else
+                {
+
+                    label.BackColor = Color.White;
+                    //}
+                    //((TagItem)container.Tag).Selected = false;
+                    //SelectedTags.Remove(container);
+                }
+
+                //ToolStripButtonRemoveSelectedTags.Enabled = SelectedTags.Count > 0;
+            }
+        }
+
+        private void TagFocused(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TagLostFocus(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TagCloseButtonClick(object sender, System.EventArgs e)
+        {
+            if (((PictureBox)sender).Tag != null)
+            {
+                var tag = ((PictureBox)sender).Tag as FlowLayoutPanel;
+                ImageFileExtensions.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
+                ExtensionList.Controls.Remove(tag);
             }
         }
     }
