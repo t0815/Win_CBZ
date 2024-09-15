@@ -5119,8 +5119,10 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.InterpolationMode = settingsDialog.InterpolationMode;
                 Win_CBZSettings.Default.TempFolderPath = settingsDialog.TempPath;
                 Win_CBZSettings.Default.ImageExtenstionList = String.Join('|', settingsDialog.ImageFileExtensions.ToArray());
+                Win_CBZSettings.Default.FilterByExtension = settingsDialog.FilterNewPagesByExt;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
+                
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)

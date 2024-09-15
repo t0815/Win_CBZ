@@ -65,6 +65,8 @@ namespace Win_CBZ.Forms
 
         public string TempPath;
 
+        public bool FilterNewPagesByExt;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -89,7 +91,8 @@ namespace Win_CBZ.Forms
 
             if (Win_CBZSettings.Default.ImageExtenstionList != null)
             {
-                ImageFileExtensions.AddRange(Win_CBZSettings.Default.ImageExtenstionList.Split('|'));
+                string[] exts = Win_CBZSettings.Default.ImageExtenstionList.Split('|').Where(s => s.Length > 0).ToArray<string>();
+                ImageFileExtensions.AddRange(exts);
             }
 
             if (Win_CBZSettings.Default.ValidKnownTags != null)
@@ -118,6 +121,7 @@ namespace Win_CBZ.Forms
             InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
 
             TempPath = Win_CBZSettings.Default.TempFolderPath;
+            FilterNewPagesByExt = Win_CBZSettings.Default.FilterByExtension;
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
@@ -152,6 +156,8 @@ namespace Win_CBZ.Forms
             ImageProcessingTabControl.Visible = false;
             AppSettingsTabControl.Visible = false;
             CBZSettingsTabControl.Visible = false;
+
+            FilterNewPagesByExtCheckBox.Checked = FilterNewPagesByExt;    
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
             if (ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode) > -1)
@@ -566,6 +572,11 @@ namespace Win_CBZ.Forms
                         throw new MetaDataValidationException("", TextBoxTempPath.Text, "TextBoxTempPath", "Validation Error! Temporary-Path ['" + PathHelper.ResolvePath(TextBoxTempPath.Text) + "'] does not exist!");
                     }
 
+                    if (FilterNewPagesByExtCheckBox.Checked && ImageFileExtensions.Count == 0)
+                    {
+                        throw new MetaDataValidationException("", "", "FilterNewPagesByExtCheckBox", "Validation Error! No Image-Extensions defined for filtering new pages!");
+                    }
+
                     // -------------- DANGER!  All validation goes above this line --------------------
 
 
@@ -601,6 +612,7 @@ namespace Win_CBZ.Forms
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
                     InterpolationMode = ComboBoxInterpolationModes.SelectedItem.ToString();// ComboBoxInterpolationModes.SelectedIndex;
                     TempPath = TextBoxTempPath.Text;
+                    FilterNewPagesByExt = FilterNewPagesByExtCheckBox.Checked;
 
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
@@ -631,7 +643,9 @@ namespace Win_CBZ.Forms
                         errorSection = "metadata";
                     }
                     else if (controlName == "CustomFieldsDataGrid" ||
-                        controlName == "TextBoxTempPath")
+                        controlName == "TextBoxTempPath" ||
+                        controlName == "FilterNewPagesByExtCheckBox"
+                        )
                     {
                         errorSection = "application";
                     }
@@ -1413,7 +1427,11 @@ namespace Win_CBZ.Forms
             ImageFileExtensions.ForEach((String ext) =>
             {
                 // todo: create extension list
-                AddTag(CreateExt(ext));
+                if (ext.Trim(' ').Length > 0)
+                {
+                    AddTag(CreateExt(ext));
+                }
+                
             });
         }
 
@@ -1533,7 +1551,7 @@ namespace Win_CBZ.Forms
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            if (ExtensionTextBox.Text.Length > 0)
+            if (ExtensionTextBox.Text.Trim(' ').Length > 0)
             {
                 ImageFileExtensions.Add(ExtensionTextBox.Text);
                 AddTag(CreateExt(ExtensionTextBox.Text));
@@ -1547,7 +1565,7 @@ namespace Win_CBZ.Forms
         {
             if (e.KeyCode == Keys.Return)
             {
-                if (ExtensionTextBox.Text.Length > 0)
+                if (ExtensionTextBox.Text.Trim(' ').Length > 0)
                 {
                     ImageFileExtensions.Add(ExtensionTextBox.Text);
                     AddTag(CreateExt(ExtensionTextBox.Text));

@@ -569,5 +569,17 @@ namespace Win_CBZ {
                 this["ImageExtenstionList"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterByExtension {
+            get {
+                return ((bool)(this["FilterByExtension"]));
+            }
+            set {
+                this["FilterByExtension"] = value;
+            }
+        }
     }
 }

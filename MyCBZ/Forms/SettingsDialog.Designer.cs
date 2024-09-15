@@ -54,6 +54,8 @@
             panel1 = new System.Windows.Forms.Panel();
             ExtensionTextBox = new System.Windows.Forms.TextBox();
             button2 = new System.Windows.Forms.Button();
+            label14 = new System.Windows.Forms.Label();
+            FilterNewPagesByExtCheckBox = new System.Windows.Forms.CheckBox();
             TabPageAppSettings = new System.Windows.Forms.TabPage();
             CustomFieldTypesTablePanel = new System.Windows.Forms.TableLayoutPanel();
             CustomFieldsDataGrid = new System.Windows.Forms.DataGridView();
@@ -310,6 +312,8 @@
             tableLayoutPanel5.Controls.Add(pictureBox6, 2, 0);
             tableLayoutPanel5.Controls.Add(label13, 0, 1);
             tableLayoutPanel5.Controls.Add(tableLayoutPanel7, 1, 1);
+            tableLayoutPanel5.Controls.Add(label14, 0, 2);
+            tableLayoutPanel5.Controls.Add(FilterNewPagesByExtCheckBox, 1, 2);
             tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
             tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -317,8 +321,8 @@
             tableLayoutPanel5.RowCount = 4;
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
-            tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 179F));
+            tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 69F));
+            tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 154F));
             tableLayoutPanel5.Size = new System.Drawing.Size(326, 421);
             tableLayoutPanel5.TabIndex = 1;
             // 
@@ -461,6 +465,27 @@
             button2.Text = "...";
             button2.UseVisualStyleBackColor = true;
             button2.Click += Button2_Click;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(18, 222);
+            label14.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(77, 40);
+            label14.TabIndex = 29;
+            label14.Text = "Filter new Pages";
+            // 
+            // FilterNewPagesByExtCheckBox
+            // 
+            FilterNewPagesByExtCheckBox.AutoSize = true;
+            FilterNewPagesByExtCheckBox.Location = new System.Drawing.Point(115, 222);
+            FilterNewPagesByExtCheckBox.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            FilterNewPagesByExtCheckBox.Name = "FilterNewPagesByExtCheckBox";
+            FilterNewPagesByExtCheckBox.Size = new System.Drawing.Size(149, 24);
+            FilterNewPagesByExtCheckBox.TabIndex = 30;
+            FilterNewPagesByExtCheckBox.Text = "Only add files with allowed extensions";
+            FilterNewPagesByExtCheckBox.UseVisualStyleBackColor = true;
             // 
             // TabPageAppSettings
             // 
@@ -1530,5 +1555,7 @@
         private System.Windows.Forms.TextBox ExtensionTextBox;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.FlowLayoutPanel ExtensionList;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.CheckBox FilterNewPagesByExtCheckBox;
     }
 }
