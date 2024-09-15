@@ -2254,6 +2254,7 @@ namespace Win_CBZ
             // 
             // removeToolStripMenuItem
             // 
+            removeToolStripMenuItem.Enabled = false;
             removeToolStripMenuItem.Image = Properties.Resources.garbage;
             removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             removeToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
@@ -2268,6 +2269,7 @@ namespace Win_CBZ
             // propertiesToolStripMenuItem
             // 
             propertiesToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            propertiesToolStripMenuItem.Enabled = false;
             propertiesToolStripMenuItem.Image = Properties.Resources.edit;
             propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
             propertiesToolStripMenuItem.Size = new System.Drawing.Size(149, 26);

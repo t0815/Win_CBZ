@@ -4446,6 +4446,8 @@ namespace Win_CBZ
             ToolButtonEditImageProps.Enabled = buttonStateSelected;
             ToolButtonImagePreview.Enabled = selectedPages.Count == 1;
             ToolButtonEditImage.Enabled = propsButtonAvailable;
+            propertiesToolStripMenuItem.Enabled = propsButtonAvailable;
+            removeToolStripMenuItem.Enabled = buttonStateSelected;
 
             ToolButtonSetPageType.Enabled = buttonStateSelected;
 
