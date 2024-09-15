@@ -3251,7 +3251,7 @@ namespace Win_CBZ
                 if (fieldType.AutoCompleteImageKey != null && fieldType.AutoCompleteImageKey.Length > 0)
                 {
                     Image img = AutocompleteIcons.Images[fieldType.AutoCompleteImageKey];
-                    e.Graphics.DrawImage(img, new Point(e.Bounds.X + 2, e.Bounds.Y + 2));
+                    e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
                     e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
                 } else
                 {

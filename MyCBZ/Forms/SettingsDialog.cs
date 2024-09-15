@@ -330,7 +330,8 @@ namespace Win_CBZ.Forms
 
                             CustomFieldsDataGrid.Rows[i].Cells[2] = cc;
 
-                            if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+                            if (type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE ||
+                                type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                             {
                                 DataGridViewComboBoxCell ci = new DataGridViewComboBoxCell();
                                 int maxIndex = AutocompleteIcons.Images.Keys.Count - 1;
@@ -1041,7 +1042,9 @@ namespace Win_CBZ.Forms
 
                     CustomFieldsDataGrid.Rows[e.RowIndex].Cells[2] = cc;
 
-                    if (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+                    if (updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE ||
+                        updatedEntry.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX
+                      )
                     {
                         DataGridViewComboBoxCell ci = new DataGridViewComboBoxCell();
                         int maxIndex = AutocompleteIcons.Images.Keys.Count - 1;
