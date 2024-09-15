@@ -224,7 +224,7 @@ namespace Win_CBZ.Helper
                                                 if (!found && userHasCustomKeys)
                                                 {
                                                     if (!Win_CBZSettings.Default.CustomDefaultProperties.Contains(FactoryDefaults.DefaultKeys[index]))
-                                                        {
+                                                    {
                                                         try
                                                         {
                                                             Win_CBZSettings.Default.CustomDefaultProperties.Insert(index, FactoryDefaults.DefaultKeys[index]);

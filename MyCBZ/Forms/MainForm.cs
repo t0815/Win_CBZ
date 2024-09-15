@@ -3221,6 +3221,49 @@ namespace Win_CBZ
             }
         }
 
+        private void MetaDataGrid_ComboBoxDrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            if (sender as ComboBox == null)
+            {
+                return;
+            }
+
+            MetaDataFieldType fieldType = ((ComboBox)sender).Tag as MetaDataFieldType;
+
+            Pen pen = new Pen(Color.Black, 1);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)), e.Bounds);
+            }
+            if (fieldType != null) 
+            {
+                if (fieldType.AutoCompleteImageKey != null && fieldType.AutoCompleteImageKey.Length > 0)
+                {
+                    Image img = AutocompleteIcons.Images[fieldType.AutoCompleteImageKey];
+                    e.Graphics.DrawImage(img, new Point(e.Bounds.X + 2, e.Bounds.Y + 2));
+                    e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y));
+                } else
+                {
+                    e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y));
+                }
+            } else
+            {
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y));
+            }
+
+        }
+
         private void MetaDataGrid_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             DataGridViewCellStyle dataGridViewCellStyle = new DataGridViewCellStyle
@@ -3234,56 +3277,83 @@ namespace Win_CBZ
             e.CellStyle = dataGridViewCellStyle;
             if (MetaDataGrid.SelectedCells.Count == 1)
             {
+                
                 MetaDataFieldType fieldType = MetaDataGrid.SelectedCells[0].Tag as MetaDataFieldType;
-                TextBox textBox = e.Control as TextBox;
-
-                if (textBox == null)
-                {
-                    return;
-                }
-
                 if (fieldType != null)
                 {
-                    if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
+                    
+                    if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
+                    {
+                        ComboBox comboBox = e.Control as ComboBox;
+                        if (comboBox != null)
+                        {
+                            Font dgFont = MetaDataGrid.DefaultCellStyle.Font;
+                            comboBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            comboBox.FlatStyle = FlatStyle.Popup;
+                            comboBox.Height = MetaDataGrid.RowTemplate.Height - 2;
+                            comboBox.DrawMode = DrawMode.OwnerDrawFixed;
+                            comboBox.ItemHeight = 16;
+                            comboBox.DrawItem += MetaDataGrid_ComboBoxDrawItem;
+                            comboBox.Tag = fieldType;
+                        }
+                    }
+                    else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_TEXT_BOX)
+                    {
+                        TextBox textBox = e.Control as TextBox;
+                        if (textBox != null)
+                        {
+                            textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            
+                        }
+                    }
+                    else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                     {
                         //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
                         //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
+                        TextBox textBox = e.Control as TextBox;
+                        if (textBox != null)
+                        {
+                            textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            textBox.KeyDown += DataGridTextBoxKeyDown;
 
-                        textBox.KeyDown += DataGridTextBoxKeyDown;
+                            var items = new List<AutocompleteItem>();
+                            foreach (var item in fieldType.EditorConfig.AutoCompleteItems)
+                                items.Add(new AutocompleteItem(item) { ImageIndex = AutocompleteIcons.Images.IndexOfKey(fieldType.AutoCompleteImageKey) });
 
-                        var items = new List<AutocompleteItem>();
-                        foreach (var item in fieldType.EditorConfig.AutoCompleteItems)
-                            items.Add(new AutocompleteItem(item) { ImageIndex = AutocompleteIcons.Images.IndexOfKey(fieldType.AutoCompleteImageKey) });
+                            if (fieldType.AutoCompleteImageKey == "" || fieldType.AutoCompleteImageKey == null)
+                                AutoCompleteItems.LeftPadding = 2;
+                            else AutoCompleteItems.LeftPadding = 18;
 
-                        if (fieldType.AutoCompleteImageKey == "" || fieldType.AutoCompleteImageKey == null)
-                            AutoCompleteItems.LeftPadding = 2;
-                        else AutoCompleteItems.LeftPadding = 18;
-
-                        AutoCompleteItems.SetAutocompleteItems(items);
-                        AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
-                        //AutoCompleteItems. = textBox
-                        //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
-                        //textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                        //textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
+                            AutoCompleteItems.SetAutocompleteItems(items);
+                            AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
+                            //AutoCompleteItems. = textBox
+                            //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
+                            //textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+                            //textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                        }
                     }
                     else
                     {
-                        AutoCompleteItems.Items = new string[0];
-                        AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
+                        TextBox textBox = e.Control as TextBox;
+                        if (textBox != null)
+                        {
+                            textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                            AutoCompleteItems.Items = new string[0];
+                            AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
+                        }
                     }
                 }
                 else
                 {
-                    AutoCompleteItems.Items = new string[0];
-                    AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
-                    //TextBox textBox = e.Control as TextBox;
-                    //textBox.AutoCompleteCustomSource = null;
-                    //textBox.AutoCompleteSource = AutoCompleteSource.None;
-                    //textBox.AutoCompleteMode = AutoCompleteMode.None;
+                    TextBox textBox = e.Control as TextBox;
+                    if (textBox != null)
+                    {
+                        textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+                        AutoCompleteItems.Items = new string[0];
+                        AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
+                    }
                 }
             }
-
         }
 
         private void MetaDataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
