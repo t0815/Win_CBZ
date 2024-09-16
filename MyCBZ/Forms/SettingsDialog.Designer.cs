@@ -580,7 +580,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            CustomFieldsDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            CustomFieldsDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 79);
             CustomFieldsDataGrid.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             CustomFieldsDataGrid.MultiSelect = false;
@@ -591,6 +591,7 @@
             CustomFieldsDataGrid.TabIndex = 0;
             CustomFieldsDataGrid.CellClick += CustomFieldsDataGrid_CellClick;
             CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
+            CustomFieldsDataGrid.CellMouseDown += CustomFieldsDataGrid_CellMouseDown;
             CustomFieldsDataGrid.CellValueChanged += CustomFieldsDataGrid_CellValueChanged;
             CustomFieldsDataGrid.DataError += CustomFieldsDataGrid_DataError;
             CustomFieldsDataGrid.SelectionChanged += CustomFieldsDataGrid_SelectionChanged;

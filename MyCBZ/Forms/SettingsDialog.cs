@@ -170,7 +170,7 @@ namespace Win_CBZ.Forms
             AppSettingsTabControl.Visible = false;
             CBZSettingsTabControl.Visible = false;
 
-            FilterNewPagesByExtCheckBox.Checked = FilterNewPagesByExt;    
+            FilterNewPagesByExtCheckBox.Checked = FilterNewPagesByExt;
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
             if (ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode) > -1)
@@ -464,7 +464,8 @@ namespace Win_CBZ.Forms
                                 };
 
                                 CustomFieldsDataGrid.Rows[i].Cells[8] = bc;
-                            } else
+                            }
+                            else
                             {
                                 CustomFieldsDataGrid.Rows[i].Cells[8].ReadOnly = true;
                             }
@@ -856,7 +857,7 @@ namespace Win_CBZ.Forms
                                         SelectionForeColor = Color.Black,
                                         SelectionBackColor = Color.White,
                                     };
-                                    CustomFieldsDataGrid.BeginEdit(true);
+                                    CustomFieldsDataGrid.BeginEdit(false);
 
                                 }
                                 break;
@@ -1450,7 +1451,7 @@ namespace Win_CBZ.Forms
                 {
                     AddExt(CreateExt(ext));
                 }
-                
+
             });
         }
 
@@ -1514,7 +1515,7 @@ namespace Win_CBZ.Forms
                 return;
             }
 
-            if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 || e.ColumnIndex == 4)
+            if (e.ColumnIndex == 0 || e.ColumnIndex == 1 || e.ColumnIndex == 2 || e.ColumnIndex == 3 || e.ColumnIndex == 4 || e.ColumnIndex == 6)
             {
                 if (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] is DataGridViewComboBoxCell)
                 {
@@ -1527,7 +1528,7 @@ namespace Win_CBZ.Forms
                 {
                     // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX) {
                     //DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
-                    senderGrid.BeginEdit(true);
+                    senderGrid.BeginEdit(false);
                 }
             }
         }
@@ -1764,6 +1765,11 @@ namespace Win_CBZ.Forms
                 ImageFileExtensions.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
                 ExtensionList.Controls.Remove(tag);
             }
+        }
+
+        private void CustomFieldsDataGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+           
         }
     }
 }

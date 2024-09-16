@@ -3885,7 +3885,7 @@ namespace Win_CBZ
             {
                 if (Win_CBZSettings.Default.MetadataGridInstantEditMode && !Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol)
                 {
-                    senderGrid.BeginEdit(true);
+                    senderGrid.BeginEdit(false);
                 }
             }
 
@@ -3903,7 +3903,7 @@ namespace Win_CBZ
                   //value = textCell.Value?.ToString();
                   if (Win_CBZSettings.Default.MetadataGridInstantEditMode)
                     {
-                        senderGrid.BeginEdit(true);
+                        senderGrid.BeginEdit(false);
                     }
                 }
 
@@ -4026,7 +4026,7 @@ namespace Win_CBZ
                             }
 
 
-                            MetaDataGrid.BeginEdit(true);
+                            MetaDataGrid.BeginEdit(false);
 
                         }
                         break;
