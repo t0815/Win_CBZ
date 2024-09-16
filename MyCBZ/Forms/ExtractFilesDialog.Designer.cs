@@ -38,6 +38,7 @@
             SettingsGroup1Panel = new System.Windows.Forms.Panel();
             label3 = new System.Windows.Forms.Label();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            DirectoryPathTextBox = new System.Windows.Forms.Panel();
             TextBoxOutputFolder = new System.Windows.Forms.TextBox();
             ButtonBrowse = new System.Windows.Forms.Button();
             RadioButtonExtractAll = new System.Windows.Forms.RadioButton();
@@ -51,6 +52,7 @@
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
             SettingsGroup1Panel.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            DirectoryPathTextBox.SuspendLayout();
             SuspendLayout();
             // 
             // ExtractToTablePanel
@@ -144,7 +146,6 @@
             SettingsGroup1Panel.Controls.Add(RadioButtonExtractSelected);
             SettingsGroup1Panel.Controls.Add(label2);
             SettingsGroup1Panel.Controls.Add(label1);
-            SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
             SettingsGroup1Panel.Location = new System.Drawing.Point(3, 102);
             SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsGroup1Panel.Name = "SettingsGroup1Panel";
@@ -165,33 +166,49 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.11175F));
             tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.88825F));
-            tableLayoutPanel1.Controls.Add(TextBoxOutputFolder, 0, 0);
-            tableLayoutPanel1.Controls.Add(ButtonBrowse, 1, 0);
+            tableLayoutPanel1.Controls.Add(DirectoryPathTextBox, 0, 0);
             tableLayoutPanel1.Location = new System.Drawing.Point(68, 215);
             tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(427, 40);
+            tableLayoutPanel1.Size = new System.Drawing.Size(427, 33);
             tableLayoutPanel1.TabIndex = 5;
+            // 
+            // DirectoryPathTextBox
+            // 
+            DirectoryPathTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            DirectoryPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            DirectoryPathTextBox.Controls.Add(TextBoxOutputFolder);
+            DirectoryPathTextBox.Controls.Add(ButtonBrowse);
+            DirectoryPathTextBox.Location = new System.Drawing.Point(5, 2);
+            DirectoryPathTextBox.Margin = new System.Windows.Forms.Padding(5, 2, 3, 2);
+            DirectoryPathTextBox.Name = "DirectoryPathTextBox";
+            DirectoryPathTextBox.Padding = new System.Windows.Forms.Padding(1);
+            DirectoryPathTextBox.Size = new System.Drawing.Size(372, 29);
+            DirectoryPathTextBox.TabIndex = 27;
             // 
             // TextBoxOutputFolder
             // 
+            TextBoxOutputFolder.BorderStyle = System.Windows.Forms.BorderStyle.None;
             TextBoxOutputFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            TextBoxOutputFolder.Location = new System.Drawing.Point(3, 2);
-            TextBoxOutputFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            TextBoxOutputFolder.Location = new System.Drawing.Point(1, 1);
+            TextBoxOutputFolder.Margin = new System.Windows.Forms.Padding(4, 3, 3, 2);
             TextBoxOutputFolder.Name = "TextBoxOutputFolder";
-            TextBoxOutputFolder.Size = new System.Drawing.Size(374, 27);
-            TextBoxOutputFolder.TabIndex = 0;
+            TextBoxOutputFolder.Size = new System.Drawing.Size(343, 20);
+            TextBoxOutputFolder.TabIndex = 22;
             // 
             // ButtonBrowse
             // 
+            ButtonBrowse.Dock = System.Windows.Forms.DockStyle.Right;
+            ButtonBrowse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonBrowse.Image = Properties.Resources.folder_small;
-            ButtonBrowse.Location = new System.Drawing.Point(383, 2);
+            ButtonBrowse.Location = new System.Drawing.Point(344, 1);
             ButtonBrowse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonBrowse.Name = "ButtonBrowse";
-            ButtonBrowse.Size = new System.Drawing.Size(32, 29);
-            ButtonBrowse.TabIndex = 1;
+            ButtonBrowse.Size = new System.Drawing.Size(25, 25);
+            ButtonBrowse.TabIndex = 22;
+            ButtonBrowse.Text = "...";
             ButtonBrowse.UseVisualStyleBackColor = true;
             ButtonBrowse.Click += ButtonBrowse_Click;
             // 
@@ -270,7 +287,8 @@
             SettingsGroup1Panel.ResumeLayout(false);
             SettingsGroup1Panel.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
+            DirectoryPathTextBox.ResumeLayout(false);
+            DirectoryPathTextBox.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -282,16 +300,18 @@
         private System.Windows.Forms.Button ButtonOk;
         private System.Windows.Forms.Button ButtonCancel;
         private System.Windows.Forms.Label HeaderLabel;
-        private System.Windows.Forms.Panel SettingsGroup1Panel;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton RadioButtonExtractAll;
-        private System.Windows.Forms.RadioButton RadioButtonExtractSelected;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.TextBox TextBoxOutputFolder;
-        private System.Windows.Forms.Button ButtonBrowse;
         private System.Windows.Forms.OpenFileDialog OpenTargetDirectory;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
+        private System.Windows.Forms.Panel SettingsGroup1Panel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel DirectoryPathTextBox;
+        private System.Windows.Forms.TextBox TextBoxOutputFolder;
+        private System.Windows.Forms.Button ButtonBrowse;
+        private System.Windows.Forms.RadioButton RadioButtonExtractAll;
+        private System.Windows.Forms.RadioButton RadioButtonExtractSelected;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox TextBoxTempPath;
     }
 }

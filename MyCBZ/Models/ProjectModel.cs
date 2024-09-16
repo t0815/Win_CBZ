@@ -1638,6 +1638,19 @@ namespace Win_CBZ
                     problems.Add("Metadata->Values->Title: Value missing!");
                 }
 
+                String series = Program.ProjectModel.MetaData.ValueForKey("Series");
+                if (series != null)
+                {
+                    if (series.Length == 0)
+                    {
+                        problems.Add("Metadata->Values->Series: Value missing! Some Comic-Viewers require this field to be filled (i.e. Komga)");
+                    }
+                }
+                else
+                {
+                    problems.Add("Metadata->Values->Series: Value missing! Some Comic-Viewers require this field to be filled (i.e. Komga)");
+                }
+
                 String writer = Program.ProjectModel.MetaData.ValueForKey("Writer");
                 if (writer != null)
                 {
