@@ -836,6 +836,8 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexMissingData)
                 {
+                    String gid = Guid.NewGuid().ToString();
+
                     AppEventHandler.OnGlobalActionRequired(this, 
                         new GlobalActionRequiredEvent(this, 
                             0, 
@@ -844,14 +846,38 @@ namespace Win_CBZ
                             GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA, 
                             ReadImageMetaDataTask.UpdateImageMetadata(Pages, 
                                 AppEventHandler.OnGeneralTaskProgress,
-                                TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_REBUILD_XML_INDEX).Token)
-                            )
-                        );
+                                tParams.CancelToken,
+                                true,
+                                true,
+                                gid     
+                            ),
+                            gid
+                        )
+                    );
                 }
 
                 if (MetaDataPageIndexFileMissing)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(this, 0, IndexUpdateReasonMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdateMetadataTask.UpdatePageMetadata(Pages, MetaData, PageIndexVersionWriter, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE).Token, false, true)));
+                    String gid = Guid.NewGuid().ToString();
+
+                    AppEventHandler.OnGlobalActionRequired(this, 
+                        new GlobalActionRequiredEvent(this, 
+                            0, 
+                            IndexUpdateReasonMessage, 
+                            "Rebuild", 
+                            GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                            UpdateMetadataTask.UpdatePageMetadata(Pages, 
+                                MetaData, 
+                                PageIndexVersionWriter, 
+                                AppEventHandler.OnGeneralTaskProgress, 
+                                AppEventHandler.OnPageChanged,
+                                tParams.CancelToken, 
+                                false, 
+                                true,
+                                gid
+                            ),
+                            gid
+                        ));
                 }
 
                 if (missingPages.Count > 0)
@@ -2121,6 +2147,7 @@ namespace Win_CBZ
                                 ContinuePipeline = true,
                                 InitialIndexRebuild = false,
                                 Pages = tParams.Pages,
+                                CancelToken = tParams.CancelToken,
                             }
                         }
                     };

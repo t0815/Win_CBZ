@@ -24,7 +24,8 @@ namespace Win_CBZ.Tasks
             EventHandler<PageChangedEvent> pageChangedHandler, 
             CancellationToken cancellationToken,
             bool runInBackground = false,
-            bool popState = false)
+            bool popState = false,
+            string id = null)
         {
             return new Task<TaskResult>(UpdateMetadataTask.TaskLambda(pages, 
                 metaData,
@@ -32,7 +33,8 @@ namespace Win_CBZ.Tasks
                 pageChangedHandler,
                 handler,
                 runInBackground,
-                popState
+                popState,
+                id
                 ), cancellationToken);
         }
 
@@ -46,7 +48,8 @@ namespace Win_CBZ.Tasks
             EventHandler<PageChangedEvent> pageChangedHandler,
             EventHandler<GeneralTaskProgressEvent> handler = null,
             bool inBackground = false,
-            bool popState = false
+            bool popState = false,
+            string id = null
             )
         {
             Func<object, TaskResult> taskfn = (token) =>
@@ -97,7 +100,9 @@ namespace Win_CBZ.Tasks
                                     current,
                                     total,
                                     popState, 
-                                    inBackground));
+                                    inBackground,
+                                    id                                   
+                                ));
 
                             result.Completed = current;
 
@@ -127,7 +132,9 @@ namespace Win_CBZ.Tasks
                         current,
                         total,
                         popState, 
-                        inBackground));
+                        inBackground,
+                        id
+                    ));
 
                 return result;
             };

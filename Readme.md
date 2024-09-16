@@ -28,10 +28,11 @@ standard described here: https://github.com/anansi-project/comicinfo
 - Filter Metadata by Key/Value
 - Validate if cbz has minimum required metadata as well as if certain required data is valid
 - Configure MetaData -Editor with various fieldtypes and editors
+- Apply various imageadjustments to pages, i.e. Resizing, Rotation, Format Conversion
 
 ## Features to 1.0
 
-- Image processing
+
 - ~~add missing metadata handling from ComicInfo spec~~
 - Frontend functional complete (i.e. drag&drop page reordering)
 - Entry Value validation according to definitions in standard
@@ -52,7 +53,7 @@ Microsoft Visual Studio [Community] 2022 (64-Bit)
 
 ## Latest Release
 
-v0.21.164b released!
+v0.21.165b released!
 
 
 >[!IMPORTANT]

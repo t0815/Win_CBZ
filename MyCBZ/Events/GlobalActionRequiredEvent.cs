@@ -28,6 +28,10 @@ namespace Win_CBZ.Events
 
         public String ButtonText { get; set; }
 
+        public string Id { get; set; }
+
+        public GlobalActionRequiredEvent() { }
+
 
         public GlobalActionRequiredEvent(ProjectModel project, int type, String message, String buttonText)
         {
@@ -37,14 +41,15 @@ namespace Win_CBZ.Events
             ButtonText = buttonText;
         }
 
-        public GlobalActionRequiredEvent(ProjectModel project, int type, String message, String buttonText, String taskType, Task<TaskResult> task)
+        public GlobalActionRequiredEvent(ProjectModel project, int type, String message, String buttonText, String taskType, Task<TaskResult> task, String id = null)
         {
             ArchiveInfo = project;
             Type = type;
             Message = message;
             ButtonText = buttonText;
             TaskType = taskType;
-            Task = task;       
+            Task = task;
+            Id = id;
         }   
     }
 }

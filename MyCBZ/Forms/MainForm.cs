@@ -384,6 +384,8 @@ namespace Win_CBZ
 
                     awaitClosingArchive.ContinueWith(t =>
                     {
+                        TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE);
+
                         RemoveMetaData();
                         Program.ProjectModel.New();
                         Invoke(new Action(() =>
@@ -2882,6 +2884,9 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
+                String gid = Guid.NewGuid().ToString();
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_MOVE_ITEMS);
+
                 AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(
                     Program.ProjectModel,
                     0,
@@ -2891,9 +2896,13 @@ namespace Win_CBZ
                     UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
                         AppEventHandler.OnGeneralTaskProgress,
                         AppEventHandler.OnPageChanged,
-                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_MOVE_ITEMS).Token
-                        )
-                    ));
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_MOVE_ITEMS).Token,
+                        false,
+                        true,
+                        gid
+                    ),
+                    gid
+                ));
 
 
                 newIndex = tparams.NewIndex;
@@ -3069,8 +3078,23 @@ namespace Win_CBZ
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(originalPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
 
+                String gid = Guid.NewGuid().ToString();
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_MOVE_ITEMS);
+
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, GlobalActionRequiredEvent.MESSAGE_TYPE_INFO, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, false, true)));
+                AppEventHandler.OnGlobalActionRequired(this, 
+                    new GlobalActionRequiredEvent(Program.ProjectModel, 
+                    GlobalActionRequiredEvent.MESSAGE_TYPE_INFO, 
+                    "Page order changed. Rebuild pageindex now?", 
+                    "Rebuild", 
+                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
+                        AppEventHandler.OnGeneralTaskProgress, 
+                        AppEventHandler.OnPageChanged, 
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, 
+                        false, 
+                        true, gid)
+                    , gid));
 
                 Program.ProjectModel.IsChanged = true;
             }));
@@ -4559,7 +4583,25 @@ namespace Win_CBZ
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
-                AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token, false, true)));
+                String gid = Guid.NewGuid().ToString();
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
+
+                AppEventHandler.OnGlobalActionRequired(this, 
+                    new GlobalActionRequiredEvent(Program.ProjectModel, 
+                        0, 
+                        "Page order changed. Rebuild pageindex now?", 
+                        "Rebuild", 
+                        GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                        UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
+                            AppEventHandler.OnGeneralTaskProgress, 
+                            AppEventHandler.OnPageChanged, 
+                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, 
+                            false, 
+                            true,
+                            gid),
+                        gid
+                    )
+                );
 
                 //Program.ProjectModel.UpdatePageIndices();
             }
@@ -4583,7 +4625,25 @@ namespace Win_CBZ
                     {
                         if (PagesList.SelectedItems.Count > 1)
                         {
-                            HandleGlobalActionRequired(null, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
+                            String gid = Guid.NewGuid().ToString();
+
+                            AppEventHandler.OnGlobalActionRequired(null, 
+                                new GlobalActionRequiredEvent(Program.ProjectModel, 
+                                    0, 
+                                    "Page type changed. Rebuild pageindex now?", 
+                                    "Rebuild", 
+                                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
+                                        AppEventHandler.OnGeneralTaskProgress, 
+                                        AppEventHandler.OnPageChanged, 
+                                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
+                                        false,
+                                        true,
+                                        gid
+                                     ),
+                                     gid
+                                )
+                            );
                         }
                         else
                         {
@@ -4927,7 +4987,25 @@ namespace Win_CBZ
 
                 if (pageIndexUpdateNeeded)
                 {
-                    AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, indexRebuildMessage, "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
+                    String gid = Guid.NewGuid().ToString();
+                    TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
+
+                    AppEventHandler.OnGlobalActionRequired(this, 
+                        new GlobalActionRequiredEvent(Program.ProjectModel, 
+                            0, 
+                            indexRebuildMessage, 
+                            "Rebuild", 
+                            GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                            UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
+                                AppEventHandler.OnGeneralTaskProgress, 
+                                AppEventHandler.OnPageChanged, 
+                                TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
+                                false,
+                                true,
+                                gid
+                            ),
+                            gid
+                        ));
                 }
             }
         }
@@ -5096,7 +5174,26 @@ namespace Win_CBZ
                 {
                     if (PagesList.SelectedItems.Count > 1)
                     {
-                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page type changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
+                        String gid = Guid.NewGuid().ToString();
+                        TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
+
+
+                        AppEventHandler.OnGlobalActionRequired(this, 
+                            new GlobalActionRequiredEvent(Program.ProjectModel, 
+                                0, 
+                                "Page type changed. Rebuild pageindex now?", 
+                                "Rebuild", 
+                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                                UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
+                                    AppEventHandler.OnGeneralTaskProgress, 
+                                    AppEventHandler.OnPageChanged, 
+                                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
+                                    false,
+                                    true,
+                                    gid
+                                ),
+                                gid
+                            ));
                     }
                     else
                     {
@@ -6776,7 +6873,24 @@ namespace Win_CBZ
 
                     if (pagesUpdated > 0)
                     {
-                        AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page order changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token)));
+                        String gid = Guid.NewGuid().ToString();
+
+                        AppEventHandler.OnGlobalActionRequired(this, 
+                            new GlobalActionRequiredEvent(Program.ProjectModel, 
+                                0, 
+                                "Page order changed. Rebuild pageindex now?", 
+                                "Rebuild", 
+                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                                UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                                    AppEventHandler.OnGeneralTaskProgress, 
+                                    AppEventHandler.OnPageChanged, 
+                                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token,
+                                    false,
+                                    true,
+                                    gid
+                                ),
+                                gid
+                            ));
 
                     }
                 }

@@ -16,7 +16,7 @@ namespace Win_CBZ.Tasks
     internal class ReadImageMetaDataTask
     {
 
-        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = false)
+        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = false, bool popState = true, string id = null)
         {
             return new Task<TaskResult>((token) =>
             {
@@ -49,8 +49,9 @@ namespace Win_CBZ.Tasks
                             "Rebuilding image metadata...",
                             current,
                             total,
-                            true,
-                            inBackground
+                            popState,
+                            inBackground,
+                            id
                             ));
 
                         if (((CancellationToken)token).IsCancellationRequested)
@@ -71,7 +72,10 @@ namespace Win_CBZ.Tasks
                         "Ready.",
                         current,
                         total,
-                        true, inBackground));
+                        popState, 
+                        inBackground,
+                        id
+                     ));
 
                 return result;
             }, cancellationToken);
