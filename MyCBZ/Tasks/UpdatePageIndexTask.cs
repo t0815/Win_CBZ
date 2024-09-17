@@ -16,7 +16,7 @@ namespace Win_CBZ.Tasks
     internal class UpdatePageIndexTask
     {
 
-        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken, bool inBackground = false, bool popState = false, string id = null)
+        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken, bool inBackground = false, bool popState = false)
         {
             return new Task<TaskResult>((token) =>
             {
@@ -77,7 +77,7 @@ namespace Win_CBZ.Tasks
                             total,
                             popState,
                             inBackground,
-                            id
+                            GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD
                             ));
 
                         current++;
@@ -96,10 +96,9 @@ namespace Win_CBZ.Tasks
                     total,
                     popState,
                     inBackground,
-                    id
+                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD
                     ));
                 
-
                 return result;
             }, cancellationToken);
         }

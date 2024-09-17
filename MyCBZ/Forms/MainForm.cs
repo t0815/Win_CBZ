@@ -933,6 +933,7 @@ namespace Win_CBZ
                     return globalAction;
                 }
             }
+
             return null;
         }
 
@@ -1059,7 +1060,7 @@ namespace Win_CBZ
 
                             if (CurrentGlobalActions.Count > 0)
                             {
-                                if (CurrentGlobalAction.Key == e.Key)
+                                if (CurrentGlobalAction.Key == e.GlobalActionId)
                                 {
                                     CurrentGlobalActions.Remove(CurrentGlobalAction);
                                     CurrentGlobalAction = null;
@@ -2884,7 +2885,6 @@ namespace Win_CBZ
                     newIndex++;
                 }
 
-                String gid = Guid.NewGuid().ToString();
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_MOVE_ITEMS);
 
                 AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(
@@ -2898,10 +2898,8 @@ namespace Win_CBZ
                         AppEventHandler.OnPageChanged,
                         TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_MOVE_ITEMS).Token,
                         false,
-                        true,
-                        gid
-                    ),
-                    gid
+                        true
+                    )
                 ));
 
 
@@ -3078,7 +3076,6 @@ namespace Win_CBZ
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(originalPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
 
-                String gid = Guid.NewGuid().ToString();
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_MOVE_ITEMS);
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -3093,8 +3090,9 @@ namespace Win_CBZ
                         AppEventHandler.OnPageChanged, 
                         TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, 
                         false, 
-                        true, gid)
-                    , gid));
+                        true
+                    )
+                ));
 
                 Program.ProjectModel.IsChanged = true;
             }));
@@ -4583,7 +4581,6 @@ namespace Win_CBZ
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_DELETED));
                 }
 
-                String gid = Guid.NewGuid().ToString();
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
                 AppEventHandler.OnGlobalActionRequired(this, 
@@ -4597,9 +4594,8 @@ namespace Win_CBZ
                             AppEventHandler.OnPageChanged, 
                             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, 
                             false, 
-                            true,
-                            gid),
-                        gid
+                            true
+                        )
                     )
                 );
 
@@ -4638,10 +4634,8 @@ namespace Win_CBZ
                                         AppEventHandler.OnPageChanged, 
                                         TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                         false,
-                                        true,
-                                        gid
-                                     ),
-                                     gid
+                                        true
+                                     )
                                 )
                             );
                         }
@@ -4987,7 +4981,6 @@ namespace Win_CBZ
 
                 if (pageIndexUpdateNeeded)
                 {
-                    String gid = Guid.NewGuid().ToString();
                     TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
                     AppEventHandler.OnGlobalActionRequired(this, 
@@ -5001,10 +4994,8 @@ namespace Win_CBZ
                                 AppEventHandler.OnPageChanged, 
                                 TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                 false,
-                                true,
-                                gid
-                            ),
-                            gid
+                                true
+                            )
                         ));
                 }
             }
@@ -5173,10 +5164,8 @@ namespace Win_CBZ
                 try
                 {
                     if (PagesList.SelectedItems.Count > 1)
-                    {
-                        String gid = Guid.NewGuid().ToString();
+                    {                   
                         TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
-
 
                         AppEventHandler.OnGlobalActionRequired(this, 
                             new GlobalActionRequiredEvent(Program.ProjectModel, 
@@ -5189,10 +5178,8 @@ namespace Win_CBZ
                                     AppEventHandler.OnPageChanged, 
                                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                     false,
-                                    true,
-                                    gid
-                                ),
-                                gid
+                                    true
+                                )
                             ));
                     }
                     else
@@ -6873,7 +6860,6 @@ namespace Win_CBZ
 
                     if (pagesUpdated > 0)
                     {
-                        String gid = Guid.NewGuid().ToString();
 
                         AppEventHandler.OnGlobalActionRequired(this, 
                             new GlobalActionRequiredEvent(Program.ProjectModel, 
@@ -6886,10 +6872,8 @@ namespace Win_CBZ
                                     AppEventHandler.OnPageChanged, 
                                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token,
                                     false,
-                                    true,
-                                    gid
-                                ),
-                                gid
+                                    true
+                                )
                             ));
 
                     }

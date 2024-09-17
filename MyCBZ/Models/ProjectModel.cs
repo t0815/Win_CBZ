@@ -836,7 +836,6 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexMissingData)
                 {
-                    String gid = Guid.NewGuid().ToString();
 
                     AppEventHandler.OnGlobalActionRequired(this, 
                         new GlobalActionRequiredEvent(this, 
@@ -848,10 +847,8 @@ namespace Win_CBZ
                                 AppEventHandler.OnGeneralTaskProgress,
                                 tParams.CancelToken,
                                 true,
-                                true,
-                                gid     
-                            ),
-                            gid
+                                true  
+                            )
                         )
                     );
                 }
