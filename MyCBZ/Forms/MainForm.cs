@@ -3339,7 +3339,7 @@ namespace Win_CBZ
                         if (comboBox != null)
                         {
                             Font dgFont = MetaDataGrid.DefaultCellStyle.Font;
-                            comboBox.Font = new Font("Verdana", 8.5f, FontStyle.Regular);
+                            comboBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
                             comboBox.FlatStyle = FlatStyle.Popup;
                             comboBox.Height = 20;
                             comboBox.DrawMode = DrawMode.OwnerDrawFixed;
@@ -3353,8 +3353,8 @@ namespace Win_CBZ
                         TextBox textBox = e.Control as TextBox;
                         if (textBox != null)
                         {
-                            textBox.Font = new Font("Verdana", 8.5f, FontStyle.Regular);
-                            
+                            textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
+
                         }
                     }
                     else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)

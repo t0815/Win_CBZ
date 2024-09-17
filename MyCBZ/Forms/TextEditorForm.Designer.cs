@@ -71,7 +71,7 @@
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            ItemEditorTableLayout.Size = new System.Drawing.Size(585, 526);
+            ItemEditorTableLayout.Size = new System.Drawing.Size(533, 450);
             ItemEditorTableLayout.TabIndex = 0;
             ItemEditorTableLayout.Paint += ItemEditorTableLayout_Paint;
             // 
@@ -85,7 +85,7 @@
             HeaderPanel.Location = new System.Drawing.Point(3, 2);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(579, 71);
+            HeaderPanel.Size = new System.Drawing.Size(527, 71);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -113,7 +113,7 @@
             // InfoLabel
             // 
             InfoLabel.AutoSize = true;
-            InfoLabel.Location = new System.Drawing.Point(11, 426);
+            InfoLabel.Location = new System.Drawing.Point(11, 350);
             InfoLabel.Margin = new System.Windows.Forms.Padding(11, 12, 4, 0);
             InfoLabel.Name = "InfoLabel";
             InfoLabel.Size = new System.Drawing.Size(124, 20);
@@ -132,7 +132,7 @@
             ItemsText.Multiline = true;
             ItemsText.Name = "ItemsText";
             ItemsText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            ItemsText.Size = new System.Drawing.Size(577, 272);
+            ItemsText.Size = new System.Drawing.Size(525, 196);
             ItemsText.TabIndex = 5;
             ItemsText.WordWrap = false;
             // 
@@ -146,7 +146,7 @@
             ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
             ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripTextBoxSearch, ToolButtonSortAscending });
-            ItemEditorToolBar.Location = new System.Drawing.Point(390, 103);
+            ItemEditorToolBar.Location = new System.Drawing.Point(338, 103);
             ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 8, 2);
             ItemEditorToolBar.Name = "ItemEditorToolBar";
             ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -177,7 +177,7 @@
             // 
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            CancelBtn.Location = new System.Drawing.Point(482, 476);
+            CancelBtn.Location = new System.Drawing.Point(430, 400);
             CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new System.Drawing.Size(99, 35);
@@ -190,7 +190,7 @@
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(374, 476);
+            OkButton.Location = new System.Drawing.Point(322, 400);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new System.Drawing.Size(100, 35);
@@ -233,11 +233,12 @@
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(585, 526);
+            ClientSize = new System.Drawing.Size(533, 450);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(380, 300);
             Name = "TextEditorForm";
             ShowIcon = false;
             ShowInTaskbar = false;
