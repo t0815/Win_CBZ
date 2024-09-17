@@ -268,7 +268,7 @@ namespace Win_CBZ.Forms
 
                         e.Cancel = true;
                     }
-                   
+
 
                     if (Config.ResultType == EditorTypeConfig.RESULT_TYPE_STRING)
                     {
@@ -456,6 +456,26 @@ namespace Win_CBZ.Forms
         private void TagsList_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             MouseBtnDown = false;
+        }
+
+        private void Autocomplete_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void Autocomplete_WrapperNeeded(object sender, WrapperNeededEventArgs e)
+        {
+
+        }
+
+        private void Autocomplete_Selecting(object sender, SelectingEventArgs e)
+        {
+            //TagTextBox.Text = e.Item.Text;  
+        }
+
+        private void Autocomplete_Selected(object sender, SelectedEventArgs e)
+        {
+            //TagTextBox.Text = e.Item.Text;
         }
     }
 }

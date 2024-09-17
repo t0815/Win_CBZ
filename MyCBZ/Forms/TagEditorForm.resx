@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -117,38 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="TagEditTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>387, 17</value>
-  </metadata>
-  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="TagIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>543, 17</value>
-  </metadata>
-  <data name="TagIcons.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
-        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
-        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAEgMAAAJNU0Z0AUkBTAIBAQIB
-        AAFIAQABSAEAARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQzk
-        AAP3BiUD/bEAA/cDJQPSA6gDJQP9IQAD9gO+A70D4H4AA/cDJQPSAwAD/wOoAyUD/R4AAdEC0gYlAYoC
-        i3sAA/cDJQPSCQAD/wOoAyUD/RsAAdEC0gYlAYoCi3gAA/cDJQPSDwAD/wOnAyUbAAHRAtIGJQGKAot1
-        AAP3AyUD0hUAA9oDJQP/DwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4GkAAyUDnxUAA9wD
-        JQHzAvYBeAHfAfMPAB4lA71pAAMlAyoD1w8AA9wDJQP7AcoB7QH0AQAB0gH6DwADJxslA75pAAYlAyoD
-        1wkAA9wDJQP6AcwB7QH0AQAB0gH6AfcC+g8AAdwC3QHRAtIB0QLSAZsCnQYlAWYCZwHRAtIB0QLSAdEC
-        0gP2aQADJQO8A4wDKgPYAwAD3AMlA/oBzAHtAfQBAAHSAfoB9wL6GwAB0QLSBiUBigKLdQADJwP2A8YD
-        JQMqA6kDJQP6AcwB7QH0AQAB0gH6AfcC+h4AAdEC0gYlAYoCi3UAA6oDLAMqCSUD/AHMAe0B9AEAAdIB
-        +gH3AvohAAHcAt0DJwMlA5R1AAP+AbMB5AHuAfsC/AHnAfEB9AHnAfMB9QHMAewB8gGRAeMB8wEAAdIB
-        +gH2AvqlAAP/AaEB5QHyAQIB0gH6AQAB0gH6AQAB0gH6AQAB0gH6AQAB0gH6AfYC+v8AZgABQgFNAT4H
-        AAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGAFwAD/wEABP8EAAH8AT8C/wQAAfgBHwH8AT8EAAHxAQ8B
-        /AE/BAAB4wGHAfwBPwQAAscB/AE/BAABjwHjAeABAwQAAZ8BwwHgAQMEAAGPAYMB4AEDBAABhwEDAeAB
-        AwQAAYIBBwH8AT8EAAGAAQ8B/AE/BAABgAEfAfwBPwQAAYABPwL/BAABgAF/Av8EAAT/BAAL
-</value>
-  </data>
   <metadata name="Autocomplete.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>660, 17</value>
   </metadata>
@@ -169,7 +137,33 @@
         /P///woAAAAAAAAAAEwAAQAB9/////z///8KAAAAAAAAAABMAAEACw==
 </value>
   </data>
+  <metadata name="TagIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>543, 17</value>
+  </metadata>
+  <data name="TagIcons.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
+        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
+        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAEgMAAAJNU0Z0AUkBTAIBAQIB
+        AAGYAQABmAEAARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQzk
+        AAP3BiUD/bEAA/cDJQPSA6gDJQP9IQAD9gO+A70D4H4AA/cDJQPSAwAD/wOoAyUD/R4AAdEC0gYlAYoC
+        i3sAA/cDJQPSCQAD/wOoAyUD/RsAAdEC0gYlAYoCi3gAA/cDJQPSDwAD/wOnAyUbAAHRAtIGJQGKAot1
+        AAP3AyUD0hUAA9oDJQP/DwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4GkAAyUDnxUAA9wD
+        JQHzAvYBeAHfAfMPAB4lA71pAAMlAyoD1w8AA9wDJQP7AcoB7QH0AQAB0gH6DwADJxslA75pAAYlAyoD
+        1wkAA9wDJQP6AcwB7QH0AQAB0gH6AfcC+g8AAdwC3QHRAtIB0QLSAZsCnQYlAWYCZwHRAtIB0QLSAdEC
+        0gP2aQADJQO8A4wDKgPYAwAD3AMlA/oBzAHtAfQBAAHSAfoB9wL6GwAB0QLSBiUBigKLdQADJwP2A8YD
+        JQMqA6kDJQP6AcwB7QH0AQAB0gH6AfcC+h4AAdEC0gYlAYoCi3UAA6oDLAMqCSUD/AHMAe0B9AEAAdIB
+        +gH3AvohAAHcAt0DJwMlA5R1AAP+AbMB5AHuAfsC/AHnAfEB9AHnAfMB9QHMAewB8gGRAeMB8wEAAdIB
+        +gH2AvqlAAP/AaEB5QHyAQIB0gH6AQAB0gH6AQAB0gH6AQAB0gH6AQAB0gH6AfYC+v8AZgABQgFNAT4H
+        AAE+AwABKAMAAUADAAEQAwABAQEAAQEFAAGAFwAD/wEABP8EAAH8AT8C/wQAAfgBHwH8AT8EAAHxAQ8B
+        /AE/BAAB4wGHAfwBPwQAAscB/AE/BAABjwHjAeABAwQAAZ8BwwHgAQMEAAGPAYMB4AEDBAABhwEDAeAB
+        AwQAAYIBBwH8AT8EAAGAAQ8B/AE/BAABgAEfAfwBPwQAAYABPwL/BAABgAF/Av8EAAT/BAAL
+</value>
+  </data>
   <metadata name="TagEditTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>387, 17</value>
+  </metadata>
+  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
 </root>

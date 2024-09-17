@@ -3676,7 +3676,7 @@ namespace Win_CBZ
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
 
-
+                                        
                                         MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1] = c));
                                     }
                                     else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
