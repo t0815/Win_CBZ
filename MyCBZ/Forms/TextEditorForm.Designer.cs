@@ -82,10 +82,10 @@
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
             HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPanel.Location = new System.Drawing.Point(3, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(527, 71);
+            HeaderPanel.Size = new System.Drawing.Size(527, 73);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -105,7 +105,7 @@
             HeaderPicture.Location = new System.Drawing.Point(24, 0);
             HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new System.Drawing.Size(65, 69);
+            HeaderPicture.Size = new System.Drawing.Size(65, 71);
             HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;

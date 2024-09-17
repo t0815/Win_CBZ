@@ -35,14 +35,14 @@
             HeaderLabel = new System.Windows.Forms.Label();
             HeaderPicture = new System.Windows.Forms.PictureBox();
             InfoLabel = new System.Windows.Forms.Label();
-            ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
-            ToolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             CancelBtn = new System.Windows.Forms.Button();
             OkButton = new System.Windows.Forms.Button();
-            AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
-            AutocompleteIcons = new System.Windows.Forms.ImageList(components);
+            ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
+            ToolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             ToolStripButtonSearch = new System.Windows.Forms.ToolStripButton();
             dataGridView1 = new System.Windows.Forms.DataGridView();
+            AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
+            AutocompleteIcons = new System.Windows.Forms.ImageList(components);
             ItemEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -84,10 +84,10 @@
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
             HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPanel.Location = new System.Drawing.Point(3, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(579, 71);
+            HeaderPanel.Size = new System.Drawing.Size(579, 73);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -107,7 +107,7 @@
             HeaderPicture.Location = new System.Drawing.Point(24, 0);
             HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new System.Drawing.Size(65, 69);
+            HeaderPicture.Size = new System.Drawing.Size(65, 71);
             HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -121,30 +121,6 @@
             InfoLabel.Size = new System.Drawing.Size(118, 20);
             InfoLabel.TabIndex = 6;
             InfoLabel.Text = "Select one result";
-            // 
-            // ItemEditorToolBar
-            // 
-            ItemEditorToolBar.AllowMerge = false;
-            ItemEditorToolBar.CanOverflow = false;
-            ItemEditorTableLayout.SetColumnSpan(ItemEditorToolBar, 3);
-            ItemEditorToolBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
-            ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripTextBoxSearch, ToolStripButtonSearch });
-            ItemEditorToolBar.Location = new System.Drawing.Point(8, 103);
-            ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 8, 2);
-            ItemEditorToolBar.Name = "ItemEditorToolBar";
-            ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            ItemEditorToolBar.Size = new System.Drawing.Size(569, 27);
-            ItemEditorToolBar.Stretch = true;
-            ItemEditorToolBar.TabIndex = 7;
-            ItemEditorToolBar.Text = "toolStrip1";
-            // 
-            // ToolStripTextBoxSearch
-            // 
-            ToolStripTextBoxSearch.Name = "ToolStripTextBoxSearch";
-            ToolStripTextBoxSearch.Size = new System.Drawing.Size(234, 27);
-            ToolStripTextBoxSearch.KeyUp += ToolStripTextBoxSearch_KeyUp;
             // 
             // CancelBtn
             // 
@@ -171,6 +147,52 @@
             OkButton.Text = "Ok";
             OkButton.UseVisualStyleBackColor = true;
             OkButton.Click += OkButton_Click;
+            // 
+            // ItemEditorToolBar
+            // 
+            ItemEditorToolBar.AllowMerge = false;
+            ItemEditorToolBar.CanOverflow = false;
+            ItemEditorTableLayout.SetColumnSpan(ItemEditorToolBar, 3);
+            ItemEditorToolBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
+            ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripTextBoxSearch, ToolStripButtonSearch });
+            ItemEditorToolBar.Location = new System.Drawing.Point(8, 103);
+            ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 8, 2);
+            ItemEditorToolBar.Name = "ItemEditorToolBar";
+            ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            ItemEditorToolBar.Size = new System.Drawing.Size(569, 27);
+            ItemEditorToolBar.Stretch = true;
+            ItemEditorToolBar.TabIndex = 7;
+            ItemEditorToolBar.Text = "toolStrip1";
+            // 
+            // ToolStripTextBoxSearch
+            // 
+            ToolStripTextBoxSearch.Name = "ToolStripTextBoxSearch";
+            ToolStripTextBoxSearch.Size = new System.Drawing.Size(234, 27);
+            ToolStripTextBoxSearch.KeyUp += ToolStripTextBoxSearch_KeyUp;
+            // 
+            // ToolStripButtonSearch
+            // 
+            ToolStripButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolStripButtonSearch.Image = (System.Drawing.Image)resources.GetObject("ToolStripButtonSearch.Image");
+            ToolStripButtonSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolStripButtonSearch.Name = "ToolStripButtonSearch";
+            ToolStripButtonSearch.Size = new System.Drawing.Size(29, 24);
+            ToolStripButtonSearch.Text = "toolStripButton1";
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            ItemEditorTableLayout.SetColumnSpan(dataGridView1, 3);
+            dataGridView1.Location = new System.Drawing.Point(3, 135);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new System.Drawing.Size(570, 188);
+            dataGridView1.TabIndex = 8;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // AutoCompleteItems
             // 
@@ -199,28 +221,6 @@
             AutocompleteIcons.Images.SetKeyName(10, "earth");
             AutocompleteIcons.Images.SetKeyName(11, "clock");
             AutocompleteIcons.Images.SetKeyName(12, "hash");
-            // 
-            // ToolStripButtonSearch
-            // 
-            ToolStripButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            ToolStripButtonSearch.Image = (System.Drawing.Image)resources.GetObject("ToolStripButtonSearch.Image");
-            ToolStripButtonSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
-            ToolStripButtonSearch.Name = "ToolStripButtonSearch";
-            ToolStripButtonSearch.Size = new System.Drawing.Size(29, 24);
-            ToolStripButtonSearch.Text = "toolStripButton1";
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            ItemEditorTableLayout.SetColumnSpan(dataGridView1, 3);
-            dataGridView1.Location = new System.Drawing.Point(3, 135);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new System.Drawing.Size(570, 188);
-            dataGridView1.TabIndex = 8;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // RomajiEditorForm
             // 

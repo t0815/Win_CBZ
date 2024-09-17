@@ -29,153 +29,152 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MetaDataForm));
-            this.MetaDataTablePanel = new System.Windows.Forms.TableLayoutPanel();
-            this.HeaderPanel = new System.Windows.Forms.Panel();
-            this.HeaderLabel = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.ButtonCancel = new System.Windows.Forms.Button();
-            this.SettingsGroup1Panel = new System.Windows.Forms.Panel();
-            this.metaDataView = new System.Windows.Forms.WebBrowser();
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.MetaDataTablePanel.SuspendLayout();
-            this.HeaderPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SettingsGroup1Panel.SuspendLayout();
-            this.SuspendLayout();
+            MetaDataTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            HeaderPanel = new System.Windows.Forms.Panel();
+            HeaderLabel = new System.Windows.Forms.Label();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            ButtonCancel = new System.Windows.Forms.Button();
+            SettingsGroup1Panel = new System.Windows.Forms.Panel();
+            metaDataView = new System.Windows.Forms.WebBrowser();
+            label1 = new System.Windows.Forms.Label();
+            button1 = new System.Windows.Forms.Button();
+            MetaDataTablePanel.SuspendLayout();
+            HeaderPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SettingsGroup1Panel.SuspendLayout();
+            SuspendLayout();
             // 
             // MetaDataTablePanel
             // 
-            this.MetaDataTablePanel.ColumnCount = 3;
-            this.MetaDataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.462523F));
-            this.MetaDataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98.53748F));
-            this.MetaDataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
-            this.MetaDataTablePanel.Controls.Add(this.HeaderPanel, 0, 0);
-            this.MetaDataTablePanel.Controls.Add(this.ButtonCancel, 2, 2);
-            this.MetaDataTablePanel.Controls.Add(this.SettingsGroup1Panel, 1, 1);
-            this.MetaDataTablePanel.Controls.Add(this.button1, 1, 2);
-            this.MetaDataTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MetaDataTablePanel.Location = new System.Drawing.Point(0, 0);
-            this.MetaDataTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.MetaDataTablePanel.Name = "MetaDataTablePanel";
-            this.MetaDataTablePanel.RowCount = 3;
-            this.MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.41223F));
-            this.MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.58777F));
-            this.MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            this.MetaDataTablePanel.Size = new System.Drawing.Size(873, 687);
-            this.MetaDataTablePanel.TabIndex = 1;
+            MetaDataTablePanel.ColumnCount = 3;
+            MetaDataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.462523F));
+            MetaDataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98.53748F));
+            MetaDataTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 157F));
+            MetaDataTablePanel.Controls.Add(HeaderPanel, 0, 0);
+            MetaDataTablePanel.Controls.Add(ButtonCancel, 2, 2);
+            MetaDataTablePanel.Controls.Add(SettingsGroup1Panel, 1, 1);
+            MetaDataTablePanel.Controls.Add(button1, 1, 2);
+            MetaDataTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            MetaDataTablePanel.Location = new System.Drawing.Point(0, 0);
+            MetaDataTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            MetaDataTablePanel.Name = "MetaDataTablePanel";
+            MetaDataTablePanel.RowCount = 3;
+            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.41223F));
+            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.58777F));
+            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
+            MetaDataTablePanel.Size = new System.Drawing.Size(873, 859);
+            MetaDataTablePanel.TabIndex = 1;
             // 
             // HeaderPanel
             // 
-            this.HeaderPanel.BackColor = System.Drawing.Color.White;
-            this.MetaDataTablePanel.SetColumnSpan(this.HeaderPanel, 3);
-            this.HeaderPanel.Controls.Add(this.HeaderLabel);
-            this.HeaderPanel.Controls.Add(this.pictureBox1);
-            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(867, 79);
-            this.HeaderPanel.TabIndex = 0;
+            HeaderPanel.BackColor = System.Drawing.Color.White;
+            MetaDataTablePanel.SetColumnSpan(HeaderPanel, 3);
+            HeaderPanel.Controls.Add(HeaderLabel);
+            HeaderPanel.Controls.Add(pictureBox1);
+            HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            HeaderPanel.Location = new System.Drawing.Point(3, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
+            HeaderPanel.Name = "HeaderPanel";
+            HeaderPanel.Size = new System.Drawing.Size(867, 102);
+            HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
             // 
-            this.HeaderLabel.AutoSize = true;
-            this.HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeaderLabel.Location = new System.Drawing.Point(108, 25);
-            this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(186, 28);
-            this.HeaderLabel.TabIndex = 1;
-            this.HeaderLabel.Text = "Metadata XML View";
+            HeaderLabel.AutoSize = true;
+            HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            HeaderLabel.Location = new System.Drawing.Point(108, 31);
+            HeaderLabel.Name = "HeaderLabel";
+            HeaderLabel.Size = new System.Drawing.Size(186, 28);
+            HeaderLabel.TabIndex = 1;
+            HeaderLabel.Text = "Metadata XML View";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Win_CBZ.Properties.Resources.info_dialog;
-            this.pictureBox1.Location = new System.Drawing.Point(19, 6);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(67, 62);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            pictureBox1.Image = Properties.Resources.info_dialog;
+            pictureBox1.Location = new System.Drawing.Point(19, 8);
+            pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(67, 78);
+            pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
             // ButtonCancel
             // 
-            this.ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ButtonCancel.Location = new System.Drawing.Point(726, 644);
-            this.ButtonCancel.Margin = new System.Windows.Forms.Padding(11, 20, 3, 2);
-            this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Padding = new System.Windows.Forms.Padding(5);
-            this.ButtonCancel.Size = new System.Drawing.Size(119, 33);
-            this.ButtonCancel.TabIndex = 3;
-            this.ButtonCancel.Text = "Close";
-            this.ButtonCancel.UseVisualStyleBackColor = true;
-            this.ButtonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+            ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            ButtonCancel.Location = new System.Drawing.Point(726, 805);
+            ButtonCancel.Margin = new System.Windows.Forms.Padding(11, 25, 3, 2);
+            ButtonCancel.Name = "ButtonCancel";
+            ButtonCancel.Padding = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            ButtonCancel.Size = new System.Drawing.Size(119, 41);
+            ButtonCancel.TabIndex = 3;
+            ButtonCancel.Text = "Close";
+            ButtonCancel.UseVisualStyleBackColor = true;
+            ButtonCancel.Click += ButtonCancel_Click;
             // 
             // SettingsGroup1Panel
             // 
-            this.MetaDataTablePanel.SetColumnSpan(this.SettingsGroup1Panel, 2);
-            this.SettingsGroup1Panel.Controls.Add(this.metaDataView);
-            this.SettingsGroup1Panel.Controls.Add(this.label1);
-            this.SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SettingsGroup1Panel.Location = new System.Drawing.Point(13, 85);
-            this.SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            this.SettingsGroup1Panel.Size = new System.Drawing.Size(857, 537);
-            this.SettingsGroup1Panel.TabIndex = 4;
+            MetaDataTablePanel.SetColumnSpan(SettingsGroup1Panel, 2);
+            SettingsGroup1Panel.Controls.Add(metaDataView);
+            SettingsGroup1Panel.Controls.Add(label1);
+            SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            SettingsGroup1Panel.Location = new System.Drawing.Point(13, 106);
+            SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            SettingsGroup1Panel.Name = "SettingsGroup1Panel";
+            SettingsGroup1Panel.Size = new System.Drawing.Size(857, 672);
+            SettingsGroup1Panel.TabIndex = 4;
             // 
             // metaDataView
             // 
-            this.metaDataView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.metaDataView.Location = new System.Drawing.Point(0, 0);
-            this.metaDataView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.metaDataView.MinimumSize = new System.Drawing.Size(20, 20);
-            this.metaDataView.Name = "metaDataView";
-            this.metaDataView.Size = new System.Drawing.Size(857, 537);
-            this.metaDataView.TabIndex = 3;
+            metaDataView.Dock = System.Windows.Forms.DockStyle.Fill;
+            metaDataView.Location = new System.Drawing.Point(0, 0);
+            metaDataView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            metaDataView.MinimumSize = new System.Drawing.Size(20, 25);
+            metaDataView.Name = "metaDataView";
+            metaDataView.Size = new System.Drawing.Size(857, 672);
+            metaDataView.TabIndex = 3;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "XML";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(3, 9);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(38, 20);
+            label1.TabIndex = 1;
+            label1.Text = "XML";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 644);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 33);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Copy";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new System.Drawing.Point(13, 805);
+            button1.Margin = new System.Windows.Forms.Padding(3, 25, 3, 4);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(102, 41);
+            button1.TabIndex = 5;
+            button1.Text = "Copy";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // MetaDataForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 687);
-            this.Controls.Add(this.MetaDataTablePanel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "MetaDataForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Metadata";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MetaDataForm_FormClosed);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MetaDataForm_KeyUp);
-            this.MetaDataTablePanel.ResumeLayout(false);
-            this.HeaderPanel.ResumeLayout(false);
-            this.HeaderPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.SettingsGroup1Panel.ResumeLayout(false);
-            this.SettingsGroup1Panel.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(873, 859);
+            Controls.Add(MetaDataTablePanel);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            Name = "MetaDataForm";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Metadata";
+            FormClosed += MetaDataForm_FormClosed;
+            KeyUp += MetaDataForm_KeyUp;
+            MetaDataTablePanel.ResumeLayout(false);
+            HeaderPanel.ResumeLayout(false);
+            HeaderPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            SettingsGroup1Panel.ResumeLayout(false);
+            SettingsGroup1Panel.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion

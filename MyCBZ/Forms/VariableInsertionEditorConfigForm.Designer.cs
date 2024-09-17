@@ -115,8 +115,8 @@
             ItemEditorTableLayout.SetColumnSpan(HeaderPanel, 4);
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
-            HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPanel.Location = new System.Drawing.Point(3, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
             HeaderPanel.Size = new System.Drawing.Size(495, 71);
             HeaderPanel.TabIndex = 2;

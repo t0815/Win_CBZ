@@ -28,187 +28,184 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.KeyValueDatagrid = new System.Windows.Forms.DataGridView();
-            this.ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.HeaderPanel = new System.Windows.Forms.Panel();
-            this.HeaderLabel = new System.Windows.Forms.Label();
-            this.HeaderPicture = new System.Windows.Forms.PictureBox();
-            this.OkButton = new System.Windows.Forms.Button();
-            this.CancelBtn = new System.Windows.Forms.Button();
-            this.ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
-            this.ToolStripTextBoxSearchKeyValue = new System.Windows.Forms.ToolStripTextBox();
-            this.ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
-            this.languageListBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.KeyValueDatagrid)).BeginInit();
-            this.ItemEditorTableLayout.SuspendLayout();
-            this.HeaderPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).BeginInit();
-            this.ItemEditorToolBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.languageListBindingSource)).BeginInit();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            KeyValueDatagrid = new System.Windows.Forms.DataGridView();
+            ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            HeaderPanel = new System.Windows.Forms.Panel();
+            HeaderLabel = new System.Windows.Forms.Label();
+            HeaderPicture = new System.Windows.Forms.PictureBox();
+            OkButton = new System.Windows.Forms.Button();
+            CancelBtn = new System.Windows.Forms.Button();
+            ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
+            ToolStripTextBoxSearchKeyValue = new System.Windows.Forms.ToolStripTextBox();
+            ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
+            languageListBindingSource = new System.Windows.Forms.BindingSource(components);
+            ((System.ComponentModel.ISupportInitialize)KeyValueDatagrid).BeginInit();
+            ItemEditorTableLayout.SuspendLayout();
+            HeaderPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
+            ItemEditorToolBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)languageListBindingSource).BeginInit();
+            SuspendLayout();
             // 
             // KeyValueDatagrid
             // 
-            this.KeyValueDatagrid.AllowUserToAddRows = false;
-            this.KeyValueDatagrid.AllowUserToDeleteRows = false;
-            this.KeyValueDatagrid.AllowUserToResizeRows = false;
-            this.KeyValueDatagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ItemEditorTableLayout.SetColumnSpan(this.KeyValueDatagrid, 2);
-            this.KeyValueDatagrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.KeyValueDatagrid.Location = new System.Drawing.Point(3, 112);
-            this.KeyValueDatagrid.MultiSelect = false;
-            this.KeyValueDatagrid.Name = "KeyValueDatagrid";
-            this.KeyValueDatagrid.ReadOnly = true;
-            this.KeyValueDatagrid.RowHeadersVisible = false;
-            this.KeyValueDatagrid.RowHeadersWidth = 51;
-            this.KeyValueDatagrid.RowTemplate.Height = 24;
-            this.KeyValueDatagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.KeyValueDatagrid.Size = new System.Drawing.Size(794, 255);
-            this.KeyValueDatagrid.TabIndex = 8;
+            KeyValueDatagrid.AllowUserToAddRows = false;
+            KeyValueDatagrid.AllowUserToDeleteRows = false;
+            KeyValueDatagrid.AllowUserToResizeRows = false;
+            KeyValueDatagrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            ItemEditorTableLayout.SetColumnSpan(KeyValueDatagrid, 2);
+            KeyValueDatagrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            KeyValueDatagrid.Location = new System.Drawing.Point(3, 140);
+            KeyValueDatagrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            KeyValueDatagrid.MultiSelect = false;
+            KeyValueDatagrid.Name = "KeyValueDatagrid";
+            KeyValueDatagrid.ReadOnly = true;
+            KeyValueDatagrid.RowHeadersVisible = false;
+            KeyValueDatagrid.RowHeadersWidth = 51;
+            KeyValueDatagrid.RowTemplate.Height = 24;
+            KeyValueDatagrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            KeyValueDatagrid.Size = new System.Drawing.Size(794, 318);
+            KeyValueDatagrid.TabIndex = 8;
             // 
             // ItemEditorTableLayout
             // 
-            this.ItemEditorTableLayout.ColumnCount = 2;
-            this.ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
-            this.ItemEditorTableLayout.Controls.Add(this.HeaderPanel, 0, 0);
-            this.ItemEditorTableLayout.Controls.Add(this.OkButton, 0, 4);
-            this.ItemEditorTableLayout.Controls.Add(this.CancelBtn, 1, 4);
-            this.ItemEditorTableLayout.Controls.Add(this.ItemEditorToolBar, 1, 0);
-            this.ItemEditorTableLayout.Controls.Add(this.KeyValueDatagrid, 0, 2);
-            this.ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
-            this.ItemEditorTableLayout.Margin = new System.Windows.Forms.Padding(4);
-            this.ItemEditorTableLayout.Name = "ItemEditorTableLayout";
-            this.ItemEditorTableLayout.RowCount = 5;
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
-            this.ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.ItemEditorTableLayout.Size = new System.Drawing.Size(800, 450);
-            this.ItemEditorTableLayout.TabIndex = 1;
+            ItemEditorTableLayout.ColumnCount = 2;
+            ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            ItemEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
+            ItemEditorTableLayout.Controls.Add(HeaderPanel, 0, 0);
+            ItemEditorTableLayout.Controls.Add(OkButton, 0, 4);
+            ItemEditorTableLayout.Controls.Add(CancelBtn, 1, 4);
+            ItemEditorTableLayout.Controls.Add(ItemEditorToolBar, 1, 0);
+            ItemEditorTableLayout.Controls.Add(KeyValueDatagrid, 0, 2);
+            ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
+            ItemEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            ItemEditorTableLayout.Name = "ItemEditorTableLayout";
+            ItemEditorTableLayout.RowCount = 5;
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            ItemEditorTableLayout.Size = new System.Drawing.Size(800, 562);
+            ItemEditorTableLayout.TabIndex = 1;
             // 
             // HeaderPanel
             // 
-            this.HeaderPanel.BackColor = System.Drawing.Color.White;
-            this.ItemEditorTableLayout.SetColumnSpan(this.HeaderPanel, 2);
-            this.HeaderPanel.Controls.Add(this.HeaderLabel);
-            this.HeaderPanel.Controls.Add(this.HeaderPicture);
-            this.HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            this.HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.HeaderPanel.Name = "HeaderPanel";
-            this.HeaderPanel.Size = new System.Drawing.Size(794, 56);
-            this.HeaderPanel.TabIndex = 2;
+            HeaderPanel.BackColor = System.Drawing.Color.White;
+            ItemEditorTableLayout.SetColumnSpan(HeaderPanel, 2);
+            HeaderPanel.Controls.Add(HeaderLabel);
+            HeaderPanel.Controls.Add(HeaderPicture);
+            HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            HeaderPanel.Location = new System.Drawing.Point(3, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
+            HeaderPanel.Name = "HeaderPanel";
+            HeaderPanel.Size = new System.Drawing.Size(794, 73);
+            HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
             // 
-            this.HeaderLabel.AutoSize = true;
-            this.HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HeaderLabel.Location = new System.Drawing.Point(95, 7);
-            this.HeaderLabel.Name = "HeaderLabel";
-            this.HeaderLabel.Size = new System.Drawing.Size(157, 28);
-            this.HeaderLabel.TabIndex = 1;
-            this.HeaderLabel.Text = "Key-Value Editor";
+            HeaderLabel.AutoSize = true;
+            HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            HeaderLabel.Location = new System.Drawing.Point(95, 9);
+            HeaderLabel.Name = "HeaderLabel";
+            HeaderLabel.Size = new System.Drawing.Size(157, 28);
+            HeaderLabel.TabIndex = 1;
+            HeaderLabel.Text = "Key-Value Editor";
             // 
             // HeaderPicture
             // 
-            this.HeaderPicture.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.HeaderPicture.Image = global::Win_CBZ.Properties.Resources.user_earth;
-            this.HeaderPicture.Location = new System.Drawing.Point(24, 0);
-            this.HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.HeaderPicture.Name = "HeaderPicture";
-            this.HeaderPicture.Size = new System.Drawing.Size(65, 54);
-            this.HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.HeaderPicture.TabIndex = 0;
-            this.HeaderPicture.TabStop = false;
+            HeaderPicture.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            HeaderPicture.Image = Properties.Resources.user_earth;
+            HeaderPicture.Location = new System.Drawing.Point(24, 0);
+            HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPicture.Name = "HeaderPicture";
+            HeaderPicture.Size = new System.Drawing.Size(65, 71);
+            HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            HeaderPicture.TabIndex = 0;
+            HeaderPicture.TabStop = false;
             // 
             // OkButton
             // 
-            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(589, 411);
-            this.OkButton.Margin = new System.Windows.Forms.Padding(4);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(100, 28);
-            this.OkButton.TabIndex = 3;
-            this.OkButton.Text = "Ok";
-            this.OkButton.UseVisualStyleBackColor = true;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            OkButton.Location = new System.Drawing.Point(589, 513);
+            OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            OkButton.Name = "OkButton";
+            OkButton.Size = new System.Drawing.Size(100, 35);
+            OkButton.TabIndex = 3;
+            OkButton.Text = "Ok";
+            OkButton.UseVisualStyleBackColor = true;
+            OkButton.Click += OkButton_Click;
             // 
             // CancelBtn
             // 
-            this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(697, 411);
-            this.CancelBtn.Margin = new System.Windows.Forms.Padding(4);
-            this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.Size = new System.Drawing.Size(99, 28);
-            this.CancelBtn.TabIndex = 4;
-            this.CancelBtn.Text = "Cancel";
-            this.CancelBtn.UseVisualStyleBackColor = true;
-            this.CancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
+            CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelBtn.Location = new System.Drawing.Point(697, 513);
+            CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            CancelBtn.Name = "CancelBtn";
+            CancelBtn.Size = new System.Drawing.Size(99, 35);
+            CancelBtn.TabIndex = 4;
+            CancelBtn.Text = "Cancel";
+            CancelBtn.UseVisualStyleBackColor = true;
+            CancelBtn.Click += CancelBtn_Click;
             // 
             // ItemEditorToolBar
             // 
-            this.ItemEditorToolBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ItemEditorTableLayout.SetColumnSpan(this.ItemEditorToolBar, 2);
-            this.ItemEditorToolBar.Dock = System.Windows.Forms.DockStyle.None;
-            this.ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripTextBoxSearchKeyValue,
-            this.ToolButtonSortAscending});
-            this.ItemEditorToolBar.Location = new System.Drawing.Point(566, 80);
-            this.ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
-            this.ItemEditorToolBar.Name = "ItemEditorToolBar";
-            this.ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ItemEditorToolBar.Size = new System.Drawing.Size(234, 27);
-            this.ItemEditorToolBar.Stretch = true;
-            this.ItemEditorToolBar.TabIndex = 7;
-            this.ItemEditorToolBar.Text = "toolStrip1";
+            ItemEditorToolBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            ItemEditorTableLayout.SetColumnSpan(ItemEditorToolBar, 2);
+            ItemEditorToolBar.Dock = System.Windows.Forms.DockStyle.None;
+            ItemEditorToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            ItemEditorToolBar.ImageScalingSize = new System.Drawing.Size(20, 20);
+            ItemEditorToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripTextBoxSearchKeyValue, ToolButtonSortAscending });
+            ItemEditorToolBar.Location = new System.Drawing.Point(566, 107);
+            ItemEditorToolBar.Margin = new System.Windows.Forms.Padding(8, 0, 0, 2);
+            ItemEditorToolBar.Name = "ItemEditorToolBar";
+            ItemEditorToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            ItemEditorToolBar.Size = new System.Drawing.Size(234, 27);
+            ItemEditorToolBar.Stretch = true;
+            ItemEditorToolBar.TabIndex = 7;
+            ItemEditorToolBar.Text = "toolStrip1";
             // 
             // ToolStripTextBoxSearchKeyValue
             // 
-            this.ToolStripTextBoxSearchKeyValue.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.ToolStripTextBoxSearchKeyValue.Name = "ToolStripTextBoxSearchKeyValue";
-            this.ToolStripTextBoxSearchKeyValue.Size = new System.Drawing.Size(200, 27);
-            this.ToolStripTextBoxSearchKeyValue.TextChanged += new System.EventHandler(this.ToolStripTextBoxSearchKeyValue_TextChanged);
+            ToolStripTextBoxSearchKeyValue.Name = "ToolStripTextBoxSearchKeyValue";
+            ToolStripTextBoxSearchKeyValue.Size = new System.Drawing.Size(200, 27);
+            ToolStripTextBoxSearchKeyValue.TextChanged += ToolStripTextBoxSearchKeyValue_TextChanged;
             // 
             // ToolButtonSortAscending
             // 
-            this.ToolButtonSortAscending.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToolButtonSortAscending.Image = global::Win_CBZ.Properties.Resources.sort_az_ascending2;
-            this.ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToolButtonSortAscending.Name = "ToolButtonSortAscending";
-            this.ToolButtonSortAscending.Size = new System.Drawing.Size(29, 24);
-            this.ToolButtonSortAscending.Text = "toolStripButton1";
-            this.ToolButtonSortAscending.ToolTipText = "Sort items ascending";
+            ToolButtonSortAscending.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonSortAscending.Image = Properties.Resources.sort_az_ascending2;
+            ToolButtonSortAscending.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonSortAscending.Name = "ToolButtonSortAscending";
+            ToolButtonSortAscending.Size = new System.Drawing.Size(29, 24);
+            ToolButtonSortAscending.Text = "toolStripButton1";
+            ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             // 
             // KeyValueEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.ItemEditorTableLayout);
-            this.Name = "KeyValueEditor";
-            this.Text = "KeyValueEditor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.KeyValueEditorForm_FormClosing);
-            this.Shown += new System.EventHandler(this.KeyValueEditorForm_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.KeyValueDatagrid)).EndInit();
-            this.ItemEditorTableLayout.ResumeLayout(false);
-            this.ItemEditorTableLayout.PerformLayout();
-            this.HeaderPanel.ResumeLayout(false);
-            this.HeaderPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HeaderPicture)).EndInit();
-            this.ItemEditorToolBar.ResumeLayout(false);
-            this.ItemEditorToolBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.languageListBindingSource)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(800, 562);
+            Controls.Add(ItemEditorTableLayout);
+            Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            Name = "KeyValueEditor";
+            Text = "KeyValueEditor";
+            FormClosing += KeyValueEditorForm_FormClosing;
+            Shown += KeyValueEditorForm_Shown;
+            ((System.ComponentModel.ISupportInitialize)KeyValueDatagrid).EndInit();
+            ItemEditorTableLayout.ResumeLayout(false);
+            ItemEditorTableLayout.PerformLayout();
+            HeaderPanel.ResumeLayout(false);
+            HeaderPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)HeaderPicture).EndInit();
+            ItemEditorToolBar.ResumeLayout(false);
+            ItemEditorToolBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)languageListBindingSource).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
