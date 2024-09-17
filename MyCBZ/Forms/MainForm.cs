@@ -3287,7 +3287,7 @@ namespace Win_CBZ
             MetaDataFieldType fieldType = ((ComboBox)sender).Tag as MetaDataFieldType;
 
             Pen pen = new Pen(Color.Black, 1);
-            Font font = new Font("Verdana", 8.5f, FontStyle.Regular);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
@@ -3649,6 +3649,7 @@ namespace Win_CBZ
 
                                         c.Style = new DataGridViewCellStyle()
                                         {
+                                            Font = new Font("Verdana", 9f, FontStyle.Regular),
                                             SelectionBackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                             ForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -3666,6 +3667,7 @@ namespace Win_CBZ
 
                                         c.Style = new DataGridViewCellStyle()
                                         {
+                                            Font = new Font("Verdana", 9f, FontStyle.Regular),
                                             SelectionBackColor = Color.FromKnownColor(KnownColor.Gold),
                                             SelectionForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -3697,6 +3699,7 @@ namespace Win_CBZ
                                         c.Tag = entry.Type;
                                         c.Style = new DataGridViewCellStyle()
                                         {
+                                            Font = new Font("Verdana", 9f, FontStyle.Regular),
                                             SelectionBackColor = Color.Gold,
                                             ForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -3761,6 +3764,7 @@ namespace Win_CBZ
 
                             MetaDataGrid.Rows[i].Cells[colIndex].Style = new DataGridViewCellStyle()
                             {
+                                Font = new Font("Verdana", 9f, FontStyle.Regular),
                                 SelectionBackColor = selectionColor,
                                 ForeColor = Color.Black,
                                 BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -4010,6 +4014,7 @@ namespace Win_CBZ
                                 DataGridViewComboBoxCell comboCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewComboBoxCell;
                                 comboCell.Style = new DataGridViewCellStyle()
                                 {
+                                    Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
                                     SelectionBackColor = Color.Gold,
                                     BackColor = Color.White,
@@ -4286,6 +4291,7 @@ namespace Win_CBZ
                                     c.DisplayStyleForCurrentCellOnly = false;
                                     c.Style = new DataGridViewCellStyle()
                                     {
+                                        Font = new Font("Verdana", 9f, FontStyle.Regular),
                                         SelectionForeColor = Color.Black,
                                         SelectionBackColor = Color.Gold,
                                         BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -4302,6 +4308,13 @@ namespace Win_CBZ
                                 {
                                     DataGridViewTextBoxCell c = new DataGridViewTextBoxCell
                                     {
+                                        Style = new DataGridViewCellStyle()
+                                        {
+                                            Font = new Font("Verdana", 9f, FontStyle.Regular),
+                                            SelectionForeColor = Color.Black,
+                                            SelectionBackColor = Color.Gold,
+                                            BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
+                                        },
                                         Value = updatedEntry.Value,
                                         Tag = updatedEntry.Type,
                                     };
@@ -4323,6 +4336,7 @@ namespace Win_CBZ
                                 //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
                                 c.Style = new DataGridViewCellStyle()
                                 {
+                                    Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
                                     SelectionBackColor = Color.Gold,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -4340,6 +4354,7 @@ namespace Win_CBZ
 
                                 c.Style = new DataGridViewCellStyle()
                                 {
+                                    Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
                                     SelectionBackColor = Color.Gold,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -4357,6 +4372,7 @@ namespace Win_CBZ
 
                                 c.Style = new DataGridViewCellStyle()
                                 {
+                                    Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
                                     SelectionBackColor = Color.Gold,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
@@ -4392,6 +4408,7 @@ namespace Win_CBZ
 
                                 bc.Style = new DataGridViewCellStyle()
                                 {
+                                    Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
                                     SelectionBackColor = Color.Gold,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),

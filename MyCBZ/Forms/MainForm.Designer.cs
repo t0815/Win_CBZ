@@ -2624,6 +2624,8 @@ namespace Win_CBZ
             AutocompleteIcons.Images.SetKeyName(10, "earth");
             AutocompleteIcons.Images.SetKeyName(11, "clock");
             AutocompleteIcons.Images.SetKeyName(12, "hash");
+            AutocompleteIcons.Images.SetKeyName(13, "blackwhite");
+            AutocompleteIcons.Images.SetKeyName(14, "family");
             // 
             // StatusToolStripTableLayout
             // 
