@@ -158,7 +158,7 @@ namespace Win_CBZ
                 foreach (var entry in Defaults)
                 {
                     DefaultSortOrderKeys.Add(entry.Key);
-                    Values.Add(HandleNewEntry(entry.Key, entry.Value));
+                    Values.Add(HandleNewEntry(entry.Key, entry.Value, entry.ReadOnly, entry.Uid));
                 }
             }
         }
@@ -213,7 +213,7 @@ namespace Win_CBZ
             ReorderProps();
         }
 
-        protected MetaDataEntry HandleNewEntry(String key, String value = null, bool readOnly = false)
+        protected MetaDataEntry HandleNewEntry(String key, String value = null, bool readOnly = false, string uid = null)
         {
             if (ProtectedKeys.IndexOf(key.ToLower()) != -1)
             {
@@ -231,14 +231,14 @@ namespace Win_CBZ
 
                     value = value != null && index > -1 ? value : (mapping.OptionsAsList()[0] ?? "???");
 
-                    return new MetaDataEntry(key, value, mapping, readOnly);
+                    return new MetaDataEntry(key, value, mapping, readOnly, uid);
                 } else
                 {
-                    return new MetaDataEntry(key, value, mapping, readOnly);
+                    return new MetaDataEntry(key, value, mapping, readOnly, uid);
                 }
             }
 
-            return new MetaDataEntry(key, value, new MetaDataFieldType(), readOnly);
+            return new MetaDataEntry(key, value, new MetaDataFieldType(), readOnly, uid);
         }
 
         public void Save(String path)
@@ -607,9 +607,16 @@ namespace Win_CBZ
             return null;
         }
 
+        public MetaDataEntry EntryById(String id)
+        {
+            MetaDataEntry result = Values.Where((e) => e.Uid == id).FirstOrDefault();
+
+            return result;
+        }
+
         public int Add(MetaDataEntry entry)
         {
-            Values.Add(HandleNewEntry(entry.Key, entry.Value));
+            Values.Add(HandleNewEntry(entry.Key, entry.Value, entry.ReadOnly, entry.Uid));
             if (!DefaultSortOrderKeys.Contains(entry.Key))
             {
                 DefaultSortOrderKeys.Add(entry.Key);
@@ -643,9 +650,9 @@ namespace Win_CBZ
             return Values.Count - 1;
         }
 
-        public int Remove(String key)
+        public int Remove(String uid)
         {
-            MetaDataEntry entry = EntryByKey(key);
+            MetaDataEntry entry = EntryById(uid);
             
             if (entry != null)
             {
@@ -655,9 +662,9 @@ namespace Win_CBZ
 
                 if (success)
                 {
-                    if (RemovedKeys.IndexOf(key) == -1)
+                    if (RemovedKeys.IndexOf(entry.Key) == -1)
                     {
-                        RemovedKeys.Add(key);
+                        RemovedKeys.Add(entry.Key);
                     }
 
                     OnMetaDataEntryChanged(new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, entry));

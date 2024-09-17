@@ -3171,7 +3171,7 @@ namespace Win_CBZ
                 foreach (DataGridViewRow row in MetaDataGrid.SelectedRows)
                 {
                     MetaDataEntry selectedEntry = row.Cells[0].Tag as MetaDataEntry;
-                    int index = Program.ProjectModel.MetaData.Remove(selectedEntry);
+                    int index = Program.ProjectModel.MetaData.Remove(selectedEntry.Uid);
 
                     //AppEventHandler.OnMetaDataEntryChanged(sender, new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, selectedEntry));
 
@@ -4043,7 +4043,7 @@ namespace Win_CBZ
                 var key = row.Cells[0].Value;
                 var val = row.Cells[1].Value;
 
-                Program.ProjectModel.MetaData.Add(new MetaDataEntry(key.ToString(), val?.ToString()));
+                Program.ProjectModel.MetaData.Add(row.Cells[0].Tag as MetaDataEntry);
             }
 
             Color selectionColor = Color.Gold;

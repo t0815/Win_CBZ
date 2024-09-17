@@ -12,13 +12,13 @@ namespace Win_CBZ
     internal class MetaDataEntry
     {
 
-        protected string uid = Guid.NewGuid().ToString();
+        public string Uid { get; set; } = Guid.NewGuid().ToString();
 
         public String Key { get; set; }
 
         public String Value { get; set; }
 
-        protected bool ReadOnly { get; set; }
+        public bool ReadOnly { get; set; }
 
         public bool Visible { get; set; } = true;
 
@@ -38,13 +38,14 @@ namespace Win_CBZ
             Type = new MetaDataFieldType(key);
         }
 
-        public MetaDataEntry(String key, String value, MetaDataFieldType fieldType, bool readOnly = false)
+        public MetaDataEntry(String key, String value, MetaDataFieldType fieldType, bool readOnly = false, string uid = null)
         {
             Key = key;
             Value = value;
             ReadOnly = readOnly;
             Type = fieldType;
             ReadOnly = readOnly;
+            Uid = uid != null ? uid : Guid.NewGuid().ToString();
         }
 
         public String[] ValueAsList(char separator = ',')
