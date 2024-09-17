@@ -1000,26 +1000,29 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        SaveToolStripMenuItem.Enabled = true;
-                        SaveAsToolStripMenuItem.Enabled = true;
-                        ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                        ToolButtonNew.Enabled = true;
-                        ToolButtonAddFiles.Enabled = true;
-                        ToolButtonMovePageDown.Enabled = true;
-                        ToolButtonMovePageUp.Enabled = true;
-                        ToolButtonRemoveFiles.Enabled = true;
-                        NewToolStripMenuItem.Enabled = true;
-                        //ApplicationStatusLabel.Text = e.Message;
-                        Program.ProjectModel.IsChanged = true;
+                        if (e.GlobalActionId != null)
+                        {
+                            SaveToolStripMenuItem.Enabled = true;
+                            SaveAsToolStripMenuItem.Enabled = true;
+                            ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                            ToolButtonNew.Enabled = true;
+                            ToolButtonAddFiles.Enabled = true;
+                            ToolButtonMovePageDown.Enabled = true;
+                            ToolButtonMovePageUp.Enabled = true;
+                            ToolButtonRemoveFiles.Enabled = true;
+                            NewToolStripMenuItem.Enabled = true;
+                            //ApplicationStatusLabel.Text = e.Message;
+                            Program.ProjectModel.IsChanged = true;
 
-                        AppEventHandler.OnApplicationStateChanged(
-                            sender,
-                            new ApplicationStatusEvent
-                            {
-                                ArchiveInfo = Program.ProjectModel,
-                                State = ApplicationStatusEvent.STATE_READY
-                            }
-                        );
+                            AppEventHandler.OnApplicationStateChanged(
+                                sender,
+                                new ApplicationStatusEvent
+                                {
+                                    ArchiveInfo = Program.ProjectModel,
+                                    State = ApplicationStatusEvent.STATE_READY
+                                }
+                            );
+                        }
 
                         //Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
 

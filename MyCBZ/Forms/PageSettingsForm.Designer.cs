@@ -79,10 +79,10 @@
             IsCompressedLabel = new System.Windows.Forms.Label();
             ButtonReloadImage = new System.Windows.Forms.Button();
             TextBoxFileLocation = new System.Windows.Forms.TextBox();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
             tabPage2 = new System.Windows.Forms.TabPage();
             metaDataView = new System.Windows.Forms.WebBrowser();
             Tooltip = new System.Windows.Forms.ToolTip(components);
-            pictureBox2 = new System.Windows.Forms.PictureBox();
             SettingsTablePanel.SuspendLayout();
             ImagePreviewTableLayout.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -95,8 +95,8 @@
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             KeyEditorPanel.SuspendLayout();
-            tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // SettingsTablePanel
@@ -773,6 +773,21 @@
             TextBoxFileLocation.Size = new System.Drawing.Size(244, 27);
             TextBoxFileLocation.TabIndex = 5;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            pictureBox2.Image = Properties.Resources.information;
+            pictureBox2.InitialImage = Properties.Resources.information;
+            pictureBox2.Location = new System.Drawing.Point(329, 296);
+            pictureBox2.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Padding = new System.Windows.Forms.Padding(7, 7, 7, 8);
+            pictureBox2.Size = new System.Drawing.Size(33, 39);
+            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox2.TabIndex = 32;
+            pictureBox2.TabStop = false;
+            Tooltip.SetToolTip(pictureBox2, "This property is only available in Meta- Format VERSION_2");
+            // 
             // tabPage2
             // 
             tabPage2.Controls.Add(metaDataView);
@@ -808,21 +823,6 @@
             Tooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             Tooltip.ToolTipTitle = "Win_CBZ";
             // 
-            // pictureBox2
-            // 
-            pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            pictureBox2.Image = Properties.Resources.information;
-            pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(329, 296);
-            pictureBox2.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Padding = new System.Windows.Forms.Padding(7, 7, 7, 8);
-            pictureBox2.Size = new System.Drawing.Size(33, 39);
-            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            pictureBox2.TabIndex = 32;
-            pictureBox2.TabStop = false;
-            Tooltip.SetToolTip(pictureBox2, "This property is only available in Meta- Format VERSION_2");
-            // 
             // PageSettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -855,8 +855,8 @@
             tableLayoutPanel1.PerformLayout();
             KeyEditorPanel.ResumeLayout(false);
             KeyEditorPanel.PerformLayout();
-            tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
