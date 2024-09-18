@@ -429,14 +429,12 @@ namespace Win_CBZ.Models
             {
                 ResultPage[1] = new Page(new LocalFile(ResultFileName[1].FullPath), SourcePage.WorkingDir, FileAccess.ReadWrite);
                 ResultPage[1].UpdatePageAttributes(SourcePage);
-                ResultPage[1].Id = Guid.NewGuid().ToString();
+                ResultPage[1].Id = Guid.NewGuid().ToString(); // Important! Need to create a new Id for the second page
                 ResultPage[1].Name = SourcePage.NameWithoutExtension() + "_split" + SourcePage.FileExtension;
 
                 //AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[1], null, PageChangedEvent.IMAGE_STATUS_NEW, true));
 
             }
-
-            AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[0], SourcePage, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
 
             return ResultPage;
         }

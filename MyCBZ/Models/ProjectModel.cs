@@ -397,6 +397,7 @@ namespace Win_CBZ
                                     page.ImageTask.ImageAdjustments.SplitPage = false;
                                     page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                     page.ImageTask.ImageAdjustments.ConvertType = 0;
+                                    page.ThumbnailInvalidated = true;
 
                                     resultPage.Close();
 
@@ -404,9 +405,13 @@ namespace Win_CBZ
                                 }
                                 else
                                 {
-                                    AddPage(resultPage);
 
-                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                    Page newPage = AddPage(resultPage, resultPage.Index);
+                                    newPage.ImageTask.ImageAdjustments.SplitPage = false;
+                                    newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                    newPage.ImageTask.ImageAdjustments.ConvertType = 0;
+
+                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                 }
 
                                 AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
