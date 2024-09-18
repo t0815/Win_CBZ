@@ -404,7 +404,7 @@ namespace Win_CBZ
                                 }
                                 else
                                 {
-                                    Pages.Add(resultPage);
+                                    AddPage(resultPage);
 
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                 }

@@ -1310,6 +1310,11 @@ namespace Win_CBZ
             FileExtension = ExtractFileExtension(Filename);
         }
 
+        public string NameWithoutExtension()
+        {
+            return Name.Replace(ExtractFileExtension(Name), "");
+        }
+
         public string SizeFormat()
         {
             double size = Size;

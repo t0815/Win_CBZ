@@ -316,16 +316,18 @@ namespace Win_CBZ.Models
                 // If the task is split, create a second file
                 if (Tasks.Contains(TASK_SPLIT))
                 {
-                    
+                    LocalFile splitSource = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make());
+
                     ResultFileName[1] = new LocalFile(ResultFileName[0].FullPath.Replace(".0.res", ".1.res"));
                     
                     File.Copy(ResultFileName[0].FullPath, ResultFileName[1].FullPath, true);
+                    File.Copy(ResultFileName[0].FullPath, splitSource.FullPath);
 
                     ResultFileName[1].Refresh();
 
-                    inputStream = File.Open(ResultFileName[0].FullPath, FileMode.Open, FileAccess.Read);
+                    inputStream = File.Open(splitSource.FullPath, FileMode.Open, FileAccess.Read);
 
-                    inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
+                    inProgressFile = new LocalFile(splitSource.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
                     outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
                     tempFileCounter++;
@@ -347,10 +349,12 @@ namespace Win_CBZ.Models
 
                             File.Copy(inProgressFile.FullPath, ResultFileName[0].FullPath, true);
 
+                            inputStream.Position = 0;
+
                             inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
                             outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
-                            outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                            //outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
                             targetFormat.X = (int)(image.Width * ImageAdjustments.SplitPageAt / 100);
                             targetFormat.Y = 0;
@@ -362,7 +366,10 @@ namespace Win_CBZ.Models
                             outputStream.Close();
                             outputStream.Dispose();
 
-                            File.Copy(inProgressFile.FullPath, ResultFileName[0].FullPath, true);
+                            inputStream.Close();
+                            inputStream.Dispose();
+
+                            File.Copy(inProgressFile.FullPath, ResultFileName[1].FullPath, true);
 
 
                             break;
@@ -418,7 +425,18 @@ namespace Win_CBZ.Models
             //ResultPage[0].CreateLocalWorkingCopy();
             //ResultPage[0].IsMemoryCopy = false;
 
-            AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[0], null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+            if (ResultFileName[1] != null)
+            {
+                ResultPage[1] = new Page(new LocalFile(ResultFileName[1].FullPath), SourcePage.WorkingDir, FileAccess.ReadWrite);
+                ResultPage[1].UpdatePageAttributes(SourcePage);
+                ResultPage[1].Id = Guid.NewGuid().ToString();
+                ResultPage[1].Name = SourcePage.NameWithoutExtension() + "_split" + SourcePage.FileExtension;
+
+                //AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[1], null, PageChangedEvent.IMAGE_STATUS_NEW, true));
+
+            }
+
+            AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[0], SourcePage, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
 
             return ResultPage;
         }
