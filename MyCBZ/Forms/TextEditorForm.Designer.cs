@@ -92,7 +92,7 @@
             // 
             HeaderLabel.AutoSize = true;
             HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            HeaderLabel.Location = new System.Drawing.Point(95, 9);
+            HeaderLabel.Location = new System.Drawing.Point(95, 16);
             HeaderLabel.Name = "HeaderLabel";
             HeaderLabel.Size = new System.Drawing.Size(109, 28);
             HeaderLabel.TabIndex = 1;

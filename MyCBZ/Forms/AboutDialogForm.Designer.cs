@@ -71,8 +71,8 @@
             panel1.Controls.Add(AppVersionLabel);
             panel1.Controls.Add(AppNameLabel);
             panel1.Controls.Add(AboutBoxBanner);
-            panel1.Location = new System.Drawing.Point(3, 2);
-            panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            panel1.Location = new System.Drawing.Point(3, 0);
+            panel1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             panel1.Name = "panel1";
             panel1.Size = new System.Drawing.Size(697, 98);
             panel1.TabIndex = 0;

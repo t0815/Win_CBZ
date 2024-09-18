@@ -166,6 +166,7 @@ namespace Win_CBZ.Models
             int tempFileCounter = 0;
 
             LocalFile inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
+            
 
             foreach (String task in Tasks)
             {
@@ -174,7 +175,7 @@ namespace Win_CBZ.Models
                 {
                     if (outputStream == null)
                     {
-                        outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);                       
+                        outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     } else
                     {
                         outputStream.CopyTo(inputStream);
@@ -283,18 +284,31 @@ namespace Win_CBZ.Models
                 }
                 finally
                 {
-                    outputStream?.Close();
-                    inputStream?.Close();
+                    //outputStream?.Close();
+                    //inputStream?.Close();
 
-                    outputStream?.Dispose();
-                    inputStream?.Dispose();
+                    //outputStream?.Dispose();
+                    //inputStream?.Dispose();
                 }
 
                 tempFileCounter++;
             }
 
+            outputStream?.Close();
+            outputStream?.Dispose();
+
             try
             {
+                if (inProgressFile.FileSize == 0)
+                {
+                    outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    inputStream.CopyTo(outputStream);
+                    outputStream.Close();
+
+                    inProgressFile.Refresh();
+
+                }
+
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
                 ResultFileName[0].Refresh();
@@ -320,15 +334,44 @@ namespace Win_CBZ.Models
 
                     switch (ImageAdjustments.SplitType)
                     {
-                        case 1:
+                        case 0:
+                            targetFormat.X = 0;
+                            targetFormat.Y = 0;
+                            targetFormat.W = (int)(image.Width * ImageAdjustments.SplitPageAt / 100);
+                            targetFormat.H = image.Height;
+
                             ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                            outputStream.Close();
+                            outputStream.Dispose();
+
+                            File.Copy(inProgressFile.FullPath, ResultFileName[0].FullPath, true);
+
+                            inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
+                            outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+                            outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+                            targetFormat.X = (int)(image.Width * ImageAdjustments.SplitPageAt / 100);
+                            targetFormat.Y = 0;
+                            targetFormat.W = image.Width - targetFormat.X;
+                            targetFormat.H = image.Height;
+
+                            ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                            outputStream.Close();
+                            outputStream.Dispose();
+
+                            File.Copy(inProgressFile.FullPath, ResultFileName[0].FullPath, true);
+
+
                             break;
-                        case 2:
+                        case 1:
                             //
                             break;
                     }
 
-                    ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+                    //ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
                 }
 

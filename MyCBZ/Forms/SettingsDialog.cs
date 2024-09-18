@@ -1769,7 +1769,7 @@ namespace Win_CBZ.Forms
 
         private void CustomFieldsDataGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-           
+
         }
     }
 }

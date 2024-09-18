@@ -197,7 +197,7 @@
             SettingsTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsTablePanel.Name = "SettingsTablePanel";
             SettingsTablePanel.RowCount = 3;
-            SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
             SettingsTablePanel.Size = new System.Drawing.Size(800, 649);
@@ -223,17 +223,17 @@
             SettingsTablePanel.SetColumnSpan(HeaderPanel, 3);
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(pictureBox1);
-            HeaderPanel.Location = new System.Drawing.Point(3, 2);
-            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            HeaderPanel.Location = new System.Drawing.Point(3, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(794, 95);
+            HeaderPanel.Size = new System.Drawing.Size(794, 78);
             HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
             // 
             HeaderLabel.AutoSize = true;
             HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            HeaderLabel.Location = new System.Drawing.Point(116, 34);
+            HeaderLabel.Location = new System.Drawing.Point(101, 25);
             HeaderLabel.Name = "HeaderLabel";
             HeaderLabel.Size = new System.Drawing.Size(111, 28);
             HeaderLabel.TabIndex = 1;
@@ -242,7 +242,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.window_gear_large;
-            pictureBox1.Location = new System.Drawing.Point(24, 18);
+            pictureBox1.Location = new System.Drawing.Point(24, 4);
             pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new System.Drawing.Size(59, 69);
@@ -258,10 +258,10 @@
             SettingsSectionList.FormattingEnabled = true;
             SettingsSectionList.ItemHeight = 32;
             SettingsSectionList.Items.AddRange(new object[] { "Application", "Metadata", "CBZ", "Image Processing" });
-            SettingsSectionList.Location = new System.Drawing.Point(3, 102);
+            SettingsSectionList.Location = new System.Drawing.Point(3, 83);
             SettingsSectionList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsSectionList.Name = "SettingsSectionList";
-            SettingsSectionList.Size = new System.Drawing.Size(194, 479);
+            SettingsSectionList.Size = new System.Drawing.Size(194, 498);
             SettingsSectionList.TabIndex = 1;
             SettingsSectionList.DrawItem += SettingsSectionList_DrawItem;
             SettingsSectionList.SelectedIndexChanged += SettingsSectionList_SelectedIndexChanged;
@@ -287,10 +287,10 @@
             SettingsContentPanel.Controls.Add(CBZSettingsTabControl);
             SettingsContentPanel.Controls.Add(MetaDataConfigTabControl);
             SettingsContentPanel.Controls.Add(ImageProcessingTabControl);
-            SettingsContentPanel.Location = new System.Drawing.Point(204, 105);
+            SettingsContentPanel.Location = new System.Drawing.Point(204, 86);
             SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             SettingsContentPanel.Name = "SettingsContentPanel";
-            SettingsContentPanel.Size = new System.Drawing.Size(592, 473);
+            SettingsContentPanel.Size = new System.Drawing.Size(592, 492);
             SettingsContentPanel.TabIndex = 2;
             // 
             // AppSettingsTabControl

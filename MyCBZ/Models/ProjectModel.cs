@@ -429,13 +429,16 @@ namespace Win_CBZ
                             // }
                         } else
                         {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error processing images! [" + r.Exception.Message + "]");
+
+                            AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                             // todo: continue on error?
-                            throw new ApplicationException("Failed to process images! ", true);
+                            
                         }
                     }));
 
                     imageProcessingTask.Start();
-
+                 
                     currentPerformed = e.Task;
                     
                 }
