@@ -374,8 +374,43 @@ namespace Win_CBZ.Models
 
                             break;
                         case 1:
-                            //
+                            targetFormat.X = 0;
+                            targetFormat.Y = 0;
+                            targetFormat.W = ImageAdjustments.SplitPageAt;
+                            targetFormat.H = image.Height;
+
+                            ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                            outputStream.Close();
+                            outputStream.Dispose();
+
+                            File.Copy(inProgressFile.FullPath, ResultFileName[0].FullPath, true);
+
+                            inputStream.Position = 0;
+
+                            inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
+                            outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+                            //outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+
+                            targetFormat.X = ImageAdjustments.SplitPageAt + 1;
+                            targetFormat.Y = 0;
+                            targetFormat.W = image.Width - targetFormat.X;
+                            targetFormat.H = image.Height;
+
+                            ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
+
+                            outputStream.Close();
+                            outputStream.Dispose();
+
+                            inputStream.Close();
+                            inputStream.Dispose();
+
+                            File.Copy(inProgressFile.FullPath, ResultFileName[1].FullPath, true);
+
+
                             break;
+                            
                     }
 
                     //ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);

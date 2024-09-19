@@ -366,8 +366,7 @@ namespace Win_CBZ
 
                 if (p.ApplyImageProcessing)
                 {
-
-                    
+                   
                     imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                     imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                     {
