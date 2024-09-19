@@ -258,6 +258,7 @@ namespace Win_CBZ
             AppEventHandler.ApplicationStateChanged += ApplicationStateChanged;
             AppEventHandler.GlobalActionRequired += HandleGlobalActionRequired;
             AppEventHandler.GeneralTaskProgress += HandleGlobalTaskProgress;
+            AppEventHandler.RedrawThumbnail += OnRedrawThumbnail;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -1125,6 +1126,18 @@ namespace Win_CBZ
                 {
 
                 }
+            }
+        }
+
+        private void OnRedrawThumbnail(object sender, RedrawThumbEvent e)
+        {
+            if (!WindowClosed)
+            {
+                Invoke(new Action(() =>
+                {
+                    ThumbnailPagesSlice.Add(e.Page);
+                    RequestImageInfoSlice();
+                }));
             }
         }
 

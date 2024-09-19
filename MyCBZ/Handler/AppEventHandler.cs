@@ -42,6 +42,7 @@ namespace Win_CBZ.Handler
 
         public static event EventHandler<ValidationFinishedEvent> CBZValidationEventHandler;
 
+        public static event EventHandler<RedrawThumbEvent> RedrawThumbnail;
 
         // delegates definitions
         public delegate void GeneralTaskProgressDelegate(object sender, GeneralTaskProgressEvent e);
@@ -73,6 +74,11 @@ namespace Win_CBZ.Handler
         public static void OnGlobalActionRequired(object sender, GlobalActionRequiredEvent e)
         {
             GlobalActionRequired?.Invoke(sender, e);
+        }
+
+        public static void OnRedrawThumb(object sender, RedrawThumbEvent e)
+        {
+            RedrawThumbnail?.Invoke(sender, e);
         }
 
         public static void OnArchiveValidationFinished(object sender, ValidationFinishedEvent e)

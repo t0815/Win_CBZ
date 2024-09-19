@@ -310,7 +310,15 @@ namespace Win_CBZ
 
                                 if (p.ContinuePipeline)
                                 {
-                                    AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                    nextTask = e.Stack[0];
+
+                                    if (nextTask != null)
+                                    {
+                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                    } else
+                                    {
+                                        AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                                    }
                                 }
                             } else
                             {
@@ -385,6 +393,7 @@ namespace Win_CBZ
                                 //page?.UpdateStreams(resultPage);
                                 page?.UpdatePageAttributes(resultPage);
                                 page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                page.ThumbnailInvalidated = true;
                                 //page?.LoadImageInfo(true);
 
 
@@ -401,6 +410,7 @@ namespace Win_CBZ
                                     resultPage.Close();
 
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                    AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
                                 }
                                 else
                                 {
@@ -410,7 +420,10 @@ namespace Win_CBZ
                                     newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
                                     newPage.ImageTask.ImageAdjustments.ConvertType = 0;
 
+                                    
+
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                    AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
                                 }
 
                                 AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));

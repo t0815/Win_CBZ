@@ -38,6 +38,11 @@ namespace Win_CBZ.Tasks
                         continue;
                     }
 
+                    if (page.Deleted)
+                    {
+                        continue;
+                    }
+
                     if (cancellationToken.HasValue && cancellationToken.Value.IsCancellationRequested)
                     {
                         break;
