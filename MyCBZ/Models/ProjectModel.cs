@@ -310,13 +310,21 @@ namespace Win_CBZ
 
                                 if (p.ContinuePipeline)
                                 {
-                                    nextTask = e.Stack[0];
-
-                                    if (nextTask != null)
+                                    if (remainingStack.Count > 0)
                                     {
-                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                        nextTask = e.Stack[0];
+
+                                        if (nextTask != null)
+                                        {
+                                            AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                        }
+                                        else
+                                        {
+                                            AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                                        }
                                     } else
                                     {
+                    
                                         AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                                     }
                                 }
