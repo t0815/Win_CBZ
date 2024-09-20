@@ -204,7 +204,7 @@ namespace Win_CBZ.Models
                     }
                     catch (Exception e)
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Field-Type configuration Error! Unable to load Fieldtype for Field [" + typeParts[0] + "] !");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Field-Type configuration Error! Unable to load Fieldtype for Field [" + typeParts[0] + "] !  [" + e.Message + "]");
                     }
                 }
             }

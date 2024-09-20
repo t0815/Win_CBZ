@@ -1428,7 +1428,7 @@ namespace Win_CBZ.Forms
                         }
                         catch (Exception ex)
                         {
-
+                            ApplicationMessage.ShowError("Error restoring defaul Fieldtypes.\r\n" + ex.Message, "Error resoring defaults", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
                         }
                     }
                 }

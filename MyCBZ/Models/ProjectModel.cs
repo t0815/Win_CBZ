@@ -843,7 +843,7 @@ namespace Win_CBZ
                 IsChanged = false;
                 IsNew = false;
             }
-            catch (OperationCanceledException oce)
+            catch (OperationCanceledException)
             {
                 //Archive.Dispose();
 
@@ -1149,7 +1149,7 @@ namespace Win_CBZ
 
                         tParams.CancelToken.ThrowIfCancellationRequested();
                     }
-                    catch (OperationCanceledException o)
+                    catch (OperationCanceledException)
                     {
                         errorSavingArchive = true;
                     }
@@ -1256,7 +1256,7 @@ namespace Win_CBZ
                         }
 
                     }
-                    catch (OperationCanceledException oce)
+                    catch (OperationCanceledException)
                     {
                         errorSavingArchive = true;
                     }
@@ -2011,9 +2011,9 @@ namespace Win_CBZ
                     pageError = false;
                     Thread.Sleep(5);
                 }
-                catch (OperationCanceledException oce)
+                catch (OperationCanceledException)
                 {
-                    // 
+                    break;
                 }
                 catch (Exception ef)
                 {
@@ -2142,7 +2142,7 @@ namespace Win_CBZ
 
                     Thread.Sleep(5);
                 }
-                catch (OperationCanceledException oce)
+                catch (OperationCanceledException)
                 {
                     break;
                 }

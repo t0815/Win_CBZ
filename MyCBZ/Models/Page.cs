@@ -1257,11 +1257,13 @@ namespace Win_CBZ
         {
             return Path.GetExtension(fileName);
 
+            /*
             string[] entryExtensionParts = fileName.Split('.');
 
             if (entryExtensionParts.Length == 0) return null;
 
             else return "." + entryExtensionParts.Last<string>();
+            */
         }
 
         public static bool NameEqualsIndex(Page page)
@@ -1274,7 +1276,7 @@ namespace Win_CBZ
                 var isNummeric = int.TryParse(name, out pageNumber);
                 return pageNumber.Equals(page.Number);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

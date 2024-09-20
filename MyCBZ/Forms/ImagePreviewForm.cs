@@ -141,7 +141,7 @@ namespace Win_CBZ
                     try
                     {
                         displayPage.CreateLocalWorkingCopy();
-                    } catch (Exception e)
+                    } catch (Exception)
                     {
                         if (page != null)
                         {

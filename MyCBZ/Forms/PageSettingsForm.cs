@@ -84,7 +84,7 @@ namespace Win_CBZ.Forms
                         page.FreeImage();
                         page.IsMemoryCopy = false;
                     }
-                    catch (ApplicationException ex)
+                    catch (ApplicationException)
                     {
                         result = false;
                     }
@@ -431,7 +431,7 @@ namespace Win_CBZ.Forms
                                 ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
                                 imageLocation = "\\\\" + entry.Name;
                             }
-                            catch (Exception eentry)
+                            catch (Exception)
                             {
                                 imageLocation = "?\\" + FirstPage.Name;
                             }
@@ -740,7 +740,7 @@ namespace Win_CBZ.Forms
                                         ZipArchiveEntry entry = FirstPage.GetCompressedEntry();
                                         imageLocation = "\\\\" + entry.Name;
                                     }
-                                    catch (Exception eentry)
+                                    catch (Exception)
                                     {
                                         imageLocation = "?\\" + FirstPage.Name;
                                     }
@@ -902,14 +902,14 @@ namespace Win_CBZ.Forms
                             {
                                 try
                                 {
-                                if ((t.Exception.InnerExceptions[0] as ApplicationException).ShowErrorDialog)
+                                    if ((t.Exception.InnerExceptions[0] as ApplicationException).ShowErrorDialog)
+                                    {
+                                        ApplicationMessage.ShowException(t.Exception.InnerExceptions[0]);
+                                    }
+                                } catch (Exception)
                                 {
-                                    ApplicationMessage.ShowException(t.Exception.InnerExceptions[0]);
+                                    ApplicationMessage.ShowException(t.Exception.InnerException);
                                 }
-                            } catch (Exception eee)
-                                {
-                                ApplicationMessage.ShowException(t.Exception.InnerException);
-                            }
                             }
 
                             
@@ -957,9 +957,7 @@ namespace Win_CBZ.Forms
 
             return;
 
-
-
-
+            /*
             if (SelectedPages != null && SelectedPages.Count > 0)
             {
 
@@ -1026,6 +1024,7 @@ namespace Win_CBZ.Forms
 
 
             }
+            */
 
         }
     }

@@ -4541,7 +4541,7 @@ namespace Win_CBZ
 
                 selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
 
-                if (RadioApplyAdjustmentsPage.Checked && RadioApplyAdjustmentsPage.Tag != ((Page)selectedPages[0].Tag).Id)
+                if (RadioApplyAdjustmentsPage.Checked && ((String)RadioApplyAdjustmentsPage.Tag) != ((Page)selectedPages[0].Tag).Id)
                 {
                     UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id, true);
                 }
@@ -4575,6 +4575,7 @@ namespace Win_CBZ
         {
             System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = this.PagesList.SelectedItems;
 
+            /*
             int MetaVersionSetting = Win_CBZSettings.Default.MetaDataPageIndexVersionToWrite;
             MetaData.PageIndexVersion versionToWrite = PageIndexVersion.VERSION_1;
 
@@ -4590,6 +4591,8 @@ namespace Win_CBZ
                     versionToWrite = PageIndexVersion.VERSION_1;
                     break;
             }
+
+            */
 
             if (selectedPages.Count > 0)
             {
@@ -4929,7 +4932,7 @@ namespace Win_CBZ
                                         {
                                             Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, pageProperties[i].Key);
                                         }
-                                        catch (MetaDataPageEntryException em)
+                                        catch (MetaDataPageEntryException)
                                         {
                                             //if (em.ShowErrorDialog)
                                             //{
@@ -4952,7 +4955,7 @@ namespace Win_CBZ
                                         {
                                             Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry(pageResult, pageProperties[i].Key);
                                         }
-                                        catch (MetaDataPageEntryException em)
+                                        catch (MetaDataPageEntryException)
                                         {
                                             //if (em.ShowErrorDialog)
                                             //{
@@ -6046,7 +6049,7 @@ namespace Win_CBZ
                     {
                         pageNumber = int.Parse(TextBoxResizePageIndexReference.Text);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         pageNumber = 0;
                     }
@@ -6073,7 +6076,6 @@ namespace Win_CBZ
 
         private void CheckboxKeepAspectratio_CheckedChanged(object sender, EventArgs e)
         {
-            bool keepAspectRatio = false;
 
             Nullable<bool> oldValue;
 
@@ -6129,7 +6131,7 @@ namespace Win_CBZ
                     {
                         w = int.Parse(TextBoxResizeW.Text);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         w = 0;
                     }
@@ -6193,7 +6195,7 @@ namespace Win_CBZ
                     {
                         h = int.Parse(TextBoxResizeH.Text);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         h = 0;
                     }
@@ -6254,7 +6256,7 @@ namespace Win_CBZ
                     {
                         percent = float.Parse(TextboxResizePercentage.Text);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         percent = 100;
                     }
@@ -6288,7 +6290,6 @@ namespace Win_CBZ
 
         private void CheckBoxDontStretch_CheckedChanged(object sender, EventArgs e)
         {
-            bool dontStretch = false;
 
             Nullable<bool> oldValue;
 
@@ -7037,7 +7038,7 @@ namespace Win_CBZ
                             PasteToolStripMenuItem.Enabled = Clipboard.ContainsText();
                         }));
                     }
-                    catch (Exception ex) { }
+                    catch (Exception) { }
                 }
 
 

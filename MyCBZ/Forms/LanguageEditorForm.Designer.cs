@@ -246,7 +246,5 @@
         private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxSearchLang;
         private System.Windows.Forms.DataGridView LanguageListDatagrid;
         private System.Windows.Forms.BindingSource languageListBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn isoDataGridViewTextBoxColumn;
     }
 }

@@ -76,7 +76,7 @@ namespace Win_CBZ
             try
             {
                 Attributes.Add(name, value);
-            } catch (Exception e)
+            } catch (Exception)
             {
                 Attributes[name] = value;
             }

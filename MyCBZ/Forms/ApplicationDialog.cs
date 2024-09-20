@@ -15,14 +15,8 @@ namespace Win_CBZ.Forms
     [SupportedOSPlatform("windows")]
     public partial class ApplicationDialog : Form
     {
-        private DialogType _type;
-        private String _message;
-        private DialogButtons _buttons;
-        private String _title;
 
         private DialogButtons _existingButtons;
-        private DialogResult _cancelResult;
-        private DialogResult _okResult;
 
         public DialogType DialogType
         {
@@ -55,7 +49,6 @@ namespace Win_CBZ.Forms
                         DialogIconPictureBox.Image = global::Win_CBZ.Properties.Resources.error_dialog;
                         break;
                 }
-                _type = value;
             }
         }
 
@@ -67,7 +60,6 @@ namespace Win_CBZ.Forms
                 if (value.HasFlag(DialogButtons.MB_ABORT))
                 {
                     MakeBtn("Abort", DialogButtons.MB_ABORT, DialogResult.Abort, index, AcceptButtonType.CANCEL_BUTTON);
-                    _cancelResult = DialogResult.Abort;
                     index--;
                 }
 
@@ -81,28 +73,24 @@ namespace Win_CBZ.Forms
                 {
 
                     MakeBtn("Cancel", DialogButtons.MB_CANCEL, DialogResult.Cancel, index, AcceptButtonType.CANCEL_BUTTON);
-                    _cancelResult = DialogResult.Cancel;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_NO) && !_existingButtons.HasFlag(DialogButtons.MB_CANCEL | DialogButtons.MB_ABORT))
                 {
                     MakeBtn("No", DialogButtons.MB_NO, DialogResult.No, index, AcceptButtonType.CANCEL_BUTTON);
-                    _cancelResult = DialogResult.No;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_OK))
                 {
                     MakeBtn("Ok", DialogButtons.MB_OK, DialogResult.OK, index, AcceptButtonType.ACCEPT_BUTTON);
-                    _okResult = DialogResult.OK;
                     index--;
                 }
 
                 if (value.HasFlag(DialogButtons.MB_YES) && !_existingButtons.HasFlag(DialogButtons.MB_OK))
                 {
                     MakeBtn("Yes", DialogButtons.MB_YES, DialogResult.Yes, index, AcceptButtonType.ACCEPT_BUTTON);
-                    _okResult = DialogResult.Yes;
                     index--;
                 }
 
@@ -111,8 +99,6 @@ namespace Win_CBZ.Forms
                     MakeBtn("Quit", DialogButtons.MB_QUIT, DialogResult.Yes, index, AcceptButtonType.ACCEPT_BUTTON);
                     index--;
                 }
-
-                _buttons = value;
             }
         }
 
@@ -121,7 +107,6 @@ namespace Win_CBZ.Forms
             set
             {
                 ErrorMessageTitle.Text = value;
-                _title = value;
             }
         }
 
@@ -131,7 +116,6 @@ namespace Win_CBZ.Forms
             {
                 TextBoxMessage.Text = value;
                 TextBoxMessage.Select(0, 0);
-                _message = value;
             }
         }
 

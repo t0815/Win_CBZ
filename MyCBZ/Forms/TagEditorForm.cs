@@ -41,8 +41,6 @@ namespace Win_CBZ.Forms
 
         private Point SelectionStart;
 
-        private bool WindowShown;
-
         public TagEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
