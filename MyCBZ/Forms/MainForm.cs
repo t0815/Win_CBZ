@@ -5940,7 +5940,7 @@ namespace Win_CBZ
                 if (e.PageId != null && e.PageId != "")
                 {
                     Page page = Program.ProjectModel.GetPageById(e.PageId);
-                    if (page.Id == ((Page)PagesList.SelectedItem.Tag).Id) 
+                    if (page != null && page.Id == ((Page)PagesList.SelectedItem.Tag).Id) 
                     {
                         updateCtls = RadioApplyAdjustmentsPage.Checked;
                     }

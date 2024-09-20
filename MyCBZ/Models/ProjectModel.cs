@@ -416,6 +416,7 @@ namespace Win_CBZ
 
                                     resultPage.Close();
 
+                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                     AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
                                 }
@@ -426,8 +427,8 @@ namespace Win_CBZ
                                     newPage.ImageTask.ImageAdjustments.SplitPage = false;
                                     newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
                                     newPage.ImageTask.ImageAdjustments.ConvertType = 0;
-                                    
 
+                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                     AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
                                 }
@@ -436,6 +437,9 @@ namespace Win_CBZ
 
                                 index++;
                             }
+
+                            ImageAdjustments resetImageAdjustments = new ImageAdjustments();
+                            AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resetImageAdjustments));
 
                             // if (currentPerformed != e.Task)
                             // {
