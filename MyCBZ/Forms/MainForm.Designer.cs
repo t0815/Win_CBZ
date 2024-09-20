@@ -1354,7 +1354,7 @@ namespace Win_CBZ
             pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox7.TabIndex = 14;
             pictureBox7.TabStop = false;
-            Tooltip.SetToolTip(pictureBox7, "If this is checked, only one of either w or h is allowed for target size!");
+            Tooltip.SetToolTip(pictureBox7, "If this is checked, only one of either WIDTH or HEIGHT is allowed for target size!");
             // 
             // CheckBoxDontStretch
             // 
@@ -1674,7 +1674,7 @@ namespace Win_CBZ
             GroupBoxRotate.Size = new System.Drawing.Size(295, 164);
             GroupBoxRotate.TabIndex = 20;
             GroupBoxRotate.TabStop = false;
-            GroupBoxRotate.Text = "Rotate";
+            GroupBoxRotate.Text = "Rotate (Clockwise)";
             // 
             // RadioButtonRotate270
             // 

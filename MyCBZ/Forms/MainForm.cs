@@ -5502,14 +5502,6 @@ namespace Win_CBZ
 
         }
 
-        private void PictureBoxColorSelect_Click(object sender, EventArgs e)
-        {
-            if (SelectColorDialog.ShowDialog() == DialogResult.OK)
-            {
-                PictureBoxColorSelect.BackColor = SelectColorDialog.Color;
-            }
-        }
-
         private void ToolStripButtonShowRawMetadata_Click(object sender, EventArgs e)
         {
             try
@@ -5815,7 +5807,7 @@ namespace Win_CBZ
             }
             else
             {
-                UpdateImageAdjustments(sender, selected, true);
+                //UpdateImageAdjustments(sender, selected, true);
             }
         }
 
@@ -5831,7 +5823,7 @@ namespace Win_CBZ
                     if (selectedImageTasks != null)
                     {
                         page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
-                        if (page != null)
+                        if (page != null && selectedImageTasks.PageId == page.Id)
                         {
                             page.ImageTask = selectedImageTasks;
                         }
@@ -5846,7 +5838,7 @@ namespace Win_CBZ
 
                     if (page != null)
                     {
-                        if (selectedImageTasks != null)
+                        if (selectedImageTasks != null && selectedImageTasks.PageId == "")
                         {
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
@@ -5924,6 +5916,9 @@ namespace Win_CBZ
                         CheckBoxDontStretch.Checked = selectedImageTasks.ImageAdjustments.DontStretch;
                         TextboxResizePercentage.Text = selectedImageTasks.ImageAdjustments.ResizeToPercentage.ToString();
                         CheckboxKeepAspectratio.Checked = selectedImageTasks.ImageAdjustments.KeepAspectRatio;
+                        PictureBoxColorSelect.BackColor = selectedImageTasks.ImageAdjustments.DetectSplitAtColor;
+                        CheckBoxSplitOnlyIfDoubleSize.Checked = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
+
                     }));
 
                 }
@@ -5948,6 +5943,45 @@ namespace Win_CBZ
                 case "ComboBoxTaskOrderSplit":
                     selectedImageTasks.TaskOrder.Split = (ImageTaskOrderValue)cb.SelectedIndex;
                     break;
+            }
+        }
+
+        private void PictureBoxColorSelect_Click(object sender, EventArgs e)
+        {
+            if (SelectColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                PictureBoxColorSelect.BackColor = SelectColorDialog.Color;
+            }
+
+            Nullable<Color> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.DetectSplitAtColor;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.DetectSplitAtColor;
+                }
+
+                selectedImageTasks.ImageAdjustments.DetectSplitAtColor = PictureBoxColorSelect.BackColor;
+
+                if (oldValue != selectedImageTasks.ImageAdjustments.DetectSplitAtColor)
+                {
+                    if (page != null && selectedImageTasks.PageId == page.Id)
+                    {
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
             }
         }
 
