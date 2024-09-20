@@ -383,7 +383,7 @@ namespace Win_CBZ
                 if (p.ApplyImageProcessing)
                 {
                    
-                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, GlobalImageTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, p.GlobalTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
                     imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                     {
                         AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
@@ -400,8 +400,7 @@ namespace Win_CBZ
                                 //page?.UpdatePage(resultPage);
                                 //page?.UpdateStreams(resultPage);
                                 page?.UpdatePageAttributes(resultPage);
-                                page?.UpdateTemporaryFile(resultPage.TemporaryFile);
-                                page.ThumbnailInvalidated = true;
+                                page?.UpdateTemporaryFile(resultPage.TemporaryFile);                              
                                 //page?.LoadImageInfo(true);
 
 
@@ -427,7 +426,6 @@ namespace Win_CBZ
                                     newPage.ImageTask.ImageAdjustments.SplitPage = false;
                                     newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
                                     newPage.ImageTask.ImageAdjustments.ConvertType = 0;
-
                                     
 
                                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
@@ -998,6 +996,7 @@ namespace Win_CBZ
                             CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token,
                             Pages = Pages,
                             SkipPages = ConversionExcludes.Cast<String>().ToArray(),
+                            GlobalTask = GlobalImageTask
                         }
                     },
                     new StackItem()

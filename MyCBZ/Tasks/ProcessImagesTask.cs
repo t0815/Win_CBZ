@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
@@ -58,10 +59,24 @@ namespace Win_CBZ.Tasks
                     if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
                          page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
-                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0)
+                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0) ||
+                        (page.ImageTask.ImageAdjustments.ResizeMode == 1 && page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
                         )
                     {
-                        page.ImageTask.SetTaskResize();
+                        if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
+                        {
+                            page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
+                            if (page.ImageTask.ImageAdjustments.PageToResizeTo != null)
+                            {
+                                page.ImageTask.ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
+                                page.ImageTask.SetTaskResize();
+                            }
+
+                        }
+                        else
+                        {
+                            page.ImageTask.SetTaskResize();
+                        }
                     }
 
                     if (page.ImageTask.ImageAdjustments.RotateMode > 0)
@@ -91,10 +106,25 @@ namespace Win_CBZ.Tasks
                         if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
                         (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
                          page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
-                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0)
+                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0) ||
+                        (page.ImageTask.ImageAdjustments.ResizeMode == 1 && page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
                         )
                         {
-                            page.ImageTask.SetTaskResize();
+                            
+                            if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
+                            {
+                                page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
+                                if (page.ImageTask.ImageAdjustments.PageToResizeTo != null)
+                                {
+                                    page.ImageTask.ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
+                                    page.ImageTask.SetTaskResize();
+                                }
+
+                            }
+                            else
+                            {
+                                page.ImageTask.SetTaskResize();
+                            }
                         }
 
                         if (page.ImageTask.ImageAdjustments.RotateMode > 0)

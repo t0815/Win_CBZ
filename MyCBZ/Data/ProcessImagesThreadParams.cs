@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Win_CBZ.Models;
 
 namespace Win_CBZ.Data
 {
@@ -16,7 +17,11 @@ namespace Win_CBZ.Data
 
         public string[] SkipPages { get; set; } = new string[0];
 
+        public ImageTask GlobalTask { get; set; }
+
         public List<Page> Pages { get; set; }
+
+        public ProcessImagesThreadParams() { }
 
     }
 }

@@ -35,11 +35,15 @@ namespace Win_CBZ.Models
 
         public float ResizeToPercentage { get; set; }
 
+        public bool SplitOnlyDoublePages { get; set; }
+
         public int ConvertType { get; set; }
 
         public bool DontStretch { get; set; }
 
         public bool Grayscale { get; set; }
+
+        public Page PageToResizeTo { get; set; }
 
         public PageImageFormat ConvertFormat { get; set; }
 

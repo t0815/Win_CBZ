@@ -86,6 +86,7 @@ namespace Win_CBZ
             try
             {
                 Program.ProjectModel = NewProjectModel();
+                selectedImageTasks = new ImageTask("");
             }
             catch (MetaDataValidationException ve)
             {
@@ -263,10 +264,9 @@ namespace Win_CBZ
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
             newProjectModel.CompatibilityMode = Win_CBZSettings.Default.CompatMode;
+            newProjectModel.GlobalImageTask = new ImageTask("");
             newProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
             newProjectModel.GlobalImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
-
-            selectedImageTasks = newProjectModel.GlobalImageTask;
 
             return newProjectModel;
         }
@@ -471,7 +471,7 @@ namespace Win_CBZ
                         {
                             RadioApplyAdjustmentsGlobal.Checked = true;
                             Program.ProjectModel.GlobalImageTask = new ImageTask("");
-                            selectedImageTasks = Program.ProjectModel.GlobalImageTask;
+                            selectedImageTasks = new ImageTask("");
                             TextBoxExcludePagesImageProcessing.Text = "";
                             RenamerExcludePages.Text = "";
                             PageCountStatusLabel.Text = "0 Pages";
@@ -5828,6 +5828,15 @@ namespace Win_CBZ
             {
                 if (selected == "<Global>")
                 {
+                    if (selectedImageTasks != null)
+                    {
+                        page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                        if (page != null)
+                        {
+                            page.ImageTask = selectedImageTasks;
+                        }
+                    }
+
                     selectedImageTasks = Program.ProjectModel.GlobalImageTask;
 
                 }
@@ -5837,6 +5846,11 @@ namespace Win_CBZ
 
                     if (page != null)
                     {
+                        if (selectedImageTasks != null)
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
                         selectedImageTasks = page.ImageTask;
 
                         if (selectedImageTasks == null)

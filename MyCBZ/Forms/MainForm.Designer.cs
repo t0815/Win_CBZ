@@ -150,7 +150,6 @@ namespace Win_CBZ
             TextBoxResizeH = new System.Windows.Forms.TextBox();
             TextBoxResizeW = new System.Windows.Forms.TextBox();
             GroupBoxImageConversion = new System.Windows.Forms.GroupBox();
-            label1 = new System.Windows.Forms.Label();
             ComboBoxConvertPages = new System.Windows.Forms.ComboBox();
             GroupBoxDoublePages = new System.Windows.Forms.GroupBox();
             CheckBoxSplitOnlyIfDoubleSize = new System.Windows.Forms.CheckBox();
@@ -1503,7 +1502,6 @@ namespace Win_CBZ
             // GroupBoxImageConversion
             // 
             TablePanePageAdjustments.SetColumnSpan(GroupBoxImageConversion, 2);
-            GroupBoxImageConversion.Controls.Add(label1);
             GroupBoxImageConversion.Controls.Add(ComboBoxConvertPages);
             GroupBoxImageConversion.Dock = System.Windows.Forms.DockStyle.Fill;
             GroupBoxImageConversion.Location = new System.Drawing.Point(11, 344);
@@ -1512,15 +1510,6 @@ namespace Win_CBZ
             GroupBoxImageConversion.TabIndex = 19;
             GroupBoxImageConversion.TabStop = false;
             GroupBoxImageConversion.Text = "Conversion";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(7, 38);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(50, 20);
-            label1.TabIndex = 25;
-            label1.Text = "label1";
             // 
             // ComboBoxConvertPages
             // 
@@ -2854,7 +2843,6 @@ namespace Win_CBZ
             GroupBoxResize.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox7).EndInit();
             GroupBoxImageConversion.ResumeLayout(false);
-            GroupBoxImageConversion.PerformLayout();
             GroupBoxDoublePages.ResumeLayout(false);
             GroupBoxDoublePages.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -3104,7 +3092,6 @@ namespace Win_CBZ
         private System.Windows.Forms.RadioButton RadioButtonRotate180;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.GroupBox GroupBoxTasksOrder;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
