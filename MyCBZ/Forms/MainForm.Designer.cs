@@ -1554,6 +1554,7 @@ namespace Win_CBZ
             CheckBoxSplitOnlyIfDoubleSize.TabIndex = 11;
             CheckBoxSplitOnlyIfDoubleSize.Text = "Apply only if double size";
             CheckBoxSplitOnlyIfDoubleSize.UseVisualStyleBackColor = true;
+            CheckBoxSplitOnlyIfDoubleSize.CheckedChanged += CheckBoxSplitOnlyIfDoubleSize_CheckedChanged;
             // 
             // pictureBox2
             // 
@@ -1582,6 +1583,7 @@ namespace Win_CBZ
             // PictureBoxColorSelect
             // 
             PictureBoxColorSelect.BackColor = System.Drawing.Color.Black;
+            PictureBoxColorSelect.Cursor = System.Windows.Forms.Cursors.Hand;
             PictureBoxColorSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             PictureBoxColorSelect.Location = new System.Drawing.Point(0, 0);
             PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(2);

@@ -44,6 +44,8 @@ namespace Win_CBZ.Handler
 
         public static event EventHandler<RedrawThumbEvent> RedrawThumbnail;
 
+        public static event EventHandler<ImageAdjustmentsChangedEvent> ImageAdjustmentsChanged;
+
         // delegates definitions
         public delegate void GeneralTaskProgressDelegate(object sender, GeneralTaskProgressEvent e);
 
@@ -139,6 +141,11 @@ namespace Win_CBZ.Handler
         public static void OnMessageLogged(object sender, LogMessageEvent e)
         {
             MessageLogged?.Invoke(sender, e);
+        }
+
+        public static void OnImageAdjustmentsChanged(object sender, ImageAdjustmentsChangedEvent e)
+        {
+            ImageAdjustmentsChanged?.Invoke(sender, e);
         }
     }
 }

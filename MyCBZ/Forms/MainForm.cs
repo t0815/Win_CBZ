@@ -260,6 +260,7 @@ namespace Win_CBZ
             AppEventHandler.GlobalActionRequired += HandleGlobalActionRequired;
             AppEventHandler.GeneralTaskProgress += HandleGlobalTaskProgress;
             AppEventHandler.RedrawThumbnail += OnRedrawThumbnail;
+            AppEventHandler.ImageAdjustmentsChanged += HandleImageAdjustmentsChanged;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -1073,8 +1074,8 @@ namespace Win_CBZ
                                     {
                                         GlobalAlertTableLayout.Visible = false;
                                     }));
-                                }   
-                            }                           
+                                }
+                            }
 
                             //CurrentGlobalAction = null;
                         }
@@ -2713,8 +2714,8 @@ namespace Win_CBZ
                 recentPath = new LocalFile(OpenImagesDialog.FileName);
                 Win_CBZSettings.Default.RecentAddImagePath = recentPath.FilePath;
 
-                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames), 
-                    Win_CBZSettings.Default.CalculateHash, 
+                Program.ProjectModel.ParseFiles(new List<String>(OpenImagesDialog.FileNames),
+                    Win_CBZSettings.Default.CalculateHash,
                     Win_CBZSettings.Default.InterpolationMode,
                     Win_CBZSettings.Default.FilterByExtension,
                     Win_CBZSettings.Default.ImageExtenstionList
@@ -3095,17 +3096,17 @@ namespace Win_CBZ
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_MOVE_ITEMS);
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                AppEventHandler.OnGlobalActionRequired(this, 
-                    new GlobalActionRequiredEvent(Program.ProjectModel, 
-                    GlobalActionRequiredEvent.MESSAGE_TYPE_INFO, 
-                    "Page order changed. Rebuild pageindex now?", 
-                    "Rebuild", 
-                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
-                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
-                        AppEventHandler.OnGeneralTaskProgress, 
-                        AppEventHandler.OnPageChanged, 
-                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, 
-                        false, 
+                AppEventHandler.OnGlobalActionRequired(this,
+                    new GlobalActionRequiredEvent(Program.ProjectModel,
+                    GlobalActionRequiredEvent.MESSAGE_TYPE_INFO,
+                    "Page order changed. Rebuild pageindex now?",
+                    "Rebuild",
+                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                        AppEventHandler.OnGeneralTaskProgress,
+                        AppEventHandler.OnPageChanged,
+                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
+                        false,
                         true
                     )
                 ));
@@ -3313,18 +3314,20 @@ namespace Win_CBZ
             {
                 e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)), e.Bounds);
             }
-            if (fieldType != null) 
+            if (fieldType != null)
             {
                 if (fieldType.AutoCompleteImageKey != null && fieldType.AutoCompleteImageKey.Length > 0)
                 {
                     Image img = AutocompleteIcons.Images[fieldType.AutoCompleteImageKey];
                     e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
                     e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
-                } else
+                }
+                else
                 {
                     e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y + 1));
                 }
-            } else
+            }
+            else
             {
                 e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y + 1));
             }
@@ -3344,11 +3347,11 @@ namespace Win_CBZ
             e.CellStyle = dataGridViewCellStyle;
             if (MetaDataGrid.SelectedCells.Count == 1)
             {
-                
+
                 MetaDataFieldType fieldType = MetaDataGrid.SelectedCells[0].Tag as MetaDataFieldType;
                 if (fieldType != null)
                 {
-                    
+
                     if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                     {
                         ComboBox comboBox = e.Control as ComboBox;
@@ -3381,7 +3384,7 @@ namespace Win_CBZ
                         if (textBox != null)
                         {
                             textBox.Font = new Font("Verdana", 9f, FontStyle.Regular);
-                            
+
                             textBox.KeyDown += DataGridTextBoxKeyDown;
 
                             var items = new List<AutocompleteItem>();
@@ -3694,7 +3697,7 @@ namespace Win_CBZ
                                         //c.DisplayStyle = isAutoComplete ? DataGridViewComboBoxDisplayStyle.DropDownButton : DataGridViewComboBoxDisplayStyle.ComboBox;
                                         //c.DisplayStyleForCurrentCellOnly = isAutoComplete;
 
-                                        
+
                                         MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows[i].Cells[1] = c));
                                     }
                                     else if (entry.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
@@ -3919,7 +3922,7 @@ namespace Win_CBZ
                 { // && fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE) {
                   //DataGridViewTextBoxCell textCell = senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
                   //value = textCell.Value?.ToString();
-                  if (Win_CBZSettings.Default.MetadataGridInstantEditMode)
+                    if (Win_CBZSettings.Default.MetadataGridInstantEditMode)
                     {
                         senderGrid.BeginEdit(false);
                     }
@@ -4619,17 +4622,17 @@ namespace Win_CBZ
 
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
-                AppEventHandler.OnGlobalActionRequired(this, 
-                    new GlobalActionRequiredEvent(Program.ProjectModel, 
-                        0, 
-                        "Page order changed. Rebuild pageindex now?", 
-                        "Rebuild", 
-                        GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
-                        UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
-                            AppEventHandler.OnGeneralTaskProgress, 
-                            AppEventHandler.OnPageChanged, 
-                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, 
-                            false, 
+                AppEventHandler.OnGlobalActionRequired(this,
+                    new GlobalActionRequiredEvent(Program.ProjectModel,
+                        0,
+                        "Page order changed. Rebuild pageindex now?",
+                        "Rebuild",
+                        GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                        UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                            AppEventHandler.OnGeneralTaskProgress,
+                            AppEventHandler.OnPageChanged,
+                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
+                            false,
                             true
                         )
                     )
@@ -4659,15 +4662,15 @@ namespace Win_CBZ
                         {
                             String gid = Guid.NewGuid().ToString();
 
-                            AppEventHandler.OnGlobalActionRequired(null, 
-                                new GlobalActionRequiredEvent(Program.ProjectModel, 
-                                    0, 
-                                    "Page type changed. Rebuild pageindex now?", 
-                                    "Rebuild", 
-                                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
-                                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
-                                        AppEventHandler.OnGeneralTaskProgress, 
-                                        AppEventHandler.OnPageChanged, 
+                            AppEventHandler.OnGlobalActionRequired(null,
+                                new GlobalActionRequiredEvent(Program.ProjectModel,
+                                    0,
+                                    "Page type changed. Rebuild pageindex now?",
+                                    "Rebuild",
+                                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                                        AppEventHandler.OnGeneralTaskProgress,
+                                        AppEventHandler.OnPageChanged,
                                         TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                         false,
                                         true
@@ -5019,15 +5022,15 @@ namespace Win_CBZ
                 {
                     TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
-                    AppEventHandler.OnGlobalActionRequired(this, 
-                        new GlobalActionRequiredEvent(Program.ProjectModel, 
-                            0, 
-                            indexRebuildMessage, 
-                            "Rebuild", 
-                            GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
-                            UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
-                                AppEventHandler.OnGeneralTaskProgress, 
-                                AppEventHandler.OnPageChanged, 
+                    AppEventHandler.OnGlobalActionRequired(this,
+                        new GlobalActionRequiredEvent(Program.ProjectModel,
+                            0,
+                            indexRebuildMessage,
+                            "Rebuild",
+                            GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                            UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                                AppEventHandler.OnGeneralTaskProgress,
+                                AppEventHandler.OnPageChanged,
                                 TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                 false,
                                 true
@@ -5200,18 +5203,18 @@ namespace Win_CBZ
                 try
                 {
                     if (PagesList.SelectedItems.Count > 1)
-                    {                   
+                    {
                         TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
-                        AppEventHandler.OnGlobalActionRequired(this, 
-                            new GlobalActionRequiredEvent(Program.ProjectModel, 
-                                0, 
-                                "Page type changed. Rebuild pageindex now?", 
-                                "Rebuild", 
-                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
-                                UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, 
-                                    AppEventHandler.OnGeneralTaskProgress, 
-                                    AppEventHandler.OnPageChanged, 
+                        AppEventHandler.OnGlobalActionRequired(this,
+                            new GlobalActionRequiredEvent(Program.ProjectModel,
+                                0,
+                                "Page type changed. Rebuild pageindex now?",
+                                "Rebuild",
+                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                                UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                                    AppEventHandler.OnGeneralTaskProgress,
+                                    AppEventHandler.OnPageChanged,
                                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                     false,
                                     true
@@ -5288,7 +5291,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.WriteXmlPageIndex = settingsDialog.WriteXMLPageIndex;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
-                
+
 
                 Win_CBZSettings.Default.CustomMetadataFields.Clear();
                 foreach (String line in settingsDialog.CustomFieldTypesCollection)
@@ -5300,7 +5303,7 @@ namespace Win_CBZ
 
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.ConvertType = Win_CBZSettings.Default.ImageConversionMode;
                 Program.ProjectModel.GlobalImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(Win_CBZSettings.Default.InterpolationMode);
-                
+
 
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS);
 
@@ -5928,6 +5931,44 @@ namespace Win_CBZ
             }
         }
 
+        private void HandleImageAdjustmentsChanged(object sender, ImageAdjustmentsChangedEvent e)
+        {
+            Invoke(() =>
+            {
+                bool updateCtls = false;
+
+                if (e.PageId != null && e.PageId != "")
+                {
+                    Page page = Program.ProjectModel.GetPageById(e.PageId);
+                    if (page.Id == ((Page)PagesList.SelectedItem.Tag).Id) 
+                    {
+                        updateCtls = RadioApplyAdjustmentsPage.Checked;
+                    }
+                }
+                else
+                {
+                    updateCtls = RadioApplyAdjustmentsGlobal.Checked;
+                }
+
+                if (updateCtls)
+                {
+                    CheckBoxSplitDoublePages.Checked = e.ImageAdjustments.SplitPage;
+                    TextBoxSplitPageAt.Text = e.ImageAdjustments.SplitPageAt.ToString();
+                    ComboBoxSplitAtType.SelectedIndex = e.ImageAdjustments.SplitType;
+                    TextBoxResizePageIndexReference.Text = e.ImageAdjustments.ResizeToPageNumber.ToString();
+                    TextBoxResizeW.Text = e.ImageAdjustments.ResizeTo.X.ToString();
+                    TextBoxResizeH.Text = e.ImageAdjustments.ResizeTo.Y.ToString();
+                    ComboBoxConvertPages.SelectedIndex = e.ImageAdjustments.ConvertType;
+                    CheckBoxDontStretch.Checked = e.ImageAdjustments.DontStretch;
+                    TextboxResizePercentage.Text = e.ImageAdjustments.ResizeToPercentage.ToString();
+                    CheckboxKeepAspectratio.Checked = e.ImageAdjustments.KeepAspectRatio;
+                    PictureBoxColorSelect.BackColor = e.ImageAdjustments.DetectSplitAtColor;
+                    CheckBoxSplitOnlyIfDoubleSize.Checked = e.ImageAdjustments.SplitOnlyDoublePages;
+
+                }
+            });
+        }
+
         private void ComboBoxTaskOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             var cb = sender as ComboBox;
@@ -5971,6 +6012,40 @@ namespace Win_CBZ
                 selectedImageTasks.ImageAdjustments.DetectSplitAtColor = PictureBoxColorSelect.BackColor;
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.DetectSplitAtColor)
+                {
+                    if (page != null && selectedImageTasks.PageId == page.Id)
+                    {
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void CheckBoxSplitOnlyIfDoubleSize_CheckedChanged(object sender, EventArgs e)
+        {
+            Nullable<bool> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.KeepAspectRatio;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
+                }
+
+                selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages = CheckBoxSplitDoublePages.Checked;
+
+                if (oldValue != selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages)
                 {
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
@@ -6936,22 +7011,21 @@ namespace Win_CBZ
                                     newPage?.FreeImage();
                                 }
                             }
-
                         }
                     }
 
                     if (pagesUpdated > 0)
                     {
 
-                        AppEventHandler.OnGlobalActionRequired(this, 
-                            new GlobalActionRequiredEvent(Program.ProjectModel, 
-                                0, 
-                                "Page order changed. Rebuild pageindex now?", 
-                                "Rebuild", 
-                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, 
+                        AppEventHandler.OnGlobalActionRequired(this,
+                            new GlobalActionRequiredEvent(Program.ProjectModel,
+                                0,
+                                "Page order changed. Rebuild pageindex now?",
+                                "Rebuild",
+                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
                                 UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
-                                    AppEventHandler.OnGeneralTaskProgress, 
-                                    AppEventHandler.OnPageChanged, 
+                                    AppEventHandler.OnGeneralTaskProgress,
+                                    AppEventHandler.OnPageChanged,
                                     TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token,
                                     false,
                                     true
@@ -7094,7 +7168,7 @@ namespace Win_CBZ
             if (FileNameLabel.Text.Length > 0)
             {
                 LocalFile helper = new LocalFile(FileNameLabel.Text);
-                // helper.FilePath
+
                 if (helper.Exists())
                 {
                     Process.Start(new ProcessStartInfo(helper.FilePath) { UseShellExecute = true });
@@ -7134,6 +7208,6 @@ namespace Win_CBZ
 
         }
 
-        
+
     }
 }
