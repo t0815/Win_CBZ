@@ -1577,7 +1577,6 @@
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Application Configuration";
             FormClosing += SettingsDialog_FormClosing;
-            Load += SettingsDialog_Load;
             Shown += SettingsDialog_Shown;
             SettingsTablePanel.ResumeLayout(false);
             HeaderPanel.ResumeLayout(false);

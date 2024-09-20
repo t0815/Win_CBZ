@@ -291,22 +291,14 @@ namespace Win_CBZ.Forms
 
         private void PopulateFieldTypeEditor()
         {
-            //CustomFieldTypesSettings.Clear();
+
             CustomFieldsDataGrid.Rows.Clear();
             foreach (MetaDataFieldType type in CustomFieldTypesSettings)
             {
-                //String[] typeParts = line.Split('|');
-
-                //if (typeParts.Length == 5)
-                //{
-                //CustomFieldTypesSettings.Add(new MetaDataFieldType(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoUpdate));
+                
                 CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoCompleteImageKey, type.MultiValued, type.MultiValueSeparator, type.AutoUpdate);
-
-                // }
             }
 
-
-            // DataGridViewCellStyle currentStyle = null;
 
             for (int i = 0; i < CustomFieldsDataGrid.RowCount; i++)
             {
@@ -348,14 +340,6 @@ namespace Win_CBZ.Forms
                                 SelectionBackColor = Color.Gold,
                                 BackColor = Color.White,
                             };
-
-                            //c.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                            ///c.DisplayStyleForCurrentCellOnly = true;
-                            //c.Style = new DataGridViewCellStyle()
-                            //{
-                            //    SelectionForeColor = Color.Black,
-                            //    SelectionBackColor = ((i + 1) % 2 > 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
-                            //};
 
                             CustomFieldsDataGrid.Rows[i].Cells[2] = cc;
 
@@ -751,11 +735,6 @@ namespace Win_CBZ.Forms
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
             }
-        }
-
-        private void SettingsDialog_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void CustomFieldsDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
