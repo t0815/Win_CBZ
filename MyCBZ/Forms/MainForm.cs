@@ -1136,8 +1136,18 @@ namespace Win_CBZ
             {
                 Invoke(new Action(() =>
                 {
-                    ThumbnailPagesSlice.Add(e.Page);
-                    RequestImageInfoSlice();
+                    e.Page.ThumbnailInvalidated = true;
+                    int pageIndex = PageThumbsListBox.Items.IndexOf(e.Page);
+                    if (pageIndex > -1)
+                    {
+                        if (PageImages.Images.ContainsKey(e.Page.Id))
+                        {
+                            PageImages.Images.RemoveByKey(e.Page.Id);
+                        }
+                        PageThumbsListBox.Items[pageIndex] = e.Page;
+                    }
+                    PageThumbsListBox.Invalidate();
+                    PageThumbsListBox.Refresh();
                 }));
             }
         }
@@ -1261,7 +1271,7 @@ namespace Win_CBZ
                         {
                             try
                             {
-                                if (!page.Closed)
+                                if (!page.Closed && !page.Deleted)
                                 {
                                     if (!PageImages.Images.ContainsKey(page.Id))
                                     {
@@ -5940,7 +5950,7 @@ namespace Win_CBZ
                 if (e.PageId != null && e.PageId != "")
                 {
                     Page page = Program.ProjectModel.GetPageById(e.PageId);
-                    if (page != null && page.Id == ((Page)PagesList.SelectedItem.Tag).Id) 
+                    if (page != null && PagesList.SelectedItem != null && page.Id == ((Page)PagesList.SelectedItem.Tag).Id) 
                     {
                         updateCtls = RadioApplyAdjustmentsPage.Checked;
                     }

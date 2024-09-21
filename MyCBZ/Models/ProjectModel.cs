@@ -396,41 +396,48 @@ namespace Win_CBZ
 
                             foreach (Page resultPage in r.Result.Pages)
                             {
-                                page = GetPageById(resultPage.Id);
-                                //page?.UpdatePage(resultPage);
-                                //page?.UpdateStreams(resultPage);
-                                page?.UpdatePageAttributes(resultPage);
-                                page?.UpdateTemporaryFile(resultPage.TemporaryFile);                              
-                                //page?.LoadImageInfo(true);
-
-
-                                if (page != null)
+                                try
                                 {
-                                    //page.Name = resultPage.Name;
-                                    //page.Format = resultPage.Format;
-                                    page.Size = resultPage.Size;
-                                    page.ImageTask.ImageAdjustments.SplitPage = false;
-                                    page.ImageTask.ImageAdjustments.ResizeMode = -1;
-                                    page.ImageTask.ImageAdjustments.ConvertType = 0;
-                                    page.ThumbnailInvalidated = true;
+                                    page = GetPageById(resultPage.Id);
+                                    //page?.UpdatePage(resultPage);
+                                    //page?.UpdateStreams(resultPage);
+                                    page?.UpdatePageAttributes(resultPage);
+                                    page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                    //page?.LoadImageInfo(true);
 
-                                    resultPage.Close();
 
-                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
-                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                                    AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
-                                }
-                                else
+                                    if (page != null)
+                                    {
+                                        //page.Name = resultPage.Name;
+                                        //page.Format = resultPage.Format;
+                                        page.Size = resultPage.Size;
+                                        page.ImageTask.ImageAdjustments.SplitPage = false;
+                                        page.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                        page.ImageTask.ImageAdjustments.ConvertType = 0;
+                                        page.ThumbnailInvalidated = true;
+
+                                        resultPage.Close();
+
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
+                                    }
+                                    else
+                                    {
+
+                                        Page newPage = AddPage(resultPage, resultPage.Index);
+                                        newPage.ImageTask.ImageAdjustments.SplitPage = false;
+                                        newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                        newPage.ImageTask.ImageAdjustments.ConvertType = 0;
+
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage.Id));
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
+                                    }
+                                } catch (Exception e)
                                 {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error updating result images! [" + e.Message + "]");
 
-                                    Page newPage = AddPage(resultPage, resultPage.Index);
-                                    newPage.ImageTask.ImageAdjustments.SplitPage = false;
-                                    newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
-                                    newPage.ImageTask.ImageAdjustments.ConvertType = 0;
-
-                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
-                                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
-                                    AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
                                 }
 
                                 AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_PROCESS_IMAGE, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating processed pages...", index, r.Result.Pages.Count, false));
