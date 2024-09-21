@@ -12,13 +12,9 @@ using System.Reflection;
 using Win_CBZ.Forms;
 using System.Threading;
 using System.IO;
-using System.Collections.Specialized;
-using System.Collections;
 using Win_CBZ.Data;
 using Win_CBZ.Tasks;
-using System.Security.Policy;
 using Win_CBZ.Models;
-using System.Windows.Input;
 using System.Runtime.CompilerServices;
 using Win_CBZ.Exceptions;
 using Win_CBZ.Helper;
@@ -4660,6 +4656,42 @@ namespace Win_CBZ
 
         private void TypeSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            if (sender is ToolStripMenuItem)
+            {
+                if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
+                {
+                    DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to define individual pagetypes. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                    return;
+                }
+
+                if (Win_CBZSettings.Default.WriteXmlPageIndex && !Program.ProjectModel.MetaData.Exists())
+                {
+                    DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (" + Win_CBZSettings.Default.MetaDataFilename + ") in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                    if (res == DialogResult.Yes)
+                    {
+                        BtnAddMetaData_Click(sender, null);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
+                {
+                    return;
+                }
+
+                if (Win_CBZSettings.Default.WriteXmlPageIndex && !Program.ProjectModel.MetaData.Exists())
+                {
+                    return;
+                }
+            }
+
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
                 if (sender is ToolStripMenuItem)
@@ -5203,7 +5235,7 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
             {
-                DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to define individual pagetypes. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to define individual pagetypes. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
                 
                 return;
             }
