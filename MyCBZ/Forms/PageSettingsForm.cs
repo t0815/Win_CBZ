@@ -24,6 +24,8 @@ namespace Win_CBZ.Forms
     internal partial class PageSettingsForm : Form
     {
 
+        bool formShown = false;
+
         List<Page> Pages;
         List<Page> SelectedPages;
         Page FirstPage;
@@ -613,8 +615,8 @@ namespace Win_CBZ.Forms
                     bool realMemoryCopyState = p.IsMemoryCopy;
                     //try
                     //{
-                        pageList = new Page(p, true, false);
-                        pageList?.UpdatePageAttributes(p);
+                    pageList = new Page(p, true, false);
+                    pageList?.UpdatePageAttributes(p);
 
                     if (pageList != null)
                     {
@@ -624,10 +626,10 @@ namespace Win_CBZ.Forms
                     //}
                     //catch (PageException pe)
                     //{
-                        //if (pe.ShowErrorDialog && SelectedPages.Count == 1) 
-                        //{
-                        //    ApplicationMessage.ShowException(pe);
-                        //}
+                    //if (pe.ShowErrorDialog && SelectedPages.Count == 1) 
+                    //{
+                    //    ApplicationMessage.ShowException(pe);
+                    //}
 
 
                     //}
@@ -665,7 +667,7 @@ namespace Win_CBZ.Forms
                 }
                 else
                 {
-                    
+
                 }
 
                 return Tuple.Create<Page, Bitmap, List<Page>>(null, null, t.Result);
@@ -695,7 +697,7 @@ namespace Win_CBZ.Forms
                                 }
                             }));
                         }
-                        
+
                         bool deletedState = false;
                         bool doublePageState = false;
                         bool compressedState = false;
@@ -897,22 +899,23 @@ namespace Win_CBZ.Forms
                     {
                         //Invoke(new Action(() =>
                         //{
-                            //ButtonOk.Enabled = false;
-                            if (t.Exception.InnerExceptions.Count > 0)
+                        //ButtonOk.Enabled = false;
+                        if (t.Exception.InnerExceptions.Count > 0)
+                        {
+                            try
                             {
-                                try
+                                if ((t.Exception.InnerExceptions[0] as ApplicationException).ShowErrorDialog)
                                 {
-                                    if ((t.Exception.InnerExceptions[0] as ApplicationException).ShowErrorDialog)
-                                    {
-                                        ApplicationMessage.ShowException(t.Exception.InnerExceptions[0]);
-                                    }
-                                } catch (Exception)
-                                {
-                                    ApplicationMessage.ShowException(t.Exception.InnerException);
+                                    ApplicationMessage.ShowException(t.Exception.InnerExceptions[0]);
                                 }
                             }
+                            catch (Exception)
+                            {
+                                ApplicationMessage.ShowException(t.Exception.InnerException);
+                            }
+                        }
 
-                            
+
                         //}));
 
                         return false;
@@ -922,7 +925,7 @@ namespace Win_CBZ.Forms
                 {
                     //Invoke(new Action(() =>
                     //{
-                        ApplicationMessage.ShowException(ee);
+                    ApplicationMessage.ShowException(ee);
                     //}));
 
                     return false;
@@ -937,6 +940,7 @@ namespace Win_CBZ.Forms
 
             Task finalTask = uddateImageMetadata.ContinueWith(t =>
             {
+                formShown = true;
                 if (t.IsCompletedSuccessfully && t.Result)
                 {
                     Invoke(new Action(() =>
@@ -1026,6 +1030,41 @@ namespace Win_CBZ.Forms
             }
             */
 
+        }
+
+        private void ComboBoxPageType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!formShown)
+            {
+                return;
+            }
+
+            if (ComboBoxPageType.Tag != null && (int)ComboBoxPageType.Tag == 1)
+            {
+                ComboBoxPageType.Tag = null;
+                return;
+            }
+
+            if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to define individual pagetypes. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                ComboBoxPageType.Tag = 1;
+                ComboBoxPageType.Text = "Story";
+
+
+                return;
+            }
+
+            if (Win_CBZSettings.Default.WriteXmlPageIndex && !Program.ProjectModel.MetaData.Exists())
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (" + Win_CBZSettings.Default.MetaDataFilename + ") in order to define individual pagetypes. Add a new set of Metadata first.", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                ComboBoxPageType.Tag = 1;
+                ComboBoxPageType.Text = "Story";
+                return;
+                
+            }
         }
     }
 }

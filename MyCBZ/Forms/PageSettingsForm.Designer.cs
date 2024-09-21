@@ -721,6 +721,7 @@
             ComboBoxPageType.Name = "ComboBoxPageType";
             ComboBoxPageType.Size = new System.Drawing.Size(203, 28);
             ComboBoxPageType.TabIndex = 27;
+            ComboBoxPageType.SelectedIndexChanged += ComboBoxPageType_SelectedIndexChanged;
             ComboBoxPageType.TextUpdate += ComboBoxPageType_TextUpdate;
             ComboBoxPageType.TextChanged += ComboBoxPageType_TextChanged;
             // 
