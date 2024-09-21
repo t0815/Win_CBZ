@@ -297,7 +297,7 @@ namespace Win_CBZ
 
                 // ---------------------------- DEBUG --------------------------------
                 DebugToolsToolStripMenuItem.Visible = Program.DebugMode;
-                
+
 
                 // -------------------------------------------------------------------
 
@@ -5188,7 +5188,7 @@ namespace Win_CBZ
 
         private void ToolButtonSetPageType_ButtonClick(object sender, EventArgs e)
         {
-            if (!Program.ProjectModel.MetaData.Exists())
+            if (Win_CBZSettings.Default.WriteXmlPageIndex && !Program.ProjectModel.MetaData.Exists())
             {
                 DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (" + Win_CBZSettings.Default.MetaDataFilename + ") in order to define individual pagetypes. Add a new set of Metadata now?", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
                 if (res == DialogResult.Yes)
@@ -5199,6 +5199,13 @@ namespace Win_CBZ
                 {
                     return;
                 }
+            }
+
+            if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to define individual pagetypes. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                
+                return;
             }
 
             foreach (ListViewItem item in PagesList.SelectedItems)
@@ -5934,7 +5941,7 @@ namespace Win_CBZ
                         CheckboxKeepAspectratio.Checked = selectedImageTasks.ImageAdjustments.KeepAspectRatio;
                         PictureBoxColorSelect.BackColor = selectedImageTasks.ImageAdjustments.DetectSplitAtColor;
                         CheckBoxSplitOnlyIfDoubleSize.Checked = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
-
+                        CheckBoxSplitDoublepagesFirst.Checked = selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
                     }));
 
                 }
@@ -5950,7 +5957,7 @@ namespace Win_CBZ
                 if (e.PageId != null && e.PageId != "")
                 {
                     Page page = Program.ProjectModel.GetPageById(e.PageId);
-                    if (page != null && PagesList.SelectedItem != null && page.Id == ((Page)PagesList.SelectedItem.Tag).Id) 
+                    if (page != null && PagesList.SelectedItem != null && page.Id == ((Page)PagesList.SelectedItem.Tag).Id)
                     {
                         updateCtls = RadioApplyAdjustmentsPage.Checked;
                     }
@@ -5974,7 +5981,7 @@ namespace Win_CBZ
                     CheckboxKeepAspectratio.Checked = e.ImageAdjustments.KeepAspectRatio;
                     PictureBoxColorSelect.BackColor = e.ImageAdjustments.DetectSplitAtColor;
                     CheckBoxSplitOnlyIfDoubleSize.Checked = e.ImageAdjustments.SplitOnlyDoublePages;
-
+                    CheckBoxSplitDoublepagesFirst.Checked = e.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
                 }
             });
         }
@@ -6022,6 +6029,40 @@ namespace Win_CBZ
                 selectedImageTasks.ImageAdjustments.DetectSplitAtColor = PictureBoxColorSelect.BackColor;
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.DetectSplitAtColor)
+                {
+                    if (page != null && selectedImageTasks.PageId == page.Id)
+                    {
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
+        private void CheckBoxSplitDoublepagesFirst_CheckedChanged(object sender, EventArgs e)
+        {
+            Nullable<bool> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                }
+
+                selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage = CheckBoxSplitDoublepagesFirst.Checked;
+
+                if (oldValue != selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages)
                 {
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
@@ -7217,7 +7258,5 @@ namespace Win_CBZ
         {
 
         }
-
-
     }
 }

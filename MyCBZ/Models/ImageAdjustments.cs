@@ -43,6 +43,8 @@ namespace Win_CBZ.Models
 
         public bool Grayscale { get; set; }
 
+        public bool SplitDoublePagesFirstResizingToPage { get; set; }
+
         public Page PageToResizeTo { get; set; }
 
         public PageImageFormat ConvertFormat { get; set; }
