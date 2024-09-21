@@ -297,7 +297,7 @@ namespace Win_CBZ
 
                 // ---------------------------- DEBUG --------------------------------
                 DebugToolsToolStripMenuItem.Visible = Program.DebugMode;
-                CheckBoxSplitDoublePages.Enabled = Program.DebugMode;
+                
 
                 // -------------------------------------------------------------------
 
