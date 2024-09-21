@@ -5236,7 +5236,7 @@ namespace Win_CBZ
             if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
             {
                 DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to define individual pagetypes. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
-                
+
                 return;
             }
 
@@ -6078,6 +6078,45 @@ namespace Win_CBZ
             }
         }
 
+        private void CheckboxIgnoreDoublePages_CheckedChanged(object sender, EventArgs e)
+        {
+            Nullable<bool> oldValue;
+
+            if (selectedImageTasks != null)
+            {
+                Page selectedPage = PagesList.SelectedItem?.Tag as Page;
+                Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                oldValue = page?.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
+                if (oldValue == null)
+                {
+                    oldValue = selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage;
+                }
+
+                selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage = CheckboxIgnoreDoublePages.Checked;
+
+                if (CheckboxIgnoreDoublePages.Checked)
+                {
+                    CheckBoxSplitDoublepagesFirst.Checked = !CheckboxIgnoreDoublePages.Checked;
+                }
+
+                if (oldValue != selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage)
+                {
+                    if (page != null && selectedImageTasks.PageId == page.Id)
+                    {
+                        if (selectedImageTasks.PageId == "")
+                        {
+                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                        }
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+            }
+        }
+
         private void CheckBoxSplitDoublepagesFirst_CheckedChanged(object sender, EventArgs e)
         {
             Nullable<bool> oldValue;
@@ -6093,6 +6132,11 @@ namespace Win_CBZ
                 }
 
                 selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage = CheckBoxSplitDoublepagesFirst.Checked;
+
+                if (CheckBoxSplitDoublepagesFirst.Checked)
+                {
+                    CheckboxIgnoreDoublePages.Checked = !CheckBoxSplitDoublepagesFirst.Checked;
+                }
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages)
                 {

@@ -22,6 +22,7 @@ using System.Threading;
 using Win_CBZ.Data;
 using Win_CBZ.Handler;
 using Win_CBZ.Tasks;
+using static System.Windows.Forms.AxHost;
 
 
 namespace Win_CBZ
@@ -784,6 +785,32 @@ namespace Win_CBZ
                         }
                     }
 
+                    if (subNode.Name == "TaskOrder")
+                    {
+                        foreach (XmlNode subNode2 in subNode.ChildNodes)
+                        {
+                            if (subNode2.Name == "Resize")
+                            {
+                                ImageTask.TaskOrder.Resize = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                            }
+
+                            if (subNode2.Name == "Rotate")
+                            {
+                                ImageTask.TaskOrder.Rotate = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                            }
+
+                            if (subNode2.Name == "Convert")
+                            {
+                                ImageTask.TaskOrder.Convert = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                            }
+
+                            if (subNode2.Name == "Split")
+                            {
+                                ImageTask.TaskOrder.Split = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                            }
+                        }
+                    }
+
                     if (subNode.Name == "ImageAdjustments")
                     {
                         ImageTask.ImageAdjustments = new ImageAdjustments();
@@ -867,6 +894,21 @@ namespace Win_CBZ
                             if (subNode2.Name == "Interpolation")
                             {
                                 ImageTask.ImageAdjustments.Interpolation = (InterpolationMode)Enum.Parse(typeof(InterpolationMode), subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "SplitDoublePagesFirstResizingToPage")
+                            {
+                                ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage = bool.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "SplitOnlyDoublePages")
+                            {
+                                ImageTask.ImageAdjustments.SplitOnlyDoublePages = bool.Parse(subNode2.InnerText);
+                            }
+
+                            if (subNode2.Name == "IgnoreDoublePagesResizingToPage")
+                            {
+                                ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage = bool.Parse(subNode2.InnerText);
                             }
                         }
                     }                  
@@ -1438,12 +1480,21 @@ namespace Win_CBZ
                 xmlWriter.WriteStartElement("ImageTask");
                 xmlWriter.WriteElementString("TaskCount", ImageTask.TaskCount().ToString());
                 xmlWriter.WriteStartElement("Tasks");
-                
+
                 foreach (String task in ImageTask.Tasks)
                 {
                     xmlWriter.WriteElementString("Task", task.ToString());
                 }
-                
+
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("TaskOrder");
+                xmlWriter.WriteElementString("Convert", ImageTask.TaskOrder.Convert.ToString());
+                xmlWriter.WriteElementString("Resize", ImageTask.TaskOrder.Resize.ToString());
+                xmlWriter.WriteElementString("Rotate", ImageTask.TaskOrder.Rotate.ToString());
+                xmlWriter.WriteElementString("Split", ImageTask.TaskOrder.Split.ToString());
+
+
                 xmlWriter.WriteEndElement();
 
                 xmlWriter.WriteStartElement("ImageAdjustments");
@@ -1455,6 +1506,10 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("DetectSplitAtColor", HTMLColor.ToHexColor(ImageTask.ImageAdjustments.DetectSplitAtColor));
                 xmlWriter.WriteElementString("KeepAspectRatio", ImageTask.ImageAdjustments.KeepAspectRatio.ToString());
                 xmlWriter.WriteElementString("ResizeToPercentage", ImageTask.ImageAdjustments.ResizeToPercentage.ToString());
+
+                xmlWriter.WriteElementString("SplitDoublePagesFirstResizingToPage", ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage.ToString());
+                xmlWriter.WriteElementString("SplitOnlyDoublePages", ImageTask.ImageAdjustments.SplitOnlyDoublePages.ToString());
+                xmlWriter.WriteElementString("IgnoreDoublePagesResizingToPage", ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage.ToString());
 
                 xmlWriter.WriteElementString("DontStretch", ImageTask.ImageAdjustments.DontStretch.ToString());
                 xmlWriter.WriteElementString("Grayscale", ImageTask.ImageAdjustments.Grayscale.ToString());

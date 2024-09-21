@@ -135,6 +135,7 @@ namespace Win_CBZ
             RadioApplyAdjustmentsPage = new System.Windows.Forms.RadioButton();
             GetImageProcessExcludesFromSelectedButton = new System.Windows.Forms.Button();
             GroupBoxResize = new System.Windows.Forms.GroupBox();
+            CheckboxIgnoreDoublePages = new System.Windows.Forms.CheckBox();
             CheckBoxSplitDoublepagesFirst = new System.Windows.Forms.CheckBox();
             label1 = new System.Windows.Forms.Label();
             pictureBox7 = new System.Windows.Forms.PictureBox();
@@ -1321,6 +1322,7 @@ namespace Win_CBZ
             // GroupBoxResize
             // 
             TablePanePageAdjustments.SetColumnSpan(GroupBoxResize, 2);
+            GroupBoxResize.Controls.Add(CheckboxIgnoreDoublePages);
             GroupBoxResize.Controls.Add(CheckBoxSplitDoublepagesFirst);
             GroupBoxResize.Controls.Add(label1);
             GroupBoxResize.Controls.Add(pictureBox7);
@@ -1347,15 +1349,27 @@ namespace Win_CBZ
             GroupBoxResize.TabStop = false;
             GroupBoxResize.Text = "Resize";
             // 
+            // CheckboxIgnoreDoublePages
+            // 
+            CheckboxIgnoreDoublePages.AutoSize = true;
+            CheckboxIgnoreDoublePages.Enabled = false;
+            CheckboxIgnoreDoublePages.Location = new System.Drawing.Point(61, 128);
+            CheckboxIgnoreDoublePages.Name = "CheckboxIgnoreDoublePages";
+            CheckboxIgnoreDoublePages.Size = new System.Drawing.Size(154, 24);
+            CheckboxIgnoreDoublePages.TabIndex = 17;
+            CheckboxIgnoreDoublePages.Text = "Skip double pages";
+            CheckboxIgnoreDoublePages.UseVisualStyleBackColor = true;
+            CheckboxIgnoreDoublePages.CheckedChanged += CheckboxIgnoreDoublePages_CheckedChanged;
+            // 
             // CheckBoxSplitDoublepagesFirst
             // 
             CheckBoxSplitDoublepagesFirst.AutoSize = true;
             CheckBoxSplitDoublepagesFirst.Enabled = false;
             CheckBoxSplitDoublepagesFirst.Location = new System.Drawing.Point(61, 95);
             CheckBoxSplitDoublepagesFirst.Name = "CheckBoxSplitDoublepagesFirst";
-            CheckBoxSplitDoublepagesFirst.Size = new System.Drawing.Size(189, 24);
+            CheckBoxSplitDoublepagesFirst.Size = new System.Drawing.Size(185, 24);
             CheckBoxSplitDoublepagesFirst.TabIndex = 16;
-            CheckBoxSplitDoublepagesFirst.Text = "Split Double-pages first";
+            CheckBoxSplitDoublepagesFirst.Text = "Split double pages first";
             CheckBoxSplitDoublepagesFirst.UseVisualStyleBackColor = true;
             CheckBoxSplitDoublepagesFirst.CheckedChanged += CheckBoxSplitDoublepagesFirst_CheckedChanged;
             // 
@@ -1569,7 +1583,7 @@ namespace Win_CBZ
             GroupBoxDoublePages.Size = new System.Drawing.Size(297, 216);
             GroupBoxDoublePages.TabIndex = 6;
             GroupBoxDoublePages.TabStop = false;
-            GroupBoxDoublePages.Text = "Split Double-Pages";
+            GroupBoxDoublePages.Text = "Split Double Pages";
             // 
             // CheckBoxSplitOnlyIfDoubleSize
             // 
@@ -3159,6 +3173,7 @@ namespace Win_CBZ
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox CheckBoxSplitDoublepagesFirst;
         private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.CheckBox CheckboxIgnoreDoublePages;
     }
 }
 

@@ -66,12 +66,15 @@ namespace Win_CBZ.Tasks
                         if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
                         {
                             page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
-                            if (page.ImageTask.ImageAdjustments.PageToResizeTo != null)
+                            if (page.ImageTask.ImageAdjustments.PageToResizeTo != null &&
+                                page.ImageTask.ImageAdjustments.PageToResizeTo.Format != null &&
+                                (page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W < page.Format.W ||
+                                page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H < page.Format.H)
+                            )
                             {
                                 page.ImageTask.ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
                                 page.ImageTask.SetTaskResize();
                             }
-
                         }
                         else
                         {
@@ -114,7 +117,11 @@ namespace Win_CBZ.Tasks
                             if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
                             {
                                 page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
-                                if (page.ImageTask.ImageAdjustments.PageToResizeTo != null)
+                                if (page.ImageTask.ImageAdjustments.PageToResizeTo != null &&
+                                    page.ImageTask.ImageAdjustments.PageToResizeTo.Format != null &&
+                                    (page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W < page.Format.W ||
+                                    page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H < page.Format.H)
+                                )
                                 {
                                     page.ImageTask.ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
                                     page.ImageTask.SetTaskResize();

@@ -45,6 +45,8 @@ namespace Win_CBZ.Models
 
         public bool SplitDoublePagesFirstResizingToPage { get; set; }
 
+        public bool IgnoreDoublePagesResizingToPage { get; set; }
+
         public Page PageToResizeTo { get; set; }
 
         public PageImageFormat ConvertFormat { get; set; }
@@ -71,6 +73,10 @@ namespace Win_CBZ.Models
                 DontStretch = copyFrom.DontStretch;
                 Grayscale = copyFrom.Grayscale;
                 RotateMode = copyFrom.RotateMode;
+                SplitDoublePagesFirstResizingToPage = copyFrom.SplitDoublePagesFirstResizingToPage;
+                IgnoreDoublePagesResizingToPage = copyFrom.IgnoreDoublePagesResizingToPage;
+                PageToResizeTo = copyFrom.PageToResizeTo;
+
             }
         }
     }
