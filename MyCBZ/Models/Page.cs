@@ -539,14 +539,14 @@ namespace Win_CBZ
         /// <summary>
         /// Create a page from XML- Data
         /// </summary>
-        /// <param name="fileInputStream">XML Stream</param>
+        /// <param name="inputStream">XML Stream</param>
         /// <param name="mode">Fileaccess mode</param>
         /// <returns></returns>
-        public Page(Stream fileInputStream, FileAccess mode = FileAccess.Read)
+        public Page(Stream inputStream, FileAccess mode = FileAccess.Read)
         {
             XmlDocument Document = new XmlDocument();
                         
-            XmlReader MetaDataReader = XmlReader.Create(fileInputStream);
+            XmlReader MetaDataReader = XmlReader.Create(inputStream);
             MetaDataReader.Read();
             Document.Load(MetaDataReader);
 
