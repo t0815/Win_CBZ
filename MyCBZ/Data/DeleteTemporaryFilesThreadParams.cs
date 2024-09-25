@@ -10,7 +10,5 @@ namespace Win_CBZ.Data
     internal class DeleteTemporaryFilesThreadParams : ThreadParam
     {
         public String Path { get; set; }
-
-        public bool ContinuePipeline { get; set; }
     }
 }

@@ -12,7 +12,5 @@ namespace Win_CBZ.Data
         public String OutputPath { get; set; }
 
         public List<Page> Pages { get; set; }
-
-        public bool ContinuePipeline { get; set; }
     }
 }

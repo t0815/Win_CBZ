@@ -15,6 +15,18 @@ namespace Win_CBZ.Data
 
         public CancellationToken CancelToken { get; set; }
 
+        public bool ContinuePipeline { get; set; } = true;
+
+        public int GetNextTaskId()
+        {
+            if (Stack == null || Stack.Count == 0)
+            {
+                return 0;
+            }
+
+            return Stack[0].TaskId;
+        }
+
         public PipelineVariable GetResult(string name)
         {
             PipelineVariable variable;

@@ -26,8 +26,6 @@ namespace Win_CBZ.Data
 
         public string Interpolation { get; set; } = "Default";
 
-        public bool ContinuePipeline { get; set; }
-
         public bool FilterExtensions { get; set; }
 
         public string[] AllowedExtensions { get; set; }

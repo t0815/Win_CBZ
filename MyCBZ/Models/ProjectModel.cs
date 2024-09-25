@@ -38,6 +38,7 @@ using Win_CBZ.Events;
 using System.Text.RegularExpressions;
 using Win_CBZ.Hash;
 using System.Drawing.Drawing2D;
+using System.Numerics;
 
 namespace Win_CBZ
 {
@@ -275,6 +276,7 @@ namespace Win_CBZ
                         MaxCountPages = p.MaxCountPages,
                         Interpolation = p.Interpolation,
                         HashFiles = p.HashFiles,
+                        ContinuePipeline = true,
                     });
 
                     currentPerformed = e.Task;
@@ -309,24 +311,17 @@ namespace Win_CBZ
                                     "Ready", 0, 0, true));
 
                                 if (p.ContinuePipeline)
-                                {
-                                    if (remainingStack.Count > 0)
-                                    {
-                                        nextTask = e.Stack[0];
+                                {                                   
+                                    int nextTaskId = p.GetNextTaskId();
 
-                                        if (nextTask != null)
-                                        {
-                                            AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
-                                        }
-                                        else
-                                        {
-                                            AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
-                                        }
-                                    } else
+                                    if (nextTaskId > 0)
                                     {
-                    
-                                        AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTaskId, null, remainingStack));
                                     }
+                                    else
+                                    {
+                                        AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                                    }                                   
                                 }
                             } else
                             {
@@ -489,12 +484,15 @@ namespace Win_CBZ
                     {
                         RenamingThread = new Thread(RunRenameScriptsForPages);
                         RenamingThread.Start(p);
-                        currentPerformed = e.Task;
                     }
                     catch (Exception ee)
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
 
+                    }
+                    finally 
+                    {
+                        currentPerformed = e.Task;
                     }
                 }
 
@@ -512,7 +510,7 @@ namespace Win_CBZ
                     {
                         RenamingThread = new Thread(RunRenameScriptsForPages);
                         RenamingThread.Start(p);
-                        currentPerformed = e.Task;
+                        
                     }
                     catch (Exception ee)
                     {
@@ -523,6 +521,8 @@ namespace Win_CBZ
                     {
                         RenameStoryPagePattern = restoreOriginalPatternPage;
                         RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
+
+                        currentPerformed = e.Task;
                     }
                 }
 
@@ -1046,6 +1046,7 @@ namespace Win_CBZ
                             Pages = Pages,
                             FileName = path,
                             Mode = mode,
+                            ContinuePipeline = true,
                             ContinueOnError = continueOnError,
                             CompressionLevel = CompressionLevel,
                             PageIndexVerToWrite = metaDataVersionWriting,
@@ -1906,11 +1907,11 @@ namespace Win_CBZ
             int total = tParams?.LocalFiles.Count ?? 0;
             int progressIndex = 0;
             int pageStatus = 0;
-            bool pageError = false; 
+            bool pageError = false;
             FileInfo targetPath;
             FileInfo localPath;
             Page page;
-            
+
             foreach (LocalFile fileObject in tParams?.LocalFiles)
             {
                 try
@@ -1987,24 +1988,26 @@ namespace Win_CBZ
                     try
                     {
                         page.ImageTask.ImageAdjustments.Interpolation = Enum.Parse<InterpolationMode>(tParams.Interpolation);
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to set interpolation mode ['"+ tParams.Interpolation +"'] for page ['" + page.Name + "']! [" + ex.Message + "]");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to set interpolation mode ['" + tParams.Interpolation + "'] for page ['" + page.Name + "']! [" + ex.Message + "]");
                     }
 
                     try
                     {
                         page.LoadImage(true);    // dont load full image here!
-                        
+
                     }
                     catch (PageException pe)
                     {
                         pageStatus = PageChangedEvent.IMAGE_STATUS_ERROR;
 
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to load image metadata for page ['" + page.Name + "']! [" + pe.Message + "]");
-                    } finally
+                    }
+                    finally
                     {
-                        page.FreeImage();  
+                        page.FreeImage();
                     }
 
                     if (!page.Changed)
@@ -2041,10 +2044,15 @@ namespace Win_CBZ
                     }
                 }
             }
-            
+
             AppEventHandler.OnOperationFinished(this, new OperationFinishedEvent(progressIndex, Pages.Count));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-            AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, null, tParams.Stack));            
+
+            if (tParams.ContinuePipeline && !tParams.CancelToken.IsCancellationRequested)
+            {
+                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, tParams.GetNextTaskId(), null, tParams.Stack));
+
+            }
         }
 
         public List<String> LoadDirectory(String path)
@@ -2205,9 +2213,9 @@ namespace Win_CBZ
             AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(null, 0, tParams.FileNamesToAdd.Count));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-            if (!tParams.CancelToken.IsCancellationRequested)
+            if (!tParams.CancelToken.IsCancellationRequested && tParams.ContinuePipeline)
             {
-                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_PARSE_FILES, files, tParams.Stack));
+                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, tParams.GetNextTaskId(), files, tParams.Stack));
             }                     
         }
 
@@ -2885,9 +2893,9 @@ namespace Win_CBZ
                 }
             }
 
-            if (tParams.ContinuePipeline && tParams.Stack != null)
+            if (tParams.ContinuePipeline && !tParams.CancelToken.IsCancellationRequested)
             {
-                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_RUN_RENAMING, null, tParams.Stack, null));
+                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, tParams.GetNextTaskId(), null, tParams.Stack, null));
             }
 
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
@@ -3219,7 +3227,7 @@ namespace Win_CBZ
             //AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
         }
 
-        public void ClearTempFolder()
+        public void ClearTempFolder(String path)
         {
 
             if (LoadArchiveThread != null)
@@ -3272,6 +3280,7 @@ namespace Win_CBZ
             DeleteFileThread = new Thread(DeleteTempFolderItems);
             DeleteFileThread.Start(new DeleteTemporaryFilesThreadParams() 
             { 
+                Path = path,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_DELETE_FILE).Token
             });
         }      
@@ -3282,7 +3291,7 @@ namespace Win_CBZ
 
             List<string> filesToDelete = new List<string>();
             List<string> foldersToDelete = new List<string>();
-            String path = PathHelper.ResolvePath(WorkingDir);
+            String path = PathHelper.ResolvePath(tParams.Path);
             int fileIndex = 0;
             int filesDeletedCount = 0;
             int filesFailed = 0;

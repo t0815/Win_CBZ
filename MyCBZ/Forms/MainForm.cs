@@ -5170,7 +5170,7 @@ namespace Win_CBZ
             {
                 try
                 {
-                    Program.ProjectModel.ClearTempFolder();
+                    Program.ProjectModel.ClearTempFolder(Win_CBZSettings.Default.TempFolderPath);
                 }
                 catch (ConcurrentOperationException c)
                 {

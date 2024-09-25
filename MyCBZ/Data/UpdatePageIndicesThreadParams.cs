@@ -13,8 +13,6 @@ namespace Win_CBZ.Data
     {
         public bool InitialIndexRebuild { get; set; }
 
-        public bool ContinuePipeline { get; set; }
-
         public List<Page> Pages { get; set; }
 
         public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;

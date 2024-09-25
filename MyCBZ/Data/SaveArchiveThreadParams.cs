@@ -26,7 +26,5 @@ namespace Win_CBZ.Data
         public bool WriteIndex { get; set; }
 
         public MetaData.PageIndexVersion PageIndexVerToWrite { get; set; } = MetaData.PageIndexVersion.VERSION_1;
-
-        public bool ContinuePipeline { get; set; }
     }
 }

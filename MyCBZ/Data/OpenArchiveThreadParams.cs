@@ -22,8 +22,6 @@ namespace Win_CBZ.Data
 
         public bool SkipIndexCheck { get; set; }
 
-        public bool ContinuePipeline { get; set; }
-
         public string Interpolation { get; set; } = "Default";
     }
 }

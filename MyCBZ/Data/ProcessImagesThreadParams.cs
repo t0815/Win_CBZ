@@ -13,8 +13,6 @@ namespace Win_CBZ.Data
 
         public bool ApplyImageProcessing { get; set; }
 
-        public bool ContinuePipeline { get; set; } = true;
-
         public string[] SkipPages { get; set; } = new string[0];
 
         public ImageTask GlobalTask { get; set; }
