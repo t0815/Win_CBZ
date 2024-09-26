@@ -3507,6 +3507,7 @@ namespace Win_CBZ
 
                     TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
 
+                    AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                 }));
             });
 
