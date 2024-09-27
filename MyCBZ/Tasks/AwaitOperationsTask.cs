@@ -63,7 +63,7 @@ namespace Win_CBZ.Tasks
                //     dlg.Close();
                // }
 
-                result.Result = 0;
+                result.Status = 0;
 
                 handler?.Invoke(null, new GeneralTaskProgressEvent()
                 {

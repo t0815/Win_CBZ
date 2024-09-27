@@ -18,14 +18,18 @@ namespace Win_CBZ.Tasks
     [SupportedOSPlatform("windows")]
     internal class ProcessImagesTask
     {
-        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, String[] skipPages, AppEventHandler.GeneralTaskProgressDelegate handler, CancellationToken? cancellationToken = null)
+        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, String[] skipPages, AppEventHandler.GeneralTaskProgressDelegate handler, CancellationToken? cancellationToken = null, List<StackItem> stack = null)
         {
             return new Task<ImageTaskResult>(() =>
             {
                 int current = 1;
                 int total = pages.Count;
                 List<ImageTask> collectedTasks = new List<ImageTask>();
-                ImageTaskResult result = new ImageTaskResult();
+                ImageTaskResult result = new ImageTaskResult()
+                {
+                    Stack = stack
+                };
+
                 Page taskPage = null;
                 Page secondPage = null;
                 string convertFormatName = null;

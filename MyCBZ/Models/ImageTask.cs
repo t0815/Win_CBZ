@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Handler;
 using Win_CBZ.Helper;
 using Win_CBZ.Img;
@@ -50,7 +51,7 @@ namespace Win_CBZ.Models
 
         public ImageTaskOrder TaskOrder { get; set; }
 
-        public bool Success = false;
+        public bool Success { get; set;  } = false ;
 
         public Page SourcePage { get; set; }
 
@@ -171,6 +172,11 @@ namespace Win_CBZ.Models
             foreach (String task in Tasks)
             {
                 
+                if (task == null)
+                {
+                    continue;
+                }
+
                 try
                 {
                     if (outputStream == null)
@@ -217,28 +223,39 @@ namespace Win_CBZ.Models
                             targetFormat.W = ImageAdjustments.ResizeTo.X;
                             targetFormat.H = ImageAdjustments.ResizeTo.Y;
 
-                            if (ImageAdjustments.KeepAspectRatio)
+                            if (ImageAdjustments.ResizeMode == 1)  // Resize to page
                             {
-                                float ratio = 1.0f; 
-                                
-                                //Math.Min(targetFormat.W / SourceFormat.W, targetFormat.H / SourceFormat.H);                               
+                                if (targetFormat.W == 0 || targetFormat.H == 0)
+                                {
+                                    throw new PageException(SourcePage, "Error resizing page! Width and/or Height must not be <= 0!");
+                                }
+                            }
 
-                                if (targetFormat.H == 0)
+                            if (ImageAdjustments.ResizeMode == 2)  // Resize to fixed size
+                            {
+                                if (ImageAdjustments.KeepAspectRatio)
                                 {
-                                    ratio = (float)targetFormat.W / SourceFormat.W;
-                                }
-                                else if (targetFormat.W == 0)
-                                {
-                                    ratio = (float)targetFormat.H / SourceFormat.H;
-                                }
-                                else if (targetFormat.W > 0 && targetFormat.H > 0)
-                                {
-                                    //targetFormat.W = (int)(targetFormat.H * (ImageAdjustments.ResizeTo.X / ImageAdjustments.ResizeTo.Y));
-                                    //targetFormat.H = (int)(targetFormat.W * (ImageAdjustments.ResizeTo.Y / ImageAdjustments.ResizeTo.X));
-                                }
+                                    float ratio = 1.0f;
 
-                                targetFormat.W = (int)(SourceFormat.W * ratio);
-                                targetFormat.H = (int)(SourceFormat.H * ratio);
+                                    //Math.Min(targetFormat.W / SourceFormat.W, targetFormat.H / SourceFormat.H);                               
+
+                                    if (targetFormat.H == 0)
+                                    {
+                                        ratio = (float)targetFormat.W / SourceFormat.W;
+                                    }
+                                    else if (targetFormat.W == 0)
+                                    {
+                                        ratio = (float)targetFormat.H / SourceFormat.H;
+                                    }
+                                    else if (targetFormat.W > 0 && targetFormat.H > 0)
+                                    {
+                                        //targetFormat.W = (int)(targetFormat.H * (ImageAdjustments.ResizeTo.X / ImageAdjustments.ResizeTo.Y));
+                                        //targetFormat.H = (int)(targetFormat.W * (ImageAdjustments.ResizeTo.Y / ImageAdjustments.ResizeTo.X));
+                                    }
+
+                                    targetFormat.W = (int)(SourceFormat.W * ratio);
+                                    targetFormat.H = (int)(SourceFormat.H * ratio);
+                                }
                             }
 
                             if (ImageAdjustments.ResizeMode == 3)  // Resize percentage
@@ -280,6 +297,8 @@ namespace Win_CBZ.Models
                 }
                 catch (Exception e)
                 {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message);
+
                     Success = false;
                 }
                 finally
@@ -299,6 +318,8 @@ namespace Win_CBZ.Models
 
             try
             {
+                inProgressFile.Refresh();
+
                 if (inProgressFile.FileSize == 0)
                 {
                     outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
@@ -369,6 +390,8 @@ namespace Win_CBZ.Models
                             inputStream.Close();
                             inputStream.Dispose();
 
+                            image.Dispose();
+
                             File.Copy(inProgressFile.FullPath, ResultFileName[1].FullPath, true);
 
 
@@ -406,6 +429,8 @@ namespace Win_CBZ.Models
                             inputStream.Close();
                             inputStream.Dispose();
 
+                            image.Dispose();
+
                             File.Copy(inProgressFile.FullPath, ResultFileName[1].FullPath, true);
 
 
@@ -430,9 +455,6 @@ namespace Win_CBZ.Models
                 inputStream?.Dispose();
             }
                 
-            
-
-
             return this;
         }
 
@@ -456,11 +478,12 @@ namespace Win_CBZ.Models
 
             ResultPage[0] = new Page(new LocalFile(ResultFileName[0].FullPath), SourcePage.WorkingDir, FileAccess.ReadWrite);
             ResultPage[0].UpdatePageAttributes(SourcePage);
+            ResultPage[0].Compressed = false;
             //ResultPage[0].UpdateTemporaryFile(new LocalFile(ResultFileName[0].FullPath));
             //ResultPage[0].CreateLocalWorkingCopy();
             //ResultPage[0].IsMemoryCopy = false;
 
-            if (ResultFileName[1] != null)
+            if (ResultFileName[1] != null && ResultFileName[1].Exists())
             {
                 ResultPage[1] = new Page(new LocalFile(ResultFileName[1].FullPath), SourcePage.WorkingDir, FileAccess.ReadWrite);
                 ResultPage[1].UpdatePageAttributes(SourcePage);

@@ -53,7 +53,7 @@ namespace Win_CBZ.Tasks
 
                         if (((CancellationToken)token).IsCancellationRequested)
                         {
-                            result.Result = -1;
+                            result.Status = -1;
                             
                             break;
                         }
@@ -77,7 +77,7 @@ namespace Win_CBZ.Tasks
               
                 handler?.Invoke(null, new FileOperationEvent(FileOperationEvent.OPERATION_COPY, FileOperationEvent.STATUS_SUCCESS, 0, 100));
 
-                result.Result = 0;
+                result.Status = 0;
 
                 return result;
             }, cancellationToken);

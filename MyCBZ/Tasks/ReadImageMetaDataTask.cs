@@ -16,14 +16,17 @@ namespace Win_CBZ.Tasks
     internal class ReadImageMetaDataTask
     {
 
-        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = false, bool popState = true)
+        public static Task<TaskResult> UpdateImageMetadata(List<Page> pages, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = false, bool popState = true, List<StackItem> stack = null)
         {
             return new Task<TaskResult>((token) =>
             {
                 int current = 1;
                 int total = pages.Count;    
-                TaskResult result = new TaskResult();
-                result.Total = total;
+                TaskResult result = new TaskResult()
+                { 
+                    Stack = stack,
+                    Total = total
+                };
 
                 lock (pages)
                 {

@@ -299,7 +299,7 @@ namespace Win_CBZ
 
                     if (MetaData.Exists())
                     {
-                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA).Token, false, true);
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA).Token, false, true, Guid.NewGuid().ToString(), remainingStack);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {
@@ -320,13 +320,14 @@ namespace Win_CBZ
                                     }
                                     else
                                     {
-                                        if (remainingStack.Count > 0)
+                                        if (t.Result.Stack != null && t.Result.Stack.Count > 0)
                                         {
-                                            nextTask = remainingStack[0];
+                                            nextTask = t.Result.Stack[0];
+                                            //t.Result.Stack.RemoveAt(0);
 
                                             if (nextTask.TaskId != e.Task)
                                             {
-                                                AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                                AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, t.Result.Stack));
 
                                             }
                                         } else
@@ -360,13 +361,13 @@ namespace Win_CBZ
                             }
                             else
                             {
-                                if (remainingStack.Count > 0)
+                                if (t.Result.Stack.Count > 0)
                                 {
-                                    nextTask = remainingStack[0];
+                                    nextTask = t.Result.Stack[0];
 
                                     if (nextTask.TaskId != e.Task)
                                     {
-                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, remainingStack));
+                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, t.Result.Stack));
 
                                     }
                                 }
@@ -405,11 +406,16 @@ namespace Win_CBZ
 
                 if (imageInfoUpdater == null)
                 {
-                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, false, true, remainingStack);
                     imageInfoUpdater.ContinueWith(t => {
                         if (t.IsCompletedSuccessfully)
                         {
+                            if (t.Result.Stack.Count > 0) 
+                            {
+                                nextTask = t.Result.Stack[0];
 
+                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, t.Result.Stack));
+                            }
                         }
                     });
 
@@ -422,7 +428,18 @@ namespace Win_CBZ
                 {
                     if (imageInfoUpdater.IsCompleted || imageInfoUpdater.IsCanceled)
                     {
-                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                        imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, false, true, remainingStack);
+                        imageInfoUpdater.ContinueWith(t => {
+                            if (t.IsCompletedSuccessfully)
+                            {
+                                if (t.Result.Stack.Count > 0)
+                                {
+                                    nextTask = t.Result.Stack[0];
+
+                                    AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, t.Result.Stack));
+                                }
+                            }
+                        });
                         imageInfoUpdater.Start();
 
                         currentPerformed = e.Task;
@@ -437,7 +454,7 @@ namespace Win_CBZ
                 if (p.ApplyImageProcessing)
                 {
                    
-                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, p.GlobalTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken);
+                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, p.GlobalTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, remainingStack);
                     imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
                     {
                         AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
@@ -456,6 +473,7 @@ namespace Win_CBZ
                                     //page?.UpdatePage(resultPage);
                                     //page?.UpdateStreams(resultPage);
                                     page?.UpdatePageAttributes(resultPage);
+                                    page?.UpdateLocalFileWith(resultPage.LocalFile);
                                     page?.UpdateTemporaryFile(resultPage.TemporaryFile);
                                     //page?.LoadImageInfo(true);
 
@@ -488,8 +506,14 @@ namespace Win_CBZ
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                         AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
                                     }
+
+                                    resultPage.FreeImage();
+                                    resultPage.Close();
                                 } catch (Exception e)
                                 {
+                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
+
+
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error updating result images! [" + e.Message + "]");
 
                                 }
@@ -504,11 +528,11 @@ namespace Win_CBZ
 
                             // if (currentPerformed != e.Task)
                             // {
-                            if (remainingStack.Count > 0)
+                            if (r.Result.Stack.Count > 0)
                             {
                                 nextTask = remainingStack[0];
 
-                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, remainingStack));
+                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, r.Result.Stack));
                             }
                             else
                             {
@@ -901,6 +925,7 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexMissingData)
                 {
+                    String gid = Guid.NewGuid().ToString();
                     //TokenStore.GetInstance().ResetCancellationToken(TokenStore.TASK_TYPE_UPDATE_IMAGE_METADATA);
 
                     AppEventHandler.OnGlobalActionRequired(this, 
@@ -913,8 +938,10 @@ namespace Win_CBZ
                                 AppEventHandler.OnGeneralTaskProgress,
                                 tParams.CancelToken,
                                 true,
-                                true  
-                            )
+                                true,
+                                tParams.Stack
+                            ),
+                            gid
                         )
                     );
                 }
@@ -939,7 +966,8 @@ namespace Win_CBZ
                                 tParams.CancelToken, 
                                 false, 
                                 true,
-                                gid
+                                gid,
+                                tParams.Stack
                             ),
                             gid
                         ));
@@ -1071,7 +1099,7 @@ namespace Win_CBZ
                     },
                     new StackItem()
                     {
-                        TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE,
+                        TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE, //   PipelineEvent.PIPELINE_SAVE_ARCHIVE
                         ThreadParams = new SaveArchiveThreadParams()
                         {
                             Pages = Pages,
@@ -3171,7 +3199,7 @@ namespace Win_CBZ
                 );
 
             awaitClosingArchive.ContinueWith(t => {
-                if (t.IsCompleted && t.Result.Result == 0)
+                if (t.IsCompleted && t.Result.Status == 0)
                 {
                     CloseArchiveThread = new Thread(new ThreadStart(CloseArchiveProc));
                     CloseArchiveThread.Start();

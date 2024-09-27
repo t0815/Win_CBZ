@@ -235,7 +235,7 @@ namespace Win_CBZ
                 }
 
             } catch (Exception e) {
-                throw new PageException(this, "Error creating new page from local file!", true, e);
+                throw new PageException(this, "Error creating new page from local file! ['"+e.Message+"']", true, e);
             }
           
             Filename = ImageFileInfo.FullName;
@@ -421,7 +421,7 @@ namespace Win_CBZ
                 Index = sourcePage.Index;
                 OriginalIndex = sourcePage.OriginalIndex;
                 Number = sourcePage.Number;
-                Closed = sourcePage.Closed;
+                //Closed = sourcePage.Closed;
                 DoublePage = sourcePage.DoublePage;
 
                 Deleted = sourcePage.Deleted;
@@ -1104,6 +1104,7 @@ namespace Win_CBZ
             FileExtension = page.FileExtension;
 
             EntryName = page.EntryName;
+            CompressedEntry = page.CompressedEntry;
             //Size = page.Size;
             Id = page.Id;
             Key = page.Key;
@@ -1192,6 +1193,27 @@ namespace Win_CBZ
         }
 
         /// <summary>
+        /// Update the local souce for given page
+        /// </summary>
+        /// <param name="newLocalFile">Localfile info for new file</param>
+        public void UpdateLocalFileWith(LocalFile newLocalFile)
+        {
+            Compressed = false;
+
+            if (newLocalFile.Exists())
+            {
+                if (LocalFile == null || !LocalFile.Exists())
+                {
+                    LocalFile = new LocalFile(Path.Combine(WorkingDir, RandomId.GetInstance().Make() + FileExtension));
+                }
+
+                Copy(newLocalFile.FullPath, LocalFile.FullPath);
+
+                LocalFile.Refresh();
+            }
+        }
+
+        /// <summary>
         /// Update the local working-copy (temporary file) for given page
         /// </summary>
         /// <param name="newTempFile">Localfile info for new temporary file</param>
@@ -1222,7 +1244,7 @@ namespace Win_CBZ
         /// <param name="newTempFile">Localfile info for new temporary file</param>
         public void UpdateImage(Stream updateStream, LocalFile newImageFile = null)
         {
-            if (updateStream == null && updateStream.CanRead)
+            if (updateStream != null && updateStream.CanRead)
             {
                 FileStream newImageFileStream = null;
                 try

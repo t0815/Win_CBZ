@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
@@ -16,7 +17,7 @@ namespace Win_CBZ.Tasks
     internal class UpdatePageIndexTask
     {
 
-        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken, bool inBackground = false, bool popState = false)
+        public static Task<TaskResult> UpdatePageIndex(List<Page> pages, EventHandler<GeneralTaskProgressEvent> handler, EventHandler<PageChangedEvent> pageChangedHandler, CancellationToken cancellationToken, bool inBackground = false, bool popState = false, List<StackItem> stack = null)
         {
             return new Task<TaskResult>((token) =>
             {
@@ -24,9 +25,11 @@ namespace Win_CBZ.Tasks
                 int newIndex = 0;
                 int current = 1;
                 int total = pages.Count;
-                TaskResult result = new TaskResult();
-
-                result.Total = total;
+                TaskResult result = new TaskResult()
+                {
+                    Stack = stack,
+                    Total = total
+                };
 
                 lock (pages)
                 {

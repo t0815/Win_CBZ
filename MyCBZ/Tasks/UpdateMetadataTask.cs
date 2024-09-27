@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Versioning;
@@ -25,7 +26,8 @@ namespace Win_CBZ.Tasks
             CancellationToken cancellationToken,
             bool runInBackground = false,
             bool popState = false,
-            string id = null)
+            string id = null,
+            List<StackItem> stack = null)
         {
             return new Task<TaskResult>(UpdateMetadataTask.TaskLambda(pages, 
                 metaData,
@@ -34,7 +36,8 @@ namespace Win_CBZ.Tasks
                 handler,
                 runInBackground,
                 popState,
-                id
+                id,
+                stack
                 ), cancellationToken);
         }
 
@@ -49,14 +52,19 @@ namespace Win_CBZ.Tasks
             EventHandler<GeneralTaskProgressEvent> handler = null,
             bool inBackground = false,
             bool popState = false,
-            string id = null
+            string id = null,
+            List<StackItem> stack = null
             )
         {
             Func<object, TaskResult> taskfn = (token) =>
             {
                 int current = 1;
                 int total = pages.Count;
-                TaskResult result = new TaskResult();
+                TaskResult result = new TaskResult()
+                {
+                    Stack = stack,
+                    Total = total
+                };
 
                 List<MetaDataEntryPage> originalPageMetaData = metaData.PageIndex.ToList<MetaDataEntryPage>();
 
@@ -96,7 +104,7 @@ namespace Win_CBZ.Tasks
                             handler?.Invoke(null, new GeneralTaskProgressEvent(
                                     GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
                                     GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                                    "Updating index...",
+                                    "Updating index metadata...",
                                     current,
                                     total,
                                     popState, 

@@ -6,7 +6,7 @@ namespace Win_CBZ.Data
 {
     internal class TaskResult
     {
-        public int Result { get; set; } = -1;
+        public int Status { get; set; } = -1;
 
         public string Message { get; set; }
 
@@ -16,11 +16,13 @@ namespace Win_CBZ.Data
 
         public long Completed { get; set; }
 
+        public List<StackItem> Stack { get; set; } = new List<StackItem>();
+
         public TaskResult() { }
 
         public TaskResult(int result, string message) 
         {
-            Result = result;
+            Status = result;
             Message = message;
         }
 
