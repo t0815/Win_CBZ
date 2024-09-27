@@ -536,6 +536,7 @@ namespace Win_CBZ
             {
                 RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
                 p.Stack = remainingStack;
+                
                 // Apply renaming rules
                 if (p.ApplyRenaming && !p.CompatibilityMode)
                 {
@@ -612,38 +613,6 @@ namespace Win_CBZ
                 /*
                 Task.Factory.StartNew(() =>
                 {
-
-                    if (LoadArchiveThread != null)
-                    {
-                        if (LoadArchiveThread.IsAlive)
-                        {
-                            LoadArchiveThread.Abort();
-                        }
-                    }
-
-                    if (ExtractArchiveThread != null)
-                    {
-                        if (ExtractArchiveThread.IsAlive)
-                        {
-                            ExtractArchiveThread.Abort();
-                        }
-                    }
-
-                    if (PageUpdateThread != null)
-                    {
-                        if (PageUpdateThread.IsAlive)
-                        {
-                            PageUpdateThread.Abort();
-                        }
-                    }
-
-                    if (RenamingThread != null)
-                    {
-                        if (RenamingThread.IsAlive)
-                        {
-                            RenamingThread.Join();
-                        }
-                    }
 
                     RenamingThread = new Thread(AutoRenameAllPagesProc);
                     RenamingThread.Start();
@@ -932,6 +901,7 @@ namespace Win_CBZ
 
                 if (MetaDataPageIndexMissingData)
                 {
+                    //TokenStore.GetInstance().ResetCancellationToken(TokenStore.TASK_TYPE_UPDATE_IMAGE_METADATA);
 
                     AppEventHandler.OnGlobalActionRequired(this, 
                         new GlobalActionRequiredEvent(this, 
@@ -952,6 +922,8 @@ namespace Win_CBZ
                 if (MetaDataPageIndexFileMissing)
                 {
                     String gid = Guid.NewGuid().ToString();
+
+                    //TokenStore.GetInstance().ResetCancellationToken(TokenStore.TASK_TYPE_UPDATE_IMAGE_METADATA);
 
                     AppEventHandler.OnGlobalActionRequired(this, 
                         new GlobalActionRequiredEvent(this, 

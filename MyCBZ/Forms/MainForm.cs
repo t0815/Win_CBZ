@@ -3099,7 +3099,7 @@ namespace Win_CBZ
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(originalPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                 }
 
-                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_MOVE_ITEMS);
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 AppEventHandler.OnGlobalActionRequired(this,
@@ -4704,6 +4704,8 @@ namespace Win_CBZ
                         if (PagesList.SelectedItems.Count > 1)
                         {
                             String gid = Guid.NewGuid().ToString();
+
+                            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
                             AppEventHandler.OnGlobalActionRequired(null,
                                 new GlobalActionRequiredEvent(Program.ProjectModel,
@@ -7145,6 +7147,8 @@ namespace Win_CBZ
                     if (pagesUpdated > 0)
                     {
 
+                        TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
+
                         AppEventHandler.OnGlobalActionRequired(this,
                             new GlobalActionRequiredEvent(Program.ProjectModel,
                                 0,
@@ -7154,7 +7158,7 @@ namespace Win_CBZ
                                 UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
                                     AppEventHandler.OnGeneralTaskProgress,
                                     AppEventHandler.OnPageChanged,
-                                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token,
+                                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
                                     false,
                                     true
                                 )
