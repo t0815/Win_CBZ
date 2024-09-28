@@ -258,7 +258,7 @@ namespace Win_CBZ
             AppEventHandler.ApplicationStateChanged += ApplicationStateChanged;
             AppEventHandler.GlobalActionRequired += HandleGlobalActionRequired;
             AppEventHandler.GeneralTaskProgress += HandleGlobalTaskProgress;
-            AppEventHandler.RedrawThumbnail += OnRedrawThumbnail;
+            AppEventHandler.RedrawThumbnail += HandleRedrawThumbnail;
             AppEventHandler.ImageAdjustmentsChanged += HandleImageAdjustmentsChanged;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
@@ -1141,7 +1141,7 @@ namespace Win_CBZ
             }
         }
 
-        private void OnRedrawThumbnail(object sender, RedrawThumbEvent e)
+        private void HandleRedrawThumbnail(object sender, RedrawThumbEvent e)
         {
             if (!WindowClosed)
             {

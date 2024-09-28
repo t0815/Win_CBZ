@@ -444,6 +444,7 @@ namespace Win_CBZ
                             ImageStreamMemoryCopy = new MemoryStream();
                             sourcePage.ImageStream.CopyTo(ImageStreamMemoryCopy);
                             ImageStreamMemoryCopy.Position = 0;
+                            IsMemoryCopy = true;
                         }
                     } else
                     {
@@ -468,6 +469,7 @@ namespace Win_CBZ
                             sourcePage.ImageStreamMemoryCopy.Position = 0;
                             sourcePage.ImageStreamMemoryCopy.CopyTo(ImageStreamMemoryCopy);
                             ImageStreamMemoryCopy.Position = 0;
+                            IsMemoryCopy = true;
                         } else
                         {
                             throw new PageException(this, "Failed to create new copy from page!\r\nUnable to read Memorystream!", true);
@@ -791,22 +793,22 @@ namespace Win_CBZ
                         {
                             if (subNode2.Name == "Resize")
                             {
-                                ImageTask.TaskOrder.Resize = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                                ImageTask.TaskOrder.Resize = Enum.Parse<ImageTaskOrderValue>(subNode2.InnerText);
                             }
 
                             if (subNode2.Name == "Rotate")
                             {
-                                ImageTask.TaskOrder.Rotate = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                                ImageTask.TaskOrder.Rotate = Enum.Parse<ImageTaskOrderValue>(subNode2.InnerText);
                             }
 
                             if (subNode2.Name == "Convert")
                             {
-                                ImageTask.TaskOrder.Convert = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                                ImageTask.TaskOrder.Convert = Enum.Parse<ImageTaskOrderValue>(subNode2.InnerText);
                             }
 
                             if (subNode2.Name == "Split")
                             {
-                                ImageTask.TaskOrder.Split = Enum.Parse<ImageTaskOrderValue>(subNode.InnerText);
+                                ImageTask.TaskOrder.Split = Enum.Parse<ImageTaskOrderValue>(subNode2.InnerText);
                             }
                         }
                     }
@@ -1219,7 +1221,7 @@ namespace Win_CBZ
         /// <param name="newTempFile">Localfile info for new temporary file</param>
         public void UpdateTemporaryFile(LocalFile newTempFile)
         {
-            FreeImage();
+            Close();
 
             if (TemporaryFile == null)
             {
@@ -1229,6 +1231,11 @@ namespace Win_CBZ
             Copy(newTempFile.FullPath, TemporaryFile.FullPath);
 
             TemporaryFile.Refresh();
+
+            if (TemporaryFile.Exists())
+            {
+                Closed = false;
+            }
 
             //ImageLoaded = false;
             //ThumbnailInvalidated = true;
@@ -1626,6 +1633,18 @@ namespace Win_CBZ
         {
             FreeImage();
 
+            if (ImageStream != null)
+            {
+                ImageStream.Close();
+                ImageStream.Dispose();
+            }
+
+            if (ImageStreamMemoryCopy != null)
+            {
+                ImageStreamMemoryCopy.Close();
+                ImageStreamMemoryCopy.Dispose();
+            }
+
             if (!keepTemporaryFiles)
             {
                 DeleteTemporaryFile();
@@ -1911,7 +1930,7 @@ namespace Win_CBZ
                                                      validateImageData: false);
 
                             Format = new PageImageFormat(ImageInfo);
-
+                            ImageMetaDataLoaded = true;
                             
                         } catch ( Exception e)
                         {
@@ -1930,6 +1949,7 @@ namespace Win_CBZ
                         ImageInfo = Image.FromStream(CompressedEntry.Open());
                         Format = new PageImageFormat(ImageInfo);
 
+                        ImageMetaDataLoaded = true;
 
                         ImageInfo?.Dispose();
                         ImageInfo = null;
@@ -1942,6 +1962,8 @@ namespace Win_CBZ
                                                      useEmbeddedColorManagement: false,
                                                      validateImageData: false);
                         Format = new PageImageFormat(ImageInfo);
+
+                        ImageMetaDataLoaded = true;
 
                         ImageInfo?.Dispose();
                         ImageInfo = null;
@@ -2453,34 +2475,50 @@ namespace Win_CBZ
         public void FreeImage()
         {
             Image?.Dispose();
+            Image = null;
 
             Thumbnail?.Dispose();
+            Thumbnail = null;
 
             ImageInfo?.Dispose();
+            ImageInfo = null;
 
             ImageMetaDataLoaded = false;
 
             ImageLoaded = false;
 
-            if (ImageStream != null)
+            if (ImageStreamMemoryCopy != null)
             {
-                ImageStream.Close();
-                ImageStream.Dispose();
+                ImageStreamMemoryCopy.Close();
+                ImageStreamMemoryCopy.Dispose();
+                ImageStreamMemoryCopy = null;
+
+                IsMemoryCopy = false;
             }
 
-            if (Thumbnail != null)
+            Invalidated = true;
+        }
+
+        public void FreeStreams()
+        {
+            if (TemporaryFile != null)
             {
-                Thumbnail = null;
+                if (ImageStream != null)
+                {
+                    ImageStream.Close();
+                    ImageStream.Dispose();
+                    ImageStream = null;
+                }
             }
 
             if (ImageStreamMemoryCopy != null)
             {
                 ImageStreamMemoryCopy.Close();
                 ImageStreamMemoryCopy.Dispose();
-            }
-            
+                ImageStreamMemoryCopy = null;
 
-            Invalidated = true;
+                IsMemoryCopy = false;
+            }
         }
 
         public override string ToString()

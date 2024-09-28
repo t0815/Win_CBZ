@@ -155,6 +155,7 @@ namespace Win_CBZ.Tasks
                         if (!taskPage.ImageInfoRequested)
                         {
                             taskPage.LoadImageInfo();
+                            taskPage.FreeImage();
                         }
                         taskPage.Id = page.Id;  // Important! Keep original Id here
                         taskPage.ImageTask.PageId = page.Id;
@@ -174,6 +175,7 @@ namespace Win_CBZ.Tasks
                                 //taskPage.UpdateImage(results[0]);
                                 //taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
                                 results[0].LoadImageInfo(true);
+                                results[0].FreeStreams();
                                 results[0].FreeImage();
                                 result.AddFinishedPage(results[0]);
 
@@ -184,7 +186,7 @@ namespace Win_CBZ.Tasks
                                     results[1].Number = results[0].Number + 1;
                                     results[1].Compressed = false;
                                     results[1].LoadImageInfo(true);
-                                    results[1].FreeImage();
+                                    results[1].Close();
 
                                     result.AddFinishedPage(results[1]);
                                 }

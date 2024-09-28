@@ -33,7 +33,7 @@ namespace Win_CBZ
 
             try
             {
-                displayPage = new Page(page);  // todo: memory copy?
+                displayPage = new Page(page, true, true);  // todo: memory copy?
 
                 currentIndex = page.Index;
                 currentId = page.Id;
@@ -46,10 +46,15 @@ namespace Win_CBZ
                     }
                     catch (ApplicationException ae)
                     {
+
                         if (ae.ShowErrorDialog)
                         {
                             ApplicationMessage.ShowException(ae);
                         }
+
+                        displayPage?.FreeStreams();
+
+                        return;
                     }               
                 }
 
@@ -65,6 +70,9 @@ namespace Win_CBZ
             }
             catch (Exception e2)
             {
+                displayPage?.FreeImage();
+                displayPage?.FreeStreams();
+
                 ApplicationMessage.ShowException(e2);
             }       
         }
@@ -103,7 +111,8 @@ namespace Win_CBZ
             }            
             PageImagePreview.Dispose();
 
-            displayPage?.Close();
+            displayPage?.FreeStreams();
+            displayPage?.FreeImage();
         }
 
         protected void HandlePageNavigation(int direction)
@@ -113,7 +122,8 @@ namespace Win_CBZ
 
             if (displayPage != null)
             {
-                displayPage.Close();
+                displayPage.FreeImage();
+                displayPage.FreeStreams();
             }
 
             if (page != null)

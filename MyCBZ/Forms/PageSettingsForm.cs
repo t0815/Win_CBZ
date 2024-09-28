@@ -612,7 +612,7 @@ namespace Win_CBZ.Forms
 
                 foreach (Page p in SelectedPages)
                 {
-                    bool realMemoryCopyState = p.IsMemoryCopy;
+                    //bool realMemoryCopyState = p.IsMemoryCopy;
                     //try
                     //{
                     pageList = new Page(p, true, false);
@@ -620,7 +620,6 @@ namespace Win_CBZ.Forms
 
                     if (pageList != null)
                     {
-                        pageList.IsMemoryCopy = realMemoryCopyState;
                         resultPages.Add(pageList);
                     }
                     //}

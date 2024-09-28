@@ -334,6 +334,8 @@ namespace Win_CBZ.Models
                 inputStream.Close();
                 inputStream.Dispose();
 
+                SourcePage.FreeImage();
+
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
                 ResultFileName[0].Refresh();
@@ -527,6 +529,8 @@ namespace Win_CBZ.Models
                     resultStrm?.Dispose();
                 }
             }
+
+            SourcePage.Close();
 
             return this;
         }

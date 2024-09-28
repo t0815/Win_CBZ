@@ -1158,6 +1158,7 @@ namespace Win_CBZ
                             }
 
                             page.FreeImage();  // Dont delete any temporary files here! Free resource
+                            page.FreeStreams();
 
                             if (page.Changed || page.Compressed)
                             {
