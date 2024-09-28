@@ -121,8 +121,11 @@ namespace Win_CBZ
 
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
-            Width = Win_CBZSettings.Default.WindowW;
-            Height = Win_CBZSettings.Default.WindowH;
+            if (Win_CBZSettings.Default.WindowW > 0 && Win_CBZSettings.Default.WindowH > 0)
+            {
+                Width = Win_CBZSettings.Default.WindowW;
+                Height = Win_CBZSettings.Default.WindowH;
+            }
 
             ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
 
@@ -950,7 +953,7 @@ namespace Win_CBZ
                         OpenToolStripMenuItem.Enabled = false;
                         AddFilesToolStripMenuItem.Enabled = false;
                         AddFolderToolStripMenuItem.Enabled = false;
-                        
+
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonSave.Enabled = false;
                         ToolButtonOpen.Enabled = false;
@@ -1849,7 +1852,7 @@ namespace Win_CBZ
                     PagesList.Enabled = true;
                     PageView.Enabled = true;
                     PageThumbsListBox.Enabled = true;
-                    MetaDataGrid.Enabled = true;                    
+                    MetaDataGrid.Enabled = true;
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = true;
@@ -5460,7 +5463,7 @@ namespace Win_CBZ
                     SettingsToolStripMenuItem.Enabled = true;
 
                     AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
-                
+
                     if (Win_CBZSettings.Default.WriteXmlPageIndex && currentWriteXMLIndexSetting != Win_CBZSettings.Default.WriteXmlPageIndex)
                     {
                         //DialogResult res = ApplicationMessage.Show("The application needs to be restarted in order to apply the changes.\r\nRestart now?", "Restart required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
@@ -5469,9 +5472,9 @@ namespace Win_CBZ
                         //{
                         //    Application.Restart();
                         //}
-                        
+
                         String gid = Guid.NewGuid().ToString();
-                        
+
                         TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA);
 
                         AppEventHandler.OnGlobalActionRequired(this,

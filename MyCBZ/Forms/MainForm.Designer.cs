@@ -691,7 +691,7 @@ namespace Win_CBZ
             // 
             CopyToolStripMenuItem.Name = "CopyToolStripMenuItem";
             CopyToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C;
-            CopyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            CopyToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             CopyToolStripMenuItem.Text = "Copy";
             CopyToolStripMenuItem.Click += CopyToolStripMenuItem_Click;
             // 
@@ -701,28 +701,28 @@ namespace Win_CBZ
             PasteToolStripMenuItem.Image = Properties.Resources.clipboard_paste;
             PasteToolStripMenuItem.Name = "PasteToolStripMenuItem";
             PasteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V;
-            PasteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            PasteToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             PasteToolStripMenuItem.Text = "Paste";
             PasteToolStripMenuItem.Click += PasteToolStripMenuItem_Click;
             // 
             // toolStripMenuItem7
             // 
             toolStripMenuItem7.Name = "toolStripMenuItem7";
-            toolStripMenuItem7.Size = new System.Drawing.Size(221, 6);
+            toolStripMenuItem7.Size = new System.Drawing.Size(205, 6);
             // 
             // SelectAllToolStripMenuItem
             // 
             SelectAllToolStripMenuItem.Image = Properties.Resources.elements_selection;
             SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem";
             SelectAllToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A;
-            SelectAllToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            SelectAllToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             SelectAllToolStripMenuItem.Text = "Select all";
             SelectAllToolStripMenuItem.Click += SelectAllToolStripMenuItem_Click;
             // 
             // toolStripMenuItem10
             // 
             toolStripMenuItem10.Name = "toolStripMenuItem10";
-            toolStripMenuItem10.Size = new System.Drawing.Size(221, 6);
+            toolStripMenuItem10.Size = new System.Drawing.Size(205, 6);
             // 
             // deleteToolStripMenuItem
             // 
@@ -731,20 +731,20 @@ namespace Win_CBZ
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             deleteToolStripMenuItem.ShortcutKeyDisplayString = "";
             deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete;
-            deleteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            deleteToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             deleteToolStripMenuItem.Text = "Delete";
             deleteToolStripMenuItem.Click += ToolButtonRemoveFiles_Click;
             // 
             // toolStripSeparator12
             // 
             toolStripSeparator12.Name = "toolStripSeparator12";
-            toolStripSeparator12.Size = new System.Drawing.Size(221, 6);
+            toolStripSeparator12.Size = new System.Drawing.Size(205, 6);
             // 
             // SettingsToolStripMenuItem
             // 
             SettingsToolStripMenuItem.Image = Properties.Resources.window_gear;
             SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            SettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            SettingsToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             SettingsToolStripMenuItem.Text = "Settings";
             SettingsToolStripMenuItem.Click += SettingsToolStripMenuItem_Click;
             // 
@@ -2811,6 +2811,7 @@ namespace Win_CBZ
             BackgroundTaskStatusPanel.Size = new System.Drawing.Size(250, 21);
             BackgroundTaskStatusPanel.TabIndex = 8;
             BackgroundTaskStatusPanel.Visible = false;
+            BackgroundTaskStatusPanel.WrapContents = false;
             // 
             // boxIndicatorControl1
             // 
@@ -2828,7 +2829,9 @@ namespace Win_CBZ
             // 
             // BackgroundTaskStatusLabel
             // 
+            BackgroundTaskStatusLabel.AutoEllipsis = true;
             BackgroundTaskStatusLabel.AutoSize = true;
+            BackgroundTaskStatusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             BackgroundTaskStatusLabel.Location = new System.Drawing.Point(90, 0);
             BackgroundTaskStatusLabel.Name = "BackgroundTaskStatusLabel";
             BackgroundTaskStatusLabel.Size = new System.Drawing.Size(0, 20);

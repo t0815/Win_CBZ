@@ -39,6 +39,8 @@ using System.Text.RegularExpressions;
 using Win_CBZ.Hash;
 using System.Drawing.Drawing2D;
 using System.Numerics;
+using System.Speech.Recognition;
+using static ScintillaNET.Style;
 
 namespace Win_CBZ
 {
@@ -217,7 +219,7 @@ namespace Win_CBZ
         private void HandlePipeline(object sender, PipelineEvent e)
         {
             StackItem nextTask = null;
-            int currentPerformed = 0;
+          
             List<StackItem> remainingStack = e.Stack;
             if (remainingStack.Count > 0)
             {
@@ -234,7 +236,7 @@ namespace Win_CBZ
                     {
                         if (LoadArchiveThread.IsAlive)
                         {
-                            throw new ApplicationException("failed to open. thread already running!", true);
+                            throw new ConcurrentOperationException("failed to open. thread already running!", true);
                         }
                     }
 
@@ -278,8 +280,6 @@ namespace Win_CBZ
                         HashFiles = p.HashFiles,
                         ContinuePipeline = true,
                     });
-
-                    currentPerformed = e.Task;
                 });
 
             }
@@ -316,7 +316,7 @@ namespace Win_CBZ
 
                                     if (nextTaskId > 0)
                                     {
-                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTaskId, null, remainingStack));
+                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, e.Task, null, remainingStack));
                                     }
                                     else
                                     {
@@ -327,7 +327,7 @@ namespace Win_CBZ
 
                                             if (nextTask.TaskId != e.Task)
                                             {
-                                                AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, t.Result.Stack));
+                                                AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, e.Task, null, t.Result.Stack));
 
                                             }
                                         } else
@@ -367,7 +367,7 @@ namespace Win_CBZ
 
                                     if (nextTask.TaskId != e.Task)
                                     {
-                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, nextTask.TaskId, null, t.Result.Stack));
+                                        AppEventHandler.OnPipelineNextTask(sender, new PipelineEvent(Program.ProjectModel, e.Task, null, t.Result.Stack));
 
                                     }
                                 }
@@ -397,7 +397,6 @@ namespace Win_CBZ
                 //    UpdatePageIndices(p.Pages, true, true, remainingStack);
                 //}, (nextTask.ThreadParams as UpdatePageIndicesThreadParams).CancelToken);
 
-                currentPerformed = e.Task;
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_UPDATE_IMAGE_METADATA)
@@ -421,8 +420,6 @@ namespace Win_CBZ
 
 
                     imageInfoUpdater.Start();
-
-                    currentPerformed = e.Task;
                 }
                 else
                 {
@@ -441,8 +438,6 @@ namespace Win_CBZ
                             }
                         });
                         imageInfoUpdater.Start();
-
-                        currentPerformed = e.Task;
                     }
                 }
             }
@@ -455,12 +450,16 @@ namespace Win_CBZ
                 {
                    
                     imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, p.GlobalTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, remainingStack);
-                    imageProcessingTask.ContinueWith(new Action<Task<ImageTaskResult>>((r) =>
+                    Task<ImageTaskResult> imageProcessingFinalTask = imageProcessingTask.ContinueWith(r =>
                     {
                         AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
 
+                        ImageTaskResult imageTaskResult = r.Result;
+                        
+
                         if (r.IsCompletedSuccessfully)
                         {
+                            
                             // update pages with results
                             Page page = null;
                             int index = 1;
@@ -488,7 +487,7 @@ namespace Win_CBZ
                                         page.ImageTask.ImageAdjustments.ConvertType = 0;
                                         page.ThumbnailInvalidated = true;
 
-                                        resultPage.Close();
+                                        resultPage.FreeImage();
 
                                         AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
@@ -508,6 +507,7 @@ namespace Win_CBZ
                                     }
 
                                     resultPage.Close();
+                                    resultPage.ImageTask.FreeResults();
                                     
                                 } catch (Exception e)
                                 {
@@ -525,45 +525,59 @@ namespace Win_CBZ
 
                             ImageAdjustments resetImageAdjustments = new ImageAdjustments();
                             AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resetImageAdjustments));
+                            
+                        } else
+                        {
 
-                            // if (currentPerformed != e.Task)
-                            // {
+                            // todo: continue on error?
+                            throw new Exception("");
+                        }
+
+                        return imageTaskResult;
+                    });
+
+                    imageProcessingFinalTask.ContinueWith(r =>
+                    {
+                        if (r.IsCompletedSuccessfully)
+                        {
                             if (r.Result.Stack.Count > 0)
                             {
-                                nextTask = remainingStack[0];
+                                nextTask = r.Result.Stack[0];
 
-                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, r.Result.Stack));
+                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, null, r.Result.Stack));
                             }
                             else
                             {
                                 AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                             }
-                            // }
                         } else
                         {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error processing images! [" + r.Exception.Message + "]");
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error processing images! [" + r.Exception.InnerException?.Message + "]");
 
                             AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
-                            // todo: continue on error?
-                            
                         }
-                    }));
+                    });
 
-                    imageProcessingTask.Start();
-                 
-                    currentPerformed = e.Task;
-                    
+                    imageProcessingTask.Start();                   
                 }
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
             {
                 RenamePagesThreadParams p = nextTask.ThreadParams as RenamePagesThreadParams;
-                p.Stack = remainingStack;
-                
+                p.Stack = remainingStack;   // update stack with current remaining tasks
+
                 // Apply renaming rules
-                if (p.ApplyRenaming && !p.CompatibilityMode)
+                if (p.ApplyRenaming)
                 {
+                    if (p.CompatibilityMode)
+                    {
+                        // Force renaming every page to its index in compatibility mode
+                        p.RenameStoryPagePattern = "{page}.{ext}";
+                        p.RenameSpecialPagePattern = "{page}.{ext}";
+                        p.SkipIndexUpdate = true;
+                    }
+
                     try
                     {
                         RenamingThread = new Thread(RunRenameScriptsForPages);
@@ -576,79 +590,43 @@ namespace Win_CBZ
                     }
                     finally 
                     {
-                        currentPerformed = e.Task;
+                       
                     }
-                }
-
-                // Force renaming every page to its index in compatibility mode
-                if (p.CompatibilityMode)
+                } else
                 {
-                    String restoreOriginalPatternPage = RenameSpecialPagePattern;
-                    String restoreOriginalPatternSpecialPage = RenameSpecialPagePattern;
-
-                    p.RenameStoryPagePattern = "{page}.{ext}";
-                    p.RenameSpecialPagePattern = "{page}.{ext}";
-                    p.SkipIndexUpdate = true;
-
-                    try
+                    if (p.Stack != null && p.Stack.Count > 0)
                     {
-                        RenamingThread = new Thread(RunRenameScriptsForPages);
-                        RenamingThread.Start(p);
-                        
-                    }
-                    catch (Exception ee)
+                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, null, p.Stack));
+                    } else
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error in Renamer-Script  [" + ee.Message + "]");
-
-                    }
-                    finally
-                    {
-                        RenameStoryPagePattern = restoreOriginalPatternPage;
-                        RenameSpecialPagePattern = restoreOriginalPatternSpecialPage;
-
-                        currentPerformed = e.Task;
-                    }
-                }
-
-                if (currentPerformed != e.Task)
-                {
-                    if (remainingStack.Count > 0)
-                    {
-                        nextTask = remainingStack[0];
-
-                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, nextTask.TaskId, nextTask, remainingStack));
+                        AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
                     }
                 }
             }
 
             if (nextTask?.TaskId == PipelineEvent.PIPELINE_SAVE_ARCHIVE)
             {
-                SaveArchiveThread = new Thread(SaveArchiveProc);
-                SaveArchiveThread.Start(nextTask.ThreadParams);
-
                 if (e.Attributes != null)
                 {
-                    
-                }
-            }
 
-            if (nextTask?.TaskId == PipelineEvent.PIPELINE_RUN_RENAMING)
-            {
-                /*
-                Task.Factory.StartNew(() =>
+                }
+
+                SaveArchiveThreadParams p = nextTask.ThreadParams as SaveArchiveThreadParams;
+
+                if (p.Stack != null && p.Stack.Count > 0)
                 {
 
-                    RenamingThread = new Thread(AutoRenameAllPagesProc);
-                    RenamingThread.Start();
+                }
+                else
+                {
+                   p.Stack = remainingStack;
+                }
 
-                });
-                */
+                SaveArchiveThread = new Thread(SaveArchiveProc);
+                SaveArchiveThread.Start(p);
             }
 
-            //if (remainingStack.Count == 0)
-            //{
-            //    OnApplicationStateChanged(new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
-            //}
+            // end of pipeline
         }
 
         public void New()
@@ -951,7 +929,7 @@ namespace Win_CBZ
                             ReadImageMetaDataTask.UpdateImageMetadata(Pages, 
                                 AppEventHandler.OnGeneralTaskProgress,
                                 tParams.CancelToken,
-                                true,
+                                false,
                                 true,
                                 tParams.Stack
                             ),

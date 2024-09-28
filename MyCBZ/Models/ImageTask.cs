@@ -331,6 +331,9 @@ namespace Win_CBZ.Models
 
                 }
 
+                inputStream.Close();
+                inputStream.Dispose();
+
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
                 ResultFileName[0].Refresh();
@@ -514,6 +517,15 @@ namespace Win_CBZ.Models
             foreach (Page result in ResultPage)
             {
                 result?.Close();
+            }
+
+            if (ResultStream != null)
+            {
+                foreach (Stream resultStrm in ResultStream)
+                {
+                    resultStrm?.Close();
+                    resultStrm?.Dispose();
+                }
             }
 
             return this;
