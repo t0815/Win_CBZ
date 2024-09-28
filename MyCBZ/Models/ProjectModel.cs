@@ -507,8 +507,8 @@ namespace Win_CBZ
                                         AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
                                     }
 
-                                    resultPage.FreeImage();
                                     resultPage.Close();
+                                    
                                 } catch (Exception e)
                                 {
                                     AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
@@ -1099,7 +1099,7 @@ namespace Win_CBZ
                     },
                     new StackItem()
                     {
-                        TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE, //   PipelineEvent.PIPELINE_SAVE_ARCHIVE
+                        TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE, //999, //   PipelineEvent.PIPELINE_SAVE_ARCHIVE
                         ThreadParams = new SaveArchiveThreadParams()
                         {
                             Pages = Pages,

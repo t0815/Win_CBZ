@@ -5359,12 +5359,20 @@ namespace Win_CBZ
 
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS);
 
-                Task.Factory.StartNew((token) =>
+                Task updatePages = new Task((token) =>
                 {
                     int current = 0;
+
+                    SettingsToolStripMenuItem.Enabled = false;
+
                     foreach (Page page in Program.ProjectModel.Pages)
                     {
                         string newPath = Path.Combine(Program.ProjectModel.WorkingDir, Program.ProjectModel.ProjectGUID);
+
+                        if (!Path.EndsInDirectorySeparator(newPath))
+                        {
+                            newPath += Path.DirectorySeparatorChar;
+                        }
 
                         if (!Directory.Exists(newPath))
                         {
@@ -5376,7 +5384,7 @@ namespace Win_CBZ
                         page.WorkingDir = Path.Combine(Program.ProjectModel.WorkingDir, Program.ProjectModel.ProjectGUID);
 
 
-                        if (page.TemporaryFile != null && page.TemporaryFile.FilePath != newPath)
+                        if (page.TemporaryFile != null && !Path.Equals(page.TemporaryFile.FilePath, newPath))
                         {
                             try
                             {
@@ -5407,6 +5415,15 @@ namespace Win_CBZ
                             false,
                             true));
                 }, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS));
+
+                updatePages.ContinueWith(t =>
+                {
+                    SettingsToolStripMenuItem.Enabled = true;
+
+                    AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                });
+
+                updatePages.Start();
 
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
 

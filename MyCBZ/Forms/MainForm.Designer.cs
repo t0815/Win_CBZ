@@ -1047,10 +1047,12 @@ namespace Win_CBZ
             // ExecuteCurrentGlobalAction
             // 
             ExecuteCurrentGlobalAction.Dock = System.Windows.Forms.DockStyle.Right;
-            ExecuteCurrentGlobalAction.Location = new System.Drawing.Point(1125, 5);
-            ExecuteCurrentGlobalAction.Margin = new System.Windows.Forms.Padding(5);
+            ExecuteCurrentGlobalAction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ExecuteCurrentGlobalAction.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            ExecuteCurrentGlobalAction.Location = new System.Drawing.Point(1125, 3);
+            ExecuteCurrentGlobalAction.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
             ExecuteCurrentGlobalAction.Name = "ExecuteCurrentGlobalAction";
-            ExecuteCurrentGlobalAction.Size = new System.Drawing.Size(160, 25);
+            ExecuteCurrentGlobalAction.Size = new System.Drawing.Size(160, 29);
             ExecuteCurrentGlobalAction.TabIndex = 1;
             ExecuteCurrentGlobalAction.Text = "Ok";
             ExecuteCurrentGlobalAction.UseVisualStyleBackColor = true;

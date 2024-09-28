@@ -163,6 +163,7 @@ namespace Win_CBZ.Models
             PageImageFormat targetFormat = new PageImageFormat(SourcePage.Format);
             Stream outputStream = null;
             Stream inputStream = SourcePage.GetImageStream();
+            Image imageInfo = null;
 
             int tempFileCounter = 0;
 
@@ -353,15 +354,17 @@ namespace Win_CBZ.Models
 
                     tempFileCounter++;
 
-                    Image image = Image.FromStream(inputStream);
+                    imageInfo = Image.FromStream(stream: inputStream,
+                                                     useEmbeddedColorManagement: false,
+                                                     validateImageData: false);
 
                     switch (ImageAdjustments.SplitType)
                     {
                         case 0:
                             targetFormat.X = 0;
                             targetFormat.Y = 0;
-                            targetFormat.W = (int)(image.Width * ImageAdjustments.SplitPageAt / 100);
-                            targetFormat.H = image.Height;
+                            targetFormat.W = (int)(imageInfo.Width * ImageAdjustments.SplitPageAt / 100);
+                            targetFormat.H = imageInfo.Height;
 
                             ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
@@ -377,10 +380,10 @@ namespace Win_CBZ.Models
 
                             //outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
-                            targetFormat.X = (int)(image.Width * ImageAdjustments.SplitPageAt / 100);
+                            targetFormat.X = (int)(imageInfo.Width * ImageAdjustments.SplitPageAt / 100);
                             targetFormat.Y = 0;
-                            targetFormat.W = image.Width - targetFormat.X;
-                            targetFormat.H = image.Height;
+                            targetFormat.W = imageInfo.Width - targetFormat.X;
+                            targetFormat.H = imageInfo.Height;
 
                             ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
@@ -390,8 +393,6 @@ namespace Win_CBZ.Models
                             inputStream.Close();
                             inputStream.Dispose();
 
-                            image.Dispose();
-
                             File.Copy(inProgressFile.FullPath, ResultFileName[1].FullPath, true);
 
 
@@ -400,7 +401,7 @@ namespace Win_CBZ.Models
                             targetFormat.X = 0;
                             targetFormat.Y = 0;
                             targetFormat.W = ImageAdjustments.SplitPageAt;
-                            targetFormat.H = image.Height;
+                            targetFormat.H = imageInfo.Height;
 
                             ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
@@ -418,8 +419,8 @@ namespace Win_CBZ.Models
 
                             targetFormat.X = ImageAdjustments.SplitPageAt + 1;
                             targetFormat.Y = 0;
-                            targetFormat.W = image.Width - targetFormat.X;
-                            targetFormat.H = image.Height;
+                            targetFormat.W = imageInfo.Width - targetFormat.X;
+                            targetFormat.H = imageInfo.Height;
 
                             ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
 
@@ -428,8 +429,6 @@ namespace Win_CBZ.Models
 
                             inputStream.Close();
                             inputStream.Dispose();
-
-                            image.Dispose();
 
                             File.Copy(inProgressFile.FullPath, ResultFileName[1].FullPath, true);
 
@@ -448,6 +447,8 @@ namespace Win_CBZ.Models
                 Success = false; 
             } finally
             {
+                imageInfo?.Dispose();
+
                 outputStream?.Close();
                 inputStream?.Close();
 

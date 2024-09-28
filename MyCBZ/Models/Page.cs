@@ -2098,6 +2098,14 @@ namespace Win_CBZ
                         destination = Path.Combine(PathHelper.ResolvePath(WorkingDir), TemporaryFileId + ".tmp");
                     }
 
+                    if (Path.Equals(destination, TemporaryFile.FullPath))
+                    {
+                        if (TemporaryFile.Exists())
+                        {
+                            return TemporaryFile;
+                        }
+                    }
+
                     try
                     {
                         destinationStream = File.Create(destination);
