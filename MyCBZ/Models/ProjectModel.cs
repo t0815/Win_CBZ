@@ -288,7 +288,7 @@ namespace Win_CBZ
             {
                 UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
 
-                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token);
+                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, false, true, remainingStack);
 
                 indexUpdater.ContinueWith((t) =>
                 {
@@ -1029,21 +1029,24 @@ namespace Win_CBZ
                 return false;
             }
 
-            string defaultKeys = String.Join("", Program.ProjectModel.MetaData.Values.Select(k => k.Key).ToArray());
-            if (!Regex.IsMatch(defaultKeys, @"^[a-z]+$", RegexOptions.IgnoreCase))
+            if (Program.ProjectModel.MetaData.Exists())
             {
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Metadata-Keys must contain only values between ['a-zA-Z']");
+                string defaultKeys = String.Join("", Program.ProjectModel.MetaData.Values.Select(k => k.Key).ToArray());
+                if (!Regex.IsMatch(defaultKeys, @"^[a-z]+$", RegexOptions.IgnoreCase))
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Metadata-Keys must contain only values between ['a-zA-Z']");
 
-                ApplicationMessage.ShowWarning("Validateion Error! Metadata-Keys must contain only values between ['a-zA-Z']!", "Invalid Metadata", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    ApplicationMessage.ShowWarning("Validateion Error! Metadata-Keys must contain only values between ['a-zA-Z']!", "Invalid Metadata", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
 
-                AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+                    AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
 
-                return false;
-            }
+                    return false;
+                }
 
-            foreach (MetaDataEntry entry in MetaData.Values)
-            {          
-                MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());                
+                foreach (MetaDataEntry entry in MetaData.Values)
+                {
+                    MetaDataFieldConfig.GetInstance().UpdateAutoCompleteOptions(entry.Key, entry.ValueAsList());
+                }
             }
 
             PageIndexVersionWriter = metaDataVersionWriting;
