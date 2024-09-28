@@ -690,7 +690,7 @@ namespace Win_CBZ
             Close(newFollowTask);           
         }
 
-        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting, bool skipIndexCheck = false, string interpolationMode = "Default")
+        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting, bool skipIndexCheck = false, string interpolationMode = "Default", bool writeIndexSetting = true)
         {
             FileName = path;
             Mode = mode;
@@ -712,6 +712,7 @@ namespace Win_CBZ
                 Mode = mode,
                 CurrentPageIndexVer = currentMetaDataVersionWriting,
                 SkipIndexCheck = skipIndexCheck,
+                WriteIndex = writeIndexSetting,
                 Interpolation = interpolationMode,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
             });
@@ -731,6 +732,7 @@ namespace Win_CBZ
             MetaDataPageIndexFileMissing = false;
             String IndexUpdateReasonMessage = "";
             bool MetaDataPageIndexFileMissingShown = false;
+            bool MetaDataPageIndexDisabledInfoShown = false;
 
             AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_OPENING));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
@@ -764,6 +766,11 @@ namespace Win_CBZ
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive!");
                 }
 
+                if (MetaData == null)
+                {
+                    
+                }
+
                 MetaDataEntryPage pageIndexEntry;
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
@@ -786,11 +793,15 @@ namespace Win_CBZ
 
                             if (pageIndexEntry == null)
                             {
-
+                                if (!MetaDataPageIndexDisabledInfoShown)
+                                {
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive page-index is disabled by user! No index is checked and no image-metadata is being read from index.");
+                                    MetaDataPageIndexDisabledInfoShown = true;
+                                }
                             }
                         }
 
-                        if ((pageIndexEntry == null || MetaData.IndexVersionSpecification != tParams.CurrentPageIndexVer) && !MetaDataPageIndexFileMissingShown)
+                        if ((pageIndexEntry == null || MetaData.IndexVersionSpecification != tParams.CurrentPageIndexVer) && !MetaDataPageIndexFileMissingShown && tParams.WriteIndex)
                         {
                             IndexUpdateReasonMessage = "Pageindex has invalid/outdated format! Rebuild index to update to current specifications?";
                             MetaDataPageIndexFileMissing = true;
@@ -799,7 +810,7 @@ namespace Win_CBZ
                         }
 
                         if (pageIndexEntry != null)
-                        { 
+                        {
                             try
                             {
                                 page.ImageType = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_TYPE);
@@ -832,13 +843,16 @@ namespace Win_CBZ
                         }
                         else
                         {
-                            MetaDataPageIndexFileMissing = true;
-                            MetaDataPageIndexMissingData = true;
-                            if (!MetaDataPageIndexFileMissingShown)
+                            if (tParams.WriteIndex)
                             {
-                                IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
+                                MetaDataPageIndexFileMissing = true;
+                                MetaDataPageIndexMissingData = true;
+                                if (!MetaDataPageIndexFileMissingShown)
+                                {
+                                    IndexUpdateReasonMessage = "Image metadata missing from pageindex! Reload image metadata and rebuild pageindex now?";
+                                }
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                             }
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata missing for page [" + page.Name + "]!");
                         }
 
                         try
@@ -869,7 +883,7 @@ namespace Win_CBZ
                 Page pageCheck = null;
                 index = 0;
 
-                if (!tParams.SkipIndexCheck)
+                if (!tParams.SkipIndexCheck && tParams.WriteIndex)
                 {
 
                     // check index and compare with files
@@ -923,7 +937,7 @@ namespace Win_CBZ
                 FileSize = totalSize;
                 MaxFileIndex = index;
 
-                if (MetaDataPageIndexMissingData)
+                if (MetaDataPageIndexMissingData && tParams.WriteIndex)
                 {
                     String gid = Guid.NewGuid().ToString();
                     //TokenStore.GetInstance().ResetCancellationToken(TokenStore.TASK_TYPE_UPDATE_IMAGE_METADATA);
@@ -946,7 +960,7 @@ namespace Win_CBZ
                     );
                 }
 
-                if (MetaDataPageIndexFileMissing)
+                if (MetaDataPageIndexFileMissing && tParams.WriteIndex)
                 {
                     String gid = Guid.NewGuid().ToString();
 

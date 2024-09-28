@@ -14,13 +14,15 @@ namespace Win_CBZ.Data
     {
         public String FileName { get; set; }
 
-        public bool ContinueOnError { get; set; }
+        public bool ContinueOnError { get; set; } = false;
 
         public MetaData.PageIndexVersion CurrentPageIndexVer { get; set; } = MetaData.PageIndexVersion.VERSION_1;
 
         public ZipArchiveMode Mode { get; set; }
 
-        public bool SkipIndexCheck { get; set; }
+        public bool SkipIndexCheck { get; set; } = false;
+
+        public bool WriteIndex { get; set; } = true;
 
         public string Interpolation { get; set; } = "Default";
     }

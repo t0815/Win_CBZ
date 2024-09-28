@@ -486,7 +486,8 @@ namespace Win_CBZ
                         ZipArchiveMode.Read,
                         MetaDataVersionFlavorHandler.GetInstance().TargetVersion(),
                         Win_CBZSettings.Default.SkipIndexCheck,
-                        Win_CBZSettings.Default.InterpolationMode
+                        Win_CBZSettings.Default.InterpolationMode,
+                        Win_CBZSettings.Default.WriteXmlPageIndex
                         );
                 });
 
