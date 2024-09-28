@@ -5337,6 +5337,7 @@ namespace Win_CBZ
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool currentWriteXMLIndexSetting = Win_CBZSettings.Default.WriteXmlPageIndex;
             SettingsDialog settingsDialog = new SettingsDialog();
             if (settingsDialog.ShowDialog() == DialogResult.OK)
             {
@@ -5459,6 +5460,36 @@ namespace Win_CBZ
                     SettingsToolStripMenuItem.Enabled = true;
 
                     AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                
+                    if (Win_CBZSettings.Default.WriteXmlPageIndex && currentWriteXMLIndexSetting != Win_CBZSettings.Default.WriteXmlPageIndex)
+                    {
+                        //DialogResult res = ApplicationMessage.Show("The application needs to be restarted in order to apply the changes.\r\nRestart now?", "Restart required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+
+                        //if (res == DialogResult.Yes)
+                        //{
+                        //    Application.Restart();
+                        //}
+                        
+                        String gid = Guid.NewGuid().ToString();
+                        
+                        TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA);
+
+                        AppEventHandler.OnGlobalActionRequired(this,
+                            new GlobalActionRequiredEvent(Program.ProjectModel,
+                                0,
+                                "Image metadata needs to be updated! Reload image metadata and rebuild pageindex now?",
+                                "Rebuild",
+                                GlobalActionRequiredEvent.TASK_TYPE_UPDATE_IMAGE_METADATA,
+                                ReadImageMetaDataTask.UpdateImageMetadata(Program.ProjectModel.Pages,
+                                    AppEventHandler.OnGeneralTaskProgress,
+                                    TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA),
+                                    true,
+                                    true
+                                ),
+                                gid
+                            )
+                        );
+                    }
                 });
 
                 updatePages.Start();
