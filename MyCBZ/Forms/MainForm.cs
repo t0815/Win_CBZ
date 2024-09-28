@@ -947,10 +947,16 @@ namespace Win_CBZ
                     Invoke(new Action(() =>
                     {
                         SaveToolStripMenuItem.Enabled = false;
+                        OpenToolStripMenuItem.Enabled = false;
+                        AddFilesToolStripMenuItem.Enabled = false;
+                        AddFolderToolStripMenuItem.Enabled = false;
+                        
                         SaveAsToolStripMenuItem.Enabled = false;
                         ToolButtonSave.Enabled = false;
+                        ToolButtonOpen.Enabled = false;
                         ToolButtonNew.Enabled = false;
                         ToolButtonAddFiles.Enabled = false;
+                        ToolButtonAddFolder.Enabled = false;
                         ToolButtonMovePageDown.Enabled = false;
                         ToolButtonMovePageUp.Enabled = false;
                         ToolButtonRemoveFiles.Enabled = false;
@@ -1002,10 +1008,15 @@ namespace Win_CBZ
                         if (e.GlobalActionId != null)
                         {
                             SaveToolStripMenuItem.Enabled = true;
+                            OpenToolStripMenuItem.Enabled = true;
                             SaveAsToolStripMenuItem.Enabled = true;
+                            AddFilesToolStripMenuItem.Enabled = true;
+                            AddFolderToolStripMenuItem.Enabled = true;
                             ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                             ToolButtonNew.Enabled = true;
+                            ToolButtonOpen.Enabled = true;
                             ToolButtonAddFiles.Enabled = true;
+                            ToolButtonAddFolder.Enabled = true;
                             ToolButtonMovePageDown.Enabled = true;
                             ToolButtonMovePageUp.Enabled = true;
                             ToolButtonRemoveFiles.Enabled = true;
@@ -1825,7 +1836,7 @@ namespace Win_CBZ
                     ToolButtonMovePageUp.Enabled = false;
                     ToolButtonAddFolder.Enabled = true;
                     BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
-                    AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                    AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Exists() && Program.ProjectModel.MetaData.Values != null;
                     BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     ToolStripButtonShowRawMetadata.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                     ToolButtonExtractArchive.Enabled = !Program.ProjectModel.IsNew;
@@ -1838,12 +1849,13 @@ namespace Win_CBZ
                     PagesList.Enabled = true;
                     PageView.Enabled = true;
                     PageThumbsListBox.Enabled = true;
-                    MetaDataGrid.Enabled = true;
-                    AddMetaDataRowBtn.Enabled = true;
+                    MetaDataGrid.Enabled = true;                    
                     ToolButtonEditImageProps.Enabled = false;
                     ToolButtonEditImage.Enabled = false;
                     ToolButtonValidateCBZ.Enabled = true;
                     AddFolderToolStripMenuItem.Enabled = true;
+                    ToolBarSearchInput.Enabled = true;
+                    ToolBarSearchLabel.Enabled = true;
 
                     break;
 
@@ -1875,6 +1887,8 @@ namespace Win_CBZ
                     ToolButtonValidateCBZ.Enabled = false;
                     ToolButtonSetPageType.Enabled = false;
                     AddFolderToolStripMenuItem.Enabled = false;
+                    ToolBarSearchInput.Enabled = false;
+                    ToolBarSearchLabel.Enabled = false;
 
                     break;
 
@@ -1906,6 +1920,12 @@ namespace Win_CBZ
                     ToolButtonValidateCBZ.Enabled = false;
                     ToolButtonSetPageType.Enabled = false;
                     AddFolderToolStripMenuItem.Enabled = false;
+                    ToolButtonOpen.Enabled = false;
+                    ToolButtonNew.Enabled = false;
+                    ToolButtonAddFiles.Enabled = false;
+                    ToolButtonRemoveFiles.Enabled = false;
+                    ToolButtonAddFolder.Enabled = false;
+                    ExtractSelectedPages.Enabled = false;
 
                     break;
 
@@ -1937,6 +1957,8 @@ namespace Win_CBZ
                     ToolButtonValidateCBZ.Enabled = false;
                     ToolButtonSetPageType.Enabled = false;
                     AddFolderToolStripMenuItem.Enabled = false;
+                    ToolBarSearchInput.Enabled = false;
+                    ToolBarSearchLabel.Enabled = false;
 
                     break;
 
@@ -1969,6 +1991,9 @@ namespace Win_CBZ
                     ToolButtonValidateCBZ.Enabled = false;
                     ToolButtonSetPageType.Enabled = false;
                     AddFolderToolStripMenuItem.Enabled = false;
+                    ToolBarSearchInput.Enabled = false;
+                    ToolBarSearchLabel.Enabled = false;
+
 
                     break;
 
@@ -2216,6 +2241,8 @@ namespace Win_CBZ
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
+                        ToolBarSearchInput.Enabled = true;
+                        ToolBarSearchLabel.Enabled = true;
 
                         break;
 
@@ -2246,6 +2273,8 @@ namespace Win_CBZ
                         ToolButtonEditImageProps.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
                         ToolButtonValidateCBZ.Enabled = false;
+                        ToolBarSearchInput.Enabled = false;
+                        ToolBarSearchLabel.Enabled = false;
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_OPENED:
@@ -2275,6 +2304,8 @@ namespace Win_CBZ
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
+                        ToolBarSearchInput.Enabled = true;
+                        ToolBarSearchLabel.Enabled = true;
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVED:
@@ -2397,6 +2428,8 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
                         ToolButtonValidateCBZ.Enabled = false;
+                        ToolBarSearchInput.Enabled = false;
+                        ToolBarSearchLabel.Enabled = false;
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_CLOSED:
@@ -2437,6 +2470,8 @@ namespace Win_CBZ
                         RadioApplyAdjustmentsPage.Text = "(no Page selected)";
                         RadioApplyAdjustmentsPage.Enabled = false;
                         CurrentGlobalActions.Clear();
+                        ToolBarSearchInput.Enabled = true;
+                        ToolBarSearchLabel.Enabled = true;
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
@@ -2470,6 +2505,8 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
+                        ToolBarSearchInput.Enabled = true;
+                        ToolBarSearchLabel.Enabled = true;
                         //}
                         break;
                     case ArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
