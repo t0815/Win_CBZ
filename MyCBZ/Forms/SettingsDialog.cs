@@ -11,6 +11,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
@@ -73,6 +74,12 @@ namespace Win_CBZ.Forms
 
         public bool MetadataGridEditModeValueCol;
 
+        public int CompressionLevel;
+
+        public bool CompatibilityMode;
+
+        public bool IgnoreErrors;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -133,10 +140,19 @@ namespace Win_CBZ.Forms
             TempPath = Win_CBZSettings.Default.TempFolderPath;
             FilterNewPagesByExt = Win_CBZSettings.Default.FilterByExtension;
 
+            CompressionLevel = Win_CBZSettings.Default.CompressionLevel;
+            CompatibilityMode = Win_CBZSettings.Default.CompatMode;
+            IgnoreErrors = Win_CBZSettings.Default.IgnoreErrorsOnSave;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
 
+            if (WriteXMLPageIndex == false)
+            {
+                CompatibilityMode = true;
+                CheckBoxCompatibilityMode.Enabled = false;
+            }
 
             // ----------------------------------------
 
@@ -159,6 +175,10 @@ namespace Win_CBZ.Forms
             CheckboxAlwaysInEditMode.Checked = MetadataGridEditMode;
             CheckBoxEditModeOnlyValueCol.Checked = MetadataGridEditModeValueCol;
             CheckBoxWriteIndex.Checked = WriteXMLPageIndex;
+
+            ComboBoxCompressionLevel.SelectedIndex = CompressionLevel;
+            CheckBoxCompatibilityMode.Checked = CompatibilityMode;
+            CheckBoxIgnoreErrorsOnSave.Checked = IgnoreErrors;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -295,7 +315,7 @@ namespace Win_CBZ.Forms
             CustomFieldsDataGrid.Rows.Clear();
             foreach (MetaDataFieldType type in CustomFieldTypesSettings)
             {
-                
+
                 CustomFieldsDataGrid.Rows.Add(type.Name, type.FieldType, type.EditorType, type.Options, type.AutoCompleteImageKey, type.MultiValued, type.MultiValueSeparator, type.AutoUpdate);
             }
 
@@ -618,6 +638,10 @@ namespace Win_CBZ.Forms
                     MetadataGridEditModeValueCol = CheckBoxEditModeOnlyValueCol.Checked;
                     WriteXMLPageIndex = CheckBoxWriteIndex.Checked;
 
+                    CompressionLevel = ComboBoxCompressionLevel.SelectedIndex;
+                    CompatibilityMode = CheckBoxCompatibilityMode.Checked;
+                    IgnoreErrors = CheckBoxIgnoreErrorsOnSave.Checked;
+
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
@@ -625,6 +649,11 @@ namespace Win_CBZ.Forms
 
                     }
                     CustomFieldTypesCollection = fieldConfigItems.ToArray();
+
+                    if (!Path.EndsInDirectorySeparator(TempPath))
+                    {
+                        TempPath += Path.DirectorySeparatorChar;
+                    }
                 }
                 catch (MetaDataValidationException mv)
                 {
@@ -1749,6 +1778,19 @@ namespace Win_CBZ.Forms
         private void CustomFieldsDataGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
 
+        }
+
+        private void CheckBoxWriteIndex_CheckedChanged(object sender, EventArgs e)
+        {
+            bool enabled = CheckBoxWriteIndex.Checked;
+
+            CheckBoxCompatibilityMode.Enabled = enabled;
+            CheckBoxCompatibilityMode.Checked = !enabled;
+            if (enabled) 
+            {
+                CheckBoxCompatibilityMode.Checked = CompatibilityMode;
+            }
+            
         }
     }
 }

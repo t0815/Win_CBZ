@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.21.173b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.21.174b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
@@ -615,6 +615,18 @@ namespace Win_CBZ {
             }
             set {
                 this["WriteXmlPageIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CompressionLevel {
+            get {
+                return ((int)(this["CompressionLevel"]));
+            }
+            set {
+                this["CompressionLevel"] = value;
             }
         }
     }

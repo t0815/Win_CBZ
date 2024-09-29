@@ -294,6 +294,18 @@ namespace Win_CBZ
 
                 ComboBoxCompressionLevel.SelectedIndex = 0;
 
+                bool enabled = Win_CBZSettings.Default.WriteXmlPageIndex;
+
+                CheckBoxCompatibilityMode.Enabled = enabled;
+                CheckBoxCompatibilityMode.Checked = !enabled;
+                
+                if (enabled)
+                {
+                    CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
+                }
+
+                Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
+
                 // ---------------------------- DEBUG --------------------------------
                 DebugToolsToolStripMenuItem.Visible = Program.DebugMode;
 
@@ -5383,6 +5395,9 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.MetadataGridInstantEditMode = settingsDialog.MetadataGridEditMode;
                 Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol = settingsDialog.MetadataGridEditModeValueCol;
                 Win_CBZSettings.Default.WriteXmlPageIndex = settingsDialog.WriteXMLPageIndex;
+                Win_CBZSettings.Default.CompressionLevel = settingsDialog.CompressionLevel;
+                Win_CBZSettings.Default.CompatMode = settingsDialog.CompatibilityMode;
+                Win_CBZSettings.Default.IgnoreErrorsOnSave = settingsDialog.IgnoreErrors;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 
@@ -5404,6 +5419,7 @@ namespace Win_CBZ
                 Task updatePages = new Task((token) =>
                 {
                     int current = 0;
+                    int updated = 0;
 
                     SettingsToolStripMenuItem.Enabled = false;
 
@@ -5431,6 +5447,7 @@ namespace Win_CBZ
                             try
                             {
                                 page.CreateLocalWorkingCopy();
+                                updated++;
                             }
                             catch (Exception ex)
                             {
@@ -5438,14 +5455,17 @@ namespace Win_CBZ
                             }
                         }
 
-                        AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(
-                            GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
-                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                            "Updating pages settings...",
-                            current,
-                            Program.ProjectModel.Pages.Count,
-                            false,
-                            true));
+                        if (updated > 0)
+                        {
+                            AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(
+                                GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX,
+                                GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                                "Updating pages settings...",
+                                current,
+                                Program.ProjectModel.Pages.Count,
+                                false,
+                                true));
+                        }
                     }
 
                     AppEventHandler.OnGeneralTaskProgress(null, new GeneralTaskProgressEvent(
@@ -5456,6 +5476,7 @@ namespace Win_CBZ
                             0,
                             false,
                             true));
+
                 }, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGES_SETTINGS));
 
                 updatePages.ContinueWith(t =>
@@ -5500,6 +5521,23 @@ namespace Win_CBZ
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
 
                 TextBoxMetaDataFilename.Text = settingsDialog.MetaDataFilename;
+
+                ComboBoxCompressionLevel.SelectedIndex = settingsDialog.CompressionLevel;
+                CheckBoxCompatibilityMode.Checked = settingsDialog.CompatibilityMode;
+                CheckBoxIgnoreErrorsOnSave.Checked = settingsDialog.IgnoreErrors;
+
+                bool enabled = settingsDialog.WriteXMLPageIndex;
+
+                CheckBoxCompatibilityMode.Enabled = enabled;
+                CheckBoxCompatibilityMode.Checked = !enabled;
+                if (enabled)
+                {
+                    CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
+                }
+
+                Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
+
+
                 Program.ProjectModel.MetaData.MetaDataFileName = settingsDialog.MetaDataFilename;
 
                 Program.ProjectModel.FilteredFileNames.Clear();
