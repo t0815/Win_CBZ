@@ -80,6 +80,10 @@ namespace Win_CBZ.Forms
 
         public bool IgnoreErrors;
 
+        public bool RestoreWindowPosition;
+
+        public bool LogValidationErrors;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -144,6 +148,9 @@ namespace Win_CBZ.Forms
             CompatibilityMode = Win_CBZSettings.Default.CompatMode;
             IgnoreErrors = Win_CBZSettings.Default.IgnoreErrorsOnSave;
 
+            RestoreWindowPosition = Win_CBZSettings.Default.RestoreWindowLayout;
+            LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
+
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
             CustomFieldTypesSettings = MetaDataFieldConfig.GetInstance().GetAllTypes();
@@ -179,6 +186,9 @@ namespace Win_CBZ.Forms
             ComboBoxCompressionLevel.SelectedIndex = CompressionLevel;
             CheckBoxCompatibilityMode.Checked = CompatibilityMode;
             CheckBoxIgnoreErrorsOnSave.Checked = IgnoreErrors;
+
+            CheckBoxSaveWindowLayout.Checked = RestoreWindowPosition;
+            CheckBoxLogValidationErrors.Checked = LogValidationErrors;
 
             MetaDataConfigTabControl.Dock = DockStyle.Fill;
             ImageProcessingTabControl.Dock = DockStyle.Fill;
@@ -642,6 +652,9 @@ namespace Win_CBZ.Forms
                     CompatibilityMode = CheckBoxCompatibilityMode.Checked;
                     IgnoreErrors = CheckBoxIgnoreErrorsOnSave.Checked;
 
+                    RestoreWindowPosition = CheckBoxSaveWindowLayout.Checked;
+                    LogValidationErrors = CheckBoxLogValidationErrors.Checked;
+
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
@@ -699,7 +712,12 @@ namespace Win_CBZ.Forms
 
                     DialogResult = DialogResult.Cancel;
                     e.Cancel = true;
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
+
+                    if (Win_CBZSettings.Default.LogValidationErrors)
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
+                    }
+                    
                     ApplicationMessage.ShowWarning(mv.Message, "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                 }
             }

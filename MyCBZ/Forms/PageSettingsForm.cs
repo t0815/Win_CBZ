@@ -119,9 +119,13 @@ namespace Win_CBZ.Forms
             {
                 ErrorProvider.SetError(this.Controls.Find(pv.ControlName, true)[0], pv.Message);
 
-
                 e.Cancel = true;
-                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, pv.Message);
+
+                if (Win_CBZSettings.Default.LogValidationErrors)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, pv.Message);
+                }
+                
                 ApplicationMessage.ShowWarning(pv.Message, "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
             }
         }
