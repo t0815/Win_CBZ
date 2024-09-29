@@ -83,6 +83,7 @@
             tabPage2 = new System.Windows.Forms.TabPage();
             metaDataView = new System.Windows.Forms.WebBrowser();
             Tooltip = new System.Windows.Forms.ToolTip(components);
+            ErrorProvider = new System.Windows.Forms.ErrorProvider(components);
             SettingsTablePanel.SuspendLayout();
             ImagePreviewTableLayout.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -97,6 +98,7 @@
             KeyEditorPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)ErrorProvider).BeginInit();
             SuspendLayout();
             // 
             // SettingsTablePanel
@@ -824,6 +826,10 @@
             Tooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             Tooltip.ToolTipTitle = "Win_CBZ";
             // 
+            // ErrorProvider
+            // 
+            ErrorProvider.ContainerControl = this;
+            // 
             // PageSettingsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -838,7 +844,6 @@
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Page Properties";
             FormClosing += PageSettingsForm_FormClosing;
-            Load += PageSettingsForm_Load_1;
             Shown += PageSettingsForm_Shown;
             KeyUp += PageSettingsForm_KeyUp;
             SettingsTablePanel.ResumeLayout(false);
@@ -858,6 +863,7 @@
             KeyEditorPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)ErrorProvider).EndInit();
             ResumeLayout(false);
         }
 
@@ -916,5 +922,6 @@
         private System.Windows.Forms.ProgressBar ProgressBarReload;
         private LoadingIndicator.WinForms.BoxIndicatorControl LoadingIndicator;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ErrorProvider ErrorProvider;
     }
 }

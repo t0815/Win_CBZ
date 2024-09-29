@@ -17,6 +17,8 @@ using System.Drawing.Imaging;
 using System.Runtime.Versioning;
 using System.Threading;
 using Win_CBZ.Hash;
+using Win_CBZ.Events;
+using Win_CBZ.Exceptions;
 
 namespace Win_CBZ.Forms
 {
@@ -58,9 +60,70 @@ namespace Win_CBZ.Forms
 
         private void PageSettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FirstPage?.FreeImage();
+            int maxIndex = Program.ProjectModel.Pages.Count;
 
-            FreeResult();
+            try
+            {
+                if (DialogResult == DialogResult.OK)
+                {
+                
+                    if (Pages.Count == 1)
+                    {
+                        int newIndex = -1;
+
+                        try
+                        {
+                            newIndex = Convert.ToInt32(PageIndexTextbox.Text);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new PageValidationException(Pages[0], "PageIndexTextbox", "Invalid page index! Index must be nummeric [0-9]!", true);
+                        }
+
+                        if (newIndex < 1 || newIndex > Program.ProjectModel.Pages.Count)
+                        {
+                            throw new PageValidationException(Pages[0], "PageIndexTextbox", "Invalid page index! Value must not be < 1 and not > " + maxIndex.ToString() + ".", true);
+                        }
+
+                        ErrorProvider.SetError(PageIndexTextbox, null);
+
+                        if (PageNameTextBox.Text.Trim().Length == 0)
+                        {
+                            throw new PageValidationException(Pages[0], "PageNameTextBox", "Page name must not be empty!", true);
+                        }
+
+                        Page existing = Program.ProjectModel.Pages.Find(p => p.Name.ToLower() == PageNameTextBox.Text.ToLower());
+                    
+                        if (existing != null) 
+                        {
+                            if (existing.Id != Pages[0].Id)
+                            {
+                                throw new PageValidationException(Pages[0], "PageNameTextBox", @"Page with the name [" + PageNameTextBox.Text + "] already exists!\r\nA different page with the same name already exists at Index " + existing.Index + ".", true);
+                            }
+                        }
+
+                        ErrorProvider.SetError(PageNameTextBox, null);
+                    }
+                
+
+
+                    // ------------------ validate page settings ------------------
+
+                }
+
+                FirstPage?.FreeImage();
+                FirstPage?.FreeStreams();
+
+                FreeResult();
+            } catch (PageValidationException pv)
+            {
+                ErrorProvider.SetError(this.Controls.Find(pv.ControlName, true)[0], pv.Message);
+
+
+                e.Cancel = true;
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, pv.Message);
+                ApplicationMessage.ShowWarning(pv.Message, "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            }
         }
 
         private bool ThumbAbort()
@@ -84,6 +147,7 @@ namespace Win_CBZ.Forms
                     try
                     {
                         page.FreeImage();
+                        page.FreeStreams();
                         page.IsMemoryCopy = false;
                     }
                     catch (ApplicationException)
@@ -278,10 +342,6 @@ namespace Win_CBZ.Forms
             }
         }
 
-        private void PageSettingsForm_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void ComboBoxPageType_TextUpdate(object sender, EventArgs e)
         {
@@ -294,11 +354,6 @@ namespace Win_CBZ.Forms
             {
                 page.ImageType = ComboBoxPageType.Text;
             }
-        }
-
-        private void PageSettingsForm_Load_1(object sender, EventArgs e)
-        {
-
         }
 
         private void ButtonReloadImage_Click(object sender, EventArgs e)

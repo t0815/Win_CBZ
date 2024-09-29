@@ -2738,14 +2738,13 @@ namespace Win_CBZ
 
             if (!ignoreDuplicates)
             {
-                foreach (Page existingPage in Pages)
+                List<Page> existing = Pages.FindAll(p => p.Name.ToLower() == name.ToLower());
+
+                foreach (Page existingPage in existing)
                 {
                     if (existingPage.Id != page.Id)
-                    {
-                        if (existingPage.Name.ToLower().Equals(name.ToLower()))
-                        {
-                            throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".", showErrors);
-                        }
+                    {              
+                        throw new PageDuplicateNameException(page, "Failed to rename page ['" + page.Name + "'] with ID [" + page.Id + "]! A different page with the same name already exists at Index " + existingPage.Index + ".", showErrors);
                     }
                 }
             }
