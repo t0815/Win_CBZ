@@ -121,53 +121,58 @@ namespace Win_CBZ
 
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
-            if (Win_CBZSettings.Default.WindowW > 0 && Win_CBZSettings.Default.WindowH > 0)
+            if (Win_CBZSettings.Default.RestoreWindowLayout)
             {
-                Width = Win_CBZSettings.Default.WindowW;
-                Height = Win_CBZSettings.Default.WindowH;
+                if (WindowState == FormWindowState.Normal)
+                {
+
+                    if (Win_CBZSettings.Default.WindowW > 0 && Win_CBZSettings.Default.WindowH > 0)
+                    {
+                        Width = Win_CBZSettings.Default.WindowW;
+                        Height = Win_CBZSettings.Default.WindowH;
+                    }
+
+                    try
+                    {
+                        MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
+                    }
+                    catch (Exception e)
+                    {
+                        ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter1'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+
+                    try
+                    {
+                        SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
+                    }
+                    catch (Exception e)
+                    {
+                        ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter2'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+
+                    try
+                    {
+                        SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
+                    }
+                    catch (Exception e)
+                    {
+                        ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter3'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+
+                    try
+                    {
+                        PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
+                    }
+                    catch (Exception e)
+                    {
+                        ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+                }
             }
 
             ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
 
             Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
-
-            try
-            {
-                MainSplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter1;
-            }
-            catch (Exception e)
-            {
-                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter1'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-            }
-
-            try
-            {
-                SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
-            }
-            catch (Exception e)
-            {
-                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter2'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-            }
-
-            try
-            {
-                SplitBoxItemsList.SplitterDistance = Win_CBZSettings.Default.Splitter3;
-            }
-            catch (Exception e)
-            {
-                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter3'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-            }
-
-            try
-            {
-                PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
-            }
-            catch (Exception e)
-            {
-                ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-            }
-
-
 
             // First Run App, initialize settings with defaults here  
             if (Win_CBZSettings.Default.FirstRun)
@@ -2733,12 +2738,16 @@ namespace Win_CBZ
 
         private void QuitApplication()
         {
-            Win_CBZSettings.Default.WindowW = Width;
-            Win_CBZSettings.Default.WindowH = Height;
-            Win_CBZSettings.Default.Splitter1 = MainSplitBox.SplitterDistance;
-            Win_CBZSettings.Default.Splitter2 = SplitBoxPageView.SplitterDistance;
-            Win_CBZSettings.Default.Splitter3 = SplitBoxItemsList.SplitterDistance;
-            Win_CBZSettings.Default.Splitter4 = PrimarySplitBox.SplitterDistance;
+            if (Win_CBZSettings.Default.RestoreWindowLayout)
+            {
+                Win_CBZSettings.Default.WindowW = Width;
+                Win_CBZSettings.Default.WindowH = Height;
+                Win_CBZSettings.Default.Splitter1 = MainSplitBox.SplitterDistance;
+                Win_CBZSettings.Default.Splitter2 = SplitBoxPageView.SplitterDistance;
+                Win_CBZSettings.Default.Splitter3 = SplitBoxItemsList.SplitterDistance;
+                Win_CBZSettings.Default.Splitter4 = PrimarySplitBox.SplitterDistance;
+            }
+
             Win_CBZSettings.Default.IgnoreErrorsOnSave = CheckBoxIgnoreErrorsOnSave.Checked;
 
             Win_CBZSettings.Default.CustomMetadataFields.Clear();
@@ -3343,6 +3352,11 @@ namespace Win_CBZ
                 if (ve.RemoveEntry && dlgResult != DialogResult.Ignore)
                 {
                     e.Cancel = MetaDataGrid.IsCurrentCellInEditMode;
+                }
+
+                if (Win_CBZSettings.Default.LogValidationErrors)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ve.Message);
                 }
 
                 MetaDataGrid.InvalidateCell(e.ColumnIndex, e.RowIndex);
@@ -5399,6 +5413,9 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.CompressionLevel = settingsDialog.CompressionLevel;
                 Win_CBZSettings.Default.CompatMode = settingsDialog.CompatibilityMode;
                 Win_CBZSettings.Default.IgnoreErrorsOnSave = settingsDialog.IgnoreErrors;
+
+                Win_CBZSettings.Default.LogValidationErrors = settingsDialog.LogValidationErrors;
+                Win_CBZSettings.Default.RestoreWindowLayout = settingsDialog.RestoreWindowPosition;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 

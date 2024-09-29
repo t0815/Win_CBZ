@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.21.174b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.22.175b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
@@ -627,6 +627,30 @@ namespace Win_CBZ {
             }
             set {
                 this["CompressionLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LogValidationErrors {
+            get {
+                return ((bool)(this["LogValidationErrors"]));
+            }
+            set {
+                this["LogValidationErrors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RestoreWindowLayout {
+            get {
+                return ((bool)(this["RestoreWindowLayout"]));
+            }
+            set {
+                this["RestoreWindowLayout"] = value;
             }
         }
     }

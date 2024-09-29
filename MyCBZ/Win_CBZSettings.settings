@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%APPDATA%\WIN_CBZ\Temp\</Value>
     </Setting>
     <Setting Name="InstalledVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.21.174b</Value>
+      <Value Profile="(Default)">0.22.175b</Value>
     </Setting>
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -173,6 +173,12 @@
     </Setting>
     <Setting Name="CompressionLevel" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="LogValidationErrors" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RestoreWindowLayout" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
