@@ -295,13 +295,14 @@ namespace Win_CBZ
                 ComboBoxCompressionLevel.SelectedIndex = 0;
 
                 bool enabled = Win_CBZSettings.Default.WriteXmlPageIndex;
+                bool realCompatModeSetting = Win_CBZSettings.Default.CompatMode;
 
                 CheckBoxCompatibilityMode.Enabled = enabled;
                 CheckBoxCompatibilityMode.Checked = !enabled;
                 
                 if (enabled)
                 {
-                    CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
+                    CheckBoxCompatibilityMode.Checked = realCompatModeSetting;
                 }
 
                 Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
@@ -5527,12 +5528,13 @@ namespace Win_CBZ
                 CheckBoxIgnoreErrorsOnSave.Checked = settingsDialog.IgnoreErrors;
 
                 bool enabled = settingsDialog.WriteXMLPageIndex;
+                bool realCompatModeSetting = Win_CBZSettings.Default.CompatMode;
 
                 CheckBoxCompatibilityMode.Enabled = enabled;
                 CheckBoxCompatibilityMode.Checked = !enabled;
                 if (enabled)
                 {
-                    CheckBoxCompatibilityMode.Checked = Win_CBZSettings.Default.CompatMode;
+                    CheckBoxCompatibilityMode.Checked = realCompatModeSetting;
                 }
 
                 Program.ProjectModel.CompatibilityMode = CheckBoxCompatibilityMode.Checked;
