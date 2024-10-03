@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.22.176b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.22.177b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
@@ -662,6 +662,18 @@ namespace Win_CBZ {
             }
             set {
                 this["KeyFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int KeyFilterBaseContitionType {
+            get {
+                return ((int)(this["KeyFilterBaseContitionType"]));
+            }
+            set {
+                this["KeyFilterBaseContitionType"] = value;
             }
         }
     }

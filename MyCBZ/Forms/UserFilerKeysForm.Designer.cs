@@ -58,6 +58,7 @@ namespace Win_CBZ.Forms
             CancelBtn = new Button();
             AutoCompleteDefaultKeys = new AutocompleteMenuNS.AutocompleteMenu();
             ToolTip = new ToolTip(components);
+            ComboIcons = new ImageList(components);
             ItemEditorTableLayout.SuspendLayout();
             panel1.SuspendLayout();
             HeaderPanel.SuspendLayout();
@@ -93,8 +94,8 @@ namespace Win_CBZ.Forms
             ItemEditorTableLayout.RowCount = 8;
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+            ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 156F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 39F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
@@ -112,7 +113,7 @@ namespace Win_CBZ.Forms
             panel1.Location = new Point(20, 99);
             panel1.Margin = new Padding(0, 0, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(313, 29);
+            panel1.Size = new Size(313, 27);
             panel1.TabIndex = 28;
             // 
             // TextBoxKey
@@ -135,7 +136,7 @@ namespace Win_CBZ.Forms
             ButtonAddKey.Location = new Point(286, 0);
             ButtonAddKey.Margin = new Padding(3, 2, 3, 2);
             ButtonAddKey.Name = "ButtonAddKey";
-            ButtonAddKey.Size = new Size(25, 27);
+            ButtonAddKey.Size = new Size(25, 25);
             ButtonAddKey.TabIndex = 22;
             ButtonAddKey.UseVisualStyleBackColor = true;
             ButtonAddKey.Click += ButtonAddKey_Click;
@@ -168,7 +169,8 @@ namespace Win_CBZ.Forms
             PictureBoxGears.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             PictureBoxGears.BackColor = Color.Transparent;
             PictureBoxGears.BackgroundImageLayout = ImageLayout.Center;
-            PictureBoxGears.Location = new Point(61, 32);
+            PictureBoxGears.Image = Properties.Resources.gearwheels_24;
+            PictureBoxGears.Location = new Point(65, 33);
             PictureBoxGears.Margin = new Padding(3, 2, 3, 2);
             PictureBoxGears.Name = "PictureBoxGears";
             PictureBoxGears.Size = new Size(24, 24);
@@ -207,7 +209,7 @@ namespace Win_CBZ.Forms
             flowLayoutPanel1.Location = new Point(336, 99);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(154, 31);
+            flowLayoutPanel1.Size = new Size(154, 29);
             flowLayoutPanel1.TabIndex = 9;
             // 
             // ItemEditorToolBar
@@ -221,7 +223,7 @@ namespace Win_CBZ.Forms
             ItemEditorToolBar.Margin = new Padding(8, 0, 8, 2);
             ItemEditorToolBar.Name = "ItemEditorToolBar";
             ItemEditorToolBar.RenderMode = ToolStripRenderMode.System;
-            ItemEditorToolBar.Size = new Size(135, 27);
+            ItemEditorToolBar.Size = new Size(96, 27);
             ItemEditorToolBar.Stretch = true;
             ItemEditorToolBar.TabIndex = 8;
             ItemEditorToolBar.Text = "toolStrip1";
@@ -275,7 +277,7 @@ namespace Win_CBZ.Forms
             dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
             DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle1;
-            DatagridUserKeyFilter.Location = new Point(23, 133);
+            DatagridUserKeyFilter.Location = new Point(23, 131);
             DatagridUserKeyFilter.Name = "DatagridUserKeyFilter";
             DatagridUserKeyFilter.RowHeadersWidth = 51;
             DatagridUserKeyFilter.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -305,6 +307,7 @@ namespace Win_CBZ.Forms
             ComboBoxCondition.Name = "ComboBoxCondition";
             ComboBoxCondition.Size = new Size(310, 28);
             ComboBoxCondition.TabIndex = 33;
+            ComboBoxCondition.DrawItem += ComboBoxCondition_DrawItem;
             // 
             // label2
             // 
@@ -349,6 +352,13 @@ namespace Win_CBZ.Forms
             AutoCompleteDefaultKeys.MaximumSize = new Size(319, 200);
             AutoCompleteDefaultKeys.MinFragmentLength = 1;
             AutoCompleteDefaultKeys.TargetControlWrapper = null;
+            // 
+            // ComboIcons
+            // 
+            ComboIcons.ColorDepth = ColorDepth.Depth32Bit;
+            ComboIcons.ImageStream = (ImageListStreamer)resources.GetObject("ComboIcons.ImageStream");
+            ComboIcons.TransparentColor = Color.Transparent;
+            ComboIcons.Images.SetKeyName(0, "hash");
             // 
             // UserFilerKeysForm
             // 
@@ -404,5 +414,6 @@ namespace Win_CBZ.Forms
         private ComboBox ComboBoxCondition;
         private Label label2;
         private ToolTip ToolTip;
+        private ImageList ComboIcons;
     }
 }

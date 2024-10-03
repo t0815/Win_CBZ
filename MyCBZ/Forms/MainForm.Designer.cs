@@ -262,6 +262,7 @@ namespace Win_CBZ
             boxIndicatorControl1 = new LoadingIndicator.WinForms.BoxIndicatorControl();
             BackgroundTaskStatusLabel = new System.Windows.Forms.Label();
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            ComboIcons = new System.Windows.Forms.ImageList(components);
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -2195,6 +2196,7 @@ namespace Win_CBZ
             // 
             ComboBoxCompressionLevel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             ArchiveBuildSettingsTableLayout.SetColumnSpan(ComboBoxCompressionLevel, 2);
+            ComboBoxCompressionLevel.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             ComboBoxCompressionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxCompressionLevel.FormattingEnabled = true;
             ComboBoxCompressionLevel.Items.AddRange(new object[] { "Optimal", "Fastest", "None", "Best" });
@@ -2203,6 +2205,7 @@ namespace Win_CBZ
             ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
             ComboBoxCompressionLevel.Size = new System.Drawing.Size(312, 28);
             ComboBoxCompressionLevel.TabIndex = 0;
+            ComboBoxCompressionLevel.DrawItem += ComboBox_DrawItem;
             ComboBoxCompressionLevel.SelectedIndexChanged += ComboBoxCompressionLevel_SelectedIndexChanged;
             // 
             // InfoIconTooltip
@@ -2925,6 +2928,12 @@ namespace Win_CBZ
             PrimaryTableLayout.Size = new System.Drawing.Size(1298, 622);
             PrimaryTableLayout.TabIndex = 6;
             // 
+            // ComboIcons
+            // 
+            ComboIcons.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            ComboIcons.ImageSize = new System.Drawing.Size(16, 16);
+            ComboIcons.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // MainForm
             // 
             AllowDrop = true;
@@ -3257,6 +3266,7 @@ namespace Win_CBZ
         private System.Windows.Forms.Button ButtonConfigureKeyFilter;
         private System.Windows.Forms.ContextMenuStrip ContextMenuUserFilterList;
         private System.Windows.Forms.ToolStripMenuItem requiredToolStripMenuItem;
+        private System.Windows.Forms.ImageList ComboIcons;
     }
 }
 

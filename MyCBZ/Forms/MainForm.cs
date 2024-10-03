@@ -3552,7 +3552,7 @@ namespace Win_CBZ
 
             if (ApplyUserKeyFilter)
             {
-                Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray()).FilterMetaData(ToolBarSearchInput.Text);
+                Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(), Win_CBZSettings.Default.KeyFilterBaseContitionType).FilterMetaData(ToolBarSearchInput.Text);
             }
             else
             {
@@ -7471,7 +7471,7 @@ namespace Win_CBZ
             {
                 if (ApplyUserKeyFilter)
                 {
-                    Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray()).FilterMetaData(ToolBarSearchInput.Text);
+                    Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(), Win_CBZSettings.Default.KeyFilterBaseContitionType).FilterMetaData(ToolBarSearchInput.Text);
                 }
                 else
                 {
@@ -7510,10 +7510,21 @@ namespace Win_CBZ
             if (userFilerKeysForm.ShowDialog() == DialogResult.OK)
             {
                 Win_CBZSettings.Default.KeyFilter = new System.Collections.Specialized.StringCollection();
+                Win_CBZSettings.Default.KeyFilterBaseContitionType = userFilerKeysForm.BaseContitionType;
 
                 foreach (String key in userFilerKeysForm.FilterKeys)
                 {
                     Win_CBZSettings.Default.KeyFilter.Add(key);
+                }
+
+                if (Program.ProjectModel.MetaData.Values.Count > 0)
+                {
+                    if (ApplyUserKeyFilter)
+                    {
+                        Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(), Win_CBZSettings.Default.KeyFilterBaseContitionType).FilterMetaData(ToolBarSearchInput.Text);
+                    }
+
+                    AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
                 }
             }
         }
@@ -7528,7 +7539,7 @@ namespace Win_CBZ
             {
                 if (ApplyUserKeyFilter)
                 {
-                    Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray()).FilterMetaData(ToolBarSearchInput.Text);
+                    Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(), Win_CBZSettings.Default.KeyFilterBaseContitionType).FilterMetaData(ToolBarSearchInput.Text);
                 }
                 else
                 {
@@ -7536,6 +7547,44 @@ namespace Win_CBZ
                 }
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
+            }
+        }
+
+        private void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            if (sender as ComboBox == null)
+            {
+                return;
+            }
+
+            Pen pen = new Pen(Color.Black, 1);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)), e.Bounds);
+            }
+
+            String icon = ((ComboBox)sender).Tag as String;
+
+            if (ComboIcons.Images.ContainsKey(icon))
+            {
+                Image img = ComboIcons.Images[icon];
+                e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
+            }
+            else
+            {
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
             }
         }
     }

@@ -24,6 +24,7 @@ using Win_CBZ.Events;
 using Win_CBZ.Helper;
 using Win_CBZ.Models;
 using Color = System.Drawing.Color;
+using Pen = System.Drawing.Pen;
 
 namespace Win_CBZ.Forms
 {
@@ -717,7 +718,7 @@ namespace Win_CBZ.Forms
                     {
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, mv.Message);
                     }
-                    
+
                     ApplicationMessage.ShowWarning(mv.Message, "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
                 }
             }
@@ -1804,11 +1805,49 @@ namespace Win_CBZ.Forms
 
             CheckBoxCompatibilityMode.Enabled = enabled;
             CheckBoxCompatibilityMode.Checked = !enabled;
-            if (enabled) 
+            if (enabled)
             {
                 CheckBoxCompatibilityMode.Checked = CompatibilityMode;
             }
-            
+
+        }
+
+        private void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            if (sender as ComboBox == null)
+            {
+                return;
+            }
+
+            Pen pen = new Pen(Color.Black, 1);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)), e.Bounds);
+            }
+
+            String icon = ((ComboBox)sender).Tag as String;
+
+            if (ComboIcons.Images.ContainsKey(icon))
+            {
+                Image img = ComboIcons.Images[icon];
+                e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
+            }
+            else
+            {
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
+            }
         }
     }
 }

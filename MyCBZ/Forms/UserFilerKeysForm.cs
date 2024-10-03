@@ -11,7 +11,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using Win_CBZ.Models;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ComboBox = System.Windows.Forms.ComboBox;
 
 namespace Win_CBZ.Forms
 {
@@ -24,6 +26,8 @@ namespace Win_CBZ.Forms
 
         private string[] _defaultKeys;
 
+        public int BaseContitionType { get; set; } = 0;
+
         private List<string> Lines = new List<string>();
 
         public UserFilerKeysForm()
@@ -31,6 +35,7 @@ namespace Win_CBZ.Forms
             InitializeComponent();
 
             FilterKeys = Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray();
+            BaseContitionType = Win_CBZSettings.Default.KeyFilterBaseContitionType;
 
             _defaultKeys = Win_CBZSettings.Default.CustomDefaultProperties?.OfType<string>().ToArray();
 
@@ -44,6 +49,8 @@ namespace Win_CBZ.Forms
             );
 
             DatagridUserKeyFilter.Rows.Clear();
+
+            ComboBoxCondition.SelectedIndex = BaseContitionType;
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -138,6 +145,7 @@ namespace Win_CBZ.Forms
                     FilterKeys[i] = DatagridUserKeyFilter.Rows[i].Cells[0].Value.ToString();
                 }
 
+                BaseContitionType = ComboBoxCondition.SelectedIndex;
             }
         }
 
@@ -151,6 +159,43 @@ namespace Win_CBZ.Forms
             foreach (DataGridViewCell cell in DatagridUserKeyFilter.SelectedCells)
             {
                 DatagridUserKeyFilter.Rows.Remove(cell.OwningRow);
+            }
+        }
+
+        private void ComboBoxCondition_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            if (sender as ComboBox == null)
+            {
+                return;
+            }
+
+            Pen pen = new Pen(Color.Black, 1);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)), e.Bounds);
+            }
+
+
+            if (ComboIcons.Images.ContainsKey("hash"))
+            {
+                Image img = ComboIcons.Images["hash"];
+                e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
+            }
+            else
+            {
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
             }
         }
     }

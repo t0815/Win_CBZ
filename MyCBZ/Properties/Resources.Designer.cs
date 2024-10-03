@@ -896,5 +896,15 @@ namespace Win_CBZ.Properties {
                 return ((System.Drawing.Image)(obj));
             }
         }
+
+        internal static System.Drawing.Image gearwheels_24{
+            get
+            {
+                object obj = ResourceManager.GetObject("gearwheels_24", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
+
+
     }
 }

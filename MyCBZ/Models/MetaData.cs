@@ -496,11 +496,18 @@ namespace Win_CBZ
             return this;
         }
 
-        public MetaData UserFilterMetaData(String[] keys = null)
+        public MetaData UserFilterMetaData(String[] keys = null, int condition = 0)
         {
             if (keys != null && keys.Length > 0)
             {
-                Values.ForEach((entry) => entry.UserFiltered = entry.Visible && !keys.Contains(entry.Key));
+                if (condition == 0)
+                {
+                    Values.ForEach((entry) => entry.UserFiltered = entry.Visible && !keys.Contains(entry.Key));
+                }
+                else if (condition == 1)
+                {
+                    Values.ForEach((entry) => entry.UserFiltered = entry.Visible && keys.Contains(entry.Key));
+                }
             } else
             {
                 Values.ForEach((entry) => entry.UserFiltered = false);
