@@ -174,6 +174,9 @@ namespace Win_CBZ
 
             ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
 
+            ApplyUserKeyFilter = Win_CBZSettings.Default.KeyFilterActive;
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Color.Gold : SystemColors.Control;
+
             Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
 
             // First Run App, initialize settings with defaults here  
@@ -7548,6 +7551,8 @@ namespace Win_CBZ
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
             }
+
+            Win_CBZSettings.Default.KeyFilterActive = ApplyUserKeyFilter;
         }
 
         private void ComboBox_DrawItem(object sender, DrawItemEventArgs e)

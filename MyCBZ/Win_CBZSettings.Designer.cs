@@ -676,5 +676,17 @@ namespace Win_CBZ {
                 this["KeyFilterBaseContitionType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool KeyFilterActive {
+            get {
+                return ((bool)(this["KeyFilterActive"]));
+            }
+            set {
+                this["KeyFilterActive"] = value;
+            }
+        }
     }
 }
