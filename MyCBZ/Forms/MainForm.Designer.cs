@@ -2526,7 +2526,7 @@ namespace Win_CBZ
             // 
             // ButtonConfigureKeyFilter
             // 
-            ButtonConfigureKeyFilter.Image = Properties.Resources.gearwheels;
+            ButtonConfigureKeyFilter.Image = Properties.Resources.funnel_gearwheels_16;
             ButtonConfigureKeyFilter.Location = new System.Drawing.Point(873, 4);
             ButtonConfigureKeyFilter.Margin = new System.Windows.Forms.Padding(2);
             ButtonConfigureKeyFilter.Name = "ButtonConfigureKeyFilter";

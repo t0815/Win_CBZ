@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
         private void InitializeComponent()
         {
             components = new Container();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(UserFilerKeysForm));
             ItemEditorTableLayout = new TableLayoutPanel();
             panel1 = new Panel();
@@ -41,7 +41,6 @@ namespace Win_CBZ.Forms
             ButtonAddKey = new Button();
             HeaderPanel = new Panel();
             HeaderLabel = new Label();
-            PictureBoxGears = new PictureBox();
             HeaderPicture = new PictureBox();
             label1 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -62,7 +61,6 @@ namespace Win_CBZ.Forms
             ItemEditorTableLayout.SuspendLayout();
             panel1.SuspendLayout();
             HeaderPanel.SuspendLayout();
-            ((ISupportInitialize)PictureBoxGears).BeginInit();
             ((ISupportInitialize)HeaderPicture).BeginInit();
             flowLayoutPanel1.SuspendLayout();
             ItemEditorToolBar.SuspendLayout();
@@ -147,9 +145,8 @@ namespace Win_CBZ.Forms
             HeaderPanel.BackColor = Color.White;
             ItemEditorTableLayout.SetColumnSpan(HeaderPanel, 5);
             HeaderPanel.Controls.Add(HeaderLabel);
-            HeaderPanel.Controls.Add(PictureBoxGears);
             HeaderPanel.Controls.Add(HeaderPicture);
-            HeaderPanel.Dock = DockStyle.Top;
+            HeaderPanel.Dock = DockStyle.Fill;
             HeaderPanel.Location = new Point(3, 0);
             HeaderPanel.Margin = new Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
@@ -166,30 +163,17 @@ namespace Win_CBZ.Forms
             HeaderLabel.TabIndex = 1;
             HeaderLabel.Text = "Manage Key Filters";
             // 
-            // PictureBoxGears
-            // 
-            PictureBoxGears.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            PictureBoxGears.BackColor = Color.Transparent;
-            PictureBoxGears.BackgroundImageLayout = ImageLayout.Center;
-            PictureBoxGears.Image = Properties.Resources.gearwheels_24;
-            PictureBoxGears.Location = new Point(65, 33);
-            PictureBoxGears.Margin = new Padding(3, 2, 3, 2);
-            PictureBoxGears.Name = "PictureBoxGears";
-            PictureBoxGears.Size = new Size(24, 24);
-            PictureBoxGears.SizeMode = PictureBoxSizeMode.AutoSize;
-            PictureBoxGears.TabIndex = 2;
-            PictureBoxGears.TabStop = false;
-            // 
             // HeaderPicture
             // 
             HeaderPicture.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             HeaderPicture.BackColor = Color.Transparent;
             HeaderPicture.BackgroundImageLayout = ImageLayout.Center;
-            HeaderPicture.Image = Properties.Resources.funnel_48;
-            HeaderPicture.Location = new Point(24, 6);
+            HeaderPicture.Image = Properties.Resources.funnel_gears_;
+            HeaderPicture.InitialImage = null;
+            HeaderPicture.Location = new Point(24, 5);
             HeaderPicture.Margin = new Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new Size(53, 42);
+            HeaderPicture.Size = new Size(53, 54);
             HeaderPicture.SizeMode = PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -273,14 +257,14 @@ namespace Win_CBZ.Forms
             DatagridUserKeyFilter.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             DatagridUserKeyFilter.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             ItemEditorTableLayout.SetColumnSpan(DatagridUserKeyFilter, 3);
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Window;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = Color.Gold;
-            dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
-            DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = Color.Gold;
+            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle2;
             DatagridUserKeyFilter.Location = new Point(15, 131);
             DatagridUserKeyFilter.Name = "DatagridUserKeyFilter";
             DatagridUserKeyFilter.RowHeadersWidth = 51;
@@ -385,7 +369,6 @@ namespace Win_CBZ.Forms
             panel1.PerformLayout();
             HeaderPanel.ResumeLayout(false);
             HeaderPanel.PerformLayout();
-            ((ISupportInitialize)PictureBoxGears).EndInit();
             ((ISupportInitialize)HeaderPicture).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
@@ -402,7 +385,6 @@ namespace Win_CBZ.Forms
         private Panel HeaderPanel;
         private Label HeaderLabel;
         private PictureBox HeaderPicture;
-        private PictureBox PictureBoxGears;
         private FlowLayoutPanel flowLayoutPanel1;
         private Panel panel1;
         private TextBox TextBoxKey;

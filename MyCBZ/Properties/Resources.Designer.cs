@@ -905,6 +905,48 @@ namespace Win_CBZ.Properties {
             }
         }
 
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Image funnel_gears_
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("funnel_gears_", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
 
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Image funnel_error_16
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("funnel_error_16", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
+
+        internal static System.Drawing.Image funnel_gearwheel_16
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("funnel_gearwheel_16", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
+
+        internal static System.Drawing.Image funnel_gearwheels_16
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("funnel_gearwheels_16", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
+
+        
     }
 }

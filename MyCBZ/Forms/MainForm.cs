@@ -176,6 +176,7 @@ namespace Win_CBZ
 
             ApplyUserKeyFilter = Win_CBZSettings.Default.KeyFilterActive;
             ButtonFilter.BackColor = ApplyUserKeyFilter ? Color.Gold : SystemColors.Control;
+            ButtonFilter.Image = ApplyUserKeyFilter ? Resources.funnel_error_16 : Resources.funnel;
 
             Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
 
@@ -7537,6 +7538,7 @@ namespace Win_CBZ
             ApplyUserKeyFilter = !ApplyUserKeyFilter;
 
             ButtonFilter.BackColor = ApplyUserKeyFilter ? Color.Gold : SystemColors.Control;
+            ButtonFilter.Image = ApplyUserKeyFilter ? Resources.funnel_error_16 : Resources.funnel;
 
             if (Program.ProjectModel.MetaData.Values.Count > 0)
             {
