@@ -145,5 +145,13 @@ namespace Win_CBZ.Forms
         {
             DatagridUserKeyFilter.Rows.Clear();
         }
+
+        private void ToolStripButtonRemoveSelectedKeys_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewCell cell in DatagridUserKeyFilter.SelectedCells)
+            {
+                DatagridUserKeyFilter.Rows.Remove(cell.OwningRow);
+            }
+        }
     }
 }

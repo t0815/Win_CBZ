@@ -46,7 +46,7 @@ namespace Win_CBZ.Forms
             label1 = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
             ItemEditorToolBar = new ToolStrip();
-            ToolStripButtonRemoveSelectedTags = new ToolStripButton();
+            ToolStripButtonRemoveSelectedKeys = new ToolStripButton();
             DeleteAllTagsToolButton = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
             ToolButtonSortAscending = new ToolStripButton();
@@ -216,7 +216,7 @@ namespace Win_CBZ.Forms
             ItemEditorToolBar.Dock = DockStyle.None;
             ItemEditorToolBar.GripStyle = ToolStripGripStyle.Hidden;
             ItemEditorToolBar.ImageScalingSize = new Size(20, 20);
-            ItemEditorToolBar.Items.AddRange(new ToolStripItem[] { ToolStripButtonRemoveSelectedTags, DeleteAllTagsToolButton, toolStripSeparator1, ToolButtonSortAscending });
+            ItemEditorToolBar.Items.AddRange(new ToolStripItem[] { ToolStripButtonRemoveSelectedKeys, DeleteAllTagsToolButton, toolStripSeparator1, ToolButtonSortAscending });
             ItemEditorToolBar.Location = new Point(8, 0);
             ItemEditorToolBar.Margin = new Padding(8, 0, 8, 2);
             ItemEditorToolBar.Name = "ItemEditorToolBar";
@@ -226,15 +226,15 @@ namespace Win_CBZ.Forms
             ItemEditorToolBar.TabIndex = 8;
             ItemEditorToolBar.Text = "toolStrip1";
             // 
-            // ToolStripButtonRemoveSelectedTags
+            // ToolStripButtonRemoveSelectedKeys
             // 
-            ToolStripButtonRemoveSelectedTags.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            ToolStripButtonRemoveSelectedTags.Enabled = false;
-            ToolStripButtonRemoveSelectedTags.Image = Properties.Resources.delete;
-            ToolStripButtonRemoveSelectedTags.ImageTransparentColor = Color.Magenta;
-            ToolStripButtonRemoveSelectedTags.Name = "ToolStripButtonRemoveSelectedTags";
-            ToolStripButtonRemoveSelectedTags.Size = new Size(29, 24);
-            ToolStripButtonRemoveSelectedTags.Text = "Remove selected";
+            ToolStripButtonRemoveSelectedKeys.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            ToolStripButtonRemoveSelectedKeys.Image = Properties.Resources.delete;
+            ToolStripButtonRemoveSelectedKeys.ImageTransparentColor = Color.Magenta;
+            ToolStripButtonRemoveSelectedKeys.Name = "ToolStripButtonRemoveSelectedKeys";
+            ToolStripButtonRemoveSelectedKeys.Size = new Size(29, 24);
+            ToolStripButtonRemoveSelectedKeys.Text = "Remove selected";
+            ToolStripButtonRemoveSelectedKeys.Click += ToolStripButtonRemoveSelectedKeys_Click;
             // 
             // DeleteAllTagsToolButton
             // 
@@ -264,7 +264,7 @@ namespace Win_CBZ.Forms
             // DatagridUserKeyFilter
             // 
             DatagridUserKeyFilter.AllowUserToAddRows = false;
-            DatagridUserKeyFilter.AllowUserToDeleteRows = false;
+            DatagridUserKeyFilter.AllowUserToResizeRows = false;
             DatagridUserKeyFilter.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             ItemEditorTableLayout.SetColumnSpan(DatagridUserKeyFilter, 2);
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -278,6 +278,7 @@ namespace Win_CBZ.Forms
             DatagridUserKeyFilter.Location = new Point(23, 133);
             DatagridUserKeyFilter.Name = "DatagridUserKeyFilter";
             DatagridUserKeyFilter.RowHeadersWidth = 51;
+            DatagridUserKeyFilter.SelectionMode = DataGridViewSelectionMode.CellSelect;
             DatagridUserKeyFilter.Size = new Size(427, 150);
             DatagridUserKeyFilter.TabIndex = 29;
             // 
@@ -396,7 +397,7 @@ namespace Win_CBZ.Forms
         private AutocompleteMenuNS.AutocompleteMenu AutoCompleteDefaultKeys;
         private PictureBox pictureBox2;
         private ToolStrip ItemEditorToolBar;
-        private ToolStripButton ToolStripButtonRemoveSelectedTags;
+        private ToolStripButton ToolStripButtonRemoveSelectedKeys;
         private ToolStripButton DeleteAllTagsToolButton;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton ToolButtonSortAscending;
