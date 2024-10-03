@@ -263,6 +263,7 @@ namespace Win_CBZ
             BackgroundTaskStatusLabel = new System.Windows.Forms.Label();
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
             ComboIcons = new System.Windows.Forms.ImageList(components);
+            DataGridErrorTooltip = new System.Windows.Forms.ToolTip(components);
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -2934,6 +2935,12 @@ namespace Win_CBZ
             ComboIcons.ImageSize = new System.Drawing.Size(16, 16);
             ComboIcons.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // DataGridErrorTooltip
+            // 
+            DataGridErrorTooltip.IsBalloon = true;
+            DataGridErrorTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Error;
+            DataGridErrorTooltip.ToolTipTitle = "Metadata Value Error";
+            // 
             // MainForm
             // 
             AllowDrop = true;
@@ -3267,6 +3274,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ContextMenuStrip ContextMenuUserFilterList;
         private System.Windows.Forms.ToolStripMenuItem requiredToolStripMenuItem;
         private System.Windows.Forms.ImageList ComboIcons;
+        private System.Windows.Forms.ToolTip DataGridErrorTooltip;
     }
 }
 

@@ -54,8 +54,8 @@ namespace Win_CBZ.Forms
             pictureBox2 = new PictureBox();
             ComboBoxCondition = new ComboBox();
             label2 = new Label();
-            OkButton = new Button();
             CancelBtn = new Button();
+            OkButton = new Button();
             AutoCompleteDefaultKeys = new AutocompleteMenuNS.AutocompleteMenu();
             ToolTip = new ToolTip(components);
             ComboIcons = new ImageList(components);
@@ -72,28 +72,29 @@ namespace Win_CBZ.Forms
             // 
             // ItemEditorTableLayout
             // 
-            ItemEditorTableLayout.ColumnCount = 4;
-            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
-            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 117F));
-            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 37F));
+            ItemEditorTableLayout.ColumnCount = 5;
+            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 12F));
+            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 66.6666641F));
+            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 107F));
+            ItemEditorTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 15F));
             ItemEditorTableLayout.Controls.Add(panel1, 1, 2);
             ItemEditorTableLayout.Controls.Add(HeaderPanel, 0, 0);
             ItemEditorTableLayout.Controls.Add(label1, 1, 1);
-            ItemEditorTableLayout.Controls.Add(flowLayoutPanel1, 2, 2);
+            ItemEditorTableLayout.Controls.Add(flowLayoutPanel1, 3, 2);
             ItemEditorTableLayout.Controls.Add(DatagridUserKeyFilter, 1, 3);
             ItemEditorTableLayout.Controls.Add(pictureBox2, 1, 6);
             ItemEditorTableLayout.Controls.Add(ComboBoxCondition, 1, 5);
             ItemEditorTableLayout.Controls.Add(label2, 1, 4);
-            ItemEditorTableLayout.Controls.Add(OkButton, 1, 7);
-            ItemEditorTableLayout.Controls.Add(CancelBtn, 2, 7);
+            ItemEditorTableLayout.Controls.Add(CancelBtn, 3, 7);
+            ItemEditorTableLayout.Controls.Add(OkButton, 2, 7);
             ItemEditorTableLayout.Dock = DockStyle.Fill;
             ItemEditorTableLayout.Location = new Point(0, 0);
             ItemEditorTableLayout.Margin = new Padding(4, 5, 4, 5);
             ItemEditorTableLayout.Name = "ItemEditorTableLayout";
             ItemEditorTableLayout.RowCount = 8;
-            ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 75F));
-            ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+            ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
+            ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
@@ -105,15 +106,15 @@ namespace Win_CBZ.Forms
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.BackColor = SystemColors.ControlLightLight;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(TextBoxKey);
             panel1.Controls.Add(ButtonAddKey);
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(20, 99);
+            panel1.Location = new Point(12, 99);
             panel1.Margin = new Padding(0, 0, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(313, 27);
+            panel1.Size = new Size(234, 27);
             panel1.TabIndex = 28;
             // 
             // TextBoxKey
@@ -121,10 +122,10 @@ namespace Win_CBZ.Forms
             TextBoxKey.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             AutoCompleteDefaultKeys.SetAutocompleteMenu(TextBoxKey, AutoCompleteDefaultKeys);
             TextBoxKey.BorderStyle = BorderStyle.None;
-            TextBoxKey.Location = new Point(0, 0);
+            TextBoxKey.Location = new Point(4, 3);
             TextBoxKey.Margin = new Padding(3, 2, 3, 2);
             TextBoxKey.Name = "TextBoxKey";
-            TextBoxKey.Size = new Size(280, 20);
+            TextBoxKey.Size = new Size(197, 20);
             TextBoxKey.TabIndex = 22;
             TextBoxKey.KeyDown += TextBoxKey_KeyDown;
             // 
@@ -133,7 +134,7 @@ namespace Win_CBZ.Forms
             ButtonAddKey.Dock = DockStyle.Right;
             ButtonAddKey.FlatStyle = FlatStyle.Flat;
             ButtonAddKey.Image = Properties.Resources.navigate_plus;
-            ButtonAddKey.Location = new Point(286, 0);
+            ButtonAddKey.Location = new Point(207, 0);
             ButtonAddKey.Margin = new Padding(3, 2, 3, 2);
             ButtonAddKey.Name = "ButtonAddKey";
             ButtonAddKey.Size = new Size(25, 25);
@@ -144,14 +145,15 @@ namespace Win_CBZ.Forms
             // HeaderPanel
             // 
             HeaderPanel.BackColor = Color.White;
-            ItemEditorTableLayout.SetColumnSpan(HeaderPanel, 4);
+            ItemEditorTableLayout.SetColumnSpan(HeaderPanel, 5);
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(PictureBoxGears);
             HeaderPanel.Controls.Add(HeaderPicture);
+            HeaderPanel.Dock = DockStyle.Top;
             HeaderPanel.Location = new Point(3, 0);
             HeaderPanel.Margin = new Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new Size(484, 71);
+            HeaderPanel.Size = new Size(484, 62);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -187,7 +189,7 @@ namespace Win_CBZ.Forms
             HeaderPicture.Location = new Point(24, 6);
             HeaderPicture.Margin = new Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new Size(65, 51);
+            HeaderPicture.Size = new Size(53, 42);
             HeaderPicture.SizeMode = PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -196,7 +198,7 @@ namespace Win_CBZ.Forms
             // 
             label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label1.AutoSize = true;
-            label1.Location = new Point(23, 79);
+            label1.Location = new Point(15, 79);
             label1.Name = "label1";
             label1.Size = new Size(65, 20);
             label1.TabIndex = 8;
@@ -206,10 +208,10 @@ namespace Win_CBZ.Forms
             // 
             ItemEditorTableLayout.SetColumnSpan(flowLayoutPanel1, 2);
             flowLayoutPanel1.Controls.Add(ItemEditorToolBar);
-            flowLayoutPanel1.Location = new Point(336, 99);
+            flowLayoutPanel1.Location = new Point(367, 99);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(154, 29);
+            flowLayoutPanel1.Size = new Size(122, 29);
             flowLayoutPanel1.TabIndex = 9;
             // 
             // ItemEditorToolBar
@@ -256,6 +258,7 @@ namespace Win_CBZ.Forms
             // ToolButtonSortAscending
             // 
             ToolButtonSortAscending.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            ToolButtonSortAscending.Enabled = false;
             ToolButtonSortAscending.Image = Properties.Resources.sort_az_ascending2;
             ToolButtonSortAscending.ImageTransparentColor = Color.Magenta;
             ToolButtonSortAscending.Name = "ToolButtonSortAscending";
@@ -267,8 +270,9 @@ namespace Win_CBZ.Forms
             // 
             DatagridUserKeyFilter.AllowUserToAddRows = false;
             DatagridUserKeyFilter.AllowUserToResizeRows = false;
+            DatagridUserKeyFilter.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             DatagridUserKeyFilter.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            ItemEditorTableLayout.SetColumnSpan(DatagridUserKeyFilter, 2);
+            ItemEditorTableLayout.SetColumnSpan(DatagridUserKeyFilter, 3);
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Window;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
@@ -277,21 +281,21 @@ namespace Win_CBZ.Forms
             dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
             DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle1;
-            DatagridUserKeyFilter.Location = new Point(23, 131);
+            DatagridUserKeyFilter.Location = new Point(15, 131);
             DatagridUserKeyFilter.Name = "DatagridUserKeyFilter";
             DatagridUserKeyFilter.RowHeadersWidth = 51;
             DatagridUserKeyFilter.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            DatagridUserKeyFilter.Size = new Size(427, 150);
+            DatagridUserKeyFilter.Size = new Size(456, 150);
             DatagridUserKeyFilter.TabIndex = 29;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.information;
             pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new Point(26, 371);
-            pictureBox2.Margin = new Padding(6, 0, 0, 0);
+            pictureBox2.Location = new Point(16, 371);
+            pictureBox2.Margin = new Padding(4, 0, 0, 0);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(36, 43);
+            pictureBox2.Size = new Size(30, 43);
             pictureBox2.SizeMode = PictureBoxSizeMode.CenterImage;
             pictureBox2.TabIndex = 32;
             pictureBox2.TabStop = false;
@@ -303,9 +307,9 @@ namespace Win_CBZ.Forms
             ComboBoxCondition.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBoxCondition.FormattingEnabled = true;
             ComboBoxCondition.Items.AddRange(new object[] { "Include All", "Exclude All" });
-            ComboBoxCondition.Location = new Point(23, 335);
+            ComboBoxCondition.Location = new Point(15, 335);
             ComboBoxCondition.Name = "ComboBoxCondition";
-            ComboBoxCondition.Size = new Size(310, 28);
+            ComboBoxCondition.Size = new Size(231, 28);
             ComboBoxCondition.TabIndex = 33;
             ComboBoxCondition.DrawItem += ComboBoxCondition_DrawItem;
             // 
@@ -313,17 +317,29 @@ namespace Win_CBZ.Forms
             // 
             label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(23, 312);
+            label2.Location = new Point(15, 312);
             label2.Name = "label2";
             label2.Size = new Size(74, 20);
             label2.TabIndex = 34;
             label2.Text = "Condition";
             // 
+            // CancelBtn
+            // 
+            CancelBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CancelBtn.DialogResult = DialogResult.Cancel;
+            CancelBtn.Location = new Point(371, 428);
+            CancelBtn.Margin = new Padding(4, 5, 4, 5);
+            CancelBtn.Name = "CancelBtn";
+            CancelBtn.Size = new Size(99, 35);
+            CancelBtn.TabIndex = 4;
+            CancelBtn.Text = "Cancel";
+            CancelBtn.UseVisualStyleBackColor = true;
+            // 
             // OkButton
             // 
             OkButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             OkButton.DialogResult = DialogResult.OK;
-            OkButton.Location = new Point(232, 428);
+            OkButton.Location = new Point(263, 428);
             OkButton.Margin = new Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new Size(100, 35);
@@ -331,18 +347,6 @@ namespace Win_CBZ.Forms
             OkButton.Text = "Ok";
             OkButton.UseVisualStyleBackColor = true;
             OkButton.Click += OkButton_Click;
-            // 
-            // CancelBtn
-            // 
-            CancelBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            CancelBtn.DialogResult = DialogResult.Cancel;
-            CancelBtn.Location = new Point(350, 428);
-            CancelBtn.Margin = new Padding(4, 5, 4, 5);
-            CancelBtn.Name = "CancelBtn";
-            CancelBtn.Size = new Size(99, 35);
-            CancelBtn.TabIndex = 4;
-            CancelBtn.Text = "Cancel";
-            CancelBtn.UseVisualStyleBackColor = true;
             // 
             // AutoCompleteDefaultKeys
             // 
@@ -352,6 +356,11 @@ namespace Win_CBZ.Forms
             AutoCompleteDefaultKeys.MaximumSize = new Size(319, 200);
             AutoCompleteDefaultKeys.MinFragmentLength = 1;
             AutoCompleteDefaultKeys.TargetControlWrapper = null;
+            // 
+            // ToolTip
+            // 
+            ToolTip.IsBalloon = true;
+            ToolTip.ToolTipIcon = ToolTipIcon.Info;
             // 
             // ComboIcons
             // 
