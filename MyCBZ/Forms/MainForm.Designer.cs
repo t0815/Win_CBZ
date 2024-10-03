@@ -224,6 +224,11 @@ namespace Win_CBZ
             BtnAddMetaData = new System.Windows.Forms.Button();
             SmallIconsImages = new System.Windows.Forms.ImageList(components);
             BtnRemoveMetaData = new System.Windows.Forms.Button();
+            ButtonFilter = new System.Windows.Forms.Button();
+            ButtonSelectFilter = new System.Windows.Forms.Button();
+            ContextMenuUserFilterList = new System.Windows.Forms.ContextMenuStrip(components);
+            requiredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ButtonConfigureKeyFilter = new System.Windows.Forms.Button();
             MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
             AddMetaDataRowBtn = new System.Windows.Forms.Button();
             RemoveMetadataRowBtn = new System.Windows.Forms.Button();
@@ -305,6 +310,7 @@ namespace Win_CBZ
             PageListContextMenu.SuspendLayout();
             MetadataPanel.SuspendLayout();
             MetadataEditorHeaderFlowLayoutPanel.SuspendLayout();
+            ContextMenuUserFilterList.SuspendLayout();
             MetaDataTableActionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).BeginInit();
             DataGridContextMenu.SuspendLayout();
@@ -691,7 +697,7 @@ namespace Win_CBZ
             // 
             CopyToolStripMenuItem.Name = "CopyToolStripMenuItem";
             CopyToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C;
-            CopyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            CopyToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             CopyToolStripMenuItem.Text = "Copy";
             CopyToolStripMenuItem.Click += CopyToolStripMenuItem_Click;
             // 
@@ -701,28 +707,28 @@ namespace Win_CBZ
             PasteToolStripMenuItem.Image = Properties.Resources.clipboard_paste;
             PasteToolStripMenuItem.Name = "PasteToolStripMenuItem";
             PasteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V;
-            PasteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            PasteToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             PasteToolStripMenuItem.Text = "Paste";
             PasteToolStripMenuItem.Click += PasteToolStripMenuItem_Click;
             // 
             // toolStripMenuItem7
             // 
             toolStripMenuItem7.Name = "toolStripMenuItem7";
-            toolStripMenuItem7.Size = new System.Drawing.Size(221, 6);
+            toolStripMenuItem7.Size = new System.Drawing.Size(205, 6);
             // 
             // SelectAllToolStripMenuItem
             // 
             SelectAllToolStripMenuItem.Image = Properties.Resources.elements_selection;
             SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem";
             SelectAllToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A;
-            SelectAllToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            SelectAllToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             SelectAllToolStripMenuItem.Text = "Select all";
             SelectAllToolStripMenuItem.Click += SelectAllToolStripMenuItem_Click;
             // 
             // toolStripMenuItem10
             // 
             toolStripMenuItem10.Name = "toolStripMenuItem10";
-            toolStripMenuItem10.Size = new System.Drawing.Size(221, 6);
+            toolStripMenuItem10.Size = new System.Drawing.Size(205, 6);
             // 
             // deleteToolStripMenuItem
             // 
@@ -731,20 +737,20 @@ namespace Win_CBZ
             deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             deleteToolStripMenuItem.ShortcutKeyDisplayString = "";
             deleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete;
-            deleteToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            deleteToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             deleteToolStripMenuItem.Text = "Delete";
             deleteToolStripMenuItem.Click += ToolButtonRemoveFiles_Click;
             // 
             // toolStripSeparator12
             // 
             toolStripSeparator12.Name = "toolStripSeparator12";
-            toolStripSeparator12.Size = new System.Drawing.Size(221, 6);
+            toolStripSeparator12.Size = new System.Drawing.Size(205, 6);
             // 
             // SettingsToolStripMenuItem
             // 
             SettingsToolStripMenuItem.Image = Properties.Resources.window_gear;
             SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            SettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            SettingsToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             SettingsToolStripMenuItem.Text = "Settings";
             SettingsToolStripMenuItem.Click += SettingsToolStripMenuItem_Click;
             // 
@@ -2363,6 +2369,9 @@ namespace Win_CBZ
             MetadataEditorHeaderFlowLayoutPanel.Controls.Add(TextBoxCountKeys);
             MetadataEditorHeaderFlowLayoutPanel.Controls.Add(BtnAddMetaData);
             MetadataEditorHeaderFlowLayoutPanel.Controls.Add(BtnRemoveMetaData);
+            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(ButtonFilter);
+            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(ButtonSelectFilter);
+            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(ButtonConfigureKeyFilter);
             MetadataEditorHeaderFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             MetadataEditorHeaderFlowLayoutPanel.Location = new System.Drawing.Point(5, 5);
             MetadataEditorHeaderFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
@@ -2426,10 +2435,13 @@ namespace Win_CBZ
             BtnAddMetaData.Location = new System.Drawing.Point(362, 4);
             BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
             BtnAddMetaData.Name = "BtnAddMetaData";
+            BtnAddMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnAddMetaData.Size = new System.Drawing.Size(190, 31);
+            BtnAddMetaData.Size = new System.Drawing.Size(174, 30);
             BtnAddMetaData.TabIndex = 7;
             BtnAddMetaData.Text = "Add Metadata";
+            BtnAddMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnAddMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             BtnAddMetaData.UseVisualStyleBackColor = true;
             BtnAddMetaData.Click += BtnAddMetaData_Click;
             // 
@@ -2444,20 +2456,80 @@ namespace Win_CBZ
             // BtnRemoveMetaData
             // 
             BtnRemoveMetaData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            BtnRemoveMetaData.AutoSize = true;
             BtnRemoveMetaData.Enabled = false;
             BtnRemoveMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             BtnRemoveMetaData.ImageIndex = 1;
             BtnRemoveMetaData.ImageList = SmallIconsImages;
-            BtnRemoveMetaData.Location = new System.Drawing.Point(556, 4);
+            BtnRemoveMetaData.Location = new System.Drawing.Point(540, 4);
             BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(2);
             BtnRemoveMetaData.Name = "BtnRemoveMetaData";
+            BtnRemoveMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnRemoveMetaData.Size = new System.Drawing.Size(182, 31);
+            BtnRemoveMetaData.Size = new System.Drawing.Size(173, 30);
             BtnRemoveMetaData.TabIndex = 8;
             BtnRemoveMetaData.Text = "Remove Metadata";
+            BtnRemoveMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnRemoveMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            BtnRemoveMetaData.UseMnemonic = false;
             BtnRemoveMetaData.UseVisualStyleBackColor = true;
             BtnRemoveMetaData.Click += BtnRemoveMetaData_Click;
+            // 
+            // ButtonFilter
+            // 
+            ButtonFilter.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            ButtonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonFilter.Image = Properties.Resources.funnel;
+            ButtonFilter.Location = new System.Drawing.Point(717, 4);
+            ButtonFilter.Margin = new System.Windows.Forms.Padding(2);
+            ButtonFilter.Name = "ButtonFilter";
+            ButtonFilter.Size = new System.Drawing.Size(36, 29);
+            ButtonFilter.TabIndex = 13;
+            ButtonFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            ButtonFilter.UseMnemonic = false;
+            ButtonFilter.UseVisualStyleBackColor = true;
+            ButtonFilter.Click += ButtonFilter_Click;
+            // 
+            // ButtonSelectFilter
+            // 
+            ButtonSelectFilter.AutoEllipsis = true;
+            ButtonSelectFilter.ContextMenuStrip = ContextMenuUserFilterList;
+            ButtonSelectFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonSelectFilter.Image = Properties.Resources.dropdown_arrow;
+            ButtonSelectFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            ButtonSelectFilter.Location = new System.Drawing.Point(756, 4);
+            ButtonSelectFilter.Margin = new System.Windows.Forms.Padding(1, 2, 2, 2);
+            ButtonSelectFilter.Name = "ButtonSelectFilter";
+            ButtonSelectFilter.Size = new System.Drawing.Size(113, 29);
+            ButtonSelectFilter.TabIndex = 14;
+            ButtonSelectFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            ButtonSelectFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            ButtonSelectFilter.UseMnemonic = false;
+            ButtonSelectFilter.UseVisualStyleBackColor = true;
+            ButtonSelectFilter.Visible = false;
+            // 
+            // ContextMenuUserFilterList
+            // 
+            ContextMenuUserFilterList.ImageScalingSize = new System.Drawing.Size(20, 20);
+            ContextMenuUserFilterList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { requiredToolStripMenuItem });
+            ContextMenuUserFilterList.Name = "ContextMenuUserFilterList";
+            ContextMenuUserFilterList.Size = new System.Drawing.Size(139, 28);
+            // 
+            // requiredToolStripMenuItem
+            // 
+            requiredToolStripMenuItem.Name = "requiredToolStripMenuItem";
+            requiredToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
+            requiredToolStripMenuItem.Text = "Required";
+            // 
+            // ButtonConfigureKeyFilter
+            // 
+            ButtonConfigureKeyFilter.Image = Properties.Resources.gearwheels;
+            ButtonConfigureKeyFilter.Location = new System.Drawing.Point(873, 4);
+            ButtonConfigureKeyFilter.Margin = new System.Windows.Forms.Padding(2);
+            ButtonConfigureKeyFilter.Name = "ButtonConfigureKeyFilter";
+            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(36, 30);
+            ButtonConfigureKeyFilter.TabIndex = 15;
+            ButtonConfigureKeyFilter.UseVisualStyleBackColor = true;
+            ButtonConfigureKeyFilter.Click += ButtonConfigureKeyFilter_Click;
             // 
             // MetaDataTableActionsPanel
             // 
@@ -2937,6 +3009,7 @@ namespace Win_CBZ
             MetadataPanel.PerformLayout();
             MetadataEditorHeaderFlowLayoutPanel.ResumeLayout(false);
             MetadataEditorHeaderFlowLayoutPanel.PerformLayout();
+            ContextMenuUserFilterList.ResumeLayout(false);
             MetaDataTableActionsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).EndInit();
             DataGridContextMenu.ResumeLayout(false);
@@ -3179,6 +3252,11 @@ namespace Win_CBZ
         private System.Windows.Forms.CheckBox CheckBoxSplitDoublepagesFirst;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.CheckBox CheckboxIgnoreDoublePages;
+        private System.Windows.Forms.Button ButtonFilter;
+        private System.Windows.Forms.Button ButtonSelectFilter;
+        private System.Windows.Forms.Button ButtonConfigureKeyFilter;
+        private System.Windows.Forms.ContextMenuStrip ContextMenuUserFilterList;
+        private System.Windows.Forms.ToolStripMenuItem requiredToolStripMenuItem;
     }
 }
 

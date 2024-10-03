@@ -653,5 +653,16 @@ namespace Win_CBZ {
                 this["RestoreWindowLayout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection KeyFilter {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["KeyFilter"]));
+            }
+            set {
+                this["KeyFilter"] = value;
+            }
+        }
     }
 }

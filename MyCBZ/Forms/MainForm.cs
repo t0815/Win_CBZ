@@ -73,6 +73,8 @@ namespace Win_CBZ
 
         private ImageTask selectedImageTasks;
 
+        private bool ApplyUserKeyFilter = false;
+
         private DebugForm df;
 
         public MainForm()
@@ -304,7 +306,7 @@ namespace Win_CBZ
 
                 CheckBoxCompatibilityMode.Enabled = enabled;
                 CheckBoxCompatibilityMode.Checked = !enabled;
-                
+
                 if (enabled)
                 {
                     CheckBoxCompatibilityMode.Checked = realCompatModeSetting;
@@ -3689,7 +3691,7 @@ namespace Win_CBZ
 
                     foreach (MetaDataEntry entry in e.MetaData)
                     {
-                        if (entry.Visible)
+                        if (entry.Visible && !entry.UserFiltered)
                         {
 
                             MetaDataGrid.Invoke(new Action(() =>
@@ -3714,7 +3716,7 @@ namespace Win_CBZ
                         {
                             var key = MetaDataGrid.Rows[i].Cells[0].Value;
 
-                            if (key != null && entry.Visible)
+                            if (key != null && entry.Visible && !entry.UserFiltered)
                             {
                                 if (entry.Key == key.ToString())
                                 {
@@ -7458,7 +7460,14 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel.MetaData.Values.Count > 0)
             {
-                Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
+                if (ApplyUserKeyFilter)
+                {
+                    Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray()).FilterMetaData(ToolBarSearchInput.Text);
+                }
+                else
+                {
+                    Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
+                }
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
             }
@@ -7484,6 +7493,41 @@ namespace Win_CBZ
         private void PagesList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ButtonConfigureKeyFilter_Click(object sender, EventArgs e)
+        {
+            UserFilerKeysForm userFilerKeysForm = new UserFilerKeysForm();
+            if (userFilerKeysForm.ShowDialog() == DialogResult.OK)
+            {
+                Win_CBZSettings.Default.KeyFilter = new System.Collections.Specialized.StringCollection();
+
+                foreach (String key in userFilerKeysForm.FilterKeys)
+                {
+                    Win_CBZSettings.Default.KeyFilter.Add(key);
+                }
+            }
+        }
+
+        private void ButtonFilter_Click(object sender, EventArgs e)
+        {
+            ApplyUserKeyFilter = !ApplyUserKeyFilter;
+
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Color.Gold : SystemColors.Control;
+
+            if (Program.ProjectModel.MetaData.Values.Count > 0)
+            {
+                if (ApplyUserKeyFilter)
+                {
+                    Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray()).FilterMetaData(ToolBarSearchInput.Text);
+                }
+                else
+                {
+                    Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
+                }
+
+                AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
+            }
         }
     }
 }

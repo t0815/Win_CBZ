@@ -22,6 +22,8 @@ namespace Win_CBZ
 
         public bool Visible { get; set; } = true;
 
+        public bool UserFiltered { get; set; } = false;
+
         public MetaDataFieldType Type { get; set; }
 
         public MetaDataEntry(String key)

@@ -11,6 +11,14 @@ namespace Win_CBZ
 
         public bool ShowErrorDialog { get; set; }
 
+        public ApplicationException() { }
+
+
+        public ApplicationException(string message) : base(message)
+        {
+            ShowErrorDialog = true;
+        }
+
 
         public ApplicationException(String message, bool showErrorDialog) : base(message)
         {

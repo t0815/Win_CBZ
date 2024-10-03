@@ -422,7 +422,7 @@ namespace Win_CBZ
             return null;
         }
 
-        public void UpdatePageIndexMetaDataEntry(Page page, String oldName, String newName)
+        public MetaData UpdatePageIndexMetaDataEntry(Page page, String oldName, String newName)
         {
             foreach (MetaDataEntryPage entry in PageIndex)
             {
@@ -463,9 +463,11 @@ namespace Win_CBZ
                     break;
                 }
             }
+
+            return this;
         }
 
-        public void FilterMetaData(String search)
+        public MetaData FilterMetaData(String search)
         {
             foreach (MetaDataEntry entry in Values)
             {
@@ -490,6 +492,21 @@ namespace Win_CBZ
                     entry.Visible = true;
                 }               
             }
+
+            return this;
+        }
+
+        public MetaData UserFilterMetaData(String[] keys = null)
+        {
+            if (keys != null && keys.Length > 0)
+            {
+                Values.ForEach((entry) => entry.UserFiltered = entry.Visible && !keys.Contains(entry.Key));
+            } else
+            {
+                Values.ForEach((entry) => entry.UserFiltered = false);
+            }
+
+            return this;
         }
 
         public MetaDataEntryPage FindIndexEntryForPage(Page page, PageIndexVersion indexFormatVersion = PageIndexVersion.VERSION_1)
