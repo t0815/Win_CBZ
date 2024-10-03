@@ -3267,7 +3267,7 @@ namespace Win_CBZ
                     if (index > -1)
                     {
                         var key = row.Cells[0].Value?.ToString();
-                        if (ToolBarSearchInput.Text.Length > 0)
+                        if (ToolBarSearchInput.Text.Length > 0 || ApplyUserKeyFilter)
                         {
 
                             MetaDataGrid.Rows.RemoveAt(row.Index);
@@ -3548,6 +3548,15 @@ namespace Win_CBZ
             catch (Exception e)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry! [" + e.Message + "]");
+            }
+
+            if (ApplyUserKeyFilter)
+            {
+                Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray()).FilterMetaData(ToolBarSearchInput.Text);
+            }
+            else
+            {
+                Program.ProjectModel.MetaData.UserFilterMetaData().FilterMetaData(ToolBarSearchInput.Text);
             }
 
 
@@ -7466,7 +7475,7 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
+                    Program.ProjectModel.MetaData.UserFilterMetaData().FilterMetaData(ToolBarSearchInput.Text);
                 }
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
@@ -7523,7 +7532,7 @@ namespace Win_CBZ
                 }
                 else
                 {
-                    Program.ProjectModel.MetaData.FilterMetaData(ToolBarSearchInput.Text);
+                    Program.ProjectModel.MetaData.UserFilterMetaData().FilterMetaData(ToolBarSearchInput.Text);
                 }
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));

@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
         private void InitializeComponent()
         {
             components = new Container();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(UserFilerKeysForm));
             ItemEditorTableLayout = new TableLayoutPanel();
             panel1 = new Panel();
@@ -221,7 +221,7 @@ namespace Win_CBZ.Forms
             ItemEditorToolBar.Margin = new Padding(8, 0, 8, 2);
             ItemEditorToolBar.Name = "ItemEditorToolBar";
             ItemEditorToolBar.RenderMode = ToolStripRenderMode.System;
-            ItemEditorToolBar.Size = new Size(96, 27);
+            ItemEditorToolBar.Size = new Size(135, 27);
             ItemEditorToolBar.Stretch = true;
             ItemEditorToolBar.TabIndex = 8;
             ItemEditorToolBar.Text = "toolStrip1";
@@ -243,7 +243,8 @@ namespace Win_CBZ.Forms
             DeleteAllTagsToolButton.ImageTransparentColor = Color.Magenta;
             DeleteAllTagsToolButton.Name = "DeleteAllTagsToolButton";
             DeleteAllTagsToolButton.Size = new Size(29, 24);
-            DeleteAllTagsToolButton.Text = "Clear all Tags";
+            DeleteAllTagsToolButton.Text = "Clear all";
+            DeleteAllTagsToolButton.Click += DeleteAllTagsToolButton_Click;
             // 
             // toolStripSeparator1
             // 
@@ -266,14 +267,14 @@ namespace Win_CBZ.Forms
             DatagridUserKeyFilter.AllowUserToDeleteRows = false;
             DatagridUserKeyFilter.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             ItemEditorTableLayout.SetColumnSpan(DatagridUserKeyFilter, 2);
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.Gold;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.Gold;
+            dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle1;
             DatagridUserKeyFilter.Location = new Point(23, 133);
             DatagridUserKeyFilter.Name = "DatagridUserKeyFilter";
             DatagridUserKeyFilter.RowHeadersWidth = 51;

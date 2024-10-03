@@ -53,7 +53,13 @@ namespace Win_CBZ.Forms
 
         private void ButtonAddKey_Click(object sender, EventArgs e)
         {
-            DatagridUserKeyFilter.Rows.Add(TextBoxKey.Text);
+            if (TextBoxKey.Text.Length > 0)
+            {
+                DatagridUserKeyFilter.Rows.Add(TextBoxKey.Text);
+
+                TextBoxKey.Text = string.Empty;
+
+            }
         }
 
         private void TextBoxKey_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -133,6 +139,11 @@ namespace Win_CBZ.Forms
                 }
 
             }
+        }
+
+        private void DeleteAllTagsToolButton_Click(object sender, EventArgs e)
+        {
+            DatagridUserKeyFilter.Rows.Clear();
         }
     }
 }
