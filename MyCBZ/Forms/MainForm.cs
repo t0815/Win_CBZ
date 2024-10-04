@@ -3513,22 +3513,35 @@ namespace Win_CBZ
         private void MetaDataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
 
+            DataGridView grid = sender as DataGridView;
+            Color sortIconColor = Color.Gold;
+
             if (e.ColumnIndex == 0 && e.RowIndex == -1)
             {
-                Brush x = new SolidBrush(Color.FromArgb(255, 255, 255));
-                e.Graphics.FillRectangle(x, e.CellBounds);
+                DataGridViewColumnHeaderCell headerCell = MetaDataGrid.Columns[e.ColumnIndex].HeaderCell;
 
-                if (e.PaintParts == DataGridViewPaintParts.Border)
+                e.PaintBackground(e.CellBounds, false);
+                e.Paint(e.CellBounds, DataGridViewPaintParts.ContentForeground);
+                e.PaintContent(e.CellBounds);
+
+                /*
+                if (grid.SortedColumn?.Index == e.ColumnIndex)
                 {
-                    e.Paint(e.ClipBounds, DataGridViewPaintParts.Border);
+                    var sortIcon = grid.SortOrder == SortOrder.Ascending ? "▲" : "▼";
+
+                    TextRenderer.DrawText(e.Graphics, sortIcon,
+                        e.CellStyle.Font, e.CellBounds, sortIconColor,
+                        TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
                 }
+                */
 
-                
+                //MetaDataGrid.ColumnHeadersDefaultCellStyle.
 
-                MetaDataGrid.ColumnHeadersDefaultCellStyle.
-
-                e.Graphics.DrawImage(Properties.Resources.funnel, e.CellBounds.Right - 32, e.CellBounds.Y + 2, 16, 16);
-                e.Graphics.DrawString(MetaDataGrid.Columns[e.ColumnIndex].HeaderText, MetaDataGrid.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(Color.Black), new PointF(e.CellBounds.X, e.CellBounds.Y + 5));
+                if (ApplyUserKeyFilter)
+                { 
+                    e.Graphics.DrawImage(Properties.Resources.funnel, e.CellBounds.Right - 32, e.CellBounds.Y + 4, 16, 16);
+                }
+                //e.Graphics.DrawString(MetaDataGrid.Columns[e.ColumnIndex].HeaderText, MetaDataGrid.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(Color.Black), new PointF(e.CellBounds.X, e.CellBounds.Y + 5));
                 e.Handled = true;
             }
 
@@ -3539,11 +3552,16 @@ namespace Win_CBZ
 
                 if (fieldType != null)
                 {
+                    e.PaintBackground(e.CellBounds, false);
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.ContentForeground);
+                    e.PaintContent(e.CellBounds);
+
                     if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
                     {
-                        e.Handled = true;
+                        
                     }
 
+                    e.Handled = true;
                 }
             }
         }
