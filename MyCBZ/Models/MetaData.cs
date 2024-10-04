@@ -241,6 +241,18 @@ namespace Win_CBZ
             return new MetaDataEntry(key, value, new MetaDataFieldType(), readOnly, uid);
         }
 
+        protected MetaDataEntry HandleNewEntry(MetaDataEntry copyFrom)
+        {
+            MetaDataEntry newEntry = HandleNewEntry(copyFrom.Key, copyFrom.Value, copyFrom.ReadOnly, copyFrom.Uid);
+
+            newEntry.Visible = copyFrom.Visible;
+            newEntry.UserFiltered = copyFrom.UserFiltered;
+            newEntry.FilterMatchSourceCol = copyFrom.FilterMatchSourceCol;
+            newEntry.Type = copyFrom.Type;
+
+            return newEntry;
+        }
+
         public void Save(String path)
         {
             try
@@ -479,7 +491,7 @@ namespace Win_CBZ
                     if (entry.Value != null)
                     {
                         valueMatch = entry.Value.ToLower().Contains(search.ToLower());
-                        entry.FilterMatchSourceCol[1] = valueMatch || entry.FilterMatchSourceCol[1];
+                        entry.FilterMatchSourceCol[1] = valueMatch;
                     } else
                     {
                         entry.FilterMatchSourceCol[1] = false;
@@ -488,7 +500,7 @@ namespace Win_CBZ
                     if (entry.Key != null)
                     {
                         keyMatch = entry.Key.ToLower().Contains(search.ToLower());
-                        entry.FilterMatchSourceCol[0] = keyMatch || entry.FilterMatchSourceCol[0];                        
+                        entry.FilterMatchSourceCol[0] = keyMatch || entry.UserFiltered;                        
                     } else
                     {
                         entry.FilterMatchSourceCol[0] = entry.UserFiltered;
@@ -702,7 +714,7 @@ namespace Win_CBZ
 
         public int Add(MetaDataEntry entry)
         {
-            Values.Add(HandleNewEntry(entry.Key, entry.Value, entry.ReadOnly, entry.Uid));
+            Values.Add(HandleNewEntry(entry));
             if (!DefaultSortOrderKeys.Contains(entry.Key))
             {
                 DefaultSortOrderKeys.Add(entry.Key);

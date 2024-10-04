@@ -568,7 +568,7 @@ namespace Win_CBZ
                 p.Stack = remainingStack;   // update stack with current remaining tasks
 
                 // Apply renaming rules
-                if (p.ApplyRenaming)
+                if (p.ApplyRenaming || p.CompatibilityMode)
                 {
                     if (p.CompatibilityMode)
                     {

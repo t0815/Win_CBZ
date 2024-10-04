@@ -4192,15 +4192,17 @@ namespace Win_CBZ
 
         private void MetaDataGrid_Sorted(object sender, EventArgs e)
         {
-            Program.ProjectModel.MetaData.Values.Clear();
+            //Program.ProjectModel.MetaData.Values.Clear();
 
+            /*
             foreach (DataGridViewRow row in MetaDataGrid.Rows)
             {
                 var key = row.Cells[0].Value;
                 var val = row.Cells[1].Value;
 
-                Program.ProjectModel.MetaData.Add(row.Cells[0].Tag as MetaDataEntry);
+                //Program.ProjectModel.MetaData.Add(row.Cells[0].Tag as MetaDataEntry);
             }
+            */
 
             Color selectionColor = Color.Gold;
 
@@ -4208,7 +4210,6 @@ namespace Win_CBZ
             {
                 for (int j = 0; j < MetaDataGrid.ColumnCount; j++)
                 {
-
 
                     MetaDataFieldType metaDataFieldType = MetaDataGrid.Rows[i].Cells[j].Tag as MetaDataFieldType;
 
