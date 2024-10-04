@@ -3516,7 +3516,7 @@ namespace Win_CBZ
             DataGridView grid = sender as DataGridView;
             Color sortIconColor = Color.Gold;
 
-            if (e.ColumnIndex == 0 && e.RowIndex == -1)
+            if (e.ColumnIndex > - 1 && e.RowIndex == -1)
             {
                 DataGridViewColumnHeaderCell headerCell = MetaDataGrid.Columns[e.ColumnIndex].HeaderCell;
 
@@ -3537,7 +3537,7 @@ namespace Win_CBZ
 
                 //MetaDataGrid.ColumnHeadersDefaultCellStyle.
 
-                if (ApplyUserKeyFilter)
+                if (Program.ProjectModel.MetaData.IsColumnFiltered(e.ColumnIndex))
                 { 
                     e.Graphics.DrawImage(Properties.Resources.funnel, e.CellBounds.Right - 32, e.CellBounds.Y + 4, 16, 16);
                 }

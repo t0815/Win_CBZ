@@ -26,6 +26,9 @@ namespace Win_CBZ
 
         public MetaDataFieldType Type { get; set; }
 
+        // FilterMatchSourceCol[0] = True, Filter on Key, FilterMatchSourceCol[1] = True, Filter on Value
+        public bool[] FilterMatchSourceCol { get; set; } = new bool[2];
+
         public MetaDataEntry(String key)
         {
             Key = key;

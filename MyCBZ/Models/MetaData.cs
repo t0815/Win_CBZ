@@ -479,16 +479,27 @@ namespace Win_CBZ
                     if (entry.Value != null)
                     {
                         valueMatch = entry.Value.ToLower().Contains(search.ToLower());
+                        entry.FilterMatchSourceCol[1] = valueMatch || entry.FilterMatchSourceCol[1];
+                    } else
+                    {
+                        entry.FilterMatchSourceCol[1] = false;
                     }
                         
                     if (entry.Key != null)
                     {
                         keyMatch = entry.Key.ToLower().Contains(search.ToLower());
+                        entry.FilterMatchSourceCol[0] = keyMatch || entry.FilterMatchSourceCol[0];                        
+                    } else
+                    {
+                        entry.FilterMatchSourceCol[0] = entry.UserFiltered;
                     }
 
                     entry.Visible = keyMatch || valueMatch;
                 } else
                 {
+                    entry.FilterMatchSourceCol[0] = entry.UserFiltered;
+                    entry.FilterMatchSourceCol[1] = false;
+
                     entry.Visible = true;
                 }               
             }
@@ -502,18 +513,42 @@ namespace Win_CBZ
             {
                 if (condition == 0)
                 {
-                    Values.ForEach((entry) => entry.UserFiltered = entry.Visible && !keys.Contains(entry.Key));
+                    Values.ForEach((entry) =>
+                      {
+                          entry.UserFiltered = entry.Visible && !keys.Contains(entry.Key);
+                          entry.FilterMatchSourceCol[0] = entry.FilterMatchSourceCol[0] || keys.Contains(entry.Key);
+
+                      });
                 }
                 else if (condition == 1)
                 {
-                    Values.ForEach((entry) => entry.UserFiltered = entry.Visible && keys.Contains(entry.Key));
+                    Values.ForEach((entry) => {
+                        entry.UserFiltered = entry.Visible && keys.Contains(entry.Key);
+                        entry.FilterMatchSourceCol[0] = entry.FilterMatchSourceCol[0] || !keys.Contains(entry.Key);
+                    });
                 }
             } else
             {
-                Values.ForEach((entry) => entry.UserFiltered = false);
+                Values.ForEach((entry) => {
+                    entry.UserFiltered = false;
+                    entry.FilterMatchSourceCol[0] = !entry.Visible;
+                });
             }
 
             return this;
+        }
+
+        public bool IsColumnFiltered(int col)
+        {
+            if (col < 2)
+            {
+
+                int countFilteredForCol = Values.Where(entry => entry.FilterMatchSourceCol[col]).Count();
+
+                return countFilteredForCol > 0 || CountVisible() == 0;
+            }
+
+            return false;
         }
 
         public MetaData ClearUserFilterMetaData()
@@ -530,7 +565,7 @@ namespace Win_CBZ
 
         public int CountVisible()
         {
-            return Values.SkipWhile(entry => entry.UserFiltered || !entry.Visible).Count();
+            return Values.Where(entry => !entry.UserFiltered && entry.Visible).Count();
         }
 
         public int CountUserFiltered()
