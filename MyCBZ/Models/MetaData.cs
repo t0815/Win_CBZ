@@ -516,6 +516,33 @@ namespace Win_CBZ
             return this;
         }
 
+        public MetaData ClearUserFilterMetaData()
+        {
+            Values.ForEach((entry) => entry.UserFiltered = false);
+
+            return this;
+        }
+
+        public MetaDataEntry[] GetVisibleEntries()
+        {
+            return Values.Where(entry => entry.Visible && !entry.UserFiltered).ToArray();
+        }
+
+        public int CountVisible()
+        {
+            return Values.SkipWhile(entry => entry.UserFiltered || !entry.Visible).Count();
+        }
+
+        public int CountUserFiltered()
+        {
+            return Values.Where(entry => entry.UserFiltered).Count();
+        }
+
+        public bool HasUserFiltered()
+        {
+            return CountVisible() != Values.Count;
+        }
+
         public MetaDataEntryPage FindIndexEntryForPage(Page page, PageIndexVersion indexFormatVersion = PageIndexVersion.VERSION_1)
         {
             foreach (MetaDataEntryPage entry in PageIndex)

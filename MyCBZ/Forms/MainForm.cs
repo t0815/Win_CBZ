@@ -3512,6 +3512,27 @@ namespace Win_CBZ
 
         private void MetaDataGrid_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+
+            if (e.ColumnIndex == 0 && e.RowIndex == -1)
+            {
+                Brush x = new SolidBrush(Color.FromArgb(255, 255, 255));
+                e.Graphics.FillRectangle(x, e.CellBounds);
+
+                if (e.PaintParts == DataGridViewPaintParts.Border)
+                {
+                    e.Paint(e.ClipBounds, DataGridViewPaintParts.Border);
+                }
+
+                
+
+                MetaDataGrid.ColumnHeadersDefaultCellStyle.
+
+                e.Graphics.DrawImage(Properties.Resources.funnel, e.CellBounds.Right - 32, e.CellBounds.Y + 2, 16, 16);
+                e.Graphics.DrawString(MetaDataGrid.Columns[e.ColumnIndex].HeaderText, MetaDataGrid.ColumnHeadersDefaultCellStyle.Font, new SolidBrush(Color.Black), new PointF(e.CellBounds.X, e.CellBounds.Y + 5));
+                e.Handled = true;
+            }
+
+
             if (e.ColumnIndex > -1 && e.RowIndex > -1)
             {
                 MetaDataFieldType fieldType = MetaDataGrid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag as MetaDataFieldType;
@@ -3520,7 +3541,7 @@ namespace Win_CBZ
                 {
                     if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
                     {
-
+                        e.Handled = true;
                     }
 
                 }
