@@ -486,7 +486,7 @@ namespace Win_CBZ
             // 
             ToolButtonEditImageProps.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             ToolButtonEditImageProps.Enabled = false;
-            ToolButtonEditImageProps.Image = Properties.Resources.edit;
+            ToolButtonEditImageProps.Image = Properties.Resources.photo_portrait_checkbox_checked_checkbox_unchecked_24;
             ToolButtonEditImageProps.ImageTransparentColor = System.Drawing.Color.Magenta;
             ToolButtonEditImageProps.Name = "ToolButtonEditImageProps";
             ToolButtonEditImageProps.Size = new System.Drawing.Size(29, 28);
@@ -952,6 +952,7 @@ namespace Win_CBZ
             ToolButtonImages.Images.SetKeyName(14, "save_as.png");
             ToolButtonImages.Images.SetKeyName(15, "window_gear.png");
             ToolButtonImages.Images.SetKeyName(16, "window_information.png");
+            ToolButtonImages.Images.SetKeyName(17, "photo_portrait_checkbox_checked_checkbox_unchecked_24.png");
             // 
             // OpenImagesDialog
             // 

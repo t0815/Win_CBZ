@@ -514,7 +514,10 @@ namespace Win_CBZ
                         MetaDataVersionFlavorHandler.GetInstance().TargetVersion(),
                         Win_CBZSettings.Default.SkipIndexCheck,
                         Win_CBZSettings.Default.InterpolationMode,
-                        Win_CBZSettings.Default.WriteXmlPageIndex
+                        Win_CBZSettings.Default.WriteXmlPageIndex,
+                        Win_CBZSettings.Default.KeyFilterActive,
+                        Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(),
+                        Win_CBZSettings.Default.KeyFilterBaseContitionType
                         );
                 });
 

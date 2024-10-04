@@ -668,7 +668,16 @@ namespace Win_CBZ
             Close(newFollowTask);           
         }
 
-        public Thread Open(String path, ZipArchiveMode mode, MetaData.PageIndexVersion currentMetaDataVersionWriting, bool skipIndexCheck = false, string interpolationMode = "Default", bool writeIndexSetting = true)
+        public Thread Open(String path, 
+            ZipArchiveMode mode, 
+            MetaData.PageIndexVersion currentMetaDataVersionWriting, 
+            bool skipIndexCheck = false, 
+            string interpolationMode = "Default", 
+            bool writeIndexSetting = true,
+            bool applyKeyUserFilter = false,
+            string[] filterKeys = null,
+            int filterBaseCondition = 0
+            )
         {
             FileName = path;
             Mode = mode;
@@ -692,6 +701,9 @@ namespace Win_CBZ
                 SkipIndexCheck = skipIndexCheck,
                 WriteIndex = writeIndexSetting,
                 Interpolation = interpolationMode,
+                ApplyKeyUserFilter = applyKeyUserFilter,
+                FilterKeys = filterKeys,
+                FilterBaseCondition = filterBaseCondition,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
             });
 
@@ -744,9 +756,9 @@ namespace Win_CBZ
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive!");
                 }
 
-                if (MetaData == null)
+                if (MetaData != null && tParams.ApplyKeyUserFilter)
                 {
-                    
+                    MetaData.UserFilterMetaData(tParams.FilterKeys, tParams.FilterBaseCondition);
                 }
 
                 MetaDataEntryPage pageIndexEntry;

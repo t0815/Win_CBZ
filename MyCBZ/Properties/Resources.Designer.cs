@@ -947,6 +947,22 @@ namespace Win_CBZ.Properties {
             }
         }
 
-        
+        internal static System.Drawing.Image photo_portrait_checkbox_checked_checkbox_unchecked_24
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("photo_portrait_checkbox_checked_checkbox_unchecked_24", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
+
+        internal static System.Drawing.Image photo_portrait_checkbox_checked_checkbox_unchecked
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("photo_portrait_checkbox_checked_checkbox_unchecked", resourceCulture);
+                return ((System.Drawing.Image)(obj));
+            }
+        }
     }
 }

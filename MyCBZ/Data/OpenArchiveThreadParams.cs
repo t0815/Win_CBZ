@@ -25,5 +25,11 @@ namespace Win_CBZ.Data
         public bool WriteIndex { get; set; } = true;
 
         public string Interpolation { get; set; } = "Default";
+
+        public bool ApplyKeyUserFilter { get; set; } = false;
+
+        public string[] FilterKeys { get; set; } = null;
+
+        public int FilterBaseCondition { get; set; } = 0;
     }
 }

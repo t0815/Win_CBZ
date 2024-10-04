@@ -218,7 +218,7 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.edit_large;
+            pictureBox1.Image = Properties.Resources.photo_portrait_checkbox_checked_checkbox_unchecked;
             pictureBox1.Location = new System.Drawing.Point(24, 9);
             pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
