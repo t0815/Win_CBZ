@@ -50,7 +50,7 @@ namespace Win_CBZ
             ReadOnly = readOnly;
             Type = fieldType;
             ReadOnly = readOnly;
-            Uid = uid != null ? uid : Guid.NewGuid().ToString();
+            Uid = uid ?? Guid.NewGuid().ToString();
         }
 
         public String[] ValueAsList(char separator = ',')

@@ -4204,6 +4204,28 @@ namespace Win_CBZ
             }
             */
 
+            int sortedColIndex = MetaDataGrid.SortedColumn.Index;
+            SortOrder sortOrder = MetaDataGrid.SortOrder;
+
+            switch (sortedColIndex)
+            {
+                case 0:
+                    {
+                        Program.ProjectModel.MetaData.SortByKey(sortOrder);
+                    }
+                    break;
+                case 1:
+                    {
+                        Program.ProjectModel.MetaData.SortByValue(sortOrder);
+                    }
+                    break;
+                default:
+                    {
+                        Program.ProjectModel.MetaData.RemoveSort();
+                    }
+                    break;
+            }
+
             Color selectionColor = Color.Gold;
 
             for (int i = 0; i < MetaDataGrid.RowCount; i++)
@@ -4257,15 +4279,7 @@ namespace Win_CBZ
                 MetaDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
                 MetaDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-                List<MetaDataEntry> list = new List<MetaDataEntry>();
-
-                foreach (string key in Program.ProjectModel.MetaData.DefaultSortOrderKeys)
-                {
-                    list.Add(Program.ProjectModel.MetaData.EntryByKey(key));
-                }
-
-                Program.ProjectModel.MetaData.Values.Clear();
-                Program.ProjectModel.MetaData.Values = new BindingList<MetaDataEntry>(list);
+                Program.ProjectModel.MetaData.RemoveSort();
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
             }

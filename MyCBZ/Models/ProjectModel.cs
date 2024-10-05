@@ -105,8 +105,6 @@ namespace Win_CBZ
 
         private int MaxFileIndex = 0;
 
-        private bool InitialPageIndexRebuild = false;
-
         public MetaData MetaData { get; set; }
 
         public ImageTask GlobalImageTask { get; set; }

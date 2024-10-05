@@ -36,20 +36,13 @@ namespace Win_CBZ
             byte green = 0;
             byte blue = 0;
             byte alpha = 0;
+           
+            red = color.R; 
+            green = color.G; 
+            blue = color.B;
+            alpha = color.A;  // not supported
 
-            String htmlColor = "#000000";  // Default Color Black
-
-            if (color != null)
-            {
-                red = color.R; 
-                green = color.G; 
-                blue = color.B;
-                alpha = color.A;  // not supported
-
-                htmlColor = "#" + red.ToString("X2") + green.ToString("X2") + blue.ToString("X2");
-            }
-
-            return htmlColor;
+            return "#" + red.ToString("X2") + green.ToString("X2") + blue.ToString("X2");
         }
 
     }

@@ -479,6 +479,35 @@ namespace Win_CBZ
             return this;
         }
 
+        public void SortByKey(SortOrder sortOrder)
+        {
+            if (sortOrder == SortOrder.Ascending)
+            {
+                Values = new BindingList<MetaDataEntry>(Values.OrderBy((entry) => entry.Key).ToList());
+            }
+            else
+            {
+                Values = new BindingList<MetaDataEntry>(Values.OrderByDescending((entry) => entry.Key).ToList());
+            }
+        }
+
+        public void SortByValue(SortOrder sortOrder)
+        {
+            if (sortOrder == SortOrder.Ascending)
+            {
+                Values = new BindingList<MetaDataEntry>(Values.OrderBy((entry) => entry.Value).ToList());
+            }
+            else
+            {
+                Values = new BindingList<MetaDataEntry>(Values.OrderByDescending((entry) => entry.Value).ToList());
+            }
+        }
+
+        public void RemoveSort()
+        {
+            Values = new BindingList<MetaDataEntry>(Values.OrderBy((entry) => DefaultSortOrderKeys.IndexOf(entry.Key)).ToList());
+        }
+
         public MetaData FilterMetaData(String search)
         {
             foreach (MetaDataEntry entry in Values)
@@ -1051,7 +1080,7 @@ namespace Win_CBZ
 
         public void Validate(MetaDataEntry entry, String newKey = null, String newVal = null, bool silent = true)
         {
-            int occurence = 0;
+            
             DataValidation validation = new DataValidation();
 
             if (ProtectedKeys.IndexOf(newKey?.ToLower()) != -1)

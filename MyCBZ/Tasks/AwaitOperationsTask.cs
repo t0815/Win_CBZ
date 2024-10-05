@@ -19,7 +19,6 @@ namespace Win_CBZ.Tasks
             return new Task<TaskResult>((token) =>
             {
                 TaskResult result = new TaskResult();
-                ApplicationDialog dlg = null;
 
                 Dictionary<int, bool> finishedThreads = new Dictionary<int, bool>();
 
