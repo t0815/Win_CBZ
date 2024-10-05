@@ -30,6 +30,7 @@ using Win_CBZ.Events;
 using AutocompleteMenuNS;
 using Win_CBZ.Properties;
 using System.Drawing.Drawing2D;
+using Microsoft.VisualBasic.Devices;
 
 namespace Win_CBZ
 {
@@ -3553,12 +3554,15 @@ namespace Win_CBZ
                 if (fieldType != null)
                 {
                     e.PaintBackground(e.CellBounds, false);
-                    e.Paint(e.CellBounds, DataGridViewPaintParts.ContentForeground);
-                    e.PaintContent(e.CellBounds);
+                    e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.SelectionBackground | DataGridViewPaintParts.Border);
+                    
 
                     if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_RATING)
                     {
                         
+                    } else
+                    {
+                        e.PaintContent(e.CellBounds);
                     }
 
                     e.Handled = true;
@@ -5965,20 +5969,23 @@ namespace Win_CBZ
                     oldValue = selectedImageTasks.ImageAdjustments.ResizeMode;
                 }
 
-                switch (radio.Name)
+                if (!dontUpdate)
                 {
-                    case "RadioButtonResizeNever":
-                        selectedImageTasks.ImageAdjustments.ResizeMode = 0;
-                        break;
-                    case "RadioButtonResizeIfLarger":
-                        selectedImageTasks.ImageAdjustments.ResizeMode = 1;
-                        break;
-                    case "RadioButtonResizeTo":
-                        selectedImageTasks.ImageAdjustments.ResizeMode = 2;
-                        break;
-                    case "RadioButtonResizePercent":
-                        selectedImageTasks.ImageAdjustments.ResizeMode = 3;
-                        break;
+                    switch (radio.Name)
+                    {
+                        case "RadioButtonResizeNever":
+                            selectedImageTasks.ImageAdjustments.ResizeMode = 0;
+                            break;
+                        case "RadioButtonResizeIfLarger":
+                            selectedImageTasks.ImageAdjustments.ResizeMode = 1;
+                            break;
+                        case "RadioButtonResizeTo":
+                            selectedImageTasks.ImageAdjustments.ResizeMode = 2;
+                            break;
+                        case "RadioButtonResizePercent":
+                            selectedImageTasks.ImageAdjustments.ResizeMode = 3;
+                            break;
+                    }
                 }
 
                 if (oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.ResizeMode)
@@ -6011,20 +6018,23 @@ namespace Win_CBZ
                     oldValue = selectedImageTasks.ImageAdjustments.RotateMode;
                 }
 
-                switch (radio.Name)
+                if (!dontUpdate)
                 {
-                    case "RadioButtonRotateNone":
-                        selectedImageTasks.ImageAdjustments.RotateMode = 0;
-                        break;
-                    case "RadioButtonRotate90":
-                        selectedImageTasks.ImageAdjustments.RotateMode = 1;
-                        break;
-                    case "RadioButtonRotate180":
-                        selectedImageTasks.ImageAdjustments.RotateMode = 2;
-                        break;
-                    case "RadioButtonRotate270":
-                        selectedImageTasks.ImageAdjustments.RotateMode = 3;
-                        break;
+                    switch (radio.Name)
+                    {
+                        case "RadioButtonRotateNone":
+                            selectedImageTasks.ImageAdjustments.RotateMode = 0;
+                            break;
+                        case "RadioButtonRotate90":
+                            selectedImageTasks.ImageAdjustments.RotateMode = 1;
+                            break;
+                        case "RadioButtonRotate180":
+                            selectedImageTasks.ImageAdjustments.RotateMode = 2;
+                            break;
+                        case "RadioButtonRotate270":
+                            selectedImageTasks.ImageAdjustments.RotateMode = 3;
+                            break;
+                    }
                 }
 
                 if (oldValue != null && oldValue != selectedImageTasks.ImageAdjustments.RotateMode)
@@ -6155,7 +6165,12 @@ namespace Win_CBZ
 
                         }
 
-                        ComboBoxTaskOrderConversion.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Convert);
+                        ComboBoxTaskOrderConversion.Tag = dontUpdate;
+                        ComboBoxTaskOrderResize.Tag = dontUpdate;
+                        ComboBoxTaskOrderRotation.Tag = dontUpdate;
+                        ComboBoxTaskOrderSplit.Tag = dontUpdate;
+
+                        ComboBoxTaskOrderConversion.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Convert);  
                         ComboBoxTaskOrderResize.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Resize);
                         ComboBoxTaskOrderRotation.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Rotate);
                         ComboBoxTaskOrderSplit.SelectedIndex = ((int)selectedImageTasks.TaskOrder.Split);
@@ -6182,6 +6197,21 @@ namespace Win_CBZ
 
                         }
 
+                        CheckBoxSplitDoublePages.Tag = dontUpdate;
+                        TextBoxSplitPageAt.Tag = dontUpdate;
+                        ComboBoxSplitAtType.Tag = dontUpdate;
+                        TextBoxResizePageIndexReference.Tag = dontUpdate;
+                        TextBoxResizeW.Tag = dontUpdate;
+                        TextBoxResizeH.Tag = dontUpdate;
+                        ComboBoxConvertPages.Tag = dontUpdate;
+                        CheckBoxDontStretch.Tag = dontUpdate;
+                        TextboxResizePercentage.Tag = dontUpdate;
+                        CheckboxKeepAspectratio.Tag = dontUpdate;
+                        PictureBoxColorSelect.Tag = dontUpdate;
+                        CheckBoxSplitOnlyIfDoubleSize.Tag = dontUpdate;
+                        CheckBoxSplitDoublepagesFirst.Tag = dontUpdate;
+
+
                         CheckBoxSplitDoublePages.Checked = selectedImageTasks.ImageAdjustments.SplitPage;
                         TextBoxSplitPageAt.Text = selectedImageTasks.ImageAdjustments.SplitPageAt.ToString();
                         ComboBoxSplitAtType.SelectedIndex = selectedImageTasks.ImageAdjustments.SplitType;
@@ -6195,6 +6225,8 @@ namespace Win_CBZ
                         PictureBoxColorSelect.BackColor = selectedImageTasks.ImageAdjustments.DetectSplitAtColor;
                         CheckBoxSplitOnlyIfDoubleSize.Checked = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
                         CheckBoxSplitDoublepagesFirst.Checked = selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                    
+                        
                     }));
 
                 }
@@ -6222,6 +6254,9 @@ namespace Win_CBZ
 
                 if (updateCtls)
                 {
+                    
+
+
                     CheckBoxSplitDoublePages.Checked = e.ImageAdjustments.SplitPage;
                     TextBoxSplitPageAt.Text = e.ImageAdjustments.SplitPageAt.ToString();
                     ComboBoxSplitAtType.SelectedIndex = e.ImageAdjustments.SplitType;
@@ -6242,6 +6277,12 @@ namespace Win_CBZ
         private void ComboBoxTaskOrder_SelectedIndexChanged(object sender, EventArgs e)
         {
             var cb = sender as ComboBox;
+            bool dontUpdate = cb.Tag != null ? ((bool)cb.Tag) : true;
+
+            if (dontUpdate)
+            {
+                return;
+            }
 
             switch (cb.Name)
             {
@@ -6302,18 +6343,23 @@ namespace Win_CBZ
         private void CheckboxIgnoreDoublePages_CheckedChanged(object sender, EventArgs e)
         {
             Nullable<bool> oldValue;
+            CheckBox cb = sender as CheckBox;
 
             if (selectedImageTasks != null)
             {
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
+                bool dontUpdate = cb.Tag != null ? ((bool)cb.Tag) : true;
                 oldValue = page?.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
                 if (oldValue == null)
                 {
                     oldValue = selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage;
                 }
 
-                selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage = CheckboxIgnoreDoublePages.Checked;
+                if (!dontUpdate)
+                {
+                    selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage = CheckboxIgnoreDoublePages.Checked;
+                }
 
                 if (CheckboxIgnoreDoublePages.Checked)
                 {
@@ -6329,7 +6375,10 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        if (!dontUpdate)
+                        {
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        }
 
                     }
 
@@ -6341,18 +6390,24 @@ namespace Win_CBZ
         private void CheckBoxSplitDoublepagesFirst_CheckedChanged(object sender, EventArgs e)
         {
             Nullable<bool> oldValue;
+            CheckBox cb = sender as CheckBox;
 
             if (selectedImageTasks != null)
             {
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                bool dontUpdate = cb.Tag != null ? ((bool)cb.Tag) : true;
                 if (oldValue == null)
                 {
                     oldValue = selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
                 }
 
-                selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage = CheckBoxSplitDoublepagesFirst.Checked;
+                if (!dontUpdate)
+                {
+                    selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage = CheckBoxSplitDoublepagesFirst.Checked;
+                }
+                
 
                 if (CheckBoxSplitDoublepagesFirst.Checked)
                 {
@@ -6368,8 +6423,10 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-
+                        if (!dontUpdate)
+                        {
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        }
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6380,18 +6437,23 @@ namespace Win_CBZ
         private void CheckBoxSplitOnlyIfDoubleSize_CheckedChanged(object sender, EventArgs e)
         {
             Nullable<bool> oldValue;
+            CheckBox cb = sender as CheckBox;
 
             if (selectedImageTasks != null)
             {
                 Page selectedPage = PagesList.SelectedItem?.Tag as Page;
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.KeepAspectRatio;
+                bool dontUpdate = cb.Tag != null ? ((bool)cb.Tag) : true;
                 if (oldValue == null)
                 {
                     oldValue = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
                 }
 
-                selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages = CheckBoxSplitDoublePages.Checked;
+                if (!dontUpdate)
+                {
+                    selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages = CheckBoxSplitOnlyIfDoubleSize.Checked;
+                }
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages)
                 {
@@ -6402,8 +6464,10 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-
+                        if (!dontUpdate)
+                        {
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        }
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6414,6 +6478,7 @@ namespace Win_CBZ
         private void ComboBoxConvertPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             Nullable<int> oldValue;
+            ComboBox cb = sender as ComboBox;
 
             if (selectedImageTasks != null && ComboBoxConvertPages.SelectedIndex > -1)
             {
@@ -6421,12 +6486,16 @@ namespace Win_CBZ
 
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
                 oldValue = page?.ImageTask.ImageAdjustments.ConvertType;
+                bool dontUpdate = cb.Tag != null ? ((bool)cb.Tag) : true;
                 if (oldValue == null)
                 {
                     oldValue = selectedImageTasks.ImageAdjustments.ConvertType;
                 }
 
-                selectedImageTasks.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
+                if (!dontUpdate)
+                {
+                    selectedImageTasks.ImageAdjustments.ConvertType = ComboBoxConvertPages.SelectedIndex;
+                }
 
                 if (oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
                 {
@@ -6437,8 +6506,10 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-
+                        if (!dontUpdate)
+                        {
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        }
                     }
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                 }
@@ -6453,6 +6524,7 @@ namespace Win_CBZ
         private void TextBoxResizePageIndexReference_TextChanged(object sender, EventArgs e)
         {
             int pageNumber = 0;
+            TextBox tb = sender as TextBox;
             Nullable<int> oldValue = null;
 
             if (selectedImageTasks != null)
@@ -6461,6 +6533,8 @@ namespace Win_CBZ
                 Page page = Program.ProjectModel.GetPageById(selectedImageTasks.PageId);
 
                 oldValue = page?.ImageTask.ImageAdjustments.ResizeToPageNumber;
+                bool dontUpdate = tb.Tag != null ? ((bool)tb.Tag) : true;
+
                 if (oldValue == null)
                 {
                     oldValue = selectedImageTasks.ImageAdjustments.ResizeToPageNumber;
@@ -6478,7 +6552,10 @@ namespace Win_CBZ
                     }
                 }
 
-                selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
+                if (!dontUpdate)
+                {
+                    selectedImageTasks.ImageAdjustments.ResizeToPageNumber = pageNumber;
+                }
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.ResizeToPageNumber)
                 {
@@ -6489,7 +6566,10 @@ namespace Win_CBZ
                             Program.ProjectModel.GlobalImageTask = selectedImageTasks;
                         }
 
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        if (!dontUpdate)
+                        {
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        }
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));

@@ -556,7 +556,7 @@ namespace Win_CBZ
                 {
                     Values.ForEach((entry) =>
                       {
-                          entry.UserFiltered = entry.Visible && !keys.Contains(entry.Key);
+                          entry.UserFiltered = !keys.Contains(entry.Key);
                           entry.FilterMatchSourceCol[0] = entry.FilterMatchSourceCol[0] || keys.Contains(entry.Key);
 
                       });
@@ -564,7 +564,7 @@ namespace Win_CBZ
                 else if (condition == 1)
                 {
                     Values.ForEach((entry) => {
-                        entry.UserFiltered = entry.Visible && keys.Contains(entry.Key);
+                        entry.UserFiltered = keys.Contains(entry.Key);
                         entry.FilterMatchSourceCol[0] = entry.FilterMatchSourceCol[0] || !keys.Contains(entry.Key);
                     });
                 }
