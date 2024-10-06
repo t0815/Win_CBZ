@@ -24,6 +24,8 @@ namespace Win_CBZ
 
         public bool UserFiltered { get; set; } = false;
 
+        public int Index { get; set; }  
+
         public MetaDataFieldType Type { get; set; }
 
         // FilterMatchSourceCol[0] = True, Filter on Key, FilterMatchSourceCol[1] = True, Filter on Value

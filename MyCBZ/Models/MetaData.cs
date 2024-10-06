@@ -505,7 +505,9 @@ namespace Win_CBZ
 
         public void RemoveSort()
         {
-            Values = new BindingList<MetaDataEntry>(Values.OrderBy((entry) => DefaultSortOrderKeys.IndexOf(entry.Key)).ToList());
+            Values = new BindingList<MetaDataEntry>(Values.Select((entry) => { entry.Index = DefaultSortOrderKeys.IndexOf(entry.Key); return entry; })
+                .OrderBy((entry) => entry.Index)
+                .ToList());
         }
 
         public MetaData FilterMetaData(String search)
