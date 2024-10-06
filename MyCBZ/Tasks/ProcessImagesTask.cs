@@ -186,7 +186,7 @@ namespace Win_CBZ.Tasks
                                     results[1].Number = results[0].Number + 1;
                                     results[1].Compressed = false;
                                     results[1].LoadImageInfo(true);
-                                    results[1].Close();
+                                    results[1].FreeStreams();
 
                                     result.AddFinishedPage(results[1]);
                                 }
@@ -200,23 +200,28 @@ namespace Win_CBZ.Tasks
                         }
                         else
                         {
-
+                            result.AddFinishedPage(page);
                         }
 
                         taskPage.ImageTask.Tasks.Clear();
-                        page.ImageTask.Tasks.Clear();
-
-                        handler?.Invoke(page.ImageTask, new GeneralTaskProgressEvent(
-                                GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
-                                GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                                "Processing image...",
-                                current,
-                                total,
-                                true));
-
-                        current++;
-                        System.Threading.Thread.Sleep(10);
+                    } else
+                    {
+                        result.AddFinishedPage(page);
                     }
+
+                    
+                    page.ImageTask.Tasks.Clear();
+
+                    handler?.Invoke(page.ImageTask, new GeneralTaskProgressEvent(
+                            GeneralTaskProgressEvent.TASK_PROCESS_IMAGE,
+                            GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                            "Processing image...",
+                            current,
+                            total,
+                            true));
+
+                    current++;
+                    System.Threading.Thread.Sleep(10);
                 }
             
 

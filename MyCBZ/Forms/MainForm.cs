@@ -812,8 +812,6 @@ namespace Win_CBZ
                     {
                         if (!e.Page.Closed && !e.Page.Deleted)
                         {
-                            if (!WindowClosed)
-                            {
                                 Task.Factory.StartNew(() =>
                                 {
                                     PageThumbsListBox.Invoke(new Action(() =>
@@ -824,7 +822,6 @@ namespace Win_CBZ
                                     }));
 
                                 });
-                            }
                         }
                     }
                 }
@@ -1184,6 +1181,8 @@ namespace Win_CBZ
                             PageImages.Images.RemoveByKey(e.Page.Id);
                         }
                         PageThumbsListBox.Items[pageIndex] = e.Page;
+
+
                     }
                     PageThumbsListBox.Invalidate();
                     PageThumbsListBox.Refresh();
@@ -1817,6 +1816,7 @@ namespace Win_CBZ
                     break;
 
                 case ApplicationStatusEvent.STATE_READY:
+                    ResetUpdateTags();
                     info = "Ready.";
                     break;
 
@@ -6097,6 +6097,40 @@ namespace Win_CBZ
             }
         }
 
+        private void ResetUpdateTags()
+        {
+
+            RadioButtonResizeNever.Tag = false;
+            RadioButtonResizeIfLarger.Tag = false;
+            RadioButtonResizeTo.Tag = false;
+            RadioButtonResizePercent.Tag = false;
+
+            RadioButtonRotateNone.Tag = false;
+            RadioButtonRotate90.Tag = false;
+            RadioButtonRotate180.Tag = false;
+            RadioButtonRotate270.Tag = false;
+
+
+            ComboBoxTaskOrderConversion.Tag = false;
+            ComboBoxTaskOrderResize.Tag = false;
+            ComboBoxTaskOrderRotation.Tag = false;
+            ComboBoxTaskOrderSplit.Tag = false;
+
+            CheckBoxSplitDoublePages.Tag = false;
+            TextBoxSplitPageAt.Tag = false;
+            ComboBoxSplitAtType.Tag = false;
+            TextBoxResizePageIndexReference.Tag = false;
+            TextBoxResizeW.Tag = false;
+            TextBoxResizeH.Tag = false;
+            ComboBoxConvertPages.Tag = false;
+            CheckBoxDontStretch.Tag = false;
+            TextboxResizePercentage.Tag = false;
+            CheckboxKeepAspectratio.Tag = false;
+            PictureBoxColorSelect.Tag = false;
+            CheckBoxSplitOnlyIfDoubleSize.Tag = false;
+            CheckBoxSplitDoublepagesFirst.Tag = false;
+        }
+
         private void UpdateImageAdjustments(object sender, string selected, bool dontUpdate = false)
         {
             ImageTask selectedTask = null;
@@ -6425,6 +6459,11 @@ namespace Win_CBZ
                     selectedImageTasks.TaskOrder.Split = (ImageTaskOrderValue)cb.SelectedIndex;
                     break;
             }
+
+            if (selectedImageTasks.PageId == "" && !dontUpdate)
+            {
+                Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+            }
         }
 
         private void PictureBoxColorSelect_Click(object sender, EventArgs e)
@@ -6450,13 +6489,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.DetectSplitAtColor)
                 {
-                    if (page != null && selectedImageTasks.PageId == page.Id)
+                    if (selectedImageTasks.PageId == "")
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
 
+                    if (page != null && selectedImageTasks.PageId == page.Id)
+                    {                    
                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
 
                     }
@@ -6494,13 +6533,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6542,12 +6581,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
 
                         if (!dontUpdate)
                         {
@@ -6583,13 +6623,14 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
+                        
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6625,13 +6666,13 @@ namespace Win_CBZ
 
                 if (oldValue.Value != selectedImageTasks.ImageAdjustments.ConvertType)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6685,13 +6726,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.ResizeToPageNumber)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6727,13 +6768,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.KeepAspectRatio)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6801,13 +6842,14 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.X)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
+                        
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6869,13 +6911,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.ResizeTo.Y)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6930,13 +6972,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.ResizeToPercentage)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -6971,13 +7013,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.DontStretch)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -7022,13 +7064,13 @@ namespace Win_CBZ
 
                 if (oldValue != selectedImageTasks.ImageAdjustments.SplitPageAt)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -7063,13 +7105,13 @@ namespace Win_CBZ
 
                 if (oldValue.Value != selectedImageTasks?.ImageAdjustments.SplitType)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                    {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
@@ -7104,13 +7146,13 @@ namespace Win_CBZ
 
                 if (oldValue.Value != selectedImageTasks.ImageAdjustments.SplitPage)
                 {
+                    if (selectedImageTasks.PageId == "" && !dontUpdate)
+                   {
+                        Program.ProjectModel.GlobalImageTask = selectedImageTasks;
+                    }
+
                     if (page != null && selectedImageTasks.PageId == page.Id)
                     {
-                        if (selectedImageTasks.PageId == "")
-                        {
-                            Program.ProjectModel.GlobalImageTask = selectedImageTasks;
-                        }
-
                         if (!dontUpdate)
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));

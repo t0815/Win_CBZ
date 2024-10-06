@@ -173,7 +173,7 @@ namespace Win_CBZ.Models
             foreach (String task in Tasks)
             {
                 
-                if (task == null)
+                if (task == null || task == TASK_SPLIT)
                 {
                     continue;
                 }
@@ -323,18 +323,32 @@ namespace Win_CBZ.Models
 
                 if (inProgressFile.FileSize == 0)
                 {
+                    if (inputStream.Length == 0)
+                    {
+                        throw new PageException(SourcePage, "Error processing image! Image is empty!");
+                    }
+
+                    if (inputStream.CanRead)
+                    {
+                        inputStream.Position = 0;
+                    }
+                    else
+                    {
+                        throw new PageException(SourcePage, "Error processing image! Image stream is not readable!");
+                    }
+
                     outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
                     inputStream.CopyTo(outputStream);
+
                     outputStream.Close();
-
-                    inProgressFile.Refresh();
-
                 }
 
                 inputStream.Close();
                 inputStream.Dispose();
 
                 SourcePage.FreeImage();
+
+                inProgressFile.Refresh();
 
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
@@ -448,7 +462,8 @@ namespace Win_CBZ.Models
 
                 Success = true; 
             } catch (Exception e) 
-            { 
+            {
+                AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, e.Message));
                 Success = false; 
             } finally
             {
@@ -518,7 +533,8 @@ namespace Win_CBZ.Models
         {
             foreach (Page result in ResultPage)
             {
-                result?.Close();
+                result?.FreeImage();
+                result?.FreeStreams();
             }
 
             if (ResultStream != null)

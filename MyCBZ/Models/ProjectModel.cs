@@ -286,7 +286,7 @@ namespace Win_CBZ
             {
                 UpdatePageIndicesThreadParams p = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
 
-                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token, false, true, remainingStack);
+                Task<TaskResult> indexUpdater = UpdatePageIndexTask.UpdatePageIndex(p.Pages, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, p.CancelToken, false, true, remainingStack);
 
                 indexUpdater.ContinueWith((t) =>
                 {
@@ -469,39 +469,56 @@ namespace Win_CBZ
                                     page = GetPageById(resultPage.Id);
                                     //page?.UpdatePage(resultPage);
                                     //page?.UpdateStreams(resultPage);
-                                    page?.UpdatePageAttributes(resultPage);
-                                    page?.UpdateLocalFileWith(resultPage.LocalFile);
-                                    page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                    
                                     //page?.LoadImageInfo(true);
 
 
                                     if (page != null)
                                     {
+                                        if (!page.LocalFile.Equals(resultPage.LocalFile))
+                                        {
+                                            page?.UpdatePageAttributes(resultPage);
+                                            //page?.UpdateLocalFileWith(resultPage.LocalFile);  // dont overwrite original file!
+                                            page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+
+                                        }
+
+                                        
+
                                         //page.Name = resultPage.Name;
                                         //page.Format = resultPage.Format;
-                                        page.Size = resultPage.Size;
+
+                                        // update page first, to reflect changes in the UI
+                                        //    AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        // AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
+                                        //
+                                        //      page.Size = resultPage.Size;
                                         page.ImageTask.ImageAdjustments.SplitPage = false;
                                         page.ImageTask.ImageAdjustments.ResizeMode = -1;
                                         page.ImageTask.ImageAdjustments.ConvertType = 0;
+                                        page.ImageTask.ImageAdjustments.RotateMode = 0;
                                         page.ThumbnailInvalidated = true;
 
                                         resultPage.FreeImage();
 
-                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(resultPage, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                                        // update image adjustments
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                         AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
                                     }
                                     else
                                     {
 
-                                        Page newPage = AddPage(resultPage, resultPage.Index);
+                                        Page newPage = AddPage(resultPage, resultPage.Index + 1);
                                         newPage.ImageTask.ImageAdjustments.SplitPage = false;
                                         newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
                                         newPage.ImageTask.ImageAdjustments.ConvertType = 0;
+                                        newPage.ImageTask.ImageAdjustments.RotateMode = 0;
 
-                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage.Id));
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                         AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage.Id));
+                                       // AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        //
                                     }
 
                                     resultPage.Close();
@@ -536,11 +553,44 @@ namespace Win_CBZ
 
                     imageProcessingFinalTask.ContinueWith(r =>
                     {
+                        List<Page> updatePages = new List<Page>();
+
                         if (r.IsCompletedSuccessfully)
                         {
                             if (r.Result.Stack.Count > 0)
                             {
                                 nextTask = r.Result.Stack[0];
+
+                                if (r.Result.Pages.Count > 0)
+                                {
+                                    
+
+                                    if (nextTask.ThreadParams is UpdatePageIndicesThreadParams)
+                                    {
+                                        updatePages = (nextTask.ThreadParams as UpdatePageIndicesThreadParams).Pages;
+                                    }
+
+                                    if (nextTask.ThreadParams is RenamePagesThreadParams)
+                                    {
+                                        updatePages = (nextTask.ThreadParams as RenamePagesThreadParams).Pages;
+
+                                    }
+
+                                    r.Result.Pages.ForEach(page =>
+                                    {
+                                        int index = updatePages.FindIndex(x => x.Id == page.Id);
+                                        
+
+                                        if (index < 0)
+                                        {
+                                            updatePages.Add(page);
+                                        }
+                                        else
+                                        {
+                                            updatePages[index] = page;
+                                        }
+                                    });
+                                }
 
                                 AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, null, r.Result.Stack));
                             }
