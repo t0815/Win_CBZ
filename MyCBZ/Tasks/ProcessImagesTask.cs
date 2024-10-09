@@ -23,6 +23,7 @@ namespace Win_CBZ.Tasks
             return new Task<ImageTaskResult>(() =>
             {
                 int current = 1;
+                int advanceIndexBy = 0;
                 int total = pages.Count;
                 List<ImageTask> collectedTasks = new List<ImageTask>();
                 ImageTaskResult result = new ImageTaskResult()
@@ -40,11 +41,13 @@ namespace Win_CBZ.Tasks
                 {
                     if (Array.IndexOf(skipPages, page.Name) > -1)
                     {
+                        result.AddFinishedPage(page);
                         continue;
                     }
 
                     if (page.Deleted)
                     {
+                        result.AddFinishedPage(page);
                         continue;
                     }
 
@@ -177,6 +180,8 @@ namespace Win_CBZ.Tasks
                                 results[0].LoadImageInfo(true);
                                 results[0].FreeStreams();
                                 results[0].FreeImage();
+                                results[0].Index = results[0].Index + advanceIndexBy;
+                                results[0].Number = results[0].Index + 1;
                                 result.AddFinishedPage(results[0]);
 
                                 if (results[1] != null && results[1].LocalFile.Exists())
@@ -189,6 +194,8 @@ namespace Win_CBZ.Tasks
                                     results[1].FreeStreams();
 
                                     result.AddFinishedPage(results[1]);
+
+                                    advanceIndexBy++;
                                 }
                             }
                             catch (PageException pe)

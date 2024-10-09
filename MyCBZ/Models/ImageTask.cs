@@ -510,6 +510,7 @@ namespace Win_CBZ.Models
                 ResultPage[1].UpdatePageAttributes(SourcePage);
                 ResultPage[1].Id = Guid.NewGuid().ToString(); // Important! Need to create a new Id for the second page
                 ResultPage[1].Name = SourcePage.NameWithoutExtension() + "_split" + SourcePage.FileExtension;
+                //ResultPage[1].
 
                 //AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[1], null, PageChangedEvent.IMAGE_STATUS_NEW, true));
 
@@ -546,7 +547,7 @@ namespace Win_CBZ.Models
                 }
             }
 
-            SourcePage.Close();
+            //SourcePage?.Close();
 
             return this;
         }

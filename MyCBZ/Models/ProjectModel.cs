@@ -460,13 +460,16 @@ namespace Win_CBZ
                             
                             // update pages with results
                             Page page = null;
-                            int index = 1;
+                            Page previousPage = null;
+                            int index = 0;
+                            List<Page> thumbUpdates = new List<Page>();
 
                             foreach (Page resultPage in r.Result.Pages)
                             {
                                 try
                                 {
                                     page = GetPageById(resultPage.Id);
+                                    
                                     //page?.UpdatePage(resultPage);
                                     //page?.UpdateStreams(resultPage);
                                     
@@ -475,11 +478,13 @@ namespace Win_CBZ
 
                                     if (page != null)
                                     {
-                                        if (!page.LocalFile.Equals(resultPage.LocalFile))
+                                        page.UpdatePageAttributes(resultPage);
+                                        if (page.LocalFile == null || !page.LocalFile.Equals(resultPage.LocalFile))
                                         {
-                                            page?.UpdatePageAttributes(resultPage);
+                                            
+                                            //page.LocalFile = new LocalFile(resultPage.LocalFile.FullPath);
                                             //page?.UpdateLocalFileWith(resultPage.LocalFile);  // dont overwrite original file!
-                                            page?.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                            page.UpdateTemporaryFile(resultPage.TemporaryFile);
 
                                         }
 
@@ -501,15 +506,21 @@ namespace Win_CBZ
 
                                         resultPage.FreeImage();
 
+                                        
+
                                         // update image adjustments
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
-                                        AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
+                                        //AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
                                         AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
+
+                                        thumbUpdates.Add(page);
+                                        previousPage = page;
                                     }
                                     else
                                     {
-
-                                        Page newPage = AddPage(resultPage, resultPage.Index + 1);
+                                        // todo: check insert position.....
+                                        Page newPage = AddPage(resultPage, previousPage.Index, true);
+                                        
                                         newPage.ImageTask.ImageAdjustments.SplitPage = false;
                                         newPage.ImageTask.ImageAdjustments.ResizeMode = -1;
                                         newPage.ImageTask.ImageAdjustments.ConvertType = 0;
@@ -517,11 +528,13 @@ namespace Win_CBZ
 
                                         AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
                                         AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage.Id));
-                                       // AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
+                                        // AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                         //
+
+                                        previousPage = newPage;
                                     }
 
-                                    resultPage.Close();
+                                    resultPage.FreeStreams();
                                     resultPage.ImageTask.FreeResults();
                                     
                                 } catch (Exception e)
@@ -537,6 +550,9 @@ namespace Win_CBZ
 
                                 index++;
                             }
+
+                            AppEventHandler.OnUpdateThumbnails(this, new UpdateThumbnailsEvent(thumbUpdates));
+                            AppEventHandler.OnUpdateListViewSorting(this, new UpdatePageListViewSortingEvent(1, SortOrder.Ascending));
 
                             ImageAdjustments resetImageAdjustments = new ImageAdjustments();
                             AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resetImageAdjustments));
@@ -563,33 +579,49 @@ namespace Win_CBZ
 
                                 if (r.Result.Pages.Count > 0)
                                 {
-                                    
+                                    r.Result.Pages.Sort((x, y) => x.Index.CompareTo(y.Index));
 
                                     if (nextTask.ThreadParams is UpdatePageIndicesThreadParams)
                                     {
-                                        updatePages = (nextTask.ThreadParams as UpdatePageIndicesThreadParams).Pages;
+                                        //UpdatePageIndicesThreadParams np = nextTask.ThreadParams as UpdatePageIndicesThreadParams;
+
+                                        (nextTask.ThreadParams as UpdatePageIndicesThreadParams).Pages = r.Result.Pages;
+                                        //updatePages = (nextTask.ThreadParams as UpdatePageIndicesThreadParams).Pages;
                                     }
 
                                     if (nextTask.ThreadParams is RenamePagesThreadParams)
                                     {
-                                        updatePages = (nextTask.ThreadParams as RenamePagesThreadParams).Pages;
+
+                                        (nextTask.ThreadParams as RenamePagesThreadParams).Pages = r.Result.Pages;
+                                        //updatePages = (nextTask.ThreadParams as RenamePagesThreadParams).Pages;
 
                                     }
 
-                                    r.Result.Pages.ForEach(page =>
+                                    foreach (StackItem si in r.Result.Stack)
                                     {
-                                        int index = updatePages.FindIndex(x => x.Id == page.Id);
-                                        
+                                        if (si.ThreadParams is UpdatePageIndicesThreadParams)
+                                        {
+                                            (si.ThreadParams as UpdatePageIndicesThreadParams).Pages = r.Result.Pages;
+                                        }
 
-                                        if (index < 0)
+                                        if (si.ThreadParams is RenamePagesThreadParams)
                                         {
-                                            updatePages.Add(page);
+                                            (si.ThreadParams as RenamePagesThreadParams).Pages = r.Result.Pages;
                                         }
-                                        else
+                                    }
+
+
+
+                                    /*
+                                    if (updatePages.Count <= r.Result.Pages.Count)
+                                    {
+                                        for (int i = 0; i < r.Result.Pages.Count; i++)
                                         {
-                                            updatePages[index] = page;
+                                            updatePages[i].UpdatePage(r.Result.Pages[i]);
                                         }
-                                    });
+                                    }
+                                    */
+                                    
                                 }
 
                                 AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, null, r.Result.Stack));
@@ -1958,7 +1990,7 @@ namespace Win_CBZ
             return page;
         }
 
-        public Page AddPage(Page page, int insertAt = -1)
+        public Page AddPage(Page page, int insertAt = -1, bool insertAfterIndex = false)
         {
             int pageStatus = 0;
             int realNewIndex = Pages.Count;
@@ -1989,12 +2021,12 @@ namespace Win_CBZ
                     page.FreeImage();
                 }
 
-                page.Index = realNewIndex;
-                page.Number = realNewIndex + 1;
+                page.Index = insertAfterIndex ? realNewIndex + 1 : realNewIndex;
+                page.Number = insertAfterIndex ?  realNewIndex + 2 : realNewIndex + 1;
 
                 if (insertAt > -1 && insertAt < Pages.Count)
                 {
-                    Pages.Insert(realNewIndex, page);
+                    Pages.Insert(insertAfterIndex ? realNewIndex + 1 : realNewIndex, page);
 
                 }
                 else

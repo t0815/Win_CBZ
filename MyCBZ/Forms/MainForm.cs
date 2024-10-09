@@ -31,6 +31,8 @@ using AutocompleteMenuNS;
 using Win_CBZ.Properties;
 using System.Drawing.Drawing2D;
 using Microsoft.VisualBasic.Devices;
+using Win_CBZ.Extensions;
+using Win_CBZ.List;
 
 namespace Win_CBZ
 {
@@ -271,7 +273,9 @@ namespace Win_CBZ
             AppEventHandler.GlobalActionRequired += HandleGlobalActionRequired;
             AppEventHandler.GeneralTaskProgress += HandleGlobalTaskProgress;
             AppEventHandler.RedrawThumbnail += HandleRedrawThumbnail;
+            AppEventHandler.UpdateThumbnails += HandleUpdateThumbnails;
             AppEventHandler.ImageAdjustmentsChanged += HandleImageAdjustmentsChanged;
+            AppEventHandler.UpdateListViewSorting += HandleListviewSorting;
 
             newProjectModel.RenameStoryPagePattern = Win_CBZSettings.Default.StoryPageRenamePattern;
             newProjectModel.RenameSpecialPagePattern = Win_CBZSettings.Default.SpecialPageRenamePattern;
@@ -1181,12 +1185,62 @@ namespace Win_CBZ
                             PageImages.Images.RemoveByKey(e.Page.Id);
                         }
                         PageThumbsListBox.Items[pageIndex] = e.Page;
-
-
                     }
                     PageThumbsListBox.Invalidate();
                     PageThumbsListBox.Refresh();
                 }));
+            }
+        }
+
+        private void HandleUpdateThumbnails(object sender, UpdateThumbnailsEvent e)
+        {
+            if (!WindowClosed)
+            {
+                Invoke(new Action(() =>
+                {
+                    if (e.Pages != null && e.Pages.Count > 0)
+                    {
+                        foreach (Page p in e.Pages)
+                        {
+                            p.Invalidated = true;
+                            int pageIndex = PageThumbsListBox.Items.IndexOf(Program.ProjectModel.GetPageById(p.Id));
+                            if (pageIndex > -1)
+                            {
+                                if (PageImages.Images.ContainsKey(p.Id))
+                                {
+                                    PageImages.Images.RemoveByKey(p.Id);
+                                }
+                                PageThumbsListBox.Items[pageIndex] = p;
+                            }
+                        }
+                        PageThumbsListBox.Invalidate();
+                        PageThumbsListBox.Refresh();
+                    }
+                }));
+            }
+        }
+
+        private void HandleListviewSorting(object sender, UpdatePageListViewSortingEvent e)
+        {
+            if (!WindowClosed)
+            {
+                Invoke(() =>
+                {
+                    Program.ProjectModel.Pages.Sort((x, y) => x.Index.CompareTo(y.Index));
+
+                    PagesList.ListViewItemSorter = new ListViewSorter(e.SortColumn);
+                  
+                    PagesList.Sorting = e.Order;
+                    PagesList.Sort();
+                    PagesList.Sorting = SortOrder.None;
+
+                    if (Win_CBZSettings.Default.PagePreviewEnabled)
+                    {
+                        PageThumbsListBox.Sort(e.Order);
+                    }
+
+                    
+                });
             }
         }
 
@@ -4693,10 +4747,9 @@ namespace Win_CBZ
                     LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
                 }
 
-                selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
-
                 if (RadioApplyAdjustmentsPage.Checked && ((String)RadioApplyAdjustmentsPage.Tag) != ((Page)selectedPages[0].Tag).Id)
                 {
+                    selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
                     UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id, true);
                 }
 

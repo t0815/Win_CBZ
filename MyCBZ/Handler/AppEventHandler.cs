@@ -44,6 +44,10 @@ namespace Win_CBZ.Handler
 
         public static event EventHandler<RedrawThumbEvent> RedrawThumbnail;
 
+        public static event EventHandler<UpdateThumbnailsEvent> UpdateThumbnails;
+
+        public static event EventHandler<UpdatePageListViewSortingEvent> UpdateListViewSorting;
+
         public static event EventHandler<ImageAdjustmentsChangedEvent> ImageAdjustmentsChanged;
 
         // delegates definitions
@@ -81,6 +85,16 @@ namespace Win_CBZ.Handler
         public static void OnRedrawThumb(object sender, RedrawThumbEvent e)
         {
             RedrawThumbnail?.Invoke(sender, e);
+        }
+
+        public static void OnUpdateThumbnails(object sender, UpdateThumbnailsEvent e)
+        {
+            UpdateThumbnails?.Invoke(sender, e);
+        }
+
+        public static void OnUpdateListViewSorting(object sender, UpdatePageListViewSortingEvent e)
+        {
+            UpdateListViewSorting?.Invoke(sender, e);
         }
 
         public static void OnArchiveValidationFinished(object sender, ValidationFinishedEvent e)
