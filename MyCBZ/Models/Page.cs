@@ -99,6 +99,8 @@ namespace Win_CBZ
 
         public bool ThumbnailInvalidated { get; set; }
 
+        public bool ThumbnailError { get; set; }
+
         public int Index { get; set; }
 
         public int OriginalIndex { get; set; }
@@ -1995,6 +1997,7 @@ namespace Win_CBZ
 
             if (Image != null)
             {
+                ThumbnailError = false;
                 try
                 {
                     var newBitmap = new Bitmap(w, h);
@@ -2011,6 +2014,7 @@ namespace Win_CBZ
                 }
                 catch (Exception et)
                 {
+                    ThumbnailError = true;
                     throw new PageException(this, et.Message, true, et);
                 } finally 
                 {
@@ -2040,6 +2044,7 @@ namespace Win_CBZ
 
             if (Image != null)
             {
+                ThumbnailError = false;
                 try
                 {
                     var newBitmap = new Bitmap(w, h);
@@ -2057,6 +2062,8 @@ namespace Win_CBZ
                 }
                 catch (Exception et)
                 {
+                    ThumbnailError = true;
+                    
                     throw new PageException(this, et.Message, true, et);
                 }
                 finally
@@ -2081,6 +2088,7 @@ namespace Win_CBZ
 
             if (Image != null)
             {
+                ThumbnailError = false;
                 try
                 {
                     Thumbnail = Image.GetThumbnailImage(ThumbW, ThumbH, callback, callbackData);
@@ -2089,6 +2097,7 @@ namespace Win_CBZ
                     Image = null;
                 } catch (Exception ex)
                 {
+                    ThumbnailError = true;
                     throw new PageException(this, ex.Message, true, ex);
                 }
             }

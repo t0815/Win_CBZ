@@ -1271,7 +1271,11 @@ namespace Win_CBZ
                         }
                         catch (Exception e)
                         {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                            if (!page.ThumbnailError)
+                            {
+                                page.ThumbnailError = true;
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                            }
                         }
                     }
                 }));
@@ -1412,7 +1416,11 @@ namespace Win_CBZ
                             }
                             catch (Exception e)
                             {
-                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                                if (!page.ThumbnailError)
+                                {
+                                    page.ThumbnailError = true;
+                                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error generating Thumbnail for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                                }
                             }
                             finally
                             {
@@ -1603,7 +1611,11 @@ namespace Win_CBZ
                 }
                 catch (Exception e)
                 {
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                    if (!page.ThumbnailError)
+                    {
+                        page.ThumbnailError = true;
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error loading Image-Info for Page '" + page.Name + "' (" + page.Id + ") [" + e.Message + "]");
+                    }
                 }
                 finally
                 {
@@ -7370,7 +7382,7 @@ namespace Win_CBZ
                     {
                         e.Graphics.DrawImage(global::Win_CBZ.Properties.Resources.placeholder_image, new Point(center + 2, e.Bounds.Y + 4));
 
-                        if (!page.Closed)
+                        if (!page.Closed && !page.ThumbnailError)
                         {
                             if (ThumbnailPagesSlice.IndexOf(page) == -1)
                             {
