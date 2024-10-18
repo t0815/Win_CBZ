@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Win_CBZ.Events
 {
+    [SupportedOSPlatform("windows")]
     internal class UpdatePageListViewSortingEvent
     {
         public int SortColumn { get; set; } = 1;   // sort by index by default

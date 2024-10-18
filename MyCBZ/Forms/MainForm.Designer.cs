@@ -216,19 +216,19 @@ namespace Win_CBZ
             propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             PageSmallIcons = new System.Windows.Forms.ImageList(components);
             MetadataPanel = new System.Windows.Forms.TableLayoutPanel();
-            MetadataEditorHeaderFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            LabelMetadataPanel = new System.Windows.Forms.Label();
-            TextBoxMetaDataFilename = new System.Windows.Forms.TextBox();
-            TextBoxMetadataKeys = new System.Windows.Forms.Label();
-            TextBoxCountKeys = new System.Windows.Forms.TextBox();
-            BtnAddMetaData = new System.Windows.Forms.Button();
-            SmallIconsImages = new System.Windows.Forms.ImageList(components);
+            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             BtnRemoveMetaData = new System.Windows.Forms.Button();
+            SmallIconsImages = new System.Windows.Forms.ImageList(components);
+            BtnAddMetaData = new System.Windows.Forms.Button();
+            TextBoxCountKeys = new System.Windows.Forms.TextBox();
+            TextBoxMetadataKeys = new System.Windows.Forms.Label();
+            TextBoxMetaDataFilename = new System.Windows.Forms.TextBox();
             ButtonFilter = new System.Windows.Forms.Button();
+            ButtonConfigureKeyFilter = new System.Windows.Forms.Button();
+            LabelMetadataPanel = new System.Windows.Forms.Label();
             ButtonSelectFilter = new System.Windows.Forms.Button();
             ContextMenuUserFilterList = new System.Windows.Forms.ContextMenuStrip(components);
             requiredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ButtonConfigureKeyFilter = new System.Windows.Forms.Button();
             MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
             AddMetaDataRowBtn = new System.Windows.Forms.Button();
             RemoveMetadataRowBtn = new System.Windows.Forms.Button();
@@ -311,7 +311,7 @@ namespace Win_CBZ
             SplitBoxItemsList.SuspendLayout();
             PageListContextMenu.SuspendLayout();
             MetadataPanel.SuspendLayout();
-            MetadataEditorHeaderFlowLayoutPanel.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             ContextMenuUserFilterList.SuspendLayout();
             MetaDataTableActionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).BeginInit();
@@ -2352,7 +2352,7 @@ namespace Win_CBZ
             MetadataPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             MetadataPanel.ColumnCount = 1;
             MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            MetadataPanel.Controls.Add(MetadataEditorHeaderFlowLayoutPanel, 0, 0);
+            MetadataPanel.Controls.Add(tableLayoutPanel2, 0, 0);
             MetadataPanel.Controls.Add(MetaDataTableActionsPanel, 0, 2);
             MetadataPanel.Controls.Add(MetaDataGrid, 0, 1);
             MetadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2360,95 +2360,63 @@ namespace Win_CBZ
             MetadataPanel.Margin = new System.Windows.Forms.Padding(2);
             MetadataPanel.Name = "MetadataPanel";
             MetadataPanel.RowCount = 3;
-            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.8073387F));
+            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.19266F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             MetadataPanel.Size = new System.Drawing.Size(932, 264);
             MetadataPanel.TabIndex = 10;
+            MetadataPanel.Paint += MetadataPanel_Paint;
             // 
-            // MetadataEditorHeaderFlowLayoutPanel
+            // tableLayoutPanel2
             // 
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(LabelMetadataPanel);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(TextBoxMetaDataFilename);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(TextBoxMetadataKeys);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(TextBoxCountKeys);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(BtnAddMetaData);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(BtnRemoveMetaData);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(ButtonFilter);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(ButtonSelectFilter);
-            MetadataEditorHeaderFlowLayoutPanel.Controls.Add(ButtonConfigureKeyFilter);
-            MetadataEditorHeaderFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            MetadataEditorHeaderFlowLayoutPanel.Location = new System.Drawing.Point(5, 5);
-            MetadataEditorHeaderFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
-            MetadataEditorHeaderFlowLayoutPanel.Name = "MetadataEditorHeaderFlowLayoutPanel";
-            MetadataEditorHeaderFlowLayoutPanel.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            MetadataEditorHeaderFlowLayoutPanel.Size = new System.Drawing.Size(922, 38);
-            MetadataEditorHeaderFlowLayoutPanel.TabIndex = 9;
+            tableLayoutPanel2.ColumnCount = 10;
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 51F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            tableLayoutPanel2.Controls.Add(BtnRemoveMetaData, 5, 0);
+            tableLayoutPanel2.Controls.Add(BtnAddMetaData, 4, 0);
+            tableLayoutPanel2.Controls.Add(TextBoxCountKeys, 3, 0);
+            tableLayoutPanel2.Controls.Add(TextBoxMetadataKeys, 2, 0);
+            tableLayoutPanel2.Controls.Add(TextBoxMetaDataFilename, 1, 0);
+            tableLayoutPanel2.Controls.Add(ButtonFilter, 6, 0);
+            tableLayoutPanel2.Controls.Add(ButtonConfigureKeyFilter, 7, 0);
+            tableLayoutPanel2.Controls.Add(LabelMetadataPanel, 0, 0);
+            tableLayoutPanel2.Controls.Add(ButtonSelectFilter, 8, 0);
+            tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new System.Drawing.Size(885, 35);
+            tableLayoutPanel2.TabIndex = 16;
             // 
-            // LabelMetadataPanel
+            // BtnRemoveMetaData
             // 
-            LabelMetadataPanel.Location = new System.Drawing.Point(2, 2);
-            LabelMetadataPanel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            LabelMetadataPanel.Name = "LabelMetadataPanel";
-            LabelMetadataPanel.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            LabelMetadataPanel.Size = new System.Drawing.Size(78, 29);
-            LabelMetadataPanel.TabIndex = 1;
-            LabelMetadataPanel.Text = "Metadata";
-            // 
-            // TextBoxMetaDataFilename
-            // 
-            AutoCompleteItems.SetAutocompleteMenu(TextBoxMetaDataFilename, null);
-            TextBoxMetaDataFilename.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            TextBoxMetaDataFilename.Location = new System.Drawing.Point(84, 5);
-            TextBoxMetaDataFilename.Margin = new System.Windows.Forms.Padding(2, 3, 2, 2);
-            TextBoxMetaDataFilename.Name = "TextBoxMetaDataFilename";
-            TextBoxMetaDataFilename.ReadOnly = true;
-            TextBoxMetaDataFilename.Size = new System.Drawing.Size(169, 27);
-            TextBoxMetaDataFilename.TabIndex = 9;
-            // 
-            // TextBoxMetadataKeys
-            // 
-            TextBoxMetadataKeys.AutoSize = true;
-            TextBoxMetadataKeys.Location = new System.Drawing.Point(263, 2);
-            TextBoxMetadataKeys.Margin = new System.Windows.Forms.Padding(8, 0, 2, 0);
-            TextBoxMetadataKeys.Name = "TextBoxMetadataKeys";
-            TextBoxMetadataKeys.Padding = new System.Windows.Forms.Padding(0, 7, 5, 0);
-            TextBoxMetadataKeys.Size = new System.Drawing.Size(47, 27);
-            TextBoxMetadataKeys.TabIndex = 10;
-            TextBoxMetadataKeys.Text = "Keys:";
-            // 
-            // TextBoxCountKeys
-            // 
-            AutoCompleteItems.SetAutocompleteMenu(TextBoxCountKeys, null);
-            TextBoxCountKeys.BackColor = System.Drawing.SystemColors.Control;
-            TextBoxCountKeys.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            TextBoxCountKeys.Location = new System.Drawing.Point(315, 5);
-            TextBoxCountKeys.Margin = new System.Windows.Forms.Padding(3, 3, 9, 3);
-            TextBoxCountKeys.Name = "TextBoxCountKeys";
-            TextBoxCountKeys.ReadOnly = true;
-            TextBoxCountKeys.Size = new System.Drawing.Size(36, 27);
-            TextBoxCountKeys.TabIndex = 12;
-            TextBoxCountKeys.Text = "0";
-            TextBoxCountKeys.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // BtnAddMetaData
-            // 
-            BtnAddMetaData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            BtnAddMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            BtnAddMetaData.ImageIndex = 0;
-            BtnAddMetaData.ImageList = SmallIconsImages;
-            BtnAddMetaData.Location = new System.Drawing.Point(362, 4);
-            BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
-            BtnAddMetaData.Name = "BtnAddMetaData";
-            BtnAddMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnAddMetaData.Size = new System.Drawing.Size(174, 30);
-            BtnAddMetaData.TabIndex = 7;
-            BtnAddMetaData.Text = "Add Metadata";
-            BtnAddMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            BtnAddMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            BtnAddMetaData.UseVisualStyleBackColor = true;
-            BtnAddMetaData.Click += BtnAddMetaData_Click;
+            BtnRemoveMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            BtnRemoveMetaData.Enabled = false;
+            BtnRemoveMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnRemoveMetaData.ImageIndex = 1;
+            BtnRemoveMetaData.ImageList = SmallIconsImages;
+            BtnRemoveMetaData.Location = new System.Drawing.Point(529, 2);
+            BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(2);
+            BtnRemoveMetaData.Name = "BtnRemoveMetaData";
+            BtnRemoveMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            BtnRemoveMetaData.Size = new System.Drawing.Size(176, 33);
+            BtnRemoveMetaData.TabIndex = 8;
+            BtnRemoveMetaData.Text = "Remove Metadata";
+            BtnRemoveMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnRemoveMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            BtnRemoveMetaData.UseMnemonic = false;
+            BtnRemoveMetaData.UseVisualStyleBackColor = true;
+            BtnRemoveMetaData.Click += BtnRemoveMetaData_Click;
             // 
             // SmallIconsImages
             // 
@@ -2458,53 +2426,113 @@ namespace Win_CBZ
             SmallIconsImages.Images.SetKeyName(0, "add.png");
             SmallIconsImages.Images.SetKeyName(1, "delete.png");
             // 
-            // BtnRemoveMetaData
+            // BtnAddMetaData
             // 
-            BtnRemoveMetaData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            BtnRemoveMetaData.Enabled = false;
-            BtnRemoveMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            BtnRemoveMetaData.ImageIndex = 1;
-            BtnRemoveMetaData.ImageList = SmallIconsImages;
-            BtnRemoveMetaData.Location = new System.Drawing.Point(540, 4);
-            BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(2);
-            BtnRemoveMetaData.Name = "BtnRemoveMetaData";
-            BtnRemoveMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnRemoveMetaData.Size = new System.Drawing.Size(173, 30);
-            BtnRemoveMetaData.TabIndex = 8;
-            BtnRemoveMetaData.Text = "Remove Metadata";
-            BtnRemoveMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            BtnRemoveMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            BtnRemoveMetaData.UseMnemonic = false;
-            BtnRemoveMetaData.UseVisualStyleBackColor = true;
-            BtnRemoveMetaData.Click += BtnRemoveMetaData_Click;
+            BtnAddMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            BtnAddMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnAddMetaData.ImageIndex = 0;
+            BtnAddMetaData.ImageList = SmallIconsImages;
+            BtnAddMetaData.Location = new System.Drawing.Point(367, 2);
+            BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
+            BtnAddMetaData.Name = "BtnAddMetaData";
+            BtnAddMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            BtnAddMetaData.Size = new System.Drawing.Size(158, 33);
+            BtnAddMetaData.TabIndex = 7;
+            BtnAddMetaData.Text = "Add Metadata";
+            BtnAddMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnAddMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            BtnAddMetaData.UseVisualStyleBackColor = true;
+            BtnAddMetaData.Click += BtnAddMetaData_Click;
+            // 
+            // TextBoxCountKeys
+            // 
+            TextBoxCountKeys.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            AutoCompleteItems.SetAutocompleteMenu(TextBoxCountKeys, null);
+            TextBoxCountKeys.BackColor = System.Drawing.SystemColors.Control;
+            TextBoxCountKeys.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            TextBoxCountKeys.Location = new System.Drawing.Point(317, 4);
+            TextBoxCountKeys.Margin = new System.Windows.Forms.Padding(3, 4, 9, 3);
+            TextBoxCountKeys.Name = "TextBoxCountKeys";
+            TextBoxCountKeys.ReadOnly = true;
+            TextBoxCountKeys.Size = new System.Drawing.Size(36, 27);
+            TextBoxCountKeys.TabIndex = 12;
+            TextBoxCountKeys.Text = "0";
+            TextBoxCountKeys.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TextBoxMetadataKeys
+            // 
+            TextBoxMetadataKeys.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            TextBoxMetadataKeys.AutoSize = true;
+            TextBoxMetadataKeys.Location = new System.Drawing.Point(263, 0);
+            TextBoxMetadataKeys.Margin = new System.Windows.Forms.Padding(8, 0, 2, 0);
+            TextBoxMetadataKeys.Name = "TextBoxMetadataKeys";
+            TextBoxMetadataKeys.Padding = new System.Windows.Forms.Padding(0, 7, 5, 0);
+            TextBoxMetadataKeys.Size = new System.Drawing.Size(47, 41);
+            TextBoxMetadataKeys.TabIndex = 10;
+            TextBoxMetadataKeys.Text = "Keys:";
+            // 
+            // TextBoxMetaDataFilename
+            // 
+            TextBoxMetaDataFilename.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            AutoCompleteItems.SetAutocompleteMenu(TextBoxMetaDataFilename, null);
+            TextBoxMetaDataFilename.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            TextBoxMetaDataFilename.Location = new System.Drawing.Point(84, 4);
+            TextBoxMetaDataFilename.Margin = new System.Windows.Forms.Padding(2, 4, 2, 2);
+            TextBoxMetaDataFilename.Name = "TextBoxMetaDataFilename";
+            TextBoxMetaDataFilename.ReadOnly = true;
+            TextBoxMetaDataFilename.Size = new System.Drawing.Size(169, 27);
+            TextBoxMetaDataFilename.TabIndex = 9;
             // 
             // ButtonFilter
             // 
             ButtonFilter.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             ButtonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonFilter.Image = Properties.Resources.funnel;
-            ButtonFilter.Location = new System.Drawing.Point(717, 4);
+            ButtonFilter.Location = new System.Drawing.Point(709, 2);
             ButtonFilter.Margin = new System.Windows.Forms.Padding(2);
             ButtonFilter.Name = "ButtonFilter";
-            ButtonFilter.Size = new System.Drawing.Size(36, 29);
+            ButtonFilter.Size = new System.Drawing.Size(36, 31);
             ButtonFilter.TabIndex = 13;
             ButtonFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             ButtonFilter.UseMnemonic = false;
             ButtonFilter.UseVisualStyleBackColor = true;
             ButtonFilter.Click += ButtonFilter_Click;
             // 
+            // ButtonConfigureKeyFilter
+            // 
+            ButtonConfigureKeyFilter.Image = Properties.Resources.funnel_gearwheels_16;
+            ButtonConfigureKeyFilter.Location = new System.Drawing.Point(749, 2);
+            ButtonConfigureKeyFilter.Margin = new System.Windows.Forms.Padding(2);
+            ButtonConfigureKeyFilter.Name = "ButtonConfigureKeyFilter";
+            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(36, 33);
+            ButtonConfigureKeyFilter.TabIndex = 15;
+            ButtonConfigureKeyFilter.UseVisualStyleBackColor = true;
+            ButtonConfigureKeyFilter.Click += ButtonConfigureKeyFilter_Click;
+            // 
+            // LabelMetadataPanel
+            // 
+            LabelMetadataPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            LabelMetadataPanel.Location = new System.Drawing.Point(2, 0);
+            LabelMetadataPanel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            LabelMetadataPanel.Name = "LabelMetadataPanel";
+            LabelMetadataPanel.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
+            LabelMetadataPanel.Size = new System.Drawing.Size(78, 41);
+            LabelMetadataPanel.TabIndex = 1;
+            LabelMetadataPanel.Text = "Metadata";
+            // 
             // ButtonSelectFilter
             // 
+            ButtonSelectFilter.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             ButtonSelectFilter.AutoEllipsis = true;
             ButtonSelectFilter.ContextMenuStrip = ContextMenuUserFilterList;
             ButtonSelectFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSelectFilter.Image = Properties.Resources.dropdown_arrow;
             ButtonSelectFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            ButtonSelectFilter.Location = new System.Drawing.Point(756, 4);
+            ButtonSelectFilter.Location = new System.Drawing.Point(808, 2);
             ButtonSelectFilter.Margin = new System.Windows.Forms.Padding(1, 2, 2, 2);
             ButtonSelectFilter.Name = "ButtonSelectFilter";
-            ButtonSelectFilter.Size = new System.Drawing.Size(113, 29);
+            ButtonSelectFilter.Size = new System.Drawing.Size(34, 37);
             ButtonSelectFilter.TabIndex = 14;
             ButtonSelectFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             ButtonSelectFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -2524,17 +2552,6 @@ namespace Win_CBZ
             requiredToolStripMenuItem.Name = "requiredToolStripMenuItem";
             requiredToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             requiredToolStripMenuItem.Text = "Required";
-            // 
-            // ButtonConfigureKeyFilter
-            // 
-            ButtonConfigureKeyFilter.Image = Properties.Resources.funnel_gearwheels_16;
-            ButtonConfigureKeyFilter.Location = new System.Drawing.Point(873, 4);
-            ButtonConfigureKeyFilter.Margin = new System.Windows.Forms.Padding(2);
-            ButtonConfigureKeyFilter.Name = "ButtonConfigureKeyFilter";
-            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(36, 30);
-            ButtonConfigureKeyFilter.TabIndex = 15;
-            ButtonConfigureKeyFilter.UseVisualStyleBackColor = true;
-            ButtonConfigureKeyFilter.Click += ButtonConfigureKeyFilter_Click;
             // 
             // MetaDataTableActionsPanel
             // 
@@ -2602,7 +2619,7 @@ namespace Win_CBZ
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            MetaDataGrid.Location = new System.Drawing.Point(2, 50);
+            MetaDataGrid.Location = new System.Drawing.Point(2, 43);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
@@ -2617,7 +2634,7 @@ namespace Win_CBZ
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 26;
             MetaDataGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.Size = new System.Drawing.Size(928, 167);
+            MetaDataGrid.Size = new System.Drawing.Size(928, 173);
             MetaDataGrid.TabIndex = 12;
             MetaDataGrid.CellClick += MetaDataGrid_CellClick;
             MetaDataGrid.CellContentClick += MetaDataGrid_CellContentClick;
@@ -3023,8 +3040,8 @@ namespace Win_CBZ
             PageListContextMenu.ResumeLayout(false);
             MetadataPanel.ResumeLayout(false);
             MetadataPanel.PerformLayout();
-            MetadataEditorHeaderFlowLayoutPanel.ResumeLayout(false);
-            MetadataEditorHeaderFlowLayoutPanel.PerformLayout();
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
             ContextMenuUserFilterList.ResumeLayout(false);
             MetaDataTableActionsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).EndInit();
@@ -3183,7 +3200,6 @@ namespace Win_CBZ
         private System.Windows.Forms.TextBox RenamerExcludePages;
         private System.Windows.Forms.Button btnGetExcludesFromSelectedPages;
         private System.Windows.Forms.TableLayoutPanel MainPanelTableLayout;
-        private System.Windows.Forms.FlowLayoutPanel MetadataEditorHeaderFlowLayoutPanel;
         private System.Windows.Forms.TableLayoutPanel GlobalAlertTableLayout;
         private System.Windows.Forms.Label LabelGlobalActionStatusMessage;
         private System.Windows.Forms.Button ExecuteCurrentGlobalAction;
@@ -3275,6 +3291,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripMenuItem requiredToolStripMenuItem;
         private System.Windows.Forms.ImageList ComboIcons;
         private System.Windows.Forms.ToolTip DataGridErrorTooltip;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
     }
 }
 

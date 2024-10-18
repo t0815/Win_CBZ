@@ -795,7 +795,7 @@ namespace Win_CBZ
             OpenArchiveThreadParams tParams = threadParams as OpenArchiveThreadParams;
 
             ArrayList missingPages = new ArrayList();
-            long itemSize = 0;
+
             int index = 0;
             long totalSize = 0;
             MetaDataPageIndexMissingData = false;
@@ -1097,6 +1097,7 @@ namespace Win_CBZ
                 }
             }
 
+            /*
             metaDataValidationFailed = Validation.ValidateMetaDataDuplicateKeys(ref invalidKeys);
             if (metaDataValidationFailed)
             {
@@ -1104,6 +1105,7 @@ namespace Win_CBZ
 
                 return false;
             }
+            */
 
             metaDataValidationFailed = Validation.ValidateMetaDataInvalidKeys(ref invalidKeys);
             if (metaDataValidationFailed)
@@ -1115,6 +1117,7 @@ namespace Win_CBZ
 
             if (Program.ProjectModel.MetaData.Exists())
             {
+                /*
                 string defaultKeys = String.Join("", Program.ProjectModel.MetaData.Values.Select(k => k.Key).ToArray());
                 if (!Regex.IsMatch(defaultKeys, @"^[a-z]+$", RegexOptions.IgnoreCase))
                 {
@@ -1126,6 +1129,7 @@ namespace Win_CBZ
 
                     return false;
                 }
+                */
 
                 foreach (MetaDataEntry entry in MetaData.Values)
                 {
@@ -1804,7 +1808,7 @@ namespace Win_CBZ
                 {
                     foreach (String key in invalidKeys)
                     {
-                        problems.Add("Metadata->Values: invalid Key '" + key + "'");
+                        problems.Add("Metadata->Values: " + key + "'");
                     }
                 }
 
@@ -1926,9 +1930,9 @@ namespace Win_CBZ
         public Page AddPageFromFile(LocalFile localFile, PageIndexVersion version, int insertAt = -1)
         {
             int pageStatus = 0;
-            bool pageError = false;
+
             FileInfo targetPath;
-            FileInfo localPath;
+
             int realNewIndex = Pages.Count;
             Page page;
             Page insertPage = null;

@@ -32,8 +32,6 @@ namespace Win_CBZ.Tasks
                 };
 
                 Page taskPage = null;
-                Page secondPage = null;
-                string convertFormatName = null;
 
                 AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));
 
