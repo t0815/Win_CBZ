@@ -1829,6 +1829,8 @@ namespace Win_CBZ
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Copy(string inputFilePath, string outputFilePath)
         {
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_GLOBAL);
+
             TaskResult result = null;
             Task<TaskResult> copyFile = CopyFileTask.CopyFile(new LocalFile(inputFilePath), new LocalFile(outputFilePath), null, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token);
 

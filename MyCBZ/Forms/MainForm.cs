@@ -7796,7 +7796,22 @@ namespace Win_CBZ
                         Program.ProjectModel.MetaData.Values = data.Values;
                         //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
 
-                        AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values.ToList()));
+                        if (Program.ProjectModel.MetaData.Values.Count > 0)
+                        {
+                            if (ApplyUserKeyFilter)
+                            {
+                                Program.ProjectModel.MetaData.UserFilterMetaData(Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(), Win_CBZSettings.Default.KeyFilterBaseContitionType).FilterMetaData(ToolBarSearchInput.Text);
+                            }
+                            else
+                            {
+                                Program.ProjectModel.MetaData.UserFilterMetaData().FilterMetaData(ToolBarSearchInput.Text);
+                            }
+
+                            
+                        }
+
+                        //AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values.ToList()));
+                        AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
                         //AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
                     }
                 }
