@@ -7670,113 +7670,135 @@ namespace Win_CBZ
 
                     if (copiedPages.Length > 0)
                     {
-                        pageXMLLines.AddRange(copiedPages.Split(new char[] { '\r', '\n' }).ToArray());
+                        pageXMLLines.AddRange(copiedPages.Split("\r\n").ToArray());
 
                     }
 
-                    foreach (String line in pageXMLLines)
+                    TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE);
+
+                    Task<bool> pastePagesTask = new Task<bool>((token) =>
                     {
-                        if (line.Length > 0)
+                        CancellationToken ct = (CancellationToken)token;
+
+                        foreach (String line in pageXMLLines)
                         {
-                            if (line.Contains("<?xml") && line.Contains("<Win_CBZ_Page>"))
+                            if (line.Length > 0)
                             {
-                                MemoryStream ms = new MemoryStream();
-                                byte[] bytes = utf8WithoutBom.GetBytes(line);
-                                Page newPage = null;
-
-                                ms.Write(bytes, 0, bytes.Length);
-                                ms.Position = 0;
-
-                                try
+                                if (line.Contains("<?xml") && line.Contains("<Win_CBZ_Page>"))
                                 {
-                                    if (line.Contains("<Win_CBZ_Page>"))
+                                    MemoryStream ms = new MemoryStream();
+                                    byte[] bytes = utf8WithoutBom.GetBytes(line);
+                                    Page newPage = null;
+
+                                    ms.Write(bytes, 0, bytes.Length);
+                                    ms.Position = 0;
+
+                                    try
                                     {
-                                        newPage = new Page(ms);
-                                        Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
-
-                                        newPage.LoadImageInfo();
-
-                                        if (existingPage == null)
+                                        if (line.Contains("<Win_CBZ_Page>"))
                                         {
-                                            newPage.Changed = false;
-                                            newPage.Name = "Copy_" + newPage.Name + "";
+                                            newPage = new Page(ms);
+                                            Page existingPage = Program.ProjectModel.GetPageById(newPage.Id);
 
-                                            if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == PageIndexVersion.VERSION_1)
-                                            {
-                                                newPage.Key = newPage.Name;
-                                            }
+                                            newPage.LoadImageInfo();
 
-                                            if (selectedPage != null)
+                                            if (existingPage == null)
                                             {
-                                                Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                                newPage.Changed = false;
+                                                newPage.Name = "Copy_" + newPage.Name + "";
+
+                                                if (MetaDataVersionFlavorHandler.GetInstance().TargetVersion() == PageIndexVersion.VERSION_1)
+                                                {
+                                                    newPage.Key = newPage.Name;
+                                                }
+
+                                                if (selectedPage != null)
+                                                {
+                                                    Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                                }
+                                                else
+                                                {
+                                                    Program.ProjectModel.Pages.Add(newPage);
+                                                }
+
+                                                AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(newPage, pagesUpdated, pageXMLLines.Count));
+                                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
+                                                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_ADDED));
                                             }
                                             else
                                             {
+                                                //newPage = new Page(newPage);
+                                                //newPage.Id = Guid.NewGuid().ToString();
+                                                //newPage.Key = RandomId.getInstance().make();
+                                                //newPage.Changed = false;
+                                                //newPage.Compressed = false;
+
+                                                //Program.ProjectModel.Pages.Remove(existingPage);
                                                 Program.ProjectModel.Pages.Add(newPage);
+                                                if (selectedPage != null)
+                                                {
+                                                    Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
+                                                }
+                                                else
+                                                {
+                                                    Program.ProjectModel.Pages.Add(newPage);
+                                                }
+
+                                                AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(newPage, pagesUpdated, pageXMLLines.Count));
+                                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
+                                                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                                             }
 
-                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
-                                            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_ADDED));
+                                            ct.ThrowIfCancellationRequested();
+
+                                            pagesUpdated++;
+                                            Thread.Sleep(5);
                                         }
-                                        else
-                                        {
-                                            //newPage = new Page(newPage);
-                                            //newPage.Id = Guid.NewGuid().ToString();
-                                            //newPage.Key = RandomId.getInstance().make();
-                                            //newPage.Changed = false;
-                                            //newPage.Compressed = false;
-
-                                            //Program.ProjectModel.Pages.Remove(existingPage);
-                                            Program.ProjectModel.Pages.Add(newPage);
-                                            if (selectedPage != null)
-                                            {
-                                                Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
-                                            }
-                                            else
-                                            {
-                                                Program.ProjectModel.Pages.Add(newPage);
-                                            }
-
-                                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, selectedPage, PageChangedEvent.IMAGE_STATUS_NEW));
-                                            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                                        }
-
-                                        pagesUpdated++;
                                     }
-                                }
-                                catch (Exception ex)
-                                {
-                                    ApplicationMessage.ShowException(ex);
-                                }
-                                finally
-                                {
-                                    newPage?.FreeImage();
+                                    catch (OperationCanceledException oc)
+                                    {
+                                        break;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ApplicationMessage.ShowException(ex);
+                                    }
+                                    finally
+                                    {
+                                        newPage?.FreeImage();
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if (pagesUpdated > 0)
-                    {
+                        AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_READY));
 
-                        TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
+                        if (pagesUpdated > 0)
+                        {
 
-                        AppEventHandler.OnGlobalActionRequired(this,
-                            new GlobalActionRequiredEvent(Program.ProjectModel,
-                                0,
-                                "Page order changed. Rebuild pageindex now?",
-                                "Rebuild",
-                                GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
-                                UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
-                                    AppEventHandler.OnGeneralTaskProgress,
-                                    AppEventHandler.OnPageChanged,
-                                    TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
-                                    false,
-                                    true
-                                )
-                            ));
+                            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX);
 
-                    }
+                            AppEventHandler.OnGlobalActionRequired(this,
+                                new GlobalActionRequiredEvent(Program.ProjectModel,
+                                    0,
+                                    "Page order changed. Rebuild pageindex now?",
+                                    "Rebuild",
+                                    GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                                    UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages,
+                                        AppEventHandler.OnGeneralTaskProgress,
+                                        AppEventHandler.OnPageChanged,
+                                        TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE_INDEX).Token,
+                                        false,
+                                        true
+                                    )
+                                ));
+
+                        }
+
+                        return true;
+                    }, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Token);
+
+                    pastePagesTask.Start();
                 }
                 else if (copiedPages.Contains("<?xml") && copiedPages.Contains("<ComicInfo>"))
                 {
