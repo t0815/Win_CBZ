@@ -537,9 +537,20 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.RecentSavedArchivePath != null && Win_CBZSettings.Default.RecentSavedArchivePath.Length > 0)
             {
-                recentPath = new LocalFile(Win_CBZSettings.Default.RecentSavedArchivePath);
+                try
+                {
+                    recentPath = new LocalFile(Win_CBZSettings.Default.RecentSavedArchivePath);
+                    SaveArchiveDialog.InitialDirectory = Win_CBZSettings.Default.RecentSavedArchivePath;
+                } catch (ApplicationException ae)
+                {
+                    if (ae.ShowErrorDialog)
+                    {
 
-                SaveArchiveDialog.InitialDirectory = Win_CBZSettings.Default.RecentSavedArchivePath;
+                    }
+                } catch (ArgumentNullException ane)
+                {
+
+                }              
             }
 
             DialogResult saveDialogResult = SaveArchiveDialog.ShowDialog();
@@ -549,9 +560,20 @@ namespace Win_CBZ
                 PagesList.SelectedItem = null;
                 if (Program.ProjectModel.SaveAs(SaveArchiveDialog.FileName, ZipArchiveMode.Update, MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion()))
                 {
-                    recentPath = new LocalFile(SaveArchiveDialog.FileName);
+                    try
+                    {
+                        recentPath = new LocalFile(SaveArchiveDialog.FileName);
+                        Win_CBZSettings.Default.RecentSavedArchivePath = recentPath.FilePath;
+                    } catch (ApplicationException ae)
+                    {
+                        if (ae.ShowErrorDialog)
+                        {
 
-                    Win_CBZSettings.Default.RecentSavedArchivePath = recentPath.FilePath;
+                        }
+                    } catch (ArgumentNullException ane)
+                    {
+
+                    }
                 }
             }
         }

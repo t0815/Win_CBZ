@@ -28,10 +28,20 @@ namespace Win_CBZ
         
         public LocalFile(String fileName)
         {
+            if (fileName == null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
             FullPath = fileName;
             LocalFileInfo = new FileInfo(fileName);
             FileName = LocalFileInfo.Name;
             Name = Path.GetFileNameWithoutExtension(fileName);
+            if (LocalFileInfo.Directory == null)
+            {
+                throw new ApplicationException("LocalFile: Invalid Directory ('" + fileName + "')", true);
+            }
+
             FilePath = LocalFileInfo.Directory.FullName + Path.DirectorySeparatorChar;
             try
             {
