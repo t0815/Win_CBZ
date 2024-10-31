@@ -481,14 +481,15 @@ namespace Win_CBZ
                                         page.UpdatePageAttributes(resultPage);
                                         if (page.LocalFile == null || !page.LocalFile.Equals(resultPage.LocalFile))
                                         {
-                                            
+
                                             //page.LocalFile = new LocalFile(resultPage.LocalFile.FullPath);
                                             //page?.UpdateLocalFileWith(resultPage.LocalFile);  // dont overwrite original file!
-                                            page.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                            if (resultPage.TemporaryFile != null && !resultPage.TemporaryFile.Equals(page.TemporaryFile))
+                                            {
+                                                page.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                            }
 
                                         }
-
-                                        
 
                                         //page.Name = resultPage.Name;
                                         //page.Format = resultPage.Format;

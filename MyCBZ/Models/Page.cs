@@ -1225,10 +1225,12 @@ namespace Win_CBZ
         {
             Close();
 
-            if (TemporaryFile == null)
+            if (newTempFile == null)
             {
-               TemporaryFile = RequestTemporaryFile();
+                throw new PageException(this, "Error updating Page Temporaryfile! Destination File was NULL!", false);
             }
+
+            TemporaryFile = RequestTemporaryFile();
 
             Copy(newTempFile.FullPath, TemporaryFile.FullPath);
 
@@ -1827,7 +1829,7 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Copy(string inputFilePath, string outputFilePath)
+        public TaskResult Copy(string inputFilePath, string outputFilePath)
         {
             TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_GLOBAL);
 
@@ -1837,7 +1839,7 @@ namespace Win_CBZ
             copyFile.Start();
             copyFile.Wait(TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token); // run synchronously and wait for completion
         
-            result = copyFile.Result;
+            return copyFile.Result;
         }
 
         public void DeleteTemporaryFile()
