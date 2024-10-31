@@ -295,7 +295,7 @@ namespace Win_CBZ
                         GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
                         "Ready", 0, 0, true));
 
-                    if (MetaData.Exists())
+                    if (MetaData.Exists() && p.UpdateIndexMetadata)
                     {
                         Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA).Token, false, true, Guid.NewGuid().ToString(), remainingStack);
 
@@ -401,30 +401,13 @@ namespace Win_CBZ
             {
                 UpdatePageMetadataThreadParams p = nextTask.ThreadParams as UpdatePageMetadataThreadParams;
 
-                if (imageInfoUpdater == null)
+                if (p.UpdateImageMetadata)
                 {
-                    imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, false, true, remainingStack);
-                    imageInfoUpdater.ContinueWith(t => {
-                        if (t.IsCompletedSuccessfully)
-                        {
-                            if (t.Result.Stack.Count > 0) 
-                            {
-                                nextTask = t.Result.Stack[0];
-
-                                AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, t.Result.Stack));
-                            }
-                        }
-                    });
-
-
-                    imageInfoUpdater.Start();
-                }
-                else
-                {
-                    if (imageInfoUpdater.IsCompleted || imageInfoUpdater.IsCanceled)
+                    if (imageInfoUpdater == null)
                     {
                         imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, false, true, remainingStack);
-                        imageInfoUpdater.ContinueWith(t => {
+                        imageInfoUpdater.ContinueWith(t =>
+                        {
                             if (t.IsCompletedSuccessfully)
                             {
                                 if (t.Result.Stack.Count > 0)
@@ -435,8 +418,33 @@ namespace Win_CBZ
                                 }
                             }
                         });
+
+
                         imageInfoUpdater.Start();
                     }
+                    else
+                    {
+                        if (imageInfoUpdater.IsCompleted || imageInfoUpdater.IsCanceled)
+                        {
+                            imageInfoUpdater = ReadImageMetaDataTask.UpdateImageMetadata(p.Pages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, false, true, remainingStack);
+                            imageInfoUpdater.ContinueWith(t =>
+                            {
+                                if (t.IsCompletedSuccessfully)
+                                {
+                                    if (t.Result.Stack.Count > 0)
+                                    {
+                                        nextTask = t.Result.Stack[0];
+
+                                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, nextTask, t.Result.Stack));
+                                    }
+                                }
+                            });
+                            imageInfoUpdater.Start();
+                        }
+                    }
+                } else
+                {
+
                 }
             }
 
@@ -640,6 +648,12 @@ namespace Win_CBZ
                     });
 
                     imageProcessingTask.Start();                   
+                } else
+                {
+                    if (p.ContinuePipeline)
+                    {
+                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, nextTask.TaskId, null, remainingStack));
+                    }
                 }
             }
 
@@ -675,7 +689,7 @@ namespace Win_CBZ
                     }
                 } else
                 {
-                    if (p.Stack != null && p.Stack.Count > 0)
+                    if (p.Stack != null && p.Stack.Count > 0 && p.ContinuePipeline)
                     {
                         AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, e.Task, null, p.Stack));
                     } else
@@ -1084,8 +1098,9 @@ namespace Win_CBZ
             
             ArrayList invalidKeys = new ArrayList();
 
-            bool tagValidationFailed;
-            bool metaDataValidationFailed;
+            bool tagValidationFailed = false;
+            bool applyImageProcessing = false;
+            bool metaDataValidationFailed = false;
             if (Win_CBZSettings.Default.ValidateTags)
             {
                 tagValidationFailed = Validation.ValidateTags();
@@ -1138,76 +1153,138 @@ namespace Win_CBZ
                 }
             }
 
-            PageIndexVersionWriter = metaDataVersionWriting;
+            Task<SaveArchivePreChecksResult> checkImageProcessing = new Task<SaveArchivePreChecksResult>(() =>
+            {
+                SaveArchivePreChecksResult result = new SaveArchivePreChecksResult();
+                bool applyImageProcessing = false;
+                bool updateIndexMetadata = false;
+                int checkIndex = 0;
 
-            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE);
-
-            AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(
-                this,
-                PipelineEvent.PIPELINE_PROCESS_IMAGES,
-                null,
-                new List<StackItem>()
+                if (GlobalImageTask != null && 
+                    (GlobalImageTask.ImageAdjustments.ConvertType > 0 ||
+                     GlobalImageTask.ImageAdjustments.SplitPage ||
+                     GlobalImageTask.ImageAdjustments.RotateMode > 0 ||
+                     GlobalImageTask.ImageAdjustments.ResizeMode > 0
+                     ))
                 {
-                    new StackItem()
+                    applyImageProcessing = true;
+                }
+
+                if (!applyImageProcessing)
+                {
+                    foreach (Page page in Pages)
                     {
-                        TaskId = PipelineEvent.PIPELINE_PROCESS_IMAGES,
-                        ThreadParams = new ProcessImagesThreadParams()
+                        if (page.ImageTask != null &&
+                            (page.ImageTask.ImageAdjustments.ConvertType > 0 ||
+                             page.ImageTask.ImageAdjustments.SplitPage ||
+                             page.ImageTask.ImageAdjustments.RotateMode > 0 ||
+                             page.ImageTask.ImageAdjustments.ResizeMode > 0
+                             ))
                         {
-                            ApplyImageProcessing = true,
-                            ContinuePipeline = true,
-                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token,
-                            Pages = Pages,
-                            SkipPages = ConversionExcludes.Cast<String>().ToArray(),
-                            GlobalTask = GlobalImageTask
+                            applyImageProcessing = true;
                         }
-                    },
-                    new StackItem()
-                    {
-                        TaskId = PipelineEvent.PIPELINE_RUN_RENAMING,
-                        ThreadParams = new RenamePagesThreadParams()
+
+                        if (MetaData.FindIndexEntryForPage(page).GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH) != page.Format.W.ToString() ||
+                            MetaData.FindIndexEntryForPage(page).GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT) != page.Format.H.ToString() ||
+                            MetaData.FindIndexEntryForPage(page).GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE) != page.Size.ToString())
                         {
-                            Pages = Pages,
-                            ApplyRenaming = ApplyRenaming,
-                            CompatibilityMode = CompatibilityMode,
-                            IgnorePageNameDuplicates = CompatibilityMode,
-                            RenameStoryPagePattern = CompatibilityMode ? "" : RenameStoryPagePattern,
-                            RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern,
-                            ContinuePipeline = true,
-                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
+                            updateIndexMetadata = true;
                         }
-                    },
-                    new StackItem()
-                    {
-                        TaskId = PipelineEvent.PIPELINE_UPDATE_INDICES,
-                        ThreadParams = new UpdatePageIndicesThreadParams() 
-                        {
-                            Pages = Pages,
-                            ContinuePipeline = true,
-                            InitialIndexRebuild = false,
-                            Stack = new List<StackItem>(),
-                            PageIndexVerToWrite = metaDataVersionWriting,
-                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
-                        }
-                    },
-                    new StackItem()
-                    {
-                        TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE, //999, //   PipelineEvent.PIPELINE_SAVE_ARCHIVE
-                        ThreadParams = new SaveArchiveThreadParams()
-                        {
-                            Pages = Pages,
-                            FileName = path,
-                            Mode = mode,
-                            ContinuePipeline = true,
-                            ContinueOnError = continueOnError,
-                            CompressionLevel = CompressionLevel,
-                            PageIndexVerToWrite = metaDataVersionWriting,
-                            WriteIndex = Win_CBZSettings.Default.WriteXmlPageIndex,
-                            CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
-                        }
+
+                        AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, checkIndex, Pages.Count, "Initializing..."));
+
+                        checkIndex++;
+
+                        Thread.Sleep(1);
                     }
                 }
-            ));
 
+                result.ApplyImageProcessing = applyImageProcessing;
+                result.UpdatePageIndexMetadata = updateIndexMetadata;
+
+                return result;
+            });
+
+            checkImageProcessing.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    
+                    PageIndexVersionWriter = metaDataVersionWriting;
+
+                    TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE);
+
+                    AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(
+                        this,
+                        PipelineEvent.PIPELINE_PROCESS_IMAGES,
+                        null,
+                        new List<StackItem>()
+                        {
+                            new StackItem()
+                            {
+                                TaskId = PipelineEvent.PIPELINE_PROCESS_IMAGES,
+                                ThreadParams = new ProcessImagesThreadParams()
+                                {
+                                    ApplyImageProcessing = t.Result.ApplyImageProcessing,
+                                    ContinuePipeline = true,
+                                    CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token,
+                                    Pages = Pages,
+                                    SkipPages = ConversionExcludes.Cast<String>().ToArray(),
+                                    GlobalTask = GlobalImageTask
+                                }
+                            },
+                            new StackItem()
+                            {
+                                TaskId = PipelineEvent.PIPELINE_RUN_RENAMING,
+                                ThreadParams = new RenamePagesThreadParams()
+                                {
+                                    Pages = Pages,
+                                    ApplyRenaming = ApplyRenaming,
+                                    CompatibilityMode = CompatibilityMode,
+                                    IgnorePageNameDuplicates = CompatibilityMode,
+                                    RenameStoryPagePattern = CompatibilityMode ? "" : RenameStoryPagePattern,
+                                    RenameSpecialPagePattern = CompatibilityMode ? "" : RenameSpecialPagePattern,
+                                    ContinuePipeline = true,
+                                    CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
+                                }
+                            },
+                            new StackItem()
+                            {
+                                TaskId = PipelineEvent.PIPELINE_UPDATE_INDICES,
+                                ThreadParams = new UpdatePageIndicesThreadParams()
+                                {
+                                    Pages = Pages,
+                                    ContinuePipeline = true,
+                                    InitialIndexRebuild = false,
+                                    UpdateIndexMetadata = t.Result.UpdatePageIndexMetadata,
+                                    Stack = new List<StackItem>(),
+                                    PageIndexVerToWrite = metaDataVersionWriting,
+                                    CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
+                                }
+                            },
+                            new StackItem()
+                            {
+                                TaskId = PipelineEvent.PIPELINE_SAVE_ARCHIVE, //999, //   PipelineEvent.PIPELINE_SAVE_ARCHIVE
+                                ThreadParams = new SaveArchiveThreadParams()
+                                {
+                                    Pages = Pages,
+                                    FileName = path,
+                                    Mode = mode,
+                                    ContinuePipeline = true,
+                                    ContinueOnError = continueOnError,
+                                    CompressionLevel = CompressionLevel,
+                                    PageIndexVerToWrite = metaDataVersionWriting,
+                                    WriteIndex = Win_CBZSettings.Default.WriteXmlPageIndex,
+                                    CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
+                                }
+                            }
+                        }
+                    ));
+                }
+            });
+
+            checkImageProcessing.Start();
+         
             return true;
         }
 

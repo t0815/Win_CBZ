@@ -9,5 +9,7 @@ namespace Win_CBZ.Data
     internal class UpdatePageMetadataThreadParams : ThreadParam
     {
         public List<Page> Pages { get; set; }
+
+        public bool UpdateImageMetadata { get; set; }
     }
 }
