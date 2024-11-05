@@ -1160,6 +1160,8 @@ namespace Win_CBZ
                 bool updateIndexMetadata = false;
                 int checkIndex = 0;
 
+                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_SAVING));
+
                 if (GlobalImageTask != null && 
                     (GlobalImageTask.ImageAdjustments.ConvertType > 0 ||
                      GlobalImageTask.ImageAdjustments.SplitPage ||
@@ -1184,9 +1186,9 @@ namespace Win_CBZ
                             applyImageProcessing = true;
                         }
 
-                        if (MetaData.FindIndexEntryForPage(page).GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH) != page.Format.W.ToString() ||
-                            MetaData.FindIndexEntryForPage(page).GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT) != page.Format.H.ToString() ||
-                            MetaData.FindIndexEntryForPage(page).GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE) != page.Size.ToString())
+                        if (MetaData.FindIndexEntryForPage(page)?.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH) != page.Format.W.ToString() ||
+                            MetaData.FindIndexEntryForPage(page)?.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT) != page.Format.H.ToString() ||
+                            MetaData.FindIndexEntryForPage(page)?.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE) != page.Size.ToString())
                         {
                             updateIndexMetadata = true;
                         }
