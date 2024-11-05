@@ -393,10 +393,10 @@ namespace Win_CBZ
                     bool condition = false;
                     if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_1))
                     {
-                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(key);                       
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key);                       
                     } else if (IndexVersionSpecification.HasFlag(PageIndexVersion.VERSION_2))
                     {
-                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_KEY).Equals(key);
+                        condition = entry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE).Equals(key);
                     }
 
                     if (condition)

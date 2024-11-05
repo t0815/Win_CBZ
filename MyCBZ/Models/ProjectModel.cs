@@ -2174,7 +2174,7 @@ namespace Win_CBZ
                             Number = realNewIndex + 1,
                             Index = realNewIndex,
                             OriginalIndex = realNewIndex,
-                            Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make(),
+                            Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.FileName : RandomId.GetInstance().Make(),
                         };
                         pageStatus = PageChangedEvent.IMAGE_STATUS_NEW;
 
