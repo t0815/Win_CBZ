@@ -878,7 +878,7 @@ namespace Win_CBZ
 
                             if (pageIndexEntry == null)
                             {
-                                if (!MetaDataPageIndexDisabledInfoShown)
+                                if (!MetaDataPageIndexDisabledInfoShown && !tParams.WriteIndex)
                                 {
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive page-index is disabled by user! No index is checked and no image-metadata is being read from index.");
                                     MetaDataPageIndexDisabledInfoShown = true;
@@ -1258,7 +1258,7 @@ namespace Win_CBZ
                                     Pages = Pages,
                                     ContinuePipeline = true,
                                     InitialIndexRebuild = false,
-                                    UpdateIndexMetadata = t.Result.UpdatePageIndexMetadata,
+                                    UpdateIndexMetadata = t.Result.UpdatePageIndexMetadata || CompatibilityMode,
                                     Stack = new List<StackItem>(),
                                     PageIndexVerToWrite = metaDataVersionWriting,
                                     CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
@@ -3132,6 +3132,19 @@ namespace Win_CBZ
 
             if (tParams.ContinuePipeline && !tParams.CancelToken.IsCancellationRequested)
             {
+                foreach (StackItem si in tParams.Stack)
+                {
+                    if (si.ThreadParams is UpdatePageIndicesThreadParams)
+                    {
+                        (si.ThreadParams as UpdatePageIndicesThreadParams).Pages = tParams.Pages;
+                    }
+
+                    if (si.ThreadParams is SaveArchiveThreadParams)
+                    {
+                        (si.ThreadParams as SaveArchiveThreadParams).Pages = tParams.Pages;
+                    }
+                }
+
                 AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, tParams.GetNextTaskId(), null, tParams.Stack, null));
             }
 
