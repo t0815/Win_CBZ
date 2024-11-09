@@ -1338,22 +1338,28 @@ namespace Win_CBZ
 
                             if (page.Changed || page.Compressed)
                             {
-                                sourceFileName = page.TemporaryFile.FullPath;
-                                try
+                                if (page.TemporaryFile != null)
                                 {
-                                    if (!page.TemporaryFile.Exists())
-                                    {
-                                        page.CreateLocalWorkingCopy();
-
-
-                                    }
-                                }
-                                catch (Exception)
-                                {
-
                                     sourceFileName = page.TemporaryFile.FullPath;
+                                    try
+                                    {
+                                        if (!page.TemporaryFile.Exists())
+                                        {
+                                            page.CreateLocalWorkingCopy();
 
-                                    //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
+
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                        sourceFileName = page.TemporaryFile.FullPath;
+
+                                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
+                                    }
+                                } else
+                                {
+                                    sourceFileName = page.LocalFile.FullPath;
                                 }
                             }
                             else
