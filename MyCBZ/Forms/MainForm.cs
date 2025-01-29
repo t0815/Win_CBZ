@@ -466,9 +466,24 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.RecentOpenArchivePath != null && Win_CBZSettings.Default.RecentOpenArchivePath.Length > 0)
             {
-                recentPath = new LocalFile(Win_CBZSettings.Default.RecentOpenArchivePath);
+                try
+                {
+                    recentPath = new LocalFile(Win_CBZSettings.Default.RecentOpenArchivePath);
 
-                OpenCBFDialog.InitialDirectory = Win_CBZSettings.Default.RecentOpenArchivePath;
+                    OpenCBFDialog.InitialDirectory = Win_CBZSettings.Default.RecentOpenArchivePath;
+                } catch (ApplicationException ae)
+                {
+                    Win_CBZSettings.Default.RecentOpenArchivePath = "";
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "" + ae.Message);
+
+                    if (ae.ShowErrorDialog)
+                    {
+                        //ApplicationMessage.ShowException(ae);
+                    }
+                } catch (ArgumentNullException ane)
+                {
+                    Win_CBZSettings.Default.RecentOpenArchivePath = "";
+                }
             }
 
             DialogResult openCBFResult = DialogResult.None;
@@ -543,6 +558,7 @@ namespace Win_CBZ
                     SaveArchiveDialog.InitialDirectory = Win_CBZSettings.Default.RecentSavedArchivePath;
                 } catch (ApplicationException ae)
                 {
+                    Win_CBZSettings.Default.RecentSavedArchivePath = "";
                     if (ae.ShowErrorDialog)
                     {
 
@@ -2867,9 +2883,25 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.RecentAddImagePath != null && Win_CBZSettings.Default.RecentAddImagePath.Length > 0)
             {
-                recentPath = new LocalFile(Win_CBZSettings.Default.RecentAddImagePath);
+                try { 
+                    recentPath = new LocalFile(Win_CBZSettings.Default.RecentAddImagePath);
 
-                OpenImagesDialog.InitialDirectory = Win_CBZSettings.Default.RecentAddImagePath;
+                    OpenImagesDialog.InitialDirectory = Win_CBZSettings.Default.RecentAddImagePath;
+                }
+                catch (ApplicationException ae)
+                {
+                    Win_CBZSettings.Default.RecentAddImagePath = "";
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "" + ae.Message);
+
+                    if (ae.ShowErrorDialog)
+                    {
+                        //ApplicationMessage.ShowException(ae);
+                    }
+                }
+                catch (ArgumentNullException ane)
+                {
+                    Win_CBZSettings.Default.RecentAddImagePath = "";
+                }
             }
 
             DialogResult openImageResult = OpenImagesDialog.ShowDialog();
