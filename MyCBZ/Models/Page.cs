@@ -111,6 +111,8 @@ namespace Win_CBZ
 
         public PageImageFormat Format { get; set; }
 
+        public PageChangesTracker PageChanges { get; set; }
+
         protected int ThumbW { get; set; } = 212;
 
         protected int ThumbH { get; set; } = 256;
@@ -137,6 +139,7 @@ namespace Win_CBZ
             ImageTask = new ImageTask(Id);
             ReadOnly = true;
             Format = new PageImageFormat();
+            PageChanges = new PageChangesTracker();
         }
 
         /// <summary>
@@ -150,6 +153,7 @@ namespace Win_CBZ
             LocalFile = new LocalFile(fileName);
             ImageFileInfo = new FileInfo(fileName);
             Format = new PageImageFormat(LocalFile.FileExtension);
+            PageChanges = new PageChangesTracker();
 
             TemporaryFileId = RandomId.GetInstance().Make();
 
@@ -209,6 +213,7 @@ namespace Win_CBZ
                 WorkingDir = PathHelper.ResolvePath(workingDir);
 
                 Format = new PageImageFormat(localFile.FileExtension);
+                PageChanges = new PageChangesTracker();
                 TemporaryFile = RequestTemporaryFile();
                 ImageFileInfo = new FileInfo(TemporaryFile.FullPath);
                 ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
@@ -274,6 +279,7 @@ namespace Win_CBZ
             WorkingDir = workingDir;
             ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
+            PageChanges = new PageChangesTracker();
         }
 
         public Page(Stream fileInputStream, String name)
@@ -287,6 +293,7 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
+            PageChanges = new PageChangesTracker();
         }
 
         public Page(GZipStream zipInputStream, String name)
@@ -298,6 +305,7 @@ namespace Win_CBZ
             Size = zipInputStream.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
+            PageChanges = new PageChangesTracker();
         }
 
         // <deprecated></deprecated>
@@ -312,6 +320,8 @@ namespace Win_CBZ
             //ImageStream = sourcePage.ImageStream;
             LocalFile = sourcePage.LocalFile;
             Format = sourcePage.Format;
+            PageChanges = sourcePage.PageChanges;
+            
             ImageType = sourcePage.ImageType;
 
             FileExtension = sourcePage.FileExtension;
@@ -400,7 +410,9 @@ namespace Win_CBZ
                 WorkingDir = sourcePage.WorkingDir;
                 Name = sourcePage.Name;
                 EntryName = sourcePage.EntryName;
-           
+
+                PageChanges = sourcePage.PageChanges;
+
                 Filename = sourcePage.Filename;
                 FileExtension = sourcePage.FileExtension;
               
@@ -584,6 +596,9 @@ namespace Win_CBZ
                             case "imagetask":
                                 HandlePageMetaData(subNode, "ImageTask");
                                 break;
+                            case "pagechanges":
+                                HandlePageMetaData(subNode, "PageChanges");
+                                break;
                             default:
                                 HandlePageMetaData(subNode);
                                 break;
@@ -766,6 +781,32 @@ namespace Win_CBZ
                         TemporaryFile = new LocalFile(subNode.InnerText);
                     }
 
+                }
+            }
+            else if (type == "PageChanges")
+            {
+                PageChanges = new PageChangesTracker();
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+                    if (subNode.Name == "Props")
+                    {
+                        PageChanges.Props = Boolean.Parse(subNode.InnerText);
+                    }
+
+                    if (subNode.Name == "Name")
+                    {
+                        PageChanges.Name = Boolean.Parse(subNode.InnerText);
+                    }
+
+                    if (subNode.Name == "Image")
+                    {
+                        PageChanges.Image = Boolean.Parse(subNode.InnerText);
+                    }
+
+                    if (subNode.Name == "Index")
+                    {
+                        PageChanges.Index = Boolean.Parse(subNode.InnerText);
+                    }
                 }
             }
             else if (type == "Format")
@@ -1489,6 +1530,19 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("FileSize", TemporaryFile.FileSize.ToString());
                 xmlWriter.WriteElementString("FilePath", TemporaryFile.FilePath);
                 xmlWriter.WriteElementString("Exists", TemporaryFile.Exists().ToString());
+
+                xmlWriter.WriteEndElement();
+            }
+
+            //
+            if (PageChanges != null)
+            {
+                // LocalFile
+                xmlWriter.WriteStartElement("PageChanges");
+                xmlWriter.WriteElementString("Name", PageChanges.Name.ToString());
+                xmlWriter.WriteElementString("Image", PageChanges.Image.ToString());
+                xmlWriter.WriteElementString("Props", PageChanges.Props.ToString());
+                xmlWriter.WriteElementString("Index", PageChanges.Index.ToString());
 
                 xmlWriter.WriteEndElement();
             }

@@ -10,5 +10,7 @@ namespace Win_CBZ.Result
     {
         public bool UpdatePageIndexMetadata { get; set; }
         public bool ApplyImageProcessing { get; set; }
+
+        public bool WriteMetadataOnly { get; set; }
     }
 }

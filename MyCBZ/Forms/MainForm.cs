@@ -149,6 +149,15 @@ namespace Win_CBZ
 
                     try
                     {
+                        PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
+                    }
+                    catch (Exception e)
+                    {
+                        ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+                    }
+
+                    try
+                    {
                         SplitBoxPageView.SplitterDistance = Win_CBZSettings.Default.Splitter2;
                     }
                     catch (Exception e)
@@ -163,16 +172,7 @@ namespace Win_CBZ
                     catch (Exception e)
                     {
                         ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter3'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                    }
-
-                    try
-                    {
-                        PrimarySplitBox.SplitterDistance = Win_CBZSettings.Default.Splitter4;
-                    }
-                    catch (Exception e)
-                    {
-                        ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter4'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                    }
+                    }   
                 }
             }
 

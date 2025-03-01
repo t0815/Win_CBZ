@@ -1158,6 +1158,7 @@ namespace Win_CBZ
                 SaveArchivePreChecksResult result = new SaveArchivePreChecksResult();
                 bool applyImageProcessing = false;
                 bool updateIndexMetadata = false;
+                bool writeMetadataOnly = false;
                 int checkIndex = 0;
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_SAVING));
@@ -1170,6 +1171,7 @@ namespace Win_CBZ
                      ))
                 {
                     applyImageProcessing = true;
+                    updateIndexMetadata = true;
                 }
 
                 if (!applyImageProcessing)
