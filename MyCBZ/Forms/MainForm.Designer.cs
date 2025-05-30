@@ -54,6 +54,7 @@ namespace Win_CBZ
             ToolButtonEditImage = new System.Windows.Forms.ToolStripButton();
             ToolButtonEditImageProps = new System.Windows.Forms.ToolStripButton();
             ToolButtonImagePreview = new System.Windows.Forms.ToolStripButton();
+            toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             ToolButtonSetPageType = new System.Windows.Forms.ToolStripSplitButton();
             toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             ToolButtonExtractArchive = new System.Windows.Forms.ToolStripButton();
@@ -92,6 +93,7 @@ namespace Win_CBZ
             AddFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             ExtractSelectedPages = new System.Windows.Forms.ToolStripMenuItem();
+            bookmarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ExtrasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ClearTemporaryFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
@@ -208,6 +210,7 @@ namespace Win_CBZ
             NamePageCol = new System.Windows.Forms.ColumnHeader();
             IndexPageCol = new System.Windows.Forms.ColumnHeader();
             TypePageCol = new System.Windows.Forms.ColumnHeader();
+            BookmarkPageCol = new System.Windows.Forms.ColumnHeader();
             ModifiedPageCol = new System.Windows.Forms.ColumnHeader();
             SizeFormatedPageCol = new System.Windows.Forms.ColumnHeader();
             PageListContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
@@ -329,7 +332,7 @@ namespace Win_CBZ
             // ToolBar
             // 
             ToolBar.ImageScalingSize = new System.Drawing.Size(24, 24);
-            ToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonNew, toolStripSeparator4, ToolButtonOpen, ToolButtonSave, toolStripSeparator8, ToolButtonAddFolder, toolStripSeparator1, ToolButtonAddFiles, ToolButtonRemoveFiles, toolStripSeparator10, ToolButtonMovePageUp, ToolButtonMovePageDown, toolStripSeparator2, ToolButtonBuild, toolStripSeparator3, ToolButtonEditImage, ToolButtonEditImageProps, ToolButtonImagePreview, ToolButtonSetPageType, toolStripSeparator5, ToolButtonExtractArchive, toolStripSeparator6, ToolStripButtonShowRawMetadata, ToolButtonStatistics, toolStripSeparator7, TogglePagePreviewToolbutton, ToolButtonValidateCBZ, toolStripSeparator11, ToolBarSearchLabel, ToolBarSearchInput, ToolStripButtonSearch });
+            ToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonNew, toolStripSeparator4, ToolButtonOpen, ToolButtonSave, toolStripSeparator8, ToolButtonAddFolder, toolStripSeparator1, ToolButtonAddFiles, ToolButtonRemoveFiles, toolStripSeparator10, ToolButtonMovePageUp, ToolButtonMovePageDown, toolStripSeparator2, ToolButtonBuild, toolStripSeparator3, ToolButtonEditImage, ToolButtonEditImageProps, ToolButtonImagePreview, toolStripButton1, ToolButtonSetPageType, toolStripSeparator5, ToolButtonExtractArchive, toolStripSeparator6, ToolStripButtonShowRawMetadata, ToolButtonStatistics, toolStripSeparator7, TogglePagePreviewToolbutton, ToolButtonValidateCBZ, toolStripSeparator11, ToolBarSearchLabel, ToolBarSearchInput, ToolStripButtonSearch });
             ToolBar.Location = new System.Drawing.Point(1, 29);
             ToolBar.Name = "ToolBar";
             ToolBar.Size = new System.Drawing.Size(1298, 31);
@@ -503,6 +506,15 @@ namespace Win_CBZ
             ToolButtonImagePreview.Size = new System.Drawing.Size(29, 28);
             ToolButtonImagePreview.Text = "View Page";
             ToolButtonImagePreview.Click += ToolButtonImagePreview_Click;
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButton1.Image = (System.Drawing.Image)resources.GetObject("toolStripButton1.Image");
+            toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new System.Drawing.Size(29, 28);
+            toolStripButton1.Text = "toolStripButton1";
             // 
             // ToolButtonSetPageType
             // 
@@ -758,7 +770,7 @@ namespace Win_CBZ
             // 
             // ProjectToolStripMenuItem
             // 
-            ProjectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { AddFolderToolStripMenuItem, toolStripSeparator9, AddFilesToolStripMenuItem, toolStripMenuItem8, ExtractSelectedPages });
+            ProjectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { AddFolderToolStripMenuItem, toolStripSeparator9, AddFilesToolStripMenuItem, toolStripMenuItem8, ExtractSelectedPages, bookmarksToolStripMenuItem });
             ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem";
             ProjectToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             ProjectToolStripMenuItem.Text = "Pages";
@@ -798,6 +810,12 @@ namespace Win_CBZ
             ExtractSelectedPages.Size = new System.Drawing.Size(345, 26);
             ExtractSelectedPages.Text = "Extract selected Pages...";
             ExtractSelectedPages.Click += ExtractAllToolStripMenuItem_Click;
+            // 
+            // bookmarksToolStripMenuItem
+            // 
+            bookmarksToolStripMenuItem.Name = "bookmarksToolStripMenuItem";
+            bookmarksToolStripMenuItem.Size = new System.Drawing.Size(345, 26);
+            bookmarksToolStripMenuItem.Text = "Bookmarks";
             // 
             // ExtrasToolStripMenuItem
             // 
@@ -2261,7 +2279,7 @@ namespace Win_CBZ
             // 
             PagesList.AllowDrop = true;
             PagesList.AllowItemDrag = true;
-            PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { NamePageCol, IndexPageCol, TypePageCol, ModifiedPageCol, SizeFormatedPageCol });
+            PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { NamePageCol, IndexPageCol, TypePageCol, BookmarkPageCol, ModifiedPageCol, SizeFormatedPageCol });
             PagesList.ContextMenuStrip = PageListContextMenu;
             PagesList.Dock = System.Windows.Forms.DockStyle.Fill;
             PagesList.FullRowSelect = true;
@@ -2298,13 +2316,20 @@ namespace Win_CBZ
             TypePageCol.Text = "Type";
             TypePageCol.Width = 110;
             // 
+            // BookmarkPageCol
+            // 
+            BookmarkPageCol.DisplayIndex = 5;
+            BookmarkPageCol.Text = "Bookmark";
+            // 
             // ModifiedPageCol
             // 
+            ModifiedPageCol.DisplayIndex = 3;
             ModifiedPageCol.Text = "Modified";
             ModifiedPageCol.Width = 160;
             // 
             // SizeFormatedPageCol
             // 
+            SizeFormatedPageCol.DisplayIndex = 4;
             SizeFormatedPageCol.Text = "Size";
             SizeFormatedPageCol.Width = 100;
             // 
@@ -3292,6 +3317,9 @@ namespace Win_CBZ
         private System.Windows.Forms.ImageList ComboIcons;
         private System.Windows.Forms.ToolTip DataGridErrorTooltip;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripMenuItem bookmarksToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader BookmarkPageCol;
     }
 }
 

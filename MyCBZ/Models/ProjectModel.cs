@@ -1278,6 +1278,7 @@ namespace Win_CBZ
                                     ContinueOnError = continueOnError,
                                     CompressionLevel = CompressionLevel,
                                     PageIndexVerToWrite = metaDataVersionWriting,
+                                    WriteMetadataOnly = t.Result.WriteMetadataOnly,
                                     WriteIndex = Win_CBZSettings.Default.WriteXmlPageIndex,
                                     CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token
                                 }
@@ -1359,7 +1360,7 @@ namespace Win_CBZ
 
                                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to open temporary file! ["+ex.Message+"] Compressing original file [" + page.LocalFile.FullPath + "] instead of [" + page.TempPath + "]");
                                     }
-                                } else
+                            } else
                                 {
                                     sourceFileName = page.LocalFile.FullPath;
                                 }
@@ -1378,6 +1379,7 @@ namespace Win_CBZ
                                 page.Compressed = true;
                             }
                             page.Changed = false;
+                            page.ImageChanged = false;
                             if (page.ImageLoaded)
                             {
                                 try
@@ -1388,9 +1390,9 @@ namespace Win_CBZ
                                 {
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error reloading image [" + fileToCompress.FileName + "] for page [" + pe.Message + "]");
                                 }
-                            }
+                                }
 
-                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
+                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         }
                         else
                         {
@@ -1423,12 +1425,10 @@ namespace Win_CBZ
 
                     AppEventHandler.OnArchiveOperation(this, new ArchiveOperationEvent(ArchiveOperationEvent.OPERATION_COMPRESS, ArchiveOperationEvent.STATUS_SUCCESS, index, Pages.Count + 1, page));
 
-                    
-
                     index++;
                 }
                 Thread.EndCriticalRegion();
-
+                
                 // Create Metadata
                 try
                 {
@@ -1460,14 +1460,14 @@ namespace Win_CBZ
                 {
                     try
                     {
-                        BuildingArchive?.Dispose();
+                        BuildingArchive?.Dispose();                
                         Archive?.Dispose();
 
                         Task<TaskResult> copyFile = CopyFileTask.CopyFile(new LocalFile(TemporaryFileName), new LocalFile(tParams.FileName), AppEventHandler.OnFileOperation, tParams.CancelToken);
 
                         copyFile.Start();
                         copyFile.Wait(tParams.CancelToken); // run synchronously and wait for completion
-
+                        
                         //CopyFile(TemporaryFileName, tParams.FileName, true);
 
                         int deletedIndex = 0;
@@ -2204,6 +2204,7 @@ namespace Win_CBZ
                         page.UpdateLocalWorkingCopy(fileObject, targetPath);
                         page.Key = tParams.PageIndexVerToWrite == PageIndexVersion.VERSION_1 ? fileObject.Name : RandomId.GetInstance().Make();
                         page.Changed = true;
+                        page.ImageChanged = true;
                     }
 
                     try
@@ -2943,7 +2944,7 @@ namespace Win_CBZ
                 {
                     page.Key = name;
                 }
-                page.Renamed = true;
+
                 IsChanged = true;
 
                 AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, originalPage, PageChangedEvent.IMAGE_STATUS_RENAMED));

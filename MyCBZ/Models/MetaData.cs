@@ -364,6 +364,12 @@ namespace Win_CBZ
                                 .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                         }
 
+                        if (page.Bookmark.Length > 0)
+                        {
+                            newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
+
+                        }
+
                         PageIndex.Add(newPageEntry);
                     }
                 }
@@ -422,6 +428,11 @@ namespace Win_CBZ
                                  .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                         }
 
+                        if (page.Bookmark.Length > 0)
+                        {
+                            entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
+                        }
+
                         return entry;
                     }
                 } catch (Exception ex)
@@ -470,6 +481,12 @@ namespace Win_CBZ
                     {
                         entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH, page.Format.W.ToString())
                              .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
+                    }
+
+                    if (page.Bookmark.Length > 0)
+                    {
+                        entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
+
                     }
 
                     break;

@@ -768,10 +768,12 @@ namespace Win_CBZ
                                     e.Page.Compressed = true;
                                     break;
                                 case PageChangedEvent.IMAGE_STATUS_CHANGED:
-                                case PageChangedEvent.IMAGE_STATUS_RENAMED:
                                     e.Page.Changed = true;
                                     e.Page.Invalidated = true;
                                     e.Page.ThumbnailInvalidated = true;
+                                    break;
+                                case PageChangedEvent.IMAGE_STATUS_RENAMED:
+                                    e.Page.Renamed = true;
                                     break;
                                 case PageChangedEvent.IMAGE_STATUS_ERROR:
                                     //
@@ -4884,7 +4886,7 @@ namespace Win_CBZ
                     {
                         try
                         {
-                            ((Page)img.Tag).DeleteTemporaryFile();
+                            ((Page)img.Tag).DeleteTemporaryFile();                
                         }
                         catch (Exception ex)
                         {
@@ -5147,6 +5149,7 @@ namespace Win_CBZ
                                 pageResult.DoublePage != pageProperties[i].DoublePage ||
                                 pageResult.Name != pageProperties[i].Name ||
                                 pageResult.Key != pageProperties[i].Key ||
+                                pageResult.Bookmark != pageProperties[i].Bookmark ||
                                 pageResult.Index != pageProperties[i].Index ||
                                 pageResult.ImageType != pageProperties[i].ImageType ||
                                 pageResult.TemporaryFileId != pageProperties[i].TemporaryFileId
@@ -5233,7 +5236,7 @@ namespace Win_CBZ
 
                                         //AppEventHandler.OnGlobalActionRequired(this, new GlobalActionRequiredEvent(Program.ProjectModel, 0, "Page name changed. Rebuild pageindex now?", "Rebuild", GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD, UpdatePageIndexTask.UpdatePageIndex(Program.ProjectModel.Pages, Program.ProjectModel.MetaData, HandleGlobalTaskProgress, PageChanged)));
 
-                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_RENAMED));
+                                        //AppEventHandler.OnPageChanged(this, new PageChangedEvent(pageResult, pageProperties[i], PageChangedEvent.IMAGE_STATUS_RENAMED));
 
                                     }
                                     catch (PageDuplicateNameException ae)

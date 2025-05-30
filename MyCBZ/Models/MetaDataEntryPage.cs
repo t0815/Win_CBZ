@@ -13,6 +13,7 @@ namespace Win_CBZ
         public const String COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE = "DoublePage";
         public const String COMIC_PAGE_ATTRIBUTE_IMAGE_SIZE = "ImageSize";
         public const String COMIC_PAGE_ATTRIBUTE_KEY = "Key";
+        public const String COMIC_PAGE_ATTRIBUTE_BOOKMARK = "Bookmark";
         public const String COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH = "ImageWidth";
         public const String COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT = "ImageHeight";
 

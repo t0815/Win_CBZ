@@ -53,6 +53,8 @@ namespace Win_CBZ
 
         public bool ImageLoaded { get; set; }
 
+        public string Bookmark { get; set; }
+
         public bool ImageMetaDataLoaded { get; set; }
 
         public ImageTask ImageTask { get; set; }
@@ -80,6 +82,8 @@ namespace Win_CBZ
         public bool Compressed { get; set; }
 
         public bool Changed { get; set; }
+
+        public bool ImageChanged { get; set; }
 
         public bool Deleted { get; set; }
 
@@ -111,8 +115,6 @@ namespace Win_CBZ
 
         public PageImageFormat Format { get; set; }
 
-        public PageChangesTracker PageChanges { get; set; }
-
         protected int ThumbW { get; set; } = 212;
 
         protected int ThumbH { get; set; } = 256;
@@ -139,7 +141,6 @@ namespace Win_CBZ
             ImageTask = new ImageTask(Id);
             ReadOnly = true;
             Format = new PageImageFormat();
-            PageChanges = new PageChangesTracker();
         }
 
         /// <summary>
@@ -153,7 +154,6 @@ namespace Win_CBZ
             LocalFile = new LocalFile(fileName);
             ImageFileInfo = new FileInfo(fileName);
             Format = new PageImageFormat(LocalFile.FileExtension);
-            PageChanges = new PageChangesTracker();
 
             TemporaryFileId = RandomId.GetInstance().Make();
 
@@ -213,7 +213,6 @@ namespace Win_CBZ
                 WorkingDir = PathHelper.ResolvePath(workingDir);
 
                 Format = new PageImageFormat(localFile.FileExtension);
-                PageChanges = new PageChangesTracker();
                 TemporaryFile = RequestTemporaryFile();
                 ImageFileInfo = new FileInfo(TemporaryFile.FullPath);
                 ReadOnly = (mode == FileAccess.Read && mode != FileAccess.ReadWrite) || ImageFileInfo.IsReadOnly;
@@ -279,7 +278,6 @@ namespace Win_CBZ
             WorkingDir = workingDir;
             ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
-            PageChanges = new PageChangesTracker();
         }
 
         public Page(Stream fileInputStream, String name)
@@ -293,7 +291,6 @@ namespace Win_CBZ
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
             Format = new PageImageFormat(FileExtension);
-            PageChanges = new PageChangesTracker();
         }
 
         public Page(GZipStream zipInputStream, String name)
@@ -305,7 +302,6 @@ namespace Win_CBZ
             Size = zipInputStream.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
-            PageChanges = new PageChangesTracker();
         }
 
         // <deprecated></deprecated>
@@ -320,7 +316,6 @@ namespace Win_CBZ
             //ImageStream = sourcePage.ImageStream;
             LocalFile = sourcePage.LocalFile;
             Format = sourcePage.Format;
-            PageChanges = sourcePage.PageChanges;
             
             ImageType = sourcePage.ImageType;
 
@@ -334,6 +329,7 @@ namespace Win_CBZ
             CompressedEntry = sourcePage.CompressedEntry;
 
             Changed = sourcePage.Changed;
+            ImageChanged = sourcePage.ImageChanged;
             ReadOnly = sourcePage.ReadOnly;
             Size = sourcePage.Size;
             Id = sourcePage.Id;
@@ -344,6 +340,7 @@ namespace Win_CBZ
             DoublePage = sourcePage.DoublePage;
 
             Deleted = sourcePage.Deleted;
+            Renamed = sourcePage.Renamed;
             OriginalName = sourcePage.OriginalName;
             Key = sourcePage.Key;
             Hash = sourcePage.Hash;
@@ -411,8 +408,6 @@ namespace Win_CBZ
                 Name = sourcePage.Name;
                 EntryName = sourcePage.EntryName;
 
-                PageChanges = sourcePage.PageChanges;
-
                 Filename = sourcePage.Filename;
                 FileExtension = sourcePage.FileExtension;
               
@@ -429,6 +424,7 @@ namespace Win_CBZ
                 Hash = sourcePage.Hash;
 
                 Changed = sourcePage.Changed;
+                ImageChanged = sourcePage.ImageChanged;
                 ReadOnly = sourcePage.ReadOnly;
                 Size = sourcePage.Size;
                 Id = newCopy ? Guid.NewGuid().ToString() : sourcePage.Id;
@@ -439,6 +435,7 @@ namespace Win_CBZ
                 DoublePage = sourcePage.DoublePage;
 
                 Deleted = sourcePage.Deleted;
+                Renamed = sourcePage.Renamed;
                 OriginalName = sourcePage.OriginalName;
                 Key = sourcePage.Key;
                 ThumbH = sourcePage.ThumbH;
@@ -638,11 +635,11 @@ namespace Win_CBZ
 
                         if (LocalFile != null && LocalFile.Exists())
                         {
-                            Copy(LocalFile.FullPath, targetFile);
+                    Copy(LocalFile.FullPath, targetFile);
                             LocalFile = new LocalFile(targetFile);
                         } else
                         {
-                            Copy(TemporaryFile.FullPath, targetFile);
+                    Copy(TemporaryFile.FullPath, targetFile);
                             LocalFile = new LocalFile(targetFile);
                         }
 
@@ -781,32 +778,6 @@ namespace Win_CBZ
                         TemporaryFile = new LocalFile(subNode.InnerText);
                     }
 
-                }
-            }
-            else if (type == "PageChanges")
-            {
-                PageChanges = new PageChangesTracker();
-                foreach (XmlNode subNode in node.ChildNodes)
-                {
-                    if (subNode.Name == "Props")
-                    {
-                        PageChanges.Props = Boolean.Parse(subNode.InnerText);
-                    }
-
-                    if (subNode.Name == "Name")
-                    {
-                        PageChanges.Name = Boolean.Parse(subNode.InnerText);
-                    }
-
-                    if (subNode.Name == "Image")
-                    {
-                        PageChanges.Image = Boolean.Parse(subNode.InnerText);
-                    }
-
-                    if (subNode.Name == "Index")
-                    {
-                        PageChanges.Index = Boolean.Parse(subNode.InnerText);
-                    }
                 }
             }
             else if (type == "Format")
@@ -1039,8 +1010,16 @@ namespace Win_CBZ
                         Deleted = Boolean.Parse(node.InnerText);
                         break;
 
+                    case "Renamed":
+                        Renamed = Boolean.Parse(node.InnerText);
+                        break;
+
                     case "Changed":
                         Changed = Boolean.Parse(node.InnerText);
+                        break;
+
+                    case "ImageChanged":
+                        ImageChanged = Boolean.Parse(node.InnerText);
                         break;
 
                     case "Compressed":
@@ -1108,6 +1087,8 @@ namespace Win_CBZ
             Key = page.Key;
             
             Deleted = page.Deleted;
+            Renamed = page.Renamed;
+            ImageChanged = page.ImageChanged;
             LocalFile = page.LocalFile;
             TemporaryFileId = page.TemporaryFileId;
             Changed = page.Changed;
@@ -1155,7 +1136,9 @@ namespace Win_CBZ
             Key = page.Key;
 
             Deleted = page.Deleted;
+            Renamed = page.Renamed;
             Changed = page.Changed;
+            ImageChanged = page.ImageChanged;
             ImageType = page.ImageType;
             ImageTask = page.ImageTask;
             Format = page.Format;
@@ -1535,19 +1518,6 @@ namespace Win_CBZ
             }
 
             //
-            if (PageChanges != null)
-            {
-                // LocalFile
-                xmlWriter.WriteStartElement("PageChanges");
-                xmlWriter.WriteElementString("Name", PageChanges.Name.ToString());
-                xmlWriter.WriteElementString("Image", PageChanges.Image.ToString());
-                xmlWriter.WriteElementString("Props", PageChanges.Props.ToString());
-                xmlWriter.WriteElementString("Index", PageChanges.Index.ToString());
-
-                xmlWriter.WriteEndElement();
-            }
-
-            //
             if (Format != null)
             {
                 xmlWriter.WriteStartElement("Format");
@@ -1651,7 +1621,9 @@ namespace Win_CBZ
 
             xmlWriter.WriteElementString("Compressed", Compressed.ToString());
             xmlWriter.WriteElementString("Changed", Changed.ToString());
+            xmlWriter.WriteElementString("ImageChanged", ImageChanged.ToString());
             xmlWriter.WriteElementString("Deleted", Deleted.ToString());
+            xmlWriter.WriteElementString("Renamed", Renamed.ToString());
             xmlWriter.WriteElementString("ReadOnly", ReadOnly.ToString());
             xmlWriter.WriteElementString("Selected", Selected.ToString());
             xmlWriter.WriteElementString("Invalidated", Invalidated.ToString());
@@ -1883,11 +1855,9 @@ namespace Win_CBZ
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public TaskResult Copy(string inputFilePath, string outputFilePath)
+        public static TaskResult Copy(string inputFilePath, string outputFilePath)
         {
             TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_GLOBAL);
-
-            TaskResult result = null;
             Task<TaskResult> copyFile = CopyFileTask.CopyFile(new LocalFile(inputFilePath), new LocalFile(outputFilePath), null, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token);
 
             copyFile.Start();
