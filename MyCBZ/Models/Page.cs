@@ -338,6 +338,7 @@ namespace Win_CBZ
             Number = sourcePage.Number;
             Closed = sourcePage.Closed;
             DoublePage = sourcePage.DoublePage;
+            Bookmark = sourcePage.Bookmark;
 
             Deleted = sourcePage.Deleted;
             Renamed = sourcePage.Renamed;
@@ -433,6 +434,7 @@ namespace Win_CBZ
                 Number = sourcePage.Number;
                 //Closed = sourcePage.Closed;
                 DoublePage = sourcePage.DoublePage;
+                Bookmark = sourcePage.Bookmark;
 
                 Deleted = sourcePage.Deleted;
                 Renamed = sourcePage.Renamed;
@@ -592,9 +594,6 @@ namespace Win_CBZ
                                 break;
                             case "imagetask":
                                 HandlePageMetaData(subNode, "ImageTask");
-                                break;
-                            case "pagechanges":
-                                HandlePageMetaData(subNode, "PageChanges");
                                 break;
                             default:
                                 HandlePageMetaData(subNode);
@@ -1006,6 +1005,10 @@ namespace Win_CBZ
                         DoublePage = Boolean.Parse(node.InnerText);
                         break;
 
+                    case "Bookmark":
+                        Bookmark = node.InnerText;
+                        break;
+
                     case "Deleted":
                         Deleted = Boolean.Parse(node.InnerText);
                         break;
@@ -1096,6 +1099,7 @@ namespace Win_CBZ
             ImageTask = page.ImageTask;
             Format = page.Format;
             DoublePage = page.DoublePage;
+            Bookmark = page.Bookmark;
             Hash = page.Hash;
             LastModified = page.LastModified;
 
@@ -1143,6 +1147,7 @@ namespace Win_CBZ
             ImageTask = page.ImageTask;
             Format = page.Format;
             DoublePage = page.DoublePage;
+            Bookmark = page.Bookmark;
             Hash = page.Hash;
             LastModified = page.LastModified;
 
@@ -1471,6 +1476,7 @@ namespace Win_CBZ
             
             xmlWriter.WriteElementString("ImageType", ImageType);
             xmlWriter.WriteElementString("DoublePage", DoublePage.ToString());
+            xmlWriter.WriteElementString("Bookmark", Bookmark);
             xmlWriter.WriteElementString("Size", Size.ToString());
             xmlWriter.WriteElementString("WorkingDir", WorkingDir);
             

@@ -35,6 +35,9 @@
     <Compile Update="Forms\ExtractFilesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\ManageBookmarksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\PageBookmarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
