@@ -816,6 +816,7 @@ namespace Win_CBZ
             bookmarksToolStripMenuItem.Name = "bookmarksToolStripMenuItem";
             bookmarksToolStripMenuItem.Size = new System.Drawing.Size(345, 26);
             bookmarksToolStripMenuItem.Text = "Bookmarks";
+            bookmarksToolStripMenuItem.Click += BookmarksToolStripMenuItem_Click;
             // 
             // ExtrasToolStripMenuItem
             // 
@@ -2318,18 +2319,15 @@ namespace Win_CBZ
             // 
             // BookmarkPageCol
             // 
-            BookmarkPageCol.DisplayIndex = 5;
             BookmarkPageCol.Text = "Bookmark";
             // 
             // ModifiedPageCol
             // 
-            ModifiedPageCol.DisplayIndex = 3;
             ModifiedPageCol.Text = "Modified";
             ModifiedPageCol.Width = 160;
             // 
             // SizeFormatedPageCol
             // 
-            SizeFormatedPageCol.DisplayIndex = 4;
             SizeFormatedPageCol.Text = "Size";
             SizeFormatedPageCol.Width = 100;
             // 

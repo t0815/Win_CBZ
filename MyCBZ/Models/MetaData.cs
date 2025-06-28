@@ -428,7 +428,7 @@ namespace Win_CBZ
                                  .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                         }
 
-                        if (page.Bookmark.Length > 0)
+                        if (page.Bookmark != null && page.Bookmark.Length > 0)
                         {
                             entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
                         }

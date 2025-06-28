@@ -172,7 +172,7 @@ namespace Win_CBZ
                     catch (Exception e)
                     {
                         ApplicationMessage.ShowWarning("Failed to load setting for 'Splitter3'.\n" + e.Message, "Initialization Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-                    }   
+                    }
                 }
             }
 
@@ -471,7 +471,8 @@ namespace Win_CBZ
                     recentPath = new LocalFile(Win_CBZSettings.Default.RecentOpenArchivePath);
 
                     OpenCBFDialog.InitialDirectory = Win_CBZSettings.Default.RecentOpenArchivePath;
-                } catch (ApplicationException ae)
+                }
+                catch (ApplicationException ae)
                 {
                     Win_CBZSettings.Default.RecentOpenArchivePath = "";
                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "" + ae.Message);
@@ -480,7 +481,8 @@ namespace Win_CBZ
                     {
                         //ApplicationMessage.ShowException(ae);
                     }
-                } catch (ArgumentNullException ane)
+                }
+                catch (ArgumentNullException ane)
                 {
                     Win_CBZSettings.Default.RecentOpenArchivePath = "";
                 }
@@ -556,17 +558,19 @@ namespace Win_CBZ
                 {
                     recentPath = new LocalFile(Win_CBZSettings.Default.RecentSavedArchivePath);
                     SaveArchiveDialog.InitialDirectory = Win_CBZSettings.Default.RecentSavedArchivePath;
-                } catch (ApplicationException ae)
+                }
+                catch (ApplicationException ae)
                 {
                     Win_CBZSettings.Default.RecentSavedArchivePath = "";
                     if (ae.ShowErrorDialog)
                     {
 
                     }
-                } catch (ArgumentNullException ane)
+                }
+                catch (ArgumentNullException ane)
                 {
 
-                }              
+                }
             }
 
             DialogResult saveDialogResult = SaveArchiveDialog.ShowDialog();
@@ -580,13 +584,15 @@ namespace Win_CBZ
                     {
                         recentPath = new LocalFile(SaveArchiveDialog.FileName);
                         Win_CBZSettings.Default.RecentSavedArchivePath = recentPath.FilePath;
-                    } catch (ApplicationException ae)
+                    }
+                    catch (ApplicationException ae)
                     {
                         if (ae.ShowErrorDialog)
                         {
 
                         }
-                    } catch (ArgumentNullException ane)
+                    }
+                    catch (ArgumentNullException ane)
                     {
 
                     }
@@ -2885,7 +2891,8 @@ namespace Win_CBZ
 
             if (Win_CBZSettings.Default.RecentAddImagePath != null && Win_CBZSettings.Default.RecentAddImagePath.Length > 0)
             {
-                try { 
+                try
+                {
                     recentPath = new LocalFile(Win_CBZSettings.Default.RecentAddImagePath);
 
                     OpenImagesDialog.InitialDirectory = Win_CBZSettings.Default.RecentAddImagePath;
@@ -4143,7 +4150,8 @@ namespace Win_CBZ
                                 try
                                 {
                                     MetaDataGrid.Rows.RemoveAt(e.Index);
-                                } catch (Exception e)
+                                }
+                                catch (Exception e)
                                 {
                                     AppEventHandler.OnMessageLogged(sender, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "MainForm::MetaDataEntryChanged(), Error removing row! [" + e.Message + "]"));
                                 }
@@ -4886,7 +4894,7 @@ namespace Win_CBZ
                     {
                         try
                         {
-                            ((Page)img.Tag).DeleteTemporaryFile();                
+                            ((Page)img.Tag).DeleteTemporaryFile();
                         }
                         catch (Exception ex)
                         {
@@ -7886,7 +7894,7 @@ namespace Win_CBZ
                                 Program.ProjectModel.MetaData.UserFilterMetaData().FilterMetaData(ToolBarSearchInput.Text);
                             }
 
-                            
+
                         }
 
                         //AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(data.Values.ToList()));
@@ -8143,6 +8151,17 @@ namespace Win_CBZ
         private void MetadataPanel_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void BookmarksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ManageBookmarksForm manageBookmarksForm = new ManageBookmarksForm(Program.ProjectModel.MetaData, Program.ProjectModel.Pages);
+            if (manageBookmarksForm.ShowDialog() == DialogResult.OK)
+            {
+                //Program.ProjectModel.MetaData.PageIndex.ea = manageBookmarksForm.Bookmarks;
+                
+                AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
+            }
         }
     }
 }
