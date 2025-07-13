@@ -281,7 +281,27 @@ namespace Win_CBZ.Forms
 
                 if (node != null)
                 {
-                   BookmarksTree.Nodes.Remove(node);
+                    BookmarksTree.Nodes.Remove(node);
+                }
+
+                item.SubItems[2].Text = "";
+            }
+        }
+
+        private void ToolStripButton1_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in PagesList.Items)
+            {
+                Page page = (Page)item.Tag;
+
+                String bookmark = item.SubItems[2].Text;
+                String pageName = item.Text;
+
+                TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(pageName)];
+
+                if (node != null)
+                {
+                    BookmarksTree.Nodes.Remove(node);
                 }
 
                 item.SubItems[2].Text = "";
