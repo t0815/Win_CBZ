@@ -906,6 +906,7 @@ namespace Win_CBZ
                                     MetaDataPageIndexMissingData = true;
                                 }
                                 page.DoublePage = Boolean.Parse(pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_DOUBLE_PAGE) ?? "False");
+                                page.Bookmark = pageIndexEntry.GetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK) ?? string.Empty;
                             }
                             catch
                             {

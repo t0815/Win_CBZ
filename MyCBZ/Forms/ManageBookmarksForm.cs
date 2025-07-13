@@ -6,9 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Win_CBZ.Events;
 using Win_CBZ.Handler;
 
 namespace Win_CBZ.Forms
@@ -78,7 +80,7 @@ namespace Win_CBZ.Forms
                     return;
                 }
             }
-          
+
             _selectedNode = BookmarksTree.Nodes.Add(TextBoxBookmarkName.Text.Trim(), TextBoxBookmarkName.Text.Trim());
 
             TextBoxBookmarkName.Text = string.Empty;
@@ -94,16 +96,38 @@ namespace Win_CBZ.Forms
                 return;
             }
 
+            if (BookmarksTree.SelectedNode == null)
+            {
+                ApplicationMessage.ShowError("No Bookmark selected.", "Error");
+                return;
+            }
 
 
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
                 Page page = (Page)item.Tag;
 
-                
-                page.Bookmark = TextBoxBookmarkName.Text.Trim();
-                           
-                item.SubItems[2].Text = page.Bookmark;
+                String bookmark = BookmarksTree.SelectedNode.Text;
+                if (BookmarksTree.SelectedNode.Level > 0)
+                {
+                    bookmark = BookmarksTree.SelectedNode.Parent.Text;
+                }
+
+                //page.Bookmark = TextBoxBookmarkName.Text.Trim();
+
+                item.SubItems[2].Text = bookmark;
+
+                if (BookmarksTree.Nodes.IndexOfKey(bookmark) > -1)
+                {
+                    TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(bookmark)];
+                    if (node.Level == 0)
+                    {
+                        if (node.Nodes.IndexOfKey(page.Name) == -1)
+                        {
+                            node.Nodes.Add(page.Name, page.Name);
+                        }
+                    }
+                }
 
                 //AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
             }
@@ -115,12 +139,110 @@ namespace Win_CBZ.Forms
             if (e.Node != null)
             {
                 _selectedNode = e.Node;
-                TextBoxBookmarkName.Text = e.Node.Text;
+
+                if (e.Node.Level > 0)
+                {
+                    TextBoxBookmarkName.Text = e.Node.Parent.Text;
+                }
+                else
+                {
+                    TextBoxBookmarkName.Text = e.Node.Text;
+                }
+
+
             }
             else
             {
                 _selectedNode = null;
                 TextBoxBookmarkName.Text = string.Empty;
+            }
+        }
+
+        private void OkButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+            OkButton.Enabled = false;
+            int index = 0;
+
+            foreach (ListViewItem item in PagesList.Items)
+            {
+                Page page = (Page)item.Tag;
+
+                if (page.Bookmark != item.SubItems[2].Text)
+                {
+                    page.Bookmark = item.SubItems[2].Text;
+
+                    Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
+
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+
+                AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Updating page metadata for bookmark changes...", index, PagesList.Items.Count, false));
+
+                index++;
+
+                Thread.Sleep(2);
+            }
+
+            AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_COMPLETED, "Ready.", 0, 0, false));
+            AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+
+        }
+
+        private void ToolStripButton5_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in PagesList.Items)
+            {
+                Page page = (Page)item.Tag;
+
+                String bookmark = BookmarksTree.SelectedNode.Text;
+                if (BookmarksTree.SelectedNode.Level > 0)
+                {
+                    bookmark = BookmarksTree.SelectedNode.Parent.Text;
+                }
+
+                //page.Bookmark = TextBoxBookmarkName.Text.Trim();
+
+                if (item.SubItems[2].Text == bookmark)
+                {
+                    item.SubItems[2].Text = string.Empty;
+                }
+
+            }
+
+            if (BookmarksTree.SelectedNode != null)
+            {
+                TreeNode node = BookmarksTree.SelectedNode;
+                if (node.Level > 0)
+                {
+                    node = node.Parent;
+                }
+
+                //if (node.Nodes.Count > 0)
+                //{
+                BookmarksTree.Nodes.Remove(node);
+                // }
+
+            }
+        }
+
+        private void ToolStripButton4_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in PagesList.SelectedItems)
+            {
+                Page page = (Page)item.Tag;
+
+                String bookmark = item.SubItems[2].Text;
+                String pageName = item.Text;
+
+                TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(pageName)];
+
+                if (node != null)
+                {
+                   BookmarksTree.Nodes.Remove(node);
+                }
+
+                item.SubItems[2].Text = "";
             }
         }
     }

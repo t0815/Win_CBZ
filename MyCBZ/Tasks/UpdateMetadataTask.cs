@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpCompress.Common;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,6 +98,11 @@ namespace Win_CBZ.Tasks
                             {
                                 newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_WIDTH, page.Format.W.ToString())
                                     .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
+                            }
+
+                            if (page.Bookmark != null && page.Bookmark.Length > 0)
+                            {
+                                newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
                             }
 
                             metaData.PageIndex.Add(newPageEntry);

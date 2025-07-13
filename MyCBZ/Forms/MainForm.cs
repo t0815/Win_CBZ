@@ -740,6 +740,7 @@ namespace Win_CBZ
                             item.ImageKey = "photo_landscape";
                             item.SubItems.Add(e.Page?.Number.ToString());
                             item.SubItems.Add(e.Page?.ImageType.ToString());
+                            item.SubItems.Add(e.Page?.Bookmark);
                             item.SubItems.Add(e.Page?.LastModified.ToString());
                             item.SubItems.Add(e.Page?.SizeFormat());
                         }
@@ -749,8 +750,9 @@ namespace Win_CBZ
                             item.Text = e.Page?.Name;
                             item.SubItems[1] = new ListViewItem.ListViewSubItem(item, !e.Page.Deleted ? e.Page.Number.ToString() : "-");
                             item.SubItems[2] = new ListViewItem.ListViewSubItem(item, e.Page?.ImageType.ToString());
-                            item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Page?.LastModified.ToString());
-                            item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Page?.SizeFormat());
+                            item.SubItems[3] = new ListViewItem.ListViewSubItem(item, e.Page?.Bookmark);
+                            item.SubItems[4] = new ListViewItem.ListViewSubItem(item, e.Page?.LastModified.ToString());
+                            item.SubItems[5] = new ListViewItem.ListViewSubItem(item, e.Page?.SizeFormat());
                         }
 
                         item.Tag = e.Page;

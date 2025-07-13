@@ -51,6 +51,7 @@
             ColName = new System.Windows.Forms.ColumnHeader();
             ColIndex = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
+            toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             BookmarkEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -147,6 +148,7 @@
             OkButton.TabIndex = 3;
             OkButton.Text = "Ok";
             OkButton.UseVisualStyleBackColor = true;
+            OkButton.Click += OkButton_Click;
             // 
             // flowLayoutPanel1
             // 
@@ -160,11 +162,11 @@
             // 
             toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddPages, toolStripButton2, toolStripSeparator1, toolStripButton4 });
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddPages, toolStripSeparator1, toolStripButton4, toolStripSeparator2, toolStripButton2 });
             toolStrip1.Location = new System.Drawing.Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            toolStrip1.Size = new System.Drawing.Size(106, 27);
+            toolStrip1.Size = new System.Drawing.Size(151, 27);
             toolStrip1.TabIndex = 0;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -200,6 +202,7 @@
             toolStripButton4.Name = "toolStripButton4";
             toolStripButton4.Size = new System.Drawing.Size(29, 24);
             toolStripButton4.Text = "ToolButtonRemoveAll";
+            toolStripButton4.Click += ToolStripButton4_Click;
             // 
             // flowLayoutPanel2
             // 
@@ -244,6 +247,7 @@
             toolStripButton5.Name = "toolStripButton5";
             toolStripButton5.Size = new System.Drawing.Size(29, 24);
             toolStripButton5.Text = "toolStripButton5";
+            toolStripButton5.Click += ToolStripButton5_Click;
             // 
             // BookmarksTree
             // 
@@ -278,6 +282,11 @@
             // 
             columnHeader3.Text = "Bookmark";
             columnHeader3.Width = 80;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // ManageBookmarksForm
             // 
@@ -328,5 +337,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripTextBox TextBoxBookmarkName;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
