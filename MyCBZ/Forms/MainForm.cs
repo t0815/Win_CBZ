@@ -8148,11 +8148,6 @@ namespace Win_CBZ
             }
         }
 
-        private void MetadataPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void BookmarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ManageBookmarksForm manageBookmarksForm = new ManageBookmarksForm(Program.ProjectModel.MetaData, Program.ProjectModel.Pages);

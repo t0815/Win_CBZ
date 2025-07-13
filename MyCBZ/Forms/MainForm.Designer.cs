@@ -813,6 +813,7 @@ namespace Win_CBZ
             // 
             // bookmarksToolStripMenuItem
             // 
+            bookmarksToolStripMenuItem.Image = Properties.Resources.book_bookmark;
             bookmarksToolStripMenuItem.Name = "bookmarksToolStripMenuItem";
             bookmarksToolStripMenuItem.Size = new System.Drawing.Size(345, 26);
             bookmarksToolStripMenuItem.Text = "Bookmarks";
@@ -2388,7 +2389,6 @@ namespace Win_CBZ
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             MetadataPanel.Size = new System.Drawing.Size(933, 265);
             MetadataPanel.TabIndex = 10;
-            MetadataPanel.Paint += MetadataPanel_Paint;
             // 
             // tableLayoutPanel2
             // 

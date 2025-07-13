@@ -83,6 +83,66 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap barcode {
+            get {
+                object obj = ResourceManager.GetObject("barcode", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap book {
+            get {
+                object obj = ResourceManager.GetObject("book", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap book_bookmark {
+            get {
+                object obj = ResourceManager.GetObject("book_bookmark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap book_bookmark_large {
+            get {
+                object obj = ResourceManager.GetObject("book_bookmark_large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap books {
+            get {
+                object obj = ResourceManager.GetObject("books", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap box_closed {
+            get {
+                object obj = ResourceManager.GetObject("box_closed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_into {
             get {
                 object obj = ResourceManager.GetObject("box_into", resourceCulture);
@@ -113,6 +173,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap box_software {
+            get {
+                object obj = ResourceManager.GetObject("box_software", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap box_surprise {
             get {
                 object obj = ResourceManager.GetObject("box_surprise", resourceCulture);
@@ -132,7 +202,7 @@ namespace Win_CBZ.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {\rtf1\adeflang1025\ansi\ansicpg1252\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1031\deflangfe1031\themelang1031\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset0\fprq2{\*\panose 02040503050406030204}Cambria Math;}
-        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}Calibri;}{\f43\fbidi \fswiss\fcharset0\fprq2{\*\panose 020b0502040204020203}Segoe UI;}{\f44\fbidi [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///{\f37\fbidi \fswiss\fcharset0\fprq2{\*\panose 020f0502020204030204}Calibri;}{\f43\fbidi \fswiss\fcharset0\fprq2{\*\panose 00000000000000000000}Segoe UI;}{\f44\fbidi [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string CBZMageAboutMessage {
             get {
@@ -193,9 +263,39 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap clock {
+            get {
+                object obj = ResourceManager.GetObject("clock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap compress2 {
             get {
                 object obj = ResourceManager.GetObject("compress2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap compress2_gearwheel {
+            get {
+                object obj = ResourceManager.GetObject("compress2_gearwheel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap contrast {
+            get {
+                object obj = ResourceManager.GetObject("contrast", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -252,19 +352,17 @@ namespace Win_CBZ.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap divider
-        {
-            get
-            {
+        internal static System.Drawing.Bitmap divider {
+            get {
                 object obj = ResourceManager.GetObject("divider", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
@@ -321,6 +419,26 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap download_large {
             get {
                 object obj = ResourceManager.GetObject("download_large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dropdown_arrow {
+            get {
+                object obj = ResourceManager.GetObject("dropdown_arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap earth2 {
+            get {
+                object obj = ResourceManager.GetObject("earth2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -418,6 +536,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap folder_small {
+            get {
+                object obj = ResourceManager.GetObject("folder_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_zip {
             get {
                 object obj = ResourceManager.GetObject("folder_zip", resourceCulture);
@@ -428,9 +556,99 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap formula {
+            get {
+                object obj = ResourceManager.GetObject("formula", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnel {
+            get {
+                object obj = ResourceManager.GetObject("funnel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnel_48 {
+            get {
+                object obj = ResourceManager.GetObject("funnel_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnel_error_16 {
+            get {
+                object obj = ResourceManager.GetObject("funnel_error_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnel_gears_ {
+            get {
+                object obj = ResourceManager.GetObject("funnel_gears_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnel_gearwheels_16 {
+            get {
+                object obj = ResourceManager.GetObject("funnel_gearwheels_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap funnel_tool {
+            get {
+                object obj = ResourceManager.GetObject("funnel_tool", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap garbage {
             get {
                 object obj = ResourceManager.GetObject("garbage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gearwheels {
+            get {
+                object obj = ResourceManager.GetObject("gearwheels", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gearwheels_24 {
+            get {
+                object obj = ResourceManager.GetObject("gearwheels_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -481,6 +699,16 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap magnifying_glass {
             get {
                 object obj = ResourceManager.GetObject("magnifying_glass", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap message {
+            get {
+                object obj = ResourceManager.GetObject("message", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -588,6 +816,56 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap photo_landscape_right_left {
+            get {
+                object obj = ResourceManager.GetObject("photo_landscape_right_left", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_landscape_view {
+            get {
+                object obj = ResourceManager.GetObject("photo_landscape_view", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_portrait_checkbox_checked_checkbox_unchecked {
+            get {
+                object obj = ResourceManager.GetObject("photo_portrait_checkbox_checked_checkbox_unchecked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_portrait_checkbox_checked_checkbox_unchecked_24 {
+            get {
+                object obj = ResourceManager.GetObject("photo_portrait_checkbox_checked_checkbox_unchecked_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_portrait_options {
+            get {
+                object obj = ResourceManager.GetObject("photo_portrait_options", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap photos {
             get {
                 object obj = ResourceManager.GetObject("photos", resourceCulture);
@@ -601,6 +879,16 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap placeholder_image {
             get {
                 object obj = ResourceManager.GetObject("placeholder_image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap planet {
+            get {
+                object obj = ResourceManager.GetObject("planet", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -708,6 +996,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap symbol_hash {
+            get {
+                object obj = ResourceManager.GetObject("symbol_hash", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap tag {
             get {
                 object obj = ResourceManager.GetObject("tag", resourceCulture);
@@ -768,9 +1066,39 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap user {
+            get {
+                object obj = ResourceManager.GetObject("user", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap user_earth {
             get {
                 object obj = ResourceManager.GetObject("user_earth", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap users {
+            get {
+                object obj = ResourceManager.GetObject("users", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap users_family {
+            get {
+                object obj = ResourceManager.GetObject("users_family", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -824,144 +1152,14 @@ namespace Win_CBZ.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-
+        
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap folder_small
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("folder_small", resourceCulture);
+        internal static System.Drawing.Bitmap window_tool {
+            get {
+                object obj = ResourceManager.GetObject("window_tool", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap formula
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("formula", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap funnel
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("funnel", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap dropdown_arrow
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("dropdown_arrow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Image gearwheels
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("gearwheels", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Image funnel_48
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("funnel_48", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        internal static System.Drawing.Image gearwheels_24{
-            get
-            {
-                object obj = ResourceManager.GetObject("gearwheels_24", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Image funnel_gears_
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("funnel_gears_", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Image funnel_error_16
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("funnel_error_16", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        internal static System.Drawing.Image funnel_gearwheel_16
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("funnel_gearwheel_16", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        internal static System.Drawing.Image funnel_gearwheels_16
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("funnel_gearwheels_16", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        internal static System.Drawing.Image photo_portrait_checkbox_checked_checkbox_unchecked_24
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("photo_portrait_checkbox_checked_checkbox_unchecked_24", resourceCulture);
-                return ((System.Drawing.Image)(obj));
-            }
-        }
-
-        internal static System.Drawing.Image photo_portrait_checkbox_checked_checkbox_unchecked
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("photo_portrait_checkbox_checked_checkbox_unchecked", resourceCulture);
-                return ((System.Drawing.Image)(obj));
             }
         }
     }
