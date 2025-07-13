@@ -8156,9 +8156,14 @@ namespace Win_CBZ
             if (manageBookmarksForm.ShowDialog() == DialogResult.OK)
             {
                 //Program.ProjectModel.MetaData.PageIndex.ea = manageBookmarksForm.Bookmarks;
-                
-                AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
+
+                //AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_UPDATED, Program.ProjectModel.MetaData));
             }
+        }
+
+        private void ToolButtonSetBookmark_Click(object sender, EventArgs e)
+        {
+            BookmarksToolStripMenuItem_Click(sender, e);
         }
     }
 }

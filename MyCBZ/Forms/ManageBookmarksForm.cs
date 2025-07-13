@@ -10,8 +10,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Handler;
+using Win_CBZ.Helper;
+using Win_CBZ.Tasks;
 
 namespace Win_CBZ.Forms
 {
@@ -172,7 +175,7 @@ namespace Win_CBZ.Forms
                 {
                     page.Bookmark = item.SubItems[2].Text;
 
-                    Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
+                    //Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
 
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }
@@ -182,6 +185,45 @@ namespace Win_CBZ.Forms
                 index++;
 
                 Thread.Sleep(2);
+            }
+
+            if (index > 0)
+            {
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_PAGE);
+
+                Task<TaskResult> t = UpdateMetadataTask.UpdatePageMetadata(Program.ProjectModel.Pages,
+                     Program.ProjectModel.MetaData,
+                            MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
+                            AppEventHandler.OnGeneralTaskProgress,
+                            AppEventHandler.OnPageChanged,
+                            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Token,
+                            false,
+                            true
+                );
+
+                t.ContinueWith((task) =>
+                {
+                    if (task.IsCompletedSuccessfully)
+                    {
+                        //
+                    }
+                    else
+                    {
+                        AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Failed to update page index metadata: " + task.Exception?.Message));
+                    }
+
+                    AppEventHandler.OnArchiveStatusChanged(sender, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_READY));
+                    AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+                });
+
+                AppEventHandler.OnGlobalActionRequired(this,
+                    new GlobalActionRequiredEvent(Program.ProjectModel,
+                        0,
+                        "Index-Metadata changed. Rebuild pageindex now?",
+                        "Rebuild",
+                        GlobalActionRequiredEvent.TASK_TYPE_INDEX_REBUILD,
+                        t
+                    ));
             }
 
             AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_UPDATE_PAGE_INDEX, GeneralTaskProgressEvent.TASK_STATUS_COMPLETED, "Ready.", 0, 0, false));

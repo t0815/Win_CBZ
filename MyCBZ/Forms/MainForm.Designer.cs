@@ -514,7 +514,8 @@ namespace Win_CBZ
             ToolButtonSetBookmark.ImageTransparentColor = System.Drawing.Color.Magenta;
             ToolButtonSetBookmark.Name = "ToolButtonSetBookmark";
             ToolButtonSetBookmark.Size = new System.Drawing.Size(29, 28);
-            ToolButtonSetBookmark.Text = "Set Bookmark...";
+            ToolButtonSetBookmark.Text = "Manage Bookmarks";
+            ToolButtonSetBookmark.Click += ToolButtonSetBookmark_Click;
             // 
             // ToolButtonSetPageType
             // 

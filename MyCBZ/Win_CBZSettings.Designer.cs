@@ -12,7 +12,7 @@ namespace Win_CBZ {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
     internal sealed partial class Win_CBZSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Win_CBZSettings defaultInstance = ((Win_CBZSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Win_CBZSettings())));
@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.22.187b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.22.188b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
