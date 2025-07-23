@@ -8152,6 +8152,26 @@ namespace Win_CBZ
 
         private void BookmarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (Win_CBZSettings.Default.WriteXmlPageIndex && !Program.ProjectModel.MetaData.Exists())
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently no metadata available!\r\nCBZ needs to contain XML metadata (" + Win_CBZSettings.Default.MetaDataFilename + ") in order to set Bookmarks. Add a new set of Metadata now?", "Metadata required", ApplicationMessage.DialogType.MT_CONFIRMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                if (res == DialogResult.Yes)
+                {
+                    BtnAddMetaData_Click(sender, null);
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (Win_CBZSettings.Default.WriteXmlPageIndex == false)
+            {
+                DialogResult res = ApplicationMessage.ShowConfirmation("Currently writing XML- pageindex is disabled!\r\nCBZ needs to contain XML pageindex in order to set Bookmarks. Please enable it in Application settings under 'CBZ -> Compatibility' first.", "XML pageindex required", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+
+                return;
+            }
+
             ManageBookmarksForm manageBookmarksForm = new ManageBookmarksForm(Program.ProjectModel.MetaData, Program.ProjectModel.Pages);
             if (manageBookmarksForm.ShowDialog() == DialogResult.OK)
             {
