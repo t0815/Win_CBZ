@@ -2313,6 +2313,9 @@ namespace Win_CBZ
                 case ArchiveStatusEvent.ARCHIVE_EXTRACTING:
                     info = "Extracting file...";
                     break;
+                case ArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
+                    Program.ProjectModel.IsChanged = true;
+                    break;
             }
 
             try
