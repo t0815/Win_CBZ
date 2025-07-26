@@ -152,12 +152,13 @@ namespace Win_CBZ.Forms
                     TextBoxBookmarkName.Text = e.Node.Text;
                 }
 
-
+                toolStripButton5.Enabled = true;
             }
             else
             {
                 _selectedNode = null;
                 TextBoxBookmarkName.Text = string.Empty;
+                toolStripButton5.Enabled = false;
             }
         }
 
@@ -237,19 +238,21 @@ namespace Win_CBZ.Forms
             {
                 Page page = (Page)item.Tag;
 
-                String bookmark = BookmarksTree.SelectedNode.Text;
-                if (BookmarksTree.SelectedNode.Level > 0)
+                if (BookmarksTree.SelectedNode != null)
                 {
-                    bookmark = BookmarksTree.SelectedNode.Parent.Text;
+                    String bookmark = BookmarksTree.SelectedNode.Text;
+                    if (BookmarksTree.SelectedNode.Level > 0)
+                    {
+                        bookmark = BookmarksTree.SelectedNode.Parent.Text;
+                    }
+
+                    //page.Bookmark = TextBoxBookmarkName.Text.Trim();
+
+                    if (item.SubItems[2].Text == bookmark)
+                    {
+                        item.SubItems[2].Text = string.Empty;
+                    }
                 }
-
-                //page.Bookmark = TextBoxBookmarkName.Text.Trim();
-
-                if (item.SubItems[2].Text == bookmark)
-                {
-                    item.SubItems[2].Text = string.Empty;
-                }
-
             }
 
             if (BookmarksTree.SelectedNode != null)
@@ -264,7 +267,10 @@ namespace Win_CBZ.Forms
                 //{
                 BookmarksTree.Nodes.Remove(node);
                 // }
-
+                if (BookmarksTree.Nodes.Count == 0)
+                {
+                    toolStripButton5.Enabled = false;
+                }
             }
         }
 
@@ -306,6 +312,11 @@ namespace Win_CBZ.Forms
 
                 item.SubItems[2].Text = "";
             }
+        }
+
+        private void PagesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            toolStripButton4.Enabled = PagesList.SelectedItems.Count > 0;
         }
     }
 }

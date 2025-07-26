@@ -44,6 +44,7 @@
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             toolStrip2 = new System.Windows.Forms.ToolStrip();
+            toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             TextBoxBookmarkName = new System.Windows.Forms.ToolStripTextBox();
             ToolButtonCreateBookmark = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -55,7 +56,6 @@
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
             pictureBox2 = new System.Windows.Forms.PictureBox();
             BookmarkEditorTooltip = new System.Windows.Forms.ToolTip(components);
-            toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             BookmarkEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -195,6 +195,7 @@
             // toolStripButton4
             // 
             toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButton4.Enabled = false;
             toolStripButton4.Image = Properties.Resources.delete;
             toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton4.Name = "toolStripButton4";
@@ -238,6 +239,12 @@
             toolStrip2.TabIndex = 0;
             toolStrip2.Text = "toolStrip2";
             // 
+            // toolStripLabel1
+            // 
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new System.Drawing.Size(49, 24);
+            toolStripLabel1.Text = "Name";
+            // 
             // TextBoxBookmarkName
             // 
             TextBoxBookmarkName.Name = "TextBoxBookmarkName";
@@ -261,6 +268,7 @@
             // toolStripButton5
             // 
             toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButton5.Enabled = false;
             toolStripButton5.Image = Properties.Resources.delete;
             toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton5.Name = "toolStripButton5";
@@ -287,6 +295,7 @@
             PagesList.TabIndex = 8;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
+            PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             // 
             // ColName
             // 
@@ -320,12 +329,6 @@
             BookmarkEditorTooltip.IsBalloon = true;
             BookmarkEditorTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             BookmarkEditorTooltip.ToolTipTitle = "Win_CBZ";
-            // 
-            // toolStripLabel1
-            // 
-            toolStripLabel1.Name = "toolStripLabel1";
-            toolStripLabel1.Size = new System.Drawing.Size(49, 24);
-            toolStripLabel1.Text = "Name";
             // 
             // ManageBookmarksForm
             // 

@@ -345,6 +345,7 @@ namespace Win_CBZ.Forms
             // 
             ToolTip.IsBalloon = true;
             ToolTip.ToolTipIcon = ToolTipIcon.Info;
+            ToolTip.ToolTipTitle = "Win_CBZ";
             // 
             // ComboIcons
             // 
