@@ -1624,8 +1624,8 @@ namespace Win_CBZ.Forms
         {
             if (ExtensionTextBox.Text.Trim(' ').Length > 0)
             {
-                ImageFileExtensions.Add(ExtensionTextBox.Text);
-                AddExt(CreateExt(ExtensionTextBox.Text, "EXT", ExtensionList), ExtensionList);
+                ImageFileExtensions.Add(ExtensionTextBox.Text.ToLower());
+                AddExt(CreateExt(ExtensionTextBox.Text.ToLower(), "EXT", ExtensionList), ExtensionList);
                 //AddTag(ExtensionTextBox.Text);
                 ExtensionTextBox.Text = string.Empty;
             }
@@ -1638,7 +1638,7 @@ namespace Win_CBZ.Forms
             {
                 if (ExtensionTextBox.Text.Trim(' ').Length > 0)
                 {
-                    ImageFileExtensions.Add(ExtensionTextBox.Text);
+                    ImageFileExtensions.Add(ExtensionTextBox.Text.ToLower());
                     AddExt(CreateExt(ExtensionTextBox.Text, "EXT", ExtensionList), ExtensionList);
                     ExtensionTextBox.Text = string.Empty;
 
@@ -1819,7 +1819,7 @@ namespace Win_CBZ.Forms
                 }
                 else if (tag != null && tag.Parent.Name == "FilenameList")
                 {
-                    ImageFileExtensions.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
+                    FilteredFileNames.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
                     FilenameList.Controls.Remove(tag);
                 }
 
@@ -1888,8 +1888,8 @@ namespace Win_CBZ.Forms
         {
             if (FilenamesTextbox.Text.Trim(' ').Length > 0)
             {
-                ImageFileExtensions.Add(FilenamesTextbox.Text);
-                AddExt(CreateExt(FilenamesTextbox.Text, "FN", FilenameList), FilenameList);
+                FilteredFileNames.Add(FilenamesTextbox.Text.ToLower());
+                AddExt(CreateExt(FilenamesTextbox.Text.ToLower(), "FN", FilenameList), FilenameList);
                 //AddTag(ExtensionTextBox.Text);
                 FilenamesTextbox.Text = string.Empty;
             }
@@ -1902,8 +1902,8 @@ namespace Win_CBZ.Forms
             {
                 if (FilenamesTextbox.Text.Trim(' ').Length > 0)
                 {
-                    FilteredFileNames.Add(FilenamesTextbox.Text);
-                    AddExt(CreateExt(FilenamesTextbox.Text, "FN", FilenameList), FilenameList);
+                    FilteredFileNames.Add(FilenamesTextbox.Text.ToLower());
+                    AddExt(CreateExt(FilenamesTextbox.Text.ToLower(), "FN", FilenameList), FilenameList);
                     FilenamesTextbox.Text = string.Empty;
 
                 }

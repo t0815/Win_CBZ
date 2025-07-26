@@ -640,7 +640,9 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.CalculateHash,
                     Win_CBZSettings.Default.InterpolationMode,
                     Win_CBZSettings.Default.FilterByExtension,
-                    Win_CBZSettings.Default.ImageExtenstionList
+                    Win_CBZSettings.Default.ImageExtenstionList,
+                    Win_CBZSettings.Default.FilterSpecificFilenames,
+                    Win_CBZSettings.Default.FilteredFilenamesList
                     );
                 //if (files.Count > 0)
                 //{
@@ -2929,7 +2931,9 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.CalculateHash,
                     Win_CBZSettings.Default.InterpolationMode,
                     Win_CBZSettings.Default.FilterByExtension,
-                    Win_CBZSettings.Default.ImageExtenstionList
+                    Win_CBZSettings.Default.ImageExtenstionList,
+                    Win_CBZSettings.Default.FilterSpecificFilenames,
+                    Win_CBZSettings.Default.FilteredFilenamesList
                     );
             }
         }

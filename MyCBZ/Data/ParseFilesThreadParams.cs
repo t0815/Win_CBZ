@@ -29,5 +29,9 @@ namespace Win_CBZ.Data
         public bool FilterExtensions { get; set; }
 
         public string[] AllowedExtensions { get; set; }
+
+        public bool FilterFileNames { get; set; }
+
+        public string[] FilteredFilenames { get; set; }
     }
 }

@@ -323,11 +323,11 @@
             AppSettingsTabControl.Controls.Add(TabPageEssential);
             AppSettingsTabControl.Controls.Add(TabPageAppSettings);
             AppSettingsTabControl.Controls.Add(TabPageBehaviour);
-            AppSettingsTabControl.Location = new System.Drawing.Point(41, 3);
+            AppSettingsTabControl.Location = new System.Drawing.Point(293, 3);
             AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             AppSettingsTabControl.Name = "AppSettingsTabControl";
             AppSettingsTabControl.SelectedIndex = 0;
-            AppSettingsTabControl.Size = new System.Drawing.Size(519, 460);
+            AppSettingsTabControl.Size = new System.Drawing.Size(120, 460);
             AppSettingsTabControl.TabIndex = 3;
             // 
             // TabPageEssential
@@ -336,7 +336,7 @@
             TabPageEssential.Location = new System.Drawing.Point(4, 29);
             TabPageEssential.Name = "TabPageEssential";
             TabPageEssential.Padding = new System.Windows.Forms.Padding(3);
-            TabPageEssential.Size = new System.Drawing.Size(511, 427);
+            TabPageEssential.Size = new System.Drawing.Size(112, 427);
             TabPageEssential.TabIndex = 3;
             TabPageEssential.Text = "Essential";
             TabPageEssential.UseVisualStyleBackColor = true;
@@ -368,7 +368,7 @@
             tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
             tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
-            tableLayoutPanel5.RowCount = 9;
+            tableLayoutPanel5.RowCount = 8;
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
@@ -377,9 +377,8 @@
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 139F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
-            tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 108F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel5.Size = new System.Drawing.Size(505, 421);
+            tableLayoutPanel5.Size = new System.Drawing.Size(106, 421);
             tableLayoutPanel5.TabIndex = 1;
             // 
             // tableLayoutPanel9
@@ -702,7 +701,7 @@
             pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox13.TabIndex = 39;
             pictureBox13.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox13, "List of filenames, that will be ignored/skipped when adding new files or folders.\r\nOnly enter filenames without path.");
+            TagValidationTooltip.SetToolTip(pictureBox13, resources.GetString("pictureBox13.ToolTip"));
             // 
             // TabPageAppSettings
             // 

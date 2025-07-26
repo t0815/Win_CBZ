@@ -2172,6 +2172,13 @@ namespace Win_CBZ
                         continue;
                     }
 
+                    if (tParams.FilterFileNames.Contains(localPath.Name.ToLower()))
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping file ['" + localPath.Name + "'] because of filtered filenames ['" + localPath.Name.ToLower() + "']!");
+
+                        continue;
+                    }
+
                     targetPath = MakeNewTempFileName();
 
                     //CopyFile(fileObject.FullPath, targetPath.FullName);
@@ -2324,7 +2331,9 @@ namespace Win_CBZ
             bool hashFiles = false, 
             string interpolationMode = "Default",
             bool filterExtensions = false,
-            string filterExtensionList = ""
+            string filterExtensionList = "",
+            bool filterFilenames = false,
+            string filterFilenamesList = ""
             )
         {
 
@@ -2352,6 +2361,8 @@ namespace Win_CBZ
                 Interpolation = interpolationMode,
                 FilterExtensions = filterExtensions,
                 AllowedExtensions = filterExtensionList.Split('|').ToArray<String>(),
+                FilterFileNames = filterFilenames,
+                FilteredFilenames = filterFilenamesList.Split('|').ToArray<String>(),               
             });
         }
 
@@ -2393,14 +2404,31 @@ namespace Win_CBZ
                         }
                     }
 
-                    files.Add(new LocalFile(fname));
+                    if (tParams.FilterFileNames)
+                    {
+                        if (tParams.FilteredFilenames.Contains(fileToAdd.FileName.ToLower()) ||
+                            tParams.FilteredFilenames.Contains(fileToAdd.Name.ToLower())
+                          )
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Skipping file [" + fileToAdd.FileName + "] because of filename-filter! ");
+                            index++;
+
+                            AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));
+
+                            Thread.Sleep(5);
+
+                            continue;
+                        }
+                    }
+
+                    files.Add(fileToAdd);
                     index++;
 
                     tParams.CancelToken.ThrowIfCancellationRequested();
 
                     AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(null, index, tParams.FileNamesToAdd.Count));
 
-                    Thread.Sleep(5);
+                    Thread.Sleep(1);
                 }
                 catch (OperationCanceledException)
                 {
