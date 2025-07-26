@@ -43,10 +43,13 @@
             OkButton = new System.Windows.Forms.Button();
             AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
             AutocompleteIcons = new System.Windows.Forms.ImageList(components);
+            pictureBox2 = new System.Windows.Forms.PictureBox();
+            TextEditorTooltip = new System.Windows.Forms.ToolTip(components);
             ItemEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
             ItemEditorToolBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // ItemEditorTableLayout
@@ -59,19 +62,21 @@
             ItemEditorTableLayout.Controls.Add(InfoLabel, 0, 3);
             ItemEditorTableLayout.Controls.Add(ItemsText, 0, 2);
             ItemEditorTableLayout.Controls.Add(ItemEditorToolBar, 1, 1);
-            ItemEditorTableLayout.Controls.Add(CancelBtn, 2, 4);
-            ItemEditorTableLayout.Controls.Add(OkButton, 1, 4);
+            ItemEditorTableLayout.Controls.Add(OkButton, 1, 5);
+            ItemEditorTableLayout.Controls.Add(CancelBtn, 2, 5);
+            ItemEditorTableLayout.Controls.Add(pictureBox2, 0, 4);
             ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             ItemEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             ItemEditorTableLayout.Name = "ItemEditorTableLayout";
-            ItemEditorTableLayout.RowCount = 5;
+            ItemEditorTableLayout.RowCount = 6;
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
-            ItemEditorTableLayout.Size = new System.Drawing.Size(533, 450);
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+            ItemEditorTableLayout.Size = new System.Drawing.Size(533, 472);
             ItemEditorTableLayout.TabIndex = 0;
             ItemEditorTableLayout.Paint += ItemEditorTableLayout_Paint;
             // 
@@ -113,7 +118,7 @@
             // InfoLabel
             // 
             InfoLabel.AutoSize = true;
-            InfoLabel.Location = new System.Drawing.Point(11, 350);
+            InfoLabel.Location = new System.Drawing.Point(11, 330);
             InfoLabel.Margin = new System.Windows.Forms.Padding(11, 12, 4, 0);
             InfoLabel.Name = "InfoLabel";
             InfoLabel.Size = new System.Drawing.Size(124, 20);
@@ -132,7 +137,7 @@
             ItemsText.Multiline = true;
             ItemsText.Name = "ItemsText";
             ItemsText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            ItemsText.Size = new System.Drawing.Size(525, 196);
+            ItemsText.Size = new System.Drawing.Size(525, 176);
             ItemsText.TabIndex = 5;
             ItemsText.WordWrap = false;
             // 
@@ -177,7 +182,7 @@
             // 
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            CancelBtn.Location = new System.Drawing.Point(430, 400);
+            CancelBtn.Location = new System.Drawing.Point(430, 419);
             CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new System.Drawing.Size(99, 35);
@@ -190,7 +195,7 @@
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(322, 400);
+            OkButton.Location = new System.Drawing.Point(322, 419);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new System.Drawing.Size(100, 35);
@@ -229,11 +234,30 @@
             AutocompleteIcons.Images.SetKeyName(13, "blackwhite");
             AutocompleteIcons.Images.SetKeyName(14, "family");
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.information;
+            pictureBox2.InitialImage = Properties.Resources.information;
+            pictureBox2.Location = new System.Drawing.Point(6, 361);
+            pictureBox2.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new System.Drawing.Size(36, 43);
+            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            pictureBox2.TabIndex = 32;
+            pictureBox2.TabStop = false;
+            TextEditorTooltip.SetToolTip(pictureBox2, "Autocomplete Editor. Start typing and accept an item by pressing enter.");
+            // 
+            // TextEditorTooltip
+            // 
+            TextEditorTooltip.IsBalloon = true;
+            TextEditorTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            TextEditorTooltip.ToolTipTitle = "Win_CBZ";
+            // 
             // TextEditorForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(533, 450);
+            ClientSize = new System.Drawing.Size(533, 472);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -253,6 +277,7 @@
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).EndInit();
             ItemEditorToolBar.ResumeLayout(false);
             ItemEditorToolBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -271,5 +296,7 @@
         private AutocompleteMenuNS.AutocompleteMenu AutoCompleteItems;
         private System.Windows.Forms.ToolStripTextBox ToolStripTextBoxSearch;
         private System.Windows.Forms.ImageList AutocompleteIcons;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ToolTip TextEditorTooltip;
     }
 }
