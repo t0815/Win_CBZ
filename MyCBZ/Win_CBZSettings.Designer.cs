@@ -688,5 +688,29 @@ namespace Win_CBZ {
                 this["KeyFilterActive"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FilteredFilenamesList {
+            get {
+                return ((string)(this["FilteredFilenamesList"]));
+            }
+            set {
+                this["FilteredFilenamesList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterSpecificFilenames {
+            get {
+                return ((bool)(this["FilterSpecificFilenames"]));
+            }
+            set {
+                this["FilterSpecificFilenames"] = value;
+            }
+        }
     }
 }

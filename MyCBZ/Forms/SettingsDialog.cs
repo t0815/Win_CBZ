@@ -40,6 +40,8 @@ namespace Win_CBZ.Forms
 
         public List<String> ImageFileExtensions;
 
+        public List<String> FilteredFileNames;
+
         public List<MetaDataFieldType> CustomFieldTypesSettings;
 
 
@@ -71,6 +73,8 @@ namespace Win_CBZ.Forms
 
         public bool FilterNewPagesByExt;
 
+        public bool FilterNewPagesSpecificName;
+
         public bool MetadataGridEditMode;
 
         public bool MetadataGridEditModeValueCol;
@@ -101,6 +105,7 @@ namespace Win_CBZ.Forms
 
             CustomFieldTypesSettings = new List<MetaDataFieldType>();
             ImageFileExtensions = new List<String>();
+            FilteredFileNames = new List<String>();
 
             if (Win_CBZSettings.Default.CustomDefaultProperties != null)
             {
@@ -111,6 +116,12 @@ namespace Win_CBZ.Forms
             {
                 string[] exts = Win_CBZSettings.Default.ImageExtenstionList.Split('|').Where(s => s.Length > 0).ToArray<string>();
                 ImageFileExtensions.AddRange(exts);
+            }
+
+            if (Win_CBZSettings.Default.FilteredFilenamesList != null)
+            {
+                string[] exts = Win_CBZSettings.Default.FilteredFilenamesList.Split('|').Where(s => s.Length > 0).ToArray<string>();
+                FilteredFileNames.AddRange(exts);
             }
 
             if (Win_CBZSettings.Default.ValidKnownTags != null)
@@ -144,6 +155,7 @@ namespace Win_CBZ.Forms
 
             TempPath = Win_CBZSettings.Default.TempFolderPath;
             FilterNewPagesByExt = Win_CBZSettings.Default.FilterByExtension;
+            FilterNewPagesSpecificName = Win_CBZSettings.Default.FilterSpecificFilenames;
 
             CompressionLevel = Win_CBZSettings.Default.CompressionLevel;
             CompatibilityMode = Win_CBZSettings.Default.CompatMode;
@@ -202,6 +214,7 @@ namespace Win_CBZ.Forms
             CBZSettingsTabControl.Visible = false;
 
             FilterNewPagesByExtCheckBox.Checked = FilterNewPagesByExt;
+            CheckboxFilterFilenames.Checked = FilterNewPagesSpecificName;
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
             if (ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode) > -1)
@@ -644,7 +657,10 @@ namespace Win_CBZ.Forms
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
                     InterpolationMode = ComboBoxInterpolationModes.SelectedItem.ToString();// ComboBoxInterpolationModes.SelectedIndex;
                     TempPath = TextBoxTempPath.Text;
+
                     FilterNewPagesByExt = FilterNewPagesByExtCheckBox.Checked;
+                    FilterNewPagesSpecificName = CheckboxFilterFilenames.Checked;
+
                     MetadataGridEditMode = CheckboxAlwaysInEditMode.Checked;
                     MetadataGridEditModeValueCol = CheckBoxEditModeOnlyValueCol.Checked;
                     WriteXMLPageIndex = CheckBoxWriteIndex.Checked;
@@ -1476,9 +1492,17 @@ namespace Win_CBZ.Forms
                 // todo: create extension list
                 if (ext.Trim(' ').Length > 0)
                 {
-                    AddExt(CreateExt(ext));
+                    AddExt(CreateExt(ext, "EXT", ExtensionList), ExtensionList);
                 }
 
+            });
+
+            FilteredFileNames.ForEach((String name) =>
+            {
+                if (name.Trim(' ').Length > 0)
+                {
+                    AddExt(CreateExt(name, "FN", FilenameList), FilenameList);
+                }
             });
         }
 
@@ -1601,7 +1625,7 @@ namespace Win_CBZ.Forms
             if (ExtensionTextBox.Text.Trim(' ').Length > 0)
             {
                 ImageFileExtensions.Add(ExtensionTextBox.Text);
-                AddExt(CreateExt(ExtensionTextBox.Text));
+                AddExt(CreateExt(ExtensionTextBox.Text, "EXT", ExtensionList), ExtensionList);
                 //AddTag(ExtensionTextBox.Text);
                 ExtensionTextBox.Text = string.Empty;
             }
@@ -1615,7 +1639,7 @@ namespace Win_CBZ.Forms
                 if (ExtensionTextBox.Text.Trim(' ').Length > 0)
                 {
                     ImageFileExtensions.Add(ExtensionTextBox.Text);
-                    AddExt(CreateExt(ExtensionTextBox.Text));
+                    AddExt(CreateExt(ExtensionTextBox.Text, "EXT", ExtensionList), ExtensionList);
                     ExtensionTextBox.Text = string.Empty;
 
                 }
@@ -1624,7 +1648,7 @@ namespace Win_CBZ.Forms
             }
         }
 
-        public FlowLayoutPanel CreateExt(string tagName)
+        public FlowLayoutPanel CreateExt(string tagName, string prefix, FlowLayoutPanel parent)
         {
             if (string.IsNullOrEmpty(tagName))
             {
@@ -1632,7 +1656,7 @@ namespace Win_CBZ.Forms
             }
 
             FlowLayoutPanel tagItem = new FlowLayoutPanel();
-            tagItem.Name = "TAG_" + tagName;
+            tagItem.Name = prefix + "_" + tagName;
             tagItem.Tag = new TagItem()
             {
                 Tag = tagName
@@ -1675,7 +1699,7 @@ namespace Win_CBZ.Forms
 
             System.Windows.Forms.Label tagLabel = new System.Windows.Forms.Label()
             {
-                Name = "TAG_LABEL",
+                Name = prefix + "_LABEL",
                 Text = tagName,
                 AutoSize = true,
                 Tag = tagItem,
@@ -1702,46 +1726,45 @@ namespace Win_CBZ.Forms
 
             tagItem.Controls.Add(closeButton);
 
-            tagItem.Parent = ExtensionList;
+            tagItem.Parent = parent;
 
             return tagItem;
         }
 
-        public void AddExt(System.Windows.Forms.Control control)
+        public void AddExt(System.Windows.Forms.Control control, FlowLayoutPanel container)
         {
             if (control != null)
             {
                 Invoke(new Action(() =>
                 {
-                    ExtensionList.Controls.Add(control);
+                    container.Controls.Add(control);
                 }));
 
             }
         }
 
-        public void RemoveExt(string tagName)
+        public void RemoveExt(string tagName, string prefix, FlowLayoutPanel container)
         {
             if (string.IsNullOrEmpty(tagName))
             {
                 return;
             }
 
-            System.Windows.Forms.Control[] tags = ExtensionList.Controls.Find("TAG_" + tagName, false);
+            System.Windows.Forms.Control[] tags = ExtensionList.Controls.Find(prefix + "_" + tagName, false);
             if (tags != null && tags.Length > 0)
             {
-                FlowLayoutPanel tag = ExtensionList.Controls.Find("TAG_" + tagName, false)[0] as FlowLayoutPanel;
+                FlowLayoutPanel tag = container.Controls.Find(prefix + "_" + tagName, false)[0] as FlowLayoutPanel;
 
                 if (tag != null)
                 {
-                    ExtensionList.Controls.Remove(tag);
+                    container.Controls.Remove(tag);
                 }
             }
         }
 
-        public void ClearExtensions()
+        public void ClearExtensions(FlowLayoutPanel container)
         {
-            ExtensionList.Controls.Clear();
-            //TagListView.Items.Clear();
+            container.Controls.Clear();
         }
 
         private void TagItemClick(object sender, EventArgs e)
@@ -1789,8 +1812,19 @@ namespace Win_CBZ.Forms
             if (((PictureBox)sender).Tag != null)
             {
                 var tag = ((PictureBox)sender).Tag as FlowLayoutPanel;
-                ImageFileExtensions.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
-                ExtensionList.Controls.Remove(tag);
+                if (tag != null && tag.Parent.Name == "ExtensionList")
+                {
+                    ImageFileExtensions.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
+                    ExtensionList.Controls.Remove(tag);
+                }
+                else if (tag != null && tag.Parent.Name == "FilenameList")
+                {
+                    ImageFileExtensions.Remove(((TagItem)(tag as FlowLayoutPanel).Tag).Tag);
+                    FilenameList.Controls.Remove(tag);
+                }
+
+
+
             }
         }
 
@@ -1847,6 +1881,34 @@ namespace Win_CBZ.Forms
             else
             {
                 e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
+            }
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            if (FilenamesTextbox.Text.Trim(' ').Length > 0)
+            {
+                ImageFileExtensions.Add(FilenamesTextbox.Text);
+                AddExt(CreateExt(FilenamesTextbox.Text, "FN", FilenameList), FilenameList);
+                //AddTag(ExtensionTextBox.Text);
+                FilenamesTextbox.Text = string.Empty;
+            }
+            FilenamesTextbox.Focus();
+        }
+
+        private void FilenamesTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return)
+            {
+                if (FilenamesTextbox.Text.Trim(' ').Length > 0)
+                {
+                    FilteredFileNames.Add(FilenamesTextbox.Text);
+                    AddExt(CreateExt(FilenamesTextbox.Text, "FN", FilenameList), FilenameList);
+                    FilenamesTextbox.Text = string.Empty;
+
+                }
+                e.SuppressKeyPress = true;
+                e.Handled = true;
             }
         }
     }

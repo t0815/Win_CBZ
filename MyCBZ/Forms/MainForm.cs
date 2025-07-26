@@ -5622,7 +5622,10 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.InterpolationMode = settingsDialog.InterpolationMode;
                 Win_CBZSettings.Default.TempFolderPath = settingsDialog.TempPath;
                 Win_CBZSettings.Default.ImageExtenstionList = String.Join('|', settingsDialog.ImageFileExtensions.ToArray());
+                Win_CBZSettings.Default.FilteredFilenamesList = String.Join('|', settingsDialog.FilteredFileNames.ToArray());
+
                 Win_CBZSettings.Default.FilterByExtension = settingsDialog.FilterNewPagesByExt;
+                Win_CBZSettings.Default.FilterSpecificFilenames = settingsDialog.FilterNewPagesSpecificName;
                 Win_CBZSettings.Default.MetadataGridInstantEditMode = settingsDialog.MetadataGridEditMode;
                 Win_CBZSettings.Default.MetadataGridInstantEditModeValueCol = settingsDialog.MetadataGridEditModeValueCol;
                 Win_CBZSettings.Default.WriteXmlPageIndex = settingsDialog.WriteXMLPageIndex;
