@@ -105,6 +105,7 @@ namespace Win_CBZ.Forms
                 return;
             }
 
+            string oldBookmark = string.Empty;
 
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
@@ -117,6 +118,23 @@ namespace Win_CBZ.Forms
                 }
 
                 //page.Bookmark = TextBoxBookmarkName.Text.Trim();
+
+                oldBookmark = item.SubItems[2].Text;
+
+                if (oldBookmark != null && oldBookmark.Trim().Length > 0)
+                {
+                    if (BookmarksTree.Nodes.IndexOfKey(oldBookmark) > -1)
+                    {
+                        TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(oldBookmark)];
+                        if (node.Level == 0)
+                        {
+                            if (node.Nodes.IndexOfKey(page.Name) > -1)
+                            {
+                                node.Nodes.RemoveByKey(page.Name);
+                            }
+                        }
+                    }
+                }
 
                 item.SubItems[2].Text = bookmark;
 
@@ -153,12 +171,14 @@ namespace Win_CBZ.Forms
                 }
 
                 toolStripButton5.Enabled = true;
+                toolStripButton2.Enabled = true;
             }
             else
             {
                 _selectedNode = null;
                 TextBoxBookmarkName.Text = string.Empty;
                 toolStripButton5.Enabled = false;
+                toolStripButton2.Enabled = false;
             }
         }
 
@@ -317,6 +337,54 @@ namespace Win_CBZ.Forms
         private void PagesList_SelectedIndexChanged(object sender, EventArgs e)
         {
             toolStripButton4.Enabled = PagesList.SelectedItems.Count > 0;
+        }
+
+        private void ToolStripButton2_Click(object sender, EventArgs e)
+        {
+            string bookmarkName = TextBoxBookmarkName.Text.Trim();
+
+            TreeNode selected = BookmarksTree.SelectedNode;
+
+            if (selected != null)
+            {
+                if (BookmarksTree.SelectedNode.Level > 0)
+                {
+                    selected = BookmarksTree.SelectedNode.Parent;
+                }
+
+                bookmarkName = selected.Text;
+
+                if (TextBoxBookmarkName.Text.Trim().Length == 0)
+                {
+                    ApplicationMessage.ShowError("Please enter a bookmark name.", "Error");
+                    TextBoxBookmarkName.Focus();
+                    TextBoxBookmarkName.SelectAll();
+                    return;
+                }
+
+                if (BookmarksTree.Nodes.IndexOfKey(TextBoxBookmarkName.Text.Trim()) != -1)
+                {
+                    ApplicationMessage.ShowError("A bookmark with this name already exists.", "Error");
+                    TextBoxBookmarkName.Focus();
+                    TextBoxBookmarkName.SelectAll();
+                    return;
+                }
+
+                foreach (ListViewItem item in PagesList.Items)
+                {
+                    Page page = (Page)item.Tag;
+                    if (page.Bookmark == bookmarkName)
+                    {
+                        item.SubItems[2].Text = TextBoxBookmarkName.Text.Trim();
+                        page.Bookmark = TextBoxBookmarkName.Text.Trim();
+                        //AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                    }
+                }
+
+                selected.Text = TextBoxBookmarkName.Text.Trim();
+                selected.Name = TextBoxBookmarkName.Text.Trim();
+            }
+         
         }
     }
 }

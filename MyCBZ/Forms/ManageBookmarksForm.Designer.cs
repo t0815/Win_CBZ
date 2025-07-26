@@ -47,6 +47,7 @@
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             TextBoxBookmarkName = new System.Windows.Forms.ToolStripTextBox();
             ToolButtonCreateBookmark = new System.Windows.Forms.ToolStripButton();
+            toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             BookmarksTree = new System.Windows.Forms.TreeView();
@@ -231,11 +232,11 @@
             // toolStrip2
             // 
             toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripLabel1, TextBoxBookmarkName, ToolButtonCreateBookmark, toolStripSeparator3, toolStripButton5 });
+            toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripLabel1, TextBoxBookmarkName, ToolButtonCreateBookmark, toolStripButton2, toolStripSeparator3, toolStripButton5 });
             toolStrip2.Location = new System.Drawing.Point(0, 0);
             toolStrip2.Name = "toolStrip2";
             toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            toolStrip2.Size = new System.Drawing.Size(268, 27);
+            toolStrip2.Size = new System.Drawing.Size(297, 27);
             toolStrip2.TabIndex = 0;
             toolStrip2.Text = "toolStrip2";
             // 
@@ -260,6 +261,17 @@
             ToolButtonCreateBookmark.Text = "Create new Bookmark";
             ToolButtonCreateBookmark.Click += ToolButtonCreateBookmark_Click;
             // 
+            // toolStripButton2
+            // 
+            toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripButton2.Enabled = false;
+            toolStripButton2.Image = Properties.Resources.pencil;
+            toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new System.Drawing.Size(29, 24);
+            toolStripButton2.Text = "Rename Bookmark";
+            toolStripButton2.Click += ToolStripButton2_Click;
+            // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
@@ -279,6 +291,7 @@
             // BookmarksTree
             // 
             BookmarkEditorTableLayout.SetColumnSpan(BookmarksTree, 2);
+            BookmarksTree.HideSelection = false;
             BookmarksTree.Location = new System.Drawing.Point(418, 140);
             BookmarksTree.Name = "BookmarksTree";
             BookmarksTree.Size = new System.Drawing.Size(360, 306);
@@ -385,5 +398,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.ToolTip BookmarkEditorTooltip;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }
