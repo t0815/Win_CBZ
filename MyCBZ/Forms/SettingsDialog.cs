@@ -622,6 +622,34 @@ namespace Win_CBZ.Forms
                         throw new MetaDataValidationException("", "", "FilterNewPagesByExtCheckBox", "Validation Error! No Image-Extensions defined for filtering new pages!");
                     }
 
+                    ImageFileExtensions.ForEach(ext =>
+                    {
+                        if (ext.Length == 0)
+                        {
+                            throw new MetaDataValidationException("", ext, "ExtensionList", "Validation Error! Empty Image-Extension not allowed!");
+                        }
+
+                        if (!Regex.IsMatch(ext, @"^[a-z0-9]+$", RegexOptions.IgnoreCase))
+                        {
+                            //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Image-Extensions must contain only values between ['a-zA-Z0-9']");
+                            throw new MetaDataValidationException("", ext, "ExtensionList", "Validation Error! Image-Extensions must contain only values between ['a-zA-Z0-9']!", true, false);
+                        }
+                    });
+
+                    FilteredFileNames.ForEach(name =>
+                    {
+                        if (name.Length == 0)
+                        {
+                            throw new MetaDataValidationException("", name, "FilenameList", "Validation Error! Empty Filtered-Filename not allowed!");
+                        }
+
+                        if (Regex.IsMatch(name, @"^[+|;\\]+", RegexOptions.IgnoreCase))
+                        {
+                            //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Validateion Error! Filtered-Filenames must not contain ['|\\+;']");
+                            throw new MetaDataValidationException("", name, "FilenameList", "Validation Error! Filtered-Filenames must not contain ['|\\+;']!", true, false);
+                        }
+                    });
+
                     // -------------- DANGER!  All validation goes above this line --------------------
 
 
@@ -707,7 +735,10 @@ namespace Win_CBZ.Forms
                     }
                     else if (controlName == "CustomFieldsDataGrid" ||
                         controlName == "TextBoxTempPath" ||
-                        controlName == "FilterNewPagesByExtCheckBox"
+                        controlName == "FilterNewPagesByExtCheckBox" ||
+                        controlName == "CheckboxFilterFilenames" ||
+                        controlName == "ExtensionList" ||
+                        controlName == "FilenameList"
                         )
                     {
                         errorSection = "application";
@@ -715,12 +746,23 @@ namespace Win_CBZ.Forms
 
                     if (errorSection.Length > 0)
                     {
-                        errorCategories.Add(errorSection);
+                        if (errorCategories.Contains(errorSection) == false)
+                        {
+                            errorCategories.Add(errorSection);
+                        }
+                        
 
                         SettingsSectionList.Refresh();
                     }
 
-                    SettingsValidationErrorProvider.SetError(this.Controls.Find(controlName, true)[0], mv.Message);
+                    try
+                    {
+                        SettingsValidationErrorProvider.SetError(this.Controls.Find(controlName, true)[0], mv.Message);
+                    } catch
+                    {
+                        ApplicationMessage.ShowError("Failed to assign error to control! Control '${controlName}' not found!", "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+
+                    }
 
                     if (row != null && row.Length > 0)
                     {
