@@ -103,6 +103,8 @@ namespace Win_CBZ
 
         public List<Page> Pages { get; set; }
 
+        public List<String> TemporaryBookmarks { get; set; } = new List<string>();
+
         private int MaxFileIndex = 0;
 
         public MetaData MetaData { get; set; }
@@ -153,6 +155,7 @@ namespace Win_CBZ
         {
             WorkingDir = workingDir;
             Pages = new List<Page>();
+            TemporaryBookmarks = new List<string>();
             RenamerExcludes = new ArrayList();
             FilteredFileNames = new List<string>();
             ConversionExcludes = new ArrayList();
@@ -739,6 +742,7 @@ namespace Win_CBZ
                 IsNew = true;
                 IsChanged = false;
                 GlobalImageTask = new ImageTask("");
+                TemporaryBookmarks = new List<string>();
 
                 AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_NEW));

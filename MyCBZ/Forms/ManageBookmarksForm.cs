@@ -61,6 +61,14 @@ namespace Win_CBZ.Forms
                     }
                 }
             });
+
+            Program.ProjectModel.TemporaryBookmarks.ForEach(bookmark =>
+            {
+                if (BookmarksTree.Nodes.IndexOfKey(bookmark) == -1)
+                {
+                    BookmarksTree.Nodes.Add(bookmark, bookmark);
+                }
+            });
         }
 
         private void ToolButtonCreateBookmark_Click(object sender, EventArgs e)
@@ -188,6 +196,15 @@ namespace Win_CBZ.Forms
             OkButton.Enabled = false;
             int index = 0;
 
+            Program.ProjectModel.TemporaryBookmarks.Clear();
+            foreach (TreeNode n in BookmarksTree.Nodes)
+            {
+                if (n.Level == 0 && n.Text.Trim().Length > 0)
+                {
+                    Program.ProjectModel.TemporaryBookmarks.Add(n.Text.Trim());
+                }
+            }
+
             foreach (ListViewItem item in PagesList.Items)
             {
                 Page page = (Page)item.Tag;
@@ -195,6 +212,11 @@ namespace Win_CBZ.Forms
                 if (page.Bookmark != item.SubItems[2].Text)
                 {
                     page.Bookmark = item.SubItems[2].Text;
+
+                    if (Program.ProjectModel.TemporaryBookmarks.IndexOf(item.SubItems[2].Text) > -1)
+                    {
+                        Program.ProjectModel.TemporaryBookmarks.Remove(item.SubItems[2].Text);
+                    }
 
                     //Program.ProjectModel.MetaData.UpdatePageIndexMetaDataEntry((Page)item.Tag, ((Page)item.Tag).Key);
 
