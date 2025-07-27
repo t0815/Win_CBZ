@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             ButtonOk = new System.Windows.Forms.Button();
@@ -323,11 +323,11 @@
             AppSettingsTabControl.Controls.Add(TabPageEssential);
             AppSettingsTabControl.Controls.Add(TabPageAppSettings);
             AppSettingsTabControl.Controls.Add(TabPageBehaviour);
-            AppSettingsTabControl.Location = new System.Drawing.Point(94, 3);
+            AppSettingsTabControl.Location = new System.Drawing.Point(289, 3);
             AppSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             AppSettingsTabControl.Name = "AppSettingsTabControl";
             AppSettingsTabControl.SelectedIndex = 0;
-            AppSettingsTabControl.Size = new System.Drawing.Size(319, 460);
+            AppSettingsTabControl.Size = new System.Drawing.Size(124, 460);
             AppSettingsTabControl.TabIndex = 3;
             // 
             // TabPageEssential
@@ -336,7 +336,7 @@
             TabPageEssential.Location = new System.Drawing.Point(4, 29);
             TabPageEssential.Name = "TabPageEssential";
             TabPageEssential.Padding = new System.Windows.Forms.Padding(3);
-            TabPageEssential.Size = new System.Drawing.Size(311, 427);
+            TabPageEssential.Size = new System.Drawing.Size(116, 427);
             TabPageEssential.TabIndex = 3;
             TabPageEssential.Text = "Essential";
             TabPageEssential.UseVisualStyleBackColor = true;
@@ -378,7 +378,7 @@
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 139F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel5.Size = new System.Drawing.Size(305, 421);
+            tableLayoutPanel5.Size = new System.Drawing.Size(110, 421);
             tableLayoutPanel5.TabIndex = 1;
             // 
             // tableLayoutPanel9
@@ -403,6 +403,7 @@
             FilenameList.AutoScroll = true;
             FilenameList.BackColor = System.Drawing.SystemColors.Window;
             FilenameList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            SettingsValidationErrorProvider.SetIconPadding(FilenameList, -20);
             FilenameList.Location = new System.Drawing.Point(0, 36);
             FilenameList.Margin = new System.Windows.Forms.Padding(0, 4, 2, 4);
             FilenameList.Name = "FilenameList";
@@ -559,6 +560,7 @@
             ExtensionList.AutoScroll = true;
             ExtensionList.BackColor = System.Drawing.SystemColors.Window;
             ExtensionList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            SettingsValidationErrorProvider.SetIconPadding(ExtensionList, -20);
             ExtensionList.Location = new System.Drawing.Point(0, 37);
             ExtensionList.Margin = new System.Windows.Forms.Padding(0, 4, 2, 4);
             ExtensionList.Name = "ExtensionList";
@@ -747,24 +749,24 @@
             CustomFieldsDataGrid.AllowUserToAddRows = false;
             CustomFieldsDataGrid.AllowUserToDeleteRows = false;
             CustomFieldsDataGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            CustomFieldsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            CustomFieldsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             CustomFieldTypesTablePanel.SetColumnSpan(CustomFieldsDataGrid, 4);
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle4;
             CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             CustomFieldsDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 79);
