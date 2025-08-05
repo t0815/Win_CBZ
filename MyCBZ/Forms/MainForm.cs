@@ -2358,32 +2358,40 @@ namespace Win_CBZ
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         AddFilesToolStripMenuItem.Enabled = true;
-                        ToolButtonAddFiles.Enabled = true;
+                        ToolButtonAddFiles.Enabled = true;           
+                        ToolButtonAddFolder.Enabled = true;
+                        ToolBarSearchInput.Enabled = true;
+                        ToolBarSearchLabel.Enabled = true;
+
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonMovePageDown.Enabled = false;
                         ToolButtonMovePageUp.Enabled = false;
-                        ToolButtonAddFolder.Enabled = true;
-                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
-                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
-                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
-                        ToolStripButtonShowRawMetadata.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         TextboxStoryPageRenamingPattern.Enabled = false;
                         TextboxSpecialPageRenamingPattern.Enabled = false;
                         CheckBoxDoRenamePages.Enabled = false;
                         CheckBoxDoRenamePages.Checked = false;
-                        ToolButtonSave.Enabled = Program.ProjectModel.IsChanged; // && project.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                        SaveToolStripMenuItem.Enabled = Program.ProjectModel.IsChanged; // && project.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                        LabelGlobalActionStatusMessage.Text = "";
                         GlobalAlertTableLayout.Visible = false;
+                        ToolButtonEditImageProps.Enabled = false;
+                        ToolButtonEditImage.Enabled = false;
+
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         AddMetaDataRowBtn.Enabled = false;
-                        ToolButtonEditImageProps.Enabled = false;
-                        ToolButtonEditImage.Enabled = false;
+ 
                         ToolButtonValidateCBZ.Enabled = true;
                         CurrentGlobalAction = null;
+
+                        ToolButtonSave.Enabled = Program.ProjectModel.IsChanged; // && project.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        SaveToolStripMenuItem.Enabled = Program.ProjectModel.IsChanged; // && project.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                        LabelGlobalActionStatusMessage.Text = "";
+
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        ToolStripButtonShowRawMetadata.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+
                         LabelW.Text = "0";
                         LabelH.Text = "0";
                         RadioApplyAdjustmentsPage.Text = "(no Page selected)";
@@ -2392,9 +2400,7 @@ namespace Win_CBZ
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
-                        ToolBarSearchInput.Enabled = true;
-                        ToolBarSearchLabel.Enabled = true;
-
+                        
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVING:
@@ -2439,9 +2445,7 @@ namespace Win_CBZ
                         ToolButtonExtractArchive.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         ToolButtonAddFolder.Enabled = true;
-                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
-                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
-                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        
                         ToolButtonSave.Enabled = false;
                         SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
@@ -2450,6 +2454,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Enabled = true;
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonValidateCBZ.Enabled = true;
+                        
                         Program.ProjectModel.IsNew = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
@@ -2457,6 +2462,10 @@ namespace Win_CBZ
                         MetaDataGrid.Enabled = true;
                         ToolBarSearchInput.Enabled = true;
                         ToolBarSearchLabel.Enabled = true;
+
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVED:
@@ -2473,17 +2482,21 @@ namespace Win_CBZ
                         ToolButtonAddFolder.Enabled = true;
                         TextboxStoryPageRenamingPattern.Enabled = true;
                         TextboxSpecialPageRenamingPattern.Enabled = true;
-                        ToolButtonSave.Enabled = false;
-                        SaveToolStripMenuItem.Enabled = false;
+   
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         ToolButtonValidateCBZ.Enabled = true;
-                        Program.ProjectModel.IsNew = false;
-                        Program.ProjectModel.IsSaved = true;
+                        
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
+
+                        ToolButtonSave.Enabled = false;
+                        SaveToolStripMenuItem.Enabled = false;
+
+                        Program.ProjectModel.IsNew = false;
+                        Program.ProjectModel.IsSaved = true;
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
@@ -2591,13 +2604,14 @@ namespace Win_CBZ
                         ToolButtonOpen.Enabled = true;
                         AddFilesToolStripMenuItem.Enabled = true;
                         ToolButtonAddFiles.Enabled = true;
+                        ToolBarSearchInput.Enabled = true;
+                        ToolBarSearchLabel.Enabled = true;
+                        ToolButtonAddFolder.Enabled = true;
+                        ToolButtonValidateCBZ.Enabled = true;
+
                         ToolButtonRemoveFiles.Enabled = false;
                         ToolButtonMovePageDown.Enabled = false;
                         ToolButtonMovePageUp.Enabled = false;
-                        ToolButtonAddFolder.Enabled = true;
-                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
-                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
-                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         TextboxStoryPageRenamingPattern.Enabled = false;
                         TextboxSpecialPageRenamingPattern.Enabled = false;
                         CheckBoxDoRenamePages.Enabled = false;
@@ -2605,24 +2619,30 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = false;
                         SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = false;
-                        LabelGlobalActionStatusMessage.Text = "";
+                        AddMetaDataRowBtn.Enabled = false;
+                        ToolButtonEditImageProps.Enabled = false;
+                        ToolButtonEditImage.Enabled = false;
                         GlobalAlertTableLayout.Visible = false;
+                        
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
-                        AddMetaDataRowBtn.Enabled = false;
-                        ToolButtonEditImageProps.Enabled = false;
-                        ToolButtonEditImage.Enabled = false;
-                        ToolButtonValidateCBZ.Enabled = true;
+             
+                        
+                        
                         CurrentGlobalAction = null;
+
+                        BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
+                        AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+                        BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         LabelW.Text = "0";
                         LabelH.Text = "0";
+                        LabelGlobalActionStatusMessage.Text = "";
                         RadioApplyAdjustmentsPage.Text = "(no Page selected)";
                         RadioApplyAdjustmentsPage.Enabled = false;
                         CurrentGlobalActions.Clear();
-                        ToolBarSearchInput.Enabled = true;
-                        ToolBarSearchLabel.Enabled = true;
+    
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
@@ -2671,6 +2691,104 @@ namespace Win_CBZ
                         break;
                 }
             }
+        }
+
+        private void SetControlsEnabledState(string groups, bool enabled)
+        {
+            groups.Split(',').Select(g => g.ToLower()).ToList().ForEach(group =>
+            {
+                switch (group)
+                {
+                    case "all":
+                        NewToolStripMenuItem.Enabled = enabled;
+                        OpenToolStripMenuItem.Enabled = enabled;
+                        SaveAsToolStripMenuItem.Enabled = enabled;
+                        ToolButtonNew.Enabled = enabled;
+                        ToolButtonOpen.Enabled = enabled;
+                        AddFilesToolStripMenuItem.Enabled = enabled;
+                        ToolButtonAddFiles.Enabled = enabled;
+                        ToolButtonRemoveFiles.Enabled = enabled;
+                        ToolButtonMovePageDown.Enabled = enabled;
+                        ToolButtonMovePageUp.Enabled = enabled;
+                        ToolButtonAddFolder.Enabled = enabled;
+                        BtnAddMetaData.Enabled = enabled;
+                        BtnRemoveMetaData.Enabled = enabled;
+                        ToolButtonExtractArchive.Enabled = enabled;
+                        ExtractSelectedPages.Enabled = enabled;
+                        ToolButtonSave.Enabled = enabled;
+                        SaveToolStripMenuItem.Enabled = enabled;
+                        ToolStripButtonShowRawMetadata.Enabled = enabled;
+                        PagesList.Enabled = enabled;
+                        PageView.Enabled = enabled;
+                        PageThumbsListBox.Enabled = enabled;
+                        MetaDataGrid.Enabled = enabled;
+                        AddMetaDataRowBtn.Enabled = enabled;
+                        RemoveMetadataRowBtn.Enabled = enabled;
+                        ToolButtonEditImageProps.Enabled = enabled;
+                        ToolButtonEditImage.Enabled = enabled;
+                        ToolButtonValidateCBZ.Enabled = enabled;
+                        ToolButtonSetPageType.Enabled = enabled;
+                        break;
+                    case "save":
+                        ToolButtonSave.Enabled = enabled;
+                        SaveToolStripMenuItem.Enabled = enabled;
+                        SaveAsToolStripMenuItem.Enabled = enabled;
+                        break;
+                    case "open":
+                        OpenToolStripMenuItem.Enabled = enabled;
+                        ToolButtonOpen.Enabled = enabled;
+                        break;
+                    case "file":
+                        NewToolStripMenuItem.Enabled = enabled;
+                        OpenToolStripMenuItem.Enabled = enabled;
+                        SaveAsToolStripMenuItem.Enabled = enabled;
+                        ToolButtonNew.Enabled = enabled;
+                        ToolButtonOpen.Enabled = enabled;
+                        ToolButtonSave.Enabled = enabled;
+                        SaveToolStripMenuItem.Enabled = enabled;
+                        break;
+                    case "add":
+                        AddFilesToolStripMenuItem.Enabled = enabled;
+                        ToolButtonAddFiles.Enabled = enabled;
+                        ToolButtonAddFolder.Enabled = enabled;
+                        break;
+                    case "remove":
+                        ToolButtonRemoveFiles.Enabled = enabled;
+                        break;
+                    case "metadata":
+                        BtnAddMetaData.Enabled = enabled;
+                        BtnRemoveMetaData.Enabled = enabled;
+                        AddMetaDataRowBtn.Enabled = enabled;
+                        RemoveMetadataRowBtn.Enabled = enabled;
+                        ToolStripButtonShowRawMetadata.Enabled = enabled;
+                        MetaDataGrid.Enabled = enabled;
+                        break;
+                    case "extract":
+                        ToolButtonExtractArchive.Enabled = enabled;
+                        ExtractSelectedPages.Enabled = enabled;
+                        break;
+                    case "pageview":
+                        PagesList.Enabled = enabled;
+                        PageView.Enabled = enabled;
+                        PageThumbsListBox.Enabled = enabled;
+                        
+                        break;
+                    case "imageprops":
+                        ToolButtonEditImageProps.Enabled = enabled;
+                        ToolButtonEditImage.Enabled = enabled;
+                        break;
+                    case "validate":
+                        ToolButtonValidateCBZ.Enabled = enabled;
+                        break;
+                    case "search":
+                        ToolBarSearchInput.Enabled = enabled;
+                        ToolBarSearchLabel.Enabled = enabled;
+                        break;
+                    default:
+                        // Do nothing
+                        break;
+                }
+            });
         }
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)

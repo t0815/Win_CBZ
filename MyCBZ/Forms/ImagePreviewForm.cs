@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Win_CBZ.Img;
@@ -26,6 +27,8 @@ namespace Win_CBZ
 
         private int minW = 0;
         private int minH = 0;
+
+        private bool showChapters = false;
 
         public ImagePreviewForm(Page page)
         {
@@ -55,18 +58,49 @@ namespace Win_CBZ
                         displayPage?.FreeStreams();
 
                         return;
-                    }               
+                    }
                 }
 
                 if (displayPage.TemporaryFile.Exists())
                 {
                     PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
                     HandleWindowSize(displayPage);
-                } else
+                }
+                else
                 {
                     PageImagePreview.ImageLocation = null;
                 }
-                
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        string currentBookmark = "";
+
+                        Program.ProjectModel.Pages.ForEach(p =>
+                        {
+
+                            if (currentBookmark != p.Bookmark && p.Bookmark.Length > 0)
+                            {
+                                currentBookmark = p.Bookmark;
+
+                                Invoke(new Action(() =>
+                                {
+                                    ListboxChapters.Items.Add(p);
+                                    ChapterImagesList.Images.Add(p.Id, p.GetThumbnail(48, 67));
+                                }));
+
+                            }
+
+                            Thread.Sleep(3); // to avoid UI freeze
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        ApplicationMessage.ShowException(e);
+                    }
+                });
+
             }
             catch (Exception e2)
             {
@@ -74,7 +108,7 @@ namespace Win_CBZ
                 displayPage?.FreeStreams();
 
                 ApplicationMessage.ShowException(e2);
-            }       
+            }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -92,14 +126,14 @@ namespace Win_CBZ
                     {
                         ImageOperations.ConvertImage(fis, fos, targetFormat);
                         fos.Close();
-                    }                       
-                }                 
+                    }
+                }
             }
         }
 
         private void PageImagePreview_LoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            ImagePreviewPanel.VerticalScroll.Value = 0;
+            SplitBoxPageView.Panel1.VerticalScroll.Value = 0;
             HandleWindowSize(displayPage);
         }
 
@@ -108,17 +142,21 @@ namespace Win_CBZ
             if (PageImagePreview.Image != null)
             {
                 PageImagePreview.Image.Dispose();
-            }            
+            }
             PageImagePreview.Dispose();
 
             displayPage?.FreeStreams();
             displayPage?.FreeImage();
         }
 
-        protected void HandlePageNavigation(int direction)
+        protected void HandlePageNavigation(int direction, int index = -1)
         {
             Page page = Program.ProjectModel.GetPageById(currentId);
             int newIndex = currentIndex;
+            if (index > -1)
+            {
+                newIndex = index - 1;
+            }
 
             if (displayPage != null)
             {
@@ -131,17 +169,19 @@ namespace Win_CBZ
                 try
                 {
                     displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction), true);
-                } catch (ApplicationException ae)
-                { 
+                }
+                catch (ApplicationException ae)
+                {
                     if (ae.ShowErrorDialog)
                     {
                         ApplicationMessage.ShowException(ae);
                     }
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     ApplicationMessage.ShowException(e);
                 }
-                  
+
             }
 
             if (displayPage != null)
@@ -151,14 +191,15 @@ namespace Win_CBZ
                     try
                     {
                         displayPage.CreateLocalWorkingCopy();
-                    } catch (Exception)
+                    }
+                    catch (Exception)
                     {
                         if (page != null)
                         {
                             currentId = page.Id;
                             currentIndex = page.Index;
                         }
-                        
+
                         return;
                     }
                 }
@@ -168,20 +209,23 @@ namespace Win_CBZ
                     try
                     {
                         PageImagePreview.Image = Image.FromStream(displayPage.GetImageStream());
-                    } catch (ApplicationException ae)
+                    }
+                    catch (ApplicationException ae)
                     {
                         if (ae.ShowErrorDialog)
                         {
                             ApplicationMessage.ShowException(ae);
                         }
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         ApplicationMessage.ShowException(ex);
                     }
                     //PageImagePreview.LoadAsync();
                     HandleWindowSize(displayPage);
-                   
-                } else
+
+                }
+                else
                 {
                     PageImagePreview.ImageLocation = null;
                 }
@@ -200,8 +244,9 @@ namespace Win_CBZ
                 {
                     if (page.Format.W + 40 > Screen.FromHandle(this.Handle).WorkingArea.Width)
                     {
-                        Width = Screen.FromHandle(this.Handle).WorkingArea.Width  - Location.X;
-                    } else
+                        Width = Screen.FromHandle(this.Handle).WorkingArea.Width - Location.X;
+                    }
+                    else
                     {
                         Width = page.Format.W + 40;
                     }
@@ -217,7 +262,7 @@ namespace Win_CBZ
                     {
                         Height = page.Format.H - Location.Y - PreviewToolStrip.Height;
                     }
-                }   
+                }
             }
         }
 
@@ -227,14 +272,14 @@ namespace Win_CBZ
             {
                 e.SuppressKeyPress = true;
                 HandlePageNavigation(-1);
-                   
+
             }
 
             if (e.KeyCode == Keys.Right)
             {
                 e.SuppressKeyPress = true;
                 HandlePageNavigation(1);
-            } 
+            }
 
             if (e.KeyCode == Keys.Escape)
             {
@@ -269,7 +314,7 @@ namespace Win_CBZ
 
         private void PageImagePreview_BindingContextChanged(object sender, EventArgs e)
         {
-            ImagePreviewPanel.VerticalScroll.Value = 0;
+            SplitBoxPageView.Panel1.VerticalScroll.Value = 0;
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
@@ -280,6 +325,69 @@ namespace Win_CBZ
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             HandlePageNavigation(1);
+        }
+
+        private void ImagePreviewForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripButton2_Click(object sender, EventArgs e)
+        {
+            SplitBoxPageView.Panel2Collapsed = !toolStripButton2.Checked;
+        }
+
+        private void ListboxChapters_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Page page = ListboxChapters.Items[e.Index] as Page;
+
+            if (page != null)
+            {
+                Color backgroundColor = Color.White;
+                Color textColor = Color.Black;
+                System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
+
+                System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
+
+                Font f = SystemFonts.CaptionFont;
+
+                if (e.State.HasFlag(DrawItemState.Selected))
+                {
+                    backgroundColor = Color.Gold;
+                }
+                else
+                {
+                    backgroundColor = SystemColors.Window;
+                }
+
+       
+
+                System.Drawing.SolidBrush bg = new SolidBrush(backgroundColor);
+
+                e.Graphics.FillRectangle(bg, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
+                e.Graphics.DrawString(page.Bookmark, f, tb, e.Bounds.X + 56, e.Bounds.Y + 6);
+                e.Graphics.DrawString(page.Number.ToString(), f, tb, e.Bounds.X + 56, e.Bounds.Y + 20);
+                if (ChapterImagesList.Images.ContainsKey(page.Id))
+                {
+                    e.Graphics.DrawImage(ChapterImagesList.Images[page.Id], e.Bounds.X + 3, e.Bounds.Y + 3);
+                }
+
+              
+            }
+        }
+
+        private void ListboxChapters_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ListboxChapters.SelectedIndex > -1)
+            {
+                Page page = ListboxChapters.SelectedItem as Page;
+                if (page != null)
+                {
+                    currentId = page.Id;
+                    TextBoxJumpPage.Text = page.Number.ToString();
+                    HandlePageNavigation(1, page.Index);
+                }
+            }
         }
     }
 }

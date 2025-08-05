@@ -327,14 +327,21 @@ namespace Win_CBZ.Forms
                 String bookmark = item.SubItems[2].Text;
                 String pageName = item.Text;
 
-                TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(pageName)];
-
-                if (node != null)
+                foreach (TreeNode lv0Node in BookmarksTree.Nodes)
                 {
-                    BookmarksTree.Nodes.Remove(node);
+                    if (lv0Node.Nodes.IndexOfKey(pageName) > -1)
+                    {
+                        TreeNode node = lv0Node.Nodes[lv0Node.Nodes.IndexOfKey(pageName)];
+
+                        if (node != null)
+                        {
+                            lv0Node.Nodes.Remove(node);
+                        }
+                    }
                 }
 
                 item.SubItems[2].Text = "";
+
             }
         }
 

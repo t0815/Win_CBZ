@@ -117,72 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="TagValidationTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>807, 17</value>
-  </metadata>
-  <data name="pictureBox13.ToolTip" xml:space="preserve">
-    <value>List of filenames, that will be ignored/skipped when adding new files or folders.
-Only enter filenames without path. To filter for an exact name you can include
-the file-extension i.e. image.JPG.
-
-To filter specific filename with ANY extension, omit it completely.</value>
-  </data>
-  <metadata name="SettingsValidationErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>198, 17</value>
-  </metadata>
-  <metadata name="DialogImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>465, 17</value>
-  </metadata>
-  <data name="DialogImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
-        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
-        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAoAIAAAJNU0Z0AUkBTAIBAQIB
-        AAFwAQ4BcAEOARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
-        AAwAA+cBUgFUAVUD+g8AA7gBtgK4ewAD9gO+A70D4BgAA+YDUAMlA30D+gYAA/0DtAMrAyUDungAAdEC
-        0gYlAYoCixUAA+cMJQNGA/oDAAO0DCUBtgK4dQAB0QLSBiUBigKLFQAD6AM1DCUDfQO0AysJJQMrA7h1
-        AAHRAtIGJQGKAosYAAPzAzUbJQO0bwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4A8AA+AD
-        NRIlAysDtAP9bwAeJQO9EgAD8wM1DyUDtHUAAycbJQO+DwAD/QO0AysPJQN9A/pyAAHcAt0B0QLSAdEC
-        0gGbAp0GJQFmAmcB0QLSAdEC0gHRAtID9g8AA7QYJQNGA/p4AAHRAtIGJQGKAosVAAP9A7QDKwklAysD
-        NQwlA30D+nUAAdEC0gYlAYoCixUAAcoCyw8lA7QD8wM1DCUBUgFUAVV1AAHcAt0DJwMlA5QVAAP2A3YG
-        JQMrA7QD/QMAA+ADNQYlA1AD55wAA3YDJQO0DAAD8wM1AyUD5p8AA/YBygLLA/0PAAPoA+f/ACoAAUIB
-        TQE+BwABPgMAASgDAAFAAwABEAMAAQEBAAEBBQABgBcAA/8BAAT/BAAC/wHjAecEAAH8AT8BwQGDBAAB
-        /AE/AYABgQQAAfwBPwGAAQEEAAH8AT8BwAEDBAAB4AEDAeABAwQAAeABAwHwAQ8EAAHgAQMB4AEHBAAB
-        4AEDAeABAwQAAfwBPwGAAQEEAAH8AT8BgAEBBAAB/AE/AYABgQQAAv8B4wHDBAAC/wHjAecEAAT/BAAL
-</value>
-  </data>
-  <data name="pictureBox3.ToolTip" xml:space="preserve">
-    <value>By default, when opening a cbz-archive, all files and info from the
-ComicInfo.xml -Pageindex is verified with actual image data.
-By enabling this, opening archives will be significatly faster.
-(Default = False)</value>
-  </data>
-  <data name="pictureBox11.ToolTip" xml:space="preserve">
-    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
-If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
-The page with type 'FrontCover' should be at index 1.
-
-Note: If writing XML-Pageindex is set to FALSE, this option will be forced and cannot be disabled!</value>
-  </data>
-  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="pictureBox2.ToolTip" xml:space="preserve">
-    <value>Specifies the MetaData -Format that is written to the archive.
-Where:
-
-VERSION_1 = &lt;Image="[Page #]" Key="[FileName]" ... &gt;
-
-VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
-
-(VERSION_1 is the current comicinfo.xml specification)</value>
-  </data>
-  <metadata name="TagValidationTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>807, 17</value>
-  </metadata>
   <metadata name="SettingsValidationErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>198, 17</value>
   </metadata>
@@ -363,6 +297,63 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
+  <metadata name="TagValidationTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>807, 17</value>
+  </metadata>
+  <data name="pictureBox13.ToolTip" xml:space="preserve">
+    <value>List of filenames, that will be ignored/skipped when adding new files or folders.
+Only enter filenames without path. To filter for an exact name you can include
+the file-extension i.e. image.JPG.
+
+To filter specific filename with ANY extension, omit it completely.</value>
+  </data>
+  <metadata name="DialogImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>465, 17</value>
+  </metadata>
+  <data name="DialogImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
+        LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
+        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAoAIAAAJNU0Z0AUkBTAIBAQIB
+        AAGwAQ4BsAEOARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
+        AAwAA+cBUgFUAVUD+g8AA7gBtgK4ewAD9gO+A70D4BgAA+YDUAMlA30D+gYAA/0DtAMrAyUDungAAdEC
+        0gYlAYoCixUAA+cMJQNGA/oDAAO0DCUBtgK4dQAB0QLSBiUBigKLFQAD6AM1DCUDfQO0AysJJQMrA7h1
+        AAHRAtIGJQGKAosYAAPzAzUbJQO0bwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4A8AA+AD
+        NRIlAysDtAP9bwAeJQO9EgAD8wM1DyUDtHUAAycbJQO+DwAD/QO0AysPJQN9A/pyAAHcAt0B0QLSAdEC
+        0gGbAp0GJQFmAmcB0QLSAdEC0gHRAtID9g8AA7QYJQNGA/p4AAHRAtIGJQGKAosVAAP9A7QDKwklAysD
+        NQwlA30D+nUAAdEC0gYlAYoCixUAAcoCyw8lA7QD8wM1DCUBUgFUAVV1AAHcAt0DJwMlA5QVAAP2A3YG
+        JQMrA7QD/QMAA+ADNQYlA1AD55wAA3YDJQO0DAAD8wM1AyUD5p8AA/YBygLLA/0PAAPoA+f/ACoAAUIB
+        TQE+BwABPgMAASgDAAFAAwABEAMAAQEBAAEBBQABgBcAA/8BAAT/BAAC/wHjAecEAAH8AT8BwQGDBAAB
+        /AE/AYABgQQAAfwBPwGAAQEEAAH8AT8BwAEDBAAB4AEDAeABAwQAAeABAwHwAQ8EAAHgAQMB4AEHBAAB
+        4AEDAeABAwQAAfwBPwGAAQEEAAH8AT8BgAEBBAAB/AE/AYABgQQAAv8B4wHDBAAC/wHjAecEAAT/BAAL
+</value>
+  </data>
+  <data name="pictureBox3.ToolTip" xml:space="preserve">
+    <value>By default, when opening a cbz-archive, all files and info from the
+ComicInfo.xml -Pageindex is verified with actual image data.
+By enabling this, opening archives will be significatly faster.
+(Default = False)</value>
+  </data>
+  <data name="pictureBox11.ToolTip" xml:space="preserve">
+    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
+If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
+The page with type 'FrontCover' should be at index 1.
+
+Note: If writing XML-Pageindex is set to FALSE, this option will be forced and cannot be disabled!</value>
+  </data>
+  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="pictureBox2.ToolTip" xml:space="preserve">
+    <value>Specifies the MetaData -Format that is written to the archive.
+Where:
+
+VERSION_1 = &lt;Image="[Page #]" Key="[FileName]" ... &gt;
+
+VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
+
+(VERSION_1 is the current comicinfo.xml specification)</value>
+  </data>
   <metadata name="AutocompleteIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>618, 17</value>
   </metadata>
@@ -371,7 +362,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAIicAAAJNU0Z0AUkBTAIBAQ8B
-        AAHgAQwB4AEMARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
+        AAEgAQ0BIAENARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
         ABsAA0wBkAMlAf8DYgHhCAADJAE0AyUB/wMlAf8DKgE/YAABVQJXAbEBXAJlAecBKwJ+AfwBKwJ+AfwB
         XAJlAecBVQJXAbFkAAMyAU8DJQH/AyUB/wMaASQEAAQCA1kB7wMlAf8DRgGAJAADBgEIA0EBcgNbAc0D
         XAH4A1wB+ANbAc0DQQFyAwYBCBwAAUACQQFxAQAB0gH6Af8BAAHSAfoB/wEAAdIB+gH/AQAB0gH6Af8B
@@ -551,7 +542,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAVhwAAAJNU0Z0AUkBTAIBAQUB
-        AAEIAQcBCAEHARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
+        AAFIAQcBSAEHARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
         AK8AAw8BEwM/AW0DVgG1A1sB5AMmAfsDJgH7A1sB5ANWAbUDPwFtAw8BE/8AUQADBwEJA0kBhQNaAfUD
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNaAfUDSQGFAwcBCf8ARQADGgEjA10B1AMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNdAdQDGgEj/wA9AAMaASMD
@@ -682,7 +673,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6gQAAAJNU0Z0AUkBTAMBAQAB
-        yAEGAcgBBgEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
+        CAEHAQgBBwEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
         AAMTARoDSQGIAV0CYQHUAUUBaAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa3AADNwFaAmABbwHzAUQB
         YwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAzcBWtQAAzcB
         WgOAAf4BRAFjAdgB/wJgAW8B8wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAUQB
@@ -713,11 +704,11 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAiAMAAAJNU0Z0AUkBTAMBAQAB
-        2AEBAdgBAQEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAb
+        GAECARgBAgEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAb
         AAMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/9AAAyUB/wMdASkD
         PAFmAzwBZgM8AWYDPAFmAzwBZgM8AWYDPAFmAzwBZgMdASkDJQH/0AADJQH/AzwBZgMRARYYAAMRARYD
-        PAFmAyUB/9AAAyUB/wM8AWYDUwGnGAADUwGnAzwBZgMlAf/QAAMlAf8DPAFmASEBYwF1AfsBQQJCAXMD
-        NQFVAVgCWgG6AVgCWgG6AzUBVQFBAkIBcwEhAWMBdQH7AzwBZgMlAf/QAAMlAf8DPAFmAQAB0gH6Af8B
+        PAFmAyUB/9AAAyUB/wM8AWYDUwGnGAADUwGnAzwBZgMlAf/QAAMlAf8DPAFmASEBXwFlAfsBQQJCAXMD
+        NQFVAVgCWgG6AVgCWgG6AzUBVQFBAkIBcwEhAV8BZQH7AzwBZgMlAf/QAAMlAf8DPAFmAQAB0gH6Af8B
         XAJ8AfgDPwFsAwsBDgMLAQ4DPwFsAUECagH5AQAB0gH6Af8DPAFmAyUB/9AAAyUB/wM8AWYBAAHSAfoB
         /wM/AWwQAAM/AWwBAAHSAfoB/wM8AWYDJQH/0AADJQH/AzwBZgEAAdIB+gH/AwsBDhAAAwsBDgEAAdIB
         +gH/AzwBZgMlAf/QAAMlAf8DPAFmAQAB0gH6Af8DCwEOEAADCwEOAQAB0gH6Af8DPAFmAyUB/9AAAyUB

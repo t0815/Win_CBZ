@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             ButtonOk = new System.Windows.Forms.Button();
@@ -388,13 +388,13 @@
             tableLayoutPanel9.Controls.Add(FilenameList, 0, 1);
             tableLayoutPanel9.Controls.Add(panel2, 0, 0);
             tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel9.Location = new System.Drawing.Point(108, 458);
+            tableLayoutPanel9.Location = new System.Drawing.Point(26, 458);
             tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(5, 20, 0, 3);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
             tableLayoutPanel9.RowCount = 2;
             tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28F));
             tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72F));
-            tableLayoutPanel9.Size = new System.Drawing.Size(138, 116);
+            tableLayoutPanel9.Size = new System.Drawing.Size(25, 116);
             tableLayoutPanel9.TabIndex = 38;
             // 
             // FilenameList
@@ -407,7 +407,7 @@
             FilenameList.Location = new System.Drawing.Point(0, 36);
             FilenameList.Margin = new System.Windows.Forms.Padding(0, 4, 2, 4);
             FilenameList.Name = "FilenameList";
-            FilenameList.Size = new System.Drawing.Size(136, 76);
+            FilenameList.Size = new System.Drawing.Size(23, 76);
             FilenameList.TabIndex = 28;
             // 
             // panel2
@@ -420,7 +420,7 @@
             panel2.Location = new System.Drawing.Point(0, 0);
             panel2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(135, 30);
+            panel2.Size = new System.Drawing.Size(22, 30);
             panel2.TabIndex = 27;
             // 
             // FilenamesTextbox
@@ -431,7 +431,7 @@
             FilenamesTextbox.Location = new System.Drawing.Point(0, 0);
             FilenamesTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             FilenamesTextbox.Name = "FilenamesTextbox";
-            FilenamesTextbox.Size = new System.Drawing.Size(108, 20);
+            FilenamesTextbox.Size = new System.Drawing.Size(0, 20);
             FilenamesTextbox.TabIndex = 22;
             FilenamesTextbox.KeyDown += FilenamesTextbox_KeyDown;
             // 
@@ -440,7 +440,7 @@
             button3.Dock = System.Windows.Forms.DockStyle.Right;
             button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button3.Image = Properties.Resources.navigate_plus;
-            button3.Location = new System.Drawing.Point(108, 0);
+            button3.Location = new System.Drawing.Point(-5, 0);
             button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             button3.Name = "button3";
             button3.Size = new System.Drawing.Size(25, 28);
@@ -454,7 +454,7 @@
             pictureBox7.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             pictureBox7.Image = Properties.Resources.information;
             pictureBox7.InitialImage = Properties.Resources.information;
-            pictureBox7.Location = new System.Drawing.Point(259, 59);
+            pictureBox7.Location = new System.Drawing.Point(64, 59);
             pictureBox7.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             pictureBox7.Name = "pictureBox7";
             pictureBox7.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -471,10 +471,10 @@
             DirectoryPathTextBox.Controls.Add(TextBoxTempPath);
             DirectoryPathTextBox.Controls.Add(ButtonSelectFolder);
             DirectoryPathTextBox.Dock = System.Windows.Forms.DockStyle.Top;
-            DirectoryPathTextBox.Location = new System.Drawing.Point(108, 20);
+            DirectoryPathTextBox.Location = new System.Drawing.Point(26, 20);
             DirectoryPathTextBox.Margin = new System.Windows.Forms.Padding(5, 20, 3, 2);
             DirectoryPathTextBox.Name = "DirectoryPathTextBox";
-            DirectoryPathTextBox.Size = new System.Drawing.Size(135, 27);
+            DirectoryPathTextBox.Size = new System.Drawing.Size(22, 27);
             DirectoryPathTextBox.TabIndex = 26;
             // 
             // TextBoxTempPath
@@ -485,7 +485,7 @@
             TextBoxTempPath.Location = new System.Drawing.Point(0, 0);
             TextBoxTempPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TextBoxTempPath.Name = "TextBoxTempPath";
-            TextBoxTempPath.Size = new System.Drawing.Size(108, 20);
+            TextBoxTempPath.Size = new System.Drawing.Size(0, 20);
             TextBoxTempPath.TabIndex = 22;
             // 
             // ButtonSelectFolder
@@ -493,7 +493,7 @@
             ButtonSelectFolder.Dock = System.Windows.Forms.DockStyle.Right;
             ButtonSelectFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSelectFolder.Image = Properties.Resources.folder_small;
-            ButtonSelectFolder.Location = new System.Drawing.Point(108, 0);
+            ButtonSelectFolder.Location = new System.Drawing.Point(-5, 0);
             ButtonSelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonSelectFolder.Name = "ButtonSelectFolder";
             ButtonSelectFolder.Size = new System.Drawing.Size(25, 25);
@@ -509,7 +509,7 @@
             label12.Location = new System.Drawing.Point(18, 20);
             label12.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label12.Name = "label12";
-            label12.Size = new System.Drawing.Size(63, 19);
+            label12.Size = new System.Drawing.Size(1, 19);
             label12.TabIndex = 0;
             label12.Text = "Temporary Directory";
             // 
@@ -518,7 +518,7 @@
             pictureBox6.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             pictureBox6.Image = Properties.Resources.information;
             pictureBox6.InitialImage = Properties.Resources.information;
-            pictureBox6.Location = new System.Drawing.Point(259, 0);
+            pictureBox6.Location = new System.Drawing.Point(64, 0);
             pictureBox6.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             pictureBox6.Name = "pictureBox6";
             pictureBox6.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -534,7 +534,7 @@
             label13.Location = new System.Drawing.Point(18, 79);
             label13.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label13.Name = "label13";
-            label13.Size = new System.Drawing.Size(77, 40);
+            label13.Size = new System.Drawing.Size(1, 20);
             label13.TabIndex = 27;
             label13.Text = "Image-Extensions";
             // 
@@ -545,13 +545,13 @@
             tableLayoutPanel7.Controls.Add(ExtensionList, 0, 1);
             tableLayoutPanel7.Controls.Add(panel1, 0, 0);
             tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel7.Location = new System.Drawing.Point(108, 79);
+            tableLayoutPanel7.Location = new System.Drawing.Point(26, 79);
             tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(5, 20, 0, 3);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 2;
             tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28F));
             tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72F));
-            tableLayoutPanel7.Size = new System.Drawing.Size(138, 120);
+            tableLayoutPanel7.Size = new System.Drawing.Size(25, 120);
             tableLayoutPanel7.TabIndex = 28;
             // 
             // ExtensionList
@@ -564,7 +564,7 @@
             ExtensionList.Location = new System.Drawing.Point(0, 37);
             ExtensionList.Margin = new System.Windows.Forms.Padding(0, 4, 2, 4);
             ExtensionList.Name = "ExtensionList";
-            ExtensionList.Size = new System.Drawing.Size(136, 79);
+            ExtensionList.Size = new System.Drawing.Size(23, 79);
             ExtensionList.TabIndex = 28;
             // 
             // panel1
@@ -577,7 +577,7 @@
             panel1.Location = new System.Drawing.Point(0, 0);
             panel1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(135, 31);
+            panel1.Size = new System.Drawing.Size(22, 31);
             panel1.TabIndex = 27;
             // 
             // ExtensionTextBox
@@ -588,7 +588,7 @@
             ExtensionTextBox.Location = new System.Drawing.Point(0, 0);
             ExtensionTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ExtensionTextBox.Name = "ExtensionTextBox";
-            ExtensionTextBox.Size = new System.Drawing.Size(108, 20);
+            ExtensionTextBox.Size = new System.Drawing.Size(0, 20);
             ExtensionTextBox.TabIndex = 22;
             ExtensionTextBox.KeyDown += ExtensionTextBox_KeyDown;
             // 
@@ -597,7 +597,7 @@
             button2.Dock = System.Windows.Forms.DockStyle.Right;
             button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button2.Image = Properties.Resources.navigate_plus;
-            button2.Location = new System.Drawing.Point(108, 0);
+            button2.Location = new System.Drawing.Point(-5, 0);
             button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             button2.Name = "button2";
             button2.Size = new System.Drawing.Size(25, 29);
@@ -612,17 +612,17 @@
             label14.Location = new System.Drawing.Point(18, 222);
             label14.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label14.Name = "label14";
-            label14.Size = new System.Drawing.Size(77, 39);
+            label14.Size = new System.Drawing.Size(1, 20);
             label14.TabIndex = 29;
             label14.Text = "Filter new Pages";
             // 
             // FilterNewPagesByExtCheckBox
             // 
             FilterNewPagesByExtCheckBox.AutoSize = true;
-            FilterNewPagesByExtCheckBox.Location = new System.Drawing.Point(106, 222);
+            FilterNewPagesByExtCheckBox.Location = new System.Drawing.Point(24, 222);
             FilterNewPagesByExtCheckBox.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             FilterNewPagesByExtCheckBox.Name = "FilterNewPagesByExtCheckBox";
-            FilterNewPagesByExtCheckBox.Size = new System.Drawing.Size(137, 24);
+            FilterNewPagesByExtCheckBox.Size = new System.Drawing.Size(24, 24);
             FilterNewPagesByExtCheckBox.TabIndex = 30;
             FilterNewPagesByExtCheckBox.Text = "Only add files with allowed extensions";
             FilterNewPagesByExtCheckBox.UseVisualStyleBackColor = true;
@@ -633,17 +633,17 @@
             label17.Location = new System.Drawing.Point(18, 281);
             label17.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label17.Name = "label17";
-            label17.Size = new System.Drawing.Size(80, 39);
+            label17.Size = new System.Drawing.Size(1, 20);
             label17.TabIndex = 32;
             label17.Text = "Validation Errors";
             // 
             // CheckBoxLogValidationErrors
             // 
             CheckBoxLogValidationErrors.AutoSize = true;
-            CheckBoxLogValidationErrors.Location = new System.Drawing.Point(106, 281);
+            CheckBoxLogValidationErrors.Location = new System.Drawing.Point(24, 281);
             CheckBoxLogValidationErrors.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             CheckBoxLogValidationErrors.Name = "CheckBoxLogValidationErrors";
-            CheckBoxLogValidationErrors.Size = new System.Drawing.Size(108, 24);
+            CheckBoxLogValidationErrors.Size = new System.Drawing.Size(24, 24);
             CheckBoxLogValidationErrors.TabIndex = 33;
             CheckBoxLogValidationErrors.Text = "Print to Log";
             CheckBoxLogValidationErrors.UseVisualStyleBackColor = true;
@@ -651,10 +651,10 @@
             // CheckBoxSaveWindowLayout
             // 
             CheckBoxSaveWindowLayout.AutoSize = true;
-            CheckBoxSaveWindowLayout.Location = new System.Drawing.Point(106, 340);
+            CheckBoxSaveWindowLayout.Location = new System.Drawing.Point(24, 340);
             CheckBoxSaveWindowLayout.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             CheckBoxSaveWindowLayout.Name = "CheckBoxSaveWindowLayout";
-            CheckBoxSaveWindowLayout.Size = new System.Drawing.Size(137, 24);
+            CheckBoxSaveWindowLayout.Size = new System.Drawing.Size(24, 24);
             CheckBoxSaveWindowLayout.TabIndex = 34;
             CheckBoxSaveWindowLayout.Text = "Save / Restore Window Size && Layout";
             CheckBoxSaveWindowLayout.UseVisualStyleBackColor = true;
@@ -665,7 +665,7 @@
             label18.Location = new System.Drawing.Point(18, 340);
             label18.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label18.Name = "label18";
-            label18.Size = new System.Drawing.Size(53, 20);
+            label18.Size = new System.Drawing.Size(1, 20);
             label18.TabIndex = 35;
             label18.Text = "Layout";
             // 
@@ -675,17 +675,17 @@
             label19.Location = new System.Drawing.Point(18, 399);
             label19.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label19.Name = "label19";
-            label19.Size = new System.Drawing.Size(63, 39);
+            label19.Size = new System.Drawing.Size(1, 20);
             label19.TabIndex = 36;
             label19.Text = "Custom Filter";
             // 
             // CheckboxFilterFilenames
             // 
             CheckboxFilterFilenames.AutoSize = true;
-            CheckboxFilterFilenames.Location = new System.Drawing.Point(106, 399);
+            CheckboxFilterFilenames.Location = new System.Drawing.Point(24, 399);
             CheckboxFilterFilenames.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             CheckboxFilterFilenames.Name = "CheckboxFilterFilenames";
-            CheckboxFilterFilenames.Size = new System.Drawing.Size(137, 24);
+            CheckboxFilterFilenames.Size = new System.Drawing.Size(24, 24);
             CheckboxFilterFilenames.TabIndex = 37;
             CheckboxFilterFilenames.Text = "Filter specific files by name";
             CheckboxFilterFilenames.UseVisualStyleBackColor = true;
@@ -695,7 +695,7 @@
             pictureBox13.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             pictureBox13.Image = Properties.Resources.information;
             pictureBox13.InitialImage = Properties.Resources.information;
-            pictureBox13.Location = new System.Drawing.Point(259, 438);
+            pictureBox13.Location = new System.Drawing.Point(64, 438);
             pictureBox13.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             pictureBox13.Name = "pictureBox13";
             pictureBox13.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -712,7 +712,7 @@
             TabPageAppSettings.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             TabPageAppSettings.Name = "TabPageAppSettings";
             TabPageAppSettings.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            TabPageAppSettings.Size = new System.Drawing.Size(311, 427);
+            TabPageAppSettings.Size = new System.Drawing.Size(116, 427);
             TabPageAppSettings.TabIndex = 0;
             TabPageAppSettings.Text = "Metadata Editor";
             TabPageAppSettings.UseVisualStyleBackColor = true;
@@ -741,7 +741,7 @@
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             CustomFieldTypesTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(305, 417);
+            CustomFieldTypesTablePanel.Size = new System.Drawing.Size(110, 417);
             CustomFieldTypesTablePanel.TabIndex = 1;
             // 
             // CustomFieldsDataGrid
@@ -749,24 +749,24 @@
             CustomFieldsDataGrid.AllowUserToAddRows = false;
             CustomFieldsDataGrid.AllowUserToDeleteRows = false;
             CustomFieldsDataGrid.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            CustomFieldsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            CustomFieldsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             CustomFieldsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             CustomFieldTypesTablePanel.SetColumnSpan(CustomFieldsDataGrid, 4);
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            CustomFieldsDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             CustomFieldsDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             CustomFieldsDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             CustomFieldsDataGrid.Location = new System.Drawing.Point(3, 79);
@@ -775,7 +775,7 @@
             CustomFieldsDataGrid.Name = "CustomFieldsDataGrid";
             CustomFieldsDataGrid.RowHeadersWidth = 51;
             CustomFieldsDataGrid.RowTemplate.Height = 24;
-            CustomFieldsDataGrid.Size = new System.Drawing.Size(299, 289);
+            CustomFieldsDataGrid.Size = new System.Drawing.Size(104, 289);
             CustomFieldsDataGrid.TabIndex = 0;
             CustomFieldsDataGrid.CellClick += CustomFieldsDataGrid_CellClick;
             CustomFieldsDataGrid.CellContentClick += CustomFieldsDataGrid_CellContentClick;
@@ -793,7 +793,7 @@
             AddFieldTypeButton.Location = new System.Drawing.Point(3, 381);
             AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             AddFieldTypeButton.Name = "AddFieldTypeButton";
-            AddFieldTypeButton.Size = new System.Drawing.Size(75, 32);
+            AddFieldTypeButton.Size = new System.Drawing.Size(13, 32);
             AddFieldTypeButton.TabIndex = 1;
             AddFieldTypeButton.Text = "Add";
             AddFieldTypeButton.UseVisualStyleBackColor = true;
@@ -814,10 +814,10 @@
             RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             RemoveFieldTypeButton.ImageIndex = 1;
             RemoveFieldTypeButton.ImageList = DialogImages;
-            RemoveFieldTypeButton.Location = new System.Drawing.Point(84, 381);
+            RemoveFieldTypeButton.Location = new System.Drawing.Point(22, 381);
             RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            RemoveFieldTypeButton.Size = new System.Drawing.Size(95, 32);
+            RemoveFieldTypeButton.Size = new System.Drawing.Size(17, 32);
             RemoveFieldTypeButton.TabIndex = 2;
             RemoveFieldTypeButton.Text = "Remove";
             RemoveFieldTypeButton.UseVisualStyleBackColor = true;
@@ -830,7 +830,7 @@
             CheckboxAlwaysInEditMode.Location = new System.Drawing.Point(10, 3);
             CheckboxAlwaysInEditMode.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             CheckboxAlwaysInEditMode.Name = "CheckboxAlwaysInEditMode";
-            CheckboxAlwaysInEditMode.Size = new System.Drawing.Size(241, 35);
+            CheckboxAlwaysInEditMode.Size = new System.Drawing.Size(46, 35);
             CheckboxAlwaysInEditMode.TabIndex = 4;
             CheckboxAlwaysInEditMode.Text = "Begin editing cells immediately";
             CheckboxAlwaysInEditMode.UseVisualStyleBackColor = true;
@@ -843,7 +843,7 @@
             CheckBoxEditModeOnlyValueCol.Location = new System.Drawing.Point(36, 44);
             CheckBoxEditModeOnlyValueCol.Margin = new System.Windows.Forms.Padding(36, 3, 3, 3);
             CheckBoxEditModeOnlyValueCol.Name = "CheckBoxEditModeOnlyValueCol";
-            CheckBoxEditModeOnlyValueCol.Size = new System.Drawing.Size(215, 27);
+            CheckBoxEditModeOnlyValueCol.Size = new System.Drawing.Size(20, 27);
             CheckBoxEditModeOnlyValueCol.TabIndex = 5;
             CheckBoxEditModeOnlyValueCol.Text = "Only apply to \"Value\"- Column";
             CheckBoxEditModeOnlyValueCol.UseVisualStyleBackColor = true;
@@ -852,7 +852,7 @@
             // 
             pictureBox8.Image = Properties.Resources.information;
             pictureBox8.InitialImage = Properties.Resources.information;
-            pictureBox8.Location = new System.Drawing.Point(254, 0);
+            pictureBox8.Location = new System.Drawing.Point(59, 0);
             pictureBox8.Margin = new System.Windows.Forms.Padding(0);
             pictureBox8.Name = "pictureBox8";
             pictureBox8.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
@@ -866,7 +866,7 @@
             // 
             RestoreFieldTypesButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CustomFieldTypesTablePanel.SetColumnSpan(RestoreFieldTypesButton, 2);
-            RestoreFieldTypesButton.Location = new System.Drawing.Point(241, 381);
+            RestoreFieldTypesButton.Location = new System.Drawing.Point(46, 381);
             RestoreFieldTypesButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RestoreFieldTypesButton.Name = "RestoreFieldTypesButton";
             RestoreFieldTypesButton.Size = new System.Drawing.Size(61, 32);
@@ -882,7 +882,7 @@
             TabPageBehaviour.Margin = new System.Windows.Forms.Padding(2);
             TabPageBehaviour.Name = "TabPageBehaviour";
             TabPageBehaviour.Padding = new System.Windows.Forms.Padding(2);
-            TabPageBehaviour.Size = new System.Drawing.Size(311, 427);
+            TabPageBehaviour.Size = new System.Drawing.Size(116, 427);
             TabPageBehaviour.TabIndex = 2;
             TabPageBehaviour.Text = "Behaviour";
             TabPageBehaviour.UseVisualStyleBackColor = true;
@@ -912,7 +912,7 @@
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            tableLayoutPanel4.Size = new System.Drawing.Size(307, 423);
+            tableLayoutPanel4.Size = new System.Drawing.Size(112, 423);
             tableLayoutPanel4.TabIndex = 2;
             // 
             // pictureBox3
@@ -920,7 +920,7 @@
             pictureBox3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             pictureBox3.Image = Properties.Resources.information;
             pictureBox3.InitialImage = Properties.Resources.information;
-            pictureBox3.Location = new System.Drawing.Point(261, 0);
+            pictureBox3.Location = new System.Drawing.Point(66, 0);
             pictureBox3.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -933,10 +933,10 @@
             // CheckBoxSkipIndexCheck
             // 
             CheckBoxSkipIndexCheck.AutoSize = true;
-            CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(113, 20);
+            CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(31, 20);
             CheckBoxSkipIndexCheck.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxSkipIndexCheck.Name = "CheckBoxSkipIndexCheck";
-            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(132, 24);
+            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(19, 24);
             CheckBoxSkipIndexCheck.TabIndex = 8;
             CheckBoxSkipIndexCheck.Text = "Skip index check";
             CheckBoxSkipIndexCheck.UseVisualStyleBackColor = true;
@@ -947,7 +947,7 @@
             label9.Location = new System.Drawing.Point(18, 20);
             label9.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(50, 19);
+            label9.Size = new System.Drawing.Size(1, 19);
             label9.TabIndex = 9;
             label9.Text = "Verify Index";
             // 
@@ -957,17 +957,17 @@
             label7.Location = new System.Drawing.Point(18, 79);
             label7.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(80, 39);
+            label7.Size = new System.Drawing.Size(1, 20);
             label7.TabIndex = 10;
             label7.Text = "Temporary Files";
             // 
             // CheckBoxDeleteTempFiles
             // 
             CheckBoxDeleteTempFiles.AutoSize = true;
-            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(113, 79);
+            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(31, 79);
             CheckBoxDeleteTempFiles.Margin = new System.Windows.Forms.Padding(9, 20, 3, 4);
             CheckBoxDeleteTempFiles.Name = "CheckBoxDeleteTempFiles";
-            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(132, 24);
+            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(19, 24);
             CheckBoxDeleteTempFiles.TabIndex = 11;
             CheckBoxDeleteTempFiles.Text = "Delete Immediately";
             CheckBoxDeleteTempFiles.UseVisualStyleBackColor = true;
@@ -978,17 +978,17 @@
             label8.Location = new System.Drawing.Point(18, 138);
             label8.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(63, 20);
+            label8.Size = new System.Drawing.Size(1, 20);
             label8.TabIndex = 12;
             label8.Text = "Hashing";
             // 
             // CheckBoxCalculateCrc
             // 
             CheckBoxCalculateCrc.AutoSize = true;
-            CheckBoxCalculateCrc.Location = new System.Drawing.Point(113, 138);
+            CheckBoxCalculateCrc.Location = new System.Drawing.Point(31, 138);
             CheckBoxCalculateCrc.Margin = new System.Windows.Forms.Padding(9, 20, 3, 3);
             CheckBoxCalculateCrc.Name = "CheckBoxCalculateCrc";
-            CheckBoxCalculateCrc.Size = new System.Drawing.Size(132, 24);
+            CheckBoxCalculateCrc.Size = new System.Drawing.Size(19, 24);
             CheckBoxCalculateCrc.TabIndex = 13;
             CheckBoxCalculateCrc.Text = "Calculate crc32 for new pages";
             CheckBoxCalculateCrc.UseVisualStyleBackColor = true;
@@ -998,7 +998,7 @@
             pictureBox4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             pictureBox4.Image = Properties.Resources.information;
             pictureBox4.InitialImage = Properties.Resources.information;
-            pictureBox4.Location = new System.Drawing.Point(261, 118);
+            pictureBox4.Location = new System.Drawing.Point(66, 118);
             pictureBox4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
