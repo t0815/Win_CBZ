@@ -290,6 +290,7 @@
             PagesList.TabIndex = 8;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
+            PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
             PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             PagesList.MouseDoubleClick += PagesList_MouseDoubleClick;
             // 

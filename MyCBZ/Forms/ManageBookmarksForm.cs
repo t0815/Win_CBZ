@@ -373,27 +373,7 @@ namespace Win_CBZ.Forms
 
         private void PagesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            toolStripButton4.Enabled = PagesList.SelectedItems.Count > 0;
-
-            if (PagesList.SelectedItems.Count > 0)
-            {
-                if (previewPage != null)
-                {
-                    previewPage.FreeImage();
-                }
-
-                previewPage = new Page((Page)PagesList.SelectedItems[0].Tag, true);
-                PreviewPictureBox.Image = previewPage.GetThumbnail(286, 396);
-            }
-            else
-            {
-                if (previewPage != null)
-                {
-                    previewPage.FreeImage();
-                }
-
-                previewPage = null;
-            }
+            
         }
 
         private void ToolStripButton2_Click(object sender, EventArgs e)
@@ -469,6 +449,41 @@ namespace Win_CBZ.Forms
                 DialogResult = DialogResult.Cancel;
                 Close();
             }
+        }
+
+        private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            toolStripButton4.Enabled = PagesList.SelectedItems.Count > 0;
+
+            if (PagesList.SelectedItems.Count == 1)
+            {
+                if ((e.Item.Tag as Page).Id != previewPage?.Id)
+                {
+                    if (previewPage != null)
+                    {
+                        PreviewPictureBox.Image = null;
+                        previewPage.FreeImage();
+                    }
+
+                    previewPage = new Page((Page)e.Item.Tag, true);
+                    PreviewPictureBox.Image = previewPage.GetThumbnail(286, 396);
+                }
+            }
+            /*
+            else
+            {
+                if (PagesList.SelectedItems.Count == 0)
+                {
+                    PreviewPictureBox.Image = null;
+                    if (previewPage != null)
+                    {
+                        previewPage.FreeImage();
+                    }
+
+                    //previewPage = null;
+                }
+            }
+            */
         }
     }
 }
