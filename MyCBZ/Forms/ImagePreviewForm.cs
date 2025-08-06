@@ -28,6 +28,8 @@ namespace Win_CBZ
         private int minW = 0;
         private int minH = 0;
 
+        private Task<bool> chapterExtractionTask = null;
+
         private bool showChapters = false;
 
         public ImagePreviewForm(Page page)
@@ -71,11 +73,23 @@ namespace Win_CBZ
                     PageImagePreview.ImageLocation = null;
                 }
 
-                Task.Run(() =>
+                chapterExtractionTask = new Task<bool>(() =>
                 {
                     try
                     {
                         string currentBookmark = "";
+                        int total = Program.ProjectModel.Pages.Count;
+                        int currentIndex = 0;
+
+                        Invoke(new Action(() =>
+                        {
+                            ListboxChapters.Items.Clear();
+                            ChapterImagesList.Images.Clear();
+                            ExtractionProgressBar.Value = 0;
+                            ExtractionProgressBar.Maximum = total;
+                            ExtractionProgressBar.Visible = true;
+                            toolStripLabel3.Visible = true;
+                        }));
 
                         Program.ProjectModel.Pages.ForEach(p =>
                         {
@@ -88,19 +102,36 @@ namespace Win_CBZ
                                 {
                                     ListboxChapters.Items.Add(p);
                                     ChapterImagesList.Images.Add(p.Id, p.GetThumbnail(48, 67));
+                                    ExtractionProgressBar.Value = currentIndex;
                                 }));
 
                             }
+                            currentIndex++;
 
                             Thread.Sleep(3); // to avoid UI freeze
                         });
+
+                        return true;
                     }
                     catch (Exception e)
                     {
                         ApplicationMessage.ShowException(e);
+
+                        return false;
                     }
                 });
 
+                chapterExtractionTask.ContinueWith(t =>
+                {
+                    Invoke(new Action(() =>
+                    {
+                        ExtractionProgressBar.Visible = false;
+                        toolStripLabel3.Visible = false;
+                       
+                    }));
+                });
+
+                chapterExtractionTask.Start();
             }
             catch (Exception e2)
             {
@@ -360,7 +391,7 @@ namespace Win_CBZ
                     backgroundColor = SystemColors.Window;
                 }
 
-       
+
 
                 System.Drawing.SolidBrush bg = new SolidBrush(backgroundColor);
 
@@ -372,7 +403,7 @@ namespace Win_CBZ
                     e.Graphics.DrawImage(ChapterImagesList.Images[page.Id], e.Bounds.X + 3, e.Bounds.Y + 3);
                 }
 
-              
+
             }
         }
 
@@ -387,6 +418,16 @@ namespace Win_CBZ
                     TextBoxJumpPage.Text = page.Number.ToString();
                     HandlePageNavigation(1, page.Index);
                 }
+            }
+        }
+
+        private void ImagePreviewForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (chapterExtractionTask != null && chapterExtractionTask.Status == TaskStatus.Running)
+            {
+                ApplicationMessage.ShowWarning("Please wait until the chapter extraction is finished before closing the preview window.", "Chapter extraction still running!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+
+                e.Cancel = true;
             }
         }
     }

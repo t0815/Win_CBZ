@@ -41,6 +41,9 @@
             TextBoxJumpPage = new System.Windows.Forms.ToolStripTextBox();
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            ExtractionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             ExportImageDialog = new System.Windows.Forms.SaveFileDialog();
             SplitBoxPageView = new System.Windows.Forms.SplitContainer();
             PageImagePreview = new System.Windows.Forms.PictureBox();
@@ -58,11 +61,11 @@
             // 
             PreviewToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             PreviewToolStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-            PreviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButton1, toolStripSeparator1, toolStripButton3, toolStripButton4, toolStripSeparator2, toolStripButton2, toolStripLabel2, TextBoxJumpPage, toolStripSeparator3, toolStripLabel1 });
+            PreviewToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButton1, toolStripSeparator1, toolStripButton3, toolStripButton4, toolStripSeparator2, toolStripButton2, toolStripLabel2, TextBoxJumpPage, toolStripSeparator3, toolStripLabel1, toolStripSeparator4, toolStripLabel3, ExtractionProgressBar });
             PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             PreviewToolStrip.Name = "PreviewToolStrip";
             PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            PreviewToolStrip.Size = new System.Drawing.Size(601, 31);
+            PreviewToolStrip.Size = new System.Drawing.Size(607, 31);
             PreviewToolStrip.TabIndex = 1;
             PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -142,6 +145,24 @@
             toolStripLabel1.Size = new System.Drawing.Size(319, 28);
             toolStripLabel1.Text = "Preview Mode (Arrow Left/- Right to Navigate)";
             // 
+            // toolStripSeparator4
+            // 
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new System.Drawing.Size(6, 31);
+            // 
+            // toolStripLabel3
+            // 
+            toolStripLabel3.Name = "toolStripLabel3";
+            toolStripLabel3.Size = new System.Drawing.Size(185, 28);
+            toolStripLabel3.Text = "Extracting Chapter-Images";
+            toolStripLabel3.Visible = false;
+            // 
+            // ExtractionProgressBar
+            // 
+            ExtractionProgressBar.Name = "ExtractionProgressBar";
+            ExtractionProgressBar.Size = new System.Drawing.Size(100, 28);
+            ExtractionProgressBar.Visible = false;
+            // 
             // ExportImageDialog
             // 
             ExportImageDialog.Filter = "Bitmap|*.bmp|Jpeg|*.jpg|Png|*png";
@@ -150,7 +171,7 @@
             // 
             SplitBoxPageView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             SplitBoxPageView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            SplitBoxPageView.Location = new System.Drawing.Point(3, 34);
+            SplitBoxPageView.Location = new System.Drawing.Point(0, 43);
             SplitBoxPageView.Name = "SplitBoxPageView";
             // 
             // SplitBoxPageView.Panel1
@@ -162,7 +183,7 @@
             // 
             SplitBoxPageView.Panel2.Controls.Add(ListboxChapters);
             SplitBoxPageView.Panel2Collapsed = true;
-            SplitBoxPageView.Size = new System.Drawing.Size(1296, 545);
+            SplitBoxPageView.Size = new System.Drawing.Size(1299, 536);
             SplitBoxPageView.SplitterDistance = 1025;
             SplitBoxPageView.TabIndex = 2;
             // 
@@ -180,13 +201,13 @@
             // 
             // ListboxChapters
             // 
-            ListboxChapters.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ListboxChapters.Dock = System.Windows.Forms.DockStyle.Fill;
             ListboxChapters.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             ListboxChapters.FormattingEnabled = true;
             ListboxChapters.ItemHeight = 73;
-            ListboxChapters.Location = new System.Drawing.Point(3, 5);
+            ListboxChapters.Location = new System.Drawing.Point(0, 0);
             ListboxChapters.Name = "ListboxChapters";
-            ListboxChapters.Size = new System.Drawing.Size(262, 442);
+            ListboxChapters.Size = new System.Drawing.Size(268, 534);
             ListboxChapters.TabIndex = 0;
             ListboxChapters.DrawItem += ListboxChapters_DrawItem;
             ListboxChapters.SelectedIndexChanged += ListboxChapters_SelectedIndexChanged;
@@ -210,6 +231,7 @@
             Name = "ImagePreviewForm";
             StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             Text = "Preview";
+            FormClosing += ImagePreviewForm_FormClosing;
             FormClosed += ImagePreviewForm_FormClosed;
             Load += ImagePreviewForm_Load;
             KeyDown += ImagePreviewForm_KeyDown;
@@ -244,5 +266,8 @@
         private System.Windows.Forms.PictureBox PageImagePreview;
         private System.Windows.Forms.ListBox ListboxChapters;
         private System.Windows.Forms.ImageList ChapterImagesList;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripProgressBar ExtractionProgressBar;
     }
 }

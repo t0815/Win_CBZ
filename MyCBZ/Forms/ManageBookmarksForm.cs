@@ -25,6 +25,12 @@ namespace Win_CBZ.Forms
 
         protected TreeNode _selectedNode = null;
 
+        protected Page previewPage = null;
+
+        protected Page previewPageFull = null;
+
+        protected ImagePreviewForm previewForm = null;
+
         public ManageBookmarksForm(MetaData metaData, List<Page> pages)
         {
             InitializeComponent();
@@ -368,6 +374,26 @@ namespace Win_CBZ.Forms
         private void PagesList_SelectedIndexChanged(object sender, EventArgs e)
         {
             toolStripButton4.Enabled = PagesList.SelectedItems.Count > 0;
+
+            if (PagesList.SelectedItems.Count > 0)
+            {
+                if (previewPage != null)
+                {
+                    previewPage.FreeImage();
+                }
+
+                previewPage = new Page((Page)PagesList.SelectedItems[0].Tag, true);
+                PreviewPictureBox.Image = previewPage.GetThumbnail(286, 396);
+            }
+            else
+            {
+                if (previewPage != null)
+                {
+                    previewPage.FreeImage();
+                }
+
+                previewPage = null;
+            }
         }
 
         private void ToolStripButton2_Click(object sender, EventArgs e)
@@ -415,7 +441,34 @@ namespace Win_CBZ.Forms
                 selected.Text = TextBoxBookmarkName.Text.Trim();
                 selected.Name = TextBoxBookmarkName.Text.Trim();
             }
-         
+
+        }
+
+        private void PagesList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (PagesList.SelectedItems.Count > 0)
+            {
+
+                previewPageFull = new Page((Page)PagesList.SelectedItems[0].Tag, true);
+
+                previewForm = new ImagePreviewForm(previewPageFull);
+                previewForm.ShowDialog();
+                previewForm.Dispose();
+
+                previewForm = null;
+
+                previewPageFull.FreeImage();
+                previewPageFull = null;
+            }
+        }
+
+        private void ManageBookmarksForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
         }
     }
 }
