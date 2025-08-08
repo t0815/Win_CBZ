@@ -200,6 +200,33 @@ namespace Win_CBZ
                 try
                 {
                     displayPage = new Page(Program.ProjectModel.GetNextAvailablePage(newIndex, direction), true);
+                    Task.Factory.StartNew(() =>
+                    {
+                        try
+                        {
+                            foreach (Page p in ListboxChapters.Items)
+                            {
+                                if (p.Bookmark == displayPage.Bookmark)
+                                {
+                                    Invoke(new Action(() =>
+                                    {
+                                        ListboxChapters.SelectedItem = p;
+                                        ListboxChapters.TopIndex = ListboxChapters.Items.IndexOf(p);
+                                    }));
+                                    break;
+                                }
+                            }
+
+                            return true;
+                        }
+                        catch (Exception e)
+                        {
+                            ApplicationMessage.ShowException(e);
+
+                            return false;
+                        }
+                    });
+
                 }
                 catch (ApplicationException ae)
                 {
