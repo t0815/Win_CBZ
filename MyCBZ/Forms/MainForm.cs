@@ -4943,6 +4943,17 @@ namespace Win_CBZ
 
             ToolButtonSetPageType.Enabled = buttonStateSelected;
 
+            if (PagesList.SelectedItems.Count == 1)
+            {
+                if (Win_CBZSettings.Default.JumpToPage)
+                {
+                    if (PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page) > -1)
+                    {
+                        PageThumbsListBox.TopIndex = PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page);
+                    }
+                }            
+            }
+
             if (buttonStateSelected)
             {
                 if (!((Page)selectedPages[0].Tag).ImageInfoRequested && (((Page)selectedPages[0].Tag).Format == null || (((Page)selectedPages[0].Tag).Format.W == 0 && ((Page)selectedPages[0].Tag).Format.H == 0)))
@@ -5760,6 +5771,7 @@ namespace Win_CBZ
 
                 Win_CBZSettings.Default.LogValidationErrors = settingsDialog.LogValidationErrors;
                 Win_CBZSettings.Default.RestoreWindowLayout = settingsDialog.RestoreWindowPosition;
+                Win_CBZSettings.Default.JumpToPage = settingsDialog.JumpToSelectedPage;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 

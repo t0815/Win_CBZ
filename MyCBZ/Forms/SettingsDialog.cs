@@ -87,6 +87,8 @@ namespace Win_CBZ.Forms
 
         public bool RestoreWindowPosition;
 
+        public bool JumpToSelectedPage;
+
         public bool LogValidationErrors;
 
         DataValidation validation;
@@ -160,6 +162,7 @@ namespace Win_CBZ.Forms
             CompressionLevel = Win_CBZSettings.Default.CompressionLevel;
             CompatibilityMode = Win_CBZSettings.Default.CompatMode;
             IgnoreErrors = Win_CBZSettings.Default.IgnoreErrorsOnSave;
+            JumpToSelectedPage = Win_CBZSettings.Default.JumpToPage;
 
             RestoreWindowPosition = Win_CBZSettings.Default.RestoreWindowLayout;
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
@@ -190,6 +193,7 @@ namespace Win_CBZ.Forms
             CheckBoxPruneEmplyTags.Checked = OmitEmptyXMLTags;
             CheckBoxSkipIndexCheck.Checked = SkipIndexCheck;
             CheckBoxCalculateCrc.Checked = CalculateCrc32;
+            CheckBoxJumpToPage.Checked = JumpToSelectedPage;
 
             ComboBoxFileName.Text = MetaDataFilename;
             CheckboxAlwaysInEditMode.Checked = MetadataGridEditMode;
@@ -680,9 +684,12 @@ namespace Win_CBZ.Forms
                     MetaDataFilename = ComboBoxFileName.Text;
                     MetaPageIndexWriteVersion = ComboBoxPageIndexVersionWrite.SelectedIndex + 1;
                     OmitEmptyXMLTags = CheckBoxPruneEmplyTags.Checked;
+                    
                     DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
                     SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
+                    JumpToSelectedPage = CheckBoxJumpToPage.Checked;
+
                     InterpolationMode = ComboBoxInterpolationModes.SelectedItem.ToString();// ComboBoxInterpolationModes.SelectedIndex;
                     TempPath = TextBoxTempPath.Text;
 

@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.23.195b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.23.196b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
@@ -710,6 +710,18 @@ namespace Win_CBZ {
             }
             set {
                 this["FilterSpecificFilenames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool JumpToPage {
+            get {
+                return ((bool)(this["JumpToPage"]));
+            }
+            set {
+                this["JumpToPage"] = value;
             }
         }
     }

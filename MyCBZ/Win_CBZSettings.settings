@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%APPDATA%\WIN_CBZ\Temp\</Value>
     </Setting>
     <Setting Name="InstalledVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.23.195b</Value>
+      <Value Profile="(Default)">0.23.196b</Value>
     </Setting>
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -194,6 +194,9 @@
     </Setting>
     <Setting Name="FilterSpecificFilenames" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="JumpToPage" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
