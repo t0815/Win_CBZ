@@ -94,7 +94,7 @@ namespace Win_CBZ
                         Program.ProjectModel.Pages.ForEach(p =>
                         {
 
-                            if (currentBookmark != p.Bookmark && p.Bookmark.Length > 0)
+                            if (currentBookmark != p.Bookmark && p.Bookmark?.Length > 0)
                             {
                                 currentBookmark = p.Bookmark;
 
@@ -399,6 +399,11 @@ namespace Win_CBZ
 
         private void ListboxChapters_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
             Page page = ListboxChapters.Items[e.Index] as Page;
 
             if (page != null)

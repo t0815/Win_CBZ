@@ -642,7 +642,8 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.FilterByExtension,
                     Win_CBZSettings.Default.ImageExtenstionList,
                     Win_CBZSettings.Default.FilterSpecificFilenames,
-                    Win_CBZSettings.Default.FilteredFilenamesList
+                    Win_CBZSettings.Default.FilteredFilenamesList,
+                    Win_CBZSettings.Default.DetectDoublePages
                     );
                 //if (files.Count > 0)
                 //{
@@ -3054,7 +3055,8 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.FilterByExtension,
                     Win_CBZSettings.Default.ImageExtenstionList,
                     Win_CBZSettings.Default.FilterSpecificFilenames,
-                    Win_CBZSettings.Default.FilteredFilenamesList
+                    Win_CBZSettings.Default.FilteredFilenamesList,
+                    Win_CBZSettings.Default.DetectDoublePages
                     );
             }
         }
@@ -5772,6 +5774,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.LogValidationErrors = settingsDialog.LogValidationErrors;
                 Win_CBZSettings.Default.RestoreWindowLayout = settingsDialog.RestoreWindowPosition;
                 Win_CBZSettings.Default.JumpToPage = settingsDialog.JumpToSelectedPage;
+                Win_CBZSettings.Default.DetectDoublePages = settingsDialog.DetectDoublePages;
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 

@@ -25,6 +25,8 @@ namespace Win_CBZ.Data
 
         public bool HashFiles { get; set; } = false;
 
+        public bool DetectDoublePages { get; set; } = false;
+
         public string Interpolation { get; set; } = "Default";
     }
 }

@@ -39,8 +39,6 @@ using System.Text.RegularExpressions;
 using Win_CBZ.Hash;
 using System.Drawing.Drawing2D;
 using System.Numerics;
-using System.Speech.Recognition;
-using static ScintillaNET.Style;
 
 namespace Win_CBZ
 {
@@ -279,6 +277,7 @@ namespace Win_CBZ
                         MaxCountPages = p.MaxCountPages,
                         Interpolation = p.Interpolation,
                         HashFiles = p.HashFiles,
+                        DetectDoublePages = p.DetectDoublePages,
                         ContinuePipeline = true,
                     });
                 });
@@ -2249,7 +2248,10 @@ namespace Win_CBZ
                     try
                     {
                         page.LoadImage(true);    // dont load full image here!
-
+                        if (tParams.DetectDoublePages)
+                        {
+                            page.DoublePage = page.Format.W > 0 && page.Format.H > 0 && page.Format.W > page.Format.H;
+                        }
                     }
                     catch (PageException pe)
                     {
@@ -2337,7 +2339,8 @@ namespace Win_CBZ
             bool filterExtensions = false,
             string filterExtensionList = "",
             bool filterFilenames = false,
-            string filterFilenamesList = ""
+            string filterFilenamesList = "",
+            bool detectDoublePages = false
             )
         {
 
@@ -2362,6 +2365,7 @@ namespace Win_CBZ
                 ContinuePipeline = true,
                 MaxCountPages = Pages.Count,
                 HashFiles = hashFiles,
+                DetectDoublePages = detectDoublePages,
                 Interpolation = interpolationMode,
                 FilterExtensions = filterExtensions,
                 AllowedExtensions = filterExtensionList.Split('|').ToArray<String>(),
@@ -2466,6 +2470,7 @@ namespace Win_CBZ
                                 CancelToken = tParams.CancelToken,
                                 ContinuePipeline = true,
                                 HashFiles = tParams.HashFiles,
+                                DetectDoublePages = tParams.DetectDoublePages,
                                 Interpolation = tParams.Interpolation,
                             }
                         },

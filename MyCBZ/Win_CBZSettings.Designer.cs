@@ -724,5 +724,17 @@ namespace Win_CBZ {
                 this["JumpToPage"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DetectDoublePages {
+            get {
+                return ((bool)(this["DetectDoublePages"]));
+            }
+            set {
+                this["DetectDoublePages"] = value;
+            }
+        }
     }
 }

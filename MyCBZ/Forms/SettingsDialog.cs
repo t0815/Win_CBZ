@@ -65,6 +65,8 @@ namespace Win_CBZ.Forms
 
         public bool SkipIndexCheck;
 
+        public bool DetectDoublePages;
+
         public bool CalculateCrc32;
 
         public string InterpolationMode;
@@ -143,10 +145,10 @@ namespace Win_CBZ.Forms
 
             OmitEmptyXMLTags = Win_CBZSettings.Default.OmitEmptyXMLTags;
 
+            DetectDoublePages = Win_CBZSettings.Default.DetectDoublePages;
+
             DeleteTempFilesImediately = Win_CBZSettings.Default.AutoDeleteTempFiles;
-
             SkipIndexCheck = Win_CBZSettings.Default.SkipIndexCheck;
-
             CalculateCrc32 = Win_CBZSettings.Default.CalculateHash;
 
             InterpolationMode = Win_CBZSettings.Default.InterpolationMode;
@@ -166,6 +168,7 @@ namespace Win_CBZ.Forms
 
             RestoreWindowPosition = Win_CBZSettings.Default.RestoreWindowLayout;
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
+
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
@@ -194,6 +197,8 @@ namespace Win_CBZ.Forms
             CheckBoxSkipIndexCheck.Checked = SkipIndexCheck;
             CheckBoxCalculateCrc.Checked = CalculateCrc32;
             CheckBoxJumpToPage.Checked = JumpToSelectedPage;
+
+            CheckboxDetectDoublePages.Checked = DetectDoublePages;
 
             ComboBoxFileName.Text = MetaDataFilename;
             CheckboxAlwaysInEditMode.Checked = MetadataGridEditMode;
@@ -684,7 +689,9 @@ namespace Win_CBZ.Forms
                     MetaDataFilename = ComboBoxFileName.Text;
                     MetaPageIndexWriteVersion = ComboBoxPageIndexVersionWrite.SelectedIndex + 1;
                     OmitEmptyXMLTags = CheckBoxPruneEmplyTags.Checked;
-                    
+
+                    DetectDoublePages = CheckboxDetectDoublePages.Checked;
+
                     DeleteTempFilesImediately = CheckBoxDeleteTempFiles.Checked;
                     SkipIndexCheck = CheckBoxSkipIndexCheck.Checked;
                     CalculateCrc32 = CheckBoxCalculateCrc.Checked;
