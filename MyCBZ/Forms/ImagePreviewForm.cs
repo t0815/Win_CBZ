@@ -210,8 +210,10 @@ namespace Win_CBZ
                                 {
                                     Invoke(new Action(() =>
                                     {
+                                        ListboxChapters.SelectedIndexChanged -= ListboxChapters_SelectedIndexChanged;
                                         ListboxChapters.SelectedItem = p;
                                         ListboxChapters.TopIndex = ListboxChapters.Items.IndexOf(p);
+                                        ListboxChapters.SelectedIndexChanged += ListboxChapters_SelectedIndexChanged;
                                     }));
                                     break;
                                 }

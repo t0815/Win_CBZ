@@ -182,7 +182,6 @@
             // SplitBoxPageView.Panel2
             // 
             SplitBoxPageView.Panel2.Controls.Add(ListboxChapters);
-            SplitBoxPageView.Panel2Collapsed = true;
             SplitBoxPageView.Size = new System.Drawing.Size(1299, 536);
             SplitBoxPageView.SplitterDistance = 1025;
             SplitBoxPageView.TabIndex = 2;
