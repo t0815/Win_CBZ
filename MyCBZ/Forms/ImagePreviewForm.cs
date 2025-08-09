@@ -28,6 +28,8 @@ namespace Win_CBZ
         private int minW = 0;
         private int minH = 0;
 
+        private bool closing = false;
+
         private Task<bool> chapterExtractionTask = null;
 
         private bool showChapters = false;
@@ -38,6 +40,8 @@ namespace Win_CBZ
 
             try
             {
+                TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES);
+
                 displayPage = new Page(page, true, true);  // todo: memory copy?
 
                 currentIndex = page.Index;
@@ -98,15 +102,32 @@ namespace Win_CBZ
                             {
                                 currentBookmark = p.Bookmark;
 
-                                Invoke(new Action(() =>
+                                if (!TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES).IsCancellationRequested)
                                 {
-                                    ListboxChapters.Items.Add(p);
-                                    ChapterImagesList.Images.Add(p.Id, p.GetThumbnail(48, 67));
-                                    ExtractionProgressBar.Value = currentIndex;
-                                }));
+                                    Invoke(new Action(() =>
+                                    {
+                                        ListboxChapters.Items.Add(p);
+                                        ChapterImagesList.Images.Add(p.Id, p.GetThumbnail(48, 67));
+                                        ExtractionProgressBar.Value = currentIndex;
+                                    }));
+                                }
 
                             }
                             currentIndex++;
+
+                            if (TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES).IsCancellationRequested)
+                            {
+                                if (!closing)
+                                {
+                                    Invoke(new Action(() =>
+                                    {
+                                        ExtractionProgressBar.Visible = false;
+                                        toolStripLabel3.Visible = false;
+                                    }));
+                                }
+                                
+                                return;
+                            }
 
                             Thread.Sleep(3); // to avoid UI freeze
                         });
@@ -119,16 +140,19 @@ namespace Win_CBZ
 
                         return false;
                     }
-                });
+                }, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES).Token);
 
                 chapterExtractionTask.ContinueWith(t =>
                 {
-                    Invoke(new Action(() =>
+                    if (!TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES).IsCancellationRequested)
                     {
-                        ExtractionProgressBar.Visible = false;
-                        toolStripLabel3.Visible = false;
-                       
-                    }));
+                        Invoke(new Action(() =>
+                        {
+                            ExtractionProgressBar.Visible = false;
+                            toolStripLabel3.Visible = false;
+
+                        }));
+                    }
                 });
 
                 chapterExtractionTask.Start();
@@ -457,12 +481,16 @@ namespace Win_CBZ
 
         private void ImagePreviewForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (chapterExtractionTask != null && chapterExtractionTask.Status == TaskStatus.Running)
-            {
-                ApplicationMessage.ShowWarning("Please wait until the chapter extraction is finished before closing the preview window.", "Chapter extraction still running!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+            closing = true;
 
-                e.Cancel = true;
-            }
+            TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES).Cancel();
+
+            //if (chapterExtractionTask != null && chapterExtractionTask.Status == TaskStatus.Running)
+           // {
+           //     ApplicationMessage.ShowWarning("Please wait until the chapter extraction is finished before closing the preview window.", "Chapter extraction still running!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
+           //
+           //     e.Cancel = true;
+           // }
         }
     }
 }

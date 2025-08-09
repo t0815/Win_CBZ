@@ -378,7 +378,7 @@ namespace Win_CBZ.Forms
 
         private void ToolStripButton2_Click(object sender, EventArgs e)
         {
-            string bookmarkName = TextBoxBookmarkName.Text.Trim();
+            string bookmarkNameNew = TextBoxBookmarkName.Text.Trim();
 
             TreeNode selected = BookmarksTree.SelectedNode;
 
@@ -389,7 +389,7 @@ namespace Win_CBZ.Forms
                     selected = BookmarksTree.SelectedNode.Parent;
                 }
 
-                bookmarkName = selected.Text;
+                string bookmarkName = selected.Text;
 
                 if (TextBoxBookmarkName.Text.Trim().Length == 0)
                 {
@@ -399,7 +399,9 @@ namespace Win_CBZ.Forms
                     return;
                 }
 
-                if (BookmarksTree.Nodes.IndexOfKey(TextBoxBookmarkName.Text.Trim()) != -1)
+                int index = BookmarksTree.Nodes.IndexOfKey(bookmarkNameNew);
+
+                if (index > -1 && selected.Index != index)
                 {
                     ApplicationMessage.ShowError("A bookmark with this name already exists.", "Error");
                     TextBoxBookmarkName.Focus();
@@ -412,14 +414,14 @@ namespace Win_CBZ.Forms
                     Page page = (Page)item.Tag;
                     if (page.Bookmark == bookmarkName)
                     {
-                        item.SubItems[2].Text = TextBoxBookmarkName.Text.Trim();
-                        page.Bookmark = TextBoxBookmarkName.Text.Trim();
+                        item.SubItems[2].Text = bookmarkNameNew;
+                        page.Bookmark = bookmarkNameNew;
                         //AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
                 }
 
-                selected.Text = TextBoxBookmarkName.Text.Trim();
-                selected.Name = TextBoxBookmarkName.Text.Trim();
+                selected.Text = bookmarkNameNew;
+                selected.Name = bookmarkNameNew;
             }
 
         }

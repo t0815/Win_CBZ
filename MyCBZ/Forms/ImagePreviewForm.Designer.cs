@@ -65,7 +65,7 @@
             PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             PreviewToolStrip.Name = "PreviewToolStrip";
             PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            PreviewToolStrip.Size = new System.Drawing.Size(607, 31);
+            PreviewToolStrip.Size = new System.Drawing.Size(933, 31);
             PreviewToolStrip.TabIndex = 1;
             PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -207,7 +207,7 @@
             ListboxChapters.ItemHeight = 73;
             ListboxChapters.Location = new System.Drawing.Point(0, 0);
             ListboxChapters.Name = "ListboxChapters";
-            ListboxChapters.Size = new System.Drawing.Size(268, 534);
+            ListboxChapters.Size = new System.Drawing.Size(94, 98);
             ListboxChapters.TabIndex = 0;
             ListboxChapters.DrawItem += ListboxChapters_DrawItem;
             ListboxChapters.SelectedIndexChanged += ListboxChapters_SelectedIndexChanged;

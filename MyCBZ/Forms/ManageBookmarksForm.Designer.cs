@@ -49,14 +49,14 @@
             toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             BookmarksTree = new System.Windows.Forms.TreeView();
+            OkButton = new System.Windows.Forms.Button();
+            CancelBtn = new System.Windows.Forms.Button();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
+            splitContainer1 = new System.Windows.Forms.SplitContainer();
             PagesList = new System.Windows.Forms.ListView();
             ColName = new System.Windows.Forms.ColumnHeader();
             ColIndex = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            OkButton = new System.Windows.Forms.Button();
-            CancelBtn = new System.Windows.Forms.Button();
-            pictureBox2 = new System.Windows.Forms.PictureBox();
-            panel1 = new System.Windows.Forms.Panel();
             PreviewPictureBox = new System.Windows.Forms.PictureBox();
             BookmarkEditorTooltip = new System.Windows.Forms.ToolTip(components);
             BookmarkEditorTableLayout.SuspendLayout();
@@ -67,7 +67,10 @@
             flowLayoutPanel2.SuspendLayout();
             toolStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel1.SuspendLayout();
+            splitContainer1.Panel2.SuspendLayout();
+            splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PreviewPictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -83,11 +86,10 @@
             BookmarkEditorTableLayout.Controls.Add(flowLayoutPanel1, 1, 2);
             BookmarkEditorTableLayout.Controls.Add(flowLayoutPanel2, 2, 2);
             BookmarkEditorTableLayout.Controls.Add(BookmarksTree, 2, 3);
-            BookmarkEditorTableLayout.Controls.Add(PagesList, 1, 3);
             BookmarkEditorTableLayout.Controls.Add(OkButton, 2, 6);
             BookmarkEditorTableLayout.Controls.Add(CancelBtn, 3, 6);
             BookmarkEditorTableLayout.Controls.Add(pictureBox2, 1, 6);
-            BookmarkEditorTableLayout.Controls.Add(panel1, 1, 4);
+            BookmarkEditorTableLayout.Controls.Add(splitContainer1, 1, 3);
             BookmarkEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             BookmarkEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             BookmarkEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -280,34 +282,6 @@
             BookmarksTree.TabIndex = 7;
             BookmarksTree.AfterSelect += BookmarksTree_AfterSelect;
             // 
-            // PagesList
-            // 
-            PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { ColName, ColIndex, columnHeader3 });
-            PagesList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            PagesList.Location = new System.Drawing.Point(29, 140);
-            PagesList.Name = "PagesList";
-            PagesList.Size = new System.Drawing.Size(383, 290);
-            PagesList.TabIndex = 8;
-            PagesList.UseCompatibleStateImageBehavior = false;
-            PagesList.View = System.Windows.Forms.View.Details;
-            PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
-            PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
-            PagesList.MouseDoubleClick += PagesList_MouseDoubleClick;
-            // 
-            // ColName
-            // 
-            ColName.Text = "Name";
-            ColName.Width = 150;
-            // 
-            // ColIndex
-            // 
-            ColIndex.Text = "Index";
-            // 
-            // columnHeader3
-            // 
-            columnHeader3.Text = "Bookmark";
-            columnHeader3.Width = 80;
-            // 
             // OkButton
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
@@ -346,22 +320,61 @@
             pictureBox2.TabStop = false;
             BookmarkEditorTooltip.SetToolTip(pictureBox2, "Use the right Panel, to create a new Bookmark.\r\nOn the left side, assign selected pages to a selected Bookmark.\r\n\r\nDouble-click on a Page to view it in preview-window.");
             // 
-            // panel1
+            // splitContainer1
             // 
-            panel1.AutoScroll = true;
-            panel1.Controls.Add(PreviewPictureBox);
-            panel1.Location = new System.Drawing.Point(29, 436);
-            panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(383, 213);
-            panel1.TabIndex = 34;
+            splitContainer1.Location = new System.Drawing.Point(29, 140);
+            splitContainer1.Name = "splitContainer1";
+            splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.Controls.Add(PagesList);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.AutoScroll = true;
+            splitContainer1.Panel2.Controls.Add(PreviewPictureBox);
+            BookmarkEditorTableLayout.SetRowSpan(splitContainer1, 2);
+            splitContainer1.Size = new System.Drawing.Size(373, 509);
+            splitContainer1.SplitterDistance = 293;
+            splitContainer1.TabIndex = 35;
+            // 
+            // PagesList
+            // 
+            PagesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { ColName, ColIndex, columnHeader3 });
+            PagesList.Dock = System.Windows.Forms.DockStyle.Fill;
+            PagesList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            PagesList.Location = new System.Drawing.Point(0, 0);
+            PagesList.Name = "PagesList";
+            PagesList.Size = new System.Drawing.Size(373, 293);
+            PagesList.TabIndex = 9;
+            PagesList.UseCompatibleStateImageBehavior = false;
+            PagesList.View = System.Windows.Forms.View.Details;
+            PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
+            PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
+            PagesList.MouseDoubleClick += PagesList_MouseDoubleClick;
+            // 
+            // ColName
+            // 
+            ColName.Text = "Name";
+            ColName.Width = 150;
+            // 
+            // ColIndex
+            // 
+            ColIndex.Text = "Index";
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Bookmark";
+            columnHeader3.Width = 80;
             // 
             // PreviewPictureBox
             // 
-            PreviewPictureBox.Location = new System.Drawing.Point(12, 14);
+            PreviewPictureBox.Location = new System.Drawing.Point(3, 2);
             PreviewPictureBox.Name = "PreviewPictureBox";
             PreviewPictureBox.Size = new System.Drawing.Size(200, 221);
             PreviewPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            PreviewPictureBox.TabIndex = 33;
+            PreviewPictureBox.TabIndex = 34;
             PreviewPictureBox.TabStop = false;
             // 
             // BookmarkEditorTooltip
@@ -395,8 +408,11 @@
             toolStrip2.ResumeLayout(false);
             toolStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            splitContainer1.Panel1.ResumeLayout(false);
+            splitContainer1.Panel2.ResumeLayout(false);
+            splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)PreviewPictureBox).EndInit();
             ResumeLayout(false);
         }
@@ -416,10 +432,6 @@
         private System.Windows.Forms.ToolStripButton ToolButtonAddPages;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton ToolButtonCreateBookmark;
-        private System.Windows.Forms.ListView PagesList;
-        private System.Windows.Forms.ColumnHeader ColName;
-        private System.Windows.Forms.ColumnHeader ColIndex;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
@@ -431,7 +443,11 @@
         private System.Windows.Forms.ToolTip BookmarkEditorTooltip;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ListView PagesList;
+        private System.Windows.Forms.ColumnHeader ColName;
+        private System.Windows.Forms.ColumnHeader ColIndex;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.PictureBox PreviewPictureBox;
-        private System.Windows.Forms.Panel panel1;
     }
 }

@@ -33,6 +33,7 @@ namespace Win_CBZ
         public const string TOKEN_SOURCE_UPDATE_PAGE_VIEW = "updatepageview";
         public const string TOKEN_SOURCE_AWAIT_THREADS = "awaitthreads";
         public const string TOKEN_SOURCE_UPDATE_PAGES_SETTINGS = "updatepagessettings";
+        public const string TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES = "ExtractChapterImages";
 
         private static TokenStore Instance;
 
@@ -64,6 +65,7 @@ namespace Win_CBZ
            {TOKEN_SOURCE_REBUILD_XML_INDEX, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
            {TOKEN_SOURCE_AWAIT_THREADS, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
            {TOKEN_SOURCE_UPDATE_PAGES_SETTINGS, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
+           {TOKEN_SOURCE_EXTRACT_CHAPTER_IMAGES, Tuple.Create(TOKEN_SOURCE_GLOBAL, true) },
         };
 
 
