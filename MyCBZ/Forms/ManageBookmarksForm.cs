@@ -41,7 +41,8 @@ namespace Win_CBZ.Forms
             {
                 ListViewItem item = new ListViewItem(page.Name)
                 {
-                    Tag = page
+                    Tag = page,
+                    Name = page.Name
                 };
 
                 item.SubItems.Add(page.Number.ToString());
@@ -178,6 +179,17 @@ namespace Win_CBZ.Forms
                 if (e.Node.Level > 0)
                 {
                     TextBoxBookmarkName.Text = e.Node.Parent.Text;
+                    PagesList.SelectedItems.Clear();
+                    if (PagesList.Items.Count > 0)
+                    {
+                        ListViewItem[] findItems = PagesList.Items.Find(e.Node.Text, false);
+                        if (findItems.Length == 1)
+                        {
+                            findItems[0].Selected = true;
+                            findItems[0].Focused = true;
+                            PagesList.EnsureVisible(findItems[0].Index);
+                        }
+                    }
                 }
                 else
                 {
