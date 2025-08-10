@@ -117,23 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="SettingsTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>807, 17</value>
-  </metadata>
-  <data name="pictureBox11.ToolTip" xml:space="preserve">
-    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
-If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
-The page with type 'FrontCover' should be at index 1.
-
-Note: If writing XML-Pageindex is set to FALSE, this option will be forced and cannot be disabled!</value>
-  </data>
-  <data name="pictureBox16.ToolTip" xml:space="preserve">
-    <value>By default the CBZ- Standard does not allow for files being located
-within any subfolders in the archive! Disabling this, will try to load all files from the Archive.
-It is NOT recommendet to use this option. as it can lead to inconsistent files when saving this type
-of Archive again!
-(Default=True)</value>
-  </data>
   <metadata name="SettingsValidationErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>198, 17</value>
   </metadata>
@@ -314,6 +297,9 @@ of Archive again!
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
+  <metadata name="SettingsTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>807, 17</value>
+  </metadata>
   <data name="pictureBox13.ToolTip" xml:space="preserve">
     <value>List of filenames, that will be ignored/skipped when adding new files or folders.
 Only enter filenames without path. To filter for an exact name you can include
@@ -329,7 +315,7 @@ To filter specific filename with ANY extension, omit it completely.</value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAoAIAAAJNU0Z0AUkBTAIBAQIB
-        AAHIAQ8ByAEPARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
+        AAHYAQ8B2AEPARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
         AAwAA+cBUgFUAVUD+g8AA7gBtgK4ewAD9gO+A70D4BgAA+YDUAMlA30D+gYAA/0DtAMrAyUDungAAdEC
         0gYlAYoCixUAA+cMJQNGA/oDAAO0DCUBtgK4dQAB0QLSBiUBigKLFQAD6AM1DCUDfQO0AysJJQMrA7h1
         AAHRAtIGJQGKAosYAAPzAzUbJQO0bwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4A8AA+AD
@@ -347,6 +333,20 @@ To filter specific filename with ANY extension, omit it completely.</value>
 ComicInfo.xml -Pageindex is verified with actual image data.
 By enabling this, opening archives will be significatly faster.
 (Default = False)</value>
+  </data>
+  <data name="pictureBox11.ToolTip" xml:space="preserve">
+    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
+If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
+The page with type 'FrontCover' should be at index 1.
+
+Note: If writing XML-Pageindex is set to FALSE, this option will be forced and cannot be disabled!</value>
+  </data>
+  <data name="pictureBox16.ToolTip" xml:space="preserve">
+    <value>By default the CBZ- Standard does not allow for files being located
+within any subfolders in the archive! Disabling this, will try to load all files from the Archive.
+It is NOT recommendet to use this option. as it can lead to inconsistent files when saving this type
+of Archive again!
+(Default=True)</value>
   </data>
   <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -369,7 +369,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAIicAAAJNU0Z0AUkBTAIBAQ8B
-        AAE4AQ4BOAEOARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
+        AAFIAQ4BSAEOARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
         ABsAA0wBkAMlAf8DYgHhCAADJAE0AyUB/wMlAf8DKgE/YAABVQJXAbEBXAJlAecBKwJ+AfwBKwJ+AfwB
         XAJlAecBVQJXAbFkAAMyAU8DJQH/AyUB/wMaASQEAAQCA1kB7wMlAf8DRgGAJAADBgEIA0EBcgNbAc0D
         XAH4A1wB+ANbAc0DQQFyAwYBCBwAAUACQQFxAQAB0gH6Af8BAAHSAfoB/wEAAdIB+gH/AQAB0gH6Af8B
@@ -549,7 +549,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAVhwAAAJNU0Z0AUkBTAIBAQUB
-        AAFgAQgBYAEIARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
+        AAFwAQgBcAEIARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
         AK8AAw8BEwM/AW0DVgG1A1sB5AMmAfsDJgH7A1sB5ANWAbUDPwFtAw8BE/8AUQADBwEJA0kBhQNaAfUD
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNaAfUDSQGFAwcBCf8ARQADGgEjA10B1AMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNdAdQDGgEj/wA9AAMaASMD
@@ -680,7 +680,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6gQAAAJNU0Z0AUkBTAMBAQAB
-        IAEIASABCAEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
+        MAEIATABCAEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
         AAMTARoDSQGIAV0CYQHUAUUBaAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa3AADNwFaAmABbwHzAUQB
         YwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAzcBWtQAAzcB
         WgOAAf4BRAFjAdgB/wJgAW8B8wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAUQB
@@ -711,7 +711,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAhAMAAAJNU0Z0AUkBTAMBAQAB
-        MAEDATABAwEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAb
+        QAEDAUABAwEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAb
         AAMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/9AAAyUB/wMdASkD
         PAFmAzwBZgM8AWYDPAFmAzwBZgM8AWYDPAFmAzwBZgMdASkDJQH/0AADJQH/AzwBZgMRARYYAAMRARYD
         PAFmAyUB/9AAAyUB/wM8AWYDUwGnGAADUwGnAzwBZgMlAf/QAAMlAf8DPAFmASECXwH7AUECQgFzAzUB
