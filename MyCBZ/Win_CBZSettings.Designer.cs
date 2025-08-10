@@ -736,5 +736,17 @@ namespace Win_CBZ {
                 this["DetectDoublePages"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SkipFilesInSubDirectories {
+            get {
+                return ((bool)(this["SkipFilesInSubDirectories"]));
+            }
+            set {
+                this["SkipFilesInSubDirectories"] = value;
+            }
+        }
     }
 }

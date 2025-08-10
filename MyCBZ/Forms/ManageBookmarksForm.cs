@@ -536,6 +536,8 @@ namespace Win_CBZ.Forms
                             }
                         }
                     }
+
+                    return false; // Continue to next selection
                 });
             }
         }

@@ -9,7 +9,7 @@ namespace Win_CBZ.Extensions
 {
     public static class EnumerableExtensions
     {
-        public delegate void EachCallback<T>(T item);
+        public delegate bool EachCallback<T>(T item);
 
         public delegate T MapCallback<T>(T item);
 
@@ -17,7 +17,10 @@ namespace Win_CBZ.Extensions
         {
            foreach (T item in source)
            {
-                callback(item);
+                if (callback(item))
+                {
+                    break;
+                }
            }
         }
 

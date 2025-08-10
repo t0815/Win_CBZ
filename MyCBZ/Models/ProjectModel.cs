@@ -1,44 +1,47 @@
-﻿using Win_CBZ;
+﻿using SharpCompress.Common;
+using SharpCompress.Compressors.Xz;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Speech.Synthesis.TtsEngine;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using File = System.IO.File;
-using Zip = System.IO.Compression.ZipArchive;
-using System.Drawing;
 using System.Windows.Forms.VisualStyles;
-using System.Collections;
-using Win_CBZ.Data;
-using Win_CBZ.Tasks;
-using System.Security.Principal;
-using Win_CBZ.Models;
 using System.Windows.Input;
-using System.Drawing.Imaging;
-using Path = System.IO.Path;
-using Win_CBZ.Result;
-using Win_CBZ.Exceptions;
-using Win_CBZ.Helper;
 using System.Xml.Linq;
-using static Win_CBZ.MetaData;
-using System.Runtime.Versioning;
-using Win_CBZ.Handler;
-using SharpCompress.Compressors.Xz;
+using Win_CBZ;
+using Win_CBZ.Data;
 using Win_CBZ.Events;
-using System.Text.RegularExpressions;
+using Win_CBZ.Exceptions;
+using Win_CBZ.Extensions;
+using Win_CBZ.Handler;
 using Win_CBZ.Hash;
-using System.Drawing.Drawing2D;
-using System.Numerics;
+using Win_CBZ.Helper;
+using Win_CBZ.Models;
+using Win_CBZ.Result;
+using Win_CBZ.Tasks;
+using static Win_CBZ.MetaData;
+using File = System.IO.File;
+using Path = System.IO.Path;
+using Zip = System.IO.Compression.ZipArchive;
 
 namespace Win_CBZ
 {
@@ -774,7 +777,8 @@ namespace Win_CBZ
             bool writeIndexSetting = true,
             bool applyKeyUserFilter = false,
             string[] filterKeys = null,
-            int filterBaseCondition = 0
+            int filterBaseCondition = 0,
+            bool skipFilesInSubDirectories = true
             )
         {
             FileName = path;
@@ -802,6 +806,7 @@ namespace Win_CBZ
                 ApplyKeyUserFilter = applyKeyUserFilter,
                 FilterKeys = filterKeys,
                 FilterBaseCondition = filterBaseCondition,
+                SkipFilesInSubDirectories = skipFilesInSubDirectories,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
             });
 
@@ -821,6 +826,7 @@ namespace Win_CBZ
             String IndexUpdateReasonMessage = "";
             bool MetaDataPageIndexFileMissingShown = false;
             bool MetaDataPageIndexDisabledInfoShown = false;
+            bool DirectoryFound = false;
 
             AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_OPENING));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
@@ -833,6 +839,30 @@ namespace Win_CBZ
 
                 try
                 {
+                    Archive.Entries.Each(entry =>
+                    {
+                        if (entry.FullName.Contains('/') || entry.FullName.Contains('\\'))
+                        {
+                            DirectoryFound = true;
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Directories ['" + entry.FullName + "'] found in Archive!");
+                            
+                            return true;
+                        }
+
+                        return false;
+                    });
+                } catch (Exception e)
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error checking Archive entries! [" + e.Message + "]");
+                }
+
+                if (DirectoryFound)
+                {
+                    
+                }
+
+                try
+                {
                     ZipArchiveEntry metaDataEntry = Archive.GetEntry(MetaData.MetaDataFileName);
 
                     if (metaDataEntry != null)
@@ -842,7 +872,13 @@ namespace Win_CBZ
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Metadata ['" + MetaData.MetaDataFileName + "'] is encrypted! Encryption is not supported.");
                         }
 
-                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataEntry.FullName);
+                        string metaDataFileName = metaDataEntry.FullName;
+                        if (metaDataEntry.FullName.Contains('/') || metaDataEntry.FullName.Contains('\\'))
+                        {
+                            metaDataFileName = Path.GetFileName(metaDataEntry.FullName);
+                        }
+                        
+                        MetaData = NewMetaData(metaDataEntry.Open(), metaDataFileName);
                     }
                     else
                     {
@@ -862,6 +898,22 @@ namespace Win_CBZ
                 MetaDataEntryPage pageIndexEntry;
                 foreach (ZipArchiveEntry entry in Archive.Entries)
                 {
+                    if (entry.FullName.ToLower().EndsWith('/') || entry.FullName.ToLower().EndsWith('\\'))
+                    {
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping Folder ['" + entry.FullName + "'] !");
+
+                        continue;
+                    }
+
+                    if (entry.FullName.ToLower().Contains('/') || entry.FullName.ToLower().Contains('\\'))
+                    {
+                        if (tParams.SkipFilesInSubDirectories)
+                        {
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping File ['" + entry.FullName + "'] in subdirectory! Use 'SkipFilesInSubDirectories' to change this behavior.");
+                            continue; // skip any files in subdirectories
+                        }     
+                    }
+
                     if (!entry.FullName.ToLower().Contains(MetaData.MetaDataFileName.ToLower()))
                     {
                         Page page = new Page(entry, Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID), RandomId.GetInstance().Make())

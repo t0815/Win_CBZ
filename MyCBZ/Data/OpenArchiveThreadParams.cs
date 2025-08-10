@@ -24,6 +24,8 @@ namespace Win_CBZ.Data
 
         public bool WriteIndex { get; set; } = true;
 
+        public bool SkipFilesInSubDirectories { get; set; } = true;
+
         public string Interpolation { get; set; } = "Default";
 
         public bool ApplyKeyUserFilter { get; set; } = false;
