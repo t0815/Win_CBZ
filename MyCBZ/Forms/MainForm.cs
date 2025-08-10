@@ -842,7 +842,7 @@ namespace Win_CBZ
                             {
                                 PagesList.Items.Remove(existingItem);
 
-                                if (Win_CBZSettings.Default.PagePreviewEnabled)
+                                if (PageThumbsListBox.Items.Count > 0)
                                 {
                                     PageThumbsListBox.Items.Remove(existingItem.Tag);
                                 }
@@ -1291,7 +1291,7 @@ namespace Win_CBZ
                     PagesList.Sort();
                     PagesList.Sorting = SortOrder.None;
 
-                    if (Win_CBZSettings.Default.PagePreviewEnabled)
+                    if (PageThumbsListBox.Items.Count > 0)
                     {
                         PageThumbsListBox.Sort(e.Order);
                     }
