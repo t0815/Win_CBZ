@@ -4211,7 +4211,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MetaDataGrid.Invoke(new Action(() =>
+                Invoke(new Action(() =>
                 {
                     Program.ProjectModel.IsChanged = true;
 
@@ -4222,6 +4222,30 @@ namespace Win_CBZ
                         SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
                     }
                 }));
+
+                if (e.State == MetaDataChangedEvent.METADATA_NEW || 
+                    e.State == MetaDataChangedEvent.METADATA_DELETED)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        MetaDataGrid.Rows.Clear();
+                        MetaDataGrid.Columns.Clear();
+
+                        BtnAddMetaData.Enabled = e.State == MetaDataChangedEvent.METADATA_NEW;
+                        BtnRemoveMetaData.Enabled = e.State == MetaDataChangedEvent.METADATA_DELETED;
+
+                    }));
+                }
+
+                if (e.State == MetaDataChangedEvent.METADATA_DELETED)
+                {
+                    
+                }
+
+                if (e.State == MetaDataChangedEvent.METADATA_NEW)
+                {
+
+                }
             }
         }
 

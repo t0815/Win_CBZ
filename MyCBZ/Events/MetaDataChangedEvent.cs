@@ -11,7 +11,9 @@ namespace Win_CBZ.Events
     internal class MetaDataChangedEvent
     {
         public const int METADATA_NEW = 0;
+
         public const int METADATA_UPDATED = 1;
+
         public const int METADATA_DELETED = 2;
 
 
