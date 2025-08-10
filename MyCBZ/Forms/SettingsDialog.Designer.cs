@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             ButtonOk = new System.Windows.Forms.Button();
             HeaderPanel = new System.Windows.Forms.Panel();
@@ -40,6 +40,36 @@
             SettingsSectionList = new System.Windows.Forms.ListBox();
             ButtonCancel = new System.Windows.Forms.Button();
             SettingsContentPanel = new System.Windows.Forms.Panel();
+            CBZSettingsTabControl = new System.Windows.Forms.TabControl();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            label6 = new System.Windows.Forms.Label();
+            ComboBoxCompressionLevel = new System.Windows.Forms.ComboBox();
+            pictureBox11 = new System.Windows.Forms.PictureBox();
+            pictureBox12 = new System.Windows.Forms.PictureBox();
+            CheckBoxCompatibilityMode = new System.Windows.Forms.CheckBox();
+            CheckBoxIgnoreErrorsOnSave = new System.Windows.Forms.CheckBox();
+            tabPage4 = new System.Windows.Forms.TabPage();
+            tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
+            pictureBox16 = new System.Windows.Forms.PictureBox();
+            CheckBoxSkipSubfolders = new System.Windows.Forms.CheckBox();
+            label23 = new System.Windows.Forms.Label();
+            ImageProcessingTabControl = new System.Windows.Forms.TabControl();
+            ImageConversionTabPage = new System.Windows.Forms.TabPage();
+            tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            LabelConvertImages = new System.Windows.Forms.Label();
+            GroupBoxImageQuality = new System.Windows.Forms.GroupBox();
+            ImageQualitySliderMaxLabel = new System.Windows.Forms.Label();
+            ImageQualitySliderMinLabel = new System.Windows.Forms.Label();
+            ImageQualityTrackBar = new System.Windows.Forms.TrackBar();
+            ComboBoxConvertPages = new System.Windows.Forms.ComboBox();
+            ImageProcessingTabPage = new System.Windows.Forms.TabPage();
+            tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            label10 = new System.Windows.Forms.Label();
+            pictureBox5 = new System.Windows.Forms.PictureBox();
+            label11 = new System.Windows.Forms.Label();
+            ComboBoxInterpolationModes = new System.Windows.Forms.ComboBox();
+            checkBox1 = new System.Windows.Forms.CheckBox();
             AppSettingsTabControl = new System.Windows.Forms.TabControl();
             TabPageEssential = new System.Windows.Forms.TabPage();
             tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -97,31 +127,6 @@
             label21 = new System.Windows.Forms.Label();
             pictureBox15 = new System.Windows.Forms.PictureBox();
             CheckboxDetectDoublePages = new System.Windows.Forms.CheckBox();
-            CBZSettingsTabControl = new System.Windows.Forms.TabControl();
-            tabPage2 = new System.Windows.Forms.TabPage();
-            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            label6 = new System.Windows.Forms.Label();
-            ComboBoxCompressionLevel = new System.Windows.Forms.ComboBox();
-            pictureBox11 = new System.Windows.Forms.PictureBox();
-            pictureBox12 = new System.Windows.Forms.PictureBox();
-            CheckBoxCompatibilityMode = new System.Windows.Forms.CheckBox();
-            CheckBoxIgnoreErrorsOnSave = new System.Windows.Forms.CheckBox();
-            ImageProcessingTabControl = new System.Windows.Forms.TabControl();
-            ImageConversionTabPage = new System.Windows.Forms.TabPage();
-            tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            LabelConvertImages = new System.Windows.Forms.Label();
-            GroupBoxImageQuality = new System.Windows.Forms.GroupBox();
-            ImageQualitySliderMaxLabel = new System.Windows.Forms.Label();
-            ImageQualitySliderMinLabel = new System.Windows.Forms.Label();
-            ImageQualityTrackBar = new System.Windows.Forms.TrackBar();
-            ComboBoxConvertPages = new System.Windows.Forms.ComboBox();
-            ImageProcessingTabPage = new System.Windows.Forms.TabPage();
-            tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            label10 = new System.Windows.Forms.Label();
-            pictureBox5 = new System.Windows.Forms.PictureBox();
-            label11 = new System.Windows.Forms.Label();
-            ComboBoxInterpolationModes = new System.Windows.Forms.ComboBox();
-            checkBox1 = new System.Windows.Forms.CheckBox();
             MetaDataConfigTabControl = new System.Windows.Forms.TabControl();
             tabPage1 = new System.Windows.Forms.TabPage();
             SettingsGroup1Panel = new System.Windows.Forms.Panel();
@@ -165,6 +170,22 @@
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SettingsContentPanel.SuspendLayout();
+            CBZSettingsTabControl.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
+            tabPage4.SuspendLayout();
+            tableLayoutPanel11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox16).BeginInit();
+            ImageProcessingTabControl.SuspendLayout();
+            ImageConversionTabPage.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
+            GroupBoxImageQuality.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)ImageQualityTrackBar).BeginInit();
+            ImageProcessingTabPage.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             AppSettingsTabControl.SuspendLayout();
             TabPageEssential.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
@@ -188,19 +209,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox15).BeginInit();
-            CBZSettingsTabControl.SuspendLayout();
-            tabPage2.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
-            ImageProcessingTabControl.SuspendLayout();
-            ImageConversionTabPage.SuspendLayout();
-            tableLayoutPanel6.SuspendLayout();
-            GroupBoxImageQuality.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)ImageQualityTrackBar).BeginInit();
-            ImageProcessingTabPage.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             MetaDataConfigTabControl.SuspendLayout();
             tabPage1.SuspendLayout();
             SettingsGroup1Panel.SuspendLayout();
@@ -320,15 +328,421 @@
             // 
             SettingsContentPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             SettingsTablePanel.SetColumnSpan(SettingsContentPanel, 2);
-            SettingsContentPanel.Controls.Add(AppSettingsTabControl);
             SettingsContentPanel.Controls.Add(CBZSettingsTabControl);
             SettingsContentPanel.Controls.Add(ImageProcessingTabControl);
+            SettingsContentPanel.Controls.Add(AppSettingsTabControl);
             SettingsContentPanel.Controls.Add(MetaDataConfigTabControl);
             SettingsContentPanel.Location = new System.Drawing.Point(204, 86);
             SettingsContentPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             SettingsContentPanel.Name = "SettingsContentPanel";
             SettingsContentPanel.Size = new System.Drawing.Size(592, 492);
             SettingsContentPanel.TabIndex = 2;
+            // 
+            // CBZSettingsTabControl
+            // 
+            CBZSettingsTabControl.Controls.Add(tabPage2);
+            CBZSettingsTabControl.Controls.Add(tabPage4);
+            CBZSettingsTabControl.Location = new System.Drawing.Point(182, 5);
+            CBZSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            CBZSettingsTabControl.Name = "CBZSettingsTabControl";
+            CBZSettingsTabControl.SelectedIndex = 0;
+            CBZSettingsTabControl.Size = new System.Drawing.Size(101, 460);
+            CBZSettingsTabControl.TabIndex = 4;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(tableLayoutPanel2);
+            tabPage2.Location = new System.Drawing.Point(4, 29);
+            tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Size = new System.Drawing.Size(93, 427);
+            tabPage2.TabIndex = 0;
+            tabPage2.Text = "Build";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 3;
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+            tableLayoutPanel2.Controls.Add(label6, 0, 0);
+            tableLayoutPanel2.Controls.Add(ComboBoxCompressionLevel, 1, 0);
+            tableLayoutPanel2.Controls.Add(pictureBox11, 2, 1);
+            tableLayoutPanel2.Controls.Add(pictureBox12, 2, 2);
+            tableLayoutPanel2.Controls.Add(CheckBoxCompatibilityMode, 1, 1);
+            tableLayoutPanel2.Controls.Add(CheckBoxIgnoreErrorsOnSave, 1, 2);
+            tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 4;
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            tableLayoutPanel2.Size = new System.Drawing.Size(93, 427);
+            tableLayoutPanel2.TabIndex = 0;
+            // 
+            // label6
+            // 
+            label6.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            label6.AutoEllipsis = true;
+            label6.Location = new System.Drawing.Point(0, 22);
+            label6.Margin = new System.Windows.Forms.Padding(0, 9, 2, 4);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(12, 20);
+            label6.TabIndex = 2;
+            label6.Text = "Compression Level";
+            // 
+            // ComboBoxCompressionLevel
+            // 
+            ComboBoxCompressionLevel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ComboBoxCompressionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxCompressionLevel.FormattingEnabled = true;
+            ComboBoxCompressionLevel.Items.AddRange(new object[] { "Optimal", "Fastest", "None", "Best" });
+            ComboBoxCompressionLevel.Location = new System.Drawing.Point(23, 20);
+            ComboBoxCompressionLevel.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
+            ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
+            ComboBoxCompressionLevel.Size = new System.Drawing.Size(1, 28);
+            ComboBoxCompressionLevel.TabIndex = 1;
+            // 
+            // pictureBox11
+            // 
+            pictureBox11.Image = Properties.Resources.information;
+            pictureBox11.InitialImage = Properties.Resources.information;
+            pictureBox11.Location = new System.Drawing.Point(41, 67);
+            pictureBox11.Margin = new System.Windows.Forms.Padding(7, 8, 7, 0);
+            pictureBox11.Name = "pictureBox11";
+            pictureBox11.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            pictureBox11.Size = new System.Drawing.Size(24, 32);
+            pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox11.TabIndex = 7;
+            pictureBox11.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox11, resources.GetString("pictureBox11.ToolTip"));
+            // 
+            // pictureBox12
+            // 
+            pictureBox12.Image = Properties.Resources.information;
+            pictureBox12.InitialImage = Properties.Resources.information;
+            pictureBox12.Location = new System.Drawing.Point(41, 126);
+            pictureBox12.Margin = new System.Windows.Forms.Padding(7, 8, 7, 0);
+            pictureBox12.Name = "pictureBox12";
+            pictureBox12.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            pictureBox12.Size = new System.Drawing.Size(24, 32);
+            pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox12.TabIndex = 9;
+            pictureBox12.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox12, "If checked, archives will continue to be written even if a file failed to compress. \r\nThis may lead to incomplete archives with missing files!\r\n(Default = False)");
+            // 
+            // CheckBoxCompatibilityMode
+            // 
+            CheckBoxCompatibilityMode.AutoSize = true;
+            CheckBoxCompatibilityMode.Location = new System.Drawing.Point(23, 68);
+            CheckBoxCompatibilityMode.Margin = new System.Windows.Forms.Padding(9, 9, 2, 4);
+            CheckBoxCompatibilityMode.Name = "CheckBoxCompatibilityMode";
+            CheckBoxCompatibilityMode.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(9, 32);
+            CheckBoxCompatibilityMode.TabIndex = 3;
+            CheckBoxCompatibilityMode.Text = "Compatibility mode";
+            CheckBoxCompatibilityMode.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxIgnoreErrorsOnSave
+            // 
+            CheckBoxIgnoreErrorsOnSave.AutoSize = true;
+            CheckBoxIgnoreErrorsOnSave.Location = new System.Drawing.Point(23, 127);
+            CheckBoxIgnoreErrorsOnSave.Margin = new System.Windows.Forms.Padding(9, 9, 2, 4);
+            CheckBoxIgnoreErrorsOnSave.Name = "CheckBoxIgnoreErrorsOnSave";
+            CheckBoxIgnoreErrorsOnSave.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(9, 32);
+            CheckBoxIgnoreErrorsOnSave.TabIndex = 8;
+            CheckBoxIgnoreErrorsOnSave.Text = "Continue on Error";
+            CheckBoxIgnoreErrorsOnSave.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(tableLayoutPanel11);
+            tabPage4.Location = new System.Drawing.Point(4, 29);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            tabPage4.Size = new System.Drawing.Size(93, 427);
+            tabPage4.TabIndex = 1;
+            tabPage4.Text = "Open";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel11
+            // 
+            tableLayoutPanel11.ColumnCount = 3;
+            tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
+            tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
+            tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+            tableLayoutPanel11.Controls.Add(pictureBox16, 2, 0);
+            tableLayoutPanel11.Controls.Add(CheckBoxSkipSubfolders, 1, 0);
+            tableLayoutPanel11.Controls.Add(label23, 0, 0);
+            tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel11.Location = new System.Drawing.Point(3, 3);
+            tableLayoutPanel11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            tableLayoutPanel11.Name = "tableLayoutPanel11";
+            tableLayoutPanel11.RowCount = 4;
+            tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            tableLayoutPanel11.Size = new System.Drawing.Size(87, 421);
+            tableLayoutPanel11.TabIndex = 2;
+            // 
+            // pictureBox16
+            // 
+            pictureBox16.Image = Properties.Resources.information;
+            pictureBox16.InitialImage = Properties.Resources.information;
+            pictureBox16.Location = new System.Drawing.Point(28, 0);
+            pictureBox16.Margin = new System.Windows.Forms.Padding(0);
+            pictureBox16.Name = "pictureBox16";
+            pictureBox16.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
+            pictureBox16.Size = new System.Drawing.Size(38, 52);
+            pictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox16.TabIndex = 7;
+            pictureBox16.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox16, resources.GetString("pictureBox16.ToolTip"));
+            // 
+            // CheckBoxSkipSubfolders
+            // 
+            CheckBoxSkipSubfolders.AutoSize = true;
+            CheckBoxSkipSubfolders.Location = new System.Drawing.Point(21, 20);
+            CheckBoxSkipSubfolders.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
+            CheckBoxSkipSubfolders.Name = "CheckBoxSkipSubfolders";
+            CheckBoxSkipSubfolders.Size = new System.Drawing.Size(4, 24);
+            CheckBoxSkipSubfolders.TabIndex = 8;
+            CheckBoxSkipSubfolders.Text = "Skip all Files located in Subfolders";
+            CheckBoxSkipSubfolders.UseVisualStyleBackColor = true;
+            // 
+            // label23
+            // 
+            label23.AutoEllipsis = true;
+            label23.AutoSize = true;
+            label23.Location = new System.Drawing.Point(18, 20);
+            label23.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
+            label23.Name = "label23";
+            label23.Size = new System.Drawing.Size(1, 19);
+            label23.TabIndex = 9;
+            label23.Text = "Subfolders";
+            // 
+            // ImageProcessingTabControl
+            // 
+            ImageProcessingTabControl.Controls.Add(ImageConversionTabPage);
+            ImageProcessingTabControl.Controls.Add(ImageProcessingTabPage);
+            ImageProcessingTabControl.Location = new System.Drawing.Point(420, 5);
+            ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            ImageProcessingTabControl.Name = "ImageProcessingTabControl";
+            ImageProcessingTabControl.SelectedIndex = 0;
+            ImageProcessingTabControl.Size = new System.Drawing.Size(151, 458);
+            ImageProcessingTabControl.TabIndex = 2;
+            // 
+            // ImageConversionTabPage
+            // 
+            ImageConversionTabPage.Controls.Add(tableLayoutPanel6);
+            ImageConversionTabPage.Location = new System.Drawing.Point(4, 29);
+            ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            ImageConversionTabPage.Name = "ImageConversionTabPage";
+            ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            ImageConversionTabPage.Size = new System.Drawing.Size(143, 425);
+            ImageConversionTabPage.TabIndex = 0;
+            ImageConversionTabPage.Text = "Image Conversion";
+            ImageConversionTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 3;
+            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.19212F));
+            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.80788F));
+            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
+            tableLayoutPanel6.Controls.Add(LabelConvertImages, 0, 0);
+            tableLayoutPanel6.Controls.Add(GroupBoxImageQuality, 0, 1);
+            tableLayoutPanel6.Controls.Add(ComboBoxConvertPages, 1, 0);
+            tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel6.Location = new System.Drawing.Point(4, 5);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 3;
+            tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel6.Size = new System.Drawing.Size(135, 415);
+            tableLayoutPanel6.TabIndex = 24;
+            // 
+            // LabelConvertImages
+            // 
+            LabelConvertImages.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            LabelConvertImages.AutoSize = true;
+            LabelConvertImages.Location = new System.Drawing.Point(9, 0);
+            LabelConvertImages.Margin = new System.Windows.Forms.Padding(9, 0, 4, 0);
+            LabelConvertImages.Name = "LabelConvertImages";
+            LabelConvertImages.Size = new System.Drawing.Size(27, 59);
+            LabelConvertImages.TabIndex = 22;
+            LabelConvertImages.Text = "Convert Images";
+            // 
+            // GroupBoxImageQuality
+            // 
+            GroupBoxImageQuality.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            GroupBoxImageQuality.Controls.Add(ImageQualitySliderMaxLabel);
+            GroupBoxImageQuality.Controls.Add(ImageQualitySliderMinLabel);
+            GroupBoxImageQuality.Controls.Add(ImageQualityTrackBar);
+            GroupBoxImageQuality.Location = new System.Drawing.Point(4, 61);
+            GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            GroupBoxImageQuality.Name = "GroupBoxImageQuality";
+            GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            GroupBoxImageQuality.Size = new System.Drawing.Size(34, 55);
+            GroupBoxImageQuality.TabIndex = 21;
+            GroupBoxImageQuality.TabStop = false;
+            GroupBoxImageQuality.Text = "Image Quality";
+            GroupBoxImageQuality.Visible = false;
+            // 
+            // ImageQualitySliderMaxLabel
+            // 
+            ImageQualitySliderMaxLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            ImageQualitySliderMaxLabel.AutoSize = true;
+            ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(-98, 102);
+            ImageQualitySliderMaxLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
+            ImageQualitySliderMaxLabel.Size = new System.Drawing.Size(41, 20);
+            ImageQualitySliderMaxLabel.TabIndex = 5;
+            ImageQualitySliderMaxLabel.Text = "High";
+            // 
+            // ImageQualitySliderMinLabel
+            // 
+            ImageQualitySliderMinLabel.AutoSize = true;
+            ImageQualitySliderMinLabel.Location = new System.Drawing.Point(9, 102);
+            ImageQualitySliderMinLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            ImageQualitySliderMinLabel.Name = "ImageQualitySliderMinLabel";
+            ImageQualitySliderMinLabel.Size = new System.Drawing.Size(36, 20);
+            ImageQualitySliderMinLabel.TabIndex = 4;
+            ImageQualitySliderMinLabel.Text = "Low";
+            // 
+            // ImageQualityTrackBar
+            // 
+            ImageQualityTrackBar.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ImageQualityTrackBar.BackColor = System.Drawing.SystemColors.Window;
+            ImageQualityTrackBar.Enabled = false;
+            ImageQualityTrackBar.Location = new System.Drawing.Point(14, 13);
+            ImageQualityTrackBar.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            ImageQualityTrackBar.Maximum = 100;
+            ImageQualityTrackBar.Minimum = 10;
+            ImageQualityTrackBar.Name = "ImageQualityTrackBar";
+            ImageQualityTrackBar.Size = new System.Drawing.Size(0, 56);
+            ImageQualityTrackBar.TabIndex = 3;
+            ImageQualityTrackBar.Value = 85;
+            // 
+            // ComboBoxConvertPages
+            // 
+            ComboBoxConvertPages.Dock = System.Windows.Forms.DockStyle.Fill;
+            ComboBoxConvertPages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxConvertPages.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            ComboBoxConvertPages.FormattingEnabled = true;
+            ComboBoxConvertPages.Items.AddRange(new object[] { "Dont Convert, keep original Format", "Bitmap", "Jpeg", "PNG", "Tiff" });
+            ComboBoxConvertPages.Location = new System.Drawing.Point(51, 20);
+            ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
+            ComboBoxConvertPages.Name = "ComboBoxConvertPages";
+            ComboBoxConvertPages.Size = new System.Drawing.Size(43, 28);
+            ComboBoxConvertPages.TabIndex = 23;
+            // 
+            // ImageProcessingTabPage
+            // 
+            ImageProcessingTabPage.Controls.Add(tableLayoutPanel3);
+            ImageProcessingTabPage.Location = new System.Drawing.Point(4, 29);
+            ImageProcessingTabPage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            ImageProcessingTabPage.Name = "ImageProcessingTabPage";
+            ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            ImageProcessingTabPage.Size = new System.Drawing.Size(143, 425);
+            ImageProcessingTabPage.TabIndex = 1;
+            ImageProcessingTabPage.Text = "Image Processing";
+            ImageProcessingTabPage.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 3;
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
+            tableLayoutPanel3.Controls.Add(label10, 0, 0);
+            tableLayoutPanel3.Controls.Add(pictureBox5, 2, 0);
+            tableLayoutPanel3.Controls.Add(label11, 0, 1);
+            tableLayoutPanel3.Controls.Add(ComboBoxInterpolationModes, 1, 0);
+            tableLayoutPanel3.Controls.Add(checkBox1, 1, 1);
+            tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            tableLayoutPanel3.Location = new System.Drawing.Point(3, 5);
+            tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 4;
+            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            tableLayoutPanel3.Size = new System.Drawing.Size(137, 415);
+            tableLayoutPanel3.TabIndex = 1;
+            // 
+            // label10
+            // 
+            label10.AutoEllipsis = true;
+            label10.AutoSize = true;
+            label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            label10.Location = new System.Drawing.Point(18, 20);
+            label10.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(1, 19);
+            label10.TabIndex = 0;
+            label10.Text = "Interpolation";
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.Image = Properties.Resources.information;
+            pictureBox5.InitialImage = Properties.Resources.information;
+            pictureBox5.Location = new System.Drawing.Point(78, 0);
+            pictureBox5.Margin = new System.Windows.Forms.Padding(0);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
+            pictureBox5.Size = new System.Drawing.Size(38, 52);
+            pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox5.TabIndex = 7;
+            pictureBox5.TabStop = false;
+            TagValidationTooltip.SetToolTip(pictureBox5, "Sets the interpolation-mode for image operations like Resize");
+            // 
+            // label11
+            // 
+            label11.AutoEllipsis = true;
+            label11.AutoSize = true;
+            label11.Location = new System.Drawing.Point(18, 79);
+            label11.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(1, 19);
+            label11.TabIndex = 9;
+            label11.Text = "Option";
+            label11.Visible = false;
+            // 
+            // ComboBoxInterpolationModes
+            // 
+            ComboBoxInterpolationModes.Dock = System.Windows.Forms.DockStyle.Fill;
+            ComboBoxInterpolationModes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            ComboBoxInterpolationModes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxInterpolationModes.FormattingEnabled = true;
+            ComboBoxInterpolationModes.Items.AddRange(new object[] { "Default", "Low", "High", "Bilinear", "Bicubic", "NearestNeighbor", "HighQualityBilinear", "HighQualityBicubic" });
+            ComboBoxInterpolationModes.Location = new System.Drawing.Point(42, 20);
+            ComboBoxInterpolationModes.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
+            ComboBoxInterpolationModes.Name = "ComboBoxInterpolationModes";
+            ComboBoxInterpolationModes.Size = new System.Drawing.Size(18, 28);
+            ComboBoxInterpolationModes.TabIndex = 1;
+            ComboBoxInterpolationModes.Tag = "photo";
+            ComboBoxInterpolationModes.DrawItem += ComboBox_DrawItem;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new System.Drawing.Point(42, 79);
+            checkBox1.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new System.Drawing.Size(33, 24);
+            checkBox1.TabIndex = 8;
+            checkBox1.Text = "Value";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.Visible = false;
             // 
             // AppSettingsTabControl
             // 
@@ -1129,343 +1543,6 @@
             CheckboxDetectDoublePages.Text = "Detect automatically";
             CheckboxDetectDoublePages.UseVisualStyleBackColor = true;
             // 
-            // CBZSettingsTabControl
-            // 
-            CBZSettingsTabControl.Controls.Add(tabPage2);
-            CBZSettingsTabControl.Location = new System.Drawing.Point(182, 5);
-            CBZSettingsTabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            CBZSettingsTabControl.Name = "CBZSettingsTabControl";
-            CBZSettingsTabControl.SelectedIndex = 0;
-            CBZSettingsTabControl.Size = new System.Drawing.Size(105, 460);
-            CBZSettingsTabControl.TabIndex = 4;
-            // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(tableLayoutPanel2);
-            tabPage2.Location = new System.Drawing.Point(4, 29);
-            tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Size = new System.Drawing.Size(97, 427);
-            tabPage2.TabIndex = 0;
-            tabPage2.Text = "Build";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            tableLayoutPanel2.Controls.Add(label6, 0, 0);
-            tableLayoutPanel2.Controls.Add(ComboBoxCompressionLevel, 1, 0);
-            tableLayoutPanel2.Controls.Add(pictureBox11, 2, 1);
-            tableLayoutPanel2.Controls.Add(pictureBox12, 2, 2);
-            tableLayoutPanel2.Controls.Add(CheckBoxCompatibilityMode, 1, 1);
-            tableLayoutPanel2.Controls.Add(CheckBoxIgnoreErrorsOnSave, 1, 2);
-            tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(97, 427);
-            tableLayoutPanel2.TabIndex = 0;
-            // 
-            // label6
-            // 
-            label6.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            label6.AutoEllipsis = true;
-            label6.Location = new System.Drawing.Point(0, 22);
-            label6.Margin = new System.Windows.Forms.Padding(0, 9, 2, 4);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(14, 20);
-            label6.TabIndex = 2;
-            label6.Text = "Compression Level";
-            // 
-            // ComboBoxCompressionLevel
-            // 
-            ComboBoxCompressionLevel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            ComboBoxCompressionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            ComboBoxCompressionLevel.FormattingEnabled = true;
-            ComboBoxCompressionLevel.Items.AddRange(new object[] { "Optimal", "Fastest", "None", "Best" });
-            ComboBoxCompressionLevel.Location = new System.Drawing.Point(25, 20);
-            ComboBoxCompressionLevel.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
-            ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
-            ComboBoxCompressionLevel.Size = new System.Drawing.Size(1, 28);
-            ComboBoxCompressionLevel.TabIndex = 1;
-            // 
-            // pictureBox11
-            // 
-            pictureBox11.Image = Properties.Resources.information;
-            pictureBox11.InitialImage = Properties.Resources.information;
-            pictureBox11.Location = new System.Drawing.Point(45, 67);
-            pictureBox11.Margin = new System.Windows.Forms.Padding(7, 8, 7, 0);
-            pictureBox11.Name = "pictureBox11";
-            pictureBox11.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            pictureBox11.Size = new System.Drawing.Size(24, 32);
-            pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            pictureBox11.TabIndex = 7;
-            pictureBox11.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox11, resources.GetString("pictureBox11.ToolTip"));
-            // 
-            // pictureBox12
-            // 
-            pictureBox12.Image = Properties.Resources.information;
-            pictureBox12.InitialImage = Properties.Resources.information;
-            pictureBox12.Location = new System.Drawing.Point(45, 126);
-            pictureBox12.Margin = new System.Windows.Forms.Padding(7, 8, 7, 0);
-            pictureBox12.Name = "pictureBox12";
-            pictureBox12.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            pictureBox12.Size = new System.Drawing.Size(24, 32);
-            pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            pictureBox12.TabIndex = 9;
-            pictureBox12.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox12, "If checked, archives will continue to be written even if a file failed to compress. \r\nThis may lead to incomplete archives with missing files!");
-            // 
-            // CheckBoxCompatibilityMode
-            // 
-            CheckBoxCompatibilityMode.AutoSize = true;
-            CheckBoxCompatibilityMode.Location = new System.Drawing.Point(25, 68);
-            CheckBoxCompatibilityMode.Margin = new System.Windows.Forms.Padding(9, 9, 2, 4);
-            CheckBoxCompatibilityMode.Name = "CheckBoxCompatibilityMode";
-            CheckBoxCompatibilityMode.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(11, 32);
-            CheckBoxCompatibilityMode.TabIndex = 3;
-            CheckBoxCompatibilityMode.Text = "Compatibility mode";
-            CheckBoxCompatibilityMode.UseVisualStyleBackColor = true;
-            // 
-            // CheckBoxIgnoreErrorsOnSave
-            // 
-            CheckBoxIgnoreErrorsOnSave.AutoSize = true;
-            CheckBoxIgnoreErrorsOnSave.Location = new System.Drawing.Point(25, 127);
-            CheckBoxIgnoreErrorsOnSave.Margin = new System.Windows.Forms.Padding(9, 9, 2, 4);
-            CheckBoxIgnoreErrorsOnSave.Name = "CheckBoxIgnoreErrorsOnSave";
-            CheckBoxIgnoreErrorsOnSave.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(11, 32);
-            CheckBoxIgnoreErrorsOnSave.TabIndex = 8;
-            CheckBoxIgnoreErrorsOnSave.Text = "Continue on Error";
-            CheckBoxIgnoreErrorsOnSave.UseVisualStyleBackColor = true;
-            // 
-            // ImageProcessingTabControl
-            // 
-            ImageProcessingTabControl.Controls.Add(ImageConversionTabPage);
-            ImageProcessingTabControl.Controls.Add(ImageProcessingTabPage);
-            ImageProcessingTabControl.Location = new System.Drawing.Point(420, 5);
-            ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            ImageProcessingTabControl.Name = "ImageProcessingTabControl";
-            ImageProcessingTabControl.SelectedIndex = 0;
-            ImageProcessingTabControl.Size = new System.Drawing.Size(151, 458);
-            ImageProcessingTabControl.TabIndex = 2;
-            // 
-            // ImageConversionTabPage
-            // 
-            ImageConversionTabPage.Controls.Add(tableLayoutPanel6);
-            ImageConversionTabPage.Location = new System.Drawing.Point(4, 29);
-            ImageConversionTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            ImageConversionTabPage.Name = "ImageConversionTabPage";
-            ImageConversionTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            ImageConversionTabPage.Size = new System.Drawing.Size(143, 425);
-            ImageConversionTabPage.TabIndex = 0;
-            ImageConversionTabPage.Text = "Image Conversion";
-            ImageConversionTabPage.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel6
-            // 
-            tableLayoutPanel6.ColumnCount = 3;
-            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.19212F));
-            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.80788F));
-            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            tableLayoutPanel6.Controls.Add(LabelConvertImages, 0, 0);
-            tableLayoutPanel6.Controls.Add(GroupBoxImageQuality, 0, 1);
-            tableLayoutPanel6.Controls.Add(ComboBoxConvertPages, 1, 0);
-            tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel6.Location = new System.Drawing.Point(4, 5);
-            tableLayoutPanel6.Name = "tableLayoutPanel6";
-            tableLayoutPanel6.RowCount = 3;
-            tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel6.Size = new System.Drawing.Size(135, 415);
-            tableLayoutPanel6.TabIndex = 24;
-            // 
-            // LabelConvertImages
-            // 
-            LabelConvertImages.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            LabelConvertImages.AutoSize = true;
-            LabelConvertImages.Location = new System.Drawing.Point(9, 0);
-            LabelConvertImages.Margin = new System.Windows.Forms.Padding(9, 0, 4, 0);
-            LabelConvertImages.Name = "LabelConvertImages";
-            LabelConvertImages.Size = new System.Drawing.Size(27, 59);
-            LabelConvertImages.TabIndex = 22;
-            LabelConvertImages.Text = "Convert Images";
-            // 
-            // GroupBoxImageQuality
-            // 
-            GroupBoxImageQuality.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            GroupBoxImageQuality.Controls.Add(ImageQualitySliderMaxLabel);
-            GroupBoxImageQuality.Controls.Add(ImageQualitySliderMinLabel);
-            GroupBoxImageQuality.Controls.Add(ImageQualityTrackBar);
-            GroupBoxImageQuality.Location = new System.Drawing.Point(4, 61);
-            GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            GroupBoxImageQuality.Name = "GroupBoxImageQuality";
-            GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            GroupBoxImageQuality.Size = new System.Drawing.Size(34, 55);
-            GroupBoxImageQuality.TabIndex = 21;
-            GroupBoxImageQuality.TabStop = false;
-            GroupBoxImageQuality.Text = "Image Quality";
-            GroupBoxImageQuality.Visible = false;
-            // 
-            // ImageQualitySliderMaxLabel
-            // 
-            ImageQualitySliderMaxLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            ImageQualitySliderMaxLabel.AutoSize = true;
-            ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(-98, 102);
-            ImageQualitySliderMaxLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
-            ImageQualitySliderMaxLabel.Size = new System.Drawing.Size(41, 20);
-            ImageQualitySliderMaxLabel.TabIndex = 5;
-            ImageQualitySliderMaxLabel.Text = "High";
-            // 
-            // ImageQualitySliderMinLabel
-            // 
-            ImageQualitySliderMinLabel.AutoSize = true;
-            ImageQualitySliderMinLabel.Location = new System.Drawing.Point(9, 102);
-            ImageQualitySliderMinLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            ImageQualitySliderMinLabel.Name = "ImageQualitySliderMinLabel";
-            ImageQualitySliderMinLabel.Size = new System.Drawing.Size(36, 20);
-            ImageQualitySliderMinLabel.TabIndex = 4;
-            ImageQualitySliderMinLabel.Text = "Low";
-            // 
-            // ImageQualityTrackBar
-            // 
-            ImageQualityTrackBar.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            ImageQualityTrackBar.BackColor = System.Drawing.SystemColors.Window;
-            ImageQualityTrackBar.Enabled = false;
-            ImageQualityTrackBar.Location = new System.Drawing.Point(14, 13);
-            ImageQualityTrackBar.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            ImageQualityTrackBar.Maximum = 100;
-            ImageQualityTrackBar.Minimum = 10;
-            ImageQualityTrackBar.Name = "ImageQualityTrackBar";
-            ImageQualityTrackBar.Size = new System.Drawing.Size(0, 56);
-            ImageQualityTrackBar.TabIndex = 3;
-            ImageQualityTrackBar.Value = 85;
-            // 
-            // ComboBoxConvertPages
-            // 
-            ComboBoxConvertPages.Dock = System.Windows.Forms.DockStyle.Fill;
-            ComboBoxConvertPages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            ComboBoxConvertPages.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            ComboBoxConvertPages.FormattingEnabled = true;
-            ComboBoxConvertPages.Items.AddRange(new object[] { "Dont Convert, keep original Format", "Bitmap", "Jpeg", "PNG", "Tiff" });
-            ComboBoxConvertPages.Location = new System.Drawing.Point(51, 20);
-            ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
-            ComboBoxConvertPages.Name = "ComboBoxConvertPages";
-            ComboBoxConvertPages.Size = new System.Drawing.Size(43, 28);
-            ComboBoxConvertPages.TabIndex = 23;
-            // 
-            // ImageProcessingTabPage
-            // 
-            ImageProcessingTabPage.Controls.Add(tableLayoutPanel3);
-            ImageProcessingTabPage.Location = new System.Drawing.Point(4, 29);
-            ImageProcessingTabPage.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            ImageProcessingTabPage.Name = "ImageProcessingTabPage";
-            ImageProcessingTabPage.Padding = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            ImageProcessingTabPage.Size = new System.Drawing.Size(143, 425);
-            ImageProcessingTabPage.TabIndex = 1;
-            ImageProcessingTabPage.Text = "Image Processing";
-            ImageProcessingTabPage.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel3
-            // 
-            tableLayoutPanel3.ColumnCount = 3;
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 58F));
-            tableLayoutPanel3.Controls.Add(label10, 0, 0);
-            tableLayoutPanel3.Controls.Add(pictureBox5, 2, 0);
-            tableLayoutPanel3.Controls.Add(label11, 0, 1);
-            tableLayoutPanel3.Controls.Add(ComboBoxInterpolationModes, 1, 0);
-            tableLayoutPanel3.Controls.Add(checkBox1, 1, 1);
-            tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel3.Location = new System.Drawing.Point(3, 5);
-            tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 4;
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(137, 415);
-            tableLayoutPanel3.TabIndex = 1;
-            // 
-            // label10
-            // 
-            label10.AutoEllipsis = true;
-            label10.AutoSize = true;
-            label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            label10.Location = new System.Drawing.Point(18, 20);
-            label10.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
-            label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(1, 19);
-            label10.TabIndex = 0;
-            label10.Text = "Interpolation";
-            // 
-            // pictureBox5
-            // 
-            pictureBox5.Image = Properties.Resources.information;
-            pictureBox5.InitialImage = Properties.Resources.information;
-            pictureBox5.Location = new System.Drawing.Point(78, 0);
-            pictureBox5.Margin = new System.Windows.Forms.Padding(0);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
-            pictureBox5.Size = new System.Drawing.Size(38, 52);
-            pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            pictureBox5.TabIndex = 7;
-            pictureBox5.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox5, "Sets the interpolation-mode for image operations like Resize");
-            // 
-            // label11
-            // 
-            label11.AutoEllipsis = true;
-            label11.AutoSize = true;
-            label11.Location = new System.Drawing.Point(18, 79);
-            label11.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
-            label11.Name = "label11";
-            label11.Size = new System.Drawing.Size(1, 19);
-            label11.TabIndex = 9;
-            label11.Text = "Option";
-            label11.Visible = false;
-            // 
-            // ComboBoxInterpolationModes
-            // 
-            ComboBoxInterpolationModes.Dock = System.Windows.Forms.DockStyle.Fill;
-            ComboBoxInterpolationModes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            ComboBoxInterpolationModes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            ComboBoxInterpolationModes.FormattingEnabled = true;
-            ComboBoxInterpolationModes.Items.AddRange(new object[] { "Default", "Low", "High", "Bilinear", "Bicubic", "NearestNeighbor", "HighQualityBilinear", "HighQualityBicubic" });
-            ComboBoxInterpolationModes.Location = new System.Drawing.Point(42, 20);
-            ComboBoxInterpolationModes.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
-            ComboBoxInterpolationModes.Name = "ComboBoxInterpolationModes";
-            ComboBoxInterpolationModes.Size = new System.Drawing.Size(18, 28);
-            ComboBoxInterpolationModes.TabIndex = 1;
-            ComboBoxInterpolationModes.Tag = "photo";
-            ComboBoxInterpolationModes.DrawItem += ComboBox_DrawItem;
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new System.Drawing.Point(42, 79);
-            checkBox1.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new System.Drawing.Size(33, 24);
-            checkBox1.TabIndex = 8;
-            checkBox1.Text = "Value";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.Visible = false;
-            // 
             // MetaDataConfigTabControl
             // 
             MetaDataConfigTabControl.Controls.Add(tabPage1);
@@ -1982,6 +2059,27 @@
             HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             SettingsContentPanel.ResumeLayout(false);
+            CBZSettingsTabControl.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
+            tabPage4.ResumeLayout(false);
+            tableLayoutPanel11.ResumeLayout(false);
+            tableLayoutPanel11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox16).EndInit();
+            ImageProcessingTabControl.ResumeLayout(false);
+            ImageConversionTabPage.ResumeLayout(false);
+            tableLayoutPanel6.ResumeLayout(false);
+            tableLayoutPanel6.PerformLayout();
+            GroupBoxImageQuality.ResumeLayout(false);
+            GroupBoxImageQuality.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)ImageQualityTrackBar).EndInit();
+            ImageProcessingTabPage.ResumeLayout(false);
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             AppSettingsTabControl.ResumeLayout(false);
             TabPageEssential.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
@@ -2012,23 +2110,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox15).EndInit();
-            CBZSettingsTabControl.ResumeLayout(false);
-            tabPage2.ResumeLayout(false);
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox11).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();
-            ImageProcessingTabControl.ResumeLayout(false);
-            ImageConversionTabPage.ResumeLayout(false);
-            tableLayoutPanel6.ResumeLayout(false);
-            tableLayoutPanel6.PerformLayout();
-            GroupBoxImageQuality.ResumeLayout(false);
-            GroupBoxImageQuality.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)ImageQualityTrackBar).EndInit();
-            ImageProcessingTabPage.ResumeLayout(false);
-            tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             MetaDataConfigTabControl.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             SettingsGroup1Panel.ResumeLayout(false);
@@ -2182,5 +2263,10 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.PictureBox pictureBox15;
         private System.Windows.Forms.CheckBox CheckboxDetectDoublePages;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel11;
+        private System.Windows.Forms.PictureBox pictureBox16;
+        private System.Windows.Forms.CheckBox CheckBoxSkipSubfolders;
+        private System.Windows.Forms.Label label23;
     }
 }

@@ -908,7 +908,7 @@ namespace Win_CBZ
                 {
                     if (entry.FullName.ToLower().EndsWith('/') || entry.FullName.ToLower().EndsWith('\\'))
                     {
-                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping Folder ['" + entry.FullName + "'] !");
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Skipping Folder entry ['" + entry.FullName + "'] !");
 
                         continue;
                     }

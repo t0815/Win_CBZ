@@ -545,7 +545,8 @@ namespace Win_CBZ
                         Win_CBZSettings.Default.WriteXmlPageIndex,
                         Win_CBZSettings.Default.KeyFilterActive,
                         Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray(),
-                        Win_CBZSettings.Default.KeyFilterBaseContitionType
+                        Win_CBZSettings.Default.KeyFilterBaseContitionType,
+                        Win_CBZSettings.Default.SkipFilesInSubDirectories
                         );
                 });
 
@@ -3914,30 +3915,7 @@ namespace Win_CBZ
         {
             if (Program.ProjectModel.MetaData != null)
             {
-                Program.ProjectModel.MetaData.Values.Clear();
-                MetaDataGrid.DataSource = null;
-
-                if (!WindowClosed)
-                {
-                    Invoke(new Action(() =>
-                    {
-                        MetaDataGrid.Rows.Clear();
-                        MetaDataGrid.Columns.Clear();
-
-
-                        BtnAddMetaData.Enabled = true;
-                        BtnRemoveMetaData.Enabled = false;
-                        AddMetaDataRowBtn.Enabled = false;
-                        RemoveMetadataRowBtn.Enabled = false;
-                        ToolStripButtonShowRawMetadata.Enabled = false;
-                    }));
-
-                    TextBoxCountKeys.Invoke(new Action(() =>
-                    {
-                        TextBoxCountKeys.Text = Program.ProjectModel.MetaData.Values.Count.ToString();
-                    }));
-                }
-
+                AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_DELETED, Program.ProjectModel.MetaData));
                 AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_DELETED));
                 //AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
             }
@@ -4228,9 +4206,6 @@ namespace Win_CBZ
                 {
                     Invoke(new Action(() =>
                     {
-                        MetaDataGrid.Rows.Clear();
-                        MetaDataGrid.Columns.Clear();
-
                         BtnAddMetaData.Enabled = e.State == MetaDataChangedEvent.METADATA_NEW;
                         BtnRemoveMetaData.Enabled = e.State == MetaDataChangedEvent.METADATA_DELETED;
 
@@ -4239,7 +4214,30 @@ namespace Win_CBZ
 
                 if (e.State == MetaDataChangedEvent.METADATA_DELETED)
                 {
-                    
+                    e.Data.Values.Clear();
+                    MetaDataGrid.DataSource = null;
+
+                    if (!WindowClosed)
+                    {
+                        Invoke(new Action(() =>
+                        {
+                            MetaDataGrid.Rows.Clear();
+                            MetaDataGrid.Columns.Clear();
+
+
+                            BtnAddMetaData.Enabled = true;
+                            BtnRemoveMetaData.Enabled = false;
+                            AddMetaDataRowBtn.Enabled = false;
+                            RemoveMetadataRowBtn.Enabled = false;
+                            ToolStripButtonShowRawMetadata.Enabled = false;
+                        }));
+
+                        TextBoxCountKeys.Invoke(new Action(() =>
+                        {
+                            TextBoxCountKeys.Text = e.Data.Values.Count.ToString();
+                        }));
+                    }
+
                 }
 
                 if (e.State == MetaDataChangedEvent.METADATA_NEW)
@@ -5799,6 +5797,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.CompressionLevel = settingsDialog.CompressionLevel;
                 Win_CBZSettings.Default.CompatMode = settingsDialog.CompatibilityMode;
                 Win_CBZSettings.Default.IgnoreErrorsOnSave = settingsDialog.IgnoreErrors;
+                Win_CBZSettings.Default.SkipFilesInSubDirectories = settingsDialog.SkipArchiveSubfolders;
 
                 Win_CBZSettings.Default.LogValidationErrors = settingsDialog.LogValidationErrors;
                 Win_CBZSettings.Default.RestoreWindowLayout = settingsDialog.RestoreWindowPosition;

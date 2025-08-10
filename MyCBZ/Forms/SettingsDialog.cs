@@ -93,6 +93,8 @@ namespace Win_CBZ.Forms
 
         public bool LogValidationErrors;
 
+        public bool SkipArchiveSubfolders;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -164,6 +166,9 @@ namespace Win_CBZ.Forms
             CompressionLevel = Win_CBZSettings.Default.CompressionLevel;
             CompatibilityMode = Win_CBZSettings.Default.CompatMode;
             IgnoreErrors = Win_CBZSettings.Default.IgnoreErrorsOnSave;
+
+            SkipArchiveSubfolders = Win_CBZSettings.Default.SkipFilesInSubDirectories;
+
             JumpToSelectedPage = Win_CBZSettings.Default.JumpToPage;
 
             RestoreWindowPosition = Win_CBZSettings.Default.RestoreWindowLayout;
@@ -208,6 +213,8 @@ namespace Win_CBZ.Forms
             ComboBoxCompressionLevel.SelectedIndex = CompressionLevel;
             CheckBoxCompatibilityMode.Checked = CompatibilityMode;
             CheckBoxIgnoreErrorsOnSave.Checked = IgnoreErrors;
+
+            CheckBoxSkipSubfolders.Checked = SkipArchiveSubfolders;
 
             CheckBoxSaveWindowLayout.Checked = RestoreWindowPosition;
             CheckBoxLogValidationErrors.Checked = LogValidationErrors;
@@ -710,6 +717,8 @@ namespace Win_CBZ.Forms
                     CompressionLevel = ComboBoxCompressionLevel.SelectedIndex;
                     CompatibilityMode = CheckBoxCompatibilityMode.Checked;
                     IgnoreErrors = CheckBoxIgnoreErrorsOnSave.Checked;
+
+                    SkipArchiveSubfolders = CheckBoxSkipSubfolders.Checked;
 
                     RestoreWindowPosition = CheckBoxSaveWindowLayout.Checked;
                     LogValidationErrors = CheckBoxLogValidationErrors.Checked;

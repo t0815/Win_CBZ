@@ -117,6 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="TagValidationTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>807, 17</value>
+  </metadata>
+  <data name="pictureBox11.ToolTip" xml:space="preserve">
+    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
+If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
+The page with type 'FrontCover' should be at index 1.
+
+Note: If writing XML-Pageindex is set to FALSE, this option will be forced and cannot be disabled!</value>
+  </data>
+  <data name="pictureBox16.ToolTip" xml:space="preserve">
+    <value>By default the CBZ- Standard does not allow for files being located
+within any subfolders in the archive! Disabling this, will try to load all files from the Archive.
+It is NOT recommendet to use this option. as it can lead to inconsistent files when saving this type
+of Archive again!
+(Default=True)</value>
+  </data>
   <metadata name="SettingsValidationErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>198, 17</value>
   </metadata>
@@ -297,9 +314,6 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
-  <metadata name="TagValidationTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>807, 17</value>
-  </metadata>
   <data name="pictureBox13.ToolTip" xml:space="preserve">
     <value>List of filenames, that will be ignored/skipped when adding new files or folders.
 Only enter filenames without path. To filter for an exact name you can include
@@ -315,7 +329,7 @@ To filter specific filename with ANY extension, omit it completely.</value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAoAIAAAJNU0Z0AUkBTAIBAQIB
-        AAGAAQ8BgAEPARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
+        AAGwAQ8BsAEPARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQz/
         AAwAA+cBUgFUAVUD+g8AA7gBtgK4ewAD9gO+A70D4BgAA+YDUAMlA30D+gYAA/0DtAMrAyUDungAAdEC
         0gYlAYoCixUAA+cMJQNGA/oDAAO0DCUBtgK4dQAB0QLSBiUBigKLFQAD6AM1DCUDfQO0AysJJQMrA7h1
         AAHRAtIGJQGKAosYAAPzAzUbJQO0bwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4A8AA+AD
@@ -333,13 +347,6 @@ To filter specific filename with ANY extension, omit it completely.</value>
 ComicInfo.xml -Pageindex is verified with actual image data.
 By enabling this, opening archives will be significatly faster.
 (Default = False)</value>
-  </data>
-  <data name="pictureBox11.ToolTip" xml:space="preserve">
-    <value>Most CBZ-Readers ignore the ComicInfo.xml Page-Index and rely on filename ordering instead. 
-If enabled, any renaming options are ignored and the files are automatically renamed according to their index. 
-The page with type 'FrontCover' should be at index 1.
-
-Note: If writing XML-Pageindex is set to FALSE, this option will be forced and cannot be disabled!</value>
   </data>
   <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -362,7 +369,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAIicAAAJNU0Z0AUkBTAIBAQ8B
-        AAHwAQ0B8AENARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
+        AAEgAQ4BIAEOARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
         ABsAA0wBkAMlAf8DYgHhCAADJAE0AyUB/wMlAf8DKgE/YAABVQJXAbEBXAJlAecBKwJ+AfwBKwJ+AfwB
         XAJlAecBVQJXAbFkAAMyAU8DJQH/AyUB/wMaASQEAAQCA1kB7wMlAf8DRgGAJAADBgEIA0EBcgNbAc0D
         XAH4A1wB+ANbAc0DQQFyAwYBCBwAAUACQQFxAQAB0gH6Af8BAAHSAfoB/wEAAdIB+gH/AQAB0gH6Af8B
@@ -542,7 +549,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAVhwAAAJNU0Z0AUkBTAIBAQUB
-        AAEYAQgBGAEIARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
+        AAFIAQgBSAEIARgBAAEYAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAATADAAEBAQABIAYAAUj/
         AK8AAw8BEwM/AW0DVgG1A1sB5AMmAfsDJgH7A1sB5ANWAbUDPwFtAw8BE/8AUQADBwEJA0kBhQNaAfUD
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNaAfUDSQGFAwcBCf8ARQADGgEjA10B1AMlAf8D
         JQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wNdAdQDGgEj/wA9AAMaASMD
@@ -672,28 +679,28 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
-        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA6gQAAAJNU0Z0AUkBTAMBAQAB
-        2AEHAdgBBwEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAj
-        AAMTARoDSQGIAV0CYQHUAUUBaAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa3AADNwFaAmABbwHzAUQB
-        YwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAzcBWtQAAzcB
-        WgOAAf4BRAFjAdgB/wJgAW8B8wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAUQB
-        YwHYAf8DgAH+AzcBWswAAxMBGgJgAW8B8wFEAWMB2AH/AVoCXAHEAwwBDwFbAl0BygFEAWMB2AH/AUQB
-        YwHYAf8BWQJcAcYDBwEJAVkCXAHDAUQBYwHYAf8CYAFvAfMDEwEayAADSQGIAUQBYwHYAf8BRAFjAdgB
-        /wMpAT4EAAMNAREBXAJlAecBXwJjAdoDBQEGBAADPAFkAUQBYwHYAf8BRAFjAdgB/wNJAYjIAAFdAmEB
-        1AFEAWMB2AH/AUQBYwHYAf8BWQFjAWcB7wMjATMEAAMOARIDBgEHBAADMgFPAk0BfQH6AUQBYwHYAf8B
-        RAFjAdgB/wFdAmEB1MgAAUUBaAFqAfkBRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BXgFjAWoB7QMdASkI
-        AAMsAUMCTQF9AfoBRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRQFoAWoB+cgAAUUBaAFqAfkBRAFjAdgB
-        /wFEAWMB2AH/AUQBYwHYAf8BWwJfAdMDCQELCAADEwEZAVsCYwHkAUQBYwHYAf8BRAFjAdgB/wFEAWMB
-        2AH/AUUBaAFqAfnIAAFdAmEB1AFEAWMB2AH/AUQBYwHYAf8BWQJcAcYDCgENBAADKQE+Ax0BKAQAAxUB
-        HAFeAWMBZQHdAUQBYwHYAf8BRAFjAdgB/wFdAmEB1MgAA0kBiAFEAWMB2AH/AUQBYwHYAf8DGwEmBAAD
-        KAE7AmABbwHzAV4BYwFqAe0DGgEkBAADMQFMAUQBYwHYAf8BRAFjAdgB/wNJAYjIAAMTARoCYAFvAfMB
-        RAFjAdgB/wFdAl8ByQM1AVUCZQFwAfEBRAFjAdgB/wFEAWMB2AH/AWEBZAFsAesDMgFPAV0CYwHfAUQB
-        YwHYAf8CYAFvAfMDEwEazAADNwFaA4AB/gFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQB
-        YwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8DgAH+AzcBWtQAAzcBWgJgAW8B8wFEAWMB2AH/AUQB
-        YwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wJgAW8B8wM3AVrcAAMTARoDSQGIAV0C
-        YQHUAUUBaAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa/wDRAAFCAU0BPgcAAT4DAAEoAwABQAMAARAD
-        AAEBAQABAQUAAYAXAAP/AQAC/wYAAfABDwYAAeABBwYAAcABAwYAAYABAQYAAYQBIQYAAYIBQQYAAoEG
-        AAKBBgABggFBBgABhAEhBgABgAEBBgABwAEDBgAB4AEHBgAB8AEPBgAC/wYACw==
+        SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAA5AQAAAJNU0Z0AUkBTAMBAQAE
+        CAEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAjAAMTARoD
+        SQGIAV0CYQHUAUUBaAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa3AADNwFaAmABbwHzAUQBYwHYAf8B
+        RAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAzcBWtQAAzcBWgOAAf4B
+        RAFjAdgB/wJgAW8B8wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AmABbwHzAUQBYwHYAf8D
+        gAH+AzcBWswAAxMBGgJgAW8B8wFEAWMB2AH/AVoCXAHEAwwBDwFbAl0BygFEAWMB2AH/AUQBYwHYAf8B
+        WQJcAcYDBwEJAVkCXAHDAUQBYwHYAf8CYAFvAfMDEwEayAADSQGIAUQBYwHYAf8BRAFjAdgB/wMpAT4E
+        AAMNAREBXAJlAecBXwJjAdoDBQEGBAADPAFkAUQBYwHYAf8BRAFjAdgB/wNJAYjIAAFdAmEB1AFEAWMB
+        2AH/AUQBYwHYAf8BWQFjAWcB7wMjATMEAAMOARIDBgEHBAADMgFPAk0BfQH6AUQBYwHYAf8BRAFjAdgB
+        /wFdAmEB1MgAAUUBaAFqAfkBRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BXgFjAWoB7QMdASkIAAMsAUMC
+        TQF9AfoBRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRQFoAWoB+cgAAUUBaAFqAfkBRAFjAdgB/wFEAWMB
+        2AH/AUQBYwHYAf8BWwJfAdMDCQELCAADEwEZAVsCYwHkAUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AUUB
+        aAFqAfnIAAFdAmEB1AFEAWMB2AH/AUQBYwHYAf8BWQJcAcYDCgENBAADKQE+Ax0BKAQAAxUBHAFeAWMB
+        ZQHdAUQBYwHYAf8BRAFjAdgB/wFdAmEB1MgAA0kBiAFEAWMB2AH/AUQBYwHYAf8DGwEmBAADKAE7AmAB
+        bwHzAV4BYwFqAe0DGgEkBAADMQFMAUQBYwHYAf8BRAFjAdgB/wNJAYjIAAMTARoCYAFvAfMBRAFjAdgB
+        /wFdAl8ByQM1AVUCZQFwAfEBRAFjAdgB/wFEAWMB2AH/AWEBZAFsAesDMgFPAV0CYwHfAUQBYwHYAf8C
+        YAFvAfMDEwEazAADNwFaA4AB/gFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8B
+        RAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8DgAH+AzcBWtQAAzcBWgJgAW8B8wFEAWMB2AH/AUQBYwHYAf8B
+        RAFjAdgB/wFEAWMB2AH/AUQBYwHYAf8BRAFjAdgB/wJgAW8B8wM3AVrcAAMTARoDSQGIAV0CYQHUAUUB
+        aAFqAfkBRQFoAWoB+QFdAmEB1ANJAYgDEwEa/wDRAAFCAU0BPgcAAT4DAAEoAwABQAMAARADAAEBAQAB
+        AQUAAYAXAAP/AQAC/wYAAfABDwYAAeABBwYAAcABAwYAAYABAQYAAYQBIQYAAYIBQQYAAoEGAAKBBgAB
+        ggFBBgABhAEhBgABgAEBBgABwAEDBgAB4AEHBgAB8AEPBgAC/wYACw==
 </value>
   </data>
   <metadata name="ComboIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -704,7 +711,7 @@ VERSION_2 = &lt;Image="[FileName]" Key="[UniqueID]" ...&gt;
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAhAMAAAJNU0Z0AUkBTAMBAQAB
-        6AECAegBAgEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAb
+        GAEDARgBAwEQAQABEAEABP8BIQEACP8BQgFNATYHAAE2AwABKAMAAUADAAEQAwABAQEAASAGAAEQ/wAb
         AAMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/9AAAyUB/wMdASkD
         PAFmAzwBZgM8AWYDPAFmAzwBZgM8AWYDPAFmAzwBZgMdASkDJQH/0AADJQH/AzwBZgMRARYYAAMRARYD
         PAFmAyUB/9AAAyUB/wM8AWYDUwGnGAADUwGnAzwBZgMlAf/QAAMlAf8DPAFmASECXwH7AUECQgFzAzUB
