@@ -131,6 +131,8 @@
 3. Single page by number i.e. 7
 
 All the above formats can be combined and delimited by
-semicolon (;) i.e. 1,8,15;20-30;99</value>
+semicolon (;) i.e. 1,8,15;20-30;99
+
+If an offset is provided it will be added to every index. Negative offsets are possible.</value>
   </data>
 </root>

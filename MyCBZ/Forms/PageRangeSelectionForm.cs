@@ -93,14 +93,14 @@ namespace Win_CBZ.Forms
                                 throw new ValidationException(part, "TextBoxSelections", "Validation Error! Each selection must be in the format 'start-end'!", true, false);
                             }
 
-                            if (!int.TryParse(indices[0], out int startIndex) || startIndex < 0)
+                            if (!int.TryParse(indices[0], out int startIndex) || startIndex + Offset < 1)
                             {
-                                throw new ValidationException(indices[0], "TextBoxSelections", "Validation Error! Start Index must be nummeric ['0-9']!", true, false);
+                                throw new ValidationException(indices[0], "TextBoxSelections", "Validation Error! Start Index must be nummeric ['0-9'] and greater than 0!", true, false);
                             }
 
-                            if (!int.TryParse(indices[1], out int endIndex) || endIndex < 0 || startIndex > endIndex)
+                            if (!int.TryParse(indices[1], out int endIndex) || endIndex + Offset < 1 || startIndex + Offset > endIndex + Offset)
                             {
-                                throw new ValidationException(indices[1], "TextBoxSelections", "Validation Error! End Index must be nummeric ['0-9'] and greater than or equal to Start Index!", true, false);
+                                throw new ValidationException(indices[1], "TextBoxSelections", "Validation Error! End Index must be nummeric ['0-9'], greater than 0 and greater than or equal to Start Index!", true, false);
                             }
 
                             Selections.Add(new PageSelectionRange(startIndex + Offset, endIndex + Offset));
@@ -112,9 +112,9 @@ namespace Win_CBZ.Forms
                         {
                             indices.ToList().ForEach(indexStr =>
                             {
-                                if (!int.TryParse(indexStr, out int index) || index < 0)
+                                if (!int.TryParse(indexStr, out int index) || index + Offset < 1)
                                 {
-                                    throw new ValidationException(indexStr, "TextBoxSelections", "Validation Error! Index must be nummeric ['0-9']!", true, false);
+                                    throw new ValidationException(indexStr, "TextBoxSelections", "Validation Error! Index must be nummeric ['0-9'] and greater than 0!", true, false);
                                 }
 
                                 Selections.Add(new PageSelectionRange(index + Offset, index + Offset));
@@ -123,9 +123,9 @@ namespace Win_CBZ.Forms
                     }
                     else
                     {
-                        if (!int.TryParse(part, out int index) || index < 0)
+                        if (!int.TryParse(part, out int index) || index + Offset < 1)
                         {
-                            throw new ValidationException(part, "TextBoxSelections", "Validation Error! Index must be nummeric ['0-9']!", true, false);
+                            throw new ValidationException(part, "TextBoxSelections", "Validation Error! Index must be nummeric ['0-9'] and greater than 0!", true, false);
                         }
 
                         Selections.Add(new PageSelectionRange(index + Offset, index + Offset));
