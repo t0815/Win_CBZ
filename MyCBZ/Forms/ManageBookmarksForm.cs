@@ -31,6 +31,10 @@ namespace Win_CBZ.Forms
 
         protected ImagePreviewForm previewForm = null;
 
+        protected bool useOffset = false;
+
+        protected int lastOffset = 0;
+
         public ManageBookmarksForm(MetaData metaData, List<Page> pages)
         {
             InitializeComponent();
@@ -385,7 +389,7 @@ namespace Win_CBZ.Forms
 
         private void PagesList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void ToolStripButton2_Click(object sender, EventArgs e)
@@ -498,6 +502,28 @@ namespace Win_CBZ.Forms
                 }
             }
             */
+        }
+
+        private void ToolButtonSelectRange_Click(object sender, EventArgs e)
+        {
+            PageRangeSelectionForm pageRangeSelectionForm = new PageRangeSelectionForm(useOffset, lastOffset);
+            if (pageRangeSelectionForm.ShowDialog() == DialogResult.OK)
+            {
+                useOffset = pageRangeSelectionForm.UseOffset;
+                lastOffset = pageRangeSelectionForm.Offset;
+
+                PagesList.SelectedItems.Clear();
+                List<Page> selectedPages = Program.ProjectModel.Pages.Where(p => p.Number >= pageRangeSelectionForm.StartIndex && p.Number <= pageRangeSelectionForm.EndIndex).ToList();
+                foreach (Page page in selectedPages)
+                {
+                    ListViewItem item = PagesList.Items.Cast<ListViewItem>().FirstOrDefault(i => i.Tag == page);
+                    if (item != null)
+                    {
+                        item.Selected = true;
+                        item.Focused = true;
+                    }
+                }
+            }
         }
     }
 }

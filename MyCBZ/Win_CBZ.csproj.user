@@ -41,6 +41,9 @@
     <Compile Update="Forms\PageBookmarkForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\PageRangeSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\UserFilerKeysForm.cs">
       <SubType>Form</SubType>
     </Compile>

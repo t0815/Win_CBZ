@@ -40,6 +40,7 @@
             toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            ToolButtonSelectRange = new System.Windows.Forms.ToolStripButton();
             flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             toolStrip2 = new System.Windows.Forms.ToolStrip();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -153,11 +154,11 @@
             // 
             toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddPages, toolStripSeparator1, toolStripButton4, toolStripButton1, toolStripSeparator2 });
+            toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddPages, toolStripSeparator1, toolStripButton4, toolStripButton1, toolStripSeparator2, ToolButtonSelectRange });
             toolStrip1.Location = new System.Drawing.Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            toolStrip1.Size = new System.Drawing.Size(112, 27);
+            toolStrip1.Size = new System.Drawing.Size(180, 27);
             toolStrip1.TabIndex = 0;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -201,6 +202,16 @@
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            // 
+            // ToolButtonSelectRange
+            // 
+            ToolButtonSelectRange.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonSelectRange.Image = Properties.Resources.selection;
+            ToolButtonSelectRange.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonSelectRange.Name = "ToolButtonSelectRange";
+            ToolButtonSelectRange.Size = new System.Drawing.Size(29, 24);
+            ToolButtonSelectRange.Text = "Select range...";
+            ToolButtonSelectRange.Click += ToolButtonSelectRange_Click;
             // 
             // flowLayoutPanel2
             // 
@@ -449,5 +460,6 @@
         private System.Windows.Forms.ColumnHeader ColIndex;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.PictureBox PreviewPictureBox;
+        private System.Windows.Forms.ToolStripButton ToolButtonSelectRange;
     }
 }
