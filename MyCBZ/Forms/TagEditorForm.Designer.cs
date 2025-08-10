@@ -316,7 +316,10 @@
             // 
             // TagEditTooltip
             // 
+            TagEditTooltip.AutoPopDelay = 5000;
+            TagEditTooltip.InitialDelay = 500;
             TagEditTooltip.IsBalloon = true;
+            TagEditTooltip.ReshowDelay = 100;
             TagEditTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             TagEditTooltip.ToolTipTitle = "Win_CBZ";
             // 

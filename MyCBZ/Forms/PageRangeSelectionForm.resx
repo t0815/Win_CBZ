@@ -120,4 +120,17 @@
   <metadata name="ValidationErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="RangeSelectionTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>231, 17</value>
+  </metadata>
+  <data name="pictureBox2.ToolTip" xml:space="preserve">
+    <value>Enter the pages to be selected, the following formats are possible
+
+1. Multiple pages, delimited by comma (,) i.e. 2,5,16,21
+2. A range of pages, delimited by dash (-) i.e. 6-60
+3. Single page by number i.e. 7
+
+All the above formats can be combined and delimited by
+semicolon (;) i.e. 1,8,15;20-30;99</value>
+  </data>
 </root>

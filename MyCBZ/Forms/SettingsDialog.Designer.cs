@@ -1902,7 +1902,7 @@
             // 
             // TagValidationTooltip
             // 
-            TagValidationTooltip.AutoPopDelay = 30000;
+            TagValidationTooltip.AutoPopDelay = 60000;
             TagValidationTooltip.InitialDelay = 200;
             TagValidationTooltip.IsBalloon = true;
             TagValidationTooltip.ReshowDelay = 100;

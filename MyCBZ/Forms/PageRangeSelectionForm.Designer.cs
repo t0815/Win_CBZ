@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PageRangeSelectionForm));
             ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
             label2 = new System.Windows.Forms.Label();
             CancelBtn = new System.Windows.Forms.Button();
@@ -36,15 +37,17 @@
             HeaderPanel = new System.Windows.Forms.Panel();
             HeaderLabel = new System.Windows.Forms.Label();
             HeaderPicture = new System.Windows.Forms.PictureBox();
-            TextBoxStartIndex = new System.Windows.Forms.TextBox();
+            TextBoxSelections = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
-            TextBoxEndIndex = new System.Windows.Forms.TextBox();
             TextBoxOffset = new System.Windows.Forms.TextBox();
             CheckBoxUseOffset = new System.Windows.Forms.CheckBox();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
             ValidationErrorProvider = new System.Windows.Forms.ErrorProvider(components);
+            RangeSelectionTooltip = new System.Windows.Forms.ToolTip(components);
             ItemEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ValidationErrorProvider).BeginInit();
             SuspendLayout();
             // 
@@ -59,11 +62,11 @@
             ItemEditorTableLayout.Controls.Add(CancelBtn, 3, 6);
             ItemEditorTableLayout.Controls.Add(OkButton, 2, 6);
             ItemEditorTableLayout.Controls.Add(HeaderPanel, 0, 0);
-            ItemEditorTableLayout.Controls.Add(TextBoxStartIndex, 1, 2);
+            ItemEditorTableLayout.Controls.Add(TextBoxSelections, 1, 2);
             ItemEditorTableLayout.Controls.Add(label1, 1, 1);
-            ItemEditorTableLayout.Controls.Add(TextBoxEndIndex, 2, 2);
             ItemEditorTableLayout.Controls.Add(TextBoxOffset, 2, 4);
             ItemEditorTableLayout.Controls.Add(CheckBoxUseOffset, 1, 4);
+            ItemEditorTableLayout.Controls.Add(pictureBox2, 1, 6);
             ItemEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             ItemEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             ItemEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -85,9 +88,8 @@
             label2.AutoSize = true;
             label2.Location = new System.Drawing.Point(131, 79);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(65, 20);
+            label2.Size = new System.Drawing.Size(0, 20);
             label2.TabIndex = 10;
-            label2.Text = "To Index";
             // 
             // CancelBtn
             // 
@@ -148,14 +150,15 @@
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
             // 
-            // TextBoxStartIndex
+            // TextBoxSelections
             // 
-            ValidationErrorProvider.SetIconPadding(TextBoxStartIndex, -15);
-            TextBoxStartIndex.Location = new System.Drawing.Point(23, 102);
-            TextBoxStartIndex.Name = "TextBoxStartIndex";
-            TextBoxStartIndex.PlaceholderText = "1";
-            TextBoxStartIndex.Size = new System.Drawing.Size(102, 27);
-            TextBoxStartIndex.TabIndex = 7;
+            ItemEditorTableLayout.SetColumnSpan(TextBoxSelections, 2);
+            ValidationErrorProvider.SetIconPadding(TextBoxSelections, -15);
+            TextBoxSelections.Location = new System.Drawing.Point(23, 102);
+            TextBoxSelections.Name = "TextBoxSelections";
+            TextBoxSelections.PlaceholderText = " 3;1-10;1,2,3";
+            TextBoxSelections.Size = new System.Drawing.Size(228, 27);
+            TextBoxSelections.TabIndex = 7;
             // 
             // label1
             // 
@@ -163,18 +166,9 @@
             label1.AutoSize = true;
             label1.Location = new System.Drawing.Point(23, 79);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(83, 20);
+            label1.Size = new System.Drawing.Size(101, 20);
             label1.TabIndex = 8;
-            label1.Text = "From Index";
-            // 
-            // TextBoxEndIndex
-            // 
-            ValidationErrorProvider.SetIconPadding(TextBoxEndIndex, -15);
-            TextBoxEndIndex.Location = new System.Drawing.Point(131, 102);
-            TextBoxEndIndex.Name = "TextBoxEndIndex";
-            TextBoxEndIndex.PlaceholderText = "999";
-            TextBoxEndIndex.Size = new System.Drawing.Size(121, 27);
-            TextBoxEndIndex.TabIndex = 9;
+            label1.Text = "Select Page(s)";
             // 
             // TextBoxOffset
             // 
@@ -187,16 +181,38 @@
             // CheckBoxUseOffset
             // 
             CheckBoxUseOffset.AutoSize = true;
-            CheckBoxUseOffset.Location = new System.Drawing.Point(23, 143);
+            CheckBoxUseOffset.Location = new System.Drawing.Point(23, 145);
+            CheckBoxUseOffset.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
             CheckBoxUseOffset.Name = "CheckBoxUseOffset";
             CheckBoxUseOffset.Size = new System.Drawing.Size(71, 24);
             CheckBoxUseOffset.TabIndex = 12;
             CheckBoxUseOffset.Text = "Offset";
             CheckBoxUseOffset.UseVisualStyleBackColor = true;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.information;
+            pictureBox2.InitialImage = Properties.Resources.information;
+            pictureBox2.Location = new System.Drawing.Point(26, 207);
+            pictureBox2.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new System.Drawing.Size(36, 43);
+            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            pictureBox2.TabIndex = 32;
+            pictureBox2.TabStop = false;
+            RangeSelectionTooltip.SetToolTip(pictureBox2, resources.GetString("pictureBox2.ToolTip"));
+            // 
             // ValidationErrorProvider
             // 
             ValidationErrorProvider.ContainerControl = this;
+            // 
+            // RangeSelectionTooltip
+            // 
+            RangeSelectionTooltip.AutoPopDelay = 600000;
+            RangeSelectionTooltip.InitialDelay = 500;
+            RangeSelectionTooltip.IsBalloon = true;
+            RangeSelectionTooltip.ReshowDelay = 100;
+            RangeSelectionTooltip.ToolTipTitle = "Win_CBZ";
             // 
             // PageRangeSelectionForm
             // 
@@ -214,6 +230,7 @@
             HeaderPanel.ResumeLayout(false);
             HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)ValidationErrorProvider).EndInit();
             ResumeLayout(false);
         }
@@ -227,11 +244,12 @@
         private System.Windows.Forms.Panel HeaderPanel;
         private System.Windows.Forms.Label HeaderLabel;
         private System.Windows.Forms.PictureBox HeaderPicture;
-        private System.Windows.Forms.TextBox TextBoxStartIndex;
+        private System.Windows.Forms.TextBox TextBoxSelections;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox TextBoxEndIndex;
         private System.Windows.Forms.TextBox TextBoxOffset;
         private System.Windows.Forms.CheckBox CheckBoxUseOffset;
         private System.Windows.Forms.ErrorProvider ValidationErrorProvider;
+        private System.Windows.Forms.ToolTip RangeSelectionTooltip;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

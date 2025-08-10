@@ -8342,16 +8342,23 @@ namespace Win_CBZ
                 LastOffset = pageRangeSelectionForm.Offset;
 
                 PagesList.SelectedItems.Clear();
-                List<Page> selectedPages = Program.ProjectModel.Pages.Where(p => p.Number >= pageRangeSelectionForm.StartIndex && p.Number <= pageRangeSelectionForm.EndIndex).ToList();
-                foreach (Page page in selectedPages)
+
+                pageRangeSelectionForm.Selections.ForEach(selection =>
                 {
-                    ListViewItem item = PagesList.Items.Cast<ListViewItem>().FirstOrDefault(i => i.Tag == page);
-                    if (item != null)
+                    if (selection.Start >= 1 && selection.End >= 0)
                     {
-                        item.Selected = true;
-                        item.Focused = true;
+                        List<Page> selectedPages = Program.ProjectModel.Pages.Where(p => p.Number >= selection.Start && p.Number <= selection.End).ToList();
+                        foreach (Page page in selectedPages)
+                        {
+                            ListViewItem item = PagesList.Items.Cast<ListViewItem>().FirstOrDefault(i => i.Tag == page);
+                            if (item != null)
+                            {
+                                item.Selected = true;
+                                item.Focused = true;
+                            }
+                        }
                     }
-                }
+                });          
             }
         }
     }

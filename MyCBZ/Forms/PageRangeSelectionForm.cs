@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ScintillaNET;
+using SharpCompress;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +10,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Exceptions;
 
@@ -21,9 +24,7 @@ namespace Win_CBZ.Forms
 
         public int Offset { get; private set; } = 0;
 
-        public int StartIndex { get; private set; } = 0;
-
-        public int EndIndex { get; private set; } = 0;
+        public List<PageSelectionRange> Selections { get; private set; } = new List<PageSelectionRange>();
 
         public PageRangeSelectionForm(bool useOffset = false, int lastOffset = 0)
         {
@@ -65,21 +66,71 @@ namespace Win_CBZ.Forms
                     Offset = 0;
                 }
 
-                if (!int.TryParse(TextBoxStartIndex.Text, out int startIndex) || startIndex < 0)
+                if (Selections.Count > 0)
                 {
-                    throw new ValidationException(TextBoxStartIndex.Text, "TextBoxStartIndex", "Validation Error! Start Index must be nummeric ['0-9']!", true, false);
+                    Selections.Clear();
                 }
 
-                if (!int.TryParse(TextBoxEndIndex.Text, out int endIndex) || startIndex < 0 || endIndex < 0 || startIndex > endIndex)
+                string[] selectionParts = TextBoxSelections.Text.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (selectionParts.Length == 0)
                 {
-                    throw new ValidationException(TextBoxEndIndex.Text, "TextBoxEndIndex", "Validation Error! End Index must be nummeric ['0-9']!", true, false);
+                    selectionParts.Append(TextBoxSelections.Text);
                 }
 
+                selectionParts.ForEach(part =>
+                {
+                    string[] indices;
 
+                    if (part.Contains('-'))
+                    {
+                        indices = part.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (indices.Length > 0)
+                        {
 
-                StartIndex = startIndex + Offset;
+                            if (indices.Length != 2)
+                            {
+                                throw new ValidationException(part, "TextBoxSelections", "Validation Error! Each selection must be in the format 'start-end'!", true, false);
+                            }
 
-                EndIndex = endIndex + Offset;
+                            if (!int.TryParse(indices[0], out int startIndex) || startIndex < 0)
+                            {
+                                throw new ValidationException(indices[0], "TextBoxSelections", "Validation Error! Start Index must be nummeric ['0-9']!", true, false);
+                            }
+
+                            if (!int.TryParse(indices[1], out int endIndex) || endIndex < 0 || startIndex > endIndex)
+                            {
+                                throw new ValidationException(indices[1], "TextBoxSelections", "Validation Error! End Index must be nummeric ['0-9'] and greater than or equal to Start Index!", true, false);
+                            }
+
+                            Selections.Add(new PageSelectionRange(startIndex + Offset, endIndex + Offset));
+                        }
+                    } else if (part.Contains(','))
+                    {
+                        indices = part.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (indices.Length > 0)
+                        {
+                            indices.ToList().ForEach(indexStr =>
+                            {
+                                if (!int.TryParse(indexStr, out int index) || index < 0)
+                                {
+                                    throw new ValidationException(indexStr, "TextBoxSelections", "Validation Error! Index must be nummeric ['0-9']!", true, false);
+                                }
+
+                                Selections.Add(new PageSelectionRange(index + Offset, index + Offset));
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (!int.TryParse(part, out int index) || index < 0)
+                        {
+                            throw new ValidationException(part, "TextBoxSelections", "Validation Error! Index must be nummeric ['0-9']!", true, false);
+                        }
+
+                        Selections.Add(new PageSelectionRange(index + Offset, index + Offset));
+                    }
+                });
 
                 DialogResult = DialogResult.OK;
             }
