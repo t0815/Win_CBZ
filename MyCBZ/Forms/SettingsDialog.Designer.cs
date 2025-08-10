@@ -159,7 +159,7 @@
             label16 = new System.Windows.Forms.Label();
             CheckBoxWriteIndex = new System.Windows.Forms.CheckBox();
             CheckBoxPruneEmplyTags = new System.Windows.Forms.CheckBox();
-            TagValidationTooltip = new System.Windows.Forms.ToolTip(components);
+            SettingsTooltip = new System.Windows.Forms.ToolTip(components);
             SettingsValidationErrorProvider = new System.Windows.Forms.ErrorProvider(components);
             AutocompleteIcons = new System.Windows.Forms.ImageList(components);
             OpenTargetDirectory = new System.Windows.Forms.FolderBrowserDialog();
@@ -419,7 +419,7 @@
             pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox11.TabIndex = 7;
             pictureBox11.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox11, resources.GetString("pictureBox11.ToolTip"));
+            SettingsTooltip.SetToolTip(pictureBox11, resources.GetString("pictureBox11.ToolTip"));
             // 
             // pictureBox12
             // 
@@ -433,7 +433,7 @@
             pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox12.TabIndex = 9;
             pictureBox12.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox12, "If checked, archives will continue to be written even if a file failed to compress. \r\nThis may lead to incomplete archives with missing files!\r\n(Default = False)");
+            SettingsTooltip.SetToolTip(pictureBox12, "If checked, archives will continue to be written even if a file failed to compress. \r\nThis may lead to incomplete archives with missing files!\r\n(Default = False)");
             // 
             // CheckBoxCompatibilityMode
             // 
@@ -503,7 +503,7 @@
             pictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox16.TabIndex = 7;
             pictureBox16.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox16, resources.GetString("pictureBox16.ToolTip"));
+            SettingsTooltip.SetToolTip(pictureBox16, resources.GetString("pictureBox16.ToolTip"));
             // 
             // CheckBoxSkipSubfolders
             // 
@@ -703,7 +703,7 @@
             pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox5.TabIndex = 7;
             pictureBox5.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox5, "Sets the interpolation-mode for image operations like Resize");
+            SettingsTooltip.SetToolTip(pictureBox5, "Sets the interpolation-mode for image operations like Resize");
             // 
             // label11
             // 
@@ -889,7 +889,7 @@
             pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox7.TabIndex = 31;
             pictureBox7.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox7, "List of allowed file-extensions. Please enter extension only, without \".\" and filename parts.\r\nPress ENTER to accept an item and add it to the list.");
+            SettingsTooltip.SetToolTip(pictureBox7, "List of allowed file-extensions. Please enter extension only, without \".\" and filename parts.\r\nPress ENTER to accept an item and add it to the list.");
             // 
             // DirectoryPathTextBox
             // 
@@ -953,7 +953,7 @@
             pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox6.TabIndex = 7;
             pictureBox6.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox6, "Change applications temporary directory. Environment variables\r\nin format %NAME% are supported.");
+            SettingsTooltip.SetToolTip(pictureBox6, "Change applications temporary directory. Environment variables\r\nin format %NAME% are supported.");
             // 
             // label13
             // 
@@ -1130,7 +1130,7 @@
             pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox13.TabIndex = 39;
             pictureBox13.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox13, resources.GetString("pictureBox13.ToolTip"));
+            SettingsTooltip.SetToolTip(pictureBox13, resources.GetString("pictureBox13.ToolTip"));
             // 
             // TabPageAppSettings
             // 
@@ -1287,7 +1287,7 @@
             pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox8.TabIndex = 7;
             pictureBox8.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox8, "Begin editing (showing cells Editor) immediately, once the user selects a cell.");
+            SettingsTooltip.SetToolTip(pictureBox8, "Begin editing (showing cells Editor) immediately, once the user selects a cell.");
             // 
             // RestoreFieldTypesButton
             // 
@@ -1369,7 +1369,7 @@
             pictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox14.TabIndex = 14;
             pictureBox14.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox14, "Scrolls the selected Page into view when selecting an\r\nItem in the Pageslist from the Mainwindow.\r\n(Default = True)");
+            SettingsTooltip.SetToolTip(pictureBox14, "Scrolls the selected Page into view when selecting an\r\nItem in the Pageslist from the Mainwindow.\r\n(Default = True)");
             // 
             // TabPageBehaviour
             // 
@@ -1427,7 +1427,7 @@
             pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox3.TabIndex = 14;
             pictureBox3.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox3, resources.GetString("pictureBox3.ToolTip"));
+            SettingsTooltip.SetToolTip(pictureBox3, resources.GetString("pictureBox3.ToolTip"));
             // 
             // CheckBoxSkipIndexCheck
             // 
@@ -1505,7 +1505,7 @@
             pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox4.TabIndex = 15;
             pictureBox4.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox4, "Caldulates a hash for every newly added page. \r\nThis is helpful when identifying duplicate pages, but slows down\r\nadding new images significantly!");
+            SettingsTooltip.SetToolTip(pictureBox4, "Caldulates a hash for every newly added page. \r\nThis is helpful when identifying duplicate pages, but slows down\r\nadding new images significantly!");
             // 
             // label21
             // 
@@ -1530,7 +1530,7 @@
             pictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox15.TabIndex = 19;
             pictureBox15.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox15, "Trys to detect if a Page is a \"Double-Page\" and set the\r\nDoublepage -property automatically.\r\n(Default = False)");
+            SettingsTooltip.SetToolTip(pictureBox15, "Trys to detect if a Page is a \"Double-Page\" and set the\r\nDoublepage -property automatically.\r\n(Default = False)");
             // 
             // CheckboxDetectDoublePages
             // 
@@ -1648,7 +1648,7 @@
             PictureBoxToolTipMetaFileName.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             PictureBoxToolTipMetaFileName.TabIndex = 6;
             PictureBoxToolTipMetaFileName.TabStop = false;
-            TagValidationTooltip.SetToolTip(PictureBoxToolTipMetaFileName, "Should always be \"ComicInfo.xml\". \r\nThis option sets the name of the Metadata- File within the Archive and can be changed here for more flexibility.");
+            SettingsTooltip.SetToolTip(PictureBoxToolTipMetaFileName, "Should always be \"ComicInfo.xml\". \r\nThis option sets the name of the Metadata- File within the Archive and can be changed here for more flexibility.");
             // 
             // ComboBoxFileName
             // 
@@ -1749,7 +1749,7 @@
             InfoIconTooltip.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             InfoIconTooltip.TabIndex = 5;
             InfoIconTooltip.TabStop = false;
-            TagValidationTooltip.SetToolTip(InfoIconTooltip, "This options allow you, to validate matadata tags against your own list of valid tags,\r\npreventing typos, duplicate- and invalid tags, from being generated/shown within applications.\r\n");
+            SettingsTooltip.SetToolTip(InfoIconTooltip, "This options allow you, to validate matadata tags against your own list of valid tags,\r\npreventing typos, duplicate- and invalid tags, from being generated/shown within applications.\r\n");
             // 
             // CheckBoxTagValidationIgnoreCase
             // 
@@ -1876,7 +1876,7 @@
             pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox10.TabIndex = 21;
             pictureBox10.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox10, "If enabled, any tags which dont contain any values are omitted entierely.\r\n(Default = False)");
+            SettingsTooltip.SetToolTip(pictureBox10, "If enabled, any tags which dont contain any values are omitted entierely.\r\n(Default = False)");
             // 
             // pictureBox9
             // 
@@ -1891,7 +1891,7 @@
             pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox9.TabIndex = 20;
             pictureBox9.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox9, "If checked, an index of all pages is included in XML -output.\r\n(Default = True)");
+            SettingsTooltip.SetToolTip(pictureBox9, "If checked, an index of all pages is included in XML -output.\r\n(Default = True)");
             // 
             // pictureBox2
             // 
@@ -1906,7 +1906,7 @@
             pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             pictureBox2.TabIndex = 19;
             pictureBox2.TabStop = false;
-            TagValidationTooltip.SetToolTip(pictureBox2, resources.GetString("pictureBox2.ToolTip"));
+            SettingsTooltip.SetToolTip(pictureBox2, resources.GetString("pictureBox2.ToolTip"));
             // 
             // ComboBoxPageIndexVersionWrite
             // 
@@ -1977,14 +1977,14 @@
             CheckBoxPruneEmplyTags.Text = "Omit empty XML- Tags";
             CheckBoxPruneEmplyTags.UseVisualStyleBackColor = true;
             // 
-            // TagValidationTooltip
+            // SettingsTooltip
             // 
-            TagValidationTooltip.AutoPopDelay = 60000;
-            TagValidationTooltip.InitialDelay = 200;
-            TagValidationTooltip.IsBalloon = true;
-            TagValidationTooltip.ReshowDelay = 100;
-            TagValidationTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            TagValidationTooltip.ToolTipTitle = "Win_CBZ";
+            SettingsTooltip.AutoPopDelay = 30000;
+            SettingsTooltip.InitialDelay = 200;
+            SettingsTooltip.IsBalloon = true;
+            SettingsTooltip.ReshowDelay = 100;
+            SettingsTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            SettingsTooltip.ToolTipTitle = "Win_CBZ";
             // 
             // SettingsValidationErrorProvider
             // 
@@ -2154,7 +2154,7 @@
         private System.Windows.Forms.TextBox ValidTags;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.PictureBox InfoIconTooltip;
-        private System.Windows.Forms.ToolTip TagValidationTooltip;
+        private System.Windows.Forms.ToolTip SettingsTooltip;
         private System.Windows.Forms.CheckBox CheckBoxTagValidationIgnoreCase;
         private System.Windows.Forms.ToolStrip ItemEditorToolBar;
         private System.Windows.Forms.ToolStripButton ToolButtonSortAscending;
