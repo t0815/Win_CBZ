@@ -79,6 +79,10 @@ namespace Win_CBZ
 
         private bool ApplyUserKeyFilter = false;
 
+        private bool UseOffset = false;
+
+        private int LastOffset = 0;
+
         private DebugForm df;
 
         public MainForm()
@@ -2359,7 +2363,7 @@ namespace Win_CBZ
                         ToolButtonNew.Enabled = true;
                         ToolButtonOpen.Enabled = true;
                         AddFilesToolStripMenuItem.Enabled = true;
-                        ToolButtonAddFiles.Enabled = true;           
+                        ToolButtonAddFiles.Enabled = true;
                         ToolButtonAddFolder.Enabled = true;
                         ToolBarSearchInput.Enabled = true;
                         ToolBarSearchLabel.Enabled = true;
@@ -2380,7 +2384,7 @@ namespace Win_CBZ
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
                         AddMetaDataRowBtn.Enabled = false;
- 
+
                         ToolButtonValidateCBZ.Enabled = true;
                         CurrentGlobalAction = null;
 
@@ -2401,7 +2405,7 @@ namespace Win_CBZ
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
-                        
+
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVING:
@@ -2446,7 +2450,7 @@ namespace Win_CBZ
                         ToolButtonExtractArchive.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         ToolButtonAddFolder.Enabled = true;
-                        
+
                         ToolButtonSave.Enabled = false;
                         SaveToolStripMenuItem.Enabled = false;
                         ToolStripButtonShowRawMetadata.Enabled = true;
@@ -2455,7 +2459,7 @@ namespace Win_CBZ
                         CheckBoxDoRenamePages.Enabled = true;
                         CheckBoxDoRenamePages.Checked = false;
                         ToolButtonValidateCBZ.Enabled = true;
-                        
+
                         Program.ProjectModel.IsNew = false;
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
@@ -2483,11 +2487,11 @@ namespace Win_CBZ
                         ToolButtonAddFolder.Enabled = true;
                         TextboxStoryPageRenamingPattern.Enabled = true;
                         TextboxSpecialPageRenamingPattern.Enabled = true;
-   
+
                         ToolStripButtonShowRawMetadata.Enabled = true;
                         ExtractSelectedPages.Enabled = true;
                         ToolButtonValidateCBZ.Enabled = true;
-                        
+
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
@@ -2624,14 +2628,14 @@ namespace Win_CBZ
                         ToolButtonEditImageProps.Enabled = false;
                         ToolButtonEditImage.Enabled = false;
                         GlobalAlertTableLayout.Visible = false;
-                        
+
                         PagesList.Enabled = true;
                         PageView.Enabled = true;
                         PageThumbsListBox.Enabled = true;
                         MetaDataGrid.Enabled = true;
-             
-                        
-                        
+
+
+
                         CurrentGlobalAction = null;
 
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
@@ -2643,7 +2647,7 @@ namespace Win_CBZ
                         RadioApplyAdjustmentsPage.Text = "(no Page selected)";
                         RadioApplyAdjustmentsPage.Enabled = false;
                         CurrentGlobalActions.Clear();
-    
+
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
@@ -2772,7 +2776,7 @@ namespace Win_CBZ
                         PagesList.Enabled = enabled;
                         PageView.Enabled = enabled;
                         PageThumbsListBox.Enabled = enabled;
-                        
+
                         break;
                     case "imageprops":
                         ToolButtonEditImageProps.Enabled = enabled;
@@ -4953,7 +4957,7 @@ namespace Win_CBZ
                     {
                         PageThumbsListBox.TopIndex = PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page);
                     }
-                }            
+                }
             }
 
             if (buttonStateSelected)
@@ -8327,6 +8331,28 @@ namespace Win_CBZ
         private void ToolButtonSetBookmark_Click(object sender, EventArgs e)
         {
             BookmarksToolStripMenuItem_Click(sender, e);
+        }
+
+        private void SelectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PageRangeSelectionForm pageRangeSelectionForm = new PageRangeSelectionForm(UseOffset, LastOffset);
+            if (pageRangeSelectionForm.ShowDialog() == DialogResult.OK)
+            {
+                UseOffset = pageRangeSelectionForm.UseOffset;
+                LastOffset = pageRangeSelectionForm.Offset;
+
+                PagesList.SelectedItems.Clear();
+                List<Page> selectedPages = Program.ProjectModel.Pages.Where(p => p.Number >= pageRangeSelectionForm.StartIndex && p.Number <= pageRangeSelectionForm.EndIndex).ToList();
+                foreach (Page page in selectedPages)
+                {
+                    ListViewItem item = PagesList.Items.Cast<ListViewItem>().FirstOrDefault(i => i.Tag == page);
+                    if (item != null)
+                    {
+                        item.Selected = true;
+                        item.Focused = true;
+                    }
+                }
+            }
         }
     }
 }
