@@ -126,8 +126,10 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(462, 224);
             Controls.Add(BookmarkEditorTableLayout);
+            KeyPreview = true;
             Name = "PageBookmarkForm";
             Text = "PageBookmarkForm";
+            KeyUp += PageBookmarkForm_KeyUp;
             BookmarkEditorTableLayout.ResumeLayout(false);
             HeaderPanel.ResumeLayout(false);
             HeaderPanel.PerformLayout();

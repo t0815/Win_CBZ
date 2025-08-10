@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="TagEditTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>387, 17</value>
-  </metadata>
   <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
@@ -151,7 +148,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAEgMAAAJNU0Z0AUkBTAIBAQIB
-        AAG4AQABuAEAARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQzk
+        AAHAAQABwAEAARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQzk
         AAP3BiUD/bEAA/cDJQPSA6gDJQP9IQAD9gO+A70D4H4AA/cDJQPSAwAD/wOoAyUD/R4AAdEC0gYlAYoC
         i3sAA/cDJQPSCQAD/wOoAyUD/RsAAdEC0gYlAYoCi3gAA/cDJQPSDwAD/wOnAyUbAAHRAtIGJQGKAot1
         AAP3AyUD0hUAA9oDJQP/DwADlAGKAosBigKLAWYCZwYlA0cBigKLAYoCiwGKAosD4GkAAyUDnxUAA9wD
@@ -166,4 +163,13 @@
         AwQAAYIBBwH8AT8EAAGAAQ8B/AE/BAABgAEfAfwBPwQAAYABPwL/BAABgAF/Av8EAAT/BAAL
 </value>
   </data>
+  <metadata name="TagEditTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>387, 17</value>
+  </metadata>
+  <metadata name="ItemEditorToolBar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="TagEditTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>387, 17</value>
+  </metadata>
 </root>

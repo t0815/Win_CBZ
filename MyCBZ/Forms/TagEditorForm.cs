@@ -475,5 +475,14 @@ namespace Win_CBZ.Forms
         {
             //TagTextBox.Text = e.Item.Text;
         }
+
+        private void TagEditorForm_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
+        }
     }
 }

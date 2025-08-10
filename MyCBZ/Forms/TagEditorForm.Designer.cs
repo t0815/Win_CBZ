@@ -84,8 +84,8 @@
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
             ItemEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             ItemEditorTableLayout.Size = new System.Drawing.Size(497, 461);
             ItemEditorTableLayout.TabIndex = 1;
@@ -255,7 +255,7 @@
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(274, 407);
+            OkButton.Location = new System.Drawing.Point(274, 415);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new System.Drawing.Size(100, 35);
@@ -268,7 +268,7 @@
             // 
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            CancelBtn.Location = new System.Drawing.Point(394, 407);
+            CancelBtn.Location = new System.Drawing.Point(394, 415);
             CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new System.Drawing.Size(99, 35);
@@ -343,6 +343,7 @@
             ClientSize = new System.Drawing.Size(497, 461);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            KeyPreview = true;
             Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             MinimumSize = new System.Drawing.Size(380, 300);
             Name = "TagEditorForm";
@@ -351,6 +352,7 @@
             Text = "Tag Editor";
             FormClosing += TagEditor_FormClosing;
             Shown += TagEditorForm_Shown;
+            KeyUp += TagEditorForm_KeyUp;
             ItemEditorTableLayout.ResumeLayout(false);
             ItemEditorTableLayout.PerformLayout();
             panel1.ResumeLayout(false);

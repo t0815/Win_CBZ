@@ -34,6 +34,7 @@ using Microsoft.VisualBasic.Devices;
 using Win_CBZ.Extensions;
 using Win_CBZ.List;
 using System.Collections;
+using SharpCompress;
 
 namespace Win_CBZ
 {
@@ -8342,8 +8343,9 @@ namespace Win_CBZ
                 LastOffset = pageRangeSelectionForm.Offset;
 
                 PagesList.SelectedItems.Clear();
-
-                pageRangeSelectionForm.Selections.ForEach(selection =>
+                bool visibilityEnsured = false;
+                
+                pageRangeSelectionForm.Selections.OrderBy(item => item.Start).Each(selection =>
                 {
                     if (selection.Start >= 1 && selection.End >= 0)
                     {
@@ -8355,6 +8357,11 @@ namespace Win_CBZ
                             {
                                 item.Selected = true;
                                 item.Focused = true;
+                                if (!visibilityEnsured)
+                                {
+                                    item.EnsureVisible();
+                                    visibilityEnsured = true;
+                                }   
                             }
                         }
                     }

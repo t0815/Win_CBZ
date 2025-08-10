@@ -41,7 +41,7 @@ namespace Win_CBZ.Forms
                 {
                     if (Config.Value != null && Config.Value.Length > 0)
                     {
-                        
+
                     }
 
                 }
@@ -164,12 +164,21 @@ namespace Win_CBZ.Forms
 
             //int occurence = itemsText.IndexOf(ToolStripTextBoxSearch.Text, 0, StringComparison.CurrentCultureIgnoreCase);
 
-           
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void RomajiEditorForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
         }
     }
 }

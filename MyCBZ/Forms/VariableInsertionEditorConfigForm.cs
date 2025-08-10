@@ -71,7 +71,7 @@ namespace Win_CBZ.Forms
             {
                 if (Config != null)
                 {
-                    
+
 
                     if (TextBoxOutput.Text.Contains("|") || TextBoxOutput.Text.Contains(","))
                     {
@@ -92,8 +92,17 @@ namespace Win_CBZ.Forms
 
                     Config.Result = result;
 
-                    
+
                 }
+            }
+        }
+
+        private void VariableInsertionEditorConfigForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
             }
         }
     }

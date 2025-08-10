@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
+using Win_CBZ.Extensions;
 using Win_CBZ.Handler;
 using Win_CBZ.Helper;
 using Win_CBZ.Tasks;
@@ -513,8 +514,10 @@ namespace Win_CBZ.Forms
                 lastOffset = pageRangeSelectionForm.Offset;
 
                 PagesList.SelectedItems.Clear();
-                pageRangeSelectionForm.Selections.ForEach(selection =>
+                bool visibilityEnsured = false;
+                pageRangeSelectionForm.Selections.OrderBy(item => item.Start).Each(selection =>
                 {
+                    
                     if (selection.Start >= 1 && selection.End >= 0)
                     {
                         List<Page> selectedPages = Program.ProjectModel.Pages.Where(p => p.Number >= selection.Start && p.Number <= selection.End).ToList();
@@ -525,6 +528,11 @@ namespace Win_CBZ.Forms
                             {
                                 item.Selected = true;
                                 item.Focused = true;
+                                if (!visibilityEnsured)
+                                {
+                                    PagesList.EnsureVisible(item.Index);
+                                    visibilityEnsured = true;
+                                }
                             }
                         }
                     }

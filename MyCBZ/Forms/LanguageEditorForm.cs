@@ -51,7 +51,8 @@ namespace Win_CBZ.Forms
         {
             String find = ToolStripTextBoxSearchLang.Text;
 
-            FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) => {
+            FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) =>
+            {
                 return item.Name.ToLower().Contains(find.ToLower());
             }).ToArray());
 
@@ -63,7 +64,7 @@ namespace Win_CBZ.Forms
         private void LanguageEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             object result = null;
-            
+
 
             if (DialogResult == DialogResult.OK)
             {
@@ -95,7 +96,8 @@ namespace Win_CBZ.Forms
         {
             String find = ToolStripTextBoxSearchLang.Text;
 
-            FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) => {
+            FilteredList = new BindingList<LanguageListItem>(LanguageList.Languages.Where<LanguageListItem>((item, x) =>
+            {
                 return item.Name.ToLower().Contains(find.ToLower());
             }).ToArray());
 
@@ -141,6 +143,15 @@ namespace Win_CBZ.Forms
                 {
                     selectedRow = LanguageListDatagrid.SelectedRows[0];
                 }
+            }
+        }
+
+        private void LanguageEditorForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
             }
         }
     }

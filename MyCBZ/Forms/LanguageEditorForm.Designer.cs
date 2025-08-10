@@ -212,6 +212,7 @@
             ClientSize = new System.Drawing.Size(463, 421);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            KeyPreview = true;
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             MinimizeBox = false;
             Name = "LanguageEditorForm";
@@ -221,6 +222,7 @@
             Text = "Language Editor";
             FormClosing += LanguageEditorForm_FormClosing;
             Shown += LanguageEditorForm_Shown;
+            KeyUp += LanguageEditorForm_KeyUp;
             ItemEditorTableLayout.ResumeLayout(false);
             ItemEditorTableLayout.PerformLayout();
             HeaderPanel.ResumeLayout(false);

@@ -34,12 +34,20 @@ namespace Win_CBZ.Forms
             Offset = lastOffset;
 
             CheckBoxUseOffset.Checked = UseOffset;
-            TextBoxOffset.Text = Offset.ToString();
+            if (lastOffset > 0)
+            {
+                TextBoxOffset.Text = lastOffset.ToString();
+            }
+            else
+            {
+                TextBoxOffset.Text = "";
+            }
+
         }
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void PageRangeSelectionForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -105,7 +113,8 @@ namespace Win_CBZ.Forms
 
                             Selections.Add(new PageSelectionRange(startIndex + Offset, endIndex + Offset));
                         }
-                    } else if (part.Contains(','))
+                    }
+                    else if (part.Contains(','))
                     {
                         indices = part.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                         if (indices.Length > 0)
@@ -154,7 +163,7 @@ namespace Win_CBZ.Forms
                 {
                     ApplicationMessage.ShowError("Failed to assign error to control! Control '${controlName}' not found!", "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
-                }     
+                }
 
                 DialogResult = DialogResult.None;
                 e.Cancel = true;
@@ -166,6 +175,20 @@ namespace Win_CBZ.Forms
 
                 ApplicationMessage.ShowWarning(ve.Message, "Validation Error", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
 
+            }
+        }
+
+        private void PageRangeSelectionForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PageRangeSelectionForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
             }
         }
     }

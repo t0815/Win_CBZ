@@ -34,13 +34,13 @@ namespace Win_CBZ.Forms
         public TextEditorForm(EditorTypeConfig editorTypeConfig)
         {
             InitializeComponent();
-            
+
             Validation = new DataValidation();
 
             Config = editorTypeConfig;
 
-            if (Config != null ) 
-            { 
+            if (Config != null)
+            {
                 if (Config.Separator != null)
                 {
                     if (Config.Value != null && Config.Value.Length > 0)
@@ -54,8 +54,9 @@ namespace Win_CBZ.Forms
 
                         ItemsText.Lines = Lines.ToArray();
                     }
-                    
-                } else
+
+                }
+                else
                 {
                     ItemsText.Text = Config.Value;
                 }
@@ -71,7 +72,7 @@ namespace Win_CBZ.Forms
                         items.Add(new AutocompleteItem(item) { ImageIndex = AutocompleteIcons.Images.IndexOfKey(Config.AutoCompleteImageKey) });
 
                     if (Config.AutoCompleteImageKey == "" || Config.AutoCompleteImageKey == null)
-                        AutoCompleteItems.LeftPadding = 2; 
+                        AutoCompleteItems.LeftPadding = 2;
                     else AutoCompleteItems.LeftPadding = 18;
 
                     AutoCompleteItems.SetAutocompleteItems(items);
@@ -186,7 +187,8 @@ namespace Win_CBZ.Forms
 
                     lastSearchOccurence = 0;
                 }
-            } else
+            }
+            else
             {
                 lastSearchOccurence = 0;
             }
@@ -202,9 +204,16 @@ namespace Win_CBZ.Forms
                 ItemsText.ScrollToCaret();
 
                 lastSearchOccurence = occurence;
-            }   
-            
-            
+            }
+        }
+
+        private void TextEditorForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
         }
     }
 }

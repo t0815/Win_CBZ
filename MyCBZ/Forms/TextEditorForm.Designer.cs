@@ -39,11 +39,11 @@
             ItemEditorToolBar = new System.Windows.Forms.ToolStrip();
             ToolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             ToolButtonSortAscending = new System.Windows.Forms.ToolStripButton();
-            CancelBtn = new System.Windows.Forms.Button();
             OkButton = new System.Windows.Forms.Button();
+            CancelBtn = new System.Windows.Forms.Button();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
             AutoCompleteItems = new AutocompleteMenuNS.AutocompleteMenu();
             AutocompleteIcons = new System.Windows.Forms.ImageList(components);
-            pictureBox2 = new System.Windows.Forms.PictureBox();
             TextEditorTooltip = new System.Windows.Forms.ToolTip(components);
             ItemEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
@@ -178,6 +178,19 @@
             ToolButtonSortAscending.ToolTipText = "Sort items ascending";
             ToolButtonSortAscending.Click += toolStripButton1_Click;
             // 
+            // OkButton
+            // 
+            OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            OkButton.Location = new System.Drawing.Point(322, 419);
+            OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            OkButton.Name = "OkButton";
+            OkButton.Size = new System.Drawing.Size(100, 35);
+            OkButton.TabIndex = 3;
+            OkButton.Text = "Ok";
+            OkButton.UseVisualStyleBackColor = true;
+            OkButton.Click += OkButton_Click;
+            // 
             // CancelBtn
             // 
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
@@ -191,18 +204,18 @@
             CancelBtn.UseVisualStyleBackColor = true;
             CancelBtn.Click += CancelButton_Click;
             // 
-            // OkButton
+            // pictureBox2
             // 
-            OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(322, 419);
-            OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            OkButton.Name = "OkButton";
-            OkButton.Size = new System.Drawing.Size(100, 35);
-            OkButton.TabIndex = 3;
-            OkButton.Text = "Ok";
-            OkButton.UseVisualStyleBackColor = true;
-            OkButton.Click += OkButton_Click;
+            pictureBox2.Image = Properties.Resources.information;
+            pictureBox2.InitialImage = Properties.Resources.information;
+            pictureBox2.Location = new System.Drawing.Point(6, 361);
+            pictureBox2.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new System.Drawing.Size(36, 43);
+            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            pictureBox2.TabIndex = 32;
+            pictureBox2.TabStop = false;
+            TextEditorTooltip.SetToolTip(pictureBox2, "Autocomplete Editor. Start typing and accept an item by pressing enter.");
             // 
             // AutoCompleteItems
             // 
@@ -234,19 +247,6 @@
             AutocompleteIcons.Images.SetKeyName(13, "blackwhite");
             AutocompleteIcons.Images.SetKeyName(14, "family");
             // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = Properties.Resources.information;
-            pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(6, 361);
-            pictureBox2.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new System.Drawing.Size(36, 43);
-            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            pictureBox2.TabIndex = 32;
-            pictureBox2.TabStop = false;
-            TextEditorTooltip.SetToolTip(pictureBox2, "Autocomplete Editor. Start typing and accept an item by pressing enter.");
-            // 
             // TextEditorTooltip
             // 
             TextEditorTooltip.IsBalloon = true;
@@ -260,6 +260,7 @@
             ClientSize = new System.Drawing.Size(533, 472);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            KeyPreview = true;
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             MinimizeBox = false;
             MinimumSize = new System.Drawing.Size(380, 300);
@@ -270,6 +271,7 @@
             Text = "Item Editor";
             FormClosing += TextEditorForm_FormClosing;
             Load += TextEditorForm_Load;
+            KeyUp += TextEditorForm_KeyUp;
             ItemEditorTableLayout.ResumeLayout(false);
             ItemEditorTableLayout.PerformLayout();
             HeaderPanel.ResumeLayout(false);

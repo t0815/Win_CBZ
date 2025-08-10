@@ -229,6 +229,7 @@
             ClientSize = new System.Drawing.Size(585, 526);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            KeyPreview = true;
             Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             MinimizeBox = false;
             Name = "RomajiEditorForm";
@@ -238,6 +239,7 @@
             Text = "Romaji Editor";
             FormClosing += TextEditorForm_FormClosing;
             Load += TextEditorForm_Load;
+            KeyUp += RomajiEditorForm_KeyUp;
             ItemEditorTableLayout.ResumeLayout(false);
             ItemEditorTableLayout.PerformLayout();
             HeaderPanel.ResumeLayout(false);

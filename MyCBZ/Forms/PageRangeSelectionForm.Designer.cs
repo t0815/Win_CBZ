@@ -221,10 +221,13 @@
             ClientSize = new System.Drawing.Size(367, 258);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            KeyPreview = true;
             Name = "PageRangeSelectionForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Select Range";
             FormClosing += PageRangeSelectionForm_FormClosing;
+            Load += PageRangeSelectionForm_Load;
+            KeyUp += PageRangeSelectionForm_KeyUp;
             ItemEditorTableLayout.ResumeLayout(false);
             ItemEditorTableLayout.PerformLayout();
             HeaderPanel.ResumeLayout(false);

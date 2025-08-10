@@ -197,10 +197,12 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(501, 344);
             Controls.Add(ItemEditorTableLayout);
+            KeyPreview = true;
             Name = "VariableInsertionEditorConfigForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Define AutoFill Variables";
             FormClosing += VariableInsertionEditorConfigForm_FormClosing;
+            KeyUp += VariableInsertionEditorConfigForm_KeyUp;
             ItemEditorTableLayout.ResumeLayout(false);
             ItemEditorTableLayout.PerformLayout();
             HeaderPanel.ResumeLayout(false);

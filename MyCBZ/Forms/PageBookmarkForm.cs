@@ -16,5 +16,14 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
         }
+
+        private void PageBookmarkForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
+        }
     }
 }
