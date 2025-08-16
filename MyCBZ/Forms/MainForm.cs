@@ -3948,10 +3948,13 @@ namespace Win_CBZ
                         DataGridViewColumn secondCol = MetaDataGrid.Columns.GetNextColumn(firstCol, DataGridViewElementStates.Visible, DataGridViewElementStates.None);
                         if (secondCol != null)
                         {
-                            firstCol.Width = 150;
-                            secondCol.Width = 250;
-                            firstCol.SortMode = DataGridViewColumnSortMode.Automatic;
-                            secondCol.SortMode = DataGridViewColumnSortMode.Automatic;
+                            Invoke(new Action(() =>
+                            {
+                                firstCol.Width = 150;
+                                secondCol.Width = 250;
+                                firstCol.SortMode = DataGridViewColumnSortMode.Automatic;
+                                secondCol.SortMode = DataGridViewColumnSortMode.Automatic;
+                            }));
                         }
                     }
                     else
@@ -3989,19 +3992,17 @@ namespace Win_CBZ
                         }));
                     }
 
-                    MetaDataGrid.Invoke(new Action(() => MetaDataGrid.Rows.Clear()));
+                    MetaDataGrid.Invoke(new Action(() => {
+                        MetaDataGrid.Rows.Clear();
 
-                    foreach (MetaDataEntry entry in e.MetaData)
-                    {
-                        if (entry.Visible && !entry.UserFiltered)
+                        foreach (MetaDataEntry entry in e.MetaData)
                         {
-
-                            MetaDataGrid.Invoke(new Action(() =>
-                            {
-                                MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
-                            }));
+                            if (entry.Visible && !entry.UserFiltered)
+                            {                            
+                                 MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));            
+                            }
                         }
-                    }
+                    }));
 
                     int[] colIndices = new int[] { 0, 2 };
                     Color selectionColor = Color.Gold;
