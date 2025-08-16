@@ -128,7 +128,7 @@ namespace Win_CBZ
 
             Win_CBZSettings.Default.Version = version;
 
-            Text = Assembly.GetExecutingAssembly().GetName().Name + " (c) Trash_s0Ft";
+            Text = Assembly.GetExecutingAssembly().GetName().Name + " Trash_s0Ft";
 
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
@@ -3936,6 +3936,7 @@ namespace Win_CBZ
                     //MetaDataGrid.DataSource = e.MetaData;
                     Invoke(new Action(() =>
                     {
+                        ButtonFilter.Enabled = false;
                         BtnAddMetaData.Enabled = false;
                         BtnRemoveMetaData.Enabled = true;
                         ToolStripButtonShowRawMetadata.Enabled = true;
@@ -4180,6 +4181,11 @@ namespace Win_CBZ
                     {
                         //
                     }
+
+                    Invoke(new Action(() =>
+                    {
+                        ButtonFilter.Enabled = true;
+                    }));
                 });
 
                 fillDataGrid.Start();
