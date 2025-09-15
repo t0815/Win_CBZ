@@ -25,7 +25,14 @@ namespace Win_CBZ
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            try
+            {
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unhandled exception occured:\n" + ex.Message + "\n\nat: " + ex.Source + "\r\nLine: " + ex.StackTrace + "\r\nApplication will terminate.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
