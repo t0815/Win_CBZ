@@ -1,14 +1,18 @@
-﻿using System;
+﻿using SharpCompress.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
@@ -59,7 +63,8 @@ namespace Win_CBZ.Forms
                     if (BookmarksTree.Nodes.IndexOfKey(page.Bookmark) == -1)
                     {
                         TreeNode node = BookmarksTree.Nodes.Add(page.Bookmark, page.Bookmark);
-                        node.Nodes.Add(page.Name, page.Name);
+                        TreeNode subNode = node.Nodes.Add(page.Name, page.Name);
+                        subNode.Tag = page;
 
                     }
                     else
@@ -67,7 +72,8 @@ namespace Win_CBZ.Forms
                         TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(page.Bookmark)];
                         if (node.Level == 0)
                         {
-                            node.Nodes.Add(page.Name, page.Name);
+                            TreeNode subNode = node.Nodes.Add(page.Name, page.Name);
+                            subNode.Tag = page;
                         }
 
                     }
@@ -165,7 +171,8 @@ namespace Win_CBZ.Forms
                     {
                         if (node.Nodes.IndexOfKey(page.Name) == -1)
                         {
-                            node.Nodes.Add(page.Name, page.Name);
+                            TreeNode subNode = node.Nodes.Add(page.Name, page.Name);
+                            subNode.Tag = page;
                         }
                     }
                 }
@@ -377,14 +384,26 @@ namespace Win_CBZ.Forms
                 String bookmark = item.SubItems[2].Text;
                 String pageName = item.Text;
 
-                TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(pageName)];
+                int index = BookmarksTree.Nodes.IndexOfKey(bookmark);
 
-                if (node != null)
+                if (index > -1)
                 {
-                    BookmarksTree.Nodes.Remove(node);
-                }
+                    TreeNode node = BookmarksTree.Nodes[index];
 
-                item.SubItems[2].Text = "";
+                    if (node != null)
+                    {
+                        int subIndex = node.Nodes.IndexOfKey((String)pageName);
+
+                        if (subIndex > -1)
+                        {
+                            TreeNode subNode = node.Nodes[subIndex];
+
+                            node.Nodes.Remove(subNode);
+                        }
+                    }
+
+                    item.SubItems[2].Text = "";
+                }
             }
         }
 
@@ -395,12 +414,15 @@ namespace Win_CBZ.Forms
 
         private void ToolStripButton2_Click(object sender, EventArgs e)
         {
-            string bookmarkNameNew = TextBoxBookmarkName.Text.Trim();
 
             TreeNode selected = BookmarksTree.SelectedNode;
 
+            string bookmarkNameNew = "";
+
             if (selected != null)
             {
+                bookmarkNameNew = selected.Text.Trim();
+
                 if (BookmarksTree.SelectedNode.Level > 0)
                 {
                     selected = BookmarksTree.SelectedNode.Parent;
@@ -517,7 +539,7 @@ namespace Win_CBZ.Forms
                 bool visibilityEnsured = false;
                 pageRangeSelectionForm.Selections.OrderBy(item => item.Start).Each(selection =>
                 {
-                    
+
                     if (selection.Start >= 1 && selection.End >= 0)
                     {
                         List<Page> selectedPages = Program.ProjectModel.Pages.Where(p => p.Number >= selection.Start && p.Number <= selection.End).ToList();
@@ -540,6 +562,95 @@ namespace Win_CBZ.Forms
                     return false; // Continue to next selection
                 });
             }
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (BookmarksTree.Nodes.Count == 0)
+                {
+                    return;
+                }
+
+
+                MemoryStream copyMemStream = new MemoryStream();
+                var utf8WithoutBom = new System.Text.UTF8Encoding(false);
+
+                MemoryStream ms = new MemoryStream();
+
+                XmlWriterSettings writerSettings = new XmlWriterSettings
+                {
+                    OmitXmlDeclaration = true,
+                    Encoding = Encoding.UTF8,
+                };
+
+                XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
+
+                xmlWriter.WriteStartDocument();
+
+                xmlWriter.WriteStartElement("Bookmarks");
+                foreach (TreeNode lv0Node in BookmarksTree.Nodes)
+                {
+                    xmlWriter.WriteStartElement("Bookmark");
+                    xmlWriter.WriteAttributeString("Name", lv0Node.Text);
+
+
+                    foreach (TreeNode lv1Node in lv0Node.Nodes)
+                    {
+                        xmlWriter.WriteStartElement("Page");
+                        xmlWriter.WriteAttributeString("Name", lv1Node.Text);
+                        xmlWriter.WriteAttributeString("Index", (lv1Node.Tag as Page).Index.ToString());
+                        xmlWriter.WriteEndElement();
+                    }
+
+                    xmlWriter.WriteEndElement();
+                }
+
+
+                xmlWriter.WriteEndElement();
+
+                //if (!withoutXMLHeaderTag)
+                //{
+                xmlWriter.WriteEndDocument();
+                //}
+
+                xmlWriter.Close();
+
+                ms.Position = 0;
+
+
+                XmlDocument doc = new XmlDocument
+                {
+                    PreserveWhitespace = true,
+                };
+
+                XmlReader MetaDataReader = XmlReader.Create(ms);
+                MetaDataReader.Read();
+                doc.Load(MetaDataReader);
+                doc.Save(copyMemStream);
+                copyMemStream.Position = 0;
+
+                byte[] encoded = new byte[copyMemStream.Length];
+                copyMemStream.Read(encoded, 0, (int)copyMemStream.Length);
+
+                DataObject data = new DataObject();
+                data.SetData(DataFormats.UnicodeText, utf8WithoutBom.GetString(encoded));
+
+                Clipboard.SetDataObject(data);
+
+                copyMemStream.Close();
+                ms.Close();
+            }
+            catch (Exception ex)
+            {
+                ApplicationMessage.ShowException(ex);
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
