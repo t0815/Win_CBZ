@@ -1,4 +1,5 @@
-﻿using SharpCompress.Common;
+﻿using SharpCompress;
+using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,11 +41,13 @@ namespace Win_CBZ.Forms
 
         protected int lastOffset = 0;
 
+        protected List<Page> listPages = new List<Page>();
+
         public ManageBookmarksForm(MetaData metaData, List<Page> pages)
         {
             InitializeComponent();
 
-
+            listPages = pages;
 
             pages.ForEach(page =>
             {
@@ -581,7 +584,7 @@ namespace Win_CBZ.Forms
 
                 XmlWriterSettings writerSettings = new XmlWriterSettings
                 {
-                    OmitXmlDeclaration = true,
+                    OmitXmlDeclaration = false,
                     Encoding = Encoding.UTF8,
                 };
 
@@ -589,7 +592,7 @@ namespace Win_CBZ.Forms
 
                 xmlWriter.WriteStartDocument();
 
-                xmlWriter.WriteStartElement("Bookmarks");
+                xmlWriter.WriteStartElement("Win_CBZ_Bookmarks");
                 foreach (TreeNode lv0Node in BookmarksTree.Nodes)
                 {
                     xmlWriter.WriteStartElement("Bookmark");
@@ -650,7 +653,105 @@ namespace Win_CBZ.Forms
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
+            
+            IDataObject clipObject = Clipboard.GetDataObject();
+            var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
+            String copiedBookmarks = clipObject.GetData(DataFormats.UnicodeText) as String;
+            if (copiedBookmarks.Contains("<?xml") && copiedBookmarks.Contains("<Win_CBZ_Bookmarks>"))
+            {
+                PasteBookmarksOffsetForm pasteBookmarksOffsetForm = new PasteBookmarksOffsetForm();
+
+                DialogResult dialogResult = pasteBookmarksOffsetForm.ShowDialog();
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    int offset = pasteBookmarksOffsetForm.offset;
+
+                    Task.Factory.StartNew(() =>
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        byte[] bytes = utf8WithoutBom.GetBytes(copiedBookmarks);
+
+
+                        ms.Write(bytes, 0, bytes.Length);
+                        ms.Position = 0;
+
+                        XmlDocument Document = new XmlDocument();
+
+                        XmlReader MetaDataReader = XmlReader.Create(ms);
+                        MetaDataReader.Read();
+                        Document.Load(MetaDataReader);
+
+                        XmlNode Root;
+
+                        foreach (XmlNode node in Document.ChildNodes)
+                        {
+                            if (node.Name.ToLower().Equals("win_cbz_bookmarks"))
+                            {
+                                Root = node;
+                                foreach (XmlNode xmlSubNode in node.ChildNodes)
+                                {
+                                    if (xmlSubNode.Name == "Bookmark")
+                                    {
+                                        var name = xmlSubNode.Attributes.GetNamedItem("Name");
+
+                                        if (name != null)
+                                        {
+                                            Invoke(() =>
+                                            {
+                                                TreeNode[] existingNodes = BookmarksTree.Nodes.Find(name.Value, false);
+
+                                                TreeNode newBookmarkNode;
+                                                if (existingNodes.Length == 0)
+                                                {
+                                                    newBookmarkNode = BookmarksTree.Nodes.Add(name.Value);
+                                                }
+                                                else
+                                                {
+                                                    newBookmarkNode = existingNodes[0];
+                                                }
+
+                                                foreach (XmlNode childNode in xmlSubNode.ChildNodes)
+                                                {
+                                                    if (childNode.Name == "Page")
+                                                    {
+                                                        var pageIndex = int.Parse(childNode.Attributes.GetNamedItem("Index").Value);
+
+                                                        listPages.Where(p => p.Index == pageIndex + offset).ForEach(p =>
+                                                        {
+                                                            TreeNode[] existingNodes = newBookmarkNode.Nodes.Find(p.Name, false);
+
+                                                            if (existingNodes.Length == 0)
+                                                            {
+                                                                TreeNode pageNode = newBookmarkNode.Nodes.Add(p.Name);
+                                                                pageNode.Tag = p;
+                                                            }
+
+                                                            ListViewItem[] items = PagesList.Items.Find(p.Name, false);
+
+                                                            if (items.Length == 1)
+                                                            {
+                                                                items[0].SubItems[2].Text = newBookmarkNode.Text;
+                                                                items[0].Tag = p;
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            else
+            {
+                ApplicationMessage.ShowWarning("Clipboard does not contain any XML-Bookmark information", "Bookmarks", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+            }   
         }
     }
 }

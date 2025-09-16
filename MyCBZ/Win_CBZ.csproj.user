@@ -47,6 +47,9 @@
     <Compile Update="Forms\PageRangeSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\PasteBookmarksOffsetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\UserFilerKeysForm.cs">
       <SubType>Form</SubType>
     </Compile>

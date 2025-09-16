@@ -253,6 +253,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap clipboard_check_edit_large {
+            get {
+                object obj = ResourceManager.GetObject("clipboard_check_edit_large", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap clipboard_paste {
             get {
                 object obj = ResourceManager.GetObject("clipboard_paste", resourceCulture);
