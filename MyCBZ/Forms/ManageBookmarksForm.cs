@@ -424,7 +424,7 @@ namespace Win_CBZ.Forms
 
             if (selected != null)
             {
-                bookmarkNameNew = selected.Text.Trim();
+                bookmarkNameNew = TextBoxBookmarkName.Text.Trim();
 
                 if (BookmarksTree.SelectedNode.Level > 0)
                 {
