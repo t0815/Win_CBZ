@@ -45,6 +45,7 @@ using static Win_CBZ.MetaData;
 using File = System.IO.File;
 using Path = System.IO.Path;
 using Zip = System.IO.Compression.ZipArchive;
+using Spire.Pdf.Utilities;
 
 namespace Win_CBZ
 {
@@ -793,7 +794,7 @@ namespace Win_CBZ
 
             TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_IMPORT_PDF);
 
-            ReadPDFThread = new Thread(OpenPDFProc2);
+            ReadPDFThread = new Thread(OpenPDFProc);
             ReadPDFThread.Start(new OpenPDFThreadParams()
             {
                 FileName = path,
@@ -813,6 +814,7 @@ namespace Win_CBZ
             OpenPDFThreadParams tParams = threadParams as OpenPDFThreadParams;
 
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
+            AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_IMPORT_PDF, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Importing PDF pages...",0, 0, false));
 
             int pageIndex = 0;
             Spire.Pdf.PdfDocument pdf = null;
@@ -821,40 +823,39 @@ namespace Win_CBZ
             {
 
                 pdf = new Spire.Pdf.PdfDocument();
-              
                 pdf.LoadFromFile(tParams.FileName);
                 List<Stream> ListImage = new List<Stream>();
                 List<LocalFile> pdfPages = new List<LocalFile>();
 
-                for (int i = 0; i < pdf.Pages.Count; i++)
-                {
-                    PdfPageBase page = pdf.Pages[i];
-                    // Extract images from Spire.Pdf.PdfPageBase
-                    Stream[] images = page.ExtractImages();
-                    if (images != null && images.Length > 0)
+                if (pdf.Pages.Count > 0)
+                { 
+                    for (int i = 0; i < pdf.Pages.Count; i++)
                     {
-                        ListImage.AddRange(images);
-                    }
+                        PdfPageBase page = pdf.Pages[i];
+                        PdfImageHelper imageHelper = new PdfImageHelper();
+                        // Extract images from Spire.Pdf.PdfPageBase
+                        PdfImageInfo[] images = imageHelper.GetImagesInfo(page);
+                        if (images != null && images.Length > 0)
+                        {
+                            foreach (PdfImageInfo img in images)
+                            {
 
-                }
+                                string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".jpg";
 
-                if (ListImage.Count > 0)
-                {
-                    for (int i = 0; i < ListImage.Count; i++)
-                    {
-                        string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".tmp";
+                                string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
 
-                        string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
+                                using (FileStream fs = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+                                {
+                                    img.Image.CopyTo(fs);
+                                }
 
+                                pdfPages.Add(new LocalFile(tempFile));
 
-                        Image image = Image.FromStream(ListImage[i]);
-                        image.Save(tempFile, System.Drawing.Imaging.ImageFormat.Png);
+                                AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_IMPORT_PDF, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Importing PDF pages...", i + 1, pdf.Pages.Count, false));
+                                tParams.CancelToken.ThrowIfCancellationRequested();
+                            }
 
-                        pdfPages.Add(new LocalFile(tempFile));
-
-
-                        AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_IMPORT_PDF, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Importing PDF pages...", i + 1, pdf.Pages.Count, false));
-                        tParams.CancelToken.ThrowIfCancellationRequested();
+                        }
                     }
 
                     AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_STATUS_IDLE, GeneralTaskProgressEvent.TASK_STATUS_IDLE, "", 0, 0, false));
@@ -944,22 +945,30 @@ namespace Win_CBZ
                                         // Is external object an image?
                                         if (xObject != null && xObject.Elements.GetString("/Subtype") == "/Image")
                                         {
-                                            string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".tmp";
+                                            string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".png";
 
                                             string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
 
-                                            try
-                                            {
+                                            //xObject.Elements.get
+
+                                            //try
+                                            // {
+                                            //using (FileStream fs = new FileStream(tempFile, FileMode.CreateNew))
+                                           // {
+                                             //   fs.Write(xObject.Stream.Value);
+                                           // }
+
+                                            
                                                 this.ExportAsPngImage(xObject, tempFile, ref pageIndex);
 
                                                 LocalFile extracted = new LocalFile(tempFile);
 
                                                 pdfPages.Add(extracted);
-                                            } catch (Exception ei)
-                                            {
-                                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting image from PDF! [" + ei.Message + "]");
+                                           // } catch (Exception ei)
+                                           // {
+                                           //     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting image from PDF! [" + ei.Message + "]");
 
-                                            }
+                                          //  }
                                         }
                                     }
                                 }
@@ -1023,11 +1032,28 @@ namespace Win_CBZ
             int height = image.Elements.GetInteger(PdfSharp.Pdf.Advanced.PdfImage.Keys.Height);
             int bitsPerComponent = image.Elements.GetInteger(PdfSharp.Pdf.Advanced.PdfImage.Keys.BitsPerComponent);
             var ColorSpace = image.Elements.GetArray(PdfImage.Keys.ColorSpace);
+            var filter = image.Elements.GetName(PdfImage.Keys.Filter);
             System.Drawing.Imaging.PixelFormat pixelFormat = System.Drawing.Imaging.PixelFormat.Format24bppRgb; //24 just for initalize
 
             if (ColorSpace is null) //no colorspace.. bufferedimage?? is in BGR order instead of RGB so change the byte order. Right now it works
             {
-                byte[] origineel_byte_boundary = image.Stream.UnfilteredValue;
+                byte[] origineel_byte_boundary;
+                if (filter == "/JPXDecode")
+                {
+                    byte[] jpeg2000bytes = image.Stream.Value;
+
+                    using (MemoryStream ms = new MemoryStream(jpeg2000bytes))
+                    {
+                        
+                    }
+                    origineel_byte_boundary = image.Stream.UnfilteredValue;
+
+                } else
+                {
+                    origineel_byte_boundary = image.Stream.UnfilteredValue;
+                }
+
+
                 bitsPerComponent = (origineel_byte_boundary.Length) / (width * height);
                 switch (bitsPerComponent)
                 {
@@ -1078,6 +1104,7 @@ namespace Win_CBZ
                         }
                         break;
                 }
+
                 if ((ColorSpace.Elements.GetName(0) == "/Indexed") && (ColorSpace.Elements.GetName(1) == "/DeviceRGB"))
                 {
                     //we need to create the palette
