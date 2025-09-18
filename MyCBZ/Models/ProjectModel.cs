@@ -130,6 +130,8 @@ namespace Win_CBZ
 
         private Thread LoadArchiveThread;
 
+        private Thread ReadPDFThread;
+
         private Thread ExtractArchiveThread;
 
         private Thread CloseArchiveThread;
@@ -778,42 +780,42 @@ namespace Win_CBZ
             )
         {
             
-            if (LoadArchiveThread != null)
+            if (ReadPDFThread != null)
             {
-                if (LoadArchiveThread.IsAlive)
+                if (ReadPDFThread.IsAlive)
                 {
                     throw new ConcurrentOperationException("failed to open. thread already running!", true);
                 }
             }
 
-            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE);
+            TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_IMPORT_PDF);
 
-            LoadArchiveThread = new Thread(OpenPDFProc);
-            LoadArchiveThread.Start(new OpenPDFThreadParams()
+            ReadPDFThread = new Thread(OpenPDFProc);
+            ReadPDFThread.Start(new OpenPDFThreadParams()
             {
                 FileName = path,
                 Interpolation = interpolationMode,
                 ApplyKeyUserFilter = applyKeyUserFilter,
                 FilterKeys = filterKeys,
                 FilterBaseCondition = filterBaseCondition,
-                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_LOAD_ARCHIVE).Token
+                CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_IMPORT_PDF).Token
             });
 
-            return LoadArchiveThread;
+            return ReadPDFThread;
         }
 
         protected void OpenPDFProc(object threadParams)
         {
             OpenPDFThreadParams tParams = threadParams as OpenPDFThreadParams;
 
-            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_OPENING));
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
+
+            int pageIndex = 0;
 
             try
             {
                 
-                IsChanged = false;
-                IsNew = false;
+                
             }
             catch (OperationCanceledException)
             {
@@ -822,7 +824,6 @@ namespace Win_CBZ
             catch (Exception e)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading PDF! [" + e.Message + "]");
-                AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_ERROR_LOADING));
             }
         }
 
