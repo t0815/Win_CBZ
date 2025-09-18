@@ -814,8 +814,55 @@ namespace Win_CBZ
 
             try
             {
-                
-                
+                PdfSharp.Pdf.PdfDocument pdf = PdfSharp.Pdf.IO.PdfReader.Open(tParams.FileName, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+
+
+                if (pdf.PageCount > 0)
+                {
+                    List<LocalFile> pdfPages = new List<LocalFile>();
+                    for (int i = 0; i < pdf.PageCount; i++)
+                    {
+                        string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".tmp";
+
+                        string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
+                        var page = pdf.Pages[i];
+
+                        page.Elements.Each(e =>
+                        {
+                            var v = page.Elements[e.Key];
+
+                            pdfPages.Add(new LocalFile(tempFile));
+
+                            return true;
+                        });
+
+
+                        
+                        AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_IMPORT_PDF, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Importing PDF pages...", i + 1, pdf.PageCount, false));
+                        tParams.CancelToken.ThrowIfCancellationRequested();
+                    }
+
+                    if (pdfPages.Count > 0)
+                    {
+                        StackItem makePagesTask = new StackItem()
+                        {
+                            TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
+                            ThreadParams = new AddImagesThreadParams()
+                            {
+                                MaxCountPages = 0,
+                                Interpolation = tParams.Interpolation,
+                                HashFiles = false,
+                                DetectDoublePages = false,
+                                ContinuePipeline = false,
+                            }
+                        };
+                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, pdfPages, new List<StackItem>() { makePagesTask }));
+                    }
+                }
+                else
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No pages found in PDF!");
+                }
             }
             catch (OperationCanceledException)
             {
