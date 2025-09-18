@@ -25,5 +25,7 @@ namespace Win_CBZ.Data
         public string[] FilterKeys { get; set; } = null;
 
         public int FilterBaseCondition { get; set; } = 0;
+
+        public int LastIndex { get; set; } = 1;
     }
 }

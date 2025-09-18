@@ -3993,14 +3993,15 @@ namespace Win_CBZ
                         }));
                     }
 
-                    MetaDataGrid.Invoke(new Action(() => {
+                    MetaDataGrid.Invoke(new Action(() =>
+                    {
                         MetaDataGrid.Rows.Clear();
 
                         foreach (MetaDataEntry entry in e.MetaData)
                         {
                             if (entry.Visible && !entry.UserFiltered)
-                            {                            
-                                 MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));            
+                            {
+                                MetaDataGrid.Rows.Add(entry.Key, entry.Value, null, e.MetaData.IndexOf(entry));
                             }
                         }
                     }));
@@ -4208,7 +4209,7 @@ namespace Win_CBZ
                     }
                 }));
 
-                if (e.State == MetaDataChangedEvent.METADATA_NEW || 
+                if (e.State == MetaDataChangedEvent.METADATA_NEW ||
                     e.State == MetaDataChangedEvent.METADATA_DELETED)
                 {
                     Invoke(new Action(() =>
@@ -8374,7 +8375,7 @@ namespace Win_CBZ
 
                 PagesList.SelectedItems.Clear();
                 bool visibilityEnsured = false;
-                
+
                 pageRangeSelectionForm.Selections.OrderBy(item => item.Start).Each(selection =>
                 {
                     if (selection.Start >= 1 && selection.End >= 0)
@@ -8391,13 +8392,23 @@ namespace Win_CBZ
                                 {
                                     item.EnsureVisible();
                                     visibilityEnsured = true;
-                                }   
+                                }
                             }
                         }
                     }
 
                     return false; // continue foreach loop
-                });          
+                });
+            }
+        }
+
+        private void ImportFromPDFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult r = OpenImportDialog.ShowDialog();
+
+            if (r == DialogResult.OK)
+            {
+                Program.ProjectModel.OpenPDF(OpenImportDialog.FileName);
             }
         }
     }

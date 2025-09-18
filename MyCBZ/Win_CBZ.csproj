@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoCompleteMenu-ScintillaNET" Version="2.1.1" />
+    <PackageReference Include="FreeSpire.PDF" Version="10.2.0" />
     <PackageReference Include="LoadingIndicator.WinForms" Version="1.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="PDFsharp" Version="6.2.1" />

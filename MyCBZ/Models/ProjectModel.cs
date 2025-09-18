@@ -1,4 +1,7 @@
-﻿using SharpCompress.Common;
+﻿using Spire.Pdf;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.Advanced;
+using SharpCompress.Common;
 using SharpCompress.Compressors.Xz;
 using System;
 using System.Collections;
@@ -790,7 +793,7 @@ namespace Win_CBZ
 
             TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_IMPORT_PDF);
 
-            ReadPDFThread = new Thread(OpenPDFProc);
+            ReadPDFThread = new Thread(OpenPDFProc2);
             ReadPDFThread.Start(new OpenPDFThreadParams()
             {
                 FileName = path,
@@ -798,10 +801,108 @@ namespace Win_CBZ
                 ApplyKeyUserFilter = applyKeyUserFilter,
                 FilterKeys = filterKeys,
                 FilterBaseCondition = filterBaseCondition,
+                LastIndex = Pages.Count,
                 CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_IMPORT_PDF).Token
             });
 
             return ReadPDFThread;
+        }
+
+        protected void OpenPDFProc2(object threadParams)
+        {
+            OpenPDFThreadParams tParams = threadParams as OpenPDFThreadParams;
+
+            AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
+
+            int pageIndex = 0;
+            Spire.Pdf.PdfDocument pdf = null;
+
+            try
+            {
+
+                pdf = new Spire.Pdf.PdfDocument();
+              
+                pdf.LoadFromFile(tParams.FileName);
+                List<Stream> ListImage = new List<Stream>();
+                List<LocalFile> pdfPages = new List<LocalFile>();
+
+                for (int i = 0; i < pdf.Pages.Count; i++)
+                {
+                    PdfPageBase page = pdf.Pages[i];
+                    // Extract images from Spire.Pdf.PdfPageBase
+                    Stream[] images = page.ExtractImages();
+                    if (images != null && images.Length > 0)
+                    {
+                        ListImage.AddRange(images);
+                    }
+
+                }
+
+                if (ListImage.Count > 0)
+                {
+                    for (int i = 0; i < ListImage.Count; i++)
+                    {
+                        string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".tmp";
+
+                        string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
+
+
+                        Image image = Image.FromStream(ListImage[i]);
+                        image.Save(tempFile, System.Drawing.Imaging.ImageFormat.Png);
+
+                        pdfPages.Add(new LocalFile(tempFile));
+
+
+                        AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_IMPORT_PDF, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Importing PDF pages...", i + 1, pdf.Pages.Count, false));
+                        tParams.CancelToken.ThrowIfCancellationRequested();
+                    }
+
+                    AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_STATUS_IDLE, GeneralTaskProgressEvent.TASK_STATUS_IDLE, "", 0, 0, false));
+
+
+                    if (pdfPages.Count > 0)
+                    {
+                        StackItem makePagesTask = new StackItem()
+                        {
+                            TaskId = PipelineEvent.PIPELINE_MAKE_PAGES,
+                            ThreadParams = new AddImagesThreadParams()
+                            {
+                                MaxCountPages = tParams.LastIndex,
+                                Interpolation = tParams.Interpolation,
+                                HashFiles = false,
+                                DetectDoublePages = false,
+                                ContinuePipeline = false,
+                            }
+                        };
+
+                        AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, pdfPages, new List<StackItem>() { makePagesTask }));
+                    }
+                    else
+                    {
+                        AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+                    }
+                }
+                else
+                {
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No pages found in PDF!");
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                //OnArchiveStatusChanged(new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
+            }
+            catch (Exception e)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading PDF! [" + e.Message + "]");
+
+                AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+            }
+            finally
+            {
+                pdf?.Dispose();
+            }
         }
 
         protected void OpenPDFProc(object threadParams)
@@ -811,36 +912,66 @@ namespace Win_CBZ
             AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_OPENING));
 
             int pageIndex = 0;
+            PdfSharp.Pdf.PdfDocument pdf = null;
 
             try
             {
-                PdfSharp.Pdf.PdfDocument pdf = PdfSharp.Pdf.IO.PdfReader.Open(tParams.FileName, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
-
+                pdf = PdfSharp.Pdf.IO.PdfReader.Open(tParams.FileName, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
 
                 if (pdf.PageCount > 0)
                 {
                     List<LocalFile> pdfPages = new List<LocalFile>();
                     for (int i = 0; i < pdf.PageCount; i++)
                     {
-                        string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".tmp";
+                        PdfPage page = pdf.Pages[i];
 
-                        string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
-                        var page = pdf.Pages[i];
-
-                        page.Elements.Each(e =>
+                        PdfDictionary resources = page.Elements.GetDictionary("/Resources");
+                        if (resources != null)
                         {
-                            var v = page.Elements[e.Key];
+                            // Get external objects dictionary
+                            PdfDictionary xObjects = resources.Elements.GetDictionary("/XObject");
+                            if (xObjects != null)
+                            {
+                                ICollection<PdfItem> items = xObjects.Elements.Values;
 
-                            pdfPages.Add(new LocalFile(tempFile));
+                                // Iterate references to external objects
+                                foreach (PdfItem item in items)
+                                {
+                                    PdfReference reference = item as PdfReference;
+                                    if (reference != null)
+                                    {
+                                        PdfDictionary xObject = reference.Value as PdfDictionary;
+                                        // Is external object an image?
+                                        if (xObject != null && xObject.Elements.GetString("/Subtype") == "/Image")
+                                        {
+                                            string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".tmp";
 
-                            return true;
-                        });
+                                            string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
 
+                                            try
+                                            {
+                                                this.ExportAsPngImage(xObject, tempFile, ref pageIndex);
 
-                        
+                                                LocalFile extracted = new LocalFile(tempFile);
+
+                                                pdfPages.Add(extracted);
+                                            } catch (Exception ei)
+                                            {
+                                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting image from PDF! [" + ei.Message + "]");
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                         AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_IMPORT_PDF, GeneralTaskProgressEvent.TASK_STATUS_RUNNING, "Importing PDF pages...", i + 1, pdf.PageCount, false));
                         tParams.CancelToken.ThrowIfCancellationRequested();
                     }
+
+                    AppEventHandler.OnGeneralTaskProgress(this, new GeneralTaskProgressEvent(GeneralTaskProgressEvent.TASK_STATUS_IDLE, GeneralTaskProgressEvent.TASK_STATUS_IDLE, "", 0, pdf.PageCount, false));
+
 
                     if (pdfPages.Count > 0)
                     {
@@ -856,7 +987,12 @@ namespace Win_CBZ
                                 ContinuePipeline = false,
                             }
                         };
+
                         AppEventHandler.OnPipelineNextTask(this, new PipelineEvent(this, PipelineEvent.PIPELINE_MAKE_PAGES, pdfPages, new List<StackItem>() { makePagesTask }));
+                    } else
+                    {
+                        AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
                     }
                 }
                 else
@@ -871,6 +1007,92 @@ namespace Win_CBZ
             catch (Exception e)
             {
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading PDF! [" + e.Message + "]");
+
+                AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
+
+            }
+            finally
+            {
+                pdf?.Dispose();
+            }
+        }
+
+        private void ExportAsPngImage(PdfDictionary image, string name, ref int count)
+        {
+            int width = image.Elements.GetInteger(PdfSharp.Pdf.Advanced.PdfImage.Keys.Width);
+            int height = image.Elements.GetInteger(PdfSharp.Pdf.Advanced.PdfImage.Keys.Height);
+            int bitsPerComponent = image.Elements.GetInteger(PdfSharp.Pdf.Advanced.PdfImage.Keys.BitsPerComponent);
+            var ColorSpace = image.Elements.GetArray(PdfImage.Keys.ColorSpace);
+            System.Drawing.Imaging.PixelFormat pixelFormat = System.Drawing.Imaging.PixelFormat.Format24bppRgb; //24 just for initalize
+
+            if (ColorSpace is null) //no colorspace.. bufferedimage?? is in BGR order instead of RGB so change the byte order. Right now it works
+            {
+                byte[] origineel_byte_boundary = image.Stream.UnfilteredValue;
+                bitsPerComponent = (origineel_byte_boundary.Length) / (width * height);
+                switch (bitsPerComponent)
+                {
+                    case 4:
+                        pixelFormat = System.Drawing.Imaging.PixelFormat.Format32bppPArgb;
+                        break;
+                    case 3:
+                        pixelFormat = System.Drawing.Imaging.PixelFormat.Format24bppRgb;
+                        break;
+                    default:
+                        {
+                            
+                        }
+                        break;
+                }
+                Bitmap bmp = new Bitmap(width, height, pixelFormat); //copy raw bytes to "master" bitmap so we are out of pdf format to work with 
+                System.Drawing.Imaging.BitmapData bmd = bmp.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, pixelFormat);
+                System.Runtime.InteropServices.Marshal.Copy(origineel_byte_boundary, 0, bmd.Scan0, origineel_byte_boundary.Length);
+                bmp.UnlockBits(bmd);
+                Bitmap bmp2 = new Bitmap(width, height, pixelFormat);
+                for (int indicex = 0; indicex < bmp.Width; indicex++)
+                {
+                    for (int indicey = 0; indicey < bmp.Height; indicey++)
+                    {
+                        Color nuevocolor = bmp.GetPixel(indicex, indicey);
+                        Color colorintercambiado = Color.FromArgb(nuevocolor.A, nuevocolor.B, nuevocolor.G, nuevocolor.R);
+                        bmp2.SetPixel(indicex, indicey, colorintercambiado);
+                    }
+                }
+                using (FileStream fs = new FileStream(name, FileMode.Create, FileAccess.Write))
+                {
+                    bmp2.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
+                }
+                bmp2.Dispose();
+                bmp.Dispose();
+            }
+            else
+            {
+                // this is the case of photoshop... work needs to be done here. I ´m able to get the color palette but no idea how to put it back or create the png file... 
+                switch (bitsPerComponent)
+                {
+                    case 4:
+                        pixelFormat = System.Drawing.Imaging.PixelFormat.Format32bppArgb;
+                        break;
+                    default:
+                        {
+                           
+                        }
+                        break;
+                }
+                if ((ColorSpace.Elements.GetName(0) == "/Indexed") && (ColorSpace.Elements.GetName(1) == "/DeviceRGB"))
+                {
+                    //we need to create the palette
+                    int paletteColorCount = ColorSpace.Elements.GetInteger(2);
+                    List<System.Drawing.Color> paletteList = new List<Color>();
+                    //Color[] palette = new Color[paletteColorCount+1]; // no idea why but it seams that there´s always 1 color more. ¿transparency?
+                    PdfObject paletteObj = ColorSpace.Elements.GetObject(3);
+                    PdfDictionary paletteReference = (PdfDictionary)paletteObj;
+                    byte[] palettevalues = paletteReference.Stream.Value;
+                    for (int index = 0; index < (paletteColorCount + 1); index++)
+                    {
+                        //palette[index] = Color.FromArgb(1, palettevalues[(index*3)], palettevalues[(index*3)+1], palettevalues[(index*3)+2]); // RGB
+                        paletteList.Add(Color.FromArgb(1, palettevalues[(index * 3)], palettevalues[(index * 3) + 1], palettevalues[(index * 3) + 2])); // RGB
+                    }
+                }
             }
         }
 
