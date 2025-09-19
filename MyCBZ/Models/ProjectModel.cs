@@ -46,6 +46,7 @@ using File = System.IO.File;
 using Path = System.IO.Path;
 using Zip = System.IO.Compression.ZipArchive;
 using Spire.Pdf.Utilities;
+using Win_CBZ.Img;
 
 namespace Win_CBZ
 {
@@ -945,30 +946,13 @@ namespace Win_CBZ
                                         // Is external object an image?
                                         if (xObject != null && xObject.Elements.GetString("/Subtype") == "/Image")
                                         {
-                                            string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + ".png";
+                                            string tempName = "pdf_" + RandomId.GetInstance().Make() + "_page_" + (i + 1) + "_" + reference.Position + ".png";
 
                                             string tempFile = Path.Combine(PathHelper.ResolvePath(WorkingDir), ProjectGUID, tempName);
 
-                                            //xObject.Elements.get
+                                            this.ExportAsPngImage(xObject, tempFile, ref pageIndex);
 
-                                            //try
-                                            // {
-                                            //using (FileStream fs = new FileStream(tempFile, FileMode.CreateNew))
-                                           // {
-                                             //   fs.Write(xObject.Stream.Value);
-                                           // }
-
-                                            
-                                                this.ExportAsPngImage(xObject, tempFile, ref pageIndex);
-
-                                                LocalFile extracted = new LocalFile(tempFile);
-
-                                                pdfPages.Add(extracted);
-                                           // } catch (Exception ei)
-                                           // {
-                                           //     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error extracting image from PDF! [" + ei.Message + "]");
-
-                                          //  }
+                                            pdfPages.Add(new LocalFile(tempFile));
                                         }
                                     }
                                 }
@@ -1026,6 +1010,7 @@ namespace Win_CBZ
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private void ExportAsPngImage(PdfDictionary image, string name, ref int count)
         {
             int width = image.Elements.GetInteger(PdfSharp.Pdf.Advanced.PdfImage.Keys.Width);
@@ -1038,6 +1023,7 @@ namespace Win_CBZ
             if (ColorSpace is null) //no colorspace.. bufferedimage?? is in BGR order instead of RGB so change the byte order. Right now it works
             {
                 byte[] origineel_byte_boundary;
+                //check if it´s jpeg2000
                 if (filter == "/JPXDecode")
                 {
                     byte[] jpeg2000bytes = image.Stream.Value;
@@ -1046,6 +1032,7 @@ namespace Win_CBZ
                     {
                         
                     }
+
                     origineel_byte_boundary = image.Stream.UnfilteredValue;
 
                 } else
@@ -1069,6 +1056,7 @@ namespace Win_CBZ
                         }
                         break;
                 }
+
                 Bitmap bmp = new Bitmap(width, height, pixelFormat); //copy raw bytes to "master" bitmap so we are out of pdf format to work with 
                 System.Drawing.Imaging.BitmapData bmd = bmp.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, pixelFormat);
                 System.Runtime.InteropServices.Marshal.Copy(origineel_byte_boundary, 0, bmd.Scan0, origineel_byte_boundary.Length);
@@ -1078,11 +1066,12 @@ namespace Win_CBZ
                 {
                     for (int indicey = 0; indicey < bmp.Height; indicey++)
                     {
-                        Color nuevocolor = bmp.GetPixel(indicex, indicey);
-                        Color colorintercambiado = Color.FromArgb(nuevocolor.A, nuevocolor.B, nuevocolor.G, nuevocolor.R);
-                        bmp2.SetPixel(indicex, indicey, colorintercambiado);
+                        Color newColor = bmp.GetPixel(indicex, indicey);
+                        Color flippedColor = Color.FromArgb(newColor.A, newColor.B, newColor.G, newColor.R);
+                        bmp2.SetPixel(indicex, indicey, flippedColor);
                     }
                 }
+
                 using (FileStream fs = new FileStream(name, FileMode.Create, FileAccess.Write))
                 {
                     bmp2.Save(fs, System.Drawing.Imaging.ImageFormat.Png);
@@ -1118,6 +1107,18 @@ namespace Win_CBZ
                     {
                         //palette[index] = Color.FromArgb(1, palettevalues[(index*3)], palettevalues[(index*3)+1], palettevalues[(index*3)+2]); // RGB
                         paletteList.Add(Color.FromArgb(1, palettevalues[(index * 3)], palettevalues[(index * 3) + 1], palettevalues[(index * 3) + 2])); // RGB
+                    }
+
+                    Png png = new Png();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        ms.Write(image.Stream.Value, 0, image.Stream.Value.Length);
+
+                        FileStream fs = new FileStream(name, FileMode.Create, FileAccess.Write);
+                        
+                        png.Encode(ms, ref fs, width, height, paletteList);
+
+                        fs.Close();
                     }
                 }
             }
