@@ -21,6 +21,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
+using Win_CBZ.Extensions;
 using Win_CBZ.Handler;
 using Win_CBZ.Helper;
 using Win_CBZ.Models;
@@ -573,7 +574,7 @@ namespace Win_CBZ
             {
                 if (condition == 0)
                 {
-                    Values.ForEach((entry) =>
+                    Values.Each(entry =>
                       {
                           entry.UserFiltered = !keys.Contains(entry.Key);
                           entry.FilterMatchSourceCol[0] = entry.FilterMatchSourceCol[0] || keys.Contains(entry.Key);
@@ -582,14 +583,14 @@ namespace Win_CBZ
                 }
                 else if (condition == 1)
                 {
-                    Values.ForEach((entry) => {
+                    Values.Each(entry => {
                         entry.UserFiltered = keys.Contains(entry.Key);
                         entry.FilterMatchSourceCol[0] = entry.FilterMatchSourceCol[0] || !keys.Contains(entry.Key);
                     });
                 }
             } else
             {
-                Values.ForEach((entry) => {
+                Values.Each(entry => {
                     entry.UserFiltered = false;
                     entry.FilterMatchSourceCol[0] = !entry.Visible;
                 });
@@ -613,7 +614,7 @@ namespace Win_CBZ
 
         public MetaData ClearUserFilterMetaData()
         {
-            Values.ForEach((entry) => entry.UserFiltered = false);
+            Values.Each(entry => entry.UserFiltered = false);
 
             return this;
         }

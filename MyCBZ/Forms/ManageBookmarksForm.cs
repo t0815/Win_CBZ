@@ -561,8 +561,6 @@ namespace Win_CBZ.Forms
                             }
                         }
                     }
-
-                    return false; // Continue to next selection
                 });
             }
         }
@@ -718,7 +716,7 @@ namespace Win_CBZ.Forms
                                                     {
                                                         var pageIndex = int.Parse(childNode.Attributes.GetNamedItem("Index").Value);
 
-                                                        listPages.Where(p => p.Index == pageIndex + offset).ForEach(p =>
+                                                        listPages.Where(p => p.Index == pageIndex + offset).Each(p =>
                                                         {
                                                             TreeNode[] existingNodes = newBookmarkNode.Nodes.Find(p.Name, false);
 

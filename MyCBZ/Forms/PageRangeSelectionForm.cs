@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Exceptions;
+using Win_CBZ.Extensions;
 
 namespace Win_CBZ.Forms
 {
@@ -86,7 +87,7 @@ namespace Win_CBZ.Forms
                     selectionParts.Append(TextBoxSelections.Text);
                 }
 
-                selectionParts.ForEach(part =>
+                selectionParts.Each(part =>
                 {
                     string[] indices;
 
