@@ -83,7 +83,7 @@ namespace Win_CBZ.Forms
                 }
             });
 
-            Program.ProjectModel.TemporaryBookmarks.ForEach(bookmark =>
+            Program.ProjectModel.TemporaryBookmarks.Each(bookmark =>
             {
                 if (BookmarksTree.Nodes.IndexOfKey(bookmark) == -1)
                 {

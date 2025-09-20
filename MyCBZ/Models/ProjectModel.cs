@@ -218,6 +218,7 @@ namespace Win_CBZ
             return MetaData;
         }
         
+        // Main Application Pipeline
         private void HandlePipeline(object sender, PipelineEvent e)
         {
             StackItem nextTask = null;
@@ -493,17 +494,24 @@ namespace Win_CBZ
 
                                     if (page != null)
                                     {
+                                        bool wasCompressed = page.Compressed;
+
                                         page.UpdatePageAttributes(resultPage);
+                                        page.Compressed = wasCompressed;
+
                                         if (page.LocalFile == null || !page.LocalFile.Equals(resultPage.LocalFile))
                                         {
-
-                                            //page.LocalFile = new LocalFile(resultPage.LocalFile.FullPath);
-                                            //page?.UpdateLocalFileWith(resultPage.LocalFile);  // dont overwrite original file!
-                                            if (resultPage.TemporaryFile != null && !resultPage.TemporaryFile.Equals(page.TemporaryFile))
+                                            if (!wasCompressed)
                                             {
-                                                page.UpdateTemporaryFile(resultPage.TemporaryFile);
+                                                page.LocalFile = new LocalFile(resultPage.LocalFile.FullPath);
+                                                page?.UpdateLocalFileWith(resultPage.LocalFile);  // dont overwrite original file!
                                             }
 
+                                        }
+
+                                        if (resultPage.TemporaryFile != null && !resultPage.TemporaryFile.Equals(page.TemporaryFile))
+                                        {
+                                            page.UpdateTemporaryFile(resultPage.TemporaryFile);
                                         }
 
                                         //page.Name = resultPage.Name;
@@ -744,12 +752,12 @@ namespace Win_CBZ
             {
                 Pages.Clear();
                 MetaData.Free();
+                TemporaryBookmarks.Clear();
                 MaxFileIndex = 0;
                 IsNew = true;
                 IsChanged = false;
                 GlobalImageTask = new ImageTask("");
-                TemporaryBookmarks = new List<string>();
-
+                
                 AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_NEW));
 
@@ -1446,6 +1454,7 @@ namespace Win_CBZ
                                 page.UpdateImageEntry(updatedEntry, RandomId.GetInstance().Make());
                                 page.Compressed = true;
                             }
+
                             page.Changed = false;
                             page.ImageChanged = false;
                             if (page.ImageLoaded)
@@ -1458,9 +1467,9 @@ namespace Win_CBZ
                                 {
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Error reloading image [" + fileToCompress.FileName + "] for page [" + pe.Message + "]");
                                 }
-                                }
+                            }
 
-                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
                         }
                         else
                         {
@@ -1495,7 +1504,7 @@ namespace Win_CBZ
 
                     index++;
                 }
-                Thread.EndCriticalRegion();
+                
                 
                 // Create Metadata
                 try
@@ -1598,8 +1607,29 @@ namespace Win_CBZ
                                 Archive = ZipFile.Open(tParams.FileName, ZipArchiveMode.Read);
                                 foreach (ZipArchiveEntry entry in Archive.Entries)
                                 {
-                                    Page page = GetPageByName(entry.Name);
-                                    page?.UpdateImageEntry(entry, RandomId.GetInstance().Make());
+                                    if (entry.Name.ToLower() != MetaData.MetaDataFileName.ToLower())
+                                    {
+                                        Page page = GetPageByName(entry.Name, tParams.Pages);
+                                        page?.UpdateImageEntry(entry, RandomId.GetInstance().Make());
+
+                                        if (page != null)
+                                        {
+                                            Page page2 = GetPageById(page.Id);
+
+                                            if (page2 != null)
+                                            {
+                                                page2.Changed = false;
+                                                page2.Compressed = true;
+                                                page2.ImageChanged = false;
+                                                page2?.UpdateImageEntry(entry, RandomId.GetInstance().Make());
+                                            }
+                                        } else
+                                        {
+                                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error updating compressed entry! Entry [" + entry.Name + "] not found!");
+                                        }
+
+                                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_COMPRESSED));
+                                    }
                                 }
 
                                 if (Win_CBZ.Win_CBZSettings.Default.AutoDeleteTempFiles)
@@ -1628,6 +1658,8 @@ namespace Win_CBZ
                         }
                     }
                 }
+
+                Thread.EndCriticalRegion();
             }
 
             if (!errorSavingArchive) 
@@ -2683,16 +2715,20 @@ namespace Win_CBZ
             }         
         }
 
-        public int GetPageCount()
+        public int GetPageCount(List<Page> source = null)
         {
-            var res = Pages.Where(p => !p.Deleted).ToList();
+            List<Page> list = source ?? Pages;
+
+            var res = list?.Where(p => !p.Deleted).ToList();
 
             return res.Count;
         }
 
-        public Page GetPageById(String id)
+        public Page GetPageById(String id, List<Page> source = null)
         {
-            foreach (Page page1 in Pages)
+            List<Page> list = source ?? Pages;
+
+            foreach (Page page1 in list)
             {
                 if (page1.Id == id)
                 {
@@ -2703,9 +2739,11 @@ namespace Win_CBZ
             return null;
         }
 
-        public Page GetPageByIndex(int index)
+        public Page GetPageByIndex(int index, List<Page> source = null)
         {
-            foreach (Page page1 in Pages)
+            List<Page> list = source ?? Pages;
+
+            foreach (Page page1 in list)
             {
                 if (page1.Index == index)
                 {
@@ -2716,9 +2754,11 @@ namespace Win_CBZ
             return null;
         }
 
-        public Page GetPageByName(String name)
+        public Page GetPageByName(String name, List<Page> source = null)
         {
-            foreach (Page page1 in Pages)
+            List<Page> list = source ?? Pages;
+
+            foreach (Page page1 in list)
             {
                 if (page1.Name == name)
                 {
@@ -2729,9 +2769,11 @@ namespace Win_CBZ
             return null;
         }
 
-        public Page GetPageByKey(String key)
+        public Page GetPageByKey(String key, List<Page> source = null)
         {
-            foreach (Page page1 in Pages)
+            List<Page> list = source ?? Pages;
+
+            foreach (Page page1 in list)
             {
                 if (page1.Key == key)
                 {
@@ -2742,11 +2784,12 @@ namespace Win_CBZ
             return null;
         }
 
-        public List<Page> GetPagesByKey(String key)
+        public List<Page> GetPagesByKey(String key, List<Page> source = null)
         {
+            List<Page> list = source ?? Pages;
             List<Page> pages = new List<Page>();
 
-            foreach (Page page1 in Pages)
+            foreach (Page page1 in list)
             {
                 if (page1.Key == key)
                 {
@@ -2757,9 +2800,11 @@ namespace Win_CBZ
             return pages;
         }
 
-        public Page GetPageByHash(String hash)
+        public Page GetPageByHash(String hash, List<Page> source = null)
         {
-            foreach (Page page1 in Pages)
+            List<Page> list = source ?? Pages;
+
+            foreach (Page page1 in list)
             {
                 if (page1.Hash == hash)
                 {
@@ -2770,11 +2815,12 @@ namespace Win_CBZ
             return null;
         }
 
-        public List<Page> GetPagesByHash(String hash)
+        public List<Page> GetPagesByHash(String hash, List<Page> source = null)
         {
+            List<Page> list = source ?? Pages;
             List<Page> pages = new List<Page>();
 
-            foreach (Page page1 in Pages)
+            foreach (Page page1 in list)
             {
                 if (page1.Hash == hash)
                 {
@@ -3011,6 +3057,12 @@ namespace Win_CBZ
         public void RenamePage(Page page, String name, bool ignoreDuplicates = false, bool showErrors = false)
         {
             Page originalPage = new Page();
+
+            //if (page == null)
+            // {
+            //    throw new PageException(page, "Failed to rename page [NULL] with ID [?]! Page was NULL.", showErrors);
+            //}
+
             originalPage.UpdatePageAttributes(page);
 
             if (name == null || name == "")

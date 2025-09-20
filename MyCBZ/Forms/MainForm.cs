@@ -849,8 +849,6 @@ namespace Win_CBZ
                                 }
                             }
 
-                            existingItem = FindListViewItemForPage(PageView, e.Page);
-
                             if (existingItem != null)
                             {
                                 PageView.Items.Remove(existingItem);
@@ -957,7 +955,7 @@ namespace Win_CBZ
         {
             foreach (ListViewItem item in owner.Items)
             {
-                if (((Page)item.Tag).Id.Equals(page.Id))
+                if (((Page)item.Tag).Id.Equals(page?.Id))
                 {
                     return item;
                 }
@@ -4983,54 +4981,64 @@ namespace Win_CBZ
             {
                 if (Win_CBZSettings.Default.JumpToPage)
                 {
-                    if (PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page) > -1)
+                    if (PagesList.SelectedItems[0].Tag != null)
                     {
-                        PageThumbsListBox.TopIndex = PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page);
+                        if (PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page) > -1)
+                        {
+                            PageThumbsListBox.TopIndex = PageThumbsListBox.Items.IndexOf(PagesList.SelectedItems[0].Tag as Page);
+                        }
                     }
                 }
             }
 
-            if (buttonStateSelected)
+            if (selectedPages.Count > 0 && selectedPages[0].Tag != null)
             {
-                if (!((Page)selectedPages[0].Tag).ImageInfoRequested && (((Page)selectedPages[0].Tag).Format == null || (((Page)selectedPages[0].Tag).Format.W == 0 && ((Page)selectedPages[0].Tag).Format.H == 0)))
+                if (buttonStateSelected)
                 {
+                    if (!((Page)selectedPages[0].Tag).ImageInfoRequested && (((Page)selectedPages[0].Tag).Format == null || (((Page)selectedPages[0].Tag).Format.W == 0 && ((Page)selectedPages[0].Tag).Format.H == 0)))
+                    {
 
-                    ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
+                        ImageInfoPagesSlice.Add(((Page)selectedPages[0].Tag));
+                    }
+                    //((Page)selectedPages[0].Tag).LoadImageInfo();
+
+                    if (((Page)selectedPages[0].Tag).Format != null)
+                    {
+                        LabelW.Text = ((Page)selectedPages[0].Tag).Format.W.ToString();
+                        LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
+                    }
+
+                    if (RadioApplyAdjustmentsPage.Checked && ((String)RadioApplyAdjustmentsPage.Tag) != ((Page)selectedPages[0].Tag).Id)
+                    {
+                        selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
+                        UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id, true);
+                    }
+
+                    RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
+                    RadioApplyAdjustmentsPage.Tag = ((Page)selectedPages[0].Tag).Id;
+                    RadioApplyAdjustmentsPage.Enabled = true;
+
+                    //RequestImageInfoSlice();
                 }
-                //((Page)selectedPages[0].Tag).LoadImageInfo();
-
-                if (((Page)selectedPages[0].Tag).Format != null)
+                else
                 {
-                    LabelW.Text = ((Page)selectedPages[0].Tag).Format.W.ToString();
-                    LabelH.Text = ((Page)selectedPages[0].Tag).Format.H.ToString();
+                    RadioApplyAdjustmentsPage.Text = "(no page selected)";
+                    RadioApplyAdjustmentsPage.Enabled = false;
+
+                    //UpdateImageAdjustments("<Global>");
                 }
-
-                if (RadioApplyAdjustmentsPage.Checked && ((String)RadioApplyAdjustmentsPage.Tag) != ((Page)selectedPages[0].Tag).Id)
-                {
-                    selectedImageTasks = ((Page)selectedPages[0].Tag).ImageTask;
-                    UpdateImageAdjustments(sender, ((Page)selectedPages[0].Tag).Id, true);
-                }
-
-                RadioApplyAdjustmentsPage.Text = ((Page)selectedPages[0].Tag).Name;
-                RadioApplyAdjustmentsPage.Tag = ((Page)selectedPages[0].Tag).Id;
-                RadioApplyAdjustmentsPage.Enabled = true;
-
-                //RequestImageInfoSlice();
+    
+                ((Page)e.Item.Tag).Selected = e.IsSelected;
             }
-            else
-            {
-                RadioApplyAdjustmentsPage.Text = "(no page selected)";
-                RadioApplyAdjustmentsPage.Enabled = false;
 
-                //UpdateImageAdjustments("<Global>");
-            }
-
-            ((Page)e.Item.Tag).Selected = e.IsSelected;
             foreach (ListViewItem item in selectedPages)
             {
-                if (((Page)item.Tag).Compressed)
+                if (item.Tag != null)
                 {
-                    //
+                    if (((Page)item.Tag).Compressed)
+                    {
+                        //
+                    }
                 }
 
             }
@@ -5063,18 +5071,22 @@ namespace Win_CBZ
             {
                 foreach (ListViewItem img in selectedPages)
                 {
-                    ((Page)img.Tag).Deleted = true;
-                    if (!((Page)img.Tag).Compressed)
+                    if (img.Tag != null) 
                     {
-                        try
+                        ((Page)img.Tag).Deleted = true;
+                        if (!((Page)img.Tag).Compressed)
                         {
-                            ((Page)img.Tag).DeleteTemporaryFile();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                            try
+                            {
+                                ((Page)img.Tag).DeleteTemporaryFile();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+                            }
                         }
                     }
+                    
                     img.ForeColor = Color.Silver;
                     img.BackColor = Color.Transparent;
 

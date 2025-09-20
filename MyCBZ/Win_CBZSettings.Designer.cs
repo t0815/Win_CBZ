@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.23.206b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.23.207b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
