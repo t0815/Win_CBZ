@@ -147,7 +147,9 @@ namespace Win_CBZ
 
         public void ResetCancellationTokens()
         {
+            CancellationTokenStore.Clear();
 
+            Make();
         }
 
         /// <summary>

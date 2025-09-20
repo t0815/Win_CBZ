@@ -302,6 +302,8 @@ namespace Win_CBZ
 
                     if (MetaData.Exists() && p.UpdateIndexMetadata)
                     {
+                        TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA);
+
                         Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA).Token, false, true, Guid.NewGuid().ToString(), remainingStack);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
@@ -735,6 +737,8 @@ namespace Win_CBZ
             {
                 throw new ConcurrentOperationException("There are still operations running in the Background.\r\nPlease wait until those have completed and try again!", true);
             }
+
+            TokenStore.GetInstance().ResetCancellationTokens();
 
             Task<string> newFollowTask = new Task<string>(() =>
             {
