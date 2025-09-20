@@ -843,17 +843,17 @@ namespace Win_CBZ
 
                 try
                 {
-                    Archive.Entries.Each(entry =>
+                    Archive.Entries.EachUntil(entry =>
                     {
                         if (entry.FullName.Contains('/') || entry.FullName.Contains('\\'))
                         {
                             DirectoryFound = true;
                             MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Directories ['" + entry.FullName + "'] found in Archive!");
                             
-                            return true;
+                            return false;
                         }
 
-                        return false;
+                        return true;
                     });
                 } catch (Exception e)
                 {

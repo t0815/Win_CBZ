@@ -108,49 +108,49 @@
     <PackageReference Include="LoadingIndicator.WinForms" Version="1.2.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="runtime.native.System.IO.Compression" Version="4.3.2" />
-    <PackageReference Include="Scintilla5.NET" Version="5.6.1" />
-    <PackageReference Include="SharpCompress" Version="0.38.0" />
+    <PackageReference Include="Scintilla5.NET" Version="6.0.1" />
+    <PackageReference Include="SharpCompress" Version="0.40.0" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
-    <PackageReference Include="System.ServiceModel.Http" Version="8.0.0" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.0.0" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="8.0.0" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
-    <PackageReference Include="System.Web.Services.Description" Version="8.0.0" />
-    <PackageReference Include="ZstdSharp.Port" Version="0.8.1" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+    <PackageReference Include="System.Web.Services.Description" Version="8.1.2" />
+    <PackageReference Include="ZstdSharp.Port" Version="0.8.6" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.9" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="8.0.0-preview.7.23375.6" />
-    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.10" />
-    <PackageReference Include="System.CodeDom" Version="8.0.0" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
-    <PackageReference Include="System.Data.Odbc" Version="8.0.1" />
-    <PackageReference Include="System.Data.OleDb" Version="8.0.1" />
-    <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.1" />
-    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.1" />
-    <PackageReference Include="System.DirectoryServices" Version="8.0.0" />
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.1" />
-    <PackageReference Include="System.DirectoryServices.Protocols" Version="8.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
-    <PackageReference Include="System.IO.Hashing" Version="8.0.0" />
-    <PackageReference Include="System.IO.Packaging" Version="8.0.1" />
-    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
-    <PackageReference Include="System.Management" Version="8.0.0" />
-    <PackageReference Include="System.Reflection.Context" Version="8.0.0" />
-    <PackageReference Include="System.Runtime.Caching" Version="8.0.1" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Win32.Registry.AccessControl" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.9" />
+    <PackageReference Include="System.CodeDom" Version="9.0.9" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.9" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.9" />
+    <PackageReference Include="System.Data.Odbc" Version="9.0.9" />
+    <PackageReference Include="System.Data.OleDb" Version="9.0.9" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="9.0.9" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.9" />
+    <PackageReference Include="System.DirectoryServices" Version="9.0.9" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.9" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="9.0.9" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.9" />
+    <PackageReference Include="System.IO.Hashing" Version="9.0.9" />
+    <PackageReference Include="System.IO.Packaging" Version="9.0.9" />
+    <PackageReference Include="System.IO.Ports" Version="9.0.9" />
+    <PackageReference Include="System.Management" Version="9.0.9" />
+    <PackageReference Include="System.Reflection.Context" Version="9.0.9" />
+    <PackageReference Include="System.Runtime.Caching" Version="9.0.9" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Security.AccessControl" Version="6.0.1" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.1" />
-    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.2" />
-    <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
-    <PackageReference Include="System.ServiceModel.Syndication" Version="8.0.0" />
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.1" />
-    <PackageReference Include="System.Speech" Version="8.0.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
-    <PackageReference Include="System.Threading.AccessControl" Version="8.0.0" />
-    <PackageReference Include="System.ServiceModel.Federation" Version="8.0.0" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.9" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="9.0.9" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.9" />
+    <PackageReference Include="System.Security.Permissions" Version="9.0.9" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.9" />
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="9.0.9" />
+    <PackageReference Include="System.Speech" Version="9.0.9" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.9" />
+    <PackageReference Include="System.Threading.AccessControl" Version="9.0.9" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">

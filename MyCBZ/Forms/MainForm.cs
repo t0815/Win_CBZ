@@ -8395,8 +8395,6 @@ namespace Win_CBZ
                             }
                         }
                     }
-
-                    return false; // continue foreach loop
                 });          
             }
         }
