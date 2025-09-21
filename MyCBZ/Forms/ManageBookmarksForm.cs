@@ -651,7 +651,7 @@ namespace Win_CBZ.Forms
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            
+
             IDataObject clipObject = Clipboard.GetDataObject();
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
@@ -750,7 +750,57 @@ namespace Win_CBZ.Forms
             else
             {
                 ApplicationMessage.ShowWarning("Clipboard does not contain any XML-Bookmark information", "Bookmarks", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
-            }   
+            }
+        }
+
+        private void ToolbuttonAutoCreateBookmarks_Click(object sender, EventArgs e)
+        {
+            AutoCreateBookmarksForm autoCreateBookmarksForm = new AutoCreateBookmarksForm();
+
+            if (autoCreateBookmarksForm.ShowDialog() == DialogResult.OK)
+            {
+                if (PagesList.SelectedItems.Count == 0)
+                {
+                    ApplicationMessage.ShowError("Please select pages to create bookmarks for.", "Error");
+                    return;
+                }
+
+                string prefix = autoCreateBookmarksForm.BookmarkPrefix;
+                if (prefix.Trim().Length == 0)
+                {
+                    prefix = "Chapter";
+                }
+
+                BookmarksTree.Nodes.Clear();
+                int chapter = 1;
+
+                foreach (ListViewItem selectedItem in PagesList.SelectedItems)
+                {
+                    string bookmarkName = prefix + " " + chapter;
+
+                    Page page = (Page)selectedItem.Tag;
+                    selectedItem.SubItems[2].Text = bookmarkName;
+                    page.Bookmark = bookmarkName;
+
+                    if (BookmarksTree.Nodes.IndexOfKey(bookmarkName) == -1)
+                    {
+                        TreeNode node = BookmarksTree.Nodes.Add(bookmarkName, bookmarkName);
+                        TreeNode subNode = node.Nodes.Add(page.Name, page.Name);
+                        subNode.Tag = page;
+                    }
+                    else
+                    {
+                        TreeNode node = BookmarksTree.Nodes[BookmarksTree.Nodes.IndexOfKey(bookmarkName)];
+                        if (node.Level == 0)
+                        {
+                            TreeNode subNode = node.Nodes.Add(page.Name, page.Name);
+                            subNode.Tag = page;
+                        }
+                    }
+
+                    chapter++;
+                }
+            }
         }
     }
 }

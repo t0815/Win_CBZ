@@ -716,6 +716,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap magic_wand {
+            get {
+                object obj = ResourceManager.GetObject("magic_wand", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap magnifying_glass {
             get {
                 object obj = ResourceManager.GetObject("magnifying_glass", resourceCulture);
