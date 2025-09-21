@@ -220,7 +220,7 @@
             // ToolbuttonAutoCreateBookmarks
             // 
             ToolbuttonAutoCreateBookmarks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            ToolbuttonAutoCreateBookmarks.Image = Properties.Resources.magic_wand;
+            ToolbuttonAutoCreateBookmarks.Image = Properties.Resources.bookmarks_star;
             ToolbuttonAutoCreateBookmarks.ImageTransparentColor = System.Drawing.Color.Magenta;
             ToolbuttonAutoCreateBookmarks.Name = "ToolbuttonAutoCreateBookmarks";
             ToolbuttonAutoCreateBookmarks.Size = new System.Drawing.Size(29, 24);
@@ -429,7 +429,10 @@
             // 
             // BookmarkEditorTooltip
             // 
+            BookmarkEditorTooltip.AutoPopDelay = 15000;
+            BookmarkEditorTooltip.InitialDelay = 500;
             BookmarkEditorTooltip.IsBalloon = true;
+            BookmarkEditorTooltip.ReshowDelay = 100;
             BookmarkEditorTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             BookmarkEditorTooltip.ToolTipTitle = "Win_CBZ";
             // 
