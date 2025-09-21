@@ -30,10 +30,8 @@ namespace Win_CBZ.Helper
 
         public static RandomId GetInstance()
         {
-            //if (RandomId.Instance == null)
-            //{
-                RandomId.Instance ??= new RandomId();
-            //}
+            
+            RandomId.Instance ??= new RandomId();
 
             return RandomId.Instance;
         }

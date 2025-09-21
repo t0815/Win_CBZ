@@ -71,44 +71,6 @@ namespace Win_CBZ.Data
             {
                 duplicates.Add(match.Groups[1].Value);
             }
-                
-            /*
-             *  Use regex for duplicate detection
-
-            int occurence = 0;
-            foreach (String entryA in values)
-            {
-                occurence = 0;
-                foreach (String entryB in values)
-                {
-                    if (entryA.ToLower().Equals(entryB.ToLower()))
-                    {
-                        occurence++;
-                    }
-
-                    if (cancellationToken != null)
-                    {
-                        if (cancellationToken.Value.IsCancellationRequested)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                if (occurence > 1 && duplicates.IndexOf(entryA) == -1)
-                {
-                    duplicates.Add(entryA);
-                }
-
-                if (cancellationToken != null)
-                {
-                    if (cancellationToken.Value.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                }
-            }
-            */
 
             return duplicates.ToArray();
         }
@@ -192,43 +154,6 @@ namespace Win_CBZ.Data
             {
                 duplicates.Add(match.Groups[1].Value);
             }
-
-            /*
-            foreach (MetaDataEntry entryA in Program.ProjectModel.MetaData.Values)
-            {
-                occurence = 0;
-                foreach (MetaDataEntry entryB in Program.ProjectModel.MetaData.Values)
-                {
-
-                    if (entryA.Key.ToLower().Equals(entryB.Key.ToLower()))
-                    {
-                        occurence++;
-                    }
-
-                    if (cancellationToken != null)
-                    {
-                        if (cancellationToken.Value.IsCancellationRequested)
-                        {
-                            break;
-                        }
-                    }
-                }
-
-                if (occurence > 1 && metaDataEntryErrors.IndexOf(entryA.Key) == -1)
-                {
-                    metaDataEntryErrors.Add(entryA.Key);
-                    error = true;
-                }
-
-                if (cancellationToken != null)
-                {
-                    if (cancellationToken.Value.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                }
-            }
-            */
 
             if (duplicates.Count > 0)
             {
@@ -358,7 +283,5 @@ namespace Win_CBZ.Data
             return true;
 
         }
-
-        
     }
 }

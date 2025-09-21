@@ -44,8 +44,7 @@ namespace Win_CBZ.Img
                 stride);
          
             PngBitmapEncoder encoder = new PngBitmapEncoder();
-            //TextBlock myTextBlock = new TextBlock();
-            //myTextBlock.Text = "Codec Author is: " + encoder.CodecInfo.Author.ToString();
+           
             encoder.Interlace = PngInterlaceOption.On;
             encoder.Frames.Add(BitmapFrame.Create(image));
             encoder.Save(destination);

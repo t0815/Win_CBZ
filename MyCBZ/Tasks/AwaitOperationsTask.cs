@@ -22,17 +22,6 @@ namespace Win_CBZ.Tasks
 
                 Dictionary<int, bool> finishedThreads = new Dictionary<int, bool>();
 
-                //if (showDialog)
-               // {
-                    //invoke(new Action(() =>
-                    //{
-
-                    //}));
-                 //   dlg = ApplicationMessage.Create("Waiting for operations to finish. Please wait.", "Please stand by");
-                   // dlg.TopMost = true;
-                   // dlg.Show();
-                //}
-
                 while (finishedThreads.Count < awaitTasks.Count)
                 {
                     foreach (Thread th in awaitTasks)
@@ -56,11 +45,6 @@ namespace Win_CBZ.Tasks
                         System.Threading.Thread.Sleep(5);
                     }
                 }
-
-                //if (showDialog)
-               // {
-               //     dlg.Close();
-               // }
 
                 result.Status = 0;
 

@@ -70,7 +70,7 @@
             ExtractToTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ExtractToTablePanel.Name = "ExtractToTablePanel";
             ExtractToTablePanel.RowCount = 3;
-            ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 79F));
             ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             ExtractToTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             ExtractToTablePanel.Size = new System.Drawing.Size(576, 535);
@@ -86,7 +86,7 @@
             HeaderPanel.Location = new System.Drawing.Point(3, 0);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(570, 98);
+            HeaderPanel.Size = new System.Drawing.Size(570, 77);
             HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
@@ -106,7 +106,7 @@
             HeaderPicture.Location = new System.Drawing.Point(24, 0);
             HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new System.Drawing.Size(65, 95);
+            HeaderPicture.Size = new System.Drawing.Size(65, 74);
             HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -146,10 +146,10 @@
             SettingsGroup1Panel.Controls.Add(RadioButtonExtractSelected);
             SettingsGroup1Panel.Controls.Add(label2);
             SettingsGroup1Panel.Controls.Add(label1);
-            SettingsGroup1Panel.Location = new System.Drawing.Point(3, 102);
+            SettingsGroup1Panel.Location = new System.Drawing.Point(3, 81);
             SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            SettingsGroup1Panel.Size = new System.Drawing.Size(570, 353);
+            SettingsGroup1Panel.Size = new System.Drawing.Size(570, 372);
             SettingsGroup1Panel.TabIndex = 4;
             // 
             // label3

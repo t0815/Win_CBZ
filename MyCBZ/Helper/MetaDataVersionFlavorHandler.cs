@@ -33,8 +33,6 @@ namespace Win_CBZ.Helper
                 MetaDataVersionFlavorHandler.Instance = new MetaDataVersionFlavorHandler();
             }
 
-            //MetaDataVersionFlavorHandler.Instance.HandlePageIndexVersion();
-
             return MetaDataVersionFlavorHandler.Instance;
         }
 

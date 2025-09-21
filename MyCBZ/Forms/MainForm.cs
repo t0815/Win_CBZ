@@ -651,11 +651,7 @@ namespace Win_CBZ
                     Win_CBZSettings.Default.FilteredFilenamesList,
                     Win_CBZSettings.Default.DetectDoublePages
                     );
-                //if (files.Count > 0)
-                //{
-                //    Program.ProjectModel.AddImages(files, NewIndex);
-                //}
-
+               
             }
         }
 
@@ -1122,7 +1118,7 @@ namespace Win_CBZ
                             );
                         }
 
-                        //Program.ProjectModel.ApplicationState = ApplicationStatusEvent.STATE_READY;
+                        
 
                         if (e.Type == GeneralTaskProgressEvent.TASK_RELOAD_IMAGE_METADATA)
                         {
@@ -1172,8 +1168,6 @@ namespace Win_CBZ
                                     }));
                                 }
                             }
-
-                            //CurrentGlobalAction = null;
                         }
                     }));
 
@@ -1346,10 +1340,9 @@ namespace Win_CBZ
                 {
                     if (ThumbnailThread.IsAlive)
                     {
-                        //threads.Add(ThumbnailThread);
+                        
                         TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL).Cancel();
-                        //CancellationTokenSourceThumbnail.Cancel();
-                        //ThumbnailThread.Abort();
+                        
                     }
                 }
 
@@ -1358,9 +1351,7 @@ namespace Win_CBZ
                     if (RequestImageInfoThread.IsAlive)
                     {
                         TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Cancel();
-                        //CancellationTokenSourceRequestImageInfo.Cancel();
-                        //threads.Add(RequestImageInfoThread);
-                        //RequestImageInfoThread.Abort();
+                        
                     }
                 }
 
@@ -1368,8 +1359,7 @@ namespace Win_CBZ
                 {
                     if (RequestThumbnailThread.IsAlive)
                     {
-                        //threads.Add(RequestThumbnailThread);
-                        //RequestThumbnailThread.Join();
+                        
                         return;
                     }
                 }
@@ -1377,7 +1367,7 @@ namespace Win_CBZ
                 TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE);
 
                 List<Page> currentSlice = new List<Page>(ThumbnailPagesSlice.ToArray());
-                //ThumbnailPagesSlice.Clear();
+                
 
                 RequestThumbnailThread = new Thread(LoadThumbnailSlice);
                 RequestThumbnailThread.Start(new ThumbSliceThreadParams()
@@ -1553,18 +1543,6 @@ namespace Win_CBZ
                 insertPageAt = FindThumbImageForPage(PageView, insertAt);
             }
 
-            /*
-            if (!PageImages.Images.ContainsKey(page.Id))
-            {
-                PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
-            }
-            else
-            {
-                //PageImages.Images.RemoveByKey(page.Name);
-                //PageImages.Images.Add(page.Id, page.GetThumbnail(ThumbAbort, Handle));
-            }
-            */
-
             if (existingItem == null)
             {
                 if (insertPageAt == null)
@@ -1581,28 +1559,6 @@ namespace Win_CBZ
             {
                 PageThumbsListBox.Items[PageThumbsListBox.Items.IndexOf(existingItem)] = page;
             }
-
-            /*
-            if (existingItem == null)
-            {
-                itemPage = PageView.Items.Add(page.Index.ToString());
-                itemPage.Name = page.Index.ToString();
-                itemPage.ImageKey = page.Id;
-                itemPage.SubItems.Add(page.Name);
-                itemPage.SubItems.Add(page.Id.ToString());
-            }
-            else
-            {
-                itemPage = existingItem;
-                itemPage.Text = page.Index.ToString(); 
-                itemPage.Name = page.Index.ToString();
-                itemPage.ImageKey = page.Id;
-                itemPage.SubItems[1] = new ListViewItem.ListViewSubItem(itemPage, page.Name);
-                itemPage.SubItems[2] = new ListViewItem.ListViewSubItem(itemPage, page.Id.ToString());
-            }
-            */
-
-            //itemPage.Tag = page;
 
             return page;
         }

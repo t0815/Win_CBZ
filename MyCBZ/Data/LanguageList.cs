@@ -12,7 +12,6 @@ namespace Win_CBZ.Data
     internal class LanguageList
     {
 
-
         public LanguageList() { 
         
         }
