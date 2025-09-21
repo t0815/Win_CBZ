@@ -60,6 +60,7 @@ namespace Win_CBZ.Models
                 SplitPage = copyFrom.SplitPage;
                 SplitPageAt = copyFrom.SplitPageAt;
                 SplitType = copyFrom.SplitType;
+                SplitOnlyDoublePages = copyFrom.SplitOnlyDoublePages;
                 DetectSplitAtColor = copyFrom.DetectSplitAtColor;
                 ResizeTo = copyFrom.ResizeTo;
                 ResizeMode = copyFrom.ResizeMode;

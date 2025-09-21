@@ -2010,6 +2010,8 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = true;
                     ToolBarSearchLabel.Enabled = true;
 
+                    SetControlsEnabledState("adjustments,renaming", true);
+
                     break;
 
                 case ApplicationStatusEvent.STATE_OPENING:
@@ -2042,6 +2044,8 @@ namespace Win_CBZ
                     AddFolderToolStripMenuItem.Enabled = false;
                     ToolBarSearchInput.Enabled = false;
                     ToolBarSearchLabel.Enabled = false;
+
+                    SetControlsEnabledState("adjustments,renaming", false);
 
                     break;
 
@@ -2080,6 +2084,8 @@ namespace Win_CBZ
                     ToolButtonAddFolder.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
 
+                    SetControlsEnabledState("adjustments,renaming", false);
+
                     break;
 
                 case ApplicationStatusEvent.STATE_SAVING:
@@ -2112,6 +2118,8 @@ namespace Win_CBZ
                     AddFolderToolStripMenuItem.Enabled = false;
                     ToolBarSearchInput.Enabled = false;
                     ToolBarSearchLabel.Enabled = false;
+
+                    SetControlsEnabledState("adjustments,renaming", false);
 
                     break;
 
@@ -2147,6 +2155,7 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = false;
                     ToolBarSearchLabel.Enabled = false;
 
+                    SetControlsEnabledState("adjustments,renaming", false);
 
                     break;
 
@@ -2406,6 +2415,8 @@ namespace Win_CBZ
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
 
+                        SetControlsEnabledState("adjustments,renaming", true);
+
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVING:
@@ -2437,6 +2448,7 @@ namespace Win_CBZ
                         ToolButtonValidateCBZ.Enabled = false;
                         ToolBarSearchInput.Enabled = false;
                         ToolBarSearchLabel.Enabled = false;
+                        SetControlsEnabledState("adjustments,renaming", false);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_OPENED:
@@ -2471,6 +2483,8 @@ namespace Win_CBZ
                         BtnAddMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count == 0;
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
+
+                        SetControlsEnabledState("adjustments,renaming", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVED:
@@ -2507,6 +2521,8 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                         PageView.Refresh();
                         PageView.Invalidate();
+
+                        SetControlsEnabledState("adjustments,renaming", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_ERROR_SAVING:
@@ -2538,6 +2554,9 @@ namespace Win_CBZ
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
                         PageView.Refresh();
                         PageView.Invalidate();
+
+                        SetControlsEnabledState("adjustments,renaming", false);
+
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_EXTRACTING:
@@ -2599,6 +2618,9 @@ namespace Win_CBZ
                         ToolButtonValidateCBZ.Enabled = false;
                         ToolBarSearchInput.Enabled = false;
                         ToolBarSearchLabel.Enabled = false;
+
+                        SetControlsEnabledState("adjustments,renaming", false);
+
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_CLOSED:
@@ -2648,6 +2670,8 @@ namespace Win_CBZ
                         RadioApplyAdjustmentsPage.Enabled = false;
                         CurrentGlobalActions.Clear();
 
+                        SetControlsEnabledState("adjustments,renaming", true);
+
                         //MessageLogListView.Items.Clear();
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
                         //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
@@ -2661,6 +2685,8 @@ namespace Win_CBZ
                         ToolButtonSave.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
+
+                        SetControlsEnabledState("adjustments,renaming", true);
                         //}
                         break;
 
@@ -2733,6 +2759,25 @@ namespace Win_CBZ
                         ToolButtonEditImage.Enabled = enabled;
                         ToolButtonValidateCBZ.Enabled = enabled;
                         ToolButtonSetPageType.Enabled = enabled;
+                        RadioApplyAdjustmentsGlobal.Enabled = enabled;
+                        RadioApplyAdjustmentsPage.Enabled = enabled;
+                        ComboBoxTaskOrderConversion.Enabled = enabled;
+                        ComboBoxTaskOrderResize.Enabled = enabled;
+                        ComboBoxTaskOrderRotation.Enabled = enabled;
+                        //ComboBoxTaskOrderSplit.Enabled = enabled;
+                        ComboBoxConvertPages.Enabled = enabled;
+                        RadioButtonResizeNever.Enabled = enabled;
+                        RadioButtonResizeIfLarger.Enabled = enabled;
+                        RadioButtonResizePercent.Enabled = enabled;
+                        RadioButtonRotateNone.Enabled = enabled;
+                        RadioButtonRotate90.Enabled = enabled;
+                        RadioButtonRotate180.Enabled = enabled;
+                        RadioButtonRotate270.Enabled = enabled;
+                        CheckBoxSplitDoublePages.Enabled = enabled;
+                        ComboBoxSplitAtType.Enabled = enabled;
+                        CheckboxKeepAspectratio.Enabled = enabled;
+                        CheckBoxDontStretch.Enabled = enabled;
+
                         break;
                     case "save":
                         ToolButtonSave.Enabled = enabled;
@@ -2788,6 +2833,41 @@ namespace Win_CBZ
                     case "search":
                         ToolBarSearchInput.Enabled = enabled;
                         ToolBarSearchLabel.Enabled = enabled;
+                        break;
+                    case "adjustments":
+                        RadioApplyAdjustmentsGlobal.Enabled = enabled;
+                        RadioApplyAdjustmentsPage.Enabled = enabled;
+                        ComboBoxTaskOrderConversion.Enabled = enabled;
+                        ComboBoxTaskOrderResize.Enabled = enabled;
+                        ComboBoxTaskOrderRotation.Enabled = enabled;
+                        //ComboBoxTaskOrderSplit.Enabled = enabled;
+                        ComboBoxConvertPages.Enabled = enabled;
+                        RadioButtonResizeNever.Enabled = enabled;
+                        RadioButtonResizeTo.Enabled = enabled;
+                        RadioButtonResizeIfLarger.Enabled = enabled;
+                        RadioButtonResizePercent.Enabled = enabled;
+                        RadioButtonRotateNone.Enabled = enabled;
+                        RadioButtonRotate90.Enabled = enabled;
+                        RadioButtonRotate180.Enabled = enabled;
+                        RadioButtonRotate270.Enabled = enabled;
+                        CheckBoxSplitDoublePages.Enabled = enabled;
+                        TextBoxResizeH.Enabled = enabled;
+                        TextBoxResizeW.Enabled = enabled;
+                        TextboxResizePercentage.Enabled = enabled;
+                        TextBoxSplitPageAt.Enabled = enabled;
+                        ComboBoxSplitAtType.Enabled = enabled;
+                        CheckboxKeepAspectratio.Enabled = enabled;
+                        CheckBoxDontStretch.Enabled = enabled;
+                        TextBoxExcludePagesImageProcessing.Enabled = enabled;
+                        GetImageProcessExcludesFromSelectedButton.Enabled = enabled;
+
+                        break;
+                    case "renaming":
+                        CheckBoxDoRenamePages.Enabled = enabled;
+                        CheckBoxPreview.Enabled = enabled;
+                        TextboxStoryPageRenamingPattern.Enabled = enabled;
+                        TextboxSpecialPageRenamingPattern.Enabled = enabled;
+
                         break;
                     default:
                         // Do nothing
@@ -6470,6 +6550,8 @@ namespace Win_CBZ
             PictureBoxColorSelect.Tag = false;
             CheckBoxSplitOnlyIfDoubleSize.Tag = false;
             CheckBoxSplitDoublepagesFirst.Tag = false;
+
+            CheckboxIgnoreGlobalTask.Tag = false;
         }
 
         private void UpdateImageAdjustments(object sender, string selected, bool dontUpdate = false)
@@ -6585,6 +6667,9 @@ namespace Win_CBZ
                         PictureBoxColorSelect.Tag = dontUpdate;
                         CheckBoxSplitOnlyIfDoubleSize.Tag = dontUpdate;
                         CheckBoxSplitDoublepagesFirst.Tag = dontUpdate;
+                        CheckboxIgnoreDoublePages.Tag = dontUpdate;
+
+                        CheckboxIgnoreGlobalTask.Tag = dontUpdate;
 
 
                         CheckBoxSplitDoublePages.Checked = selectedImageTasks.ImageAdjustments.SplitPage;
@@ -6600,6 +6685,18 @@ namespace Win_CBZ
                         PictureBoxColorSelect.BackColor = selectedImageTasks.ImageAdjustments.DetectSplitAtColor;
                         CheckBoxSplitOnlyIfDoubleSize.Checked = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
                         CheckBoxSplitDoublepagesFirst.Checked = selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                        CheckboxIgnoreDoublePages.Checked = selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage;
+
+                        CheckboxIgnoreGlobalTask.Checked = selectedImageTasks.UseLocalTask;
+
+                        if (selected == "<Global>")
+                        {
+                            CheckboxIgnoreGlobalTask.Enabled = false;
+                        }
+                        else
+                        {
+                            CheckboxIgnoreGlobalTask.Enabled = true;
+                        }
 
                         RadioButtonResizeNever.Tag = false;
                         RadioButtonResizeIfLarger.Tag = false;
@@ -6630,6 +6727,9 @@ namespace Win_CBZ
                         PictureBoxColorSelect.Tag = false;
                         CheckBoxSplitOnlyIfDoubleSize.Tag = false;
                         CheckBoxSplitDoublepagesFirst.Tag = false;
+                        CheckboxIgnoreDoublePages.Tag = false;
+
+                        CheckboxIgnoreGlobalTask.Tag = false;
                     }));
 
                 }
@@ -6725,6 +6825,9 @@ namespace Win_CBZ
                     PictureBoxColorSelect.Tag = dontUpdate;
                     CheckBoxSplitOnlyIfDoubleSize.Tag = dontUpdate;
                     CheckBoxSplitDoublepagesFirst.Tag = dontUpdate;
+                    CheckboxIgnoreDoublePages.Tag = dontUpdate;
+
+                    CheckboxIgnoreGlobalTask.Tag = dontUpdate;
 
 
                     CheckBoxSplitDoublePages.Checked = selectedImageTasks.ImageAdjustments.SplitPage;
@@ -6740,6 +6843,8 @@ namespace Win_CBZ
                     PictureBoxColorSelect.BackColor = selectedImageTasks.ImageAdjustments.DetectSplitAtColor;
                     CheckBoxSplitOnlyIfDoubleSize.Checked = selectedImageTasks.ImageAdjustments.SplitOnlyDoublePages;
                     CheckBoxSplitDoublepagesFirst.Checked = selectedImageTasks.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                    CheckboxIgnoreGlobalTask.Checked = selectedImageTasks.UseLocalTask;
+                    CheckboxIgnoreDoublePages.Checked = selectedImageTasks.ImageAdjustments.IgnoreDoublePagesResizingToPage;
 
                     RadioButtonResizeNever.Tag = false;
                     RadioButtonResizeIfLarger.Tag = false;
@@ -6770,6 +6875,9 @@ namespace Win_CBZ
                     PictureBoxColorSelect.Tag = false;
                     CheckBoxSplitOnlyIfDoubleSize.Tag = false;
                     CheckBoxSplitDoublepagesFirst.Tag = false;
+                    CheckboxIgnoreDoublePages.Tag = false;
+
+                    CheckboxIgnoreGlobalTask.Tag = false;
 
                 }
             });

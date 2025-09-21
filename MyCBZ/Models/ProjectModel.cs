@@ -559,6 +559,11 @@ namespace Win_CBZ
                                     }
 
                                     resultPage.FreeStreams();
+
+                                    resultPage.ImageTask.ImageAdjustments.SplitPage = false;
+                                    resultPage.ImageTask.ImageAdjustments.ResizeMode = -1;
+                                    resultPage.ImageTask.ImageAdjustments.ConvertType = 0;
+                                    resultPage.ImageTask.ImageAdjustments.RotateMode = 0;
                                     resultPage.ImageTask.FreeResults();
                                     
                                 } catch (Exception e)

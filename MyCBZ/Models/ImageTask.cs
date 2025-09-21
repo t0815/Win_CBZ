@@ -31,6 +31,8 @@ namespace Win_CBZ.Models
 
         public String PageId { get; set; }
 
+        public bool UseLocalTask { get; set; }
+
         public ImageAdjustments ImageAdjustments { get; set; }
 
         public PageImageFormat[] ImageFormat { get; set; }
@@ -230,6 +232,14 @@ namespace Win_CBZ.Models
                                 {
                                     throw new PageException(SourcePage, "Error resizing page! Width and/or Height must not be <= 0!");
                                 }
+
+                                if (ImageAdjustments.IgnoreDoublePagesResizingToPage)
+                                {
+                                    if (SourcePage.DoublePage || SourcePage.Format.W > SourcePage.Format.H)
+                                    {
+                                        continue; // Skip resizing for double pages
+                                    }
+                                }
                             }
 
                             if (ImageAdjustments.ResizeMode == 2)  // Resize to fixed size
@@ -353,7 +363,19 @@ namespace Win_CBZ.Models
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
                 ResultFileName[0].Refresh();
-               
+
+                if (ImageAdjustments.SplitOnlyDoublePages)
+                {
+                    imageInfo = Image.FromFile(ResultFileName[0].FullPath);
+                    if (imageInfo.Width < imageInfo.Height && !SourcePage.DoublePage)
+                    {
+                        // Not a double page, so we remove the split task again
+                        Tasks.Remove(TASK_SPLIT);
+                    }
+                    imageInfo.Dispose();
+                    imageInfo = null;
+                }
+
                 // If the task is split, create a second file
                 if (Tasks.Contains(TASK_SPLIT))
                 {
