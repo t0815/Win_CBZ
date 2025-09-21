@@ -454,10 +454,9 @@ namespace Win_CBZ.Forms
                 foreach (ListViewItem item in PagesList.Items)
                 {
                     Page page = (Page)item.Tag;
-                    if (page.Bookmark == bookmarkName)
+                    if (item.SubItems[2].Text == bookmarkName)
                     {
                         item.SubItems[2].Text = bookmarkNameNew;
-                        page.Bookmark = bookmarkNameNew;
                         //AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                     }
                 }
@@ -780,7 +779,6 @@ namespace Win_CBZ.Forms
 
                     Page page = (Page)selectedItem.Tag;
                     selectedItem.SubItems[2].Text = bookmarkName;
-                    page.Bookmark = bookmarkName;
 
                     if (BookmarksTree.Nodes.IndexOfKey(bookmarkName) == -1)
                     {
