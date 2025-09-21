@@ -177,8 +177,7 @@ namespace Win_CBZ
             }
             finally
             {
-                ////LocalFile = localFile;
-                //WorkingDir = TemporaryFile.FilePath;
+               
                 if (ReadOnly)
                 {
                     TemporaryFile = CreateLocalWorkingCopy();
@@ -187,8 +186,7 @@ namespace Win_CBZ
 
 
             Filename = ImageFileInfo.Name;
-            FileExtension = ImageFileInfo.Extension;
-            //LocalPath = ImageFileInfo.Directory.FullName;               
+            FileExtension = ImageFileInfo.Extension;              
             Name = ImageFileInfo.Name;
             LastModified = ImageFileInfo.LastWriteTime;
             Size = ImageFileInfo.Length;
@@ -206,7 +204,7 @@ namespace Win_CBZ
         public Page(LocalFile localFile, String workingDir, FileAccess mode = FileAccess.Read)
         {
             try {
-                //Copy(localFile.FullPath, tempFileName.FullName);
+
                 LocalFile = new LocalFile(localFile.FullPath);
                 TemporaryFileId = RandomId.GetInstance().Make();
 
@@ -232,8 +230,6 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    ////LocalFile = localFile;
-                    //WorkingDir = TemporaryFile.FilePath;
                     if (ReadOnly)
                     {
                         TemporaryFile = CreateLocalWorkingCopy();
@@ -246,12 +242,10 @@ namespace Win_CBZ
           
             Filename = ImageFileInfo.FullName;
             FileExtension = localFile.FileExtension;
-            //LocalPath = ImageFileInfo.Directory.FullName;
             Name = localFile.FileName;
             Size = ImageFileInfo.Length;
             Id = Guid.NewGuid().ToString();
             ImageTask = new ImageTask(Id);
-            //Key = RandomId.GetInstance().Make();
             LastModified = localFile.LastModified;
         }
 
@@ -312,8 +306,6 @@ namespace Win_CBZ
             EntryName = sourcePage.EntryName;
  
             Filename = sourcePage.Filename;
-            //LocalPath = sourcePage.LocalPath;
-            //ImageStream = sourcePage.ImageStream;
             LocalFile = sourcePage.LocalFile;
             Format = sourcePage.Format;
             
@@ -432,7 +424,6 @@ namespace Win_CBZ
                 Index = sourcePage.Index;
                 OriginalIndex = sourcePage.OriginalIndex;
                 Number = sourcePage.Number;
-                //Closed = sourcePage.Closed;
                 DoublePage = sourcePage.DoublePage;
                 Bookmark = sourcePage.Bookmark;
 
@@ -449,7 +440,6 @@ namespace Win_CBZ
                 {
                     if (sourcePage.ImageStream.CanRead)
                     {
-                        //sourcePage.ImageStream.Position = 0;
 
                         if (inMemory)
                         {
@@ -606,52 +596,37 @@ namespace Win_CBZ
             MetaDataReader?.Close();
             MetaDataReader?.Dispose();
 
-            //TemporaryFileId = RandomId.getInstance().make();
             Id = Guid.NewGuid().ToString();
             
             ImageLoaded = false;
             IsMemoryCopy = false;
             Compressed = false;
 
-            //if (LocalFile == null)
-            //{
-                //if (Program.ProjectModel.ProjectGUID != sourceProjectId)
-                //{
-                    if (WorkingDir != null)
-                    {
-                        DirectoryInfo currentWorkingDir = new DirectoryInfo(WorkingDir);
-                        String baseDir = currentWorkingDir.Parent.FullName;
+            
+            if (WorkingDir != null)
+            {
+                DirectoryInfo currentWorkingDir = new DirectoryInfo(WorkingDir);
+                String baseDir = currentWorkingDir.Parent.FullName;
 
-                        String targetPath = Path.Combine(baseDir, sourceProjectId);
-                        String targetFile = Path.Combine(targetPath, RandomId.GetInstance().Make() + FileExtension);
+                String targetPath = Path.Combine(baseDir, sourceProjectId);
+                String targetFile = Path.Combine(targetPath, RandomId.GetInstance().Make() + FileExtension);
 
-                        //String targetFile = Path.Combine(targetPath, TemporaryFileId + ".tmp");
+                if (File.Exists(targetFile))
+                {
+                    targetFile = Path.Combine(targetPath, RandomId.GetInstance().Make() + ".000");
+                }
 
-                        if (File.Exists(targetFile))
-                        {
-                            targetFile = Path.Combine(targetPath, RandomId.GetInstance().Make() + ".000");
-                        }
-
-                        if (LocalFile != null && LocalFile.Exists())
-                        {
+                if (LocalFile != null && LocalFile.Exists())
+                {
                     Copy(LocalFile.FullPath, targetFile);
-                            LocalFile = new LocalFile(targetFile);
-                        } else
-                        {
+                    LocalFile = new LocalFile(targetFile);
+                } else
+                {
                     Copy(TemporaryFile.FullPath, targetFile);
-                            LocalFile = new LocalFile(targetFile);
-                        }
-
-                        
-                    }
-            //} else
-            //{
-            //    LocalFile = new LocalFile(TemporaryFile.FullPath);
-            //}
-
-            //
-            //}
-
+                    LocalFile = new LocalFile(targetFile);
+                }
+            }
+            
             TemporaryFileId = RandomId.GetInstance().Make(); // new id
 
             if (LocalFile != null && LocalFile.Exists())
@@ -977,14 +952,6 @@ namespace Win_CBZ
                         OriginalName = node.InnerText;
                         break;
 
-                    //case "LocalPath":
-                    //    LocalPath = node.InnerText;
-                    //    break;
-
-                    //case "TempPath":
-                    //    TempPath = node.InnerText;
-                    //    break;
-
                     case "WorkingDir":
                         WorkingDir = node.InnerText;
                         break;
@@ -1117,7 +1084,6 @@ namespace Win_CBZ
                 Index = page.Index;
                 Number = page.Number;
             }
-            //OriginalIndex = page.OriginalIndex;
         }
 
         /// <summary>
@@ -1135,7 +1101,7 @@ namespace Win_CBZ
 
             EntryName = page.EntryName;
             CompressedEntry = page.CompressedEntry;
-            //Size = page.Size;
+            
             Id = page.Id;
             Key = page.Key;
 
@@ -1162,7 +1128,6 @@ namespace Win_CBZ
                 Index = page.Index;
                 Number = page.Number;
             }
-            //OriginalIndex = page.OriginalIndex;
         }
 
         /// <summary>
@@ -1178,9 +1143,9 @@ namespace Win_CBZ
             Filename = entry.FullName;
             Name = entry.Name;
             EntryName = entry.Name;
-            //Size = entry.Length;
+           
             LastModified = entry.LastWriteTime;
-            //Id = Guid.NewGuid().ToString();    // dont create new ID
+           
             TemporaryFileId = randomId;
             Hash = entry.Crc32.ToString("X");
         }
@@ -1199,16 +1164,13 @@ namespace Win_CBZ
             LocalFile = new LocalFile(localFile.FullPath);
             TemporaryFile = new LocalFile(tempFileName.FullName);
             Size = ImageFileInfo.Length;
-            //LocalPath = localFile.FullPath;
+
             Compressed = false;
             LastModified = localFile.LastModified;
             Name = localFile.FileName;
 
             Changed = true;
 
-            //Key = RandomId.getInstance().make();
-
-            //TemporaryFileId = RandomId.getInstance().make();
             Format = new PageImageFormat();
             Image = null;
             ImageLoaded = false;
@@ -1219,10 +1181,7 @@ namespace Win_CBZ
             ImageStream?.Dispose();
 
             ThumbnailInvalidated = true;
-            //Key = RandomId.getInstance().make();
-
-            //String newTempFileName = CreateLocalWorkingCopy(ExtractFileExtension(localFile.FullPath));
-            //TempPath = new FileInfo(newTempFileName).FullName;
+            
         }
 
         /// <summary>
@@ -1269,12 +1228,6 @@ namespace Win_CBZ
             {
                 Closed = false;
             }
-
-            //ImageLoaded = false;
-            //ThumbnailInvalidated = true;
-            //ImageInfoRequested = false;
-
-            //Image = null;
         }
 
         /// <summary>
@@ -1319,23 +1272,14 @@ namespace Win_CBZ
                 {
                     newImageFileStream?.Close();
                     newImageFileStream?.Dispose();
-                    //imageStream?.Close(); 
                 }
 
-
-                //ImageFileInfo = new FileInfo(newImageFile.FullPath);
-
-                //LocalFile = new LocalFile(newImageFile.FullPath);
-                //TemporaryFile = null;
                 Size = TemporaryFile.FileSize;
                 
-                //Compressed = false;
+               
                 Changed = true;
                 LastModified = TemporaryFile.LastModified;
                 
-                //Key = RandomId.getInstance().make();
-
-                //TemporaryFileId = RandomId.getInstance().make();
                 Format = new PageImageFormat();
                 Image = null;
                 ImageLoaded = false;
@@ -1344,7 +1288,6 @@ namespace Win_CBZ
                 
                 ThumbnailInvalidated = true;
                 
-
             }
         }
 
@@ -2044,7 +1987,7 @@ namespace Win_CBZ
                         g.DrawImage(Image, new Rectangle(0, 0, w, h));
                     }
                     Thumbnail = Image.FromHbitmap(newBitmap.GetHbitmap());
-                    //openBitmap.Dispose(); //Clear The Old Large Bitmap From Memory
+                    
                 }
                 catch (Exception et)
                 {
@@ -2092,7 +2035,7 @@ namespace Win_CBZ
                     }
                     
                     return newBitmap;
-                    //openBitmap.Dispose(); //Clear The Old Large Bitmap From Memory
+                    
                 }
                 catch (Exception et)
                 {
@@ -2102,8 +2045,7 @@ namespace Win_CBZ
                 }
                 finally
                 {
-                    //Image?.Dispose();
-                    //Image = null;
+                    
                 }
             }
 

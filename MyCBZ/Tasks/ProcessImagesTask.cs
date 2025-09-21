@@ -100,8 +100,7 @@ namespace Win_CBZ.Tasks
 
                     if (page.ImageTask.TaskCount() == 0)
                     {
-                        //page.ImageTask = new ImageTask(page.Id);
-                        //page.ImageTask.ImageFormat = new PageImageFormat(page.ImageTask.ImageFormat);
+                        
                         page.ImageTask.ImageAdjustments = new ImageAdjustments(globalTask.ImageAdjustments);
 
                         if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
@@ -173,8 +172,7 @@ namespace Win_CBZ.Tasks
                         {
                             try
                             {
-                                //taskPage.UpdateImage(results[0]);
-                                //taskPage.UpdateTemporaryFile(taskPage.ImageTask.ResultFileName[0]);
+                          
                                 results[0].LoadImageInfo(true);
                                 results[0].FreeStreams();
                                 results[0].FreeImage();
@@ -184,7 +182,7 @@ namespace Win_CBZ.Tasks
 
                                 if (results[1] != null && results[1].LocalFile.Exists())
                                 {
-                                    //secondPage = new Page(taskPage.ImageTask.ResultFileName[1], taskPage.WorkingDir);
+                                    
                                     results[1].Index = results[0].Index + 1;
                                     results[1].Number = results[0].Number + 1;
                                     results[1].Compressed = false;
@@ -201,7 +199,7 @@ namespace Win_CBZ.Tasks
                                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
                             }
 
-                            //page.Copy(page.ImageTask.ResultFileName, page.TempPath);                         
+                                                   
                         }
                         else
                         {

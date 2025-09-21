@@ -78,11 +78,7 @@ namespace Win_CBZ.Models
             
             ResultFileName[0] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".0.res");
             ResultFileName[1] = new LocalFile(source.TemporaryFile.FilePath + RandomId.GetInstance().Make() + ".1.res");
-            //File.Copy(source.TemporaryFile.FullPath, ResultFileName[0].FullPath, true);
-            //File.Copy(source.TemporaryFile.FullPath, ResultFileName[1].FullPath, true);
-
-            //Tasks = commandsTodo;
-
+            
             ImageFormat[0] = source?.Format;
             SourceFormat = source?.Format;
             SourcePage = source;
@@ -314,11 +310,7 @@ namespace Win_CBZ.Models
                 }
                 finally
                 {
-                    //outputStream?.Close();
-                    //inputStream?.Close();
-
-                    //outputStream?.Dispose();
-                    //inputStream?.Dispose();
+                   
                 }
 
                 tempFileCounter++;
@@ -366,14 +358,30 @@ namespace Win_CBZ.Models
 
                 if (ImageAdjustments.SplitOnlyDoublePages)
                 {
-                    imageInfo = Image.FromFile(ResultFileName[0].FullPath);
-                    if (imageInfo.Width < imageInfo.Height && !SourcePage.DoublePage)
+                    Stream imageFileStream = null;
+
+                    try
                     {
-                        // Not a double page, so we remove the split task again
-                        Tasks.Remove(TASK_SPLIT);
+                        imageFileStream = File.Open(ResultFileName[0].FullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        imageInfo = Image.FromStream(stream: imageFileStream,
+                                                 useEmbeddedColorManagement: false,
+                                                 validateImageData: false);
+
+                        if (imageInfo.Width < imageInfo.Height && !SourcePage.DoublePage)
+                        {
+                            // Not a double page, so we remove the split task again
+                            Tasks.Remove(TASK_SPLIT);
+                        }
+                    } catch (Exception ex)
+                    {
+                        
+                    } finally
+                    {
+                        imageInfo?.Dispose();
+                        imageInfo = null;
+
+                        imageFileStream?.Close();
                     }
-                    imageInfo.Dispose();
-                    imageInfo = null;
                 }
 
                 // If the task is split, create a second file
@@ -419,8 +427,6 @@ namespace Win_CBZ.Models
                             inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
                             outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
-                            //outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-
                             targetFormat.X = (int)(imageInfo.Width * ImageAdjustments.SplitPageAt / 100);
                             targetFormat.Y = 0;
                             targetFormat.W = imageInfo.Width - targetFormat.X;
@@ -456,8 +462,6 @@ namespace Win_CBZ.Models
                             inProgressFile = new LocalFile(SourcePage.TemporaryFile.FilePath + RandomId.GetInstance().Make() + "." + tempFileCounter.ToString() + ".tmp");
                             outputStream = File.Open(inProgressFile.FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 
-                            //outputStream = File.Open(ResultFileName[1].FullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-
                             targetFormat.X = ImageAdjustments.SplitPageAt + 1;
                             targetFormat.Y = 0;
                             targetFormat.W = imageInfo.Width - targetFormat.X;
@@ -478,8 +482,6 @@ namespace Win_CBZ.Models
                             
                     }
 
-                    //ImageOperations.CutImage(ref inputStream, ref outputStream, targetFormat, ImageAdjustments.Interpolation);
-
                 }
 
                 Success = true; 
@@ -497,7 +499,7 @@ namespace Win_CBZ.Models
                 outputStream?.Dispose();
                 inputStream?.Dispose();
             }
-                
+            
             return this;
         }
 
@@ -522,9 +524,6 @@ namespace Win_CBZ.Models
             ResultPage[0] = new Page(new LocalFile(ResultFileName[0].FullPath), SourcePage.WorkingDir, FileAccess.ReadWrite);
             ResultPage[0].UpdatePageAttributes(SourcePage);
             ResultPage[0].Compressed = false;
-            //ResultPage[0].UpdateTemporaryFile(new LocalFile(ResultFileName[0].FullPath));
-            //ResultPage[0].CreateLocalWorkingCopy();
-            //ResultPage[0].IsMemoryCopy = false;
 
             if (ResultFileName[1] != null && ResultFileName[1].Exists())
             {
@@ -532,10 +531,7 @@ namespace Win_CBZ.Models
                 ResultPage[1].UpdatePageAttributes(SourcePage);
                 ResultPage[1].Id = Guid.NewGuid().ToString(); // Important! Need to create a new Id for the second page
                 ResultPage[1].Name = SourcePage.NameWithoutExtension() + "_split" + SourcePage.FileExtension;
-                //ResultPage[1].
-
-                //AppEventHandler.OnPageChanged(null, new PageChangedEvent(ResultPage[1], null, PageChangedEvent.IMAGE_STATUS_NEW, true));
-
+                
             }
 
             return ResultPage;
@@ -568,8 +564,6 @@ namespace Win_CBZ.Models
                     resultStrm?.Dispose();
                 }
             }
-
-            //SourcePage?.Close();
 
             return this;
         }

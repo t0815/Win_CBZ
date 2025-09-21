@@ -973,29 +973,11 @@ namespace Win_CBZ
             if (customDefaults != null)
             { 
                 foreach (String prop in customDefaults)
-                {
-                        //try
-                        //{
-                            MetaDataEntry defaultEntry = ParseDefaultProp(prop);
+                {                 
+                    MetaDataEntry defaultEntry = ParseDefaultProp(prop);
 
-                            Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
-                        /*
-                        }
-                        catch (MetaDataValidationException ve)
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']!  [" + ve.Message + "]");
-
-                            if (ve.ShowErrorDialog)
-                            {
-                                throw new MetaDataValidationException(ve.Item, ve.ControlName, ve.Message, ve.ShowErrorDialog, ve.RemoveEntry);
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Failed to parse default metadata entry ['" + prop + "']! [" + e.Message + "]");
-                        }
-                        */
-                    //}
+                    Defaults.Add(HandleNewEntry(defaultEntry.Key, defaultEntry.Value));
+                       
                 }
             }
 

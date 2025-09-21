@@ -27,11 +27,9 @@ namespace Win_CBZ.Models
 
         public static MetaDataFieldConfig GetInstance()
         {
-            //if (MetaDataFieldConfig.Instance == null)
-            //{
+            
             Instance ??= new MetaDataFieldConfig();
-            //}
-
+            
             //MetaDataVersionFlavorHandler.Instance.HandlePageIndexVersion();
 
             return Instance;

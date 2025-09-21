@@ -990,8 +990,7 @@ namespace Win_CBZ
                             }
                             catch
                             {
-                                //MetaDataPageIndexMissingData = true;
-                                //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "Warning! Archive page metadata does not have image dimensions for page [" + page.Name + "]!");
+                                
                             }
 
                             try
@@ -1088,9 +1087,7 @@ namespace Win_CBZ
             }
             catch (OperationCanceledException)
             {
-                //Archive.Dispose();
-
-                //OnArchiveStatusChanged(new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_CLOSED));
+                
             }
             catch (Exception e)
             {
@@ -1550,8 +1547,6 @@ namespace Win_CBZ
                         copyFile.Start();
                         copyFile.Wait(tParams.CancelToken); // run synchronously and wait for completion
                         
-                        //CopyFile(TemporaryFileName, tParams.FileName, true);
-
                         int deletedIndex = 0;
                         foreach (Page deletedPage in deletedPages)
                         {
@@ -1845,7 +1840,6 @@ namespace Win_CBZ
                         {
                             problems.Add("Pages->Page: Local image file not found for page [" + page.Name + "] @(" + page.LocalFile.FullPath + ")");
                         }
-                        //fileInfo.
                     }
                     else
                     {
@@ -2137,8 +2131,6 @@ namespace Win_CBZ
             }
 
             targetPath = MakeNewTempFileName();
-
-            //CopyFile(fileObject.FullPath, targetPath.FullName);
 
             page = GetPageByName(localFile.Name);
 

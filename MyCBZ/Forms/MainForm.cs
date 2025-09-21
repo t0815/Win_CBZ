@@ -2777,6 +2777,9 @@ namespace Win_CBZ
                         ComboBoxSplitAtType.Enabled = enabled;
                         CheckboxKeepAspectratio.Enabled = enabled;
                         CheckBoxDontStretch.Enabled = enabled;
+                        CheckboxIgnoreDoublePages.Enabled = enabled;
+                        CheckBoxSplitOnlyIfDoubleSize.Enabled = enabled;
+                        TextBoxResizePageIndexReference.Enabled = enabled;
 
                         break;
                     case "save":
@@ -2860,6 +2863,9 @@ namespace Win_CBZ
                         CheckBoxDontStretch.Enabled = enabled;
                         TextBoxExcludePagesImageProcessing.Enabled = enabled;
                         GetImageProcessExcludesFromSelectedButton.Enabled = enabled;
+                        CheckboxIgnoreDoublePages.Enabled = enabled;
+                        CheckBoxSplitOnlyIfDoubleSize.Enabled = enabled;
+                        TextBoxResizePageIndexReference.Enabled = enabled;
 
                         break;
                     case "renaming":
