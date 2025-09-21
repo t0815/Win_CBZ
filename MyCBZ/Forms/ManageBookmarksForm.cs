@@ -656,7 +656,8 @@ namespace Win_CBZ.Forms
             var utf8WithoutBom = new System.Text.UTF8Encoding(false);
 
             String copiedBookmarks = clipObject.GetData(DataFormats.UnicodeText) as String;
-            if (copiedBookmarks.Contains("<?xml") && copiedBookmarks.Contains("<Win_CBZ_Bookmarks>"))
+
+            if (copiedBookmarks != null && copiedBookmarks.Contains("<?xml") && copiedBookmarks.Contains("<Win_CBZ_Bookmarks>"))
             {
                 PasteBookmarksOffsetForm pasteBookmarksOffsetForm = new PasteBookmarksOffsetForm();
 
