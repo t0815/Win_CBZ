@@ -233,6 +233,7 @@ namespace Win_CBZ.Forms
             CheckboxFilterFilenames.Checked = FilterNewPagesSpecificName;
 
             CheckBoxDeleteTempFiles.Checked = DeleteTempFilesImediately;
+
             if (ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode) > -1)
             {
                 ComboBoxInterpolationModes.SelectedIndex = ComboBoxInterpolationModes.Items.IndexOf(InterpolationMode);
@@ -773,7 +774,7 @@ namespace Win_CBZ.Forms
                         {
                             errorCategories.Add(errorSection);
                         }
-                        
+
 
                         SettingsSectionList.Refresh();
                     }
@@ -781,7 +782,8 @@ namespace Win_CBZ.Forms
                     try
                     {
                         SettingsValidationErrorProvider.SetError(this.Controls.Find(controlName, true)[0], mv.Message);
-                    } catch
+                    }
+                    catch
                     {
                         ApplicationMessage.ShowError("Failed to assign error to control! Control '${controlName}' not found!", "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
 
@@ -1975,6 +1977,11 @@ namespace Win_CBZ.Forms
                 e.SuppressKeyPress = true;
                 e.Handled = true;
             }
+        }
+
+        private void SettingsDialog_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
