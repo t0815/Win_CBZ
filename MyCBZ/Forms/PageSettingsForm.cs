@@ -209,6 +209,33 @@ namespace Win_CBZ.Forms
 
         }
 
+        private void ComboBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            if (sender as ComboBox == null)
+            {
+                return;
+            }
+
+            Pen pen = new Pen(Color.Black, 1);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+            }
+            else
+            {
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)), e.Bounds);
+            }
+            
+            e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));          
+        }
+
         private void CheckBoxPageDeleted_CheckedChanged(object sender, EventArgs e)
         {
 

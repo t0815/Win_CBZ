@@ -2291,13 +2291,12 @@ namespace Win_CBZ
             try
             {
                 Program.ProjectModel.ArchiveState = e.State;
-                //if (this.InvokeRequired)
-                //{
+                
                 Invoke(new Action(() =>
                 {
                     if (TogglePagePreviewToolbutton.Checked && PageThumbsListBox.Items.Count > 0) // PageView.Items.Count > 0)
                     {
-                        //PageView.RedrawItems(0, PageView.Items.Count - 1, false);
+                        
 
                     }
 
@@ -2307,7 +2306,7 @@ namespace Win_CBZ
 
                     DisableControllsForArchiveState(e.ArchiveInfo, e.State);
                 }));
-                //}
+                
             }
             catch (Exception)
             {
@@ -2367,10 +2366,7 @@ namespace Win_CBZ
                         RadioApplyAdjustmentsPage.Text = "(no Page selected)";
                         RadioApplyAdjustmentsPage.Enabled = false;
                         CurrentGlobalActions.Clear();
-                        //MessageLogListView.Items.Clear();
-                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
-                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
-
+                       
                         SetControlsEnabledState("adjustments,renaming", true);
 
                         break;
@@ -2627,54 +2623,45 @@ namespace Win_CBZ
                         CurrentGlobalActions.Clear();
 
                         SetControlsEnabledState("adjustments,renaming", true);
-
-                        //MessageLogListView.Items.Clear();
-                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "Archive [" + project.FileName + "] closed");
-                        //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, "--- **** ---");
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_FILE_ADDED:
                         CheckBoxDoRenamePages.Enabled = true;
-                        //CheckBoxDoRenamePages.Checked = false;
-                        //if (project.FileName != null && project.FileName.Length > 0)
-                        //{
+                       
                         ToolButtonSave.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
 
                         SetControlsEnabledState("adjustments,renaming", true);
-                        //}
+
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_FILE_DELETED:
                     case ArchiveStatusEvent.ARCHIVE_FILE_RENAMED:
                     case ArchiveStatusEvent.ARCHIVE_FILE_UPDATED:
-                        //if (project.FileName != null && project.FileName.Length > 0)
-                        //{
+                        
                         ToolButtonSave.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
-                        //}
+                        
                         break;
                     case ArchiveStatusEvent.ARCHIVE_METADATA_ADDED:
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.HasValues();
-                        //if (project.FileName != null && project.FileName.Length > 0)
-                        //{
+                       
                         ToolButtonSave.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
                         ToolBarSearchInput.Enabled = true;
                         ToolBarSearchLabel.Enabled = true;
-                        //}
+                       
                         break;
                     case ArchiveStatusEvent.ARCHIVE_METADATA_CHANGED:
                     case ArchiveStatusEvent.ARCHIVE_METADATA_DELETED:
-                        //if (project.FileName != null && project.FileName.Length > 0)
-                        // {
+                       
                         ToolButtonSave.Enabled = true;
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
-                        //}
+                        
                         break;
                 }
             }
@@ -2847,35 +2834,25 @@ namespace Win_CBZ
                     DialogResult res = ApplicationMessage.ShowConfirmation("There are unsaved changes to the current CBZ-Archive.\nAre you sure you want to discard them and create a new file?", "Unsaved changes...");
                     if (res == DialogResult.Yes)
                     {
-                        //PagesList.Items.Clear();
-                        //PageView.Clear();
-
-                        //PageImages.Images.Clear();
-
+                        
                         MainToolStripProgressBar.Value = 0;
 
                         ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
                         TextBoxExcludePagesImageProcessing.Text = "";
                         RenamerExcludePages.Text = "";
 
-                        //ClearProject();
                         NewProject();
                     }
                 }
                 else
                 {
-                    //PagesList.Items.Clear();
-                    //PageView.Clear();
-
-                    //PageImages.Images.Clear();
-
+                   
                     MainToolStripProgressBar.Value = 0;
 
                     ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
                     TextBoxExcludePagesImageProcessing.Text = "";
                     RenamerExcludePages.Text = "";
 
-                    //ClearProject();
                     NewProject();
                 }
             }
@@ -2970,65 +2947,11 @@ namespace Win_CBZ
                     QuitApplication();
                 }
             }
-            /* else
-            {
-                DialogResult res = ApplicationMessage.ShowWarning("Warning, there are currently still Tasks running in the Background. It is advised to wait until current operation has finished.", "Still operations in progress", 2, ApplicationMessage.DialogButtons.MB_QUIT | ApplicationMessage.DialogButtons.MB_CANCEL);
-                if (res == DialogResult.Yes)
-                {
-                    WindowClosed = true;
-                    Win_CBZSettings.Default.Save();
-                    CancelAllThreads();
-                    Program.ProjectModel.CancelAllThreads();
-                    Application.ExitThread();
-                }
-                else
-                {
-                    e.Cancel = true;
-                }
-            }   */
         }
 
         private void CancelAllThreads()
         {
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Cancel();
-
-            /*
-            Task.Factory.StartNew(() =>
-            {
-
-                if (ThumbnailThread != null)
-                {
-                    if (ThumbnailThread.IsAlive)
-                    {
-                        ThumbnailThread.Abort();
-                    }
-                }
-
-                if (RequestThumbnailThread != null)
-                {
-                    if (RequestThumbnailThread.IsAlive)
-                    {
-                        RequestThumbnailThread.Abort();
-                    }
-                }
-
-                if (RequestImageInfoThread != null)
-                {
-                    if (RequestImageInfoThread.IsAlive)
-                    {
-                        RequestImageInfoThread.Abort();
-                    }
-                }
-
-                if (UpdatePageViewThread != null)
-                {
-                    if (UpdatePageViewThread.IsAlive)
-                    {
-                        UpdatePageViewThread.Abort();
-                    }
-                }
-            });
-            */
         }
 
         private void QuitApplication()
@@ -3179,47 +3102,6 @@ namespace Win_CBZ
 
         private void MoveItemsTo(int newIndex, System.Windows.Forms.ListView.SelectedListViewItemCollection items)
         {
-            /*
-            if (ThumbnailThread != null)
-            {
-                if (ThumbnailThread.IsAlive)
-                {
-                    ThumbnailThread.Abort();
-                }
-            }
-
-            if (RequestThumbnailThread != null)
-            {
-                if (RequestThumbnailThread.IsAlive)
-                {
-                    RequestThumbnailThread.Abort();
-                }
-            }
-
-            if (RequestImageInfoThread != null)
-            {
-                if (RequestImageInfoThread.IsAlive)
-                {
-                    RequestImageInfoThread.Abort();
-                }
-            }
-
-            if (MovePagesThread != null)
-            {
-                if (MovePagesThread.IsAlive)
-                {
-                    MovePagesThread.Abort();
-                }
-            }
-
-            if (UpdatePageViewThread != null)
-            {
-                if (UpdatePageViewThread.IsAlive)
-                {
-                    UpdatePageViewThread.Abort();
-                }
-            }
-            */
 
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
             //TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_).Cancel();
@@ -3321,48 +3203,7 @@ namespace Win_CBZ
 
         private void MovePageTo(Page page, int newIndex)
         {
-            /*
-            if (ThumbnailThread != null)
-            {
-                if (ThumbnailThread.IsAlive)
-                {
-                    ThumbnailThread.Abort();
-                }
-            }
-
-            if (RequestThumbnailThread != null)
-            {
-                if (RequestThumbnailThread.IsAlive)
-                {
-                    RequestThumbnailThread.Abort();
-                }
-            }
-
-            if (RequestImageInfoThread != null)
-            {
-                if (RequestImageInfoThread.IsAlive)
-                {
-                    RequestImageInfoThread.Abort();
-                }
-            }
-
-            if (MovePagesThread != null)
-            {
-                if (MovePagesThread.IsAlive)
-                {
-                    MovePagesThread.Join();
-                }
-            }
-
-            if (UpdatePageViewThread != null)
-            {
-                if (UpdatePageViewThread.IsAlive)
-                {
-                    UpdatePageViewThread.Abort();
-                }
-            }
-            */
-
+           
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_PAGE).Cancel();
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL_SLICE).Cancel();
             TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_THUMBNAIL).Cancel();
@@ -3455,20 +3296,7 @@ namespace Win_CBZ
                     {
                         PageThumbsListBox.Items.Insert(tparams.newIndex, updatePage);
                     }
-                    //PageThumbsListBox.Items.Insert(tparams.NewIndex + 1, originalPage);
-
-                    //UpdatePageView();
-
-                    //CreatePagePreviewFromItem(page);
-                    //CreatePagePreviewFromItem((Page)originalItem.Tag);
-                    //PageView.Items.Clear();
-
-                    //foreach (ListViewItem pageItem in PagesList.Items)
-                    //{
-                    //CreatePagePreviewFromItem((Page)pageItem.Tag);
-
-                    //MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_DEBUG, i.Text + "_index="+i.Index.ToString()+"_page="+((Page)i.Tag).Name+"_pageId="+ ((Page)i.Tag).Id);
-                    //}
+                  
                 }
 
                 AppEventHandler.OnPageChanged(this, new PageChangedEvent(tparams.page, originalPage, PageChangedEvent.IMAGE_STATUS_CHANGED));
@@ -3573,9 +3401,6 @@ namespace Win_CBZ
                 {
                     MetaDataEntry selectedEntry = row.Cells[0].Tag as MetaDataEntry;
                     int index = Program.ProjectModel.MetaData.Remove(selectedEntry.Uid);
-
-                    //AppEventHandler.OnMetaDataEntryChanged(sender, new MetaDataEntryChangedEvent(MetaDataEntryChangedEvent.ENTRY_DELETED, index, selectedEntry));
-
 
                     if (index > -1)
                     {
@@ -3767,8 +3592,6 @@ namespace Win_CBZ
                     }
                     else if (fieldType.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_AUTO_COMPLETE)
                     {
-                        //AutoCompleteStringCollection autoCompleteStringCollection = new AutoCompleteStringCollection();
-                        //autoCompleteStringCollection.AddRange(config.AutoCompleteItems);
                         TextBox textBox = e.Control as TextBox;
                         if (textBox != null)
                         {
@@ -3786,10 +3609,6 @@ namespace Win_CBZ
 
                             AutoCompleteItems.SetAutocompleteItems(items);
                             AutoCompleteItems.SetAutocompleteMenu(textBox, AutoCompleteItems);
-                            //AutoCompleteItems. = textBox
-                            //textBox.AutoCompleteCustomSource = autoCompleteStringCollection;
-                            //textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-                            //textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
                         }
                     }
                     else
@@ -3918,9 +3737,6 @@ namespace Win_CBZ
 
             AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
 
-            //Program.ProjectModel.MetaData.RebuildPageMetaData(Program.ProjectModel.Pages.ToList<Page>(), MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion());
-            //}
-
             Task updateIndex = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(Program.ProjectModel.Pages.ToArray()),
                             Program.ProjectModel.MetaData,
                             MetaDataVersionFlavorHandler.GetInstance().HandlePageIndexVersion(),
@@ -3933,7 +3749,6 @@ namespace Win_CBZ
             {
                 Invoke(new Action(() =>
                 {
-                    //BtnRemoveMetaData.Enabled = true;
                     AddMetaDataRowBtn.Enabled = true;
                     RemoveMetadataRowBtn.Enabled = false;
                     ToolStripButtonShowRawMetadata.Enabled = true;
@@ -3947,8 +3762,6 @@ namespace Win_CBZ
             });
 
             updateIndex.Start();
-
-            //BtnAddMetaData.Enabled = false;
         }
 
         private void RemoveMetaData()
@@ -3957,7 +3770,7 @@ namespace Win_CBZ
             {
                 AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_DELETED, Program.ProjectModel.MetaData));
                 AppEventHandler.OnArchiveStatusChanged(null, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_DELETED));
-                //AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+        
             }
         }
 
@@ -4312,8 +4125,7 @@ namespace Win_CBZ
                     {
 
                         AppEventHandler.OnArchiveStatusChanged(sender, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_METADATA_CHANGED));
-                        //ToolButtonSave.Enabled = true; //Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
-                        //SaveToolStripMenuItem.Enabled = true; // Program.ProjectModel.FileName != null && Program.ProjectModel.FileName.Length > 0;
+                       
                     }
 
                     if (e.State == MetaDataEntryChangedEvent.ENTRY_NEW)
@@ -4332,7 +4144,7 @@ namespace Win_CBZ
 
                             if (e.Entry.Key == "" && e.Entry.Value == null)
                             {
-                                //MetaDataGrid.Rows[MetaDataGrid.Rows.Count].Cells[0].Selected
+                                
                                 MetaDataGrid.CurrentCell = MetaDataGrid.Rows[newRowIndex].Cells[0];
                                 MetaDataGrid.CurrentCell.Tag = e.Entry;
                                 MetaDataGrid.BeginEdit(false);
@@ -5291,10 +5103,6 @@ namespace Win_CBZ
                     }
                 }
 
-                //Page page = (Page)PagesList.SelectedItem.Tag;
-
-                //Page editPage = new Page(page);
-
                 DialogResult dlgResult = DialogResult.None;
                 PageSettingsForm pageSettingsForm = new PageSettingsForm(pageProperties);
 
@@ -5801,11 +5609,6 @@ namespace Win_CBZ
                 }
             }
         }
-
-        //private void ToolButtonSetPageType_Click(object sender, EventArgs e)
-        //{
-        //ApplicationMessage.Show("Not implemented", "Not implemented!", ApplicationMessage.DialogType.MT_WARNING, ApplicationMessage.DialogButtons.MB_OK);
-        //}
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -7632,10 +7435,9 @@ namespace Win_CBZ
             items.Add((ListViewItem)e.Item);
             foreach (ListViewItem lvi in PagesList.SelectedItems)
             {
-                //if (!Items.Contains(lvi))
-                //{
+                
                 items.Add(lvi);
-                //}
+                
             }
             DataObject data = new DataObject();
             data.SetData(typeof(System.Windows.Forms.ListView.SelectedListViewItemCollection), PagesList.SelectedItems);
@@ -7930,13 +7732,6 @@ namespace Win_CBZ
                     MetaDataReader.Read();
                     doc.Load(MetaDataReader);
 
-                    //Create an XML declaration.
-                    //XmlDeclaration xmldecl;
-                    //xmldecl = doc.CreateXmlDeclaration("1.0", null, null);
-
-                    //Add the new node to the document.
-                    //XmlElement root = doc.DocumentElement;
-                    //doc.InsertBefore(xmldecl, root);
                     doc.Save(copyMemStream);
                     copyMemStream.Position = 0;
 
@@ -8054,14 +7849,7 @@ namespace Win_CBZ
                                             }
                                             else
                                             {
-                                                //newPage = new Page(newPage);
-                                                //newPage.Id = Guid.NewGuid().ToString();
-                                                //newPage.Key = RandomId.getInstance().make();
-                                                //newPage.Changed = false;
-                                                //newPage.Compressed = false;
-
-                                                //Program.ProjectModel.Pages.Remove(existingPage);
-                                                Program.ProjectModel.Pages.Add(newPage);
+                                                                                                Program.ProjectModel.Pages.Add(newPage);
                                                 if (selectedPage != null)
                                                 {
                                                     Program.ProjectModel.Pages.Insert(Program.ProjectModel.Pages.IndexOf(selectedPage), newPage);
@@ -8169,10 +7957,7 @@ namespace Win_CBZ
                     TextBox textBox = this.GetActiveTextBox() as TextBox;
                     if (textBox != null)
                     {
-                        //if (textBox.SelectedText.Length > 0)
-                        //{
                         textBox.Paste();
-                        //}
                     }
                 }
 

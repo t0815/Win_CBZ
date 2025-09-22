@@ -719,12 +719,14 @@
             ComboBoxPageType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             ComboBoxPageType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             ComboBoxPageType.Dock = System.Windows.Forms.DockStyle.Top;
+            ComboBoxPageType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             ComboBoxPageType.FormattingEnabled = true;
             ComboBoxPageType.Location = new System.Drawing.Point(123, 349);
             ComboBoxPageType.Margin = new System.Windows.Forms.Padding(3, 5, 3, 4);
             ComboBoxPageType.Name = "ComboBoxPageType";
             ComboBoxPageType.Size = new System.Drawing.Size(203, 28);
             ComboBoxPageType.TabIndex = 27;
+            ComboBoxPageType.DrawItem += ComboBox_DrawItem;
             ComboBoxPageType.SelectedIndexChanged += ComboBoxPageType_SelectedIndexChanged;
             ComboBoxPageType.TextUpdate += ComboBoxPageType_TextUpdate;
             ComboBoxPageType.TextChanged += ComboBoxPageType_TextChanged;
