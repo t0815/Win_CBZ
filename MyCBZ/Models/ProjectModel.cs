@@ -110,8 +110,6 @@ namespace Win_CBZ
 
         public MetaData MetaData { get; set; }
 
-        public ImageTask GlobalImageTask { get; set; }
-
         protected Task<TaskResult> imageInfoUpdater;
 
         protected Task<ImageTaskResult> imageProcessingTask;
@@ -160,7 +158,7 @@ namespace Win_CBZ
             RenamerExcludes = new ArrayList();
             FilteredFileNames = new List<string>();
             ConversionExcludes = new ArrayList();
-            GlobalImageTask = new ImageTask("");
+
             CompressionLevel = CompressionLevel.Optimal;
             FileEncoding = Encoding.UTF8;
             Validation = new DataValidation();
@@ -535,7 +533,7 @@ namespace Win_CBZ
                                         // update image adjustments
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                         //AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
-                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page));
 
                                         thumbUpdates.Add(page);
                                         previousPage = page;
@@ -551,7 +549,7 @@ namespace Win_CBZ
                                         newPage.ImageTask.ImageAdjustments.RotateMode = 0;
 
                                         AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(newPage));
-                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage.Id));
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage));
                                         // AppEventHandler.OnPageChanged(this, new PageChangedEvent(newPage, null, PageChangedEvent.IMAGE_STATUS_NEW));
                                         //
 
@@ -565,10 +563,14 @@ namespace Win_CBZ
                                     resultPage.ImageTask.ImageAdjustments.ConvertType = 0;
                                     resultPage.ImageTask.ImageAdjustments.RotateMode = 0;
                                     resultPage.ImageTask.FreeResults();
-                                    
-                                } catch (Exception e)
+
+                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage));
+
+
+                                }
+                                catch (Exception e)
                                 {
-                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page.Id));
+                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page));
 
 
                                     MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error updating result images! [" + e.Message + "]");
@@ -583,9 +585,7 @@ namespace Win_CBZ
                             AppEventHandler.OnUpdateThumbnails(this, new UpdateThumbnailsEvent(thumbUpdates));
                             AppEventHandler.OnUpdateListViewSorting(this, new UpdatePageListViewSortingEvent(1, SortOrder.Ascending));
 
-                            ImageAdjustments resetImageAdjustments = new ImageAdjustments();
-                            AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resetImageAdjustments));
-                            
+                                                                                   
                         } else
                         {
 
@@ -761,7 +761,6 @@ namespace Win_CBZ
                 MaxFileIndex = 0;
                 IsNew = true;
                 IsChanged = false;
-                GlobalImageTask = new ImageTask("");
                 
                 AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(this, ApplicationStatusEvent.STATE_READY));
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_NEW));
@@ -1241,17 +1240,6 @@ namespace Win_CBZ
 
                 AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(this, ArchiveStatusEvent.ARCHIVE_SAVING));
 
-                if (GlobalImageTask != null && 
-                    (GlobalImageTask.ImageAdjustments.ConvertType > 0 ||
-                     GlobalImageTask.ImageAdjustments.SplitPage ||
-                     GlobalImageTask.ImageAdjustments.RotateMode > 0 ||
-                     GlobalImageTask.ImageAdjustments.ResizeMode > 0
-                     ))
-                {
-                    applyImageProcessing = true;
-                    updateIndexMetadata = true;
-                }
-
                 if (!applyImageProcessing)
                 {
                     foreach (Page page in Pages)
@@ -1312,7 +1300,6 @@ namespace Win_CBZ
                                     CancelToken = TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_SAVE_ARCHIVE).Token,
                                     Pages = Pages,
                                     SkipPages = ConversionExcludes.Cast<String>().ToArray(),
-                                    GlobalTask = GlobalImageTask
                                 }
                             },
                             new StackItem()

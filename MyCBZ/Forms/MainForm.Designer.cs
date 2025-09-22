@@ -134,8 +134,6 @@ namespace Win_CBZ
             LabelW = new System.Windows.Forms.Label();
             LabelHeight = new System.Windows.Forms.Label();
             LabelWidth = new System.Windows.Forms.Label();
-            RadioApplyAdjustmentsGlobal = new System.Windows.Forms.RadioButton();
-            RadioApplyAdjustmentsPage = new System.Windows.Forms.RadioButton();
             GetImageProcessExcludesFromSelectedButton = new System.Windows.Forms.Button();
             GroupBoxResize = new System.Windows.Forms.GroupBox();
             CheckboxIgnoreDoublePages = new System.Windows.Forms.CheckBox();
@@ -186,6 +184,19 @@ namespace Win_CBZ
             pictureBox8 = new System.Windows.Forms.PictureBox();
             GroupBoxUseLocalTask = new System.Windows.Forms.GroupBox();
             CheckboxIgnoreGlobalTask = new System.Windows.Forms.CheckBox();
+            TableLayoutTaskSelection = new System.Windows.Forms.TableLayoutPanel();
+            ToolbarImageTasks = new System.Windows.Forms.ToolStrip();
+            ToolButtonAddImageTask = new System.Windows.Forms.ToolStripButton();
+            ToolButtonRemoveImageTask = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            ToolButtonRemoveAllTasks = new System.Windows.Forms.ToolStripButton();
+            toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            ToolButtonAssignPagesToImageTask = new System.Windows.Forms.ToolStripDropDownButton();
+            assignAllPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ToolButtonTaskUnk = new System.Windows.Forms.ToolStripButton();
+            ImageTaskListView = new ExtendetListView();
+            columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            columnHeader3 = new System.Windows.Forms.ColumnHeader();
             TabPageGlobalSettings = new System.Windows.Forms.TabPage();
             FileSettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             PlaceholdersInfoLabel = new System.Windows.Forms.Label();
@@ -306,6 +317,8 @@ namespace Win_CBZ
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
             GroupBoxUseLocalTask.SuspendLayout();
+            TableLayoutTaskSelection.SuspendLayout();
+            ToolbarImageTasks.SuspendLayout();
             TabPageGlobalSettings.SuspendLayout();
             FileSettingsTablePanel.SuspendLayout();
             TabPageArchiveSettings.SuspendLayout();
@@ -1222,8 +1235,6 @@ namespace Win_CBZ
             TablePanePageAdjustments.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             TablePanePageAdjustments.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             TablePanePageAdjustments.Controls.Add(GroupBoxDimensions, 0, 0);
-            TablePanePageAdjustments.Controls.Add(RadioApplyAdjustmentsGlobal, 0, 1);
-            TablePanePageAdjustments.Controls.Add(RadioApplyAdjustmentsPage, 1, 1);
             TablePanePageAdjustments.Controls.Add(GetImageProcessExcludesFromSelectedButton, 0, 14);
             TablePanePageAdjustments.Controls.Add(GroupBoxResize, 0, 7);
             TablePanePageAdjustments.Controls.Add(GroupBoxImageConversion, 0, 5);
@@ -1233,6 +1244,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.Controls.Add(GroupBoxRotate, 0, 9);
             TablePanePageAdjustments.Controls.Add(GroupBoxTasksOrder, 0, 3);
             TablePanePageAdjustments.Controls.Add(GroupBoxUseLocalTask, 0, 4);
+            TablePanePageAdjustments.Controls.Add(TableLayoutTaskSelection, 0, 1);
             TablePanePageAdjustments.Dock = System.Windows.Forms.DockStyle.Fill;
             TablePanePageAdjustments.Location = new System.Drawing.Point(2, 2);
             TablePanePageAdjustments.Margin = new System.Windows.Forms.Padding(2);
@@ -1240,7 +1252,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.Padding = new System.Windows.Forms.Padding(8);
             TablePanePageAdjustments.RowCount = 18;
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 165F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
@@ -1321,43 +1333,10 @@ namespace Win_CBZ
             LabelWidth.TabIndex = 0;
             LabelWidth.Text = "Width:";
             // 
-            // RadioApplyAdjustmentsGlobal
-            // 
-            RadioApplyAdjustmentsGlobal.Appearance = System.Windows.Forms.Appearance.Button;
-            RadioApplyAdjustmentsGlobal.AutoSize = true;
-            RadioApplyAdjustmentsGlobal.Checked = true;
-            RadioApplyAdjustmentsGlobal.Dock = System.Windows.Forms.DockStyle.Fill;
-            RadioApplyAdjustmentsGlobal.Location = new System.Drawing.Point(18, 101);
-            RadioApplyAdjustmentsGlobal.Margin = new System.Windows.Forms.Padding(10, 15, 10, 5);
-            RadioApplyAdjustmentsGlobal.Name = "RadioApplyAdjustmentsGlobal";
-            RadioApplyAdjustmentsGlobal.Size = new System.Drawing.Size(129, 30);
-            RadioApplyAdjustmentsGlobal.TabIndex = 7;
-            RadioApplyAdjustmentsGlobal.TabStop = true;
-            RadioApplyAdjustmentsGlobal.Tag = "<Global>";
-            RadioApplyAdjustmentsGlobal.Text = "All Pages";
-            RadioApplyAdjustmentsGlobal.UseVisualStyleBackColor = true;
-            RadioApplyAdjustmentsGlobal.CheckedChanged += RadioApplyAdjustments_CheckedChanged;
-            // 
-            // RadioApplyAdjustmentsPage
-            // 
-            RadioApplyAdjustmentsPage.Appearance = System.Windows.Forms.Appearance.Button;
-            RadioApplyAdjustmentsPage.AutoSize = true;
-            RadioApplyAdjustmentsPage.Dock = System.Windows.Forms.DockStyle.Fill;
-            RadioApplyAdjustmentsPage.Enabled = false;
-            RadioApplyAdjustmentsPage.Location = new System.Drawing.Point(167, 101);
-            RadioApplyAdjustmentsPage.Margin = new System.Windows.Forms.Padding(10, 15, 10, 5);
-            RadioApplyAdjustmentsPage.Name = "RadioApplyAdjustmentsPage";
-            RadioApplyAdjustmentsPage.Size = new System.Drawing.Size(129, 30);
-            RadioApplyAdjustmentsPage.TabIndex = 8;
-            RadioApplyAdjustmentsPage.TabStop = true;
-            RadioApplyAdjustmentsPage.Text = "(no page selected)";
-            RadioApplyAdjustmentsPage.UseVisualStyleBackColor = true;
-            RadioApplyAdjustmentsPage.CheckedChanged += RadioApplyAdjustments_CheckedChanged;
-            // 
             // GetImageProcessExcludesFromSelectedButton
             // 
             GetImageProcessExcludesFromSelectedButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1410);
+            GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1510);
             GetImageProcessExcludesFromSelectedButton.Margin = new System.Windows.Forms.Padding(2);
             GetImageProcessExcludesFromSelectedButton.Name = "GetImageProcessExcludesFromSelectedButton";
             GetImageProcessExcludesFromSelectedButton.Size = new System.Drawing.Size(145, 27);
@@ -1387,7 +1366,7 @@ namespace Win_CBZ
             GroupBoxResize.Controls.Add(TextBoxResizeH);
             GroupBoxResize.Controls.Add(TextBoxResizeW);
             GroupBoxResize.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxResize.Location = new System.Drawing.Point(10, 483);
+            GroupBoxResize.Location = new System.Drawing.Point(10, 583);
             GroupBoxResize.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxResize.Name = "GroupBoxResize";
             GroupBoxResize.Padding = new System.Windows.Forms.Padding(2);
@@ -1590,7 +1569,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.SetColumnSpan(GroupBoxImageConversion, 2);
             GroupBoxImageConversion.Controls.Add(ComboBoxConvertPages);
             GroupBoxImageConversion.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxImageConversion.Location = new System.Drawing.Point(11, 371);
+            GroupBoxImageConversion.Location = new System.Drawing.Point(11, 471);
             GroupBoxImageConversion.Name = "GroupBoxImageConversion";
             GroupBoxImageConversion.Size = new System.Drawing.Size(292, 87);
             GroupBoxImageConversion.TabIndex = 19;
@@ -1624,7 +1603,7 @@ namespace Win_CBZ
             GroupBoxDoublePages.Controls.Add(ComboBoxSplitAtType);
             GroupBoxDoublePages.Controls.Add(TextBoxSplitPageAt);
             GroupBoxDoublePages.Controls.Add(CheckBoxSplitDoublePages);
-            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 1035);
+            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 1135);
             GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxDoublePages.Name = "GroupBoxDoublePages";
             GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2);
@@ -1732,7 +1711,7 @@ namespace Win_CBZ
             // 
             ExcludeHeaderLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             ExcludeHeaderLabel.AutoSize = true;
-            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 1307);
+            ExcludeHeaderLabel.Location = new System.Drawing.Point(10, 1407);
             ExcludeHeaderLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             ExcludeHeaderLabel.Name = "ExcludeHeaderLabel";
             ExcludeHeaderLabel.Size = new System.Drawing.Size(60, 20);
@@ -1744,7 +1723,7 @@ namespace Win_CBZ
             AutoCompleteItems.SetAutocompleteMenu(TextBoxExcludePagesImageProcessing, null);
             TablePanePageAdjustments.SetColumnSpan(TextBoxExcludePagesImageProcessing, 2);
             TextBoxExcludePagesImageProcessing.Dock = System.Windows.Forms.DockStyle.Fill;
-            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 1329);
+            TextBoxExcludePagesImageProcessing.Location = new System.Drawing.Point(10, 1429);
             TextBoxExcludePagesImageProcessing.Margin = new System.Windows.Forms.Padding(2);
             TextBoxExcludePagesImageProcessing.Multiline = true;
             TextBoxExcludePagesImageProcessing.Name = "TextBoxExcludePagesImageProcessing";
@@ -1761,7 +1740,7 @@ namespace Win_CBZ
             GroupBoxRotate.Controls.Add(RadioButtonRotate90);
             GroupBoxRotate.Controls.Add(RadioButtonRotateNone);
             GroupBoxRotate.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxRotate.Location = new System.Drawing.Point(11, 854);
+            GroupBoxRotate.Location = new System.Drawing.Point(11, 954);
             GroupBoxRotate.Name = "GroupBoxRotate";
             GroupBoxRotate.Size = new System.Drawing.Size(292, 154);
             GroupBoxRotate.TabIndex = 20;
@@ -1819,7 +1798,7 @@ namespace Win_CBZ
             TablePanePageAdjustments.SetColumnSpan(GroupBoxTasksOrder, 2);
             GroupBoxTasksOrder.Controls.Add(tableLayoutPanel1);
             GroupBoxTasksOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxTasksOrder.Location = new System.Drawing.Point(11, 159);
+            GroupBoxTasksOrder.Location = new System.Drawing.Point(11, 259);
             GroupBoxTasksOrder.Name = "GroupBoxTasksOrder";
             GroupBoxTasksOrder.Size = new System.Drawing.Size(292, 159);
             GroupBoxTasksOrder.TabIndex = 21;
@@ -1964,7 +1943,7 @@ namespace Win_CBZ
             // 
             TablePanePageAdjustments.SetColumnSpan(GroupBoxUseLocalTask, 2);
             GroupBoxUseLocalTask.Controls.Add(CheckboxIgnoreGlobalTask);
-            GroupBoxUseLocalTask.Location = new System.Drawing.Point(11, 324);
+            GroupBoxUseLocalTask.Location = new System.Drawing.Point(11, 424);
             GroupBoxUseLocalTask.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
             GroupBoxUseLocalTask.Name = "GroupBoxUseLocalTask";
             GroupBoxUseLocalTask.Size = new System.Drawing.Size(289, 36);
@@ -1982,6 +1961,128 @@ namespace Win_CBZ
             CheckboxIgnoreGlobalTask.TabIndex = 0;
             CheckboxIgnoreGlobalTask.Text = "Use page specific adjustments";
             CheckboxIgnoreGlobalTask.UseVisualStyleBackColor = true;
+            // 
+            // TableLayoutTaskSelection
+            // 
+            TableLayoutTaskSelection.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TableLayoutTaskSelection.ColumnCount = 2;
+            TablePanePageAdjustments.SetColumnSpan(TableLayoutTaskSelection, 2);
+            TableLayoutTaskSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.17808F));
+            TableLayoutTaskSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.8219166F));
+            TableLayoutTaskSelection.Controls.Add(ToolbarImageTasks, 0, 0);
+            TableLayoutTaskSelection.Controls.Add(ImageTaskListView, 0, 1);
+            TableLayoutTaskSelection.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            TableLayoutTaskSelection.Location = new System.Drawing.Point(11, 89);
+            TableLayoutTaskSelection.Name = "TableLayoutTaskSelection";
+            TableLayoutTaskSelection.RowCount = 3;
+            TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            TableLayoutTaskSelection.Size = new System.Drawing.Size(292, 144);
+            TableLayoutTaskSelection.TabIndex = 23;
+            // 
+            // ToolbarImageTasks
+            // 
+            ToolbarImageTasks.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TableLayoutTaskSelection.SetColumnSpan(ToolbarImageTasks, 2);
+            ToolbarImageTasks.Dock = System.Windows.Forms.DockStyle.None;
+            ToolbarImageTasks.ImageScalingSize = new System.Drawing.Size(20, 20);
+            ToolbarImageTasks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddImageTask, ToolButtonRemoveImageTask, toolStripSeparator14, ToolButtonRemoveAllTasks, toolStripSeparator15, ToolButtonAssignPagesToImageTask, ToolButtonTaskUnk });
+            ToolbarImageTasks.Location = new System.Drawing.Point(0, 0);
+            ToolbarImageTasks.Name = "ToolbarImageTasks";
+            ToolbarImageTasks.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            ToolbarImageTasks.Size = new System.Drawing.Size(292, 27);
+            ToolbarImageTasks.TabIndex = 0;
+            ToolbarImageTasks.Text = "ToolbarImageTasks";
+            // 
+            // ToolButtonAddImageTask
+            // 
+            ToolButtonAddImageTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonAddImageTask.Image = Properties.Resources.navigate_plus;
+            ToolButtonAddImageTask.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonAddImageTask.Name = "ToolButtonAddImageTask";
+            ToolButtonAddImageTask.Size = new System.Drawing.Size(29, 24);
+            ToolButtonAddImageTask.Text = "Add a new image processing Task";
+            ToolButtonAddImageTask.Click += ToolButtonAddImageTask_Click;
+            // 
+            // ToolButtonRemoveImageTask
+            // 
+            ToolButtonRemoveImageTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonRemoveImageTask.Image = Properties.Resources.delete;
+            ToolButtonRemoveImageTask.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonRemoveImageTask.Name = "ToolButtonRemoveImageTask";
+            ToolButtonRemoveImageTask.Size = new System.Drawing.Size(29, 24);
+            ToolButtonRemoveImageTask.Text = "Remove selected Image-Tasks";
+            // 
+            // toolStripSeparator14
+            // 
+            toolStripSeparator14.Name = "toolStripSeparator14";
+            toolStripSeparator14.Size = new System.Drawing.Size(6, 27);
+            // 
+            // ToolButtonRemoveAllTasks
+            // 
+            ToolButtonRemoveAllTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonRemoveAllTasks.Image = Properties.Resources.garbage;
+            ToolButtonRemoveAllTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonRemoveAllTasks.Name = "ToolButtonRemoveAllTasks";
+            ToolButtonRemoveAllTasks.Size = new System.Drawing.Size(29, 24);
+            ToolButtonRemoveAllTasks.Text = "toolStripButton3";
+            // 
+            // toolStripSeparator15
+            // 
+            toolStripSeparator15.Name = "toolStripSeparator15";
+            toolStripSeparator15.Size = new System.Drawing.Size(6, 27);
+            // 
+            // ToolButtonAssignPagesToImageTask
+            // 
+            ToolButtonAssignPagesToImageTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonAssignPagesToImageTask.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { assignAllPagesToolStripMenuItem });
+            ToolButtonAssignPagesToImageTask.Image = Properties.Resources.photo_landscape_right_left;
+            ToolButtonAssignPagesToImageTask.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonAssignPagesToImageTask.Name = "ToolButtonAssignPagesToImageTask";
+            ToolButtonAssignPagesToImageTask.Size = new System.Drawing.Size(34, 24);
+            ToolButtonAssignPagesToImageTask.Text = "Assign selected pages to selected Tasks";
+            // 
+            // assignAllPagesToolStripMenuItem
+            // 
+            assignAllPagesToolStripMenuItem.Name = "assignAllPagesToolStripMenuItem";
+            assignAllPagesToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            assignAllPagesToolStripMenuItem.Text = "Assign all Pages";
+            // 
+            // ToolButtonTaskUnk
+            // 
+            ToolButtonTaskUnk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            ToolButtonTaskUnk.Image = Properties.Resources.star2;
+            ToolButtonTaskUnk.ImageTransparentColor = System.Drawing.Color.Magenta;
+            ToolButtonTaskUnk.Name = "ToolButtonTaskUnk";
+            ToolButtonTaskUnk.Size = new System.Drawing.Size(29, 24);
+            ToolButtonTaskUnk.Text = "Assign selected pages to selected Tasks";
+            // 
+            // ImageTaskListView
+            // 
+            ImageTaskListView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ImageTaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader2, columnHeader3 });
+            TableLayoutTaskSelection.SetColumnSpan(ImageTaskListView, 2);
+            ImageTaskListView.LabelEdit = true;
+            ImageTaskListView.LabelWrap = false;
+            ImageTaskListView.Location = new System.Drawing.Point(3, 31);
+            ImageTaskListView.Name = "ImageTaskListView";
+            ImageTaskListView.OwnerDraw = true;
+            ImageTaskListView.Size = new System.Drawing.Size(286, 102);
+            ImageTaskListView.TabIndex = 1;
+            ImageTaskListView.UseCompatibleStateImageBehavior = false;
+            ImageTaskListView.View = System.Windows.Forms.View.Details;
+            ImageTaskListView.DrawItem += ListView_DrawItem;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "Tasks";
+            columnHeader2.Width = 120;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Pages";
+            columnHeader3.Width = 100;
             // 
             // TabPageGlobalSettings
             // 
@@ -2340,6 +2441,7 @@ namespace Win_CBZ
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Margin = new System.Windows.Forms.Padding(2);
             PagesList.Name = "PagesList";
+            PagesList.OwnerDraw = true;
             PagesList.ShowItemToolTips = true;
             PagesList.Size = new System.Drawing.Size(934, 149);
             PagesList.SmallImageList = PageSmallIcons;
@@ -2347,6 +2449,7 @@ namespace Win_CBZ
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
             PagesList.AfterLabelEdit += PagesList_AfterLabelEdit;
+            PagesList.DrawItem += ListView_DrawItem;
             PagesList.ItemDrag += PagesList_ItemDrag;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
             PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
@@ -3105,6 +3208,10 @@ namespace Win_CBZ
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
             GroupBoxUseLocalTask.ResumeLayout(false);
             GroupBoxUseLocalTask.PerformLayout();
+            TableLayoutTaskSelection.ResumeLayout(false);
+            TableLayoutTaskSelection.PerformLayout();
+            ToolbarImageTasks.ResumeLayout(false);
+            ToolbarImageTasks.PerformLayout();
             TabPageGlobalSettings.ResumeLayout(false);
             FileSettingsTablePanel.ResumeLayout(false);
             FileSettingsTablePanel.PerformLayout();
@@ -3293,8 +3400,6 @@ namespace Win_CBZ
         private System.Windows.Forms.FolderBrowserDialog AddPagesDirDialog;
         private System.Windows.Forms.CheckBox CheckBoxCompatibilityMode;
         private System.Windows.Forms.Label CompatInfoText;
-        private System.Windows.Forms.RadioButton RadioApplyAdjustmentsGlobal;
-        private System.Windows.Forms.RadioButton RadioApplyAdjustmentsPage;
         private System.Windows.Forms.PictureBox InfoIconTooltip;
         private System.Windows.Forms.CheckBox CheckBoxIgnoreErrorsOnSave;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -3378,6 +3483,19 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripMenuItem selectToolStripMenuItem;
         private System.Windows.Forms.GroupBox GroupBoxUseLocalTask;
         private System.Windows.Forms.CheckBox CheckboxIgnoreGlobalTask;
+        private System.Windows.Forms.TableLayoutPanel TableLayoutTaskSelection;
+        private System.Windows.Forms.ToolStrip ToolbarImageTasks;
+        private System.Windows.Forms.ToolStripButton ToolButtonAddImageTask;
+        private System.Windows.Forms.ToolStripButton ToolButtonRemoveImageTask;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripButton ToolButtonRemoveAllTasks;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+        private System.Windows.Forms.ToolStripButton ToolButtonTaskUnk;
+        private System.Windows.Forms.ToolStripDropDownButton ToolButtonAssignPagesToImageTask;
+        private System.Windows.Forms.ToolStripMenuItem assignAllPagesToolStripMenuItem;
+        private ExtendetListView ImageTaskListView;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
     }
 }
 
