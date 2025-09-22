@@ -2276,6 +2276,7 @@ namespace Win_CBZ
             ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
             ComboBoxCompressionLevel.Size = new System.Drawing.Size(309, 28);
             ComboBoxCompressionLevel.TabIndex = 0;
+            ComboBoxCompressionLevel.Tag = "compress_icon";
             ComboBoxCompressionLevel.DrawItem += ComboBox_DrawItem;
             ComboBoxCompressionLevel.SelectedIndexChanged += ComboBoxCompressionLevel_SelectedIndexChanged;
             // 
@@ -3021,8 +3022,13 @@ namespace Win_CBZ
             // ComboIcons
             // 
             ComboIcons.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            ComboIcons.ImageSize = new System.Drawing.Size(16, 16);
+            ComboIcons.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("ComboIcons.ImageStream");
             ComboIcons.TransparentColor = System.Drawing.Color.Transparent;
+            ComboIcons.Images.SetKeyName(0, "tag_icon");
+            ComboIcons.Images.SetKeyName(1, "star2_yellow_icon");
+            ComboIcons.Images.SetKeyName(2, "funnel_icon");
+            ComboIcons.Images.SetKeyName(3, "box_into_icon");
+            ComboIcons.Images.SetKeyName(4, "compress_icon");
             // 
             // DataGridErrorTooltip
             // 
