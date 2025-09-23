@@ -1964,7 +1964,7 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = true;
                     ToolBarSearchLabel.Enabled = true;
 
-                    SetControlsEnabledState("adjustments,renaming", true);
+                    SetControlsEnabledState("adjustments,renaming,imagetasks", true);
 
                     break;
 
@@ -1999,7 +1999,7 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = false;
                     ToolBarSearchLabel.Enabled = false;
 
-                    SetControlsEnabledState("adjustments,renaming", false);
+                    SetControlsEnabledState("adjustments,renaming,imagetasks", false);
 
                     break;
 
@@ -2038,7 +2038,7 @@ namespace Win_CBZ
                     ToolButtonAddFolder.Enabled = false;
                     ExtractSelectedPages.Enabled = false;
 
-                    SetControlsEnabledState("adjustments,renaming", false);
+                    SetControlsEnabledState("adjustments,renaming,imagetasks", false);
 
                     break;
 
@@ -2073,7 +2073,7 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = false;
                     ToolBarSearchLabel.Enabled = false;
 
-                    SetControlsEnabledState("adjustments,renaming", false);
+                    SetControlsEnabledState("adjustments,renaming,imagetasks", false);
 
                     break;
 
@@ -2109,7 +2109,7 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = false;
                     ToolBarSearchLabel.Enabled = false;
 
-                    SetControlsEnabledState("adjustments,renaming", false);
+                    SetControlsEnabledState("adjustments,renaming,imagetasks", false);
 
                     break;
 
@@ -2367,7 +2367,7 @@ namespace Win_CBZ
 
                         CurrentGlobalActions.Clear();
 
-                        SetControlsEnabledState("adjustments,renaming", true);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
 
                         break;
 
@@ -2400,7 +2400,7 @@ namespace Win_CBZ
                         ToolButtonValidateCBZ.Enabled = false;
                         ToolBarSearchInput.Enabled = false;
                         ToolBarSearchLabel.Enabled = false;
-                        SetControlsEnabledState("adjustments,renaming", false);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", false);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_OPENED:
@@ -2436,7 +2436,7 @@ namespace Win_CBZ
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
 
-                        SetControlsEnabledState("adjustments,renaming", true);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVED:
@@ -2474,7 +2474,7 @@ namespace Win_CBZ
                         PageView.Refresh();
                         PageView.Invalidate();
 
-                        SetControlsEnabledState("adjustments,renaming", true);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_ERROR_SAVING:
@@ -2507,7 +2507,7 @@ namespace Win_CBZ
                         PageView.Refresh();
                         PageView.Invalidate();
 
-                        SetControlsEnabledState("adjustments,renaming", false);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", false);
 
                         break;
 
@@ -2571,7 +2571,7 @@ namespace Win_CBZ
                         ToolBarSearchInput.Enabled = false;
                         ToolBarSearchLabel.Enabled = false;
 
-                        SetControlsEnabledState("adjustments,renaming", false);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", false);
 
                         break;
 
@@ -2621,7 +2621,7 @@ namespace Win_CBZ
                         ImageTaskListView.Items.Clear();
                         CurrentGlobalActions.Clear();
 
-                        SetControlsEnabledState("adjustments,renaming", true);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_FILE_ADDED:
@@ -2631,7 +2631,7 @@ namespace Win_CBZ
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
 
-                        SetControlsEnabledState("adjustments,renaming", true);
+                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
 
                         break;
 
@@ -2779,9 +2779,11 @@ namespace Win_CBZ
                         ToolBarSearchInput.Enabled = enabled;
                         ToolBarSearchLabel.Enabled = enabled;
                         break;
-                    case "adjustments":
+                    case "imagetasks":
                         ImageTaskListView.Enabled = enabled;
                         ToolbarImageTasks.Enabled = enabled;
+                        break;
+                    case "adjustments":
                         ComboBoxTaskOrderConversion.Enabled = enabled;
                         ComboBoxTaskOrderResize.Enabled = enabled;
                         ComboBoxTaskOrderRotation.Enabled = enabled;
@@ -6054,58 +6056,6 @@ namespace Win_CBZ
             }
         }
 
-        /*
-        private void ComboBoxApplyPageAdjustmentsTo_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            System.Windows.Forms.ComboBox cb = (System.Windows.Forms.ComboBox)sender;
-            String selected = cb.SelectedItem as String;
-            ImageTask selectedTask = null;
-            Page page;
-
-            if (selected != null)
-            {
-                if (selected == "<Global>")
-                {
-                    selectedTask = Program.ProjectModel.GlobalImageTask;
-
-                }
-                else
-                {
-                    page = Program.ProjectModel.GetPageByName(selected);
-
-                    if (page != null)
-                    {
-                        selectedTask = page.ImageTask;
-                    }
-                }
-
-                if (selectedTask != null)
-                {
-                    //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
-                    switch (selectedTask.ImageAdjustments.ResizeMode)
-                    {
-                        case 0:
-                            RadioButtonResizeNever.Checked = true;
-                            break;
-                        case 1:
-                            RadioButtonResizeIfLarger.Checked = true;
-                            break;
-                        case 2:
-                            RadioButtonResizeTo.Checked = true;
-                            break;
-
-                    }
-
-                    CheckBoxSplitDoublePages.Checked = selectedTask.ImageAdjustments.SplitPage;
-                    TextBoxSplitPageAt.Text = selectedTask.ImageAdjustments.SplitPageAt.ToString();
-                    ComboBoxSplitAtType.SelectedIndex = selectedTask.ImageAdjustments.SplitType;
-
-                    selectedImageTasks = selectedTask;
-                }
-            }
-        }
-        */
-
         private void ImageQualityTrackBar_ValueChanged(object sender, EventArgs e)
         {
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
@@ -8466,6 +8416,8 @@ namespace Win_CBZ
 
                 UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
 
+                SetControlsEnabledState("adjustments", false);
+
                 return;
             }
 
@@ -8473,6 +8425,8 @@ namespace Win_CBZ
 
             ToolButtonRemoveImageTask.Enabled = true;
             ToolButtonAssignPagesToImageTask.Enabled = true;
+
+            SetControlsEnabledState("adjustments", true);
         }
 
         private void ToolButtonRemoveImageTask_Click(object sender, EventArgs e)
@@ -8486,6 +8440,8 @@ namespace Win_CBZ
 
                 UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
 
+                SetControlsEnabledState("adjustments", false);
+
                 return;
             }
         }
@@ -8496,6 +8452,9 @@ namespace Win_CBZ
             ToolButtonRemoveImageTask.Enabled = false;
             ToolButtonAssignPagesToImageTask.Enabled = false;
             UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
+
+            SetControlsEnabledState("adjustments", false);
+
         }
 
         private void AssignSelectedPagesToolStripMenuItem_Click(object sender, EventArgs e)
