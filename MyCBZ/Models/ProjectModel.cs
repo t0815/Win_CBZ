@@ -533,7 +533,7 @@ namespace Win_CBZ
                                         // update image adjustments
                                         AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
                                         //AppEventHandler.OnRedrawThumb(null, new RedrawThumbEvent(page));
-                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page));
+                                        AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(page.ImageTask.ImageAdjustments, page, true));
 
                                         thumbUpdates.Add(page);
                                         previousPage = page;
@@ -564,7 +564,7 @@ namespace Win_CBZ
                                     resultPage.ImageTask.ImageAdjustments.RotateMode = 0;
                                     resultPage.ImageTask.FreeResults();
 
-                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage));
+                                    AppEventHandler.OnImageAdjustmentsChanged(null, new ImageAdjustmentsChangedEvent(resultPage.ImageTask.ImageAdjustments, resultPage, true));
 
 
                                 }

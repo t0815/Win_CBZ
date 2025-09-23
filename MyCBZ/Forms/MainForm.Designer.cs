@@ -192,10 +192,10 @@ namespace Win_CBZ
             ToolButtonRemoveAllTasks = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             ToolButtonAssignPagesToImageTask = new System.Windows.Forms.ToolStripDropDownButton();
-            assignSelectedPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            AssignSelectedPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            AssignAllPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
-            assignAllPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ToolButtonTaskUnk = new System.Windows.Forms.ToolStripButton();
+            UnAssignAllPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ImageTaskListView = new ExtendetListView();
             columnHeader2 = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
@@ -1990,7 +1990,7 @@ namespace Win_CBZ
             TableLayoutTaskSelection.SetColumnSpan(ToolbarImageTasks, 2);
             ToolbarImageTasks.Dock = System.Windows.Forms.DockStyle.None;
             ToolbarImageTasks.ImageScalingSize = new System.Drawing.Size(20, 20);
-            ToolbarImageTasks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddImageTask, ToolButtonRemoveImageTask, toolStripSeparator14, ToolButtonRemoveAllTasks, toolStripSeparator15, ToolButtonAssignPagesToImageTask, ToolButtonTaskUnk });
+            ToolbarImageTasks.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolButtonAddImageTask, ToolButtonRemoveImageTask, toolStripSeparator14, ToolButtonRemoveAllTasks, toolStripSeparator15, ToolButtonAssignPagesToImageTask });
             ToolbarImageTasks.Location = new System.Drawing.Point(0, 0);
             ToolbarImageTasks.Name = "ToolbarImageTasks";
             ToolbarImageTasks.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -2042,7 +2042,7 @@ namespace Win_CBZ
             // ToolButtonAssignPagesToImageTask
             // 
             ToolButtonAssignPagesToImageTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            ToolButtonAssignPagesToImageTask.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { assignSelectedPagesToolStripMenuItem, toolStripMenuItem12, assignAllPagesToolStripMenuItem });
+            ToolButtonAssignPagesToImageTask.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { AssignSelectedPagesToolStripMenuItem, AssignAllPagesToolStripMenuItem, toolStripMenuItem12, UnAssignAllPagesToolStripMenuItem });
             ToolButtonAssignPagesToImageTask.Enabled = false;
             ToolButtonAssignPagesToImageTask.Image = Properties.Resources.photo_landscape_right_left;
             ToolButtonAssignPagesToImageTask.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -2050,43 +2050,42 @@ namespace Win_CBZ
             ToolButtonAssignPagesToImageTask.Size = new System.Drawing.Size(34, 24);
             ToolButtonAssignPagesToImageTask.Text = "Assign selected pages to selected Tasks";
             // 
-            // assignSelectedPagesToolStripMenuItem
+            // AssignSelectedPagesToolStripMenuItem
             // 
-            assignSelectedPagesToolStripMenuItem.Name = "assignSelectedPagesToolStripMenuItem";
-            assignSelectedPagesToolStripMenuItem.Size = new System.Drawing.Size(236, 26);
-            assignSelectedPagesToolStripMenuItem.Text = "Assign selected Pages";
-            assignSelectedPagesToolStripMenuItem.Click += AssignSelectedPagesToolStripMenuItem_Click;
+            AssignSelectedPagesToolStripMenuItem.Name = "AssignSelectedPagesToolStripMenuItem";
+            AssignSelectedPagesToolStripMenuItem.Size = new System.Drawing.Size(236, 26);
+            AssignSelectedPagesToolStripMenuItem.Text = "Assign selected Pages";
+            AssignSelectedPagesToolStripMenuItem.Click += AssignSelectedPagesToolStripMenuItem_Click;
+            // 
+            // AssignAllPagesToolStripMenuItem
+            // 
+            AssignAllPagesToolStripMenuItem.Name = "AssignAllPagesToolStripMenuItem";
+            AssignAllPagesToolStripMenuItem.Size = new System.Drawing.Size(236, 26);
+            AssignAllPagesToolStripMenuItem.Text = "Assign all Pages";
+            AssignAllPagesToolStripMenuItem.Click += AssignSelectedPagesToolStripMenuItem_Click;
             // 
             // toolStripMenuItem12
             // 
             toolStripMenuItem12.Name = "toolStripMenuItem12";
             toolStripMenuItem12.Size = new System.Drawing.Size(233, 6);
             // 
-            // assignAllPagesToolStripMenuItem
+            // UnAssignAllPagesToolStripMenuItem
             // 
-            assignAllPagesToolStripMenuItem.Name = "assignAllPagesToolStripMenuItem";
-            assignAllPagesToolStripMenuItem.Size = new System.Drawing.Size(236, 26);
-            assignAllPagesToolStripMenuItem.Text = "Assign all Pages";
-            // 
-            // ToolButtonTaskUnk
-            // 
-            ToolButtonTaskUnk.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            ToolButtonTaskUnk.Image = Properties.Resources.star2;
-            ToolButtonTaskUnk.ImageTransparentColor = System.Drawing.Color.Magenta;
-            ToolButtonTaskUnk.Name = "ToolButtonTaskUnk";
-            ToolButtonTaskUnk.Size = new System.Drawing.Size(29, 24);
-            ToolButtonTaskUnk.Text = "Assign selected pages to selected Tasks";
+            UnAssignAllPagesToolStripMenuItem.Name = "UnAssignAllPagesToolStripMenuItem";
+            UnAssignAllPagesToolStripMenuItem.Size = new System.Drawing.Size(236, 26);
+            UnAssignAllPagesToolStripMenuItem.Text = "Unassign all Pages";
+            UnAssignAllPagesToolStripMenuItem.Click += UnAssignAllPagesToolStripMenuItem_Click;
             // 
             // ImageTaskListView
             // 
             ImageTaskListView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             ImageTaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader2, columnHeader3 });
             TableLayoutTaskSelection.SetColumnSpan(ImageTaskListView, 2);
-            ImageTaskListView.LabelEdit = true;
+            ImageTaskListView.FullRowSelect = true;
             ImageTaskListView.LabelWrap = false;
             ImageTaskListView.Location = new System.Drawing.Point(3, 33);
+            ImageTaskListView.MultiSelect = false;
             ImageTaskListView.Name = "ImageTaskListView";
-            ImageTaskListView.OwnerDraw = true;
             ImageTaskListView.SelectionColor = System.Drawing.SystemColors.Highlight;
             ImageTaskListView.Size = new System.Drawing.Size(286, 100);
             ImageTaskListView.TabIndex = 1;
@@ -2464,7 +2463,6 @@ namespace Win_CBZ
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Margin = new System.Windows.Forms.Padding(2);
             PagesList.Name = "PagesList";
-            PagesList.OwnerDraw = true;
             PagesList.SelectionColor = System.Drawing.SystemColors.Highlight;
             PagesList.ShowItemToolTips = true;
             PagesList.Size = new System.Drawing.Size(934, 149);
@@ -3516,14 +3514,14 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripButton ToolButtonRemoveAllTasks;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-        private System.Windows.Forms.ToolStripButton ToolButtonTaskUnk;
         private System.Windows.Forms.ToolStripDropDownButton ToolButtonAssignPagesToImageTask;
-        private System.Windows.Forms.ToolStripMenuItem assignAllPagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AssignAllPagesToolStripMenuItem;
         private ExtendetListView ImageTaskListView;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem12;
-        private System.Windows.Forms.ToolStripMenuItem assignSelectedPagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AssignSelectedPagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UnAssignAllPagesToolStripMenuItem;
     }
 }
 

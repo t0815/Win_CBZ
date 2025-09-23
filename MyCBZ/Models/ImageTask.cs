@@ -191,6 +191,38 @@ namespace Win_CBZ.Models
             SourcePage = page;
         }
 
+        public void CreateTasksFromObject(ImageAdjustments imageAdjustments)
+        {
+
+            if (imageAdjustments == null)
+            {
+                return;
+            }
+
+            Tasks.Clear();
+
+            if (imageAdjustments.ConvertType > 0)
+            {
+                SetTaskConvert();
+            }
+
+            if (imageAdjustments.ResizeMode > 0)
+            {
+                SetTaskResize();
+            }
+
+            if (imageAdjustments.RotateMode > 0)
+            {
+                SetTaskRotate();
+            }
+
+            if (imageAdjustments.SplitPage)
+            {
+                SetTaskSplit();
+            }
+
+        }
+
         public ImageTask SetTaskResize() 
         {
             if (Tasks.IndexOf(TASK_RESIZE) == -1)

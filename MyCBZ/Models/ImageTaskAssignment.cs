@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Win_CBZ.Base;
 using Win_CBZ.Extensions;
+using Win_CBZ.Helper;
 
 namespace Win_CBZ.Models
 {
@@ -17,6 +18,8 @@ namespace Win_CBZ.Models
         public List<Page> Pages { get; set; }
 
         public ImageTask ImageTask { get; set; }
+
+        public string Key { get; set; } = RandomId.GetInstance().Make();
 
 
         public ImageTaskAssignment(List<Page> pages, ImageTask imageTask)
@@ -33,6 +36,25 @@ namespace Win_CBZ.Models
             }
         }
 
+        public void UnassignTaskFromPages()
+        {
+            foreach (var page in Pages)
+            {
+                page.ImageTask = new ImageTask(page.Id);
+            }
+        }
+
+        public void UnassignTask(Page page)
+        {
+            foreach (var p in Pages)
+            {
+                if (p.Id == page.Id)
+                {
+                    page.ImageTask = new ImageTask(page.Id);
+                }                   
+            }
+        }
+
         public string GetAssignedTaskName()
         {
             if (ImageTask == null)
@@ -40,10 +62,23 @@ namespace Win_CBZ.Models
                 return "No Task Assigned";
             }
 
-            ImageTask.CreateTasksFromPage(Pages.First(), Pages);    
+            // Create a temporary ImageTask to parse the adjustments
+            ImageTask imageTask = new ImageTask("");
 
-            return ImageTask.Tasks.ToArray().Aggregate(new StringBuilder(), (sb, task) =>
+            imageTask.CreateTasksFromObject(ImageTask.ImageAdjustments);
+
+            if (imageTask.Tasks.Count == 0)
             {
+                return "No Task Assigned";
+            }
+
+            return imageTask.Tasks.ToArray().Aggregate(new StringBuilder(), (sb, task) =>
+            {
+                if (task == null || task.Trim().Length == 0)
+                {
+                    return sb;
+                }
+
                 if (sb.Length > 0)
                 {
                     sb.Append(", ");
@@ -53,7 +88,7 @@ namespace Win_CBZ.Models
                 
                 return sb;
             })
-                .ToString();
+            .ToString();
         }
 
         public string GetAssignedPageNumbers()

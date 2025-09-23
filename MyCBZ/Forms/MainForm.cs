@@ -6119,6 +6119,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6173,6 +6175,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6409,14 +6413,21 @@ namespace Win_CBZ
                     assignment = item.Tag as ImageTaskAssignment;
                     if (assignment != null)
                     {
-                        if (e.Page != null && assignment.Pages.Contains(e.Page))
+                        Page page = assignment.Pages.Find(p => p.Id == e.Page.Id);
+
+                        if (page != null)
                         {
                             updateCtls = true;
-                            break;
-                        }
-                        else if (e.Page == null && assignment.ImageTask.ImageAdjustments == e.Adjustments)
-                        {
-                            updateCtls = true;
+                            if (e.Remove)
+                            {
+                                assignment.Pages.Remove(page);
+
+                                item.Tag = assignment;
+                                item.Text = assignment.GetAssignedTaskName();
+                                item.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+
+                            }
+
                             break;
                         }
                     }
@@ -6425,9 +6436,15 @@ namespace Win_CBZ
 
                 if (updateCtls)
                 {
+                    if (assignment != null)
+                    {
+                        if (assignment.Pages.Count == 0)
+                        {
+                            ImageTaskListView.Items.RemoveByKey(assignment.Key);
 
-
-
+                            return;
+                        }
+                    }
 
                     bool dontUpdate = true;
                     //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
@@ -6797,6 +6814,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7252,6 +7271,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -8402,12 +8423,11 @@ namespace Win_CBZ
 
         private void ToolButtonAddImageTask_Click(object sender, EventArgs e)
         {
-            ListViewItem newTaskItem = ImageTaskListView.Items.Add("New Task");
+            ImageTaskAssignment imageTaskAssignment = new ImageTaskAssignment(new List<Page>(), new ImageTask(""));
+            ListViewItem newTaskItem = ImageTaskListView.Items.Add("New Task", imageTaskAssignment.Key);
 
             newTaskItem.SubItems.Add("--");
-            newTaskItem.Tag = new ImageTaskAssignment(new List<Page>(), new ImageTask(""));
-
-
+            newTaskItem.Tag = imageTaskAssignment;
         }
 
         private void ImageTaskListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -8436,6 +8456,21 @@ namespace Win_CBZ
         {
             if (ImageTaskListView.SelectedItem != null)
             {
+
+                ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
+
+                assignment.UnassignTaskFromPages();
+                ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+                ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+
+                foreach (Page page in assignment.Pages.ToList())
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+
+                assignment.Pages.Clear();
+
+
                 ImageTaskListView.SelectedItem.Remove();
 
                 ToolButtonRemoveImageTask.Enabled = false;
@@ -8462,8 +8497,25 @@ namespace Win_CBZ
 
         private void AssignSelectedPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool addAll = false;
+            if (sender as ToolStripMenuItem == null)
+            {
+                return;
+            }
 
-            if (PagesList.SelectedItems.Count == 0 || ImageTaskListView.SelectedItems.Count == 0)
+            ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
+
+            if (menuItem.Name == "AssignAllPagesToolStripMenuItem")
+            {
+                addAll = true;
+            }
+
+            if (!addAll && PagesList.SelectedItems.Count == 0 || ImageTaskListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            if (addAll && PagesList.Items.Count == 0 || ImageTaskListView.SelectedItems.Count == 0)
             {
                 return;
             }
@@ -8491,6 +8543,27 @@ namespace Win_CBZ
                 }
             }
 
+            if (addAll)
+            {
+                foreach (ListViewItem item in PagesList.Items)
+                {
+                    Page page = item.Tag as Page;
+                    if (ImageTaskListView.SelectedItem != null && ImageTaskListView.SelectedItem.Tag != null && ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment != null)
+                    {
+                        if (!assignment.Pages.Contains(page))
+                        {
+                            assignment.Pages.Add(page);
+                            assignment.AssignTaskToPages();
+                            ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+                            ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
+                        }
+                    }
+                }
+                return;
+            }
 
             foreach (ListViewItem item in PagesList.SelectedItems)
             {
@@ -8505,9 +8578,39 @@ namespace Win_CBZ
                         assignment.AssignTaskToPages();
                         ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
                         ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+
+
+                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+
                     }
                 }
             }
+        }
+
+        private void AssignAllPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UnAssignAllPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ImageTaskListView.SelectedItems.Count == 0 || ImageTaskListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
+            
+            assignment.UnassignTaskFromPages();
+            ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+            ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+
+            foreach (Page page in assignment.Pages.ToList())
+            {
+                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+            }
+
+            assignment.Pages.Clear();
         }
     }
 }

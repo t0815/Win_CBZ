@@ -13,7 +13,7 @@ namespace Win_CBZ.Events
 
         public ImageAdjustments Adjustments { get; set; }
 
-        public ListViewItem ListViewItem { get; set; }
+        public bool Remove { get; set; }
 
         public Page Page { get; set; }
 
@@ -23,6 +23,13 @@ namespace Win_CBZ.Events
         {
             Page = page;
             Adjustments = imageAdjustments;
+        }
+
+        public ImageAdjustmentsChangedEvent(ImageAdjustments imageAdjustments, Page page, bool remove)
+        {
+            Page = page;
+            Adjustments = imageAdjustments;
+            Remove = remove;    
         }
     }
 }
