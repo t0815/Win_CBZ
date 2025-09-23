@@ -8154,50 +8154,108 @@ namespace Win_CBZ
 
         private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-           
+
             if (sender as ListView == null)
             {
                 return;
             }
 
-            Pen pen = new Pen(Color.Black, 1);
+            ListView lv = sender as ListView;
+
+            Pen pen = new Pen(Color.Gray, 1);
             Font font = new Font("Verdana", 9f, FontStyle.Regular);
 
-            if (e.Item.Selected && e.State.HasFlag(System.Windows.Forms.ListViewItemStates.Selected & ListViewItemStates.Focused))
-            {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Item.Bounds);
-            }
-            else
-            {
-                e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), e.Item.Bounds);
-            }
+           
 
-            if (((ListView)sender).SmallImageList != null)
-            {
-                int indent = 1;
-                if (e.Item.ImageIndex > -1 && e.Item.ImageIndex < ((ListView)sender).SmallImageList.Images.Count)
-                {
-                    Image img = ((ListView)sender).SmallImageList.Images[e.Item.ImageIndex];
-                    e.Graphics.DrawImage(img, new Point(e.Item.Bounds.X, e.Item.Bounds.Y));
-                    indent = img.Width + 2;
-                }
-   
-                e.Graphics.DrawString(e.Item.Text.ToString(), font, new SolidBrush(Color.Black), new PointF(e.Item.Bounds.X + indent, e.Item.Bounds.Y + 1));
-            }
-            else
-            {
-                e.Graphics.DrawString(e.Item.Text.ToString(), font, new SolidBrush(Color.Black), new PointF(e.Item.Bounds.X + 1, e.Item.Bounds.Y + 1));
-            }
-
-            foreach (ListViewItem.ListViewSubItem subItem in e.Item.SubItems)
-            {
-                
-                e.Graphics.DrawString(subItem.Text.ToString(), font, new SolidBrush(Color.Black), new PointF(subItem.Bounds.X + 1, subItem.Bounds.Y + 1));
-            }
-
-            if (e.Item.Selected && e.State.HasFlag(System.Windows.Forms.ListViewItemStates.Selected & ListViewItemStates.Focused))
+            if (e.State.HasFlag(ListViewItemStates.Focused))
             {
                 e.DrawFocusRectangle();
+            }
+
+            // Draw the item text for views other than the Details view.         
+            //e.DrawText(flags);
+
+            
+        }
+
+        private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListView lv = sender as ListView;
+
+            TextFormatFlags flags = TextFormatFlags.Left;
+
+            
+            Pen pen = new Pen(Color.Gray, 1);
+            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+
+            if (e.ColumnIndex == 0)
+            {
+                if (e.ItemState.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
+                {
+                    if (lv.HideSelection)
+                    {
+                        if (e.ItemState.HasFlag(ListViewItemStates.Default))
+                        {
+
+                        }
+                    }
+                    // Draw the background and focus rectangle for a selected item.
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Item.Bounds);
+                }
+                else
+                {
+                    // Draw the background for an unselected item.
+
+                    e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), e.Item.Bounds);
+
+                }
+            }
+
+            // Draw the item text for views other than the Details view.
+            Rectangle rectangle;
+
+            e.Graphics.Clip = new Region(e.Item.Bounds);
+            if (e.ColumnIndex == 0)
+            {
+                rectangle = e.Item.Bounds;
+
+                rectangle.X += 18;
+                rectangle.Y += 1;
+
+                e.Graphics.DrawString(e.Item.Text, font, new SolidBrush(Color.Black), rectangle);
+            } else
+            {
+                rectangle = e.SubItem.Bounds;
+                rectangle.Y += 1;
+
+                e.Graphics.DrawString(e.SubItem.Text, font, new SolidBrush(Color.Black), rectangle);
+            }
+            //}              
+        }
+
+        private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            // Not interested in changing the way columns are drawn - this works fine
+            e.DrawDefault = true;
+        }
+
+        private void ListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListViewItem item = ((ListView)sender).GetItemAt(e.X, e.Y);
+            if (item != null )
+            {
+                ((ListView)sender).Invalidate(item.Bounds);
+                //item.Tag = "tagged";
             }
         }
 

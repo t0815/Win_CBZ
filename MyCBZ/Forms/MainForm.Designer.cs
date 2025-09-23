@@ -1968,14 +1968,14 @@ namespace Win_CBZ
             TableLayoutTaskSelection.ColumnCount = 2;
             TablePanePageAdjustments.SetColumnSpan(TableLayoutTaskSelection, 2);
             TableLayoutTaskSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.17808F));
-            TableLayoutTaskSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.8219166F));
+            TableLayoutTaskSelection.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.8219185F));
             TableLayoutTaskSelection.Controls.Add(ToolbarImageTasks, 0, 0);
             TableLayoutTaskSelection.Controls.Add(ImageTaskListView, 0, 1);
             TableLayoutTaskSelection.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             TableLayoutTaskSelection.Location = new System.Drawing.Point(11, 89);
             TableLayoutTaskSelection.Name = "TableLayoutTaskSelection";
             TableLayoutTaskSelection.RowCount = 3;
-            TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
+            TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             TableLayoutTaskSelection.Size = new System.Drawing.Size(292, 144);
@@ -2065,14 +2065,16 @@ namespace Win_CBZ
             TableLayoutTaskSelection.SetColumnSpan(ImageTaskListView, 2);
             ImageTaskListView.LabelEdit = true;
             ImageTaskListView.LabelWrap = false;
-            ImageTaskListView.Location = new System.Drawing.Point(3, 31);
+            ImageTaskListView.Location = new System.Drawing.Point(3, 33);
             ImageTaskListView.Name = "ImageTaskListView";
             ImageTaskListView.OwnerDraw = true;
-            ImageTaskListView.Size = new System.Drawing.Size(286, 102);
+            ImageTaskListView.Size = new System.Drawing.Size(286, 100);
             ImageTaskListView.TabIndex = 1;
             ImageTaskListView.UseCompatibleStateImageBehavior = false;
             ImageTaskListView.View = System.Windows.Forms.View.Details;
+            ImageTaskListView.DrawColumnHeader += ListView_DrawColumnHeader;
             ImageTaskListView.DrawItem += ListView_DrawItem;
+            ImageTaskListView.DrawSubItem += ListView_DrawSubItem;
             // 
             // columnHeader2
             // 
@@ -2449,13 +2451,16 @@ namespace Win_CBZ
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
             PagesList.AfterLabelEdit += PagesList_AfterLabelEdit;
+            PagesList.DrawColumnHeader += ListView_DrawColumnHeader;
             PagesList.DrawItem += ListView_DrawItem;
+            PagesList.DrawSubItem += ListView_DrawSubItem;
             PagesList.ItemDrag += PagesList_ItemDrag;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
             PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             PagesList.DragDrop += PagesList_DragDrop;
             PagesList.DragOver += PagesList_DragOver;
             PagesList.DoubleClick += PagesList_DoubleClick;
+            PagesList.MouseMove += ListView_MouseMove;
             // 
             // NamePageCol
             // 
