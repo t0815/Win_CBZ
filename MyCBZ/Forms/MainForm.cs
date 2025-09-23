@@ -1,40 +1,44 @@
-﻿using System;
+﻿using AutocompleteMenuNS;
+using Microsoft.VisualBasic.Devices;
+using SharpCompress;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO.Compression;
-using System.Reflection;
-using Win_CBZ.Forms;
-using System.Threading;
-using System.IO;
-using Win_CBZ.Data;
-using Win_CBZ.Tasks;
-using Win_CBZ.Models;
-using System.Runtime.CompilerServices;
-using Win_CBZ.Exceptions;
-using Win_CBZ.Helper;
-using TextBox = System.Windows.Forms.TextBox;
-using Cursors = System.Windows.Forms.Cursors;
-using System.Configuration;
+using System.Windows.Shapes;
 using System.Xml;
-using static Win_CBZ.MetaData;
-using System.Diagnostics;
-using System.Runtime.Versioning;
-using Win_CBZ.Handler;
+using Win_CBZ.Base;
+using Win_CBZ.Data;
 using Win_CBZ.Events;
-using AutocompleteMenuNS;
-using Win_CBZ.Properties;
-using System.Drawing.Drawing2D;
-using Microsoft.VisualBasic.Devices;
+using Win_CBZ.Exceptions;
 using Win_CBZ.Extensions;
+using Win_CBZ.Forms;
+using Win_CBZ.Handler;
+using Win_CBZ.Helper;
 using Win_CBZ.List;
-using System.Collections;
-using SharpCompress;
+using Win_CBZ.Models;
+using Win_CBZ.Properties;
+using Win_CBZ.Tasks;
+using static Win_CBZ.MetaData;
+using Cursors = System.Windows.Forms.Cursors;
+using Path = System.IO.Path;
+using Rectangle = System.Drawing.Rectangle;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace Win_CBZ
 {
@@ -87,6 +91,9 @@ namespace Win_CBZ
         public MainForm()
         {
             InitializeComponent();
+
+            //PagesList.Invalidated += ListView_Invalidated;
+            //ImageTaskListView.Invalidated += ListView_Invalidated;
 
             try
             {
@@ -6116,6 +6123,11 @@ namespace Win_CBZ
 
             Nullable<int> oldValue;
 
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
+
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
 
@@ -6166,6 +6178,11 @@ namespace Win_CBZ
             RadioButton radio = (RadioButton)sender;
 
             Nullable<int> oldValue;
+
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
 
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
@@ -6595,6 +6612,11 @@ namespace Win_CBZ
                 return;
             }
 
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
+
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
             switch (cb.Name)
@@ -6628,6 +6650,11 @@ namespace Win_CBZ
 
             Nullable<Color> oldValue;
 
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
+
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
             if (selectedImageTasks != null)
@@ -6658,6 +6685,11 @@ namespace Win_CBZ
         {
             Nullable<bool> oldValue;
             CheckBox cb = sender as CheckBox;
+
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
 
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
@@ -6699,6 +6731,11 @@ namespace Win_CBZ
             Nullable<bool> oldValue;
             CheckBox cb = sender as CheckBox;
 
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
+
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
             if (selectedImageTasks != null)
@@ -6739,6 +6776,11 @@ namespace Win_CBZ
         {
             Nullable<bool> oldValue;
             CheckBox cb = sender as CheckBox;
+
+            if (ImageTaskListView.SelectedItem == null)
+            {
+                return;
+            }
 
             ImageTaskAssignment selectedImageTasks = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
@@ -8155,87 +8197,197 @@ namespace Win_CBZ
         private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
 
-            if (sender as ListView == null)
-            {
-                return;
-            }
-
             ListView lv = sender as ListView;
 
-            Pen pen = new Pen(Color.Gray, 1);
-            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+            Rectangle rectangle;
 
-           
+            e.Graphics.Clip = new Region(e.Item.Bounds);
 
-            if (e.State.HasFlag(ListViewItemStates.Focused))
+            rectangle = e.Item.Bounds;
+
+
+            rectangle.X += e.Item.IndentCount;
+
+
+
+            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
             {
-                e.DrawFocusRectangle();
+                if (lv.SmallImageList != null)
+                {
+                    rectangle.X += lv.SmallImageList.ImageSize.Width + 8;
+
+
+                    if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                    {
+                        Image img = lv.SmallImageList.Images[e.Item.ImageKey];
+
+                        e.Graphics.DrawImage(img, new Point(e.Bounds.X + 4, e.Bounds.Y + 2));
+                    }
+                }
             }
 
-            // Draw the item text for views other than the Details view.         
-            //e.DrawText(flags);
 
-            
+
+            if ((e.State.HasFlag(ListViewItemStates.Selected) ||
+                  e.State.HasFlag(ListViewItemStates.Focused)) && e.Item.Selected)
+            {
+                if (lv.HideSelection)
+                {
+                    if (lv.Focused)
+                    {
+
+
+                        e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+
+
+                    }
+                }
+                else
+                {
+                    Color highlightColor = Color.Gold;
+                    if (!lv.Focused)
+                    {
+                        highlightColor = SystemColors.ControlLight;
+                    }
+
+                    // Draw the background and focus rectangle for a selected item.
+
+                    e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+
+                }
+            }
+            else
+            {
+                // Draw the background for an unselected item.
+                if (e.Item.Selected)
+                {
+                    if (lv.HideSelection)
+                    {
+                        if (lv.Focused)
+                        {
+
+                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+
+                        }
+                    }
+                    else
+                    {
+                        Color highlightColor = Color.Gold;
+                        if (!lv.Focused)
+                        {
+                            highlightColor = SystemColors.ControlLight;
+                        }
+
+                        // Draw the background and focus rectangle for a selected item.
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                    }
+
+                }
+                else
+                {
+                    e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
+                }
+            }
+
         }
 
         private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
-            if (sender as ListView == null)
-            {
-                return;
-            }
 
             ListView lv = sender as ListView;
 
-            TextFormatFlags flags = TextFormatFlags.Left;
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
 
-            
-            Pen pen = new Pen(Color.Gray, 1);
-            Font font = new Font("Verdana", 9f, FontStyle.Regular);
+            //Pen pen = new Pen(Color.Black, 1);
+            //Font font = new Font("Verdana", 9f, FontStyle.Regular);
 
-            if (e.ColumnIndex == 0)
+
+            /*
+           
+            if ((e.ItemState.HasFlag(ListViewItemStates.Selected) || 
+                 e.ItemState.HasFlag(ListViewItemStates.Focused)) && e.Item.Selected)
             {
-                if (e.ItemState.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
+                if (lv.HideSelection)
+                {
+                    if (lv.Focused)
+                    {
+                        if (e.ColumnIndex == 0)
+                        {
+                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+                        } else
+                        {
+                            if (lv.FullRowSelect)
+                            {
+                                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+                            }
+                        }      
+                    }
+                } else
+                {
+                    Color highlightColor = Color.Gold;
+                    if (!lv.Focused)
+                    {
+                        highlightColor = SystemColors.ControlLight;
+                    }
+
+                    // Draw the background and focus rectangle for a selected item.
+                    if (e.ColumnIndex == 0)
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                    }
+                    else
+                    {
+                        if (lv.FullRowSelect)
+                        {
+                            e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                        }
+                    }
+                }               
+            }
+            else
+            {
+                // Draw the background for an unselected item.
+                if (e.Item.Selected)
                 {
                     if (lv.HideSelection)
                     {
-                        if (e.ItemState.HasFlag(ListViewItemStates.Default))
+                        if (lv.Focused)
                         {
-
+                            if (e.ColumnIndex == 0)
+                            {
+                                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+                            }
+                            else
+                            {
+                                if (lv.FullRowSelect)
+                                {
+                                    e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+                                }
+                            }
                         }
                     }
-                    // Draw the background and focus rectangle for a selected item.
-                    e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Item.Bounds);
-                }
-                else
+                    else
+                    {
+                        Color highlightColor = Color.Gold;
+                        if (!lv.Focused)
+                        {
+                            highlightColor = SystemColors.ControlLight;
+                        }
+
+                        // Draw the background and focus rectangle for a selected item.
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                    }
+
+                } else
                 {
-                    // Draw the background for an unselected item.
-
-                    e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), e.Item.Bounds);
-
+                    e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
                 }
             }
+            */
 
             // Draw the item text for views other than the Details view.
-            Rectangle rectangle;
 
-            e.Graphics.Clip = new Region(e.Item.Bounds);
-            if (e.ColumnIndex == 0)
-            {
-                rectangle = e.Item.Bounds;
-
-                rectangle.X += 18;
-                rectangle.Y += 1;
-
-                e.Graphics.DrawString(e.Item.Text, font, new SolidBrush(Color.Black), rectangle);
-            } else
-            {
-                rectangle = e.SubItem.Bounds;
-                rectangle.Y += 1;
-
-                e.Graphics.DrawString(e.SubItem.Text, font, new SolidBrush(Color.Black), rectangle);
-            }
-            //}              
+            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X, e.SubItem.Bounds.Y + 2, e.SubItem.Bounds.Width, e.SubItem.Bounds.Height), Color.Black, flags);
         }
 
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
@@ -8252,20 +8404,129 @@ namespace Win_CBZ
             }
 
             ListViewItem item = ((ListView)sender).GetItemAt(e.X, e.Y);
-            if (item != null )
+            if (item != null)
             {
                 ((ListView)sender).Invalidate(item.Bounds);
+
+                Invalidatable tag = item.Tag as Invalidatable;
                 //item.Tag = "tagged";
+
+                if (tag != null && !tag.Invalidated)
+                {
+                    tag.Invalidate();
+                }
             }
+        }
+
+        private void ListView_Invalidated(object sender, InvalidateEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListView lv = sender as ListView;
+
+            foreach (ListViewItem item in lv.Items)
+            {
+                if (item == null) return;
+                Invalidatable tag = item.Tag as Invalidatable;
+                tag?.Invalidate(false);
+            }
+        }
+
+        private void ListView_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListView lv = sender as ListView;
+
+            lv.Invalidate();
         }
 
         private void ToolButtonAddImageTask_Click(object sender, EventArgs e)
         {
             ListViewItem newTaskItem = ImageTaskListView.Items.Add("New Task");
+
             newTaskItem.SubItems.Add("--");
             newTaskItem.Tag = new ImageTaskAssignment(new List<Page>(), new ImageTask(""));
 
 
+        }
+
+        private void ImageTaskListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (!e.IsSelected || e.Item == null || e.Item.Tag == null || e.Item.Tag as ImageTaskAssignment == null)
+            {
+                ToolButtonRemoveImageTask.Enabled = false;
+                ToolButtonAssignPagesToImageTask.Enabled = false;
+
+                UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
+
+                return;
+            }
+
+            UpdateImageAdjustments(sender, e.Item.Tag as ImageTaskAssignment);
+
+            ToolButtonRemoveImageTask.Enabled = true;
+            ToolButtonAssignPagesToImageTask.Enabled = true;
+        }
+
+        private void ToolButtonRemoveImageTask_Click(object sender, EventArgs e)
+        {
+            if (ImageTaskListView.SelectedItem != null)
+            {
+                ImageTaskListView.SelectedItem.Remove();
+
+                ToolButtonRemoveImageTask.Enabled = false;
+                ToolButtonAssignPagesToImageTask.Enabled = false;
+
+                UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
+
+                return;
+            }
+        }
+
+        private void ToolButtonRemoveAllTasks_Click(object sender, EventArgs e)
+        {
+            ImageTaskListView.Items.Clear();
+            ToolButtonRemoveImageTask.Enabled = false;
+            ToolButtonAssignPagesToImageTask.Enabled = false;
+            UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
+        }
+
+        private void AssignSelectedPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (PagesList.SelectedItems.Count == 0 || ImageTaskListView.SelectedItems.Count == 0)
+            {
+                return;
+            }
+
+            ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
+
+            assignment.Pages.Clear();
+
+
+            foreach (ListViewItem item in PagesList.SelectedItems)
+            {
+                Page page = item.Tag as Page;
+
+                if (ImageTaskListView.SelectedItem != null && ImageTaskListView.SelectedItem.Tag != null && ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment != null)
+                {
+
+                    if (!assignment.Pages.Contains(page))
+                    {
+                        assignment.Pages.Add(page);
+                        assignment.AssignTaskToPages();
+                        ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+                        ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+                    }
+                }
+            }
         }
     }
 }

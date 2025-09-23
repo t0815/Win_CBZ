@@ -4,13 +4,14 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using Win_CBZ.Base;
 using Win_CBZ.Extensions;
 
 namespace Win_CBZ.Models
 {
 
     [SupportedOSPlatform("windows")]
-    internal class ImageTaskAssignment
+    internal class ImageTaskAssignment : Invalidatable
     {
 
         public List<Page> Pages { get; set; }
@@ -30,6 +31,27 @@ namespace Win_CBZ.Models
             {
                 page.ImageTask = ImageTask;
             }
+        }
+
+        public string GetAssignedTaskName()
+        {
+            if (ImageTask == null)
+            {
+                return "No Task Assigned";
+            }
+
+            return ImageTask.Tasks.ToArray().Aggregate(new StringBuilder(), (sb, task) =>
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Append(", ");
+                }
+
+                sb.Append(task);
+                
+                return sb;
+            })
+                .ToString();
         }
 
         public string GetAssignedPageNumbers()
@@ -54,13 +76,16 @@ namespace Win_CBZ.Models
 
                             return sb;
 
+                        } else if (number > last.Item2 + 1)
+                        {
+                            sb.Add(new Tuple<int, int>(number, number));
+
+                            return sb;
                         }
                     } else
                     {
                         sb.Add(new Tuple<int, int>(number, number));
-                    }
-
-                    
+                    }  
                     
                     return sb;
                 })

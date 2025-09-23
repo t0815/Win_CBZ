@@ -1,34 +1,35 @@
-﻿using Win_CBZ;
+﻿using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using Win_CBZ.Models;
-using System.Xml.Linq;
-using System.Runtime.CompilerServices;
-using System.Diagnostics.Eventing.Reader;
-using System.Drawing.Imaging;
-using Win_CBZ.Helper;
-using Win_CBZ.Events;
-using System.Xml;
-using SharpCompress.Common;
 using System.IO.Pipes;
-using System.Threading.Tasks;
-using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using Win_CBZ;
+using Win_CBZ.Base;
 using Win_CBZ.Data;
+using Win_CBZ.Events;
 using Win_CBZ.Handler;
+using Win_CBZ.Helper;
+using Win_CBZ.Models;
 using Win_CBZ.Tasks;
 using static System.Windows.Forms.AxHost;
 
 
-namespace Win_CBZ
+namespace Win_CBZ 
 {
     [SupportedOSPlatform("windows")]
-    internal class Page
+    internal class Page : Invalidatable
     {
 
         public String Id { get; set; }
@@ -90,8 +91,6 @@ namespace Win_CBZ
         public bool ReadOnly { get; set; }
 
         public bool Selected { get; set; }
-
-        public bool Invalidated { get; set; }
 
         public bool Renamed { get; set; }   
 
