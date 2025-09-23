@@ -29,7 +29,7 @@ namespace Win_CBZ.Models
         {
             foreach (var page in Pages)
             {
-                page.ImageTask = ImageTask;
+                page.ImageTask = new ImageTask(page.Id, ImageTask);
             }
         }
 
@@ -39,6 +39,8 @@ namespace Win_CBZ.Models
             {
                 return "No Task Assigned";
             }
+
+            ImageTask.CreateTasksFromPage(Pages.First(), Pages);    
 
             return ImageTask.Tasks.ToArray().Aggregate(new StringBuilder(), (sb, task) =>
             {

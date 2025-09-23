@@ -73,6 +73,18 @@ namespace Win_CBZ.Models
             TaskOrder = new ImageTaskOrder();
         }
 
+        public ImageTask(String pageId, ImageTask copyFrom = null)
+            : this(pageId)
+        {
+            if (copyFrom != null)
+            {
+                UseLocalTask = copyFrom.UseLocalTask;
+                ImageAdjustments = new ImageAdjustments(copyFrom.ImageAdjustments);
+                TaskOrder = copyFrom.TaskOrder;
+                Tasks = new List<String>(copyFrom.Tasks);
+            }
+        }
+
         public ImageTask SetupTasks(ref Page source)
         {
             
@@ -114,6 +126,69 @@ namespace Win_CBZ.Models
             Tasks = orderedTasks.ToList();  
             
             return this;
+        }
+
+        public void CreateTasksFromPage(Page page, List<Page> pages)
+        {
+            
+            if (page?.ImageTask == null)
+            {
+                return;
+            }
+
+            Tasks.Clear();
+
+            if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
+                page.Format.Format != page.ImageTask.ImageAdjustments?.ConvertFormat?.Format
+               )
+            {
+                SetTaskConvert();
+            }
+
+            if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
+                (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
+                 page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
+                (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0) ||
+                (page.ImageTask.ImageAdjustments.ResizeMode == 1 && page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
+                )
+            {
+                if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
+                {
+                    page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
+                    if (page.ImageTask.ImageAdjustments.PageToResizeTo != null &&
+                        page.ImageTask.ImageAdjustments.PageToResizeTo.Format != null &&
+                        (page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W < page.Format.W ||
+                        page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H < page.Format.H)
+                    )
+                    {
+                        ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
+                        SetTaskResize();
+                    }
+                }
+                else
+                {
+                    SetTaskResize();
+                }
+            }
+
+            if (page.ImageTask.ImageAdjustments.RotateMode > 0)
+            {
+                SetTaskRotate();
+            }
+
+            if (page.ImageTask.ImageAdjustments.SplitPage)
+            {
+                SetTaskSplit();
+            }
+
+
+            if (page.ImageTask.TaskCount() == 0)
+            {
+
+                
+            }
+
+            SourcePage = page;
         }
 
         public ImageTask SetTaskResize() 

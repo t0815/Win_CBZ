@@ -461,7 +461,7 @@ namespace Win_CBZ
                 if (p.ApplyImageProcessing)
                 {
                    
-                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, p.GlobalTask, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, remainingStack);
+                    imageProcessingTask = ProcessImagesTask.ProcessImages(p.Pages, p.SkipPages, AppEventHandler.OnGeneralTaskProgress, p.CancelToken, remainingStack);
                     Task<ImageTaskResult> imageProcessingFinalTask = imageProcessingTask.ContinueWith(r =>
                     {
                         AppEventHandler.OnApplicationStateChanged(null, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_PROCESSING));

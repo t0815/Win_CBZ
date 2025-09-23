@@ -254,6 +254,8 @@ namespace Win_CBZ
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
 
+            SetControlsEnabledState("adjustments", false);
+
             //Win_CBZSettings.Default.SettingsVersion = 0;
             //Win_CBZSettings.Default.Save();
 
@@ -1964,7 +1966,7 @@ namespace Win_CBZ
                     ToolBarSearchInput.Enabled = true;
                     ToolBarSearchLabel.Enabled = true;
 
-                    SetControlsEnabledState("adjustments,renaming,imagetasks", true);
+                    SetControlsEnabledState("renaming,imagetasks", true);
 
                     break;
 
@@ -2367,7 +2369,7 @@ namespace Win_CBZ
 
                         CurrentGlobalActions.Clear();
 
-                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
+                        SetControlsEnabledState("imagetasks,renaming", true);
 
                         break;
 
@@ -2400,6 +2402,7 @@ namespace Win_CBZ
                         ToolButtonValidateCBZ.Enabled = false;
                         ToolBarSearchInput.Enabled = false;
                         ToolBarSearchLabel.Enabled = false;
+
                         SetControlsEnabledState("adjustments,renaming,imagetasks", false);
                         break;
 
@@ -2436,7 +2439,7 @@ namespace Win_CBZ
                         BtnRemoveMetaData.Enabled = Program.ProjectModel.MetaData.Values.Count > 0;
                         AddMetaDataRowBtn.Enabled = Program.ProjectModel.MetaData.Values != null;
 
-                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
+                        SetControlsEnabledState("renaming,imagetasks", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_SAVED:
@@ -2474,7 +2477,7 @@ namespace Win_CBZ
                         PageView.Refresh();
                         PageView.Invalidate();
 
-                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
+                        SetControlsEnabledState("renaming,imagetasks", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_ERROR_SAVING:
@@ -2621,7 +2624,7 @@ namespace Win_CBZ
                         ImageTaskListView.Items.Clear();
                         CurrentGlobalActions.Clear();
 
-                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
+                        SetControlsEnabledState("renaming,imagetasks", true);
                         break;
 
                     case ArchiveStatusEvent.ARCHIVE_FILE_ADDED:
@@ -2631,7 +2634,7 @@ namespace Win_CBZ
                         SaveToolStripMenuItem.Enabled = true;
                         SaveAsToolStripMenuItem.Enabled = true;
 
-                        SetControlsEnabledState("adjustments,renaming,imagetasks", true);
+                        SetControlsEnabledState("renaming,imagetasks", true);
 
                         break;
 
@@ -8468,6 +8471,25 @@ namespace Win_CBZ
             ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
 
             assignment.Pages.Clear();
+
+            foreach (ListViewItem existingTask in ImageTaskListView.Items)
+            {
+                if (existingTask != ImageTaskListView.SelectedItem && existingTask.Tag != null && existingTask.Tag as ImageTaskAssignment != null)
+                {
+                    ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
+                    foreach (ListViewItem item in PagesList.SelectedItems)
+                    {
+                        Page page = item.Tag as Page;
+                        if (existingAssignment.Pages.Contains(page))
+                        {
+                            existingAssignment.Pages.Remove(page);
+                            existingAssignment.AssignTaskToPages();
+                            existingTask.Text = existingAssignment.GetAssignedTaskName();
+                            existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
+                        }
+                    }
+                }
+            }
 
 
             foreach (ListViewItem item in PagesList.SelectedItems)
