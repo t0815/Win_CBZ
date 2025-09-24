@@ -58,7 +58,7 @@
             CancelBtn = new System.Windows.Forms.Button();
             pictureBox2 = new System.Windows.Forms.PictureBox();
             splitContainer1 = new System.Windows.Forms.SplitContainer();
-            PagesList = new System.Windows.Forms.ListView();
+            PagesList = new ExtendetListView();
             ColName = new System.Windows.Forms.ColumnHeader();
             ColIndex = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
@@ -502,7 +502,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListView PagesList;
+        private ExtendetListView PagesList;
         private System.Windows.Forms.ColumnHeader ColName;
         private System.Windows.Forms.ColumnHeader ColIndex;
         private System.Windows.Forms.ColumnHeader columnHeader3;
