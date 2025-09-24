@@ -94,6 +94,12 @@ namespace Win_CBZ.Models
         public string GetAssignedPageNumbers()
         {
             // 
+
+            if (Pages.Count == 0)
+            {
+                return "--";
+            }
+
             return Pages
                 .Select(p => p.Number)
                 .OrderBy(n => n)
@@ -105,6 +111,7 @@ namespace Win_CBZ.Models
                         if (last.Item2 + 1 == number)
                         {
                             sb[sb.Count - 1] = new Tuple<int, int>(last.Item1, number);
+
                             return sb;
                         }
                         else if (last.Item2 == number)

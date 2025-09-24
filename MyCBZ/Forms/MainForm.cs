@@ -8650,8 +8650,6 @@ namespace Win_CBZ
             ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
             
             assignment.UnassignTaskFromPages();
-            ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
-            ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
 
             foreach (Page page in assignment.Pages.ToList())
             {
@@ -8659,6 +8657,9 @@ namespace Win_CBZ
             }
 
             assignment.Pages.Clear();
+
+            ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+            ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
         }
     }
 }
