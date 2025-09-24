@@ -303,7 +303,7 @@ namespace Win_CBZ
                     {
                         TokenStore.GetInstance().ResetCancellationToken(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA);
 
-                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, AppEventHandler.OnPageChanged, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA).Token, false, true, Guid.NewGuid().ToString(), remainingStack);
+                        Task<TaskResult> imageMetaDataUpdater = UpdateMetadataTask.UpdatePageMetadata(new List<Page>(p.Pages.ToArray()), Program.ProjectModel.MetaData, p.PageIndexVerToWrite, AppEventHandler.OnGeneralTaskProgress, null, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_UPDATE_IMAGE_METADATA).Token, false, true, Guid.NewGuid().ToString(), remainingStack);
 
                         imageMetaDataUpdater.ContinueWith((t) =>
                         {

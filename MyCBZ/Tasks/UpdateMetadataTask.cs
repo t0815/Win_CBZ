@@ -120,6 +120,8 @@ namespace Win_CBZ.Tasks
 
                             result.Completed = current;
 
+                            pageChangedHandler?.Invoke(null, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED));
+                            
                             if (((CancellationToken)token).IsCancellationRequested)
                             {
                                 break;
