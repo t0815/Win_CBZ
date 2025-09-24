@@ -28,6 +28,8 @@ namespace Win_CBZ
 
         private Color _insertionLineColor;
 
+        private Color _selectionColor;
+
         #endregion
 
         #region Public Constructors
@@ -39,6 +41,7 @@ namespace Win_CBZ
         {
             this.DoubleBuffered = true;
             this.InsertionLineColor = Color.Red;
+            this.SelectionColor = SystemColors.Highlight;
             this.InsertionIndex = -1;
         }
 
@@ -57,6 +60,12 @@ namespace Win_CBZ
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler InsertionLineColorChanged;
+
+        /// <summary>
+        /// Occurs when the SelectionColor property value changes.
+        /// </summary>
+        [Category("Property Changed")]
+        public event EventHandler SelectionColorChanged;
 
         /// <summary>
         /// Occurs when a drag-and-drop operation for an item is completed.
@@ -228,6 +237,8 @@ namespace Win_CBZ
         /// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"/> that contains the event data. </param>
         protected override void OnPaint(PaintEventArgs e)
         {
+            
+
             base.OnPaint(e);
         }
 
@@ -284,6 +295,22 @@ namespace Win_CBZ
                     _insertionLineColor = value;
 
                     this.OnInsertionLineColorChanged(EventArgs.Empty);
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [DefaultValue(typeof(SystemColors), "Highlight")]
+        public virtual Color SelectionColor
+        {
+            get { return _selectionColor; }
+            set
+            {
+                if (this._selectionColor != value)
+                {
+                    _selectionColor = value;
+
+                    this.OnSelectionColorChanged(EventArgs.Empty);
                 }
             }
         }
@@ -347,6 +374,22 @@ namespace Win_CBZ
             EventHandler handler;
 
             handler = this.InsertionLineColorChanged;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="InsertionLineColorChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected virtual void OnSelectionColorChanged(EventArgs e)
+        {
+            EventHandler handler;
+
+            handler = this.SelectionColorChanged;
 
             if (handler != null)
             {

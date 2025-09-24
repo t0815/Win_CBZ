@@ -18,7 +18,7 @@ namespace Win_CBZ.Tasks
     [SupportedOSPlatform("windows")]
     internal class ProcessImagesTask
     {
-        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, ImageTask globalTask, String[] skipPages, AppEventHandler.GeneralTaskProgressDelegate handler, CancellationToken? cancellationToken = null, List<StackItem> stack = null)
+        public static Task<ImageTaskResult> ProcessImages(List<Page> pages, String[] skipPages, AppEventHandler.GeneralTaskProgressDelegate handler, CancellationToken? cancellationToken = null, List<StackItem> stack = null)
         {
             return new Task<ImageTaskResult>(() =>
             {
@@ -54,100 +54,7 @@ namespace Win_CBZ.Tasks
                         break;
                     }
 
-                    if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
-                        page.Format.Format != page.ImageTask.ImageAdjustments?.ConvertFormat?.Format
-                    )
-                    {
-                        page.ImageTask.SetTaskConvert();
-                    }
-
-                    if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
-                        (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
-                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
-                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0) ||
-                        (page.ImageTask.ImageAdjustments.ResizeMode == 1 && page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
-                        )
-                    {
-                        if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
-                        {
-                            page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
-                            if (page.ImageTask.ImageAdjustments.PageToResizeTo != null &&
-                                page.ImageTask.ImageAdjustments.PageToResizeTo.Format != null &&
-                                (page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W < page.Format.W ||
-                                page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H < page.Format.H)
-                            )
-                            {
-                                page.ImageTask.ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
-                                page.ImageTask.SetTaskResize();
-                            }
-                        }
-                        else
-                        {
-                            page.ImageTask.SetTaskResize();
-                        }
-                    }
-
-                    if (page.ImageTask.ImageAdjustments.RotateMode > 0)
-                    {
-                        page.ImageTask.SetTaskRotate();
-                    }
-
-                    if (page.ImageTask.ImageAdjustments.SplitPage)
-                    {
-                        page.ImageTask.SetTaskSplit();
-                    }
-
-
-                    if (page.ImageTask.TaskCount() == 0)
-                    {
-                        
-                        page.ImageTask.ImageAdjustments = new ImageAdjustments(globalTask.ImageAdjustments);
-
-                        if (page.ImageTask.ImageAdjustments.ConvertType > 0 &&
-                            page.Format.Format != page.ImageTask.ImageAdjustments.ConvertFormat?.Format
-                        )
-                        {
-                            page.ImageTask.SetTaskConvert();
-                        }
-
-                        if (page.ImageTask.ImageAdjustments.ResizeMode > 0 &&
-                        (page.Format.H != page.ImageTask.ImageAdjustments.ResizeTo.Y ||
-                         page.Format.W != page.ImageTask.ImageAdjustments.ResizeTo.X) ||
-                        (page.ImageTask.ImageAdjustments.ResizeMode == 3 && page.ImageTask.ImageAdjustments.ResizeToPercentage > 0) ||
-                        (page.ImageTask.ImageAdjustments.ResizeMode == 1 && page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
-                        )
-                        {
-                            
-                            if (page.ImageTask.ImageAdjustments.ResizeToPageNumber > 0)
-                            {
-                                page.ImageTask.ImageAdjustments.PageToResizeTo = pages.Find(p => p.Number == page.ImageTask.ImageAdjustments.ResizeToPageNumber);
-                                if (page.ImageTask.ImageAdjustments.PageToResizeTo != null &&
-                                    page.ImageTask.ImageAdjustments.PageToResizeTo.Format != null &&
-                                    (page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W < page.Format.W ||
-                                    page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H < page.Format.H)
-                                )
-                                {
-                                    page.ImageTask.ImageAdjustments.ResizeTo = new Point(page.ImageTask.ImageAdjustments.PageToResizeTo.Format.W, page.ImageTask.ImageAdjustments.PageToResizeTo.Format.H);
-                                    page.ImageTask.SetTaskResize();
-                                }
-
-                            }
-                            else
-                            {
-                                page.ImageTask.SetTaskResize();
-                            }
-                        }
-
-                        if (page.ImageTask.ImageAdjustments.RotateMode > 0)
-                        {
-                            page.ImageTask.SetTaskRotate();
-                        }
-
-                        if (page.ImageTask.ImageAdjustments.SplitPage)
-                        {
-                            page.ImageTask.SetTaskSplit();
-                        }
-                    }
+                    page.ImageTask.CreateTasksFromPage(page, pages);
 
                     if (page.ImageTask.TaskCount() > 0)
                     {
@@ -197,9 +104,7 @@ namespace Win_CBZ.Tasks
                             catch (PageException pe)
                             {
                                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, pe.Message);
-                            }
-
-                                                   
+                            }                         
                         }
                         else
                         {

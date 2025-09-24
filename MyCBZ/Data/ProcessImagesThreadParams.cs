@@ -15,8 +15,6 @@ namespace Win_CBZ.Data
 
         public string[] SkipPages { get; set; } = new string[0];
 
-        public ImageTask GlobalTask { get; set; }
-
         public List<Page> Pages { get; set; }
 
         public ProcessImagesThreadParams() { }
