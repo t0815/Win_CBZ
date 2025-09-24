@@ -58,7 +58,7 @@
             CancelBtn = new System.Windows.Forms.Button();
             pictureBox2 = new System.Windows.Forms.PictureBox();
             splitContainer1 = new System.Windows.Forms.SplitContainer();
-            PagesList = new System.Windows.Forms.ListView();
+            PagesList = new ExtendetListView();
             ColName = new System.Windows.Forms.ColumnHeader();
             ColIndex = new System.Windows.Forms.ColumnHeader();
             columnHeader3 = new System.Windows.Forms.ColumnHeader();
@@ -396,13 +396,17 @@
             PagesList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Name = "PagesList";
+            PagesList.OwnerDraw = true;
             PagesList.Size = new System.Drawing.Size(373, 292);
             PagesList.TabIndex = 9;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
+            PagesList.DrawColumnHeader += ListView_DrawColumnHeader;
+            PagesList.DrawSubItem += ListView_DrawSubItem;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
             PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             PagesList.MouseDoubleClick += PagesList_MouseDoubleClick;
+            PagesList.MouseMove += ListView_MouseMove;
             // 
             // ColName
             // 
@@ -442,6 +446,7 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(802, 743);
             Controls.Add(BookmarkEditorTableLayout);
+            DoubleBuffered = true;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             KeyPreview = true;
             Name = "ManageBookmarksForm";
@@ -497,7 +502,7 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListView PagesList;
+        private ExtendetListView PagesList;
         private System.Windows.Forms.ColumnHeader ColName;
         private System.Windows.Forms.ColumnHeader ColIndex;
         private System.Windows.Forms.ColumnHeader columnHeader3;

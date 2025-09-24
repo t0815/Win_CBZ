@@ -2081,6 +2081,7 @@ namespace Win_CBZ
             ImageTaskListView.LabelWrap = false;
             ImageTaskListView.Location = new System.Drawing.Point(3, 33);
             ImageTaskListView.Name = "ImageTaskListView";
+            ImageTaskListView.OwnerDraw = true;
             ImageTaskListView.SelectionColor = System.Drawing.SystemColors.Highlight;
             ImageTaskListView.Size = new System.Drawing.Size(282, 108);
             ImageTaskListView.TabIndex = 1;
@@ -2090,6 +2091,7 @@ namespace Win_CBZ
             ImageTaskListView.DrawItem += ListView_DrawItem;
             ImageTaskListView.DrawSubItem += ListView_DrawSubItem;
             ImageTaskListView.ItemSelectionChanged += ImageTaskListView_ItemSelectionChanged;
+            ImageTaskListView.MouseMove += ListView_MouseMove;
             // 
             // columnHeader2
             // 
@@ -2458,6 +2460,7 @@ namespace Win_CBZ
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Margin = new System.Windows.Forms.Padding(2);
             PagesList.Name = "PagesList";
+            PagesList.OwnerDraw = true;
             PagesList.SelectionColor = System.Drawing.SystemColors.Highlight;
             PagesList.ShowItemToolTips = true;
             PagesList.Size = new System.Drawing.Size(938, 149);
@@ -2467,7 +2470,6 @@ namespace Win_CBZ
             PagesList.View = System.Windows.Forms.View.Details;
             PagesList.AfterLabelEdit += PagesList_AfterLabelEdit;
             PagesList.DrawColumnHeader += ListView_DrawColumnHeader;
-            PagesList.DrawItem += ListView_DrawItem;
             PagesList.DrawSubItem += ListView_DrawSubItem;
             PagesList.ItemDrag += PagesList_ItemDrag;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
@@ -2475,6 +2477,7 @@ namespace Win_CBZ
             PagesList.DragDrop += PagesList_DragDrop;
             PagesList.DragOver += PagesList_DragOver;
             PagesList.DoubleClick += PagesList_DoubleClick;
+            PagesList.MouseMove += ListView_MouseMove;
             // 
             // NamePageCol
             // 
