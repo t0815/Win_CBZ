@@ -92,8 +92,8 @@ namespace Win_CBZ
         {
             InitializeComponent();
 
-            //PagesList.Invalidated += ListView_Invalidated;
-            //ImageTaskListView.Invalidated += ListView_Invalidated;
+            PagesList.Invalidated += ListView_Invalidated;
+            ImageTaskListView.Invalidated += ListView_Invalidated;
 
             try
             {
@@ -8254,87 +8254,6 @@ namespace Win_CBZ
 
         private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
-
-            ListView lv = sender as ListView;
-
-            Rectangle rectangle;
-
-            rectangle = e.Item.Bounds;
-            rectangle.X += e.Item.IndentCount;
-
-            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
-            {
-                if (lv.SmallImageList != null)
-                {
-                    rectangle.X += lv.SmallImageList.ImageSize.Width + 8;
-                    rectangle.Width -= lv.SmallImageList.ImageSize.Width + 8;
-
-                    if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
-                    {
-                        Image img = lv.SmallImageList.Images[e.Item.ImageKey];
-
-                        e.Graphics.DrawImage(img, new Point(e.Bounds.X + 4, e.Bounds.Y + 2));
-                    }
-                }
-            }
-
-            if (e.State.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
-            {
-                if (lv.HideSelection)
-                {
-                    if (lv.Focused)
-                    {
-                        e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-
-                    }
-                }
-                else
-                {
-                    Color highlightColor = Color.Gold;
-                    if (!lv.Focused)
-                    {
-                        highlightColor = SystemColors.ControlLight;
-                    }
-
-                    // Draw the background and focus rectangle for a selected item.
-
-                    e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-
-                }
-            }
-            else
-            {
-                // Draw the background for an unselected item.
-                if (e.Item.Selected)
-                {
-                    if (lv.HideSelection)
-                    {
-                        if (lv.Focused)
-                        {
-
-                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-
-                        }
-                    }
-                    else
-                    {
-                        Color highlightColor = Color.Gold;
-                        if (!lv.Focused)
-                        {
-                            highlightColor = SystemColors.ControlLight;
-                        }
-
-                        // Draw the background and focus rectangle for a selected item.
-                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-                    }
-
-                }
-                else
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
-                }
-            }
-
         }
 
         private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
@@ -8363,76 +8282,54 @@ namespace Win_CBZ
                 }
             }
 
+            e.Graphics.Clip = new Region(e.SubItem.Bounds);
+
             int itemWidth = e.SubItem.Bounds.Width;
             if (e.ColumnIndex == 0)
             {
                 itemWidth = e.Header.Width - indent;
+
+                e.Graphics.Clip = new Region(new Rectangle(e.SubItem.Bounds.X, e.SubItem.Bounds.Y, itemWidth + indent, e.SubItem.Bounds.Height));
             }
 
-            e.Graphics.Clip = new Region(e.SubItem.Bounds);
+            Rectangle rectangle;
 
-            /*
-           
-            if ((e.ItemState.HasFlag(ListViewItemStates.Selected) || 
-                 e.ItemState.HasFlag(ListViewItemStates.Focused)) && e.Item.Selected)
+            rectangle = e.Item.Bounds;
+            rectangle.X += e.Item.IndentCount;
+
+            if (e.ColumnIndex == 0)
             {
-                if (lv.HideSelection)
+                if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
                 {
-                    if (lv.Focused)
+                    if (lv.SmallImageList != null)
                     {
-                        if (e.ColumnIndex == 0)
-                        {
-                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-                        } else
-                        {
-                            if (lv.FullRowSelect)
-                            {
-                                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-                            }
-                        }      
-                    }
-                } else
-                {
-                    Color highlightColor = Color.Gold;
-                    if (!lv.Focused)
-                    {
-                        highlightColor = SystemColors.ControlLight;
-                    }
+                        rectangle.X += lv.SmallImageList.ImageSize.Width + 8;
+                        rectangle.Width -= lv.SmallImageList.ImageSize.Width + 8;
 
-                    // Draw the background and focus rectangle for a selected item.
-                    if (e.ColumnIndex == 0)
-                    {
-                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-                    }
-                    else
-                    {
-                        if (lv.FullRowSelect)
+                        if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
                         {
-                            e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                            Image img = lv.SmallImageList.Images[e.Item.ImageKey];
+
+                            e.Graphics.DrawImage(img, new Point(e.Bounds.X + 4, e.Bounds.Y + 2));
                         }
                     }
-                }               
+                }
             }
             else
             {
-                // Draw the background for an unselected item.
-                if (e.Item.Selected)
+                rectangle.X = e.SubItem.Bounds.X;
+                rectangle.Width = e.SubItem.Bounds.Width;
+
+            }
+
+                if (e.ItemState.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
                 {
                     if (lv.HideSelection)
                     {
                         if (lv.Focused)
                         {
-                            if (e.ColumnIndex == 0)
-                            {
-                                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-                            }
-                            else
-                            {
-                                if (lv.FullRowSelect)
-                                {
-                                    e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-                                }
-                            }
+                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+
                         }
                     }
                     else
@@ -8444,21 +8341,50 @@ namespace Win_CBZ
                         }
 
                         // Draw the background and focus rectangle for a selected item.
-                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-                    }
 
-                } else
-                {
-                    e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+
+                    }
                 }
-            }
-            */
+                else
+                {
+                    // Draw the background for an unselected item.
+                    if (e.Item.Selected)
+                    {
+                        if (lv.HideSelection)
+                        {
+                            if (lv.Focused)
+                            {
+
+                                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+
+                            }
+                        }
+                        else
+                        {
+                            Color highlightColor = Color.Gold;
+                            if (!lv.Focused)
+                            {
+                                highlightColor = SystemColors.ControlLight;
+                            }
+
+                            // Draw the background and focus rectangle for a selected item.
+                            e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                        }
+
+                    }
+                    else
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
+                    }
+                }
+            
+
 
             // Draw the item text for views other than the Details view.
 
-            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), Color.Black, flags);
-        
-            
+            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
+          
         }
 
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
