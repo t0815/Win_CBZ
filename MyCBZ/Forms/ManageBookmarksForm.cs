@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using Win_CBZ.Base;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 using Win_CBZ.Extensions;
@@ -46,6 +47,8 @@ namespace Win_CBZ.Forms
         public ManageBookmarksForm(MetaData metaData, List<Page> pages)
         {
             InitializeComponent();
+
+            PagesList.Invalidated += ListView_Invalidated;
 
             listPages = pages;
 
@@ -799,6 +802,217 @@ namespace Win_CBZ.Forms
                     chapter++;
                 }
             }
+        }
+
+        private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+
+            ListView lv = sender as ListView;
+
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
+
+
+            int indent = 0;
+            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
+            {
+                if (lv.SmallImageList != null)
+                {
+                    if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                    {
+                        if (e.ColumnIndex == 0)
+                        {
+                            indent = e.Item.IndentCount * 16;
+                            indent += lv.SmallImageList.ImageSize.Width + 8;
+                        }
+                    }
+                }
+            }
+
+            e.Graphics.Clip = new Region(e.SubItem.Bounds);
+
+            int itemWidth = e.SubItem.Bounds.Width;
+            if (e.ColumnIndex == 0)
+            {
+                itemWidth = e.Header.Width - indent;
+
+                e.Graphics.Clip = new Region(new Rectangle(e.SubItem.Bounds.X, e.SubItem.Bounds.Y, itemWidth + indent, e.SubItem.Bounds.Height));
+            }
+
+            Rectangle rectangle;
+
+            rectangle = e.Item.Bounds;
+            rectangle.X += e.Item.IndentCount;
+
+            if (e.ColumnIndex == 0)
+            {
+                if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
+                {
+                    if (lv.SmallImageList != null)
+                    {
+                        rectangle.X += lv.SmallImageList.ImageSize.Width + 8;
+                        rectangle.Width -= lv.SmallImageList.ImageSize.Width + 8;
+
+                        if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                        {
+                            Image img = lv.SmallImageList.Images[e.Item.ImageKey];
+
+                            e.Graphics.DrawImage(img, new Point(e.Bounds.X + 4, e.Bounds.Y + 2));
+                        }
+                    }
+                }
+
+                if (lv.FullRowSelect)
+                {
+                    rectangle.Width = lv.Columns.Cast<ColumnHeader>().Sum(c => c.Width) - e.Item.IndentCount;
+                }
+                else
+                {
+                    rectangle.Width = (int)e.Graphics.MeasureString(e.Item.Text, lv.Font).Width - e.Item.IndentCount;
+                }
+            }
+            else
+            {
+                rectangle.X = e.SubItem.Bounds.X;
+                rectangle.Width = e.SubItem.Bounds.Width;
+
+            }
+
+            // due to a bug in the win-apis listview renderer, we need to draw item backgrounds
+            // in subitem ownerdraw method too. Its important, to clip the drawing area to each column
+            // and draw the background for each column seperately - Otherwise there will be flickering
+            // and broken subitem texts!
+            if (lv.FullRowSelect || e.ColumnIndex == 0)
+            {
+                if (e.ItemState.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
+                {
+                    if (lv.HideSelection)
+                    {
+                        if (lv.Focused)
+                        {
+                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+
+                        }
+                    }
+                    else
+                    {
+                        Color highlightColor = Color.Gold;
+                        if (!lv.Focused)
+                        {
+                            highlightColor = SystemColors.ControlLight;
+                        }
+
+                        // Draw the background and focus rectangle for a selected item.
+
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+
+                    }
+                }
+                else
+                {
+                    // Draw the background for an unselected item.
+                    if (e.Item.Selected)
+                    {
+                        if (lv.HideSelection)
+                        {
+                            if (lv.Focused)
+                            {
+
+                                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
+
+                            }
+                        }
+                        else
+                        {
+                            Color highlightColor = Color.Gold;
+                            if (!lv.Focused)
+                            {
+                                highlightColor = SystemColors.ControlLight;
+                            }
+
+                            // Draw the background and focus rectangle for a selected item.
+                            e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                        }
+
+                    }
+                    else
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
+                    }
+                }
+            }
+
+            //if (e.ColumnIndex == 0)
+            //{
+            /*
+                if (e.ItemState.HasFlag(ListViewItemStates.Focused))
+                {
+                    e.Graphics.Clip = new Region(e.Item.Bounds);
+                    e.DrawFocusRectangle(e.Item.Bounds);
+                }
+            */
+            //}
+
+
+            // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
+            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
+
+        }
+
+        private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            // Not interested in changing the way columns are drawn - this works fine
+            e.DrawDefault = true;
+        }
+
+        private void ListView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListViewItem item = ((ListView)sender).GetItemAt(e.X, e.Y);
+            if (item != null)
+            {
+                ((ListView)sender).Invalidate(item.Bounds);
+
+                Invalidatable tag = item.Tag as Invalidatable;
+                //item.Tag = "tagged";
+
+                if (tag != null && !tag.Invalidated)
+                {
+                    tag.Invalidate();
+                }
+            }
+        }
+
+        private void ListView_Invalidated(object sender, InvalidateEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListView lv = sender as ListView;
+
+            foreach (ListViewItem item in lv.Items)
+            {
+                if (item == null) return;
+                Invalidatable tag = item.Tag as Invalidatable;
+                tag?.Invalidate(false);
+            }
+        }
+
+        private void ListView_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            if (sender as ListView == null)
+            {
+                return;
+            }
+
+            ListView lv = sender as ListView;
+
+            lv.Invalidate();
         }
     }
 }
