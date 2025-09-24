@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             ToolBar = new System.Windows.Forms.ToolStrip();
             ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -182,8 +182,6 @@ namespace Win_CBZ
             ComboBoxTaskOrderRotation = new System.Windows.Forms.ComboBox();
             ComboBoxTaskOrderSplit = new System.Windows.Forms.ComboBox();
             pictureBox8 = new System.Windows.Forms.PictureBox();
-            GroupBoxUseLocalTask = new System.Windows.Forms.GroupBox();
-            CheckboxIgnoreGlobalTask = new System.Windows.Forms.CheckBox();
             TableLayoutTaskSelection = new System.Windows.Forms.TableLayoutPanel();
             ToolbarImageTasks = new System.Windows.Forms.ToolStrip();
             ToolButtonAddImageTask = new System.Windows.Forms.ToolStripButton();
@@ -318,7 +316,6 @@ namespace Win_CBZ
             GroupBoxTasksOrder.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).BeginInit();
-            GroupBoxUseLocalTask.SuspendLayout();
             TableLayoutTaskSelection.SuspendLayout();
             ToolbarImageTasks.SuspendLayout();
             TabPageGlobalSettings.SuspendLayout();
@@ -1246,7 +1243,6 @@ namespace Win_CBZ
             TablePanePageAdjustments.Controls.Add(TextBoxExcludePagesImageProcessing, 0, 13);
             TablePanePageAdjustments.Controls.Add(GroupBoxRotate, 0, 9);
             TablePanePageAdjustments.Controls.Add(GroupBoxTasksOrder, 0, 3);
-            TablePanePageAdjustments.Controls.Add(GroupBoxUseLocalTask, 0, 4);
             TablePanePageAdjustments.Controls.Add(TableLayoutTaskSelection, 0, 1);
             TablePanePageAdjustments.Dock = System.Windows.Forms.DockStyle.Fill;
             TablePanePageAdjustments.Location = new System.Drawing.Point(2, 2);
@@ -1255,17 +1251,17 @@ namespace Win_CBZ
             TablePanePageAdjustments.Padding = new System.Windows.Forms.Padding(8);
             TablePanePageAdjustments.RowCount = 18;
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 12F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 165F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 350F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 259F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 13F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 354F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 167F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+            TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 313F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             TablePanePageAdjustments.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 37F));
@@ -1369,11 +1365,11 @@ namespace Win_CBZ
             GroupBoxResize.Controls.Add(TextBoxResizeH);
             GroupBoxResize.Controls.Add(TextBoxResizeW);
             GroupBoxResize.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxResize.Location = new System.Drawing.Point(10, 583);
+            GroupBoxResize.Location = new System.Drawing.Point(10, 530);
             GroupBoxResize.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxResize.Name = "GroupBoxResize";
             GroupBoxResize.Padding = new System.Windows.Forms.Padding(2);
-            GroupBoxResize.Size = new System.Drawing.Size(294, 346);
+            GroupBoxResize.Size = new System.Drawing.Size(294, 350);
             GroupBoxResize.TabIndex = 5;
             GroupBoxResize.TabStop = false;
             GroupBoxResize.Text = "Resize";
@@ -1572,9 +1568,9 @@ namespace Win_CBZ
             TablePanePageAdjustments.SetColumnSpan(GroupBoxImageConversion, 2);
             GroupBoxImageConversion.Controls.Add(ComboBoxConvertPages);
             GroupBoxImageConversion.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxImageConversion.Location = new System.Drawing.Point(11, 471);
+            GroupBoxImageConversion.Location = new System.Drawing.Point(11, 437);
             GroupBoxImageConversion.Name = "GroupBoxImageConversion";
-            GroupBoxImageConversion.Size = new System.Drawing.Size(292, 87);
+            GroupBoxImageConversion.Size = new System.Drawing.Size(292, 74);
             GroupBoxImageConversion.TabIndex = 19;
             GroupBoxImageConversion.TabStop = false;
             GroupBoxImageConversion.Text = "Conversion";
@@ -1587,10 +1583,10 @@ namespace Win_CBZ
             ComboBoxConvertPages.FlatStyle = System.Windows.Forms.FlatStyle.System;
             ComboBoxConvertPages.FormattingEnabled = true;
             ComboBoxConvertPages.Items.AddRange(new object[] { "Dont Convert, keep original Format", "Bitmap", "Jpeg", "PNG", "Tiff" });
-            ComboBoxConvertPages.Location = new System.Drawing.Point(59, 28);
+            ComboBoxConvertPages.Location = new System.Drawing.Point(23, 28);
             ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             ComboBoxConvertPages.Name = "ComboBoxConvertPages";
-            ComboBoxConvertPages.Size = new System.Drawing.Size(224, 28);
+            ComboBoxConvertPages.Size = new System.Drawing.Size(260, 28);
             ComboBoxConvertPages.TabIndex = 24;
             ComboBoxConvertPages.DrawItem += ComboBox_DrawItem;
             ComboBoxConvertPages.SelectedIndexChanged += ComboBoxConvertPages_SelectedIndexChanged;
@@ -1606,11 +1602,11 @@ namespace Win_CBZ
             GroupBoxDoublePages.Controls.Add(ComboBoxSplitAtType);
             GroupBoxDoublePages.Controls.Add(TextBoxSplitPageAt);
             GroupBoxDoublePages.Controls.Add(CheckBoxSplitDoublePages);
-            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 1135);
+            GroupBoxDoublePages.Location = new System.Drawing.Point(10, 1081);
             GroupBoxDoublePages.Margin = new System.Windows.Forms.Padding(2);
             GroupBoxDoublePages.Name = "GroupBoxDoublePages";
             GroupBoxDoublePages.Padding = new System.Windows.Forms.Padding(2);
-            GroupBoxDoublePages.Size = new System.Drawing.Size(294, 255);
+            GroupBoxDoublePages.Size = new System.Drawing.Size(294, 309);
             GroupBoxDoublePages.TabIndex = 6;
             GroupBoxDoublePages.TabStop = false;
             GroupBoxDoublePages.Text = "Split Double Pages";
@@ -1743,9 +1739,9 @@ namespace Win_CBZ
             GroupBoxRotate.Controls.Add(RadioButtonRotate90);
             GroupBoxRotate.Controls.Add(RadioButtonRotateNone);
             GroupBoxRotate.Dock = System.Windows.Forms.DockStyle.Fill;
-            GroupBoxRotate.Location = new System.Drawing.Point(11, 954);
+            GroupBoxRotate.Location = new System.Drawing.Point(11, 899);
             GroupBoxRotate.Name = "GroupBoxRotate";
-            GroupBoxRotate.Size = new System.Drawing.Size(292, 154);
+            GroupBoxRotate.Size = new System.Drawing.Size(292, 161);
             GroupBoxRotate.TabIndex = 20;
             GroupBoxRotate.TabStop = false;
             GroupBoxRotate.Text = "Rotate (Clockwise)";
@@ -1942,29 +1938,6 @@ namespace Win_CBZ
             pictureBox8.TabStop = false;
             Tooltip.SetToolTip(pictureBox8, "Splitting pages is currently always performed after all other operations.");
             // 
-            // GroupBoxUseLocalTask
-            // 
-            TablePanePageAdjustments.SetColumnSpan(GroupBoxUseLocalTask, 2);
-            GroupBoxUseLocalTask.Controls.Add(CheckboxIgnoreGlobalTask);
-            GroupBoxUseLocalTask.Location = new System.Drawing.Point(11, 424);
-            GroupBoxUseLocalTask.Margin = new System.Windows.Forms.Padding(3, 3, 3, 8);
-            GroupBoxUseLocalTask.Name = "GroupBoxUseLocalTask";
-            GroupBoxUseLocalTask.Size = new System.Drawing.Size(289, 36);
-            GroupBoxUseLocalTask.TabIndex = 22;
-            GroupBoxUseLocalTask.TabStop = false;
-            GroupBoxUseLocalTask.Text = "Global Adjustments";
-            GroupBoxUseLocalTask.Visible = false;
-            // 
-            // CheckboxIgnoreGlobalTask
-            // 
-            CheckboxIgnoreGlobalTask.AutoSize = true;
-            CheckboxIgnoreGlobalTask.Location = new System.Drawing.Point(27, 26);
-            CheckboxIgnoreGlobalTask.Name = "CheckboxIgnoreGlobalTask";
-            CheckboxIgnoreGlobalTask.Size = new System.Drawing.Size(231, 24);
-            CheckboxIgnoreGlobalTask.TabIndex = 0;
-            CheckboxIgnoreGlobalTask.Text = "Use page specific adjustments";
-            CheckboxIgnoreGlobalTask.UseVisualStyleBackColor = true;
-            // 
             // TableLayoutTaskSelection
             // 
             TableLayoutTaskSelection.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -1981,7 +1954,7 @@ namespace Win_CBZ
             TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             TableLayoutTaskSelection.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            TableLayoutTaskSelection.Size = new System.Drawing.Size(292, 144);
+            TableLayoutTaskSelection.Size = new System.Drawing.Size(292, 152);
             TableLayoutTaskSelection.TabIndex = 23;
             // 
             // ToolbarImageTasks
@@ -2087,7 +2060,7 @@ namespace Win_CBZ
             ImageTaskListView.MultiSelect = false;
             ImageTaskListView.Name = "ImageTaskListView";
             ImageTaskListView.SelectionColor = System.Drawing.SystemColors.Highlight;
-            ImageTaskListView.Size = new System.Drawing.Size(286, 100);
+            ImageTaskListView.Size = new System.Drawing.Size(286, 108);
             ImageTaskListView.TabIndex = 1;
             ImageTaskListView.UseCompatibleStateImageBehavior = false;
             ImageTaskListView.View = System.Windows.Forms.View.Details;
@@ -2797,40 +2770,40 @@ namespace Win_CBZ
             // MetaDataGrid
             // 
             MetaDataGrid.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MetaDataGrid.ContextMenuStrip = DataGridContextMenu;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             MetaDataGrid.Location = new System.Drawing.Point(2, 44);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 26;
             MetaDataGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -3230,8 +3203,6 @@ namespace Win_CBZ
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox8).EndInit();
-            GroupBoxUseLocalTask.ResumeLayout(false);
-            GroupBoxUseLocalTask.PerformLayout();
             TableLayoutTaskSelection.ResumeLayout(false);
             TableLayoutTaskSelection.PerformLayout();
             ToolbarImageTasks.ResumeLayout(false);
@@ -3505,8 +3476,6 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripMenuItem bookmarksToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader BookmarkPageCol;
         private System.Windows.Forms.ToolStripMenuItem selectToolStripMenuItem;
-        private System.Windows.Forms.GroupBox GroupBoxUseLocalTask;
-        private System.Windows.Forms.CheckBox CheckboxIgnoreGlobalTask;
         private System.Windows.Forms.TableLayoutPanel TableLayoutTaskSelection;
         private System.Windows.Forms.ToolStrip ToolbarImageTasks;
         private System.Windows.Forms.ToolStripButton ToolButtonAddImageTask;

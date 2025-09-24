@@ -6254,7 +6254,6 @@ namespace Win_CBZ
             CheckBoxSplitOnlyIfDoubleSize.Tag = false;
             CheckBoxSplitDoublepagesFirst.Tag = false;
 
-            CheckboxIgnoreGlobalTask.Tag = false;
         }
 
         private void UpdateImageAdjustments(object sender, ImageTaskAssignment selected, bool dontUpdate = false)
@@ -6339,8 +6338,6 @@ namespace Win_CBZ
                         CheckBoxSplitDoublepagesFirst.Tag = dontUpdate;
                         CheckboxIgnoreDoublePages.Tag = dontUpdate;
 
-                        CheckboxIgnoreGlobalTask.Tag = dontUpdate;
-
 
                         CheckBoxSplitDoublePages.Checked = selected.ImageTask.ImageAdjustments.SplitPage;
                         TextBoxSplitPageAt.Text = selected.ImageTask.ImageAdjustments.SplitPageAt.ToString();
@@ -6356,9 +6353,6 @@ namespace Win_CBZ
                         CheckBoxSplitOnlyIfDoubleSize.Checked = selected.ImageTask.ImageAdjustments.SplitOnlyDoublePages;
                         CheckBoxSplitDoublepagesFirst.Checked = selected.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
                         CheckboxIgnoreDoublePages.Checked = selected.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
-
-                        CheckboxIgnoreGlobalTask.Checked = selected.ImageTask.UseLocalTask;
-
 
 
                         RadioButtonResizeNever.Tag = false;
@@ -6392,7 +6386,6 @@ namespace Win_CBZ
                         CheckBoxSplitDoublepagesFirst.Tag = false;
                         CheckboxIgnoreDoublePages.Tag = false;
 
-                        CheckboxIgnoreGlobalTask.Tag = false;
                     }));
 
                 }
@@ -6525,8 +6518,6 @@ namespace Win_CBZ
                     CheckBoxSplitDoublepagesFirst.Tag = dontUpdate;
                     CheckboxIgnoreDoublePages.Tag = dontUpdate;
 
-                    CheckboxIgnoreGlobalTask.Tag = dontUpdate;
-
 
                     CheckBoxSplitDoublePages.Checked = assignment.ImageTask.ImageAdjustments.SplitPage;
                     TextBoxSplitPageAt.Text = assignment.ImageTask.ImageAdjustments.SplitPageAt.ToString();
@@ -6541,7 +6532,7 @@ namespace Win_CBZ
                     PictureBoxColorSelect.BackColor = assignment.ImageTask.ImageAdjustments.DetectSplitAtColor;
                     CheckBoxSplitOnlyIfDoubleSize.Checked = assignment.ImageTask.ImageAdjustments.SplitOnlyDoublePages;
                     CheckBoxSplitDoublepagesFirst.Checked = assignment.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
-                    CheckboxIgnoreGlobalTask.Checked = assignment.ImageTask.UseLocalTask;
+                    
                     CheckboxIgnoreDoublePages.Checked = assignment.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
 
                     RadioButtonResizeNever.Tag = false;
@@ -6574,8 +6565,6 @@ namespace Win_CBZ
                     CheckBoxSplitOnlyIfDoubleSize.Tag = false;
                     CheckBoxSplitDoublepagesFirst.Tag = false;
                     CheckboxIgnoreDoublePages.Tag = false;
-
-                    CheckboxIgnoreGlobalTask.Tag = false;
 
                 }
             });
@@ -8526,6 +8515,20 @@ namespace Win_CBZ
 
         private void ToolButtonRemoveAllTasks_Click(object sender, EventArgs e)
         {
+            foreach (ListViewItem item in ImageTaskListView.Items)
+            {
+                if (item == null) continue;
+                ImageTaskAssignment assignment = item.Tag as ImageTaskAssignment;
+                assignment.UnassignTaskFromPages();
+                item.Text = assignment.GetAssignedTaskName();
+                item.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+                foreach (Page page in assignment.Pages.ToList())
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+                assignment.Pages.Clear();
+            }
+
             ImageTaskListView.Items.Clear();
             ToolButtonRemoveImageTask.Enabled = false;
             ToolButtonAssignPagesToImageTask.Enabled = false;
