@@ -863,11 +863,11 @@ namespace Win_CBZ.Forms
 
                 if (lv.FullRowSelect)
                 {
-                    rectangle.Width = lv.Columns.Cast<ColumnHeader>().Sum(c => c.Width) - e.Item.IndentCount;
+                    rectangle.Width = lv.Columns.Cast<ColumnHeader>().Sum(c => c.Width) - indent;
                 }
                 else
                 {
-                    rectangle.Width = (int)e.Graphics.MeasureString(e.Item.Text, lv.Font).Width - e.Item.IndentCount;
+                    rectangle.Width = (int)e.Graphics.MeasureString(e.Item.Text, lv.Font).Width + 8;
                 }
             }
             else
