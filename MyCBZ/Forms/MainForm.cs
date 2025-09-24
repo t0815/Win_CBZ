@@ -6121,6 +6121,8 @@ namespace Win_CBZ
                         }
 
                         ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
+                    
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6177,6 +6179,8 @@ namespace Win_CBZ
                         }
 
                         ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6613,6 +6617,8 @@ namespace Win_CBZ
             if (!dontUpdate)
             {
                 // = selectedImageTasks;
+
+                selectedImageTasks.AssignTaskToPages();
             }
         }
 
@@ -6648,6 +6654,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
 
@@ -6694,6 +6702,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6740,6 +6750,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6780,6 +6792,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6821,6 +6835,8 @@ namespace Win_CBZ
                         }
 
                         ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6872,6 +6888,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6912,6 +6930,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -6983,6 +7003,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7050,6 +7072,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7109,6 +7133,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7149,6 +7175,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7198,6 +7226,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7237,6 +7267,8 @@ namespace Win_CBZ
                         {
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                         }
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
@@ -7278,6 +7310,8 @@ namespace Win_CBZ
                         }
 
                         ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
+
+                        selectedImageTasks.AssignTaskToPages();
                     }
 
                     AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
