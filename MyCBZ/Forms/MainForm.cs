@@ -8259,21 +8259,15 @@ namespace Win_CBZ
 
             Rectangle rectangle;
 
-            e.Graphics.Clip = new Region(e.Item.Bounds);
-
             rectangle = e.Item.Bounds;
-
-
             rectangle.X += e.Item.IndentCount;
-
-
 
             if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
             {
                 if (lv.SmallImageList != null)
                 {
                     rectangle.X += lv.SmallImageList.ImageSize.Width + 8;
-
+                    rectangle.Width -= lv.SmallImageList.ImageSize.Width + 8;
 
                     if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
                     {
@@ -8284,19 +8278,13 @@ namespace Win_CBZ
                 }
             }
 
-
-
-            if ((e.State.HasFlag(ListViewItemStates.Selected) ||
-                  e.State.HasFlag(ListViewItemStates.Focused)) && e.Item.Selected)
+            if (e.State.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
             {
                 if (lv.HideSelection)
                 {
                     if (lv.Focused)
                     {
-
-
                         e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-
 
                     }
                 }
@@ -8359,6 +8347,29 @@ namespace Win_CBZ
             //Pen pen = new Pen(Color.Black, 1);
             //Font font = new Font("Verdana", 9f, FontStyle.Regular);
 
+            int indent = 0;
+            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
+            {
+                if (lv.SmallImageList != null)
+                {
+                    if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                    {
+                        if (e.ColumnIndex == 0)
+                        {
+                            indent = e.Item.IndentCount * 16;
+                            indent += lv.SmallImageList.ImageSize.Width + 8;
+                        }
+                    }
+                }
+            }
+
+            int itemWidth = e.SubItem.Bounds.Width;
+            if (e.ColumnIndex == 0)
+            {
+                itemWidth = e.Header.Width - indent;
+            }
+
+            e.Graphics.Clip = new Region(e.SubItem.Bounds);
 
             /*
            
@@ -8445,7 +8456,9 @@ namespace Win_CBZ
 
             // Draw the item text for views other than the Details view.
 
-            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X, e.SubItem.Bounds.Y + 2, e.SubItem.Bounds.Width, e.SubItem.Bounds.Height), Color.Black, flags);
+            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), Color.Black, flags);
+        
+            
         }
 
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)

@@ -2081,6 +2081,7 @@ namespace Win_CBZ
             ImageTaskListView.LabelWrap = false;
             ImageTaskListView.Location = new System.Drawing.Point(3, 33);
             ImageTaskListView.Name = "ImageTaskListView";
+            ImageTaskListView.OwnerDraw = true;
             ImageTaskListView.SelectionColor = System.Drawing.SystemColors.Highlight;
             ImageTaskListView.Size = new System.Drawing.Size(282, 108);
             ImageTaskListView.TabIndex = 1;
@@ -2458,6 +2459,7 @@ namespace Win_CBZ
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Margin = new System.Windows.Forms.Padding(2);
             PagesList.Name = "PagesList";
+            PagesList.OwnerDraw = true;
             PagesList.SelectionColor = System.Drawing.SystemColors.Highlight;
             PagesList.ShowItemToolTips = true;
             PagesList.Size = new System.Drawing.Size(938, 149);
