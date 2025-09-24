@@ -6453,7 +6453,7 @@ namespace Win_CBZ
                 }
 
 
-                if (updateCtls)
+                if (updateCtls && assignment != null)
                 {
                     bool dontUpdate = true;
                     //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
