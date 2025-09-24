@@ -2892,13 +2892,13 @@ namespace Win_CBZ
             // 
             // LogMessageImageList
             // 
-            LogMessageImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            LogMessageImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth16Bit;
             LogMessageImageList.ImageStream = (System.Windows.Forms.ImageListStreamer)resources.GetObject("LogMessageImageList.ImageStream");
-            LogMessageImageList.TransparentColor = System.Drawing.Color.Transparent;
-            LogMessageImageList.Images.SetKeyName(0, "information");
-            LogMessageImageList.Images.SetKeyName(1, "earning");
-            LogMessageImageList.Images.SetKeyName(2, "error");
-            LogMessageImageList.Images.SetKeyName(3, "balloon");
+            LogMessageImageList.TransparentColor = System.Drawing.Color.Fuchsia;
+            LogMessageImageList.Images.SetKeyName(0, "error");
+            LogMessageImageList.Images.SetKeyName(1, "star");
+            LogMessageImageList.Images.SetKeyName(2, "info");
+            LogMessageImageList.Images.SetKeyName(3, "warning");
             // 
             // ContextMenuPropertyFilter
             // 

@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		Readme.md = Readme.md
+		version.xml = version.xml
 	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Win_CBZ-Setup", "Win_CBZ-Setup\Win_CBZ-Setup.vdproj", "{37E47093-BE3B-4587-8628-F50BD5D3943A}"

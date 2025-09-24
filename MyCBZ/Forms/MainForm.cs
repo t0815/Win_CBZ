@@ -1840,13 +1840,13 @@ namespace Win_CBZ
                         switch (e.Type)
                         {
                             case LogMessageEvent.LOGMESSAGE_TYPE_INFO:
-                                logItem.ImageIndex = 0;
+                                logItem.ImageKey = "info";
                                 break;
                             case LogMessageEvent.LOGMESSAGE_TYPE_WARNING:
-                                logItem.ImageIndex = 1;
+                                logItem.ImageKey = "warning";
                                 break;
                             case LogMessageEvent.LOGMESSAGE_TYPE_ERROR:
-                                logItem.ImageIndex = 2;
+                                logItem.ImageKey = "error";
                                 break;
                             default:
                                 logItem.ImageIndex = -1;
