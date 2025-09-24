@@ -6433,19 +6433,24 @@ namespace Win_CBZ
                     }
                 }
 
+                if (assignment != null)
+                {
+                    if (assignment.Pages.Count == 0)
+                    {
+                        ListViewItem[] r = ImageTaskListView.Items.Find(assignment.Key, true);
+
+                        if (r.Length > 0)
+                        {
+                            ImageTaskListView.Items.Remove(r[0]);
+
+                            updateCtls = false;
+                        }
+                    }
+                }
+
 
                 if (updateCtls)
                 {
-                    if (assignment != null)
-                    {
-                        if (assignment.Pages.Count == 0)
-                        {
-                            ImageTaskListView.Items.RemoveByKey(assignment.Key);
-
-                            return;
-                        }
-                    }
-
                     bool dontUpdate = true;
                     //ImageQualityTrackBar.Value = selectedTask.ImageAdjustments.Quality;
                     switch (assignment.ImageTask.ImageAdjustments.ResizeMode)
@@ -8424,9 +8429,10 @@ namespace Win_CBZ
         private void ToolButtonAddImageTask_Click(object sender, EventArgs e)
         {
             ImageTaskAssignment imageTaskAssignment = new ImageTaskAssignment(new List<Page>(), new ImageTask(""));
-            ListViewItem newTaskItem = ImageTaskListView.Items.Add("New Task", imageTaskAssignment.Key);
+            ListViewItem newTaskItem = ImageTaskListView.Items.Add("New Task");
 
             newTaskItem.SubItems.Add("--");
+            newTaskItem.Name = imageTaskAssignment.Key;
             newTaskItem.Tag = imageTaskAssignment;
         }
 
@@ -8535,7 +8541,7 @@ namespace Win_CBZ
                         if (existingAssignment.Pages.Contains(page))
                         {
                             existingAssignment.Pages.Remove(page);
-                            existingAssignment.AssignTaskToPages();
+                            existingAssignment.UnassignTask(page);
                             existingTask.Text = existingAssignment.GetAssignedTaskName();
                             existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
                         }
@@ -8553,15 +8559,18 @@ namespace Win_CBZ
                         if (!assignment.Pages.Contains(page))
                         {
                             assignment.Pages.Add(page);
-                            assignment.AssignTaskToPages();
+                    
                             ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
                             ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
 
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
 
-                        }
+                        } 
                     }
                 }
+
+                assignment.AssignTaskToPages();
+
                 return;
             }
 
@@ -8585,6 +8594,8 @@ namespace Win_CBZ
                     }
                 }
             }
+
+            assignment.AssignTaskToPages();
         }
 
         private void AssignAllPagesToolStripMenuItem_Click(object sender, EventArgs e)
