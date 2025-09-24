@@ -6121,7 +6121,7 @@ namespace Win_CBZ
                         }
 
                         ImageTaskListView.SelectedItem.Text = selectedImageTasks.GetAssignedTaskName();
-                    
+
                         selectedImageTasks.AssignTaskToPages();
                     }
 
@@ -6532,7 +6532,7 @@ namespace Win_CBZ
                     PictureBoxColorSelect.BackColor = assignment.ImageTask.ImageAdjustments.DetectSplitAtColor;
                     CheckBoxSplitOnlyIfDoubleSize.Checked = assignment.ImageTask.ImageAdjustments.SplitOnlyDoublePages;
                     CheckBoxSplitDoublepagesFirst.Checked = assignment.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
-                    
+
                     CheckboxIgnoreDoublePages.Checked = assignment.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
 
                     RadioButtonResizeNever.Tag = false;
@@ -7529,32 +7529,59 @@ namespace Win_CBZ
 
         private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TextBox textBox = null;
 
-            if (PagesList.Focused)
+            Task.Factory.StartNew(() =>
             {
-                foreach (ListViewItem item in PagesList.Items)
-                {
-                    item.Selected = true;
-                }
 
-            }
-            else if (MessageLogListView.Focused)
-            {
-                foreach (ListViewItem item in MessageLogListView.Items)
+                Invoke(new Action(() =>
                 {
-                    item.Selected = true;
-                }
-            }
-            else
-            {
-                textBox = GetActiveTextBox() as TextBox;
+                    this.Cursor = Cursors.WaitCursor;
 
-                if (textBox != null)
+                    TextBox textBox = null;
+
+                    if (PagesList.Focused)
+                    {
+                        foreach (ListViewItem item in PagesList.Items)
+                        {
+                            item.Selected = true;
+                        }
+
+                    }
+                    else if (MessageLogListView.Focused)
+                    {
+                        foreach (ListViewItem item in MessageLogListView.Items)
+                        {
+                            item.Selected = true;
+                        }
+                    }
+                    else if (MetaDataGrid.Focused)
+                    {
+                        MetaDataGrid.SelectAll();
+                    }
+                    else if (ImageTaskListView.Focused)
+                    {
+                        foreach (ListViewItem item in ImageTaskListView.Items)
+                        {
+                            item.Selected = true;
+                        }
+                    }
+                    else
+                    {
+                        textBox = GetActiveTextBox() as TextBox;
+
+                        if (textBox != null)
+                        {
+                            textBox.SelectAll();
+                        }
+                    }
+                }));
+            }).ContinueWith(t =>
+            {
+                Invoke(new Action(() =>
                 {
-                    textBox.SelectAll();
-                }
-            }
+                    this.Cursor = Cursors.Default;
+                }));
+            });
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -8461,56 +8488,81 @@ namespace Win_CBZ
 
         private void ImageTaskListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            if (!e.IsSelected || e.Item == null || e.Item.Tag == null || e.Item.Tag as ImageTaskAssignment == null)
+            if (ImageTaskListView.SelectedItems.Count != 1 || e.Item == null || e.Item.Tag == null || e.Item.Tag as ImageTaskAssignment == null)
             {
-                ToolButtonRemoveImageTask.Enabled = false;
-                ToolButtonAssignPagesToImageTask.Enabled = false;
-
                 UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
-
-                SetControlsEnabledState("adjustments", false);
-
-                return;
+            }
+            else
+            {
+                UpdateImageAdjustments(sender, e.Item.Tag as ImageTaskAssignment);
             }
 
-            UpdateImageAdjustments(sender, e.Item.Tag as ImageTaskAssignment);
+            ToolButtonRemoveImageTask.Enabled = ImageTaskListView.SelectedItems.Count > 0;
+            ToolButtonAssignPagesToImageTask.Enabled = ImageTaskListView.SelectedItems.Count > 0;
+            AssignAllPagesToolStripMenuItem.Enabled = ImageTaskListView.SelectedItems.Count == 1;
+            AssignSelectedPagesToolStripMenuItem.Enabled = ImageTaskListView.SelectedItems.Count == 1;
+            ToolButtonSelectAssignedPages.Enabled = ImageTaskListView.SelectedItems.Count == 1;
 
-            ToolButtonRemoveImageTask.Enabled = true;
-            ToolButtonAssignPagesToImageTask.Enabled = true;
-
-            SetControlsEnabledState("adjustments", true);
+            SetControlsEnabledState("adjustments", ImageTaskListView.SelectedItems.Count == 1);
         }
 
         private void ToolButtonRemoveImageTask_Click(object sender, EventArgs e)
         {
-            if (ImageTaskListView.SelectedItem != null)
+
+            List<ListViewItem> selectedItems = ImageTaskListView.SelectedItems.Cast<ListViewItem>().ToList();
+
+            Task.Factory.StartNew(() =>
             {
 
-                ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
-
-                assignment.UnassignTaskFromPages();
-                ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
-                ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
-
-                foreach (Page page in assignment.Pages.ToList())
+                Invoke(new Action(() =>
                 {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                }
+                    this.Cursor = Cursors.WaitCursor;
 
-                assignment.Pages.Clear();
+                    ToolButtonAssignPagesToImageTask.Enabled = false;
+                    ToolButtonSelectAssignedPages.Enabled = false;
+                    selectedItems.Each(item =>
+                    {
+
+                        ImageTaskAssignment assignment = item.Tag as ImageTaskAssignment;
+
+                        assignment.UnassignTaskFromPages();
+                        ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+                        ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+
+                        foreach (Page page in assignment.Pages.ToList())
+                        {
+                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                        }
+
+                        if (assignment.Pages.Count > 0)
+                        {
+                            AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                        }
+
+                        assignment.Pages.Clear();
+
+                        ImageTaskListView.SelectedItem.Remove();
+
+                        ToolButtonRemoveImageTask.Enabled = false;
+                        ToolButtonAssignPagesToImageTask.Enabled = false;
+
+                        UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
+
+                        SetControlsEnabledState("adjustments", false);
 
 
-                ImageTaskListView.SelectedItem.Remove();
+                    });
+                }));
+            }).ContinueWith(r =>
+            {
+                Invoke(new Action(() =>
+                {
+                    this.Cursor = Cursors.Default;
 
-                ToolButtonRemoveImageTask.Enabled = false;
-                ToolButtonAssignPagesToImageTask.Enabled = false;
-
-                UpdateImageAdjustments(sender, new ImageTaskAssignment(new List<Page>(), new ImageTask("") { TaskOrder = new ImageTaskOrder(), ImageAdjustments = new ImageAdjustments() }));
-
-                SetControlsEnabledState("adjustments", false);
-
-                return;
-            }
+                    ToolButtonAssignPagesToImageTask.Enabled = true;
+                    ToolButtonSelectAssignedPages.Enabled = true;
+                }));
+            });
         }
 
         private void ToolButtonRemoveAllTasks_Click(object sender, EventArgs e)
@@ -8526,6 +8578,12 @@ namespace Win_CBZ
                 {
                     AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
                 }
+
+                if (assignment.Pages.Count > 0)
+                {
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+
                 assignment.Pages.Clear();
             }
 
@@ -8563,76 +8621,95 @@ namespace Win_CBZ
                 return;
             }
 
-            ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
-
-            assignment.Pages.Clear();
-
-            foreach (ListViewItem existingTask in ImageTaskListView.Items)
+            Task.Factory.StartNew(() =>
             {
-                if (existingTask != ImageTaskListView.SelectedItem && existingTask.Tag != null && existingTask.Tag as ImageTaskAssignment != null)
+
+                Invoke(new Action(() =>
                 {
-                    ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
-                    foreach (ListViewItem item in PagesList.SelectedItems)
+                    this.Cursor = Cursors.WaitCursor;
+
+                    ToolButtonAssignPagesToImageTask.Enabled = false;
+                    ToolButtonSelectAssignedPages.Enabled = false;
+
+                    ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
+
+                    assignment.Pages.Clear();
+
+                    List<Page> pagesToAdd = new List<Page>();
+
+                    if (addAll)
                     {
-                        Page page = item.Tag as Page;
-                        if (existingAssignment.Pages.Contains(page))
+                        pagesToAdd.AddRange(PagesList.Items.Cast<ListViewItem>().Select(i => i.Tag as Page).ToList());
+                    }
+                    else
+                    {
+                        pagesToAdd.AddRange(PagesList.SelectedItems.Cast<ListViewItem>().Select(i => i.Tag as Page).ToList());
+                    }
+
+                    // Remove pages from other tasks first
+                    foreach (ListViewItem existingTask in ImageTaskListView.Items)
+                    {
+                        if (existingTask != ImageTaskListView.SelectedItem && existingTask.Tag != null && existingTask.Tag as ImageTaskAssignment != null)
                         {
-                            existingAssignment.Pages.Remove(page);
-                            existingAssignment.UnassignTask(page);
-                            existingTask.Text = existingAssignment.GetAssignedTaskName();
-                            existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
+                            ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
+
+                            foreach (Page page in pagesToAdd)
+                            {
+                                Page existingPage = existingAssignment.Pages.Find(p => p.Id == page.Id);
+
+                                if (existingPage != null)
+                                {
+                                    existingAssignment.Pages.Remove(existingPage);
+                                    existingAssignment.UnassignTask(existingPage);
+                                    existingTask.Text = existingAssignment.GetAssignedTaskName();
+                                    existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
+                                }
+                            }
                         }
                     }
-                }
-            }
 
-            if (addAll)
-            {
-                foreach (ListViewItem item in PagesList.Items)
-                {
-                    Page page = item.Tag as Page;
-                    if (ImageTaskListView.SelectedItem != null && ImageTaskListView.SelectedItem.Tag != null && ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment != null)
+                    // Now add pages to the selected task
+                    foreach (Page page in pagesToAdd)
                     {
-                        if (!assignment.Pages.Contains(page))
+
+                        if (ImageTaskListView.SelectedItem != null && ImageTaskListView.SelectedItem.Tag != null && ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment != null)
                         {
-                            assignment.Pages.Add(page);
-                    
-                            ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
-                            ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+                            Page existingPage = assignment.Pages.Find(p => p.Id == page.Id);
 
-                            AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                            if (existingPage == null)
+                            {
+                                assignment.Pages.Add(page);
+                                assignment.AssignTaskToPages();
+                                ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+                                ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
 
-                        } 
+
+                                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                            }
+                        }
                     }
-                }
 
-                assignment.AssignTaskToPages();
+                    assignment.AssignTaskToPages();
 
-                return;
-            }
-
-            foreach (ListViewItem item in PagesList.SelectedItems)
-            {
-                Page page = item.Tag as Page;
-
-                if (ImageTaskListView.SelectedItem != null && ImageTaskListView.SelectedItem.Tag != null && ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment != null)
-                {
-
-                    if (!assignment.Pages.Contains(page))
+                    if (assignment.Pages.Count > 0)
                     {
-                        assignment.Pages.Add(page);
-                        assignment.AssignTaskToPages();
-                        ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
-                        ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
-
-
-                        AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-
+                        AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
                     }
-                }
-            }
 
-            assignment.AssignTaskToPages();
+
+                }));
+            }).ContinueWith((r) =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    this.Cursor = Cursors.Default;
+
+                    ToolButtonAssignPagesToImageTask.Enabled = true;
+                    ToolButtonSelectAssignedPages.Enabled = true;
+
+                }));
+            });
+
         }
 
         private void AssignAllPagesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -8647,19 +8724,128 @@ namespace Win_CBZ
                 return;
             }
 
-            ImageTaskAssignment assignment = ImageTaskListView.SelectedItem.Tag as ImageTaskAssignment;
-            
-            assignment.UnassignTaskFromPages();
-
-            foreach (Page page in assignment.Pages.ToList())
+            foreach (ListViewItem taskItem in ImageTaskListView.Items)
             {
-                AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                ImageTaskAssignment assignment = taskItem.Tag as ImageTaskAssignment;
+
+                assignment.UnassignTaskFromPages();
+
+                foreach (Page page in assignment.Pages.ToList())
+                {
+                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
+                }
+
+                if (assignment.Pages.Count > 0)
+                {
+                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
+                }
+
+                assignment.Pages.Clear();
+
+                ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
+                ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
             }
+        }
 
-            assignment.Pages.Clear();
+        private void ToolButtonSelectAssignedPages_Click(object sender, EventArgs e)
+        {
+            ListViewItem existingTask = ImageTaskListView.SelectedItem;
 
-            ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
-            ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+            if (existingTask != null && existingTask.Tag != null && existingTask.Tag as ImageTaskAssignment != null)
+            {
+                ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
+
+                if (existingAssignment.Pages.Count == 0)
+                {
+                    return;
+                }
+
+                PagesList.SelectedItems.Clear();
+                bool visibilityEnsured = false;
+
+                existingAssignment.Pages.OrderBy(page => page.Index).Each(page =>
+                {
+
+                    ListViewItem item = PagesList.Items.Cast<ListViewItem>().FirstOrDefault(i => i.Tag == page);
+                    if (item != null)
+                    {
+                        item.Selected = true;
+                        item.Focused = true;
+                        if (!visibilityEnsured)
+                        {
+                            item.EnsureVisible();
+                            visibilityEnsured = true;
+                        }
+                    }
+                });
+            }
+        }
+
+        private void ToolButtonCreateTasksForEach_Click(object sender, EventArgs e)
+        {
+
+            Task.Factory.StartNew(() =>
+            {
+
+                Invoke(new Action(() =>
+                {
+                    this.Cursor = Cursors.WaitCursor;
+
+                    ToolButtonAssignPagesToImageTask.Enabled = false;
+                    ToolButtonSelectAssignedPages.Enabled = false;
+
+                    List<ImageTaskAssignment> existingAssignments = new List<ImageTaskAssignment>();
+                    ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
+                    {
+                        ImageTaskAssignment assignment = item.Tag as ImageTaskAssignment;
+                        existingAssignments.Add(assignment);
+                    });
+
+                    int i = 1;
+                    bool exists;
+                    foreach (ListViewItem item in PagesList.Items)
+                    {
+
+                        Page page = item.Tag as Page;
+                        exists = false;
+
+                        foreach (ImageTaskAssignment existingTask in existingAssignments)
+                        {
+                            Page existingPage = existingTask.Pages.Find(p => p.Id == page.Id);
+
+                            if (existingPage != null)
+                            {
+                                exists = true;
+
+                                break;
+                            }
+                        }
+
+                        if (!exists)
+                        {
+                            ImageTaskAssignment imageTaskAssignment = new ImageTaskAssignment(new List<Page>(), new ImageTask(""));
+                            ListViewItem newTaskItem = ImageTaskListView.Items.Add("New Task " + i);
+
+                            imageTaskAssignment.Pages.Add(page);
+
+                            newTaskItem.SubItems.Add(page.Number.ToString());
+                            newTaskItem.Name = imageTaskAssignment.Key;
+                            newTaskItem.Tag = imageTaskAssignment;
+
+                            i++;
+                        }
+                    }
+                }));
+            }).ContinueWith((r) =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    this.Cursor = Cursors.Default;
+                    ToolButtonAssignPagesToImageTask.Enabled = true;
+                    ToolButtonSelectAssignedPages.Enabled = true;
+                }));
+            });
+
         }
     }
 }
