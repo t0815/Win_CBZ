@@ -4820,7 +4820,7 @@ namespace Win_CBZ
 
         private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            System.Windows.Forms.ListView.SelectedListViewItemCollection selectedPages = PagesList.SelectedItems;
+            List<ListViewItem> selectedPages = PagesList.SelectedItems.Cast<ListViewItem>().ToList();
             bool buttonStateSelected = selectedPages.Count > 0;
             bool propsButtonAvailable = selectedPages.Count == 1;
 
@@ -4887,6 +4887,35 @@ namespace Win_CBZ
                     }
                 }
 
+            }
+
+            if (selectedPages.Count == 1)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        if (selectedPages[0].Tag != null)
+                        {
+                            Page page = (Page)selectedPages[0].Tag;
+                            Invoke(() =>
+                            {
+                                ImageTaskListView.SelectedItems.Clear();
+                                ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
+                                {
+                               
+                                    ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
+
+                                    if (ita != null && ita.Pages.Contains(page))
+                                    {
+                                        item.Selected = true;
+                                    }
+                                });
+                            });
+                        }
+                    }
+                    catch (Exception) { }
+                });
             }
         }
 
@@ -8494,7 +8523,7 @@ namespace Win_CBZ
             }
             else
             {
-                UpdateImageAdjustments(sender, e.Item.Tag as ImageTaskAssignment);
+                UpdateImageAdjustments(sender, e.Item.Tag as ImageTaskAssignment, true);
             }
 
             ToolButtonRemoveImageTask.Enabled = ImageTaskListView.SelectedItems.Count > 0;
@@ -8559,7 +8588,6 @@ namespace Win_CBZ
                 {
                     this.Cursor = Cursors.Default;
 
-                    ToolButtonAssignPagesToImageTask.Enabled = true;
                     ToolButtonSelectAssignedPages.Enabled = true;
                 }));
             });
@@ -8724,26 +8752,18 @@ namespace Win_CBZ
                 return;
             }
 
-            foreach (ListViewItem taskItem in ImageTaskListView.Items)
+            List<ListViewItem> selectedItems = ImageTaskListView.SelectedItems.Cast<ListViewItem>().ToList();
+
+            foreach (ListViewItem existingTask in selectedItems)
             {
-                ImageTaskAssignment assignment = taskItem.Tag as ImageTaskAssignment;
+                
+                ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
 
-                assignment.UnassignTaskFromPages();
-
-                foreach (Page page in assignment.Pages.ToList())
-                {
-                    AppEventHandler.OnPageChanged(this, new PageChangedEvent(page, null, PageChangedEvent.IMAGE_STATUS_CHANGED, true));
-                }
-
-                if (assignment.Pages.Count > 0)
-                {
-                    AppEventHandler.OnArchiveStatusChanged(this, new ArchiveStatusEvent(Program.ProjectModel, ArchiveStatusEvent.ARCHIVE_FILE_UPDATED));
-                }
-
-                assignment.Pages.Clear();
-
-                ImageTaskListView.SelectedItem.Text = assignment.GetAssignedTaskName();
-                ImageTaskListView.SelectedItem.SubItems[1].Text = assignment.GetAssignedPageNumbers();
+                existingAssignment.Pages.Clear();
+                existingAssignment.UnassignTaskFromPages();
+                existingTask.Text = existingAssignment.GetAssignedTaskName();
+                existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
+                
             }
         }
 
@@ -8784,11 +8804,14 @@ namespace Win_CBZ
         private void ToolButtonCreateTasksForEach_Click(object sender, EventArgs e)
         {
 
-            Task.Factory.StartNew(() =>
+            Task.Factory.StartNew<TaskResult>(() =>
             {
+                TaskResult result = new TaskResult();
+                int i = 0;
 
                 Invoke(new Action(() =>
                 {
+
                     this.Cursor = Cursors.WaitCursor;
 
                     ToolButtonAssignPagesToImageTask.Enabled = false;
@@ -8801,7 +8824,7 @@ namespace Win_CBZ
                         existingAssignments.Add(assignment);
                     });
 
-                    int i = 1;
+                    
                     bool exists;
                     foreach (ListViewItem item in PagesList.Items)
                     {
@@ -8836,13 +8859,22 @@ namespace Win_CBZ
                         }
                     }
                 }));
-            }).ContinueWith((r) =>
+
+                result.Completed = i;
+
+                return result;
+            }).ContinueWith(r =>
             {
                 this.Invoke(new Action(() =>
                 {
                     this.Cursor = Cursors.Default;
                     ToolButtonAssignPagesToImageTask.Enabled = true;
                     ToolButtonSelectAssignedPages.Enabled = true;
+
+                    if (r.Result.Completed == 0)
+                    {
+                        ApplicationMessage.Show("All pages already assigned to a task. No new tasks have been created!", "No Tasks Created", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_OK);
+                    }
                 }));
             });
 
