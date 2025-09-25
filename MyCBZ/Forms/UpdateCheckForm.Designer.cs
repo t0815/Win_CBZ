@@ -95,8 +95,8 @@
             HeaderPicture.Location = new System.Drawing.Point(21, 2);
             HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new System.Drawing.Size(65, 64);
-            HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            HeaderPicture.Size = new System.Drawing.Size(64, 64);
+            HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
             // 
@@ -119,6 +119,7 @@
             ClientSize = new System.Drawing.Size(484, 339);
             Controls.Add(BookmarkEditorTableLayout);
             Name = "UpdateCheckForm";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "UpdateCheckForm";
             BookmarkEditorTableLayout.ResumeLayout(false);
             HeaderPanel.ResumeLayout(false);

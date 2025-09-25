@@ -879,27 +879,27 @@ namespace Win_CBZ
             // 
             UpdateToolStripMenuItem.Image = Properties.Resources.cloud_download;
             UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem";
-            UpdateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            UpdateToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
             UpdateToolStripMenuItem.Text = "Check for Updates...";
             UpdateToolStripMenuItem.Click += UpdateToolStripMenuItem_Click;
             // 
             // toolStripSeparator16
             // 
             toolStripSeparator16.Name = "toolStripSeparator16";
-            toolStripSeparator16.Size = new System.Drawing.Size(221, 6);
+            toolStripSeparator16.Size = new System.Drawing.Size(219, 6);
             // 
             // AboutToolStripMenuItem
             // 
             AboutToolStripMenuItem.Image = Properties.Resources.speech_balloon_answer;
             AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            AboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            AboutToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
             AboutToolStripMenuItem.Text = "About";
             AboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
             // DebugToolsToolStripMenuItem
             // 
             DebugToolsToolStripMenuItem.Name = "DebugToolsToolStripMenuItem";
-            DebugToolsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            DebugToolsToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
             DebugToolsToolStripMenuItem.Text = "Debug Tools";
             DebugToolsToolStripMenuItem.Visible = false;
             DebugToolsToolStripMenuItem.Click += DebugToolsToolStripMenuItem_Click;

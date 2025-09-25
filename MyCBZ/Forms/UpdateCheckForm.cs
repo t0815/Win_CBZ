@@ -7,14 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Result;
 
 namespace Win_CBZ.Forms
 {
     public partial class UpdateCheckForm : Form
     {
-        public UpdateCheckForm()
+        public UpdateCheckForm(UpdateCheckTaskResult updateCheckTaskResult)
         {
             InitializeComponent();
+
+
+
         }
     }
 }

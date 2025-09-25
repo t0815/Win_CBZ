@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace Win_CBZ.Result
 {
-    internal class UpdateCheckTaskResult
+    public class UpdateCheckTaskResult
     {
 
-        public int Status { get; set; } = -1; // -1 = Error, 0 = No Update, 1 = Update Available
+        public bool Status { get; set; }
 
-        public string Message { get; set; } = "Not Checked";
+        public string Message { get; set; } = "";
+
+        public string Title { get; set; } = string.Empty;
+
+        public List<string> Changes { get; set; } = new List<string>();
 
         public string LatestVersion { get; set; } = string.Empty;
+
+        public bool IsNewerVersion { get; set; } = false;
 
         public string DownloadUrl { get; set; } = string.Empty;
 

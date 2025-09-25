@@ -8865,12 +8865,14 @@ namespace Win_CBZ
             {
                 this.Invoke(new Action(() =>
                 {
-                    if (r.Result.Status == 200)
+                    if (r.Result.Status)
                     {
 
                         try
                         {
-                            DialogResult res = ApplicationMessage.ShowConfirmation(r.Result.Message.ToString(), "Update Available", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                            UpdateCheckForm updateCheckForm = new UpdateCheckForm(r.Result);
+
+                            DialogResult res = updateCheckForm.ShowDialog();
                             if (res == DialogResult.Yes)
                             {
                                 try
