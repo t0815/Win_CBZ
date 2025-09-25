@@ -5694,6 +5694,10 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.JumpToPage = settingsDialog.JumpToSelectedPage;
                 Win_CBZSettings.Default.DetectDoublePages = settingsDialog.DetectDoublePages;
 
+                Win_CBZSettings.Default.AutoUpdate = settingsDialog.AutoUpdateCheck;
+                Win_CBZSettings.Default.AutoupdateType = settingsDialog.AutoUpdateCheckIntervalType;
+
+
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 
 
