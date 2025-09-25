@@ -40,30 +40,35 @@
             // 
             // BookmarkEditorTableLayout
             // 
-            BookmarkEditorTableLayout.ColumnCount = 4;
-            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            BookmarkEditorTableLayout.ColumnCount = 5;
+            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 113F));
+            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             BookmarkEditorTableLayout.Controls.Add(HeaderPanel, 0, 0);
-            BookmarkEditorTableLayout.Controls.Add(OkButton, 2, 4);
+            BookmarkEditorTableLayout.Controls.Add(OkButton, 3, 8);
             BookmarkEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             BookmarkEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             BookmarkEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             BookmarkEditorTableLayout.Name = "BookmarkEditorTableLayout";
-            BookmarkEditorTableLayout.RowCount = 5;
+            BookmarkEditorTableLayout.RowCount = 9;
             BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 79F));
             BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
             BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 55F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             BookmarkEditorTableLayout.Size = new System.Drawing.Size(484, 339);
             BookmarkEditorTableLayout.TabIndex = 3;
             // 
             // HeaderPanel
             // 
             HeaderPanel.BackColor = System.Drawing.Color.White;
-            BookmarkEditorTableLayout.SetColumnSpan(HeaderPanel, 4);
+            BookmarkEditorTableLayout.SetColumnSpan(HeaderPanel, 5);
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
             HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -99,7 +104,7 @@
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(360, 289);
+            OkButton.Location = new System.Drawing.Point(360, 291);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new System.Drawing.Size(100, 35);

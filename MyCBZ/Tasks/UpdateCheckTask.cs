@@ -4,23 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
+using Win_CBZ.Result;
 using static Win_CBZ.Handler.AppEventHandler;
 
 namespace Win_CBZ.Tasks
 {
     internal class UpdateCheckTask
     {
-        public static Task<TaskResult> CheckForUpdates(List<String> urls, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = true)
+        public static Task<UpdateCheckTaskResult> CheckForUpdates(List<String> urls, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = true)
         {
-            return new Task<TaskResult>((token) =>
+            return new Task<UpdateCheckTaskResult>((token) =>
             {
-                TaskResult result = new TaskResult();
+                UpdateCheckTaskResult result = new UpdateCheckTaskResult();
                 int completed = 0;
 
                 foreach (string url in urls)
@@ -29,9 +31,21 @@ namespace Win_CBZ.Tasks
                     {
                         result.Status = -1;
                         result.Message = "Operation Cancelled.";
+                        result.LatestVersion = null;
 
                         return result;
                     }
+
+                    handler?.Invoke(null, new GeneralTaskProgressEvent
+                    {
+                        Type = GeneralTaskProgressEvent.TASK_UPDATE_CHECK,
+                        Status = GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                        Message = $"Checking for Update... ({url})",
+                        Current = completed,
+                        Total = urls.Count,
+                        InBackground = inBackground,
+                        PopGlobalState = false
+                    });
 
                     var client = new HttpClient();
 
@@ -64,8 +78,7 @@ namespace Win_CBZ.Tasks
                                         {
                                             Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
                                             Version newVersion = new Version(latestVersion);
-
-                                            
+       
                                             if (newVersion > currentVersion)
                                             {
                                                 
@@ -85,24 +98,30 @@ namespace Win_CBZ.Tasks
                                             }
                                         }
 
-                                        result.Payload.TryAdd(url, message);
+                                        result.LatestVersion = latestVersion.ToString();
+                                        result.DownloadUrl = downloadUrl.ToString();
+                                        result.Message = message.ToString();
 
                                         break;
                                     }
                                     else
                                     {
-                                        result.Payload.TryAdd(url, null);
+                                        result.LatestVersion = null;
                                     }
+
+                                    result.Status = ((int)response.StatusCode);
                                 }
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        result.Payload.TryAdd(url, null);
+                        result.LatestVersion = null;
+                        result.Status = 500;
+
                         handler?.Invoke(null, new GeneralTaskProgressEvent
                         {
-                            Type = GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
+                            Type = GeneralTaskProgressEvent.TASK_UPDATE_CHECK,
                             Status = GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
                             Message = $"Error checking for update: {ex.Message} ({url})",
                             Current = completed,
@@ -114,31 +133,18 @@ namespace Win_CBZ.Tasks
 
                     completed++;
 
-                    handler?.Invoke(null, new GeneralTaskProgressEvent
-                    {
-                        Type = GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                        Status = GeneralTaskProgressEvent.TASK_STATUS_RUNNING,
-                        Message = $"Checking for Update... ({url})",
-                        Current = completed,
-                        Total = urls.Count,
-                        InBackground = inBackground,
-                        PopGlobalState = false
-                    });
-
                     System.Threading.Thread.Sleep(5);
                 }
-            
-                result.Status = 0;
 
-                handler?.Invoke(null, new GeneralTaskProgressEvent()
+                handler?.Invoke(null, new GeneralTaskProgressEvent
                 {
-                    Type = GeneralTaskProgressEvent.TASK_WAITING_FOR_TASKS,
+                    Type = GeneralTaskProgressEvent.TASK_UPDATE_CHECK,
                     Status = GeneralTaskProgressEvent.TASK_STATUS_COMPLETED,
-                    Message = "Ready.",
-                    Current = 0,
-                    Total = 0,
+                    Message = $"",
+                    Current = completed,
+                    Total = urls.Count,
                     InBackground = inBackground,
-                    PopGlobalState = false,
+                    PopGlobalState = false
                 });
 
                 return result;

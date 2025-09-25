@@ -16,6 +16,7 @@ namespace Win_CBZ.Events
         public const int TASK_WAITING_FOR_TASKS = 4;
         public const int TASK_VALIDATING_COMICINFO = 5;
         public const int TASK_COPYING_FILE = 6;
+        public const int TASK_UPDATE_CHECK = 7;
 
         public const int TASK_STATUS_IDLE = 10;
         public const int TASK_STATUS_RUNNING = 11;

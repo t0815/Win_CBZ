@@ -33,6 +33,7 @@ using Win_CBZ.Helper;
 using Win_CBZ.List;
 using Win_CBZ.Models;
 using Win_CBZ.Properties;
+using Win_CBZ.Result;
 using Win_CBZ.Tasks;
 using static Win_CBZ.MetaData;
 using Cursors = System.Windows.Forms.Cursors;
@@ -8858,43 +8859,54 @@ namespace Win_CBZ
                 "https://raw.githubusercontent.com/t0815/Win_CBZ/refs/heads/master/version.xml"
             };
 
-            Task<TaskResult> updateCheckTask = UpdateCheckTask.CheckForUpdates(urls, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
+            Task<UpdateCheckTaskResult> updateCheckTask = UpdateCheckTask.CheckForUpdates(urls, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
 
             updateCheckTask.ContinueWith(r =>
             {
                 this.Invoke(new Action(() =>
                 {
-                    if (r.Result.Status == 0 && r.Result.Payload.Count > 0)
+                    if (r.Result.Status == 200)
                     {
-                        foreach (var entry in r.Result.Payload)
+
+                        try
                         {
-                            try
+                            DialogResult res = ApplicationMessage.ShowConfirmation(r.Result.Message.ToString(), "Update Available", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                            if (res == DialogResult.Yes)
                             {
-                                DialogResult res = ApplicationMessage.ShowConfirmation(entry.Value.ToString(), "Update Available", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
-                                if (res == DialogResult.Yes)
+                                try
                                 {
-                                    try
+                                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                                     {
-                                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                                        {
-                                            FileName = entry.Key,
-                                            UseShellExecute = true
-                                        });
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ApplicationMessage.Show("Unable to open download page!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
-                                    }
+                                        FileName = r.Result.DownloadUrl,
+                                        UseShellExecute = true
+                                    });
                                 }
-                                   
+                                catch (Exception ex)
+                                {
+                                    ApplicationMessage.Show("Unable to open download page!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                                }
                             }
-                            catch (Exception ex)
-                            {
-                                ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
-                            }
+
                         }
+                        catch (Exception ex)
+                        {
+                            ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                        }
+                        finally
+                        {
+                            
+                        }
+                    } else
+                    {
+                        ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + r.Exception?.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+
                     }
+
+                    AppEventHandler.OnApplicationStateChanged(this, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
+
                 }));
+
+
             });
 
             updateCheckTask.Start();
