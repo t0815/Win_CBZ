@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsDialog));
             SettingsTablePanel = new System.Windows.Forms.TableLayoutPanel();
             ButtonOk = new System.Windows.Forms.Button();
             HeaderPanel = new System.Windows.Forms.Panel();
@@ -40,6 +40,8 @@
             SettingsSectionList = new System.Windows.Forms.ListBox();
             ButtonCancel = new System.Windows.Forms.Button();
             SettingsContentPanel = new System.Windows.Forms.Panel();
+            UpdatesTabControl = new System.Windows.Forms.TabControl();
+            tabPage5 = new System.Windows.Forms.TabPage();
             AppSettingsTabControl = new System.Windows.Forms.TabControl();
             TabPageEssential = new System.Windows.Forms.TabPage();
             tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -170,6 +172,7 @@
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SettingsContentPanel.SuspendLayout();
+            UpdatesTabControl.SuspendLayout();
             AppSettingsTabControl.SuspendLayout();
             TabPageEssential.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
@@ -302,7 +305,7 @@
             SettingsSectionList.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
             SettingsSectionList.FormattingEnabled = true;
             SettingsSectionList.ItemHeight = 32;
-            SettingsSectionList.Items.AddRange(new object[] { "Application", "Metadata", "CBZ", "Image Processing" });
+            SettingsSectionList.Items.AddRange(new object[] { "Application", "Metadata", "CBZ", "Image Processing", "Updates" });
             SettingsSectionList.Location = new System.Drawing.Point(3, 83);
             SettingsSectionList.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsSectionList.Name = "SettingsSectionList";
@@ -328,6 +331,7 @@
             // 
             SettingsContentPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             SettingsTablePanel.SetColumnSpan(SettingsContentPanel, 2);
+            SettingsContentPanel.Controls.Add(UpdatesTabControl);
             SettingsContentPanel.Controls.Add(AppSettingsTabControl);
             SettingsContentPanel.Controls.Add(CBZSettingsTabControl);
             SettingsContentPanel.Controls.Add(ImageProcessingTabControl);
@@ -337,6 +341,25 @@
             SettingsContentPanel.Name = "SettingsContentPanel";
             SettingsContentPanel.Size = new System.Drawing.Size(592, 492);
             SettingsContentPanel.TabIndex = 2;
+            // 
+            // UpdatesTabControl
+            // 
+            UpdatesTabControl.Controls.Add(tabPage5);
+            UpdatesTabControl.Location = new System.Drawing.Point(258, 5);
+            UpdatesTabControl.Name = "UpdatesTabControl";
+            UpdatesTabControl.SelectedIndex = 0;
+            UpdatesTabControl.Size = new System.Drawing.Size(317, 229);
+            UpdatesTabControl.TabIndex = 5;
+            // 
+            // tabPage5
+            // 
+            tabPage5.Location = new System.Drawing.Point(4, 29);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            tabPage5.Size = new System.Drawing.Size(309, 196);
+            tabPage5.TabIndex = 0;
+            tabPage5.Text = "Update";
+            tabPage5.UseVisualStyleBackColor = true;
             // 
             // AppSettingsTabControl
             // 
@@ -1332,7 +1355,7 @@
             // 
             ImageProcessingTabControl.Controls.Add(ImageConversionTabPage);
             ImageProcessingTabControl.Controls.Add(ImageProcessingTabPage);
-            ImageProcessingTabControl.Location = new System.Drawing.Point(420, 5);
+            ImageProcessingTabControl.Location = new System.Drawing.Point(432, 105);
             ImageProcessingTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             ImageProcessingTabControl.Name = "ImageProcessingTabControl";
             ImageProcessingTabControl.SelectedIndex = 0;
@@ -2031,6 +2054,7 @@
             CategoryImages.Images.SetKeyName(2, "cbz");
             CategoryImages.Images.SetKeyName(3, "application");
             CategoryImages.Images.SetKeyName(4, "error");
+            CategoryImages.Images.SetKeyName(5, "updates");
             // 
             // ErrorImages
             // 
@@ -2052,7 +2076,6 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 649);
             Controls.Add(SettingsTablePanel);
-            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MinimumSize = new System.Drawing.Size(600, 400);
             Name = "SettingsDialog";
@@ -2066,6 +2089,7 @@
             HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             SettingsContentPanel.ResumeLayout(false);
+            UpdatesTabControl.ResumeLayout(false);
             AppSettingsTabControl.ResumeLayout(false);
             TabPageEssential.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
@@ -2275,5 +2299,7 @@
         private System.Windows.Forms.CheckBox CheckBoxLogValidationErrors;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.CheckBox CheckBoxSaveWindowLayout;
+        private System.Windows.Forms.TabControl UpdatesTabControl;
+        private System.Windows.Forms.TabPage tabPage5;
     }
 }
