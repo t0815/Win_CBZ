@@ -1,4 +1,5 @@
 ﻿using AutocompleteMenuNS;
+using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.Devices;
 using SharpCompress;
 using System;
@@ -33,6 +34,7 @@ using Win_CBZ.Helper;
 using Win_CBZ.List;
 using Win_CBZ.Models;
 using Win_CBZ.Properties;
+using Win_CBZ.Result;
 using Win_CBZ.Tasks;
 using static Win_CBZ.MetaData;
 using Cursors = System.Windows.Forms.Cursors;
@@ -135,6 +137,16 @@ namespace Win_CBZ
             Text = Assembly.GetExecutingAssembly().GetName().Name + " Trash_s0Ft";
 
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
+
+            if (Program.DebugMode)
+            {
+                Text += " [DEBUG MODE]";
+            }
+
+            if (Win_CBZSettings.Default.AutoUpdateInterval == 0)
+            {
+                Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_DAILY;
+            }
 
             if (Win_CBZSettings.Default.RestoreWindowLayout)
             {
@@ -301,7 +313,6 @@ namespace Win_CBZ
             if (!WindowShown)
             {
 
-
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Assembly.GetExecutingAssembly().GetName().Name + " v" + Assembly.GetExecutingAssembly().GetName().Version + "  - Welcome!");
 
                 FileSettingsTablePanel.Width = MainSplitBox.SplitterDistance - 24;
@@ -385,9 +396,8 @@ namespace Win_CBZ
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
 
-
-
                 backgroundWorker1.RunWorkerAsync();
+                UpdateCheckTimer.Enabled = Win_CBZSettings.Default.AutoUpdate;
 
                 WindowShown = true;
             }
@@ -4907,7 +4917,7 @@ namespace Win_CBZ
                                 ImageTaskListView.SelectedItems.Clear();
                                 ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
                                 {
-                               
+
                                     ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
 
                                     if (ita != null && ita.Pages.Contains(page))
@@ -5692,6 +5702,26 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.RestoreWindowLayout = settingsDialog.RestoreWindowPosition;
                 Win_CBZSettings.Default.JumpToPage = settingsDialog.JumpToSelectedPage;
                 Win_CBZSettings.Default.DetectDoublePages = settingsDialog.DetectDoublePages;
+
+                Win_CBZSettings.Default.AutoUpdate = settingsDialog.AutoUpdateCheck;
+                Win_CBZSettings.Default.AutoupdateType = settingsDialog.AutoUpdateCheckIntervalType;
+
+                switch (settingsDialog.AutoUpdateCheckIntervalType)
+                {
+                    case 0:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_DAILY;
+                        break;
+                    case 1:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_WEEKLY;
+                        break;
+                    case 2:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_MONTHLY;
+                        break;
+
+                    default:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_DAILY;
+                        break;
+                }
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 
@@ -8267,7 +8297,7 @@ namespace Win_CBZ
 
             TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
 
-            
+
             int indent = 0;
             if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
             {
@@ -8393,7 +8423,8 @@ namespace Win_CBZ
                     if (e.ItemState.HasFlag(ListViewItemStates.Grayed) || lv.Enabled == false)
                     {
                         e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
-                    } else 
+                    }
+                    else
                     {
                         e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
                     }
@@ -8415,7 +8446,7 @@ namespace Win_CBZ
 
             // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
             TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
-          
+
         }
 
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
@@ -8726,14 +8757,14 @@ namespace Win_CBZ
 
             foreach (ListViewItem existingTask in selectedItems)
             {
-                
+
                 ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
 
                 existingAssignment.Pages.Clear();
                 existingAssignment.UnassignTaskFromPages();
                 existingTask.Text = existingAssignment.GetAssignedTaskName();
                 existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
-                
+
             }
         }
 
@@ -8794,7 +8825,7 @@ namespace Win_CBZ
                         existingAssignments.Add(assignment);
                     });
 
-                    
+
                     bool exists;
                     foreach (ListViewItem item in PagesList.Items)
                     {
@@ -8848,6 +8879,29 @@ namespace Win_CBZ
                 }));
             });
 
+        }
+
+        private void UpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateCheckHelper.CheckForUpdates(this, false);
+        }
+
+        private void UpdateCheckTimer_Tick(object sender, EventArgs e)
+        {
+            
+            DateTime lastCheck = new DateTime(Win_CBZSettings.Default.AutoUpdateLastCheck);
+
+            if (lastCheck.AddSeconds(Win_CBZSettings.Default.AutoUpdateInterval) < DateTime.Now)
+            {
+
+                Win_CBZSettings.Default.AutoUpdateLastCheck = DateTime.Now.Ticks;
+                Win_CBZSettings.Default.Save();
+
+                UpdateCheckHelper.CheckForUpdates(this, true);
+
+            }
+
+            UpdateCheckTimer.Interval = 60 * 60 * 1000; // 1 hour checks after initial check
         }
     }
 }

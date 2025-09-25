@@ -95,6 +95,10 @@ namespace Win_CBZ.Forms
 
         public bool SkipArchiveSubfolders;
 
+        public bool AutoUpdateCheck;
+
+        public int AutoUpdateCheckIntervalType;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -108,6 +112,20 @@ namespace Win_CBZ.Forms
         public SettingsDialog()
         {
             InitializeComponent();
+
+            MetaDataConfigTabControl.Dock = DockStyle.Fill;
+            ImageProcessingTabControl.Dock = DockStyle.Fill;
+            AppSettingsTabControl.Dock = DockStyle.Fill;
+            CBZSettingsTabControl.Dock = DockStyle.Fill;
+            UpdatesTabControl.Dock = DockStyle.Fill;
+
+            MetaDataConfigTabControl.Visible = true;
+            ImageProcessingTabControl.Visible = false;
+            AppSettingsTabControl.Visible = false;
+            CBZSettingsTabControl.Visible = false;
+            UpdatesTabControl.Visible = false;
+
+            // Load settings  ------------------------
 
             CustomFieldTypesSettings = new List<MetaDataFieldType>();
             ImageFileExtensions = new List<String>();
@@ -134,6 +152,9 @@ namespace Win_CBZ.Forms
             {
                 NewValidTagList = Win_CBZSettings.Default.ValidKnownTags.OfType<String>().ToArray();
             }
+
+            AutoUpdateCheck = Win_CBZSettings.Default.AutoUpdate;
+            AutoUpdateCheckIntervalType = Win_CBZSettings.Default.AutoupdateType;
 
             ConversionQualityValue = Win_CBZSettings.Default.ImageConversionQuality;
             ConversionModeValue = Win_CBZSettings.Default.ImageConversionMode;
@@ -187,6 +208,8 @@ namespace Win_CBZ.Forms
 
             // ----------------------------------------
 
+            CheckboxAutoUpdate.Checked = AutoUpdateCheck;
+            ComboBoxAutoUpdateInterval.SelectedIndex = AutoUpdateCheckIntervalType;
 
             ValidTags.Lines = NewValidTagList;
             CustomDefaultKeys.Lines = NewDefaults;
@@ -219,15 +242,7 @@ namespace Win_CBZ.Forms
             CheckBoxSaveWindowLayout.Checked = RestoreWindowPosition;
             CheckBoxLogValidationErrors.Checked = LogValidationErrors;
 
-            MetaDataConfigTabControl.Dock = DockStyle.Fill;
-            ImageProcessingTabControl.Dock = DockStyle.Fill;
-            AppSettingsTabControl.Dock = DockStyle.Fill;
-            CBZSettingsTabControl.Dock = DockStyle.Fill;
 
-            MetaDataConfigTabControl.Visible = true;
-            ImageProcessingTabControl.Visible = false;
-            AppSettingsTabControl.Visible = false;
-            CBZSettingsTabControl.Visible = false;
 
             FilterNewPagesByExtCheckBox.Checked = FilterNewPagesByExt;
             CheckboxFilterFilenames.Checked = FilterNewPagesSpecificName;
@@ -724,6 +739,9 @@ namespace Win_CBZ.Forms
                     RestoreWindowPosition = CheckBoxSaveWindowLayout.Checked;
                     LogValidationErrors = CheckBoxLogValidationErrors.Checked;
 
+                    AutoUpdateCheck = CheckboxAutoUpdate.Checked;
+                    AutoUpdateCheckIntervalType = ComboBoxAutoUpdateInterval.SelectedIndex;
+
                     List<String> fieldConfigItems = new List<string>();
                     foreach (MetaDataFieldType fieldTypeCnf in CustomFieldTypesSettings)
                     {
@@ -841,6 +859,7 @@ namespace Win_CBZ.Forms
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
             }
 
             if (SettingsSectionList.SelectedIndex == 0)
@@ -849,6 +868,7 @@ namespace Win_CBZ.Forms
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = true;
                 CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
             }
 
             if (SettingsSectionList.SelectedIndex == 2)
@@ -857,6 +877,7 @@ namespace Win_CBZ.Forms
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = true;
+                UpdatesTabControl.Visible = false;
             }
 
             if (SettingsSectionList.SelectedIndex == 3)
@@ -865,6 +886,16 @@ namespace Win_CBZ.Forms
                 ImageProcessingTabControl.Visible = true;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
+            }
+
+            if (SettingsSectionList.SelectedIndex == 4)
+            {
+                MetaDataConfigTabControl.Visible = false;
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = true;
             }
         }
 
@@ -1982,6 +2013,11 @@ namespace Win_CBZ.Forms
         private void SettingsDialog_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void CheckboxAutoUpdate_CheckedChanged(object sender, EventArgs e)
+        {
+            ComboBoxAutoUpdateInterval.Enabled = CheckboxAutoUpdate.Checked;
         }
     }
 }

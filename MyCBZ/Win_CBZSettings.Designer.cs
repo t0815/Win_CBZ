@@ -748,5 +748,53 @@ namespace Win_CBZ {
                 this["SkipFilesInSubDirectories"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoUpdate {
+            get {
+                return ((bool)(this["AutoUpdate"]));
+            }
+            set {
+                this["AutoUpdate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long AutoUpdateInterval {
+            get {
+                return ((long)(this["AutoUpdateInterval"]));
+            }
+            set {
+                this["AutoUpdateInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public long AutoUpdateLastCheck {
+            get {
+                return ((long)(this["AutoUpdateLastCheck"]));
+            }
+            set {
+                this["AutoUpdateLastCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AutoupdateType {
+            get {
+                return ((int)(this["AutoupdateType"]));
+            }
+            set {
+                this["AutoupdateType"] = value;
+            }
+        }
     }
 }

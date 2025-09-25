@@ -99,6 +99,8 @@ namespace Win_CBZ
             ClearTemporaryFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            UpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             DebugToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             OpenCBFDialog = new System.Windows.Forms.OpenFileDialog();
@@ -283,6 +285,7 @@ namespace Win_CBZ
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
             ComboIcons = new System.Windows.Forms.ImageList(components);
             DataGridErrorTooltip = new System.Windows.Forms.ToolTip(components);
+            UpdateCheckTimer = new System.Windows.Forms.Timer(components);
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -868,23 +871,36 @@ namespace Win_CBZ
             // 
             // toolStripMenuItem4
             // 
-            toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { AboutToolStripMenuItem, DebugToolsToolStripMenuItem });
+            toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { UpdateToolStripMenuItem, toolStripSeparator16, AboutToolStripMenuItem, DebugToolsToolStripMenuItem });
             toolStripMenuItem4.Name = "toolStripMenuItem4";
             toolStripMenuItem4.Size = new System.Drawing.Size(30, 24);
             toolStripMenuItem4.Text = "?";
+            // 
+            // UpdateToolStripMenuItem
+            // 
+            UpdateToolStripMenuItem.Image = Properties.Resources.cloud_download;
+            UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem";
+            UpdateToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
+            UpdateToolStripMenuItem.Text = "Check for Updates...";
+            UpdateToolStripMenuItem.Click += UpdateToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator16
+            // 
+            toolStripSeparator16.Name = "toolStripSeparator16";
+            toolStripSeparator16.Size = new System.Drawing.Size(219, 6);
             // 
             // AboutToolStripMenuItem
             // 
             AboutToolStripMenuItem.Image = Properties.Resources.speech_balloon_answer;
             AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            AboutToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            AboutToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
             AboutToolStripMenuItem.Text = "About";
             AboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
             // DebugToolsToolStripMenuItem
             // 
             DebugToolsToolStripMenuItem.Name = "DebugToolsToolStripMenuItem";
-            DebugToolsToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
+            DebugToolsToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
             DebugToolsToolStripMenuItem.Text = "Debug Tools";
             DebugToolsToolStripMenuItem.Visible = false;
             DebugToolsToolStripMenuItem.Click += DebugToolsToolStripMenuItem_Click;
@@ -3161,6 +3177,11 @@ namespace Win_CBZ
             DataGridErrorTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Error;
             DataGridErrorTooltip.ToolTipTitle = "Metadata Value Error";
             // 
+            // UpdateCheckTimer
+            // 
+            UpdateCheckTimer.Interval = 5000;
+            UpdateCheckTimer.Tick += UpdateCheckTimer_Tick;
+            // 
             // MainForm
             // 
             AllowDrop = true;
@@ -3518,6 +3539,9 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripMenuItem UnAssignAllPagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton ToolButtonSelectAssignedPages;
         private System.Windows.Forms.ToolStripButton ToolButtonCreateTasksForEach;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem UpdateToolStripMenuItem;
+        private System.Windows.Forms.Timer UpdateCheckTimer;
     }
 }
 
