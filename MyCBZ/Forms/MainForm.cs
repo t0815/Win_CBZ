@@ -4907,7 +4907,7 @@ namespace Win_CBZ
                                 ImageTaskListView.SelectedItems.Clear();
                                 ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
                                 {
-                               
+
                                     ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
 
                                     if (ita != null && ita.Pages.Contains(page))
@@ -8267,7 +8267,7 @@ namespace Win_CBZ
 
             TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
 
-            
+
             int indent = 0;
             if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
             {
@@ -8393,7 +8393,8 @@ namespace Win_CBZ
                     if (e.ItemState.HasFlag(ListViewItemStates.Grayed) || lv.Enabled == false)
                     {
                         e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
-                    } else 
+                    }
+                    else
                     {
                         e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
                     }
@@ -8415,7 +8416,7 @@ namespace Win_CBZ
 
             // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
             TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
-          
+
         }
 
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
@@ -8726,14 +8727,14 @@ namespace Win_CBZ
 
             foreach (ListViewItem existingTask in selectedItems)
             {
-                
+
                 ImageTaskAssignment existingAssignment = existingTask.Tag as ImageTaskAssignment;
 
                 existingAssignment.Pages.Clear();
                 existingAssignment.UnassignTaskFromPages();
                 existingTask.Text = existingAssignment.GetAssignedTaskName();
                 existingTask.SubItems[1].Text = existingAssignment.GetAssignedPageNumbers();
-                
+
             }
         }
 
@@ -8794,7 +8795,7 @@ namespace Win_CBZ
                         existingAssignments.Add(assignment);
                     });
 
-                    
+
                     bool exists;
                     foreach (ListViewItem item in PagesList.Items)
                     {
@@ -8847,6 +8848,11 @@ namespace Win_CBZ
                     }
                 }));
             });
+
+        }
+
+        private void UpdateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
     }
