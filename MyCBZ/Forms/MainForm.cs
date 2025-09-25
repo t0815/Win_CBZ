@@ -8853,7 +8853,51 @@ namespace Win_CBZ
 
         private void UpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var urls = new List<string>() { 
+                "https://raw.githubusercontent.com/t0815/win_cbz/master/version.xml" ,
+                "https://raw.githubusercontent.com/t0815/Win_CBZ/refs/heads/master/version.xml"
+            };
 
+            Task<TaskResult> updateCheckTask = UpdateCheckTask.CheckForUpdates(urls, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
+
+            updateCheckTask.ContinueWith(r =>
+            {
+                this.Invoke(new Action(() =>
+                {
+                    if (r.Result.Status == 0 && r.Result.Payload.Count > 0)
+                    {
+                        foreach (var entry in r.Result.Payload)
+                        {
+                            try
+                            {
+                                DialogResult res = ApplicationMessage.ShowConfirmation(entry.Value.ToString(), "Update Available", ApplicationMessage.DialogType.MT_INFORMATION, ApplicationMessage.DialogButtons.MB_YES | ApplicationMessage.DialogButtons.MB_NO);
+                                if (res == DialogResult.Yes)
+                                {
+                                    try
+                                    {
+                                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                                        {
+                                            FileName = entry.Key,
+                                            UseShellExecute = true
+                                        });
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        ApplicationMessage.Show("Unable to open download page!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                                    }
+                                }
+                                   
+                            }
+                            catch (Exception ex)
+                            {
+                                ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                            }
+                        }
+                    }
+                }));
+            });
+
+            updateCheckTask.Start();
         }
     }
 }

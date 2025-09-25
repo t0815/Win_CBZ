@@ -31,10 +31,10 @@ namespace Win_CBZ
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             ToolBar = new System.Windows.Forms.ToolStrip();
             ToolButtonNew = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -99,10 +99,10 @@ namespace Win_CBZ
             ClearTemporaryFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            UpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             DebugToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-            UpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             OpenCBFDialog = new System.Windows.Forms.OpenFileDialog();
             MainStatusToolStrip = new System.Windows.Forms.StatusStrip();
             ApplicationStatusLabel_ = new System.Windows.Forms.ToolStripStatusLabel();
@@ -870,38 +870,39 @@ namespace Win_CBZ
             // 
             // toolStripMenuItem4
             // 
-            toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { AboutToolStripMenuItem, DebugToolsToolStripMenuItem, toolStripSeparator16, UpdateToolStripMenuItem });
+            toolStripMenuItem4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { UpdateToolStripMenuItem, toolStripSeparator16, AboutToolStripMenuItem, DebugToolsToolStripMenuItem });
             toolStripMenuItem4.Name = "toolStripMenuItem4";
             toolStripMenuItem4.Size = new System.Drawing.Size(30, 24);
             toolStripMenuItem4.Text = "?";
+            // 
+            // UpdateToolStripMenuItem
+            // 
+            UpdateToolStripMenuItem.Image = Properties.Resources.cloud_download;
+            UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem";
+            UpdateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            UpdateToolStripMenuItem.Text = "Check for Updates...";
+            UpdateToolStripMenuItem.Click += UpdateToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator16
+            // 
+            toolStripSeparator16.Name = "toolStripSeparator16";
+            toolStripSeparator16.Size = new System.Drawing.Size(221, 6);
             // 
             // AboutToolStripMenuItem
             // 
             AboutToolStripMenuItem.Image = Properties.Resources.speech_balloon_answer;
             AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
-            AboutToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            AboutToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             AboutToolStripMenuItem.Text = "About";
             AboutToolStripMenuItem.Click += AboutToolStripMenuItem_Click;
             // 
             // DebugToolsToolStripMenuItem
             // 
             DebugToolsToolStripMenuItem.Name = "DebugToolsToolStripMenuItem";
-            DebugToolsToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            DebugToolsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             DebugToolsToolStripMenuItem.Text = "Debug Tools";
             DebugToolsToolStripMenuItem.Visible = false;
             DebugToolsToolStripMenuItem.Click += DebugToolsToolStripMenuItem_Click;
-            // 
-            // toolStripSeparator16
-            // 
-            toolStripSeparator16.Name = "toolStripSeparator16";
-            toolStripSeparator16.Size = new System.Drawing.Size(230, 6);
-            // 
-            // UpdateToolStripMenuItem
-            // 
-            UpdateToolStripMenuItem.Name = "UpdateToolStripMenuItem";
-            UpdateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            UpdateToolStripMenuItem.Text = "Check for Updates...";
-            UpdateToolStripMenuItem.Click += UpdateToolStripMenuItem_Click;
             // 
             // OpenCBFDialog
             // 
@@ -2809,40 +2810,40 @@ namespace Win_CBZ
             // MetaDataGrid
             // 
             MetaDataGrid.AllowUserToAddRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
-            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(224, 224, 224);
+            MetaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             MetaDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MetaDataGrid.ContextMenuStrip = DataGridContextMenu;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.Color.Gold;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.Padding = new System.Windows.Forms.Padding(0, 1, 1, 1);
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Gold;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             MetaDataGrid.Location = new System.Drawing.Point(2, 44);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            MetaDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 26;
             MetaDataGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;

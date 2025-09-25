@@ -1,10 +1,13 @@
-﻿using System;
+﻿using SharpCompress.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
 using static Win_CBZ.Handler.AppEventHandler;
@@ -51,9 +54,38 @@ namespace Win_CBZ.Tasks
 
                                     if (response.IsSuccessStatusCode)
                                     {
+                                        System.Xml.Linq.XDocument doc = System.Xml.Linq.XDocument.Parse(responseText);
+                                        var latestVersion = doc.Descendants("latest").FirstOrDefault()?.Value;
+                                        var downloadUrl = doc.Descendants("url").FirstOrDefault()?.Value;
+                                        var changes = doc.Descendants("changes").FirstOrDefault()?.Value;
 
+                                        StringBuilder message = new StringBuilder();
+                                        if (latestVersion != null && downloadUrl != null)
+                                        {
+                                            Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                                            Version newVersion = new Version(latestVersion);
 
-                                        result.Payload.TryAdd(url, responseText);
+                                            
+                                            if (newVersion > currentVersion)
+                                            {
+                                                
+                                                message.AppendLine($"A new version of Win-CBZ is available!\r\n");
+                                                message.AppendLine($"Current version: {currentVersion}");
+                                                message.AppendLine($"Latest version: {newVersion}\r\n");
+                                                if (changes != null)
+                                                {
+                                                    message.AppendLine("Changes:\r\n");
+                                                    message.AppendLine(changes + "\r\n");
+                                                }
+                                                
+                                            }
+                                            else
+                                            {
+                                                message.Append("You are using the latest version of Win-CBZ.");
+                                            }
+                                        }
+
+                                        result.Payload.TryAdd(url, message);
 
                                         break;
                                     }
