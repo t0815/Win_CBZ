@@ -32,7 +32,14 @@
             HeaderPanel = new System.Windows.Forms.Panel();
             HeaderLabel = new System.Windows.Forms.Label();
             HeaderPicture = new System.Windows.Forms.PictureBox();
+            LabelUpdateHeadline = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
             OkButton = new System.Windows.Forms.Button();
+            label3 = new System.Windows.Forms.Label();
+            LabelUrl = new System.Windows.Forms.LinkLabel();
+            label4 = new System.Windows.Forms.Label();
+            LabelAppVersion = new System.Windows.Forms.Label();
+            LabelNewVersion = new System.Windows.Forms.Label();
             BookmarkEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -42,27 +49,34 @@
             // 
             BookmarkEditorTableLayout.ColumnCount = 5;
             BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 52F));
+            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
             BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             BookmarkEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             BookmarkEditorTableLayout.Controls.Add(HeaderPanel, 0, 0);
+            BookmarkEditorTableLayout.Controls.Add(LabelUpdateHeadline, 1, 2);
+            BookmarkEditorTableLayout.Controls.Add(label2, 1, 3);
             BookmarkEditorTableLayout.Controls.Add(OkButton, 3, 8);
+            BookmarkEditorTableLayout.Controls.Add(label3, 1, 4);
+            BookmarkEditorTableLayout.Controls.Add(LabelUrl, 2, 6);
+            BookmarkEditorTableLayout.Controls.Add(label4, 1, 6);
+            BookmarkEditorTableLayout.Controls.Add(LabelAppVersion, 2, 3);
+            BookmarkEditorTableLayout.Controls.Add(LabelNewVersion, 2, 4);
             BookmarkEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             BookmarkEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             BookmarkEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             BookmarkEditorTableLayout.Name = "BookmarkEditorTableLayout";
             BookmarkEditorTableLayout.RowCount = 9;
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 79F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
-            BookmarkEditorTableLayout.Size = new System.Drawing.Size(484, 339);
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            BookmarkEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
+            BookmarkEditorTableLayout.Size = new System.Drawing.Size(556, 420);
             BookmarkEditorTableLayout.TabIndex = 3;
             // 
             // HeaderPanel
@@ -75,7 +89,7 @@
             HeaderPanel.Location = new System.Drawing.Point(3, 0);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(478, 77);
+            HeaderPanel.Size = new System.Drawing.Size(550, 71);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -95,33 +109,105 @@
             HeaderPicture.Location = new System.Drawing.Point(21, 2);
             HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new System.Drawing.Size(64, 64);
-            HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            HeaderPicture.Size = new System.Drawing.Size(64, 67);
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
+            // 
+            // LabelUpdateHeadline
+            // 
+            LabelUpdateHeadline.AutoSize = true;
+            BookmarkEditorTableLayout.SetColumnSpan(LabelUpdateHeadline, 3);
+            LabelUpdateHeadline.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            LabelUpdateHeadline.Location = new System.Drawing.Point(55, 94);
+            LabelUpdateHeadline.Name = "LabelUpdateHeadline";
+            LabelUpdateHeadline.Size = new System.Drawing.Size(233, 31);
+            LabelUpdateHeadline.TabIndex = 4;
+            LabelUpdateHeadline.Text = "No Updates available";
+            // 
+            // label2
+            // 
+            label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(55, 142);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(93, 20);
+            label2.TabIndex = 5;
+            label2.Text = "Your Version:";
             // 
             // OkButton
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(360, 291);
+            OkButton.Location = new System.Drawing.Point(432, 368);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new System.Drawing.Size(100, 35);
-            OkButton.TabIndex = 3;
+            OkButton.TabIndex = 6;
             OkButton.Text = "Ok";
             OkButton.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(55, 176);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(100, 20);
+            label3.TabIndex = 7;
+            label3.Text = "Latest Version";
+            // 
+            // LabelUrl
+            // 
+            LabelUrl.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            LabelUrl.AutoSize = true;
+            LabelUrl.Location = new System.Drawing.Point(189, 309);
+            LabelUrl.Name = "LabelUrl";
+            LabelUrl.Size = new System.Drawing.Size(76, 20);
+            LabelUrl.TabIndex = 8;
+            LabelUrl.TabStop = true;
+            LabelUrl.Text = "linkLabel1";
+            // 
+            // label4
+            // 
+            label4.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(55, 309);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(78, 20);
+            label4.TabIndex = 9;
+            label4.Text = "Download";
+            // 
+            // LabelAppVersion
+            // 
+            LabelAppVersion.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            LabelAppVersion.AutoSize = true;
+            LabelAppVersion.Location = new System.Drawing.Point(189, 142);
+            LabelAppVersion.Name = "LabelAppVersion";
+            LabelAppVersion.Size = new System.Drawing.Size(50, 20);
+            LabelAppVersion.TabIndex = 10;
+            LabelAppVersion.Text = "label5";
+            // 
+            // LabelNewVersion
+            // 
+            LabelNewVersion.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            LabelNewVersion.AutoSize = true;
+            LabelNewVersion.Location = new System.Drawing.Point(189, 176);
+            LabelNewVersion.Name = "LabelNewVersion";
+            LabelNewVersion.Size = new System.Drawing.Size(50, 20);
+            LabelNewVersion.TabIndex = 11;
+            LabelNewVersion.Text = "label6";
             // 
             // UpdateCheckForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(484, 339);
+            ClientSize = new System.Drawing.Size(556, 420);
             Controls.Add(BookmarkEditorTableLayout);
             Name = "UpdateCheckForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "UpdateCheckForm";
             BookmarkEditorTableLayout.ResumeLayout(false);
+            BookmarkEditorTableLayout.PerformLayout();
             HeaderPanel.ResumeLayout(false);
             HeaderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).EndInit();
@@ -134,6 +220,13 @@
         private System.Windows.Forms.Panel HeaderPanel;
         private System.Windows.Forms.Label HeaderLabel;
         private System.Windows.Forms.PictureBox HeaderPicture;
+        private System.Windows.Forms.Label LabelUpdateHeadline;
+        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button OkButton;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel LabelUrl;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label LabelAppVersion;
+        private System.Windows.Forms.Label LabelNewVersion;
     }
 }
