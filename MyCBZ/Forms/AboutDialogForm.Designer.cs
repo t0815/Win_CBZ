@@ -56,13 +56,13 @@
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
             tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 131F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(879, 602);
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 82F));
+            tableLayoutPanel1.Size = new System.Drawing.Size(703, 482);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -75,7 +75,7 @@
             panel1.Location = new System.Drawing.Point(0, 0);
             panel1.Margin = new System.Windows.Forms.Padding(0);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(879, 122);
+            panel1.Size = new System.Drawing.Size(703, 98);
             panel1.TabIndex = 0;
             // 
             // AppVersionLabel
@@ -83,10 +83,10 @@
             AppVersionLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             AppVersionLabel.AutoSize = true;
             AppVersionLabel.BackColor = System.Drawing.Color.Transparent;
-            AppVersionLabel.Location = new System.Drawing.Point(747, 76);
-            AppVersionLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            AppVersionLabel.Location = new System.Drawing.Point(598, 61);
+            AppVersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             AppVersionLabel.Name = "AppVersionLabel";
-            AppVersionLabel.Size = new System.Drawing.Size(128, 25);
+            AppVersionLabel.Size = new System.Drawing.Size(105, 20);
             AppVersionLabel.TabIndex = 2;
             AppVersionLabel.Text = "<AppVersion>";
             // 
@@ -96,10 +96,9 @@
             AppNameLabel.AutoSize = true;
             AppNameLabel.BackColor = System.Drawing.Color.Transparent;
             AppNameLabel.Font = new System.Drawing.Font("Courier New", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            AppNameLabel.Location = new System.Drawing.Point(659, 11);
-            AppNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            AppNameLabel.Location = new System.Drawing.Point(527, 9);
             AppNameLabel.Name = "AppNameLabel";
-            AppNameLabel.Size = new System.Drawing.Size(186, 36);
+            AppNameLabel.Size = new System.Drawing.Size(158, 31);
             AppNameLabel.TabIndex = 1;
             AppNameLabel.Text = "<AppName>";
             // 
@@ -108,9 +107,9 @@
             AboutBoxBanner.Dock = System.Windows.Forms.DockStyle.Left;
             AboutBoxBanner.Image = Properties.Resources.TrashBannerNew;
             AboutBoxBanner.Location = new System.Drawing.Point(0, 0);
-            AboutBoxBanner.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            AboutBoxBanner.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             AboutBoxBanner.Name = "AboutBoxBanner";
-            AboutBoxBanner.Size = new System.Drawing.Size(651, 122);
+            AboutBoxBanner.Size = new System.Drawing.Size(521, 98);
             AboutBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             AboutBoxBanner.TabIndex = 0;
             AboutBoxBanner.TabStop = false;
@@ -121,19 +120,19 @@
             flowLayoutPanel1.Controls.Add(ButtonCloseDialog);
             flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            flowLayoutPanel1.Location = new System.Drawing.Point(4, 502);
-            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            flowLayoutPanel1.Location = new System.Drawing.Point(3, 402);
+            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(10, 11, 10, 11);
-            flowLayoutPanel1.Size = new System.Drawing.Size(871, 98);
+            flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8, 9, 8, 9);
+            flowLayoutPanel1.Size = new System.Drawing.Size(697, 78);
             flowLayoutPanel1.TabIndex = 1;
             // 
             // ButtonCloseDialog
             // 
-            ButtonCloseDialog.Location = new System.Drawing.Point(692, 13);
-            ButtonCloseDialog.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            ButtonCloseDialog.Location = new System.Drawing.Point(554, 11);
+            ButtonCloseDialog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonCloseDialog.Name = "ButtonCloseDialog";
-            ButtonCloseDialog.Size = new System.Drawing.Size(155, 52);
+            ButtonCloseDialog.Size = new System.Drawing.Size(124, 39);
             ButtonCloseDialog.TabIndex = 0;
             ButtonCloseDialog.Text = "Yea, sure...";
             ButtonCloseDialog.UseVisualStyleBackColor = true;
@@ -144,10 +143,10 @@
             panel2.Controls.Add(LicenseInfoRichtextBox);
             panel2.Controls.Add(AboutPictureBox);
             panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            panel2.Location = new System.Drawing.Point(4, 133);
-            panel2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            panel2.Location = new System.Drawing.Point(3, 107);
+            panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(871, 365);
+            panel2.Size = new System.Drawing.Size(697, 291);
             panel2.TabIndex = 2;
             // 
             // LicenseInfoRichtextBox
@@ -155,11 +154,11 @@
             LicenseInfoRichtextBox.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             LicenseInfoRichtextBox.BackColor = System.Drawing.SystemColors.ButtonFace;
             LicenseInfoRichtextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            LicenseInfoRichtextBox.Location = new System.Drawing.Point(191, 35);
-            LicenseInfoRichtextBox.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            LicenseInfoRichtextBox.Location = new System.Drawing.Point(153, 28);
+            LicenseInfoRichtextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             LicenseInfoRichtextBox.Name = "LicenseInfoRichtextBox";
             LicenseInfoRichtextBox.ReadOnly = true;
-            LicenseInfoRichtextBox.Size = new System.Drawing.Size(662, 314);
+            LicenseInfoRichtextBox.Size = new System.Drawing.Size(530, 251);
             LicenseInfoRichtextBox.TabIndex = 1;
             LicenseInfoRichtextBox.Text = "";
             LicenseInfoRichtextBox.LinkClicked += LicenseInfoRichtextBox_LinkClicked;
@@ -167,21 +166,21 @@
             // AboutPictureBox
             // 
             AboutPictureBox.Image = Properties.Resources.box_surprise_large;
-            AboutPictureBox.Location = new System.Drawing.Point(21, 35);
-            AboutPictureBox.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            AboutPictureBox.Location = new System.Drawing.Point(17, 28);
+            AboutPictureBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             AboutPictureBox.Name = "AboutPictureBox";
-            AboutPictureBox.Size = new System.Drawing.Size(164, 261);
+            AboutPictureBox.Size = new System.Drawing.Size(131, 209);
             AboutPictureBox.TabIndex = 0;
             AboutPictureBox.TabStop = false;
             // 
             // AboutDialogForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(879, 602);
+            ClientSize = new System.Drawing.Size(703, 482);
             Controls.Add(tableLayoutPanel1);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
-            Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "AboutDialogForm";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "About this cool Software";
