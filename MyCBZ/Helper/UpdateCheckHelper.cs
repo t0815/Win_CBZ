@@ -54,7 +54,12 @@ namespace Win_CBZ.Helper
                         }
                         catch (Exception ex)
                         {
-                            ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                            if (!r.Result.Silent)
+                            {
+                                ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + ex.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                            }
+
+                            MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "An error occurred while checking for updates! [ " + ex.Message + "]");
                         }
                         finally
                         {
@@ -63,8 +68,12 @@ namespace Win_CBZ.Helper
                     }
                     else
                     {
-                        ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + r.Exception?.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                        if (!r.Result.Silent)
+                        {
+                            ApplicationMessage.Show("An error occurred while checking for updates!\r\n" + r.Exception?.Message, "Error", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                        }
 
+                        MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "An error occurred while checking for updates! [ " + r.Exception.Message + "]");
                     }
 
                     AppEventHandler.OnApplicationStateChanged(sender, new ApplicationStatusEvent(Program.ProjectModel, ApplicationStatusEvent.STATE_READY));
