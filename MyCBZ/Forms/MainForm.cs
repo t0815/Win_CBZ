@@ -138,6 +138,16 @@ namespace Win_CBZ
 
             Program.DebugMode = Win_CBZSettings.Default.DebugMode == "3ab980acc9ab16b";
 
+            if (Program.DebugMode)
+            {
+                Text += " [DEBUG MODE]";
+            }
+
+            if (Win_CBZSettings.Default.AutoUpdateInterval == 0)
+            {
+                Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_DAILY;
+            }
+
             if (Win_CBZSettings.Default.RestoreWindowLayout)
             {
                 if (WindowState == FormWindowState.Normal)
@@ -5696,6 +5706,22 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.AutoUpdate = settingsDialog.AutoUpdateCheck;
                 Win_CBZSettings.Default.AutoupdateType = settingsDialog.AutoUpdateCheckIntervalType;
 
+                switch (settingsDialog.AutoUpdateCheckIntervalType)
+                {
+                    case 0:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_DAILY;
+                        break;
+                    case 1:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_WEEKLY;
+                        break;
+                    case 2:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_MONTHLY;
+                        break;
+
+                    default:
+                        Win_CBZSettings.Default.AutoUpdateInterval = UpdateCheckHelper.UPDATE_CHECK_INTERVAL_DAILY;
+                        break;
+                }
 
                 Program.ProjectModel.WorkingDir = PathHelper.ResolvePath(settingsDialog.TempPath);
 
@@ -8865,7 +8891,7 @@ namespace Win_CBZ
             
             DateTime lastCheck = new DateTime(Win_CBZSettings.Default.AutoUpdateLastCheck);
 
-            if (lastCheck.AddTicks(Win_CBZSettings.Default.AutoUpdateInterval) < DateTime.Now)
+            if (lastCheck.AddSeconds(Win_CBZSettings.Default.AutoUpdateInterval) < DateTime.Now)
             {
 
                 Win_CBZSettings.Default.AutoUpdateLastCheck = DateTime.Now.Ticks;
@@ -8875,7 +8901,7 @@ namespace Win_CBZ
 
             }
 
-            UpdateCheckTimer.Interval = 60 * 60 * 1000; // 1 hour
+            UpdateCheckTimer.Interval = 60 * 60 * 1000; // 1 hour checks after initial check
         }
     }
 }

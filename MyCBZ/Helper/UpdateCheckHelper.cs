@@ -17,6 +17,13 @@ namespace Win_CBZ.Helper
     [SupportedOSPlatform("windows")]
     internal class UpdateCheckHelper
     {
+       
+        public const long UPDATE_CHECK_INTERVAL_MONTHLY = 60 * 60 * 24 * 30; // 30 days
+
+        public const long UPDATE_CHECK_INTERVAL_WEEKLY = 60 * 60 * 24 * 7; // 7 days
+
+        public const long UPDATE_CHECK_INTERVAL_DAILY = 60 * 60 * 24; // 1 day
+
 
         public static void CheckForUpdates(Control sender, bool silent = false)
         {
