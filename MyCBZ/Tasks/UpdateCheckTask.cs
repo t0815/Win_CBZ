@@ -20,11 +20,14 @@ namespace Win_CBZ.Tasks
 {
     internal class UpdateCheckTask
     {
-        public static Task<UpdateCheckTaskResult> CheckForUpdates(List<String> urls, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = true)
+        public static Task<UpdateCheckTaskResult> CheckForUpdates(List<String> urls, bool silent, GeneralTaskProgressDelegate handler, CancellationToken cancellationToken, bool inBackground = true)
         {
             return new Task<UpdateCheckTaskResult>((token) =>
             {
                 UpdateCheckTaskResult result = new UpdateCheckTaskResult();
+
+                result.Silent = silent;
+
                 int completed = 0;
 
                 foreach (string url in urls)
@@ -50,6 +53,7 @@ namespace Win_CBZ.Tasks
 
                     client.Timeout = TimeSpan.FromSeconds(15); // 15 seconds timeout
                     client.DefaultRequestHeaders.Add("User-Agent", "WIN_CBZ");
+                    client.DefaultRequestHeaders.Add("Referer", "Win_CBZ");
                     client.DefaultRequestHeaders.Add("Accept", "application/xml");
                     client.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
 

@@ -19,6 +19,8 @@ namespace Win_CBZ.Result
 
         public string LatestVersion { get; set; } = string.Empty;
 
+        public bool Silent { get; set; } = false;
+
         public bool IsNewerVersion { get; set; } = false;
 
         public string DownloadUrl { get; set; } = string.Empty;
