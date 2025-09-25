@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <version>
-  <latest></latest>
-  <notes></notes>
-  <url></url>
+  <latest>0.24.210</latest>
+  <notes>
+    <title>Version 0.24.210b</title>
+    <changes>
+      <change>implement small improvements and fixes to task-management</change>
+    </changes>
+  </notes>
+  <url>https://github.com/t0815/Win_CBZ/releases/tag/0.24.210b</url>
 </version>
