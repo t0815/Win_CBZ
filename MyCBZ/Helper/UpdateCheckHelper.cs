@@ -25,7 +25,7 @@ namespace Win_CBZ.Helper
                 "https://raw.githubusercontent.com/t0815/Win_CBZ/refs/heads/master/version.xml"
             };
 
-            Task<UpdateCheckTaskResult> updateCheckTask = UpdateCheckTask.CheckForUpdates(urls, false, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
+            Task<UpdateCheckTaskResult> updateCheckTask = UpdateCheckTask.CheckForUpdates(urls, silent, AppEventHandler.OnGeneralTaskProgress, TokenStore.GetInstance().RequestCancellationToken(TokenStore.TOKEN_SOURCE_AWAIT_THREADS));
 
             updateCheckTask.ContinueWith(r =>
             {
@@ -36,16 +36,14 @@ namespace Win_CBZ.Helper
 
                         try
                         {
-                            if (!r.Result.IsNewerVersion && r.Result.Silent)
+                            if ((r.Result.IsNewerVersion && r.Result.Silent) || !r.Result.Silent)
                             {
-                                return;
+                                UpdateCheckForm updateCheckForm = new UpdateCheckForm(r.Result);
+
+                                DialogResult res = updateCheckForm.ShowDialog();
+
+                                
                             }
-
-                            UpdateCheckForm updateCheckForm = new UpdateCheckForm(r.Result);
-
-                            DialogResult res = updateCheckForm.ShowDialog();
-                           
-
                         }
                         catch (Exception ex)
                         {

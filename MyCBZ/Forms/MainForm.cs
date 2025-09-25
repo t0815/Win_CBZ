@@ -1,4 +1,5 @@
 ﻿using AutocompleteMenuNS;
+using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.Devices;
 using SharpCompress;
 using System;
@@ -302,7 +303,6 @@ namespace Win_CBZ
             if (!WindowShown)
             {
 
-
                 MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_INFO, Assembly.GetExecutingAssembly().GetName().Name + " v" + Assembly.GetExecutingAssembly().GetName().Version + "  - Welcome!");
 
                 FileSettingsTablePanel.Width = MainSplitBox.SplitterDistance - 24;
@@ -386,9 +386,8 @@ namespace Win_CBZ
                     newPageTypeItem.Click += TypeSelectionToolStripMenuItem_Click;
                 }
 
-
-
                 backgroundWorker1.RunWorkerAsync();
+                UpdateCheckTimer.Enabled = Win_CBZSettings.Default.AutoUpdate;
 
                 WindowShown = true;
             }
@@ -8859,6 +8858,24 @@ namespace Win_CBZ
         private void UpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateCheckHelper.CheckForUpdates(this, false);
+        }
+
+        private void UpdateCheckTimer_Tick(object sender, EventArgs e)
+        {
+            
+            DateTime lastCheck = new DateTime(Win_CBZSettings.Default.AutoUpdateLastCheck);
+
+            if (lastCheck.AddTicks(Win_CBZSettings.Default.AutoUpdateInterval) < DateTime.Now)
+            {
+
+                Win_CBZSettings.Default.AutoUpdateLastCheck = DateTime.Now.Ticks;
+                Win_CBZSettings.Default.Save();
+
+                UpdateCheckHelper.CheckForUpdates(this, true);
+
+            }
+
+            UpdateCheckTimer.Interval = 60 * 60 * 1000; // 1 hour
         }
     }
 }

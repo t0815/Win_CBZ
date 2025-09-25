@@ -133,14 +133,14 @@
     <value>610, 21</value>
   </metadata>
   <metadata name="TabImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>670, 62</value>
+    <value>849, 62</value>
   </metadata>
   <data name="TabImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAbgoAAAJNU0Z0AUkBTAIBAQMB
-        AAGAAUABgAFAARABAAEQAQAE/wEJAQAI/wFCAU0BNgEEBgABNgEEAgABKAMAAUADAAEQAwABAQEAAQgG
+        AAGwAUABsAFAARABAAEQAQAE/wEJAQAI/wFCAU0BNgEEBgABNgEEAgABKAMAAUADAAEQAwABAQEAAQgG
         AAEEGAABgAIAAYADAAKAAQABgAMAAYABAAGAAQACgAIAA8ABAAHAAdwBwAEAAfABygGmAQABMwUAATMB
         AAEzAQABMwEAAjMCAAMWAQADHAEAAyIBAAMpAQADVQEAA00BAANCAQADOQEAAYABfAH/AQACUAH/AQAB
         kwEAAdYBAAH/AewBzAEAAcYB1gHvAQAB1gLnAQABkAGpAa0CAAH/ATMDAAFmAwABmQMAAcwCAAEzAwAC
@@ -188,7 +188,7 @@
 </value>
   </data>
   <metadata name="MetaDataEditorContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 62</value>
+    <value>196, 62</value>
   </metadata>
   <metadata name="ToolButtonImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>939, 21</value>
@@ -198,7 +198,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAIkMAAAJNU0Z0AUkBTAIBARIB
-        AAGAAUABgAFAARgBAAEYAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAAXgDAAEBAQABGAYAAYeE
+        AAGwAUABsAFAARgBAAEYAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABYAMAAXgDAAEBAQABGAYAAYeE
         AANnEiUDZ/8ACQADJRIAAyXnAB4lAwADnAP+A1wDcAkAAyWZAALUAdUDJzYlAycD1QwAAyUDfQG9Ar4B
         vQK+Ab0CvgG9Ar4BvQK+Ab0CvgG9A74CvwMAA90DYQYlA3gGAAMlmQADvQMlNr0DJQO+DAADJQG9Ar4B
         pAHmAfMBaAHdAfMBaAHdAfMBaAHdAfMBaAHdAfMBaAHdAfMBaAHdAfMBzQHtAfMD/wNkCSUDJwN+AwAD
@@ -488,10 +488,10 @@
 </value>
   </data>
   <metadata name="OpenImagesDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>801, 62</value>
+    <value>17, 103</value>
   </metadata>
   <metadata name="Tooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>439, 103</value>
+    <value>835, 103</value>
   </metadata>
   <metadata name="AutoCompleteItems.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>750, 21</value>
@@ -514,14 +514,14 @@
 </value>
   </data>
   <metadata name="AutocompleteIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>921, 103</value>
+    <value>211, 144</value>
   </metadata>
   <data name="AutocompleteIcons.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAIicAAAJNU0Z0AUkBTAIBAQ8B
-        AAHYASAB2AEgARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
+        AAEIASEBCAEhARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAAUADAAEBAQABIAYAAUD/
         ABsAA0wBkAMlAf8DYgHhCAADJAE0AyUB/wMlAf8DKgE/YAABVQJXAbEBXAJlAecBKwJ+AfwBKwJ+AfwB
         XAJlAecBVQJXAbFkAAMyAU8DJQH/AyUB/wMaASQEAAQCA1kB7wMlAf8DRgGAJAADBgEIA0EBcgNbAc0D
         XAH4A1wB+ANbAc0DQQFyAwYBCBwAAUACQQFxAQAB0gH6Af8BAAHSAfoB/wEAAdIB+gH/AQAB0gH6Af8B
@@ -691,7 +691,7 @@
 </value>
   </data>
   <metadata name="ToolbarImageTasks.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>784, 146</value>
+    <value>216, 185</value>
   </metadata>
   <data name="CompatInfoText.Text" xml:space="preserve">
     <value>Most CBZ-Readers ignore the ComicInfo Page-Index and rely on filename ordering instead. If enabled, any renaming options are ignored and the files are automatically renamed according to their index. The Page with Type 'FrontCover' should be at index 1.</value>
@@ -705,17 +705,17 @@ Note: If writing XML-Pageindex is set to FALSE, this option will be forced and c
 </value>
   </data>
   <metadata name="PageListContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 144</value>
+    <value>563, 144</value>
   </metadata>
   <metadata name="PageSmallIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1110, 103</value>
+    <value>400, 144</value>
   </metadata>
   <data name="PageSmallIcons.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAlgYAAAJNU0Z0AUkBTAIBAQIB
-        AAEwASABMAEgARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABIAYAARD/
+        AAFgASABYAEgARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABIAYAARD/
         ACcAAxgBIQNQAZwDWgHyA1ABnAMYASHkAAMYASADTwGZA1oB8gNRAaIDJQH/A1EBogNaAfIDTwGZAxgB
         IBQAA1kBwANZAcADWQHAA1kBwANZAcADWQHAA1kBwANZAcADWQHAA1kBwANZAcADWQHAA1kBwAMlAf8D
         KgFAhAADFQEcA04BlgNaAfIDUQGeAxoBIwMIAQoDJQH/AwgBCgMaASMDUQGeA1oB8gNOAZYDFQEcDAAD
@@ -746,14 +746,14 @@ Note: If writing XML-Pageindex is set to FALSE, this option will be forced and c
 </value>
   </data>
   <metadata name="SmallIconsImages.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1120, 21</value>
+    <value>17, 62</value>
   </metadata>
   <data name="SmallIconsImages.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAACgMAAAJNU0Z0AUkBTAIBAQIB
-        AAHwAT8B8AE/ARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQwh
+        AAEgAUABIAFAARABAAEQAQAE/wEZAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAARADAAEBAQABGAYAAQwh
         AAP3A9kDxAO/A9ID7QP+pQAD/gO5AywPJQN/A/0SAAPnAVIBVAFVA/oPAAO4AbYCuG8AA/sDhgYlA0kD
         qwOtA38GJQNEA+MMAAPmA1ADJQN9A/oGAAP9A7QDKwMlA7ppAAP+A2MJJQObBgAD3wklA0QD/QYAA+cM
         JQNGA/oDAAO0DCUBtgK4ZgAD1AwlA5sGAAPfDCUDfwP+AwAD6AM1DCUDfQO0AysJJQMrA7hmAAOGDCUD
@@ -769,20 +769,20 @@ Note: If writing XML-Pageindex is set to FALSE, this option will be forced and c
 </value>
   </data>
   <metadata name="ContextMenuUserFilterList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>219, 144</value>
+    <value>765, 144</value>
   </metadata>
   <metadata name="DataGridContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>462, 62</value>
+    <value>641, 62</value>
   </metadata>
   <metadata name="LogMessageImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>990, 62</value>
+    <value>206, 103</value>
   </metadata>
   <data name="LogMessageImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAygkAAAJNU0Z0AUkBTAIBAQQB
-        AAEoAQEBKAEBARABAAEQAQAE/wERAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAASADAAEBAQABEAYAARD/
+        AAFYAQEBWAEBARABAAEQAQAE/wERAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAASADAAEBAQABEAYAARD/
         AP8A/wD/AP8A/wD/AP8AogAB/wF/ATcBdwEvAW4BqQFtAakBbQEvAW4BNwF3Af8Bfw4AAd4BewE5AWcB
         /wF/CAAB/wF/ATkBZwHeAXsWAAF7AW8BnAFzAf8BfzAAAZsBewGqAW0BiAFtAYgBbQGIAW0BiAFtAYgB
         bQGIAW0BqgFtAZsBewwAAVIBSgGJATUBhwFWAbsBdwQAAbsBdwGHAVYBiQE1AVIBShYAAVoBawGlARQB
@@ -827,29 +827,29 @@ Note: If writing XML-Pageindex is set to FALSE, this option will be forced and c
 </value>
   </data>
   <metadata name="ContextMenuPropertyFilter.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>202, 103</value>
+    <value>598, 103</value>
   </metadata>
   <metadata name="SaveArchiveDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 103</value>
+    <value>413, 103</value>
   </metadata>
   <metadata name="SelectColorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>546, 103</value>
+    <value>942, 103</value>
   </metadata>
   <metadata name="AddPagesDirDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>271, 62</value>
+    <value>450, 62</value>
   </metadata>
   <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>727, 103</value>
+    <value>17, 144</value>
   </metadata>
   <metadata name="ComboIcons.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>451, 144</value>
+    <value>997, 144</value>
   </metadata>
   <data name="ComboIcons.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAEZTeXN0ZW0uV2luZG93cy5Gb3JtcywgQ3VsdHVyZT1uZXV0cmFs
         LCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5BQEAAAAmU3lzdGVtLldpbmRvd3MuRm9ybXMu
         SW1hZ2VMaXN0U3RyZWFtZXIBAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAUg0AAAJNU0Z0AUkBTAIBAQUB
-        AAGIAQgBiAEIARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAASADAAEBAQABIAYAASD/
+        AAG4AQgBuAEIARABAAEQAQAE/wEhAQAI/wFCAU0BNgcAATYDAAEoAwABQAMAASADAAEBAQABIAYAASD/
         AP8ALAADOwFkA0cBgwMqAUADRgGAA1ABnwMzAVEDPgFqA0YBgOAAA1oB8gMlAf8DJQH/AyUB/wMlAf8D
         JQH/AyUB/wNBAfnUAAMaASQDKgFAAyoBQAM+AWoDRwGDAyoBQANJAYgDUgGgAzABSwMeASsDLAFD0AAD
         KQE+A00B+gMlAf8DJQH/AyUB/wMlAf8DJQH/AyUB/wMlAf8DJQH/A1YBsAQB0AADYQHmAyUB/wMlAf8D
@@ -909,7 +909,10 @@ Note: If writing XML-Pageindex is set to FALSE, this option will be forced and c
 </value>
   </data>
   <metadata name="DataGridErrorTooltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>594, 144</value>
+    <value>17, 185</value>
+  </metadata>
+  <metadata name="UpdateCheckTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>402, 185</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>162</value>

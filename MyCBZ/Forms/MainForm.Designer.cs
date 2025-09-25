@@ -285,6 +285,7 @@ namespace Win_CBZ
             PrimaryTableLayout = new System.Windows.Forms.TableLayoutPanel();
             ComboIcons = new System.Windows.Forms.ImageList(components);
             DataGridErrorTooltip = new System.Windows.Forms.ToolTip(components);
+            UpdateCheckTimer = new System.Windows.Forms.Timer(components);
             ToolBar.SuspendLayout();
             MenuBar.SuspendLayout();
             MainStatusToolStrip.SuspendLayout();
@@ -3176,6 +3177,11 @@ namespace Win_CBZ
             DataGridErrorTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Error;
             DataGridErrorTooltip.ToolTipTitle = "Metadata Value Error";
             // 
+            // UpdateCheckTimer
+            // 
+            UpdateCheckTimer.Interval = 5000;
+            UpdateCheckTimer.Tick += UpdateCheckTimer_Tick;
+            // 
             // MainForm
             // 
             AllowDrop = true;
@@ -3535,6 +3541,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripButton ToolButtonCreateTasksForEach;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripMenuItem UpdateToolStripMenuItem;
+        private System.Windows.Forms.Timer UpdateCheckTimer;
     }
 }
 
