@@ -44,13 +44,13 @@
             tabPage1 = new System.Windows.Forms.TabPage();
             SettingsGroup1Panel = new System.Windows.Forms.Panel();
             MetadataDefaultsTable = new System.Windows.Forms.TableLayoutPanel();
-            label2 = new System.Windows.Forms.Label();
-            button1 = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
-            CustomDefaultKeys = new System.Windows.Forms.TextBox();
             label4 = new System.Windows.Forms.Label();
+            CustomDefaultKeys = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
             PictureBoxToolTipMetaFileName = new System.Windows.Forms.PictureBox();
             ComboBoxFileName = new System.Windows.Forms.ComboBox();
+            label2 = new System.Windows.Forms.Label();
+            button1 = new System.Windows.Forms.Button();
             MetaDataTabPageTags = new System.Windows.Forms.TabPage();
             tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             CheckBoxValidateTags = new System.Windows.Forms.CheckBox();
@@ -398,65 +398,13 @@
             MetadataDefaultsTable.Location = new System.Drawing.Point(0, 1);
             MetadataDefaultsTable.Name = "MetadataDefaultsTable";
             MetadataDefaultsTable.RowCount = 5;
-            MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.60072F));
+            MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.3992767F));
+            MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             MetadataDefaultsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             MetadataDefaultsTable.Size = new System.Drawing.Size(218, 560);
             MetadataDefaultsTable.TabIndex = 8;
-            // 
-            // label2
-            // 
-            label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            MetadataDefaultsTable.SetColumnSpan(label2, 3);
-            label2.Location = new System.Drawing.Point(4, 491);
-            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 6);
-            label2.Size = new System.Drawing.Size(210, 69);
-            label2.TabIndex = 2;
-            label2.Text = "One Key per Line\r\nTo set a default value for a given key use <key>=<value> format";
-            // 
-            // button1
-            // 
-            button1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            MetadataDefaultsTable.SetColumnSpan(button1, 2);
-            button1.Location = new System.Drawing.Point(47, 367);
-            button1.Margin = new System.Windows.Forms.Padding(4, 19, 8, 2);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(163, 47);
-            button1.TabIndex = 3;
-            button1.Text = "Restore";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // label1
-            // 
-            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            label1.AutoSize = true;
-            MetadataDefaultsTable.SetColumnSpan(label1, 2);
-            label1.Location = new System.Drawing.Point(4, 132);
-            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 10);
-            label1.Size = new System.Drawing.Size(102, 30);
-            label1.TabIndex = 1;
-            label1.Text = "Default Metadata Keys";
-            // 
-            // CustomDefaultKeys
-            // 
-            CustomDefaultKeys.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            MetadataDefaultsTable.SetColumnSpan(CustomDefaultKeys, 3);
-            CustomDefaultKeys.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            SettingsValidationErrorProvider.SetIconPadding(CustomDefaultKeys, -35);
-            CustomDefaultKeys.Location = new System.Drawing.Point(10, 164);
-            CustomDefaultKeys.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
-            CustomDefaultKeys.Multiline = true;
-            CustomDefaultKeys.Name = "CustomDefaultKeys";
-            CustomDefaultKeys.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            CustomDefaultKeys.Size = new System.Drawing.Size(198, 182);
-            CustomDefaultKeys.TabIndex = 0;
             // 
             // label4
             // 
@@ -466,9 +414,36 @@
             label4.Location = new System.Drawing.Point(22, 25);
             label4.Margin = new System.Windows.Forms.Padding(22, 25, 22, 25);
             label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(1, 82);
+            label4.Size = new System.Drawing.Size(1, 20);
             label4.TabIndex = 5;
             label4.Text = "Filename:";
+            // 
+            // CustomDefaultKeys
+            // 
+            CustomDefaultKeys.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            MetadataDefaultsTable.SetColumnSpan(CustomDefaultKeys, 3);
+            CustomDefaultKeys.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            SettingsValidationErrorProvider.SetIconPadding(CustomDefaultKeys, -35);
+            CustomDefaultKeys.Location = new System.Drawing.Point(10, 102);
+            CustomDefaultKeys.Margin = new System.Windows.Forms.Padding(10, 2, 10, 2);
+            CustomDefaultKeys.Multiline = true;
+            CustomDefaultKeys.Name = "CustomDefaultKeys";
+            CustomDefaultKeys.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            CustomDefaultKeys.Size = new System.Drawing.Size(198, 245);
+            CustomDefaultKeys.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            label1.AutoSize = true;
+            MetadataDefaultsTable.SetColumnSpan(label1, 2);
+            label1.Location = new System.Drawing.Point(4, 70);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 10);
+            label1.Size = new System.Drawing.Size(102, 30);
+            label1.TabIndex = 1;
+            label1.Text = "Default Metadata Keys";
             // 
             // PictureBoxToolTipMetaFileName
             // 
@@ -497,6 +472,31 @@
             ComboBoxFileName.Size = new System.Drawing.Size(69, 32);
             ComboBoxFileName.TabIndex = 4;
             ComboBoxFileName.DrawItem += ComboBox_DrawItem;
+            // 
+            // label2
+            // 
+            label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            MetadataDefaultsTable.SetColumnSpan(label2, 3);
+            label2.Location = new System.Drawing.Point(4, 491);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 6);
+            label2.Size = new System.Drawing.Size(210, 69);
+            label2.TabIndex = 2;
+            label2.Text = "One Key per Line\r\nTo set a default value for a given key use <key>=<value> format";
+            // 
+            // button1
+            // 
+            button1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            MetadataDefaultsTable.SetColumnSpan(button1, 2);
+            button1.Location = new System.Drawing.Point(47, 368);
+            button1.Margin = new System.Windows.Forms.Padding(4, 19, 8, 2);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(163, 47);
+            button1.TabIndex = 3;
+            button1.Text = "Restore";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // MetaDataTabPageTags
             // 

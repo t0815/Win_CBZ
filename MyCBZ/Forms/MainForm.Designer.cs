@@ -2128,7 +2128,7 @@ namespace Win_CBZ
             ImageTaskListView.Margin = new System.Windows.Forms.Padding(4);
             ImageTaskListView.Name = "ImageTaskListView";
             ImageTaskListView.OwnerDraw = true;
-            ImageTaskListView.SelectionColor = System.Drawing.Color.DarkOrange;
+            ImageTaskListView.SelectionColor = System.Drawing.Color.Gold;
             ImageTaskListView.Size = new System.Drawing.Size(338, 128);
             ImageTaskListView.TabIndex = 1;
             ImageTaskListView.UseCompatibleStateImageBehavior = false;

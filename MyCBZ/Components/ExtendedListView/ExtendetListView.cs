@@ -523,7 +523,11 @@ namespace Win_CBZ
                 {
                     if (this.Focused)
                     {
-                        e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+                        if (this.FullRowSelect || e.ColumnIndex == 0)
+                        { 
+                            e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+                        }
+                        
                         textColor = this._selectedTextColor;
                     }
                 }
@@ -540,8 +544,10 @@ namespace Win_CBZ
 
                     // Draw the background and focus rectangle for a selected item.
 
-                    e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-
+                    if (this.FullRowSelect || e.ColumnIndex == 0)
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                    }
                 }
             }
             else
@@ -554,8 +560,10 @@ namespace Win_CBZ
                         if (this.Focused)
                         {
                             textColor = this._selectedTextColor;
-                            e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
-
+                            if (this.FullRowSelect || e.ColumnIndex == 0)
+                            {
+                                e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+                            }
                         }
                     }
                     else
@@ -570,9 +578,11 @@ namespace Win_CBZ
                         }
 
                         // Draw the background and focus rectangle for a selected item.
-                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                        if (this.FullRowSelect || e.ColumnIndex == 0)
+                        {
+                            e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                        }
                     }
-
                 }
                 else
                 {
