@@ -8880,22 +8880,23 @@ namespace Win_CBZ
                 Task.Factory.StartNew(() =>
                 {
                     try
-                    {
-                        Page selectedPage = PagesList.SelectedItems[0].Tag as Page;
+                    {                      
                         Invoke(() =>
+                        {
+                            Page selectedPage = PagesList.SelectedItems[0].Tag as Page;
+
+                            ImageTaskListView.SelectedItems.Clear();
+                            ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
                             {
-                                ImageTaskListView.SelectedItems.Clear();
-                                ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
+
+                                ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
+
+                                if (ita != null && ita.Pages.Contains(selectedPage))
                                 {
-
-                                    ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
-
-                                    if (ita != null && ita.Pages.Contains(selectedPage))
-                                    {
-                                        item.Selected = true;
-                                    }
-                                });
+                                    item.Selected = true;
+                                }
                             });
+                        });
                             
                     }
                     catch (Exception) { }

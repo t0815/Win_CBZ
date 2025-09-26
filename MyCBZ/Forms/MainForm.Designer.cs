@@ -2093,6 +2093,8 @@ namespace Win_CBZ
             // 
             ImageTaskListView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             ImageTaskListView.CheckBoxes = true;
+            ImageTaskListView.CheckBoxIcon = Properties.Resources.checkbox_unchecked;
+            ImageTaskListView.CheckBoxIconChecked = Properties.Resources.checkbox;
             ImageTaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader2, columnHeader3 });
             TableLayoutTaskSelection.SetColumnSpan(ImageTaskListView, 2);
             ImageTaskListView.FullRowSelect = true;
@@ -2101,7 +2103,6 @@ namespace Win_CBZ
             ImageTaskListView.Name = "ImageTaskListView";
             ImageTaskListView.OwnerDraw = true;
             ImageTaskListView.SelectionColor = System.Drawing.Color.DarkOrange;
-            ImageTaskListView.SelectionTextColor = System.Drawing.Color.Yellow;
             ImageTaskListView.Size = new System.Drawing.Size(282, 108);
             ImageTaskListView.TabIndex = 1;
             ImageTaskListView.UseCompatibleStateImageBehavior = false;
@@ -2529,7 +2530,7 @@ namespace Win_CBZ
             PageListContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             PageListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { removeToolStripMenuItem, toolStripSeparator13, selectAssignedTaskToolStripMenuItem, propertiesToolStripMenuItem });
             PageListContextMenu.Name = "PageListContextMenu";
-            PageListContextMenu.Size = new System.Drawing.Size(216, 116);
+            PageListContextMenu.Size = new System.Drawing.Size(216, 88);
             // 
             // removeToolStripMenuItem
             // 

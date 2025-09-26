@@ -4,11 +4,13 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Win_CBZ.Img;
 
 namespace Win_CBZ
 {
@@ -262,6 +264,8 @@ namespace Win_CBZ
 
 
             int indent = 0;
+            int checkBoxWidth = 0;
+
             if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
             {
                 if (this.SmallImageList != null)
@@ -277,26 +281,42 @@ namespace Win_CBZ
                 }
             }
 
+            // Draw the checkbox if needed
             if (this.CheckBoxes && e.ColumnIndex == 0)
             {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Padding = new Padding(0);
-                checkBox.Margin = new Padding(0);
-                checkBox.BackColor = this.BackColor;
-                checkBox.Checked = e.Item.Checked;
-                checkBox.Enabled = this.Enabled;
-                checkBox.Size = new Size(18, e.Bounds.Height);
+                if (this._chechBoxIconCheck != null && this._chechBoxIcon != null)
+                {
+                    Image check = e.Item.Checked ? this._chechBoxIconCheck : this._chechBoxIcon;
 
-                checkBox.Text = "";
+                    ImageOperations.ResizeImage(ref check, new Size(e.Bounds.Height, e.Bounds.Height), this.BackColor, InterpolationMode.HighQualityBicubic, CompositingMode.SourceOver);
 
-                Bitmap check = new Bitmap(checkBox.Size.Width, checkBox.Size.Height);
+                    e.Graphics.DrawImage(check, new Point(e.SubItem.Bounds.X, e.SubItem.Bounds.Y));
 
-                checkBox.DrawToBitmap(check, new Rectangle(0, 0, checkBox.Size.Width, checkBox.Size.Height));
-                checkBox.Dispose();
+                    checkBoxWidth = check.Width;
+                }
+                else
+                {
+                   
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.Padding = new Padding(0);
+                    checkBox.Appearance = Appearance.Normal;
+                    checkBox.FlatStyle = FlatStyle.Flat;
+                    checkBox.Margin = new Padding(0);
+                    checkBox.BackColor = this.BackColor;
+                    checkBox.Checked = e.Item.Checked;
+                    checkBox.Enabled = this.Enabled;
+                    checkBox.Size = new Size(e.Bounds.Height, e.Bounds.Height);
+                    checkBox.Text = "";
+                    
+                    Bitmap check = new Bitmap(checkBox.Size.Width, checkBox.Size.Height);
+                    checkBox.DrawToBitmap(check, new Rectangle(0, 0, checkBox.Size.Width, checkBox.Size.Height));
+                    checkBox.Dispose();
+                    e.Graphics.DrawImage(check, new Point(e.SubItem.Bounds.X, e.SubItem.Bounds.Y));
 
-                indent += 18;
+                    checkBoxWidth = check.Width;
+                }
 
-                e.Graphics.DrawImage(check, new Point(e.SubItem.Bounds.X, e.SubItem.Bounds.Y));
+                indent += checkBoxWidth;
             }
 
             e.Graphics.Clip = new Region(e.SubItem.Bounds);
@@ -375,6 +395,9 @@ namespace Win_CBZ
                     if (!this.Focused)
                     {
                         highlightColor = SystemColors.ControlLight;
+                    } else
+                    {
+                        textColor = this._selectedTextColor;
                     }
 
                     // Draw the background and focus rectangle for a selected item.
@@ -403,6 +426,9 @@ namespace Win_CBZ
                         if (!this.Focused)
                         {
                             highlightColor = SystemColors.ControlLight;
+                        } else
+                        {
+                            textColor = this._selectedTextColor;
                         }
 
                         // Draw the background and focus rectangle for a selected item.
@@ -437,8 +463,7 @@ namespace Win_CBZ
 
 
             // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
-            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, this.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
-
+            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, this.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), textColor, flags);
 
             base.OnDrawSubItem(e);
         }
