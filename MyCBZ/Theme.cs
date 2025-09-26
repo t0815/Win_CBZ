@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using Win_CBZ.Helper;
 
 namespace Win_CBZ
@@ -70,6 +72,41 @@ namespace Win_CBZ
             return this;
         }
 
+        public Stream SaveXML(Dictionary<string, string> theme)
+        {
+            MemoryStream ms = new MemoryStream();
+            XmlWriterSettings writerSettings = new XmlWriterSettings
+            {
+                OmitXmlDeclaration = false,
+                Encoding = Encoding.UTF8,
+            };
+
+            XmlWriter xmlWriter = XmlWriter.Create(ms, writerSettings);
+
+            xmlWriter.WriteStartDocument();
+
+            xmlWriter.WriteStartElement("Win_CBZ_Theme");
+            foreach (KeyValuePair<string, string> entry in theme)
+            {
+                
+                 xmlWriter.WriteElementString(entry.Key, entry.Value);
+               
+            }
+
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndDocument();
+
+            ms.Position = 0;
+
+            return ms;
+        }
+
+        public void LoadXML(String xml, string theme)
+        {
+
+        }
+
 
         /// <summary>
         /// make new theme colors
@@ -81,20 +118,20 @@ namespace Win_CBZ
             switch (theme)
             {
                 case THEME_LIGHT:
-                    this.applyTheme(ThemeLightColors);
+                    this.ApplyTheme(ThemeLightColors);
                     break;
                 case THEME_DARK:
-                    this.applyTheme(ThemeDarkColors);
+                    this.ApplyTheme(ThemeDarkColors);
                     break;
                 default:
-                    this.applyTheme(ThemeLightColors);
+                    this.ApplyTheme(ThemeLightColors);
                     break;
             }
 
             return this;
         }
 
-        private void applyTheme(Dictionary<string, string> themeColors)
+        private void ApplyTheme(Dictionary<string, string> themeColors)
         {
             foreach (var color in themeColors)
             {
@@ -118,7 +155,7 @@ namespace Win_CBZ
 
         private Theme()
         {
-            this.applyTheme(ThemeLightColors);
+            this.ApplyTheme(ThemeLightColors);
         }
 
         public Color AccentColor { get; set; } = System.Drawing.ColorTranslator.FromHtml(Colors.COLOR_GOLD);

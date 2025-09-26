@@ -10,7 +10,9 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 using Win_CBZ.Img;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Win_CBZ
 {
@@ -257,11 +259,147 @@ namespace Win_CBZ
             base.OnPaint(e);
         }
 
+        protected override void OnDrawItem(DrawListViewItemEventArgs e)
+        {
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
+
+            if (this.View == View.Details)
+            {
+                return;
+            }
+
+            int indent = 0;
+            int checkBoxWidth = 0;
+
+            Rectangle rectangle;
+         
+            e.Graphics.Clip = new Region(new Rectangle(e.Item.Bounds.X, e.Item.Bounds.Y, e.Item.Bounds.Width + indent, e.Item.Bounds.Height));
+            
+            rectangle = e.Item.Bounds;
+            rectangle.X += e.Item.IndentCount;
+
+            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
+            {
+                if (this.SmallImageList != null)
+                {
+                    if (this.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                    {                   
+                        indent = e.Item.IndentCount * 16;
+                        indent += this.SmallImageList.ImageSize.Width + 8;                    
+                    }
+                }
+            }
+
+            Color textColor = e.Item.ForeColor;
+
+            // due to a bug in the win-apis listview renderer, we need to draw item backgrounds
+            // in subitem ownerdraw method too. Its important, to clip the drawing area to each column
+            // and draw the background for each column seperately - Otherwise there will be flickering
+            // and broken subitem texts!
+            if (e.State.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
+            {
+                if (this.HideSelection)
+                {
+                    if (this.Focused)
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+                        textColor = this._selectedTextColor;
+                    }
+                }
+                else
+                {
+                    Color highlightColor = this._selectionColor;
+                    if (!this.Focused)
+                    {
+                        highlightColor = SystemColors.ControlLight;
+                    }
+                    else
+                    {
+                        textColor = this._selectedTextColor;
+                    }
+
+                    // Draw the background and focus rectangle for a selected item.
+
+                    e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+
+                }
+            }
+            else
+            {
+                // Draw the background for an unselected item.
+                if (e.Item.Selected)
+                {
+                    if (this.HideSelection)
+                    {
+                        if (this.Focused)
+                        {
+                            textColor = this._selectedTextColor;
+                            e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+
+                        }
+                    }
+                    else
+                    {
+                        Color highlightColor = this._selectionColor;
+                        if (!this.Focused)
+                        {
+                            highlightColor = SystemColors.ControlLight;
+                        }
+                        else
+                        {
+                            textColor = this._selectedTextColor;
+                        }
+
+                        // Draw the background and focus rectangle for a selected item.
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                    }
+
+                }
+                else
+                {
+                    if (e.State.HasFlag(ListViewItemStates.Grayed) || this.Enabled == false)
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
+                    }
+                    else
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
+                    }
+                }
+            }
+
+
+            //if (e.ColumnIndex == 0)
+            //{
+            /*
+                if (e.ItemState.HasFlag(ListViewItemStates.Focused))
+                {
+                    e.Graphics.Clip = new Region(e.Item.Bounds);
+                    e.DrawFocusRectangle(e.Item.Bounds);
+                }
+            */
+            //}
+
+
+            // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
+            TextRenderer.DrawText(e.Graphics, e.Item.Text, this.Font, new Rectangle(e.Item.Bounds.X + indent, e.Item.Bounds.Y + 2, e.Item.Bounds.Width + indent, e.Item.Bounds.Height), textColor, flags);
+
+            base.OnDrawItem(e);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnDrawSubItem(DrawListViewSubItemEventArgs e)
         {
             
             TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
 
+            if (this.View != View.Details)
+            {
+                return;
+            }
 
             int indent = 0;
             int checkBoxWidth = 0;

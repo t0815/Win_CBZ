@@ -175,14 +175,12 @@ namespace Win_CBZ
                 ReadOnly = true;
             }
             finally
-            {
-               
+            {              
                 if (ReadOnly)
                 {
                     TemporaryFile = CreateLocalWorkingCopy();
                 }
             }
-
 
             Filename = ImageFileInfo.Name;
             FileExtension = ImageFileInfo.Extension;              
@@ -383,7 +381,7 @@ namespace Win_CBZ
             }
             
             
-            ImageTask = new ImageTask(Id);
+            ImageTask = new ImageTask(Id, sourcePage.ImageTask);
         }
 
         /// <summary>
@@ -531,7 +529,7 @@ namespace Win_CBZ
                     }
                 }
 
-                ImageTask = sourcePage.ImageTask;
+                ImageTask = new ImageTask(Id, sourcePage.ImageTask);
                 ImageMetaDataLoaded = sourcePage.ImageMetaDataLoaded;
             } else
             {
@@ -1062,8 +1060,8 @@ namespace Win_CBZ
             TemporaryFileId = page.TemporaryFileId;
             Changed = page.Changed;
             ImageType = page.ImageType;
-            ImageTask = page.ImageTask;
-            Format = page.Format;
+            ImageTask = new ImageTask(Id, page.ImageTask);
+            Format = new PageImageFormat(page.Format);
             DoublePage = page.DoublePage;
             Bookmark = page.Bookmark;
             Hash = page.Hash;
@@ -1109,8 +1107,8 @@ namespace Win_CBZ
             Changed = page.Changed;
             ImageChanged = page.ImageChanged;
             ImageType = page.ImageType;
-            ImageTask = page.ImageTask;
-            Format = page.Format;
+            ImageTask = new ImageTask(Id, page.ImageTask);
+            Format = new PageImageFormat(page.Format);
             DoublePage = page.DoublePage;
             Bookmark = page.Bookmark;
             Hash = page.Hash;
@@ -1142,7 +1140,9 @@ namespace Win_CBZ
             Filename = entry.FullName;
             Name = entry.Name;
             EntryName = entry.Name;
-           
+
+            
+
             LastModified = entry.LastWriteTime;
            
             TemporaryFileId = randomId;
@@ -1604,6 +1604,57 @@ namespace Win_CBZ
             TemporaryFileId = RandomId.GetInstance().Make();
             TemporaryFile = RequestTemporaryFile();
             LoadImageInfo();
+        }
+
+
+        /// <summary>
+        /// Save the current Page to a File
+        /// </summary>
+        /// <param type="LocalFile" name="destination"></param>
+        /// <param type="EventHandler<FileOperationEvent>" name="handler"></param>
+        /// <returns></returns>
+        public void Save(LocalFile destination, EventHandler<FileOperationEvent> handler = null)
+        {
+            
+            if (TemporaryFile == null) 
+            {
+                TemporaryFile = RequestTemporaryFile();
+
+                if (TemporaryFile.Exists())
+                {
+                    try
+                    {
+                        ImageStream = File.OpenRead(TemporaryFile.FullPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new PageException(this, ex.Message, true, ex);
+                    }
+                }
+            }
+
+            try
+            {
+                if (ImageStream != null && ImageStream.CanRead)
+                {
+                    Task<TaskResult> copyTask = CopyFileTask.CopyStream(ImageStream, destination, handler, TokenStore.GetInstance().CancellationTokenSourceForName(TokenStore.TOKEN_SOURCE_GLOBAL).Token);
+
+                    copyTask.ContinueWith<TaskResult>(r =>
+                    {
+                        if (r.Result != null)
+                        {
+                            if (r.Result.Total != r.Result.Completed)
+                            {
+
+                            }
+                        }
+
+                        return r.Result;
+                    });
+
+                    copyTask.Start();           
+                }
+            } catch { }
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

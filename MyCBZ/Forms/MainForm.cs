@@ -914,7 +914,7 @@ namespace Win_CBZ
         {
             if (!WindowClosed)
             {
-                MainToolStripProgressBar.Invoke(new Action(() =>
+                Invoke(new Action(() =>
                 {
                     if (e.Status == FileOperationEvent.STATUS_RUNNING)
                     {
@@ -4835,6 +4835,7 @@ namespace Win_CBZ
         private void PagesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             List<ListViewItem> selectedPages = PagesList.SelectedItems.Cast<ListViewItem>().ToList();
+            
             bool buttonStateSelected = selectedPages.Count > 0;
             bool propsButtonAvailable = selectedPages.Count == 1;
 
@@ -4847,6 +4848,7 @@ namespace Win_CBZ
             ToolButtonEditImage.Enabled = propsButtonAvailable;
             propertiesToolStripMenuItem.Enabled = buttonStateSelected;
             removeToolStripMenuItem.Enabled = buttonStateSelected;
+            SaveSelectedPageAsToolStripMenuItem.Enabled = propsButtonAvailable;
 
             ToolButtonSetPageType.Enabled = buttonStateSelected;
 
@@ -8873,14 +8875,14 @@ namespace Win_CBZ
 
         private void SelectAssignedTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             if (PagesList.SelectedItems.Count == 1)
             {
-                     
+
                 Task.Factory.StartNew(() =>
                 {
                     try
-                    {                      
+                    {
                         Invoke(() =>
                         {
                             Page selectedPage = PagesList.SelectedItems[0].Tag as Page;
@@ -8897,10 +8899,42 @@ namespace Win_CBZ
                                 }
                             });
                         });
-                            
+
                     }
                     catch (Exception) { }
-                });              
+                });
+            }
+        }
+
+        private void SaveSelectedPageAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            if (PagesList.SelectedItems.Count == 1)
+            {
+                Page page = PagesList.SelectedItems[0].Tag as Page;
+
+                if (page != null)
+                {
+                    try
+                    {
+                        SavePagesDialog.FileName = page.Name;
+                        if (SavePagesDialog.ShowDialog() == DialogResult.OK)
+                        {
+                                
+
+                            page.Save(new LocalFile(SavePagesDialog.FileName), AppEventHandler.OnFileOperation);
+
+                        }
+                    } catch (ApplicationException ae)
+                    {
+                        AppEventHandler.OnMessageLogged(this, new LogMessageEvent(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error saving page to disk [" + ae.Message + "]"));
+
+                        if (ae.ShowErrorDialog)
+                        {
+                            ApplicationMessage.ShowError("Error saving Page to disk.", "Error saving Page", ApplicationMessage.DialogType.MT_ERROR, ApplicationMessage.DialogButtons.MB_OK);
+                        }
+                    }
+                }
             }
         }
     }
