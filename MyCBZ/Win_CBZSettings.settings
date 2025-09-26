@@ -216,5 +216,8 @@
     <Setting Name="AutoupdateType" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="AccentColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FFD700</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
