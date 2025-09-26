@@ -117,7 +117,7 @@
             toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
             toolStripButton2.Size = new System.Drawing.Size(29, 28);
-            toolStripButton2.Text = "toolStripButton2";
+            toolStripButton2.Text = "Show chapters";
             toolStripButton2.Click += ToolStripButton2_Click;
             // 
             // toolStripLabel2

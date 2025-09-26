@@ -30,6 +30,12 @@ namespace Win_CBZ
 
         private Color _selectionColor;
 
+        private Color _selectedTextColor;
+
+        private Image _chechBoxIcon;
+
+        private Image _chechBoxIconCheck;
+
         #endregion
 
         #region Public Constructors
@@ -42,6 +48,7 @@ namespace Win_CBZ
             this.DoubleBuffered = true;
             this.InsertionLineColor = Color.Red;
             this.SelectionColor = SystemColors.Highlight;
+            this.SelectionTextColor = Color.Black;
             this.InsertionIndex = -1;
         }
 
@@ -66,6 +73,12 @@ namespace Win_CBZ
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler SelectionColorChanged;
+
+        /// <summary>
+        /// Occurs when the SelectionTextColor property value changes.
+        /// </summary>
+        [Category("Property Changed")]
+        public event EventHandler SelectionTextColorChanged;
 
         /// <summary>
         /// Occurs when a drag-and-drop operation for an item is completed.
@@ -242,6 +255,194 @@ namespace Win_CBZ
             base.OnPaint(e);
         }
 
+        protected override void OnDrawSubItem(DrawListViewSubItemEventArgs e)
+        {
+            
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
+
+
+            int indent = 0;
+            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
+            {
+                if (this.SmallImageList != null)
+                {
+                    if (this.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                    {
+                        if (e.ColumnIndex == 0)
+                        {
+                            indent = e.Item.IndentCount * 16;
+                            indent += this.SmallImageList.ImageSize.Width + 8;
+                        }
+                    }
+                }
+            }
+
+            if (this.CheckBoxes && e.ColumnIndex == 0)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Padding = new Padding(0);
+                checkBox.Margin = new Padding(0);
+                checkBox.BackColor = this.BackColor;
+                checkBox.Checked = e.Item.Checked;
+                checkBox.Enabled = this.Enabled;
+                checkBox.Size = new Size(18, e.Bounds.Height);
+
+                checkBox.Text = "";
+
+                Bitmap check = new Bitmap(checkBox.Size.Width, checkBox.Size.Height);
+
+                checkBox.DrawToBitmap(check, new Rectangle(0, 0, checkBox.Size.Width, checkBox.Size.Height));
+                checkBox.Dispose();
+
+                indent += 18;
+
+                e.Graphics.DrawImage(check, new Point(e.SubItem.Bounds.X, e.SubItem.Bounds.Y));
+            }
+
+            e.Graphics.Clip = new Region(e.SubItem.Bounds);
+
+            int itemWidth = e.SubItem.Bounds.Width;
+            if (e.ColumnIndex == 0)
+            {
+                itemWidth = e.Header.Width - indent;
+
+                e.Graphics.Clip = new Region(new Rectangle(e.SubItem.Bounds.X, e.SubItem.Bounds.Y, itemWidth + indent, e.SubItem.Bounds.Height));
+            }
+
+            Rectangle rectangle;
+
+            rectangle = e.Item.Bounds;
+            rectangle.X += e.Item.IndentCount;
+
+            if (e.ColumnIndex == 0)
+            {
+                if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
+                {
+                    if (this.SmallImageList != null)
+                    {
+                        rectangle.X += this.SmallImageList.ImageSize.Width + 8;
+                        rectangle.Width -= this.SmallImageList.ImageSize.Width + 8;
+
+                        if (this.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
+                        {
+                            Image img = this.SmallImageList.Images[e.Item.ImageKey];
+
+                            e.Graphics.DrawImage(img, new Point(e.Bounds.X + 4, e.Bounds.Y + 2));
+                        }
+                    }
+                }
+
+                if (this.CheckBoxes && e.ColumnIndex == 0)
+                {
+                    rectangle.X += 16;
+                }
+
+                if (this.FullRowSelect)
+                {
+                    rectangle.Width = this.Columns.Cast<ColumnHeader>().Sum(c => c.Width) - indent;
+                }
+                else
+                {
+                    rectangle.Width = (int)e.Graphics.MeasureString(e.Item.Text, this.Font).Width + 8;
+                }
+            }
+            else
+            {
+                rectangle.X = e.SubItem.Bounds.X;
+                rectangle.Width = e.SubItem.Bounds.Width;
+
+            }
+
+            Color textColor = e.SubItem.ForeColor;
+
+            // due to a bug in the win-apis listview renderer, we need to draw item backgrounds
+            // in subitem ownerdraw method too. Its important, to clip the drawing area to each column
+            // and draw the background for each column seperately - Otherwise there will be flickering
+            // and broken subitem texts!
+            if (e.ItemState.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
+            {
+                if (this.HideSelection)
+                {
+                    if (this.Focused)
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+                        textColor = this._selectedTextColor;
+                    }
+                }
+                else
+                {
+                    Color highlightColor = this._selectionColor;
+                    if (!this.Focused)
+                    {
+                        highlightColor = SystemColors.ControlLight;
+                    }
+
+                    // Draw the background and focus rectangle for a selected item.
+
+                    e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+
+                }
+            }
+            else
+            {
+                // Draw the background for an unselected item.
+                if (e.Item.Selected)
+                {
+                    if (this.HideSelection)
+                    {
+                        if (this.Focused)
+                        {
+                            textColor = this._selectedTextColor;
+                            e.Graphics.FillRectangle(new SolidBrush(this._selectionColor), rectangle);
+
+                        }
+                    }
+                    else
+                    {
+                        Color highlightColor = this._selectionColor;
+                        if (!this.Focused)
+                        {
+                            highlightColor = SystemColors.ControlLight;
+                        }
+
+                        // Draw the background and focus rectangle for a selected item.
+                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
+                    }
+
+                }
+                else
+                {
+                    if (e.ItemState.HasFlag(ListViewItemStates.Grayed) || this.Enabled == false)
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
+                    }
+                    else
+                    {
+                        e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
+                    }
+                }
+            }
+
+
+            //if (e.ColumnIndex == 0)
+            //{
+            /*
+                if (e.ItemState.HasFlag(ListViewItemStates.Focused))
+                {
+                    e.Graphics.Clip = new Region(e.Item.Bounds);
+                    e.DrawFocusRectangle(e.Item.Bounds);
+                }
+            */
+            //}
+
+
+            // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
+            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, this.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
+
+
+            base.OnDrawSubItem(e);
+        }
+
         /// <summary>
         /// Overrides <see cref="M:System.Windows.Forms.Control.WndProc(System.Windows.Forms.Message@)" />.
         /// </summary>
@@ -314,6 +515,56 @@ namespace Win_CBZ
                 }
             }
         }
+
+        [Category("Appearance")]
+        [DefaultValue(typeof(Color), "Black")]
+        public virtual Color SelectionTextColor
+        {
+            get { return _selectedTextColor; }
+            set
+            {
+                if (this._selectedTextColor != value)
+                {
+                    _selectedTextColor = value;
+
+                    this.OnSelectionTextColorChanged(EventArgs.Empty);
+                }
+            }
+        }
+
+
+        [Category("Appearance")]
+        [DefaultValue(typeof(Image), "NULL")]
+        public virtual Image CheckBoxIcon
+        {
+            get { return _chechBoxIcon; }
+            set
+            {
+                if (this._chechBoxIcon != value)
+                {
+                    _chechBoxIcon = value;
+
+                    //this.OnSelectionTextColorChanged(EventArgs.Empty);
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [DefaultValue(typeof(Image), "NULL")]
+        public virtual Image CheckBoxIconChecked
+        {
+            get { return _chechBoxIconCheck; }
+            set
+            {
+                if (this._chechBoxIconCheck != value)
+                {
+                    _chechBoxIconCheck = value;
+
+                    //this.OnSelectionTextColorChanged(EventArgs.Empty);
+                }
+            }
+        }
+
 
         /// <summary>
         /// Gets or sets the selected <see cref="ListViewItem"/>.
@@ -390,6 +641,22 @@ namespace Win_CBZ
             EventHandler handler;
 
             handler = this.SelectionColorChanged;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="InsertionLineColorChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected virtual void OnSelectionTextColorChanged(EventArgs e)
+        {
+            EventHandler handler;
+
+            handler = this.SelectionTextColorChanged;
 
             if (handler != null)
             {

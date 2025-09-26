@@ -4902,35 +4902,6 @@ namespace Win_CBZ
                 }
 
             }
-
-            if (selectedPages.Count == 1)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    try
-                    {
-                        if (selectedPages[0].Tag != null)
-                        {
-                            Page page = (Page)selectedPages[0].Tag;
-                            Invoke(() =>
-                            {
-                                ImageTaskListView.SelectedItems.Clear();
-                                ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
-                                {
-
-                                    ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
-
-                                    if (ita != null && ita.Pages.Contains(page))
-                                    {
-                                        item.Selected = true;
-                                    }
-                                });
-                            });
-                        }
-                    }
-                    catch (Exception) { }
-                });
-            }
         }
 
         private void ToolButtonRemoveFiles_Click(object sender, EventArgs e)
@@ -8286,10 +8257,6 @@ namespace Win_CBZ
             }
         }
 
-        private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-        }
-
         private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
         {
 
@@ -8888,7 +8855,7 @@ namespace Win_CBZ
 
         private void UpdateCheckTimer_Tick(object sender, EventArgs e)
         {
-            
+
             DateTime lastCheck = new DateTime(Win_CBZSettings.Default.AutoUpdateLastCheck);
 
             if (lastCheck.AddSeconds(Win_CBZSettings.Default.AutoUpdateInterval) < DateTime.Now)
@@ -8902,6 +8869,38 @@ namespace Win_CBZ
             }
 
             UpdateCheckTimer.Interval = 60 * 60 * 1000; // 1 hour checks after initial check
+        }
+
+        private void SelectAssignedTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            if (PagesList.SelectedItems.Count == 1)
+            {
+                     
+                Task.Factory.StartNew(() =>
+                {
+                    try
+                    {
+                        Page selectedPage = PagesList.SelectedItems[0].Tag as Page;
+                        Invoke(() =>
+                            {
+                                ImageTaskListView.SelectedItems.Clear();
+                                ImageTaskListView.Items.Cast<ListViewItem>().Each(item =>
+                                {
+
+                                    ImageTaskAssignment ita = item.Tag as ImageTaskAssignment;
+
+                                    if (ita != null && ita.Pages.Contains(selectedPage))
+                                    {
+                                        item.Selected = true;
+                                    }
+                                });
+                            });
+                            
+                    }
+                    catch (Exception) { }
+                });              
+            }
         }
     }
 }

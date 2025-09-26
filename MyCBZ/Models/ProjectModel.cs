@@ -905,13 +905,13 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata ['" + MetaData.MetaDataFileName + "'] found in Archive!");
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     MetaData = new MetaData();
 
                     AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_DELETED, MetaData));
 
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive!");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive! [" + e.Message + "]");
                 }
 
                 if (MetaData != null && tParams.ApplyKeyUserFilter)

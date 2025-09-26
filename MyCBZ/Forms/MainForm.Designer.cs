@@ -234,6 +234,7 @@ namespace Win_CBZ
             PageListContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
             removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            selectAssignedTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             PageSmallIcons = new System.Windows.Forms.ImageList(components);
             MetadataPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -2091,6 +2092,7 @@ namespace Win_CBZ
             // ImageTaskListView
             // 
             ImageTaskListView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            ImageTaskListView.CheckBoxes = true;
             ImageTaskListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader2, columnHeader3 });
             TableLayoutTaskSelection.SetColumnSpan(ImageTaskListView, 2);
             ImageTaskListView.FullRowSelect = true;
@@ -2098,14 +2100,13 @@ namespace Win_CBZ
             ImageTaskListView.Location = new System.Drawing.Point(3, 33);
             ImageTaskListView.Name = "ImageTaskListView";
             ImageTaskListView.OwnerDraw = true;
-            ImageTaskListView.SelectionColor = System.Drawing.SystemColors.Highlight;
+            ImageTaskListView.SelectionColor = System.Drawing.Color.DarkOrange;
+            ImageTaskListView.SelectionTextColor = System.Drawing.Color.Yellow;
             ImageTaskListView.Size = new System.Drawing.Size(282, 108);
             ImageTaskListView.TabIndex = 1;
             ImageTaskListView.UseCompatibleStateImageBehavior = false;
             ImageTaskListView.View = System.Windows.Forms.View.Details;
             ImageTaskListView.DrawColumnHeader += ListView_DrawColumnHeader;
-            ImageTaskListView.DrawItem += ListView_DrawItem;
-            ImageTaskListView.DrawSubItem += ListView_DrawSubItem;
             ImageTaskListView.ItemSelectionChanged += ImageTaskListView_ItemSelectionChanged;
             ImageTaskListView.MouseMove += ListView_MouseMove;
             // 
@@ -2526,31 +2527,39 @@ namespace Win_CBZ
             // PageListContextMenu
             // 
             PageListContextMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
-            PageListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { removeToolStripMenuItem, toolStripSeparator13, propertiesToolStripMenuItem });
+            PageListContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { removeToolStripMenuItem, toolStripSeparator13, selectAssignedTaskToolStripMenuItem, propertiesToolStripMenuItem });
             PageListContextMenu.Name = "PageListContextMenu";
-            PageListContextMenu.Size = new System.Drawing.Size(150, 62);
+            PageListContextMenu.Size = new System.Drawing.Size(216, 116);
             // 
             // removeToolStripMenuItem
             // 
             removeToolStripMenuItem.Enabled = false;
             removeToolStripMenuItem.Image = Properties.Resources.garbage;
             removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            removeToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            removeToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             removeToolStripMenuItem.Text = "Remove";
             removeToolStripMenuItem.Click += ToolButtonRemoveFiles_Click;
             // 
             // toolStripSeparator13
             // 
             toolStripSeparator13.Name = "toolStripSeparator13";
-            toolStripSeparator13.Size = new System.Drawing.Size(146, 6);
+            toolStripSeparator13.Size = new System.Drawing.Size(212, 6);
+            // 
+            // selectAssignedTaskToolStripMenuItem
+            // 
+            selectAssignedTaskToolStripMenuItem.Image = Properties.Resources.photo_landscape_left_right24;
+            selectAssignedTaskToolStripMenuItem.Name = "selectAssignedTaskToolStripMenuItem";
+            selectAssignedTaskToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
+            selectAssignedTaskToolStripMenuItem.Text = "Select assigned Task";
+            selectAssignedTaskToolStripMenuItem.Click += SelectAssignedTaskToolStripMenuItem_Click;
             // 
             // propertiesToolStripMenuItem
             // 
             propertiesToolStripMenuItem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             propertiesToolStripMenuItem.Enabled = false;
-            propertiesToolStripMenuItem.Image = Properties.Resources.edit;
+            propertiesToolStripMenuItem.Image = Properties.Resources.photo_portrait_checkbox_checked_checkbox_unchecked_24;
             propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
-            propertiesToolStripMenuItem.Size = new System.Drawing.Size(149, 26);
+            propertiesToolStripMenuItem.Size = new System.Drawing.Size(215, 26);
             propertiesToolStripMenuItem.Text = "Properties";
             propertiesToolStripMenuItem.Click += ToolButtonEditImageProps_Click;
             // 
@@ -3542,6 +3551,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripMenuItem UpdateToolStripMenuItem;
         private System.Windows.Forms.Timer UpdateCheckTimer;
+        private System.Windows.Forms.ToolStripMenuItem selectAssignedTaskToolStripMenuItem;
     }
 }
 

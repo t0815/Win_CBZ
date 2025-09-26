@@ -886,6 +886,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap photo_landscape_left_right24 {
+            get {
+                object obj = ResourceManager.GetObject("photo_landscape_left_right24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap photo_landscape_right_left {
             get {
                 object obj = ResourceManager.GetObject("photo_landscape_right_left", resourceCulture);
