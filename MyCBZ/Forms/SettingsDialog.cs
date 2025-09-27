@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
+using Win_CBZ.Extensions;
 using Win_CBZ.Helper;
 using Win_CBZ.Models;
 using Color = System.Drawing.Color;
@@ -99,6 +100,20 @@ namespace Win_CBZ.Forms
 
         public int AutoUpdateCheckIntervalType;
 
+        // Appearance settings
+
+        public string AccentColor = Colors.COLOR_GOLD;
+
+        public string ButtonColor = "";
+
+        public string TextColor = "";
+
+        public string WindowBackgroundColor = "";
+
+        public string ListBackgroundColor = "";
+
+        // --------------------
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -107,7 +122,67 @@ namespace Win_CBZ.Forms
 
         private int nextOccurence = 0;
 
+        private int LastSelectedThemeColorIndex = 0;
+
         private List<string> errorCategories = new List<string>();
+
+        private String DefaultAccentColor = Colors.COLOR_GOLD;
+
+        private String[] ExampleAccentColors = new string[] { "#FFFFFF" };
+
+        private List<ThemeColorMapping> ThemeColorMappings = new List<ThemeColorMapping>()
+        {
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_ACCENT,
+                Label = "Accent Color",
+                ColorValue = Colors.COLOR_GOLD,
+                Description = "Main accent color used for buttons, highlights and selection.",
+                DefaultValue = Colors.COLOR_GOLD,
+                Category = "Main",
+                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_TEXT,
+                Label = "Text Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.ControlText),
+                Description = "Standard text color on all surfaces",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ControlText),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlText), Colors.COLOR_DARK_GRAY_TEXT_COLOR }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = "ButtonColor",
+                Label = "Button Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Description = "Main background color used for buttons.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = "WindowBackgroundColor",
+                Label = "Window Background Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Description = "Background color used for windows.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_WINDOW_BG }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_LIST_BACKGROUND,
+                Label = "Lists Background Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Description = "Background color used for Listviews, Listboxes and Comboboxes.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Window), Colors.COLOR_DARK_GRAY_LIST_CONTROL_BG }
+            },
+        };
 
         public SettingsDialog()
         {
@@ -118,12 +193,17 @@ namespace Win_CBZ.Forms
             AppSettingsTabControl.Dock = DockStyle.Fill;
             CBZSettingsTabControl.Dock = DockStyle.Fill;
             UpdatesTabControl.Dock = DockStyle.Fill;
+            AppearanceTabControl.Dock = DockStyle.Fill;
 
             MetaDataConfigTabControl.Visible = true;
             ImageProcessingTabControl.Visible = false;
             AppSettingsTabControl.Visible = false;
             CBZSettingsTabControl.Visible = false;
             UpdatesTabControl.Visible = false;
+            AppearanceTabControl.Visible = false;
+
+
+            
 
             // Load settings  ------------------------
 
@@ -195,6 +275,10 @@ namespace Win_CBZ.Forms
             RestoreWindowPosition = Win_CBZSettings.Default.RestoreWindowLayout;
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
 
+            AccentColor = Win_CBZSettings.Default.AccentColor;
+            ButtonColor = Win_CBZSettings.Default.ButtonColor;
+            ListBackgroundColor = Win_CBZSettings.Default.ListBackgroundColor;
+            TextColor = Win_CBZSettings.Default.TextColor;
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
@@ -204,6 +288,43 @@ namespace Win_CBZ.Forms
             {
                 CompatibilityMode = true;
                 CheckBoxCompatibilityMode.Enabled = false;
+            }
+
+            //----------------------------------------
+
+            foreach (ThemeColorMapping mapping in ThemeColorMappings)
+            {
+                switch (mapping.ColorName)
+                {
+                    case Theme.COLOR_NAME_ACCENT:
+                        mapping.ColorValue = Win_CBZSettings.Default.AccentColor;
+                        break;
+
+                    case "ButtonColor":
+                        mapping.ColorValue = Win_CBZSettings.Default.ButtonColor;
+                        break;
+
+                    case Theme.COLOR_NAME_LIST_BACKGROUND:
+                        mapping.ColorValue = Win_CBZSettings.Default.ListBackgroundColor;
+                        break;
+
+                    case Theme.COLOR_NAME_TEXT:
+                        mapping.ColorValue = Win_CBZSettings.Default.TextColor;
+                        break;
+                }
+
+            }
+
+
+            ApplyTheme(SettingsTablePanel.Controls);
+            ApplyTheme(MetadataDefaultsTable.Controls);
+            ApplyTheme(EssentialTableLayoutPanel.Controls);
+
+            ThemeColorsListbox.Items.Clear();
+
+            foreach (ThemeColorMapping mapping in ThemeColorMappings)
+            {
+                ThemeColorsListbox.Items.Add(mapping);
             }
 
             // ----------------------------------------
@@ -365,6 +486,48 @@ namespace Win_CBZ.Forms
             DialogResult = DialogResult.Cancel;
         }
 
+        private void ApplyTheme(TableLayoutControlCollection container)
+        {
+            //Theme theme = Theme.GetInstance();
+
+            CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
+            CustomFieldsDataGrid.RowsDefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
+
+            container.OfType<Button>().ToList().ForEach(b =>
+            {
+                b.BackColor = HTMLColor.ToColor(ButtonColor);
+                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
+                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
+            });
+
+            container.OfType<Label>().Each<Label>(l =>
+            {
+                l.ForeColor = HTMLColor.ToColor(TextColor);
+            });
+
+            //Control.ControlCollection controls = container.OfType<Control>().SelectMany(c => c.Controls.OfType<Control>());
+
+            ThemeColorsListbox.BackColor = HTMLColor.ToColor(ListBackgroundColor);
+            SettingsSectionList.BackColor = HTMLColor.ToColor(ListBackgroundColor);
+
+            SettingsSectionList.Invalidate();
+        }
+
+        private void ApplyThemeContainer(Container container)
+        {
+            container.Components.OfType<Button>().ToList().ForEach(b =>
+            {
+                b.BackColor = HTMLColor.ToColor(ButtonColor);
+                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
+                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
+            });
+
+            container.Components.OfType<Label>().Each<Label>(l =>
+            {
+                l.ForeColor = HTMLColor.ToColor(TextColor);
+            });
+        }
+
         private void PopulateFieldTypeEditor()
         {
 
@@ -397,7 +560,7 @@ namespace Win_CBZ.Forms
                             cc.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -413,7 +576,7 @@ namespace Win_CBZ.Forms
                             cc.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -437,7 +600,7 @@ namespace Win_CBZ.Forms
                                 ci.Style = new DataGridViewCellStyle()
                                 {
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = Color.White,
                                 };
 
@@ -462,7 +625,7 @@ namespace Win_CBZ.Forms
                             cb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -490,7 +653,7 @@ namespace Win_CBZ.Forms
                             tb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -503,7 +666,7 @@ namespace Win_CBZ.Forms
                             cb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -750,6 +913,30 @@ namespace Win_CBZ.Forms
                     }
                     CustomFieldTypesCollection = fieldConfigItems.ToArray();
 
+                    //
+                    foreach (ThemeColorMapping mapping in ThemeColorMappings)
+                    {
+                        switch (mapping.ColorName)
+                        {
+                            case Theme.COLOR_NAME_ACCENT:
+                                AccentColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_BUTTON:
+                                ButtonColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_LIST_BACKGROUND:
+                                ListBackgroundColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_TEXT:
+                                TextColor = mapping.ColorValue;
+                                break;
+                        }
+
+                    }
+
                     if (!Path.EndsInDirectorySeparator(TempPath))
                     {
                         TempPath += Path.DirectorySeparatorChar;
@@ -853,49 +1040,75 @@ namespace Win_CBZ.Forms
 
         private void SettingsSectionList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SettingsSectionList.SelectedIndex == 1)
+            if (SettingsSectionList.SelectedIndex == -1)
             {
-                MetaDataConfigTabControl.Visible = true;
-                ImageProcessingTabControl.Visible = false;
-                AppSettingsTabControl.Visible = false;
-                CBZSettingsTabControl.Visible = false;
-                UpdatesTabControl.Visible = false;
+                SettingsSectionList.SelectedIndex = 0;
             }
 
-            if (SettingsSectionList.SelectedIndex == 0)
+            string section = SettingsSectionList.SelectedItem.ToString().ToLower();
+
+            if (section == "application")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = true;
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 2)
+            if (section == "metadata")
+            {
+                MetaDataConfigTabControl.Visible = true;
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
+            }
+
+            if (section == "appearance")
+            {
+                MetaDataConfigTabControl.Visible = false;
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = true;
+
+                ThemeColorsListbox.SelectedIndex = -1;
+                ThemeColorsListbox.SelectedIndex = LastSelectedThemeColorIndex;
+                ThemeColorsListbox.Invalidate();
+            }
+
+            if (section == "cbz")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = true;
                 UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 3)
+            if (section == "image processing")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = true;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 4)
+            if (section == "updates")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = true;
+                AppearanceTabControl.Visible = false;
             }
         }
 
@@ -1206,7 +1419,7 @@ namespace Win_CBZ.Forms
                     cc.Style = new DataGridViewCellStyle()
                     {
                         SelectionForeColor = Color.Black,
-                        SelectionBackColor = Color.Gold,
+                        SelectionBackColor = Theme.GetInstance().AccentColor,
                         BackColor = Color.White,
                     };
 
@@ -1222,7 +1435,7 @@ namespace Win_CBZ.Forms
                     cc.Style = new DataGridViewCellStyle()
                     {
                         SelectionForeColor = Color.Black,
-                        SelectionBackColor = Color.Gold,
+                        SelectionBackColor = Theme.GetInstance().AccentColor,
                         BackColor = Color.White,
                     };
 
@@ -1246,7 +1459,7 @@ namespace Win_CBZ.Forms
                         ci.Style = new DataGridViewCellStyle()
                         {
                             SelectionForeColor = Color.Black,
-                            SelectionBackColor = Color.Gold,
+                            SelectionBackColor = Theme.GetInstance().AccentColor,
                             BackColor = Color.White,
                         };
 
@@ -1392,7 +1605,7 @@ namespace Win_CBZ.Forms
             cc.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1407,7 +1620,7 @@ namespace Win_CBZ.Forms
             cc.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1429,7 +1642,7 @@ namespace Win_CBZ.Forms
                 ci.Style = new DataGridViewCellStyle()
                 {
                     SelectionForeColor = Color.Black,
-                    SelectionBackColor = Color.Gold,
+                    SelectionBackColor = Theme.GetInstance().AccentColor,
                     BackColor = Color.White,
                 };
 
@@ -1447,7 +1660,7 @@ namespace Win_CBZ.Forms
             cb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1462,7 +1675,7 @@ namespace Win_CBZ.Forms
             tb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1474,7 +1687,7 @@ namespace Win_CBZ.Forms
             cb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1684,21 +1897,21 @@ namespace Win_CBZ.Forms
 
         private void SettingsSectionList_DrawItem(object sender, DrawItemEventArgs e)
         {
-            Color backgroundColor = Color.White;
-            Color textColor = Color.Black;
+            Color backgroundColor = Theme.GetInstance().ListBackgroundColor;
+            Color textColor = Theme.GetInstance().TextColor;
             System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
 
-            System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
+            System.Drawing.SolidBrush tb = new SolidBrush(Theme.GetInstance().TextColor);
 
             Font f = SystemFonts.CaptionFont;
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                backgroundColor = Color.Gold;
+                backgroundColor = HTMLColor.ToColor(AccentColor);
             }
             else
             {
-                backgroundColor = SystemColors.Window;
+                backgroundColor = Theme.GetInstance().ListBackgroundColor;
             }
 
             string name = SettingsSectionList.Items[e.Index] as string;
@@ -1716,6 +1929,46 @@ namespace Win_CBZ.Forms
             {
                 e.Graphics.DrawImage(ErrorImages.Images["error"], e.Bounds.Right - 20, e.Bounds.Y + 8);
             }
+        }
+
+        private void ColotList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Color backgroundColor = Theme.GetInstance().ListBackgroundColor;
+            Color textColor = Theme.GetInstance().TextColor;
+            System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
+
+            ListBox lb = sender as ListBox;
+
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
+
+            System.Drawing.SolidBrush tb = new SolidBrush(Theme.GetInstance().TextColor);
+
+            Font f = SystemFonts.CaptionFont;
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                backgroundColor = Theme.GetInstance().AccentColor;
+            }
+            else
+            {
+                backgroundColor = Theme.GetInstance().ListBackgroundColor;
+            }
+
+            ThemeColorMapping colorConfig = ThemeColorsListbox.Items[e.Index] as ThemeColorMapping;
+
+            System.Drawing.SolidBrush bg = new SolidBrush(backgroundColor);
+
+            // draw item background
+            e.Graphics.FillRectangle(bg, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
+            // 
+            //e.Graphics.DrawString(colorConfig.ColorName, f, tb, e.Bounds.X + 22, e.Bounds.Y + 2);
+
+            TextRenderer.DrawText(e.Graphics, colorConfig.Label, lb.Font, new Rectangle(e.Bounds.X + 22, e.Bounds.Y + 3, e.Bounds.Width, e.Bounds.Height), textColor, flags);
+
+
+            e.Graphics.DrawRectangle(pen, new Rectangle(e.Bounds.X + 2, e.Bounds.Y + 2, 17, 17));
+            e.Graphics.FillRectangle(new SolidBrush(HTMLColor.ToColor(colorConfig.ColorValue)), new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, 16, 16));
+
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -1877,7 +2130,7 @@ namespace Win_CBZ.Forms
                     //Label contentLabel = container.Controls.Find("TAG_LABEL", false)[0] as Label;
                     //if (contentLabel != null)
                     //{
-                    //label.BackColor = Color.Gold;
+                    //label.BackColor = Theme.GetInstance().AccentColor,;
                     //}
                     //((TagItem)container.Tag).Selected = true;
                     //SelectedTags.Add(container);
@@ -1956,12 +2209,12 @@ namespace Win_CBZ.Forms
                 return;
             }
 
-            Pen pen = new Pen(Color.Black, 1);
+            Pen pen = new Pen(Theme.GetInstance().TextColor, 1);
             Font font = new Font("Verdana", 9f, FontStyle.Regular);
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+                e.Graphics.FillRectangle(new SolidBrush(Theme.GetInstance().AccentColor), e.Bounds);
             }
             else
             {
@@ -1974,11 +2227,11 @@ namespace Win_CBZ.Forms
             {
                 Image img = ComboIcons.Images[icon];
                 e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
-                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Theme.GetInstance().TextColor), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
             }
             else
             {
-                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Theme.GetInstance().TextColor), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
             }
         }
 
@@ -2018,6 +2271,132 @@ namespace Win_CBZ.Forms
         private void CheckboxAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
             ComboBoxAutoUpdateInterval.Enabled = CheckboxAutoUpdate.Checked;
+        }
+
+        private void ThemeColorsListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ThemeColorMapping colorConfig = null;
+                if (ThemeColorsListbox.SelectedItem != null)
+                {
+                    colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                    ThemeSelectColorDialog.Color = HTMLColor.ToColor(colorConfig.ColorValue);
+                    TextboxSelectedThemeColorValue.Text = colorConfig.ColorValue;
+                    PictureBoxColorSelect.BackColor = HTMLColor.ToColor(colorConfig.ColorValue);
+                    LabelColorDescription.Text = colorConfig.Description;
+                    LastSelectedThemeColorIndex = ThemeColorsListbox.SelectedIndex;
+                }
+                else
+                {
+
+                }
+
+                UpdateExampleColors(colorConfig);
+            }
+            catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+            }
+        }
+
+        private void PictureBoxColorSelect_Click(object sender, EventArgs e)
+        {
+            if (ThemeSelectColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                PictureBoxColorSelect.BackColor = ThemeSelectColorDialog.Color;
+                TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(ThemeSelectColorDialog.Color);
+                if (ThemeColorsListbox.SelectedItem != null)
+                {
+                    ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                    colorConfig.ColorValue = TextboxSelectedThemeColorValue.Text;
+                    int selectedIndex = ThemeColorsListbox.SelectedIndex;
+
+                    ThemeColorsListbox.Invalidate();
+                }
+            }
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            if (ThemeColorsListbox.SelectedItem != null)
+            {
+                ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                colorConfig.ColorValue = colorConfig.DefaultValue;
+                PictureBoxColorSelect.BackColor = HTMLColor.ToColor(colorConfig.ColorValue);
+                TextboxSelectedThemeColorValue.Text = colorConfig.ColorValue;
+
+                ThemeColorsListbox.Invalidate();
+            }
+        }
+
+        private void TextboxSelectedThemeColorValue_TextChanged(object sender, EventArgs e)
+        {
+
+            if (ThemeColorsListbox.SelectedItem != null)
+            {
+                ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+
+                try
+                {
+                    PictureBoxColorSelect.BackColor = HTMLColor.ToColor(TextboxSelectedThemeColorValue.Text);
+
+                    colorConfig.ColorValue = TextboxSelectedThemeColorValue.Text;
+
+                    LastSelectedThemeColorIndex = ThemeColorsListbox.SelectedIndex;
+                    ThemeColorsListbox.Invalidate();
+
+                }
+                catch (Exception ex)
+                {
+                    PictureBoxColorSelect.BackColor = HTMLColor.ToColor("#000000");
+
+                }
+            }
+        }
+
+        private void PictureBoxExampleColor_Click(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+
+            PictureBoxColorSelect.BackColor = pictureBox.BackColor;
+            TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(pictureBox.BackColor);
+            if (ThemeColorsListbox.SelectedItem != null)
+            {
+                ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                colorConfig.ColorValue = TextboxSelectedThemeColorValue.Text;
+                int selectedIndex = ThemeColorsListbox.SelectedIndex;
+
+                ThemeColorsListbox.Invalidate();
+            }
+        }
+
+        private void UpdateExampleColors(ThemeColorMapping colorConfig)
+        {
+            if (colorConfig == null)
+            {
+                return;
+            }
+
+            ExampleColorsFlowLayout.Controls.Clear();
+
+            foreach (string example in colorConfig.ExampleValues)
+            {
+                if (example != null)
+                {
+                    PictureBox newExample = new PictureBox();
+                    newExample.BorderStyle = BorderStyle.FixedSingle;
+                    newExample.BackColor = HTMLColor.ToColor(example);
+                    newExample.Width = 20;
+                    newExample.Height = 20;
+                    newExample.Margin = new Padding(10, 8, 10, 8);
+                    newExample.Cursor = Cursors.Hand;
+                    newExample.Click += PictureBoxExampleColor_Click;
+
+                    ExampleColorsFlowLayout.Controls.Add(newExample);
+
+                }
+            }
         }
     }
 }

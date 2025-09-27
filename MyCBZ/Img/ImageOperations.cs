@@ -26,8 +26,11 @@ namespace Win_CBZ.Img
 
         /// <summary>
         /// Resize the image to the specified width and height.
+        /// Using PageImageFormat to define the target width and height.
         /// </summary>
-        /// <param name="image">The image to resize.</param>
+        /// <param name="source">The inout stream of the image to resize.</param>
+        /// <param name="OutputStream">The output stream to save the resized image to.</param>
+        /// <param name="interpolation">The interpolation mode to use.</param>
         /// <param name="width">The width to resize to.</param>
         /// <param name="height">The height to resize to.</param>
         /// <returns>The resized image.</returns>
@@ -58,6 +61,45 @@ namespace Win_CBZ.Img
             destImage.Dispose();
 
             sourceImage.Dispose();
+        }
+
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The image to resize.</param>
+        /// <param name="bounds">The width and height to resize to.</param>
+        /// <param name="backgroundColor">The background color to use for transparent areas</param>
+        /// <param name="interpolation">The interpolation mode to apply</param>
+        /// <returns>void</returns>
+        public static void ResizeImage(ref Image source, Size bounds, Color backgroundColor, InterpolationMode interpolation, CompositingMode compositingMode = CompositingMode.SourceCopy)
+        {
+            
+            var destRect = new Rectangle(0, 0, bounds.Width, bounds.Height);
+            var destImage = new Bitmap(bounds.Width, bounds.Height);
+
+            destImage.SetResolution(source.HorizontalResolution, source.VerticalResolution);
+            //destImage.MakeTransparent(backgroundColor);
+            
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.Clear(backgroundColor);
+                graphics.CompositingMode = compositingMode;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = interpolation;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.FillRectangle(new SolidBrush(backgroundColor), new Rectangle(0, 0, bounds.Width, bounds.Height));
+                    graphics.DrawImage(source, destRect, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            source = Image.FromHbitmap(destImage.GetHbitmap());
+
+            destImage.Dispose();
         }
 
         /// <summary>

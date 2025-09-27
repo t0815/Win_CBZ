@@ -796,5 +796,53 @@ namespace Win_CBZ {
                 this["AutoupdateType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFD700")]
+        public string AccentColor {
+            get {
+                return ((string)(this["AccentColor"]));
+            }
+            set {
+                this["AccentColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#F0F0F0")]
+        public string ButtonColor {
+            get {
+                return ((string)(this["ButtonColor"]));
+            }
+            set {
+                this["ButtonColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string ListBackgroundColor {
+            get {
+                return ((string)(this["ListBackgroundColor"]));
+            }
+            set {
+                this["ListBackgroundColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#000000")]
+        public string TextColor {
+            get {
+                return ((string)(this["TextColor"]));
+            }
+            set {
+                this["TextColor"] = value;
+            }
+        }
     }
 }

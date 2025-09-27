@@ -1,11 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <version>
-  <latest>0.24.211</latest>
+  <latest>0.24.212</latest>
   <notes>
-    <title>Version 0.24.211b now available!</title>
+    <title>Version 0.24.212b now available!</title>
     <changes>
-      <change>add update check feature</change>
+      <change>small ui fixes</change>
+      <change>
+        dont jump to assigned image-task when selecting a page,
+        instead add action to context menu
+      </change>
+      <change>Add ability to define custom accent color</change>
     </changes>
   </notes>
-  <url>https://github.com/t0815/Win_CBZ/releases/tag/0.24.211b</url>
+  <url>https://github.com/t0815/Win_CBZ/releases/tag/0.24.212b</url>
 </version>

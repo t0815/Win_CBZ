@@ -397,12 +397,13 @@
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Name = "PagesList";
             PagesList.OwnerDraw = true;
+            PagesList.SelectionColor = System.Drawing.Color.Gold;
+            PagesList.SelectionInactiveColor = System.Drawing.SystemColors.Control;
             PagesList.Size = new System.Drawing.Size(373, 292);
             PagesList.TabIndex = 9;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
             PagesList.DrawColumnHeader += ListView_DrawColumnHeader;
-            PagesList.DrawSubItem += ListView_DrawSubItem;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
             PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             PagesList.MouseDoubleClick += PagesList_MouseDoubleClick;

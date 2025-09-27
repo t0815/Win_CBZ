@@ -29,6 +29,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            LanguageListDatagrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+
             config = editorTypeConfig;
 
             LanguageListDatagrid.DataSource = LanguageList.Languages;
