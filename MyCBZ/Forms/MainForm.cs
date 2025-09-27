@@ -268,13 +268,9 @@ namespace Win_CBZ
 
             Theme.GetInstance().SetColorHex("AccentColor", Win_CBZSettings.Default.AccentColor);
 
-            PagesList.SelectionColor = Theme.GetInstance().AccentColor;
-            ImageTaskListView.SelectionColor = Theme.GetInstance().AccentColor;
-            MetaDataGrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
-            //MetaDataGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+            ApplyTheme();
 
-            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : SystemColors.Control;
-
+            
             SetControlsEnabledState("adjustments", false);
 
             //Win_CBZSettings.Default.SettingsVersion = 0;
@@ -285,6 +281,27 @@ namespace Win_CBZ
 
             //pageClipboardMonitor = new PageClipboardMonitor();
             //pageClipboardMonitor.ClipboardChanged += ClipBoardChanged;
+        }
+
+        public void ApplyTheme()
+        {
+            PagesList.SelectionColor = Theme.GetInstance().AccentColor;
+            ImageTaskListView.SelectionColor = Theme.GetInstance().AccentColor;
+            MetaDataGrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+            //MetaDataGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : SystemColors.Control;
+
+            if (MetaDataGrid.Columns.Count > 0)
+            {
+
+                MetaDataGrid.Rows.Clear();
+                MetaDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+                MetaDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+                Program.ProjectModel.MetaData.RemoveSort();
+
+                AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
+            }
         }
 
         private ProjectModel NewProjectModel()
@@ -5687,6 +5704,12 @@ namespace Win_CBZ
 
                 Win_CBZSettings.Default.AutoUpdate = settingsDialog.AutoUpdateCheck;
                 Win_CBZSettings.Default.AutoupdateType = settingsDialog.AutoUpdateCheckIntervalType;
+
+                Win_CBZSettings.Default.AccentColor = settingsDialog.AccentColor;
+
+                Theme.GetInstance().SetColorHex("AccentColor", settingsDialog.AccentColor);
+
+                ApplyTheme();
 
                 switch (settingsDialog.AutoUpdateCheckIntervalType)
                 {

@@ -9,6 +9,8 @@ namespace Win_CBZ.Data
     internal class ThemeColorMapping
     {
 
+        public string Label { get; set; }
+
         public string ColorName { get; set; }
 
         public string ColorValue { get; set; }

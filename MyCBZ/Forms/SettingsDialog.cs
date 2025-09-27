@@ -109,6 +109,8 @@ namespace Win_CBZ.Forms
 
         private int nextOccurence = 0;
 
+        private int LastSelectedThemeColorIndex = 0;
+
         private List<string> errorCategories = new List<string>();
 
         private String DefaultAccentColor = Colors.COLOR_GOLD;
@@ -120,6 +122,7 @@ namespace Win_CBZ.Forms
             new ThemeColorMapping()
             {
                 ColorName = "AccentColor",
+                Label = "Accent Color",
                 ColorValue = Colors.COLOR_GOLD,
                 Description = "Main accent color used for buttons, highlights and selection.",
                 DefaultValue = Colors.COLOR_GOLD,
@@ -156,7 +159,7 @@ namespace Win_CBZ.Forms
             ApplyAccentColor();
 
             ThemeColorsListbox.Items.Clear();
-            
+
             foreach (ThemeColorMapping mapping in ThemeColorMappings)
             {
                 ThemeColorsListbox.Items.Add(mapping);
@@ -410,12 +413,12 @@ namespace Win_CBZ.Forms
 
             theme.SetColorHex("AccentColor", AccentColor);
 
-            
-            ButtonOk.BackColor = theme.AccentColor;
-            ButtonCancel.BackColor = theme.AccentColor;
+
+            //ButtonOk.BackColor = theme.AccentColor;
+            //ButtonCancel.BackColor = theme.AccentColor;
 
             CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = theme.AccentColor;
-            
+
             SettingsSectionList.Invalidate();
         }
 
@@ -804,6 +807,18 @@ namespace Win_CBZ.Forms
                     }
                     CustomFieldTypesCollection = fieldConfigItems.ToArray();
 
+                    //
+                    foreach (ThemeColorMapping mapping in ThemeColorMappings)
+                    {
+                        switch (mapping.ColorName.ToLower())
+                        {
+                            case "accentcolor":
+                                AccentColor = mapping.ColorValue;
+                                break;
+                        }
+
+                    }
+
                     if (!Path.EndsInDirectorySeparator(TempPath))
                     {
                         TempPath += Path.DirectorySeparatorChar;
@@ -942,6 +957,10 @@ namespace Win_CBZ.Forms
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = false;
                 AppearanceTabControl.Visible = true;
+
+                ThemeColorsListbox.SelectedIndex = -1;
+                ThemeColorsListbox.SelectedIndex = LastSelectedThemeColorIndex;
+                ThemeColorsListbox.Invalidate();
             }
 
             if (section == "cbz")
@@ -954,7 +973,7 @@ namespace Win_CBZ.Forms
                 AppearanceTabControl.Visible = false;
             }
 
-            if (section == "image_processing")
+            if (section == "image processing")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = true;
@@ -1770,7 +1789,7 @@ namespace Win_CBZ.Forms
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                backgroundColor = Theme.GetInstance().AccentColor;
+                backgroundColor = HTMLColor.ToColor(AccentColor);
             }
             else
             {
@@ -1800,6 +1819,10 @@ namespace Win_CBZ.Forms
             Color textColor = Color.Black;
             System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
 
+            ListBox lb = sender as ListBox;
+
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
+
             System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
 
             Font f = SystemFonts.CaptionFont;
@@ -1820,11 +1843,14 @@ namespace Win_CBZ.Forms
             // draw item background
             e.Graphics.FillRectangle(bg, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
             // 
-            e.Graphics.DrawString(colorConfig.ColorName, f, tb, e.Bounds.X + 22, e.Bounds.Y + 4);
-                 
-            e.Graphics.DrawRectangle(pen, new Rectangle(e.Bounds.X + 2, e.Bounds.Y + 2, 18, 18));
+            //e.Graphics.DrawString(colorConfig.ColorName, f, tb, e.Bounds.X + 22, e.Bounds.Y + 2);
+
+            TextRenderer.DrawText(e.Graphics, colorConfig.Label, lb.Font, new Rectangle(e.Bounds.X + 22, e.Bounds.Y + 3, e.Bounds.Width, e.Bounds.Height), textColor, flags);
+
+
+            e.Graphics.DrawRectangle(pen, new Rectangle(e.Bounds.X + 2, e.Bounds.Y + 2, 17, 17));
             e.Graphics.FillRectangle(new SolidBrush(HTMLColor.ToColor(colorConfig.ColorValue)), new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, 16, 16));
-                     
+
         }
 
         private void Button2_Click(object sender, EventArgs e)
@@ -2127,6 +2153,85 @@ namespace Win_CBZ.Forms
         private void CheckboxAutoUpdate_CheckedChanged(object sender, EventArgs e)
         {
             ComboBoxAutoUpdateInterval.Enabled = CheckboxAutoUpdate.Checked;
+        }
+
+        private void ThemeColorsListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ThemeColorsListbox.SelectedItem != null)
+                {
+                    ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                    ThemeSelectColorDialog.Color = HTMLColor.ToColor(colorConfig.ColorValue);
+                    TextboxSelectedThemeColorValue.Text = colorConfig.ColorValue;
+                    PictureBoxColorSelect.BackColor = HTMLColor.ToColor(colorConfig.ColorValue);
+                    LabelColorDescription.Text = colorConfig.Description;
+                    LastSelectedThemeColorIndex = ThemeColorsListbox.SelectedIndex;
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, ex.Message);
+            }
+        }
+
+        private void PictureBoxColorSelect_Click(object sender, EventArgs e)
+        {
+            if (ThemeSelectColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                PictureBoxColorSelect.BackColor = ThemeSelectColorDialog.Color;
+                TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(ThemeSelectColorDialog.Color);
+                if (ThemeColorsListbox.SelectedItem != null)
+                {
+                    ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                    colorConfig.ColorValue = TextboxSelectedThemeColorValue.Text;
+                    int selectedIndex = ThemeColorsListbox.SelectedIndex;
+
+                    ThemeColorsListbox.Invalidate();
+                }
+            }
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            if (ThemeColorsListbox.SelectedItem != null)
+            {
+                ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                colorConfig.ColorValue = colorConfig.DefaultValue;
+                PictureBoxColorSelect.BackColor = HTMLColor.ToColor(colorConfig.ColorValue);
+                TextboxSelectedThemeColorValue.Text = colorConfig.ColorValue;
+
+                ThemeColorsListbox.Invalidate();
+            }
+        }
+
+        private void TextboxSelectedThemeColorValue_TextChanged(object sender, EventArgs e)
+        {
+
+            if (ThemeColorsListbox.SelectedItem != null)
+            {
+                ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+
+                try
+                {
+                    PictureBoxColorSelect.BackColor = HTMLColor.ToColor(TextboxSelectedThemeColorValue.Text);
+
+                    colorConfig.ColorValue = TextboxSelectedThemeColorValue.Text;
+
+                    LastSelectedThemeColorIndex = ThemeColorsListbox.SelectedIndex;
+                    ThemeColorsListbox.Invalidate();
+
+                }
+                catch (Exception ex)
+                {
+                    PictureBoxColorSelect.BackColor = HTMLColor.ToColor("#000000");
+
+                }
+            }
         }
     }
 }
