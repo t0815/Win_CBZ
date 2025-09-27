@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
+using Win_CBZ.Extensions;
 using Win_CBZ.Helper;
 
 namespace Win_CBZ
 {
+
+    [SupportedOSPlatform("windows")]
     internal class Theme
     {
 
@@ -21,6 +27,12 @@ namespace Win_CBZ
         public const String COLOR_NAME_LIST_BACKGROUND = "ListBackgroundColor";
         public const String COLOR_NAME_TEXT = "TextColor";
         public const String COLOR_NAME_BUTTON = "ButtonColor";
+        public const String COLOR_NAME_WINDOW_BACKGROUND = "WindowColor";
+        public const String COLOR_NAME_INPUT_FIELD = "InputFieldColor";
+        public const String COLOR_NAME_DIALOG_HEADER_BACKGROUND = "DialogHeaderBackground";
+        public const String COLOR_NAME_TAB_BACKGROUND = "TabBackgroundColor";
+        public const String COLOR_NAME_BUTTON_HIGHLIGHT = "ButtonHighlightColor";
+        public const String COLOR_NAME_BUTTON_BORDER = "ButtonBorderColor";
 
 
         public Dictionary<string, string> ThemeLightColors = new Dictionary<string, string>()
@@ -28,7 +40,13 @@ namespace Win_CBZ
             { COLOR_NAME_ACCENT, Colors.COLOR_GOLD },
             { COLOR_NAME_LIST_BACKGROUND, "#ffffff" },
             { COLOR_NAME_TEXT, "#000000" },
-
+            { COLOR_NAME_BUTTON, "#d3d3d3" },
+            { COLOR_NAME_WINDOW_BACKGROUND, "#f0efed" },
+            { COLOR_NAME_INPUT_FIELD, "#ffffff" },
+            { COLOR_NAME_DIALOG_HEADER_BACKGROUND, "#ffffff" },
+            { COLOR_NAME_TAB_BACKGROUND, "#ffffff" },
+            { COLOR_NAME_BUTTON_HIGHLIGHT, "#a9a9a9" },
+            { COLOR_NAME_BUTTON_BORDER, "#808080" },
         };
 
         public Dictionary<string, string> ThemeDarkColors = new Dictionary<string, string>()
@@ -42,14 +60,29 @@ namespace Win_CBZ
 
         public Theme SetColorHex(string colorName, string colorValue)
         {
+            if (!colorValue.StartsWith("#"))
+            {
+
+
+                return this;
+            }
+
             switch (colorName)
             {
                 case COLOR_NAME_ACCENT:
                     AccentColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
 
-                case "ButtonColor":
+                case COLOR_NAME_BUTTON:
                     ButtonColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_BUTTON_HIGHLIGHT:
+                    ButtonHoverColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_BUTTON_BORDER:
+                    ButtonBorderColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
 
                 case COLOR_NAME_LIST_BACKGROUND:
@@ -59,6 +92,23 @@ namespace Win_CBZ
                 case COLOR_NAME_TEXT:
                     TextColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
+
+                case COLOR_NAME_WINDOW_BACKGROUND:
+                    BackgroundColorApp = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_INPUT_FIELD:
+                    InputFieldColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_DIALOG_HEADER_BACKGROUND:
+                    DialogHeaderColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_TAB_BACKGROUND:
+                    TabContainerColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
             }
 
 
@@ -72,14 +122,33 @@ namespace Win_CBZ
                 case COLOR_NAME_ACCENT:
                     return HTMLColor.ToHexColor(AccentColor);
 
-                case "ButtonColor":
+                case COLOR_NAME_BUTTON:
                     return HTMLColor.ToHexColor(ButtonColor);
+
+                case COLOR_NAME_BUTTON_HIGHLIGHT:
+                    return HTMLColor.ToHexColor(ButtonHoverColor);
+
+                case COLOR_NAME_BUTTON_BORDER:
+                    return HTMLColor.ToHexColor(ButtonBorderColor);
 
                 case COLOR_NAME_LIST_BACKGROUND:
                     return HTMLColor.ToHexColor(ListBackgroundColor);
 
                 case COLOR_NAME_TEXT:
                     return HTMLColor.ToHexColor(TextColor);
+
+                case COLOR_NAME_WINDOW_BACKGROUND:
+                    return HTMLColor.ToHexColor(BackgroundColorApp);
+
+                case COLOR_NAME_INPUT_FIELD:
+                    return HTMLColor.ToHexColor(InputFieldColor);
+
+                case COLOR_NAME_DIALOG_HEADER_BACKGROUND:
+                    return HTMLColor.ToHexColor(DialogHeaderColor);
+
+                case COLOR_NAME_TAB_BACKGROUND:
+                    return HTMLColor.ToHexColor(TabContainerColor);
+
             }
 
 
@@ -93,8 +162,14 @@ namespace Win_CBZ
                 case COLOR_NAME_ACCENT:
                     AccentColor = colorValue;
                     break;
-                case "ButtonColor":
+                case COLOR_NAME_BUTTON:
                     ButtonColor = colorValue;
+                    break;
+                case COLOR_NAME_BUTTON_HIGHLIGHT:
+                    ButtonHoverColor = colorValue;
+                    break;
+                case COLOR_NAME_BUTTON_BORDER:
+                    ButtonBorderColor = colorValue;
                     break;
                 case COLOR_NAME_LIST_BACKGROUND:
                     ListBackgroundColor = colorValue;
@@ -102,6 +177,20 @@ namespace Win_CBZ
                 case COLOR_NAME_TEXT:
                     TextColor = colorValue;
                     break;
+                case COLOR_NAME_WINDOW_BACKGROUND:
+                    BackgroundColorApp = colorValue;
+                    break;
+                case COLOR_NAME_INPUT_FIELD:
+                    InputFieldColor = colorValue;
+                    break;
+                case COLOR_NAME_DIALOG_HEADER_BACKGROUND:
+                    DialogHeaderColor = colorValue;
+                    break;
+
+                case COLOR_NAME_TAB_BACKGROUND:
+                    TabContainerColor = colorValue;
+                    break;
+
             }
 
 
@@ -212,6 +301,35 @@ namespace Win_CBZ
                     case COLOR_NAME_TEXT:
                         TextColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
                         break;
+                    
+                    case COLOR_NAME_BUTTON:
+                        ButtonColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
+                    case COLOR_NAME_BUTTON_HIGHLIGHT:
+                        ButtonHoverColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
+                    case COLOR_NAME_BUTTON_BORDER:
+                        ButtonBorderColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
+                    case COLOR_NAME_WINDOW_BACKGROUND:
+                        BackgroundColorApp = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
+                    case COLOR_NAME_INPUT_FIELD:
+                        InputFieldColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+                    
+                    case COLOR_NAME_DIALOG_HEADER_BACKGROUND:
+                        DialogHeaderColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+                    
+                    case COLOR_NAME_TAB_BACKGROUND:
+                        TabContainerColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
                 }
             }
         }
@@ -223,6 +341,42 @@ namespace Win_CBZ
             Theme.Instance ??= new Theme();
 
             return Theme.Instance;
+        }
+
+        public Theme Copy()
+        {
+            Theme theme = new Theme();
+            theme.AccentColor = this.AccentColor;
+            theme.TextColor = this.TextColor;
+            theme.BackgroundColorApp = this.BackgroundColorApp;
+            theme.ListBackgroundColor = this.ListBackgroundColor;
+            theme.ButtonColor = this.ButtonColor;
+            theme.ButtonTextColor = this.ButtonTextColor;
+            theme.ButtonHoverColor = this.ButtonHoverColor;
+            theme.ButtonHoverTextColor = this.ButtonHoverTextColor;
+            theme.ButtonBorderColor = this.ButtonBorderColor;
+            theme.InputFieldColor = this.InputFieldColor;
+            theme.InputFieldTextColor = this.InputFieldTextColor;
+            theme.InputFieldBorderColor = this.InputFieldBorderColor;
+            theme.InputFieldBorderFocusColor = this.InputFieldBorderFocusColor;
+            theme.InputFieldColorReadOnly = this.InputFieldColorReadOnly;
+            theme.LinkColor = this.LinkColor;
+            theme.MenuColor = this.MenuColor;
+            theme.MenuTextColor = this.MenuTextColor;
+            theme.MenuHoverColor = this.MenuHoverColor;
+            theme.MenuHoverTextColor = this.MenuHoverTextColor;
+            theme.StatusBarColor = this.StatusBarColor;
+            theme.StatusBarTextColor = this.StatusBarTextColor;
+            theme.DialogHeaderColor = this.DialogHeaderColor;
+            theme.DialogHeaderTextColor = this.DialogHeaderTextColor;
+            theme.DialogBackgroundColor = this.DialogBackgroundColor;
+            theme.DialogTextColor = this.DialogTextColor;
+            theme.TabContainerColor = this.TabContainerColor;
+            theme.TabInactiveColor = this.TabInactiveColor;
+            theme.TabActiveColor = this.TabActiveColor;
+            theme.TabTextActiveColor = this.TabTextActiveColor;
+            theme.TabTextActiveColor = this.TabTextActiveColor;
+            return theme;
         }
 
         private Theme()
@@ -247,6 +401,8 @@ namespace Win_CBZ
         public Color ButtonHoverColor { get; set; } = System.Drawing.Color.Gray;
 
         public Color ButtonHoverTextColor { get; set; } = System.Drawing.Color.White;
+
+        public Color ButtonBorderColor { get; set; } = System.Drawing.Color.DarkGray;
 
         public Color InputFieldColor { get; set; } = System.Drawing.Color.White;
 
@@ -280,6 +436,8 @@ namespace Win_CBZ
 
         public Color DialogTextColor { get; set; } = System.Drawing.Color.Black;
 
+        public Color TabContainerColor { get; set; } = System.Drawing.Color.White;
+
         public Color TabInactiveColor { get; set; } = System.Drawing.Color.LightGray;
 
         public Color TabActiveColor { get; set; } = System.Drawing.Color.Gray;
@@ -308,6 +466,161 @@ namespace Win_CBZ
 
         public Color DataGridCellTextColor { get; set; } = System.Drawing.Color.Black;
 
+        public Theme ApplyThemeGeneral(Form form)
+        {
 
+            //form.BackColor = BackgroundColorApp;
+            //form.ForeColor = TextColor;
+            //form.Invalidate();
+
+            return this;
+        }
+
+        public Theme ApplyThemeDataGid(DataGridView dg)
+        {
+            dg.DefaultCellStyle.SelectionBackColor = AccentColor;
+            dg.RowsDefaultCellStyle.SelectionBackColor = AccentColor;
+
+            return this;
+        }
+
+        public Theme ApplyThemeTab(TabControl tabControl)
+        {
+            //tabControl.BackColor = BackgroundColorApp;
+            //tabControl.ForeColor = TextColor;
+            foreach (TabPage tab in tabControl.TabPages)
+            {
+                //tab.BackColor = Color.Transparent;
+                //tab.ForeColor = TextColor;
+
+                ApplyThemeContainer(tab.Container);
+            }
+
+            return this;
+        }
+
+        public Theme ApplyTheme(TableLayoutControlCollection container)
+        {
+            //Theme theme = Theme.GetInstance();
+
+            container.OfType<Button>().Each(b =>
+            {
+                b.BackColor = ButtonColor;
+                b.ForeColor = TextColor;
+                b.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
+                b.FlatAppearance.BorderColor = ButtonBorderColor;
+
+                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
+                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
+            });
+
+            container.OfType<Label>().Each<Label>(l =>
+            {
+                //l.ForeColor = TextColor;
+            });
+
+            container.OfType<CheckBox>().Each<CheckBox>(c =>
+            {
+                //c.ForeColor = TextColor;
+                //c.BackColor = Color.Transparent;
+            });
+
+            container.OfType<RadioButton>().Each<RadioButton>(r =>
+            {
+                //r.ForeColor = TextColor;
+                //r.BackColor = Color.Transparent; ;
+            });
+
+            container.OfType<ComboBox>().Each<ComboBox>(cb =>
+            {
+                //cb.BackColor = InputFieldColor;
+                //cb.ForeColor = TextColor;
+            });
+
+            container.OfType<TextBox>().Each<TextBox>(tb =>
+            {
+                //tb.BackColor = InputFieldColor;
+                //tb.ForeColor = TextColor;
+            });
+
+            container.OfType<ListBox>().Each<ListBox>(lb =>
+            {
+                //lb.BackColor = ListBackgroundColor;
+                //lb.ForeColor = TextColor;
+               
+            });
+
+            container.OfType<ExtendetListView>().Each<ExtendetListView>(lv =>
+            {
+                //lv.BackColor = ListBackgroundColor;
+                //lv.ForeColor = TextColor;
+                lv.SelectionColor = AccentColor;
+            });
+
+
+            //Control.ControlCollection controls = container.OfType<Control>().SelectMany(c => c.Controls.OfType<Control>());
+
+            return this;
+        }
+
+        public Theme ApplyThemeContainer(IContainer container)
+        {
+            container?.Components.OfType<Button>().Each(b =>
+            {
+                b.BackColor = ButtonColor;
+                b.ForeColor = TextColor;
+                b.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
+                b.FlatAppearance.BorderColor = ButtonBorderColor;
+                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
+                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
+            });
+
+            container?.Components.OfType<Label>().Each<Label>(l =>
+            {
+                //l.ForeColor = TextColor;
+            });
+
+            container?.Components.OfType<CheckBox>().Each<CheckBox>(c =>
+            {
+                //c.ForeColor = TextColor;
+                //c.BackColor = Color.Transparent; ;
+            });
+
+            container?.Components.OfType<RadioButton>().Each<RadioButton>(r =>
+            {
+                //r.ForeColor = TextColor;
+                //r.BackColor = Color.Transparent; ;
+            });
+
+            container?.Components.OfType<ComboBox>().Each<ComboBox>(cb =>
+            {
+                //cb.BackColor = InputFieldColor;
+                //cb.ForeColor = TextColor;
+                //cb.FlatStyle = FlatStyle.Flat;
+               
+            });
+
+            container?.Components.OfType<TextBox>().Each<TextBox>(tb =>
+            {
+                //tb.BackColor = InputFieldColor;
+                //tb.ForeColor = TextColor;
+            });
+
+            container?.Components.OfType<ListBox>().Each<ListBox>(lb =>
+            {
+                //lb.BackColor = ListBackgroundColor;
+                //lb.ForeColor = TextColor;
+
+            });
+
+            container?.Components.OfType<ExtendetListView>().Each<ExtendetListView>(lv =>
+            {
+                //lv.BackColor = ListBackgroundColor;
+                //lv.ForeColor = TextColor;
+                lv.SelectionColor = AccentColor;
+            });
+
+            return this;
+        }
     }
 }

@@ -267,8 +267,11 @@ namespace Win_CBZ
             }
 
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_ACCENT, Win_CBZSettings.Default.AccentColor);
-            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, Win_CBZSettings.Default.TextColor);
-            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, Win_CBZSettings.Default.ListBackgroundColor);
+            //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, Win_CBZSettings.Default.TextColor);
+            //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, Win_CBZSettings.Default.ListBackgroundColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON, Win_CBZSettings.Default.ButtonColor);
+            //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, Win_CBZSettings.Default.WindowBackgroundColor);
+            //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TAB_BACKGROUND, Win_CBZSettings.Default.TabBackgroundColor);
 
             ApplyTheme();
 
@@ -287,6 +290,9 @@ namespace Win_CBZ
 
         public void ApplyTheme()
         {
+            //BackColor = Theme.GetInstance().BackgroundColorApp;
+            //ForeColor = Theme.GetInstance().TextColor;
+
             PagesList.SelectionColor = Theme.GetInstance().AccentColor;
             ImageTaskListView.SelectionColor = Theme.GetInstance().AccentColor;
             MetaDataGrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
@@ -5712,14 +5718,26 @@ namespace Win_CBZ
 
                 Win_CBZSettings.Default.AccentColor = settingsDialog.AccentColor;
                 Win_CBZSettings.Default.ButtonColor = settingsDialog.ButtonColor;
-                Win_CBZSettings.Default.ListBackgroundColor = settingsDialog.ListBackgroundColor;
-                Win_CBZSettings.Default.TextColor = settingsDialog.TextColor;
+                Win_CBZSettings.Default.ButtonHighlightColor = settingsDialog.ButtonHighlightColor;
+                Win_CBZSettings.Default.ButtonBorderColor = settingsDialog.ButtonBorderColor;
+
+                //Win_CBZSettings.Default.TextColor = settingsDialog.TextColor;
+                //Win_CBZSettings.Default.WindowBackgroundColor = settingsDialog.WindowBackgroundColor;
+                //Win_CBZSettings.Default.InputFieldColor = settingsDialog.InputFieldColor;
+                //Win_CBZSettings.Default.TabBackgroundColor = settingsDialog.TabBackgroundColor;
 
 
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_ACCENT, settingsDialog.AccentColor);
-                Theme.GetInstance().SetColorHex("ButtonColor", settingsDialog.ButtonColor);
-                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, settingsDialog.ListBackgroundColor);
-                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, settingsDialog.TextColor);
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON, settingsDialog.ButtonColor);
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_HIGHLIGHT, settingsDialog.ButtonHighlightColor);
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, settingsDialog.ButtonBorderColor);
+
+                //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, settingsDialog.ListBackgroundColor);
+                //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, settingsDialog.TextColor);
+                //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, settingsDialog.WindowBackgroundColor);
+                //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_INPUT_FIELD, settingsDialog.InputFieldColor);
+                //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TAB_BACKGROUND, settingsDialog.TabBackgroundColor);
+
 
                 ApplyTheme();
 

@@ -104,13 +104,21 @@ namespace Win_CBZ.Forms
 
         public string AccentColor = Colors.COLOR_GOLD;
 
-        public string ButtonColor = "";
+        public string ButtonColor = HTMLColor.ToHexColor(SystemColors.ButtonFace);
 
-        public string TextColor = "";
+        public string ButtonHighlightColor = HTMLColor.ToHexColor(SystemColors.ButtonHighlight);
 
-        public string WindowBackgroundColor = "";
+        public string ButtonBorderColor = HTMLColor.ToHexColor(SystemColors.ControlDark);
 
-        public string ListBackgroundColor = "";
+        public string TextColor = HTMLColor.ToHexColor(SystemColors.ControlText);
+
+        public string InputFieldColor = HTMLColor.ToHexColor(SystemColors.Window);
+
+        public string WindowBackgroundColor = HTMLColor.ToHexColor(SystemColors.Control);
+
+        public string ListBackgroundColor = HTMLColor.ToHexColor(SystemColors.Window);
+
+        public string TabBackgroundColor = HTMLColor.ToHexColor(SystemColors.Window);
 
         // --------------------
 
@@ -126,10 +134,6 @@ namespace Win_CBZ.Forms
 
         private List<string> errorCategories = new List<string>();
 
-        private String DefaultAccentColor = Colors.COLOR_GOLD;
-
-        private String[] ExampleAccentColors = new string[] { "#FFFFFF" };
-
         private List<ThemeColorMapping> ThemeColorMappings = new List<ThemeColorMapping>()
         {
             new ThemeColorMapping()
@@ -142,6 +146,7 @@ namespace Win_CBZ.Forms
                 Category = "Main",
                 ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK }
             },
+            /*,
             new ThemeColorMapping()
             {
                 ColorName = Theme.COLOR_NAME_TEXT,
@@ -152,9 +157,10 @@ namespace Win_CBZ.Forms
                 Category = "Main",
                 ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlText), Colors.COLOR_DARK_GRAY_TEXT_COLOR }
             },
+            */
             new ThemeColorMapping()
             {
-                ColorName = "ButtonColor",
+                ColorName = Theme.COLOR_NAME_BUTTON,
                 Label = "Button Color",
                 ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
                 Description = "Main background color used for buttons.",
@@ -164,7 +170,28 @@ namespace Win_CBZ.Forms
             },
             new ThemeColorMapping()
             {
-                ColorName = "WindowBackgroundColor",
+                ColorName = Theme.COLOR_NAME_BUTTON_HIGHLIGHT,
+                Label = "Button Color Highlight",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.ButtonHighlight),
+                Description = "Hover color buttons.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ButtonHighlight),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_BUTTON_BORDER,
+                Label = "Button border color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.ControlDark),
+                Description = "Border color for buttons.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ControlDark),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlDark), Colors.COLOR_DARK_GRAY_BUTTON_FACE_ACTIVE }
+            },
+            /*
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_WINDOW_BACKGROUND,
                 Label = "Window Background Color",
                 ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
                 Description = "Background color used for windows.",
@@ -182,6 +209,27 @@ namespace Win_CBZ.Forms
                 Category = "Main",
                 ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Window), Colors.COLOR_DARK_GRAY_LIST_CONTROL_BG }
             },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_INPUT_FIELD,
+                Label = "Input Background Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Description = "Background Color for all Inputfields.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Window), Colors.COLOR_DARK_GRAY_TEXT_CONTROL_BG }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_TAB_BACKGROUND,
+                Label = "Tab Page Background Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Description = "Background Color for all Inputfields.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Window), Colors.COLOR_DARK_GRAY_ACTIVE_TAB }
+            },
+            */
         };
 
         public SettingsDialog()
@@ -276,9 +324,17 @@ namespace Win_CBZ.Forms
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
 
             AccentColor = Win_CBZSettings.Default.AccentColor;
+            
+            
             ButtonColor = Win_CBZSettings.Default.ButtonColor;
+            
+            /*
             ListBackgroundColor = Win_CBZSettings.Default.ListBackgroundColor;
             TextColor = Win_CBZSettings.Default.TextColor;
+            WindowBackgroundColor = Win_CBZSettings.Default.WindowBackgroundColor;
+            InputFieldColor = Win_CBZSettings.Default.InputFieldColor;
+            TabBackgroundColor = Win_CBZSettings.Default.TabBackgroundColor;
+            */
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
@@ -300,25 +356,58 @@ namespace Win_CBZ.Forms
                         mapping.ColorValue = Win_CBZSettings.Default.AccentColor;
                         break;
 
-                    case "ButtonColor":
+                    
+                    case Theme.COLOR_NAME_BUTTON:
                         mapping.ColorValue = Win_CBZSettings.Default.ButtonColor;
                         break;
 
-                    case Theme.COLOR_NAME_LIST_BACKGROUND:
-                        mapping.ColorValue = Win_CBZSettings.Default.ListBackgroundColor;
+                    case Theme.COLOR_NAME_BUTTON_HIGHLIGHT:
+                        mapping.ColorValue = Win_CBZSettings.Default.ButtonHighlightColor;
                         break;
 
-                    case Theme.COLOR_NAME_TEXT:
-                        mapping.ColorValue = Win_CBZSettings.Default.TextColor;
+                    case Theme.COLOR_NAME_BUTTON_BORDER:
+                        mapping.ColorValue = Win_CBZSettings.Default.ButtonBorderColor;
                         break;
+
+                        /*
+                        case Theme.COLOR_NAME_LIST_BACKGROUND:
+                            mapping.ColorValue = Win_CBZSettings.Default.ListBackgroundColor;
+                            break;
+
+                        case Theme.COLOR_NAME_TEXT:
+                            mapping.ColorValue = Win_CBZSettings.Default.TextColor;
+                            break;
+
+                        case Theme.COLOR_NAME_WINDOW_BACKGROUND:
+                            mapping.ColorValue = Win_CBZSettings.Default.WindowBackgroundColor;
+                            break;
+
+                        case Theme.COLOR_NAME_INPUT_FIELD:
+                            mapping.ColorValue = Win_CBZSettings.Default.InputFieldColor;
+                            break;
+
+                        case Theme.COLOR_NAME_TAB_BACKGROUND:
+                            mapping.ColorValue = Win_CBZSettings.Default.TabBackgroundColor;
+                            break;
+                        */
                 }
 
             }
 
-
-            ApplyTheme(SettingsTablePanel.Controls);
-            ApplyTheme(MetadataDefaultsTable.Controls);
-            ApplyTheme(EssentialTableLayoutPanel.Controls);
+            Theme.GetInstance().Copy()
+                .ApplyThemeGeneral(this)
+                .ApplyThemeDataGid(CustomFieldsDataGrid)
+                .ApplyThemeTab(MetaDataConfigTabControl)
+                .ApplyThemeTab(ImageProcessingTabControl)
+                .ApplyThemeTab(AppSettingsTabControl)
+                .ApplyThemeTab(CBZSettingsTabControl)
+                .ApplyThemeTab(UpdatesTabControl)
+                .ApplyThemeTab(AppearanceTabControl)
+                .ApplyTheme(SettingsTablePanel.Controls)
+                .ApplyTheme(MetadataDefaultsTable.Controls)
+                .ApplyTheme(TableLayoutColorSettings.Controls)
+                .ApplyTheme(CustomFieldTypesTablePanel.Controls)
+                .ApplyTheme(EssentialTableLayoutPanel.Controls);
 
             ThemeColorsListbox.Items.Clear();
 
@@ -484,48 +573,6 @@ namespace Win_CBZ.Forms
             validation = new DataValidation();
 
             DialogResult = DialogResult.Cancel;
-        }
-
-        private void ApplyTheme(TableLayoutControlCollection container)
-        {
-            //Theme theme = Theme.GetInstance();
-
-            CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
-            CustomFieldsDataGrid.RowsDefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
-
-            container.OfType<Button>().ToList().ForEach(b =>
-            {
-                b.BackColor = HTMLColor.ToColor(ButtonColor);
-                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
-                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
-            });
-
-            container.OfType<Label>().Each<Label>(l =>
-            {
-                l.ForeColor = HTMLColor.ToColor(TextColor);
-            });
-
-            //Control.ControlCollection controls = container.OfType<Control>().SelectMany(c => c.Controls.OfType<Control>());
-
-            ThemeColorsListbox.BackColor = HTMLColor.ToColor(ListBackgroundColor);
-            SettingsSectionList.BackColor = HTMLColor.ToColor(ListBackgroundColor);
-
-            SettingsSectionList.Invalidate();
-        }
-
-        private void ApplyThemeContainer(Container container)
-        {
-            container.Components.OfType<Button>().ToList().ForEach(b =>
-            {
-                b.BackColor = HTMLColor.ToColor(ButtonColor);
-                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
-                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
-            });
-
-            container.Components.OfType<Label>().Each<Label>(l =>
-            {
-                l.ForeColor = HTMLColor.ToColor(TextColor);
-            });
         }
 
         private void PopulateFieldTypeEditor()
@@ -932,6 +979,18 @@ namespace Win_CBZ.Forms
 
                             case Theme.COLOR_NAME_TEXT:
                                 TextColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_WINDOW_BACKGROUND:
+                                WindowBackgroundColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_INPUT_FIELD:
+                                InputFieldColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_TAB_BACKGROUND:
+                                TabBackgroundColor = mapping.ColorValue;
                                 break;
                         }
 

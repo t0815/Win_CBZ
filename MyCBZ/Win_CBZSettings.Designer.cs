@@ -824,24 +824,24 @@ namespace Win_CBZ {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
-        public string ListBackgroundColor {
+        public string ButtonHighlightColor {
             get {
-                return ((string)(this["ListBackgroundColor"]));
+                return ((string)(this["ButtonHighlightColor"]));
             }
             set {
-                this["ListBackgroundColor"] = value;
+                this["ButtonHighlightColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("#000000")]
-        public string TextColor {
+        public string ButtonBorderColor {
             get {
-                return ((string)(this["TextColor"]));
+                return ((string)(this["ButtonBorderColor"]));
             }
             set {
-                this["TextColor"] = value;
+                this["ButtonBorderColor"] = value;
             }
         }
     }
