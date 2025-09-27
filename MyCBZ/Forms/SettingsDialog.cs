@@ -99,6 +99,8 @@ namespace Win_CBZ.Forms
 
         public int AutoUpdateCheckIntervalType;
 
+        public string AccentColor = Colors.COLOR_GOLD;
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -109,6 +111,23 @@ namespace Win_CBZ.Forms
 
         private List<string> errorCategories = new List<string>();
 
+        private String DefaultAccentColor = Colors.COLOR_GOLD;
+
+        private String[] ExampleAccentColors = new string[] { "#FFFFFF" };
+
+        private List<ThemeColorMapping> ThemeColorMappings = new List<ThemeColorMapping>()
+        {
+            new ThemeColorMapping()
+            {
+                ColorName = "AccentColor",
+                ColorValue = Colors.COLOR_GOLD,
+                Description = "Main accent color used for buttons, highlights and selection.",
+                DefaultValue = Colors.COLOR_GOLD,
+                Category = "Main",
+                ExampleValues = new List<string>() { "#FFD700", "#FF0000", "#00FF00", "#0000FF", "#800080", "#FFA500", "#00FFFF", "#FFC0CB", "#A52A2A", "#808080", "#000000", "#FFFFFF" }
+            },
+        };
+
         public SettingsDialog()
         {
             InitializeComponent();
@@ -118,12 +137,30 @@ namespace Win_CBZ.Forms
             AppSettingsTabControl.Dock = DockStyle.Fill;
             CBZSettingsTabControl.Dock = DockStyle.Fill;
             UpdatesTabControl.Dock = DockStyle.Fill;
+            AppearanceTabControl.Dock = DockStyle.Fill;
 
             MetaDataConfigTabControl.Visible = true;
             ImageProcessingTabControl.Visible = false;
             AppSettingsTabControl.Visible = false;
             CBZSettingsTabControl.Visible = false;
             UpdatesTabControl.Visible = false;
+            AppearanceTabControl.Visible = false;
+
+
+            foreach (ThemeColorMapping mapping in ThemeColorMappings)
+            {
+                mapping.ColorValue = Theme.GetInstance().GetColorHex(mapping.ColorName);
+            }
+
+
+            ApplyAccentColor();
+
+            ThemeColorsListbox.Items.Clear();
+            
+            foreach (ThemeColorMapping mapping in ThemeColorMappings)
+            {
+                ThemeColorsListbox.Items.Add(mapping);
+            }
 
             // Load settings  ------------------------
 
@@ -194,6 +231,8 @@ namespace Win_CBZ.Forms
 
             RestoreWindowPosition = Win_CBZSettings.Default.RestoreWindowLayout;
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
+
+            AccentColor = Win_CBZSettings.Default.AccentColor;
 
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
@@ -363,6 +402,21 @@ namespace Win_CBZ.Forms
             validation = new DataValidation();
 
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void ApplyAccentColor()
+        {
+            Theme theme = Theme.GetInstance();
+
+            theme.SetColorHex("AccentColor", AccentColor);
+
+            
+            ButtonOk.BackColor = theme.AccentColor;
+            ButtonCancel.BackColor = theme.AccentColor;
+
+            CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = theme.AccentColor;
+            
+            SettingsSectionList.Invalidate();
         }
 
         private void PopulateFieldTypeEditor()
@@ -853,49 +907,71 @@ namespace Win_CBZ.Forms
 
         private void SettingsSectionList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (SettingsSectionList.SelectedIndex == 1)
+            if (SettingsSectionList.SelectedIndex == -1)
             {
-                MetaDataConfigTabControl.Visible = true;
-                ImageProcessingTabControl.Visible = false;
-                AppSettingsTabControl.Visible = false;
-                CBZSettingsTabControl.Visible = false;
-                UpdatesTabControl.Visible = false;
+                SettingsSectionList.SelectedIndex = 0;
             }
 
-            if (SettingsSectionList.SelectedIndex == 0)
+            string section = SettingsSectionList.SelectedItem.ToString().ToLower();
+
+            if (section == "application")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = true;
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 2)
+            if (section == "metadata")
+            {
+                MetaDataConfigTabControl.Visible = true;
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
+            }
+
+            if (section == "appearance")
+            {
+                MetaDataConfigTabControl.Visible = false;
+                ImageProcessingTabControl.Visible = false;
+                AppSettingsTabControl.Visible = false;
+                CBZSettingsTabControl.Visible = false;
+                UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = true;
+            }
+
+            if (section == "cbz")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = true;
                 UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 3)
+            if (section == "image_processing")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = true;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = false;
+                AppearanceTabControl.Visible = false;
             }
 
-            if (SettingsSectionList.SelectedIndex == 4)
+            if (section == "updates")
             {
                 MetaDataConfigTabControl.Visible = false;
                 ImageProcessingTabControl.Visible = false;
                 AppSettingsTabControl.Visible = false;
                 CBZSettingsTabControl.Visible = false;
                 UpdatesTabControl.Visible = true;
+                AppearanceTabControl.Visible = false;
             }
         }
 
@@ -1716,6 +1792,39 @@ namespace Win_CBZ.Forms
             {
                 e.Graphics.DrawImage(ErrorImages.Images["error"], e.Bounds.Right - 20, e.Bounds.Y + 8);
             }
+        }
+
+        private void ColotList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Color backgroundColor = Color.White;
+            Color textColor = Color.Black;
+            System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
+
+            System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
+
+            Font f = SystemFonts.CaptionFont;
+
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                backgroundColor = Theme.GetInstance().AccentColor;
+            }
+            else
+            {
+                backgroundColor = SystemColors.Window;
+            }
+
+            ThemeColorMapping colorConfig = ThemeColorsListbox.Items[e.Index] as ThemeColorMapping;
+
+            System.Drawing.SolidBrush bg = new SolidBrush(backgroundColor);
+
+            // draw item background
+            e.Graphics.FillRectangle(bg, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
+            // 
+            e.Graphics.DrawString(colorConfig.ColorName, f, tb, e.Bounds.X + 22, e.Bounds.Y + 4);
+                 
+            e.Graphics.DrawRectangle(pen, new Rectangle(e.Bounds.X + 2, e.Bounds.Y + 2, 18, 18));
+            e.Graphics.FillRectangle(new SolidBrush(HTMLColor.ToColor(colorConfig.ColorValue)), new Rectangle(e.Bounds.X + 3, e.Bounds.Y + 3, 16, 16));
+                     
         }
 
         private void Button2_Click(object sender, EventArgs e)

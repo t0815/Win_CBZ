@@ -31,12 +31,37 @@ namespace Win_CBZ
         private static Theme Instance;
 
 
-        public Theme SetColor(string colorName, string colorValue)
+        public Theme SetColorHex(string colorName, string colorValue)
         {
             switch (colorName)
             {
                 case "AccentColor":
                     AccentColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+            }
+
+
+            return this;
+        }
+
+        public String GetColorHex(string colorName)
+        {
+            switch (colorName)
+            {
+                case "AccentColor":
+                    return HTMLColor.ToHexColor(AccentColor);
+            }
+
+
+            return "#000000";
+        }
+
+        public Theme SetColor(string colorName, Color colorValue)
+        {
+            switch (colorName)
+            {
+                case "AccentColor":
+                    AccentColor = colorValue;
                     break;
             }
 

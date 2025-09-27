@@ -266,7 +266,7 @@ namespace Win_CBZ
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
 
-            Theme.GetInstance().SetColor("AccentColor", Colors.COLOR_LIGHT_GREEN);// Win_CBZSettings.Default.AccentColor);
+            Theme.GetInstance().SetColorHex("AccentColor", Win_CBZSettings.Default.AccentColor);
 
             PagesList.SelectionColor = Theme.GetInstance().AccentColor;
             ImageTaskListView.SelectionColor = Theme.GetInstance().AccentColor;
