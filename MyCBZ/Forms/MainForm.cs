@@ -270,6 +270,8 @@ namespace Win_CBZ
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, Win_CBZSettings.Default.TextColor);
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, Win_CBZSettings.Default.ListBackgroundColor);
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON, Win_CBZSettings.Default.ButtonColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_HIGHLIGHT, Win_CBZSettings.Default.ButtonHighlightColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, Win_CBZSettings.Default.ButtonBorderColor);
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, Win_CBZSettings.Default.WindowBackgroundColor);
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TAB_BACKGROUND, Win_CBZSettings.Default.TabBackgroundColor);
 
@@ -297,7 +299,30 @@ namespace Win_CBZ
             ImageTaskListView.SelectionColor = Theme.GetInstance().AccentColor;
             MetaDataGrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
             //MetaDataGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
-            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : SystemColors.Control;
+            
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : Theme.GetInstance().ButtonColor;
+            ButtonFilter.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            ButtonFilter.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
+            ButtonConfigureKeyFilter.BackColor = Theme.GetInstance().ButtonColor;
+            ButtonConfigureKeyFilter.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            ButtonConfigureKeyFilter.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
+            BtnAddMetaData.BackColor = Theme.GetInstance().ButtonColor;
+            BtnAddMetaData.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            BtnAddMetaData.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
+            BtnRemoveMetaData.BackColor = Theme.GetInstance().ButtonColor;
+            BtnRemoveMetaData.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            BtnRemoveMetaData.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
+            AddMetaDataRowBtn.BackColor = Theme.GetInstance().ButtonColor;
+            AddMetaDataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            AddMetaDataRowBtn.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
+            RemoveMetadataRowBtn.BackColor = Theme.GetInstance().ButtonColor;
+            RemoveMetadataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            RemoveMetadataRowBtn.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
             if (MetaDataGrid.Columns.Count > 0)
             {
