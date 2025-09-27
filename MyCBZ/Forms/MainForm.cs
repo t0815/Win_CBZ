@@ -200,7 +200,7 @@ namespace Win_CBZ
             ComboBoxConvertPages.SelectedIndex = Win_CBZSettings.Default.ImageConversionMode;
 
             ApplyUserKeyFilter = Win_CBZSettings.Default.KeyFilterActive;
-            ButtonFilter.BackColor = ApplyUserKeyFilter ? Color.Gold : SystemColors.Control;
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : SystemColors.Control;
             ButtonFilter.Image = ApplyUserKeyFilter ? Resources.funnel_error_16 : Resources.funnel;
 
             Program.ProjectModel.FilteredFileNames.Add(Win_CBZSettings.Default.MetaDataFilename.ToLower());
@@ -265,6 +265,15 @@ namespace Win_CBZ
             {
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
+
+            Theme.GetInstance().SetColor("AccentColor", Colors.COLOR_LIGHT_GREEN);// Win_CBZSettings.Default.AccentColor);
+
+            PagesList.SelectionColor = Theme.GetInstance().AccentColor;
+            ImageTaskListView.SelectionColor = Theme.GetInstance().AccentColor;
+            MetaDataGrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+            //MetaDataGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : SystemColors.Control;
 
             SetControlsEnabledState("adjustments", false);
 
@@ -3540,7 +3549,7 @@ namespace Win_CBZ
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+                e.Graphics.FillRectangle(new SolidBrush(Theme.GetInstance().AccentColor), e.Bounds);
             }
             else
             {
@@ -3657,7 +3666,7 @@ namespace Win_CBZ
         {
 
             DataGridView grid = sender as DataGridView;
-            Color sortIconColor = Color.Gold;
+            Color sortIconColor = Theme.GetInstance().AccentColor;
 
             if (e.ColumnIndex > -1 && e.RowIndex == -1)
             {
@@ -3878,7 +3887,7 @@ namespace Win_CBZ
                     }));
 
                     int[] colIndices = new int[] { 0, 2 };
-                    Color selectionColor = Color.Gold;
+                    Color selectionColor = Theme.GetInstance().AccentColor;
 
                     // DataGridViewCellStyle currentStyle = null;
                     for (int i = 0; i < MetaDataGrid.RowCount; i++)
@@ -3940,7 +3949,7 @@ namespace Win_CBZ
                                         c.Style = new DataGridViewCellStyle()
                                         {
                                             Font = new Font("Verdana", 9f, FontStyle.Regular),
-                                            SelectionBackColor = Color.FromKnownColor(KnownColor.Gold),
+                                            SelectionBackColor = Theme.GetInstance().AccentColor,
                                             SelectionForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         };
@@ -3972,7 +3981,7 @@ namespace Win_CBZ
                                         c.Style = new DataGridViewCellStyle()
                                         {
                                             Font = new Font("Verdana", 9f, FontStyle.Regular),
-                                            SelectionBackColor = Color.Gold,
+                                            SelectionBackColor = Theme.GetInstance().AccentColor,
                                             ForeColor = Color.Black,
                                             BackColor = ((i + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         };
@@ -4027,7 +4036,7 @@ namespace Win_CBZ
 
                         foreach (int colIndex in colIndices)
                         {
-                            selectionColor = Color.Gold;
+                            selectionColor = Theme.GetInstance().AccentColor;
 
                             if (MetaDataGrid.Rows[i].Cells[colIndex] is DataGridViewButtonCell)
                             {
@@ -4343,7 +4352,7 @@ namespace Win_CBZ
                                 {
                                     Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = Color.White,
                                 };
 
@@ -4402,7 +4411,7 @@ namespace Win_CBZ
                     break;
             }
 
-            Color selectionColor = Color.Gold;
+            Color selectionColor = Theme.GetInstance().AccentColor;
 
             for (int i = 0; i < MetaDataGrid.RowCount; i++)
             {
@@ -4422,7 +4431,7 @@ namespace Win_CBZ
                                 break;
                             default:
                                 {
-                                    selectionColor = Color.Gold;
+                                    selectionColor = Theme.GetInstance().AccentColor;
                                 }
                                 break;
                         }
@@ -4441,7 +4450,7 @@ namespace Win_CBZ
                     };
 
                     // reset color
-                    selectionColor = Color.Gold;
+                    selectionColor = Theme.GetInstance().AccentColor;
                 }
             }
         }
@@ -4635,7 +4644,7 @@ namespace Win_CBZ
                                     {
                                         Font = new Font("Verdana", 9f, FontStyle.Regular),
                                         SelectionForeColor = Color.Black,
-                                        SelectionBackColor = Color.Gold,
+                                        SelectionBackColor = Theme.GetInstance().AccentColor,
                                         BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                     };
 
@@ -4654,7 +4663,7 @@ namespace Win_CBZ
                                         {
                                             Font = new Font("Verdana", 9f, FontStyle.Regular),
                                             SelectionForeColor = Color.Black,
-                                            SelectionBackColor = Color.Gold,
+                                            SelectionBackColor = Theme.GetInstance().AccentColor,
                                             BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                         },
                                         Value = updatedEntry.Value,
@@ -4680,7 +4689,7 @@ namespace Win_CBZ
                                 {
                                     Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                 };
 
@@ -4698,7 +4707,7 @@ namespace Win_CBZ
                                 {
                                     Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                 };
 
@@ -4716,7 +4725,7 @@ namespace Win_CBZ
                                 {
                                     Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                 };
 
@@ -4752,7 +4761,7 @@ namespace Win_CBZ
                                 {
                                     Font = new Font("Verdana", 9f, FontStyle.Regular),
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = ((e.RowIndex + 1) % 2 != 0) ? Color.White : Color.FromKnownColor(KnownColor.ControlLight),
                                 };
 
@@ -5874,7 +5883,7 @@ namespace Win_CBZ
             Font textFont = SystemFonts.CaptionFont;
             if (e.Item.Selected)
             {
-                borderPen = new Pen(Color.DodgerBlue, 2);
+                borderPen = new Pen(Theme.GetInstance().AccentColor, 2);
             }
             else
             {
@@ -7427,7 +7436,7 @@ namespace Win_CBZ
             Font textFont = SystemFonts.CaptionFont;
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                borderPen = new Pen(Color.Gold, 2);
+                borderPen = new Pen(Theme.GetInstance().AccentColor, 2);
             }
             else
             {
@@ -8130,7 +8139,7 @@ namespace Win_CBZ
         {
             ApplyUserKeyFilter = !ApplyUserKeyFilter;
 
-            ButtonFilter.BackColor = ApplyUserKeyFilter ? Color.Gold : SystemColors.Control;
+            ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : SystemColors.Control;
             ButtonFilter.Image = ApplyUserKeyFilter ? Resources.funnel_error_16 : Resources.funnel;
 
             if (Program.ProjectModel.MetaData.Values.Count > 0)
@@ -8167,7 +8176,7 @@ namespace Win_CBZ
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+                e.Graphics.FillRectangle(new SolidBrush(Theme.GetInstance().AccentColor), e.Bounds);
             }
             else
             {
@@ -8257,165 +8266,6 @@ namespace Win_CBZ
                     }
                 });
             }
-        }
-
-        private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-
-            ListView lv = sender as ListView;
-
-            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
-
-
-            int indent = 0;
-            if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
-            {
-                if (lv.SmallImageList != null)
-                {
-                    if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
-                    {
-                        if (e.ColumnIndex == 0)
-                        {
-                            indent = e.Item.IndentCount * 16;
-                            indent += lv.SmallImageList.ImageSize.Width + 8;
-                        }
-                    }
-                }
-            }
-
-            e.Graphics.Clip = new Region(e.SubItem.Bounds);
-
-            int itemWidth = e.SubItem.Bounds.Width;
-            if (e.ColumnIndex == 0)
-            {
-                itemWidth = e.Header.Width - indent;
-
-                e.Graphics.Clip = new Region(new Rectangle(e.SubItem.Bounds.X, e.SubItem.Bounds.Y, itemWidth + indent, e.SubItem.Bounds.Height));
-            }
-
-            Rectangle rectangle;
-
-            rectangle = e.Item.Bounds;
-            rectangle.X += e.Item.IndentCount;
-
-            if (e.ColumnIndex == 0)
-            {
-                if (e.Item.ImageKey != "" || e.Item.ImageIndex > -1)
-                {
-                    if (lv.SmallImageList != null)
-                    {
-                        rectangle.X += lv.SmallImageList.ImageSize.Width + 8;
-                        rectangle.Width -= lv.SmallImageList.ImageSize.Width + 8;
-
-                        if (lv.SmallImageList.Images.ContainsKey(e.Item.ImageKey))
-                        {
-                            Image img = lv.SmallImageList.Images[e.Item.ImageKey];
-
-                            e.Graphics.DrawImage(img, new Point(e.Bounds.X + 4, e.Bounds.Y + 2));
-                        }
-                    }
-                }
-
-                if (lv.FullRowSelect)
-                {
-                    rectangle.Width = lv.Columns.Cast<ColumnHeader>().Sum(c => c.Width) - indent;
-                }
-                else
-                {
-                    rectangle.Width = (int)e.Graphics.MeasureString(e.Item.Text, lv.Font).Width + 8;
-                }
-            }
-            else
-            {
-                rectangle.X = e.SubItem.Bounds.X;
-                rectangle.Width = e.SubItem.Bounds.Width;
-
-            }
-
-            // due to a bug in the win-apis listview renderer, we need to draw item backgrounds
-            // in subitem ownerdraw method too. Its important, to clip the drawing area to each column
-            // and draw the background for each column seperately - Otherwise there will be flickering
-            // and broken subitem texts!
-            if (e.ItemState.HasFlag(ListViewItemStates.Selected) && e.Item.Selected)
-            {
-                if (lv.HideSelection)
-                {
-                    if (lv.Focused)
-                    {
-                        e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-
-                    }
-                }
-                else
-                {
-                    Color highlightColor = Color.Gold;
-                    if (!lv.Focused)
-                    {
-                        highlightColor = SystemColors.ControlLight;
-                    }
-
-                    // Draw the background and focus rectangle for a selected item.
-
-                    e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-
-                }
-            }
-            else
-            {
-                // Draw the background for an unselected item.
-                if (e.Item.Selected)
-                {
-                    if (lv.HideSelection)
-                    {
-                        if (lv.Focused)
-                        {
-
-                            e.Graphics.FillRectangle(new SolidBrush(Color.Gold), rectangle);
-
-                        }
-                    }
-                    else
-                    {
-                        Color highlightColor = Color.Gold;
-                        if (!lv.Focused)
-                        {
-                            highlightColor = SystemColors.ControlLight;
-                        }
-
-                        // Draw the background and focus rectangle for a selected item.
-                        e.Graphics.FillRectangle(new SolidBrush(highlightColor), rectangle);
-                    }
-
-                }
-                else
-                {
-                    if (e.ItemState.HasFlag(ListViewItemStates.Grayed) || lv.Enabled == false)
-                    {
-                        e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
-                    }
-                    else
-                    {
-                        e.Graphics.FillRectangle(new SolidBrush(e.Item.BackColor), rectangle);
-                    }
-                }
-            }
-
-
-            //if (e.ColumnIndex == 0)
-            //{
-            /*
-                if (e.ItemState.HasFlag(ListViewItemStates.Focused))
-                {
-                    e.Graphics.Clip = new Region(e.Item.Bounds);
-                    e.DrawFocusRectangle(e.Item.Bounds);
-                }
-            */
-            //}
-
-
-            // Draw item text for each subitem, use Textrenderer to allow for ellipsis-text...
-            TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, new Rectangle(e.SubItem.Bounds.X + indent, e.SubItem.Bounds.Y + 2, itemWidth, e.SubItem.Bounds.Height), e.Item.ForeColor, flags);
-
         }
 
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)

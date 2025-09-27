@@ -34,6 +34,8 @@ namespace Win_CBZ
 
         private Color _selectionColor;
 
+        private Color _selectionInactiveColor;
+
         private Color _selectedTextColor;
 
         private Image _chechBoxIcon;
@@ -52,6 +54,7 @@ namespace Win_CBZ
             this.DoubleBuffered = true;
             this.InsertionLineColor = Color.Red;
             this.SelectionColor = SystemColors.Highlight;
+            this.SelectionInactiveColor = SystemColors.Control;
             this.SelectionTextColor = Color.Black;
             this.InsertionIndex = -1;
         }
@@ -311,7 +314,7 @@ namespace Win_CBZ
                     Color highlightColor = this._selectionColor;
                     if (!this.Focused)
                     {
-                        highlightColor = SystemColors.ControlLight;
+                        highlightColor = this._selectionInactiveColor;
                     }
                     else
                     {
@@ -343,7 +346,7 @@ namespace Win_CBZ
                         Color highlightColor = this._selectionColor;
                         if (!this.Focused)
                         {
-                            highlightColor = SystemColors.ControlLight;
+                            highlightColor = this._selectionInactiveColor;
                         }
                         else
                         {
@@ -359,7 +362,7 @@ namespace Win_CBZ
                 {
                     if (e.State.HasFlag(ListViewItemStates.Grayed) || this.Enabled == false)
                     {
-                        e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
+                        e.Graphics.FillRectangle(new SolidBrush(this._selectionInactiveColor), rectangle);
                     }
                     else
                     {
@@ -536,7 +539,7 @@ namespace Win_CBZ
                     Color highlightColor = this._selectionColor;
                     if (!this.Focused)
                     {
-                        highlightColor = SystemColors.ControlLight;
+                        highlightColor = this._selectionInactiveColor;
                     } else
                     {
                         textColor = this._selectedTextColor;
@@ -571,7 +574,7 @@ namespace Win_CBZ
                         Color highlightColor = this._selectionColor;
                         if (!this.Focused)
                         {
-                            highlightColor = SystemColors.ControlLight;
+                            highlightColor = this._selectionInactiveColor;
                         } else
                         {
                             textColor = this._selectedTextColor;
@@ -588,7 +591,7 @@ namespace Win_CBZ
                 {
                     if (e.ItemState.HasFlag(ListViewItemStates.Grayed) || this.Enabled == false)
                     {
-                        e.Graphics.FillRectangle(new SolidBrush(SystemColors.Control), rectangle);
+                        e.Graphics.FillRectangle(new SolidBrush(this._selectionInactiveColor), rectangle);
                     }
                     else
                     {
@@ -685,6 +688,22 @@ namespace Win_CBZ
                     _selectionColor = value;
 
                     this.OnSelectionColorChanged(EventArgs.Empty);
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [DefaultValue(typeof(SystemColors), "Control")]
+        public virtual Color SelectionInactiveColor
+        {
+            get { return _selectionInactiveColor; }
+            set
+            {
+                if (this._selectionInactiveColor != value)
+                {
+                    _selectionInactiveColor = value;
+
+                    this.OnSelectionInactiveColorChanged(EventArgs.Empty);
                 }
             }
         }
@@ -815,6 +834,16 @@ namespace Win_CBZ
 
             handler = this.SelectionColorChanged;
 
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnSelectionInactiveColorChanged(EventArgs e)
+        {
+            EventHandler handler;
+            handler = this.SelectionColorChanged;
             if (handler != null)
             {
                 handler(this, e);

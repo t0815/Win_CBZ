@@ -166,6 +166,8 @@ namespace Win_CBZ
 
         public Color BackgroundColorLists { get; set; } = System.Drawing.Color.White;
 
+        public Color ListItemInactiveSelectionColor { get; set; } = System.Drawing.Color.LightGray;
+
         public Color ButtonColor { get; set; } = System.Drawing.Color.LightGray;
 
         public Color ButtonTextColor { get; set; } = System.Drawing.Color.Black;
@@ -197,6 +199,42 @@ namespace Win_CBZ
         public Color StatusBarColor { get; set; } = System.Drawing.Color.LightGray;
 
         public Color StatusBarTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color DialogHeaderColor { get; set; } = System.Drawing.Color.White;
+
+        public Color DialogHeaderTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color DialogBackgroundColor { get; set; } = SystemColors.Control;
+
+        public Color DialogTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color TabInactiveColor { get; set; } = System.Drawing.Color.LightGray;
+
+        public Color TabActiveColor { get; set; } = System.Drawing.Color.Gray;
+
+        public Color TabTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color TabTextActiveColor { get; set; } = System.Drawing.Color.White;
+
+        public Color ComboTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color ComboBackgroundColor { get; set; } = System.Drawing.Color.White;
+
+        public Color ComboBorderColor { get; set; } = System.Drawing.Color.LightGray;
+
+        public Color DataGridBackgroundColor { get; set; } = System.Drawing.Color.Gray;
+
+        public Color DataGridTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color DataGridHeaderBackgroundColor { get; set; } = System.Drawing.Color.White;
+
+        public Color DataGridHeaderTextColor { get; set; } = System.Drawing.Color.Black;
+
+        public Color DataGridCellColor { get; set; } = System.Drawing.Color.White;
+
+        public Color DataGridCellAlternateColor { get; set; } = SystemColors.Control;
+
+        public Color DataGridCellTextColor { get; set; } = System.Drawing.Color.Black;
 
 
     }

@@ -1694,7 +1694,7 @@ namespace Win_CBZ.Forms
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                backgroundColor = Color.Gold;
+                backgroundColor = Theme.GetInstance().AccentColor;
             }
             else
             {
@@ -1961,7 +1961,7 @@ namespace Win_CBZ.Forms
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+                e.Graphics.FillRectangle(new SolidBrush(Theme.GetInstance().AccentColor), e.Bounds);
             }
             else
             {
