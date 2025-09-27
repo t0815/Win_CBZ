@@ -17,44 +17,18 @@ namespace Win_CBZ
         public const String THEME_DARK = "Dark";
         public const String THEME_SYSTEM = "System";
 
+        public const String COLOR_NAME_ACCENT = "AccentColor";
+        public const String COLOR_NAME_LIST_BACKGROUND = "ListBackgroundColor";
+        public const String COLOR_NAME_TEXT = "TextColor";
+        public const String COLOR_NAME_BUTTON = "ButtonColor";
+
 
         public Dictionary<string, string> ThemeLightColors = new Dictionary<string, string>()
         {
-            { "AccentColor", Colors.COLOR_GOLD },
-            { "ButtonColor", Colors.COLOR_LIGHT_GREY },
-            { "ButtonTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "ButtonHoverColor", Colors.COLOR_LIGHT_ORANGE },
-            { "ButtonHoverTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "InputFieldColor", Colors.COLOR_LIGHT_GREY },
-            { "InputFieldTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "InputFieldBorderColor", Colors.COLOR_LIGHT_GREY },
-            { "InputFieldBorderFocusColor", Colors.COLOR_GOLD },
-            { "InputFieldColorReadOnly", Colors.COLOR_LIGHT_ORANGE },
-            { "LinkColor", Colors.COLOR_LIGHT_BLUE },
-            { "MenuColor", Colors.COLOR_LIGHT_GREY },
-            { "MenuTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "MenuHoverColor", Colors.COLOR_LIGHT_ORANGE },
-            { "MenuHoverTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "StatusBarColor", Colors.COLOR_LIGHT_GREY },
-            { "StatusBarTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "DialogHeaderColor", Colors.COLOR_LIGHT_GREY },
-            { "DialogHeaderTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "DialogBackgroundColor", Colors.COLOR_LIGHT_GREY },
-            { "DialogTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "TabInactiveColor", Colors.COLOR_LIGHT_GREY },
-            { "TabActiveColor", Colors.COLOR_LIGHT_ORANGE },
-            { "TabTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "TabTextActiveColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "ComboTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "ComboBackgroundColor", Colors.COLOR_LIGHT_GREY },
-            { "ComboBorderColor", Colors.COLOR_LIGHT_GREY },
-            { "DataGridBackgroundColor", Colors.COLOR_LIGHT_ORANGE },
-            { "DataGridTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "DataGridHeaderBackgroundColor", Colors.COLOR_LIGHT_GREY },
-            { "DataGridHeaderTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
-            { "DataGridCellColor", Colors.COLOR_LIGHT_GREY },
-            { "DataGridCellAlternateColor", Colors.COLOR_LIGHT_ORANGE },
-            { "DataGridCellTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR }
+            { COLOR_NAME_ACCENT, Colors.COLOR_GOLD },
+            { COLOR_NAME_LIST_BACKGROUND, "#ffffff" },
+            { COLOR_NAME_TEXT, "#000000" },
+
         };
 
         public Dictionary<string, string> ThemeDarkColors = new Dictionary<string, string>()
@@ -70,12 +44,20 @@ namespace Win_CBZ
         {
             switch (colorName)
             {
-                case "AccentColor":
+                case COLOR_NAME_ACCENT:
                     AccentColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
 
                 case "ButtonColor":
                     ButtonColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_LIST_BACKGROUND:
+                    ListBackgroundColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_TEXT:
+                    TextColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
             }
 
@@ -87,11 +69,17 @@ namespace Win_CBZ
         {
             switch (colorName)
             {
-                case "AccentColor":
+                case COLOR_NAME_ACCENT:
                     return HTMLColor.ToHexColor(AccentColor);
 
                 case "ButtonColor":
                     return HTMLColor.ToHexColor(ButtonColor);
+
+                case COLOR_NAME_LIST_BACKGROUND:
+                    return HTMLColor.ToHexColor(ListBackgroundColor);
+
+                case COLOR_NAME_TEXT:
+                    return HTMLColor.ToHexColor(TextColor);
             }
 
 
@@ -102,11 +90,17 @@ namespace Win_CBZ
         {
             switch (colorName)
             {
-                case "AccentColor":
+                case COLOR_NAME_ACCENT:
                     AccentColor = colorValue;
                     break;
                 case "ButtonColor":
                     ButtonColor = colorValue;
+                    break;
+                case COLOR_NAME_LIST_BACKGROUND:
+                    ListBackgroundColor = colorValue;
+                    break;
+                case COLOR_NAME_TEXT:
+                    TextColor = colorValue;
                     break;
             }
 
@@ -207,8 +201,16 @@ namespace Win_CBZ
             {
                 switch (color.Key)
                 {
-                    case "AccentColor":
+                    case COLOR_NAME_ACCENT:
                         AccentColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
+                    case COLOR_NAME_LIST_BACKGROUND:
+                        ListBackgroundColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
+                    case COLOR_NAME_TEXT:
+                        TextColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
                         break;
                 }
             }
@@ -234,7 +236,7 @@ namespace Win_CBZ
 
         public Color BackgroundColorApp { get; set; } = SystemColors.Window;
 
-        public Color BackgroundColorLists { get; set; } = System.Drawing.Color.White;
+        public Color ListBackgroundColor { get; set; } = SystemColors.Window;
 
         public Color ListItemInactiveSelectionColor { get; set; } = System.Drawing.Color.LightGray;
 

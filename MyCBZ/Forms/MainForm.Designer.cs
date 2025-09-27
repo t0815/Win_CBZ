@@ -2642,6 +2642,7 @@ namespace Win_CBZ
             // 
             BtnRemoveMetaData.Dock = System.Windows.Forms.DockStyle.Top;
             BtnRemoveMetaData.Enabled = false;
+            BtnRemoveMetaData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             BtnRemoveMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             BtnRemoveMetaData.ImageIndex = 1;
             BtnRemoveMetaData.ImageList = SmallIconsImages;
@@ -2650,7 +2651,7 @@ namespace Win_CBZ
             BtnRemoveMetaData.Name = "BtnRemoveMetaData";
             BtnRemoveMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnRemoveMetaData.Size = new System.Drawing.Size(176, 33);
+            BtnRemoveMetaData.Size = new System.Drawing.Size(176, 31);
             BtnRemoveMetaData.TabIndex = 8;
             BtnRemoveMetaData.Text = "Remove Metadata";
             BtnRemoveMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2670,6 +2671,7 @@ namespace Win_CBZ
             // BtnAddMetaData
             // 
             BtnAddMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            BtnAddMetaData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             BtnAddMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             BtnAddMetaData.ImageIndex = 0;
             BtnAddMetaData.ImageList = SmallIconsImages;
@@ -2678,7 +2680,7 @@ namespace Win_CBZ
             BtnAddMetaData.Name = "BtnAddMetaData";
             BtnAddMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnAddMetaData.Size = new System.Drawing.Size(158, 33);
+            BtnAddMetaData.Size = new System.Drawing.Size(158, 31);
             BtnAddMetaData.TabIndex = 7;
             BtnAddMetaData.Text = "Add Metadata";
             BtnAddMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2742,11 +2744,12 @@ namespace Win_CBZ
             // 
             // ButtonConfigureKeyFilter
             // 
+            ButtonConfigureKeyFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonConfigureKeyFilter.Image = Properties.Resources.funnel_gearwheels_16;
             ButtonConfigureKeyFilter.Location = new System.Drawing.Point(749, 2);
             ButtonConfigureKeyFilter.Margin = new System.Windows.Forms.Padding(2);
             ButtonConfigureKeyFilter.Name = "ButtonConfigureKeyFilter";
-            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(36, 33);
+            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(36, 31);
             ButtonConfigureKeyFilter.TabIndex = 15;
             ButtonConfigureKeyFilter.UseVisualStyleBackColor = true;
             ButtonConfigureKeyFilter.Click += ButtonConfigureKeyFilter_Click;
@@ -2808,6 +2811,7 @@ namespace Win_CBZ
             // AddMetaDataRowBtn
             // 
             AddMetaDataRowBtn.Enabled = false;
+            AddMetaDataRowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             AddMetaDataRowBtn.ImageKey = "add.png";
             AddMetaDataRowBtn.ImageList = SmallIconsImages;
@@ -2823,6 +2827,7 @@ namespace Win_CBZ
             // RemoveMetadataRowBtn
             // 
             RemoveMetadataRowBtn.Enabled = false;
+            RemoveMetadataRowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             RemoveMetadataRowBtn.ImageKey = "delete.png";
             RemoveMetadataRowBtn.ImageList = SmallIconsImages;

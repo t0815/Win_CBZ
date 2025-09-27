@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using Win_CBZ.Data;
 using Win_CBZ.Events;
+using Win_CBZ.Extensions;
 using Win_CBZ.Helper;
 using Win_CBZ.Models;
 using Color = System.Drawing.Color;
@@ -99,9 +100,19 @@ namespace Win_CBZ.Forms
 
         public int AutoUpdateCheckIntervalType;
 
+        // Appearance settings
+
         public string AccentColor = Colors.COLOR_GOLD;
 
         public string ButtonColor = "";
+
+        public string TextColor = "";
+
+        public string WindowBackgroundColor = "";
+
+        public string ListBackgroundColor = "";
+
+        // --------------------
 
         DataValidation validation;
 
@@ -123,23 +134,53 @@ namespace Win_CBZ.Forms
         {
             new ThemeColorMapping()
             {
-                ColorName = "AccentColor",
+                ColorName = Theme.COLOR_NAME_ACCENT,
                 Label = "Accent Color",
                 ColorValue = Colors.COLOR_GOLD,
                 Description = "Main accent color used for buttons, highlights and selection.",
                 DefaultValue = Colors.COLOR_GOLD,
                 Category = "Main",
-                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_PLUM, Colors.COLOR_MANGO }
+                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_TEXT,
+                Label = "Text Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.ControlText),
+                Description = "Standard text color on all surfaces",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ControlText),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlText), Colors.COLOR_DARK_GRAY_TEXT_COLOR }
             },
             new ThemeColorMapping()
             {
                 ColorName = "ButtonColor",
                 Label = "Button Color",
-                ColorValue = HTMLColor.ToHexColor(SystemColors.ButtonFace),
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
                 Description = "Main background color used for buttons.",
-                DefaultValue = HTMLColor.ToHexColor(SystemColors.ButtonFace),
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
                 Category = "Main",
-                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ButtonFace), Colors.COLOR_DARK_GRAY_BUTTON_FACE, Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_PLUM, Colors.COLOR_MANGO }
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = "WindowBackgroundColor",
+                Label = "Window Background Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Description = "Background color used for windows.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_WINDOW_BG }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_LIST_BACKGROUND,
+                Label = "Lists Background Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Description = "Background color used for Listviews, Listboxes and Comboboxes.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Window),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Window), Colors.COLOR_DARK_GRAY_LIST_CONTROL_BG }
             },
         };
 
@@ -235,7 +276,9 @@ namespace Win_CBZ.Forms
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
 
             AccentColor = Win_CBZSettings.Default.AccentColor;
-
+            ButtonColor = Win_CBZSettings.Default.ButtonColor;
+            ListBackgroundColor = Win_CBZSettings.Default.ListBackgroundColor;
+            TextColor = Win_CBZSettings.Default.TextColor;
 
             //CustomFieldTypesCollection = Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray();
 
@@ -253,19 +296,29 @@ namespace Win_CBZ.Forms
             {
                 switch (mapping.ColorName)
                 {
-                    case "AccentColor":
+                    case Theme.COLOR_NAME_ACCENT:
                         mapping.ColorValue = Win_CBZSettings.Default.AccentColor;
                         break;
 
                     case "ButtonColor":
                         mapping.ColorValue = Win_CBZSettings.Default.ButtonColor;
                         break;
+
+                    case Theme.COLOR_NAME_LIST_BACKGROUND:
+                        mapping.ColorValue = Win_CBZSettings.Default.ListBackgroundColor;
+                        break;
+
+                    case Theme.COLOR_NAME_TEXT:
+                        mapping.ColorValue = Win_CBZSettings.Default.TextColor;
+                        break;
                 }
 
             }
 
 
-            ApplyAccentColor();
+            ApplyTheme(SettingsTablePanel.Controls);
+            ApplyTheme(MetadataDefaultsTable.Controls);
+            ApplyTheme(EssentialTableLayoutPanel.Controls);
 
             ThemeColorsListbox.Items.Clear();
 
@@ -433,21 +486,46 @@ namespace Win_CBZ.Forms
             DialogResult = DialogResult.Cancel;
         }
 
-        private void ApplyAccentColor()
+        private void ApplyTheme(TableLayoutControlCollection container)
         {
             //Theme theme = Theme.GetInstance();
-
-            Color accent = HTMLColor.ToColor(AccentColor);
-            Color themeAccent = Theme.GetInstance().AccentColor;
-
-
-            //ButtonOk.BackColor = theme.AccentColor;
-            //ButtonCancel.BackColor = theme.AccentColor;
 
             CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
             CustomFieldsDataGrid.RowsDefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
 
+            container.OfType<Button>().ToList().ForEach(b =>
+            {
+                b.BackColor = HTMLColor.ToColor(ButtonColor);
+                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
+                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
+            });
+
+            container.OfType<Label>().Each<Label>(l =>
+            {
+                l.ForeColor = HTMLColor.ToColor(TextColor);
+            });
+
+            //Control.ControlCollection controls = container.OfType<Control>().SelectMany(c => c.Controls.OfType<Control>());
+
+            ThemeColorsListbox.BackColor = HTMLColor.ToColor(ListBackgroundColor);
+            SettingsSectionList.BackColor = HTMLColor.ToColor(ListBackgroundColor);
+
             SettingsSectionList.Invalidate();
+        }
+
+        private void ApplyThemeContainer(Container container)
+        {
+            container.Components.OfType<Button>().ToList().ForEach(b =>
+            {
+                b.BackColor = HTMLColor.ToColor(ButtonColor);
+                //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
+                //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
+            });
+
+            container.Components.OfType<Label>().Each<Label>(l =>
+            {
+                l.ForeColor = HTMLColor.ToColor(TextColor);
+            });
         }
 
         private void PopulateFieldTypeEditor()
@@ -838,14 +916,22 @@ namespace Win_CBZ.Forms
                     //
                     foreach (ThemeColorMapping mapping in ThemeColorMappings)
                     {
-                        switch (mapping.ColorName.ToLower())
+                        switch (mapping.ColorName)
                         {
-                            case "accentcolor":
+                            case Theme.COLOR_NAME_ACCENT:
                                 AccentColor = mapping.ColorValue;
                                 break;
 
-                            case "buttoncolor":
+                            case Theme.COLOR_NAME_BUTTON:
                                 ButtonColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_LIST_BACKGROUND:
+                                ListBackgroundColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_TEXT:
+                                TextColor = mapping.ColorValue;
                                 break;
                         }
 
@@ -1811,11 +1897,11 @@ namespace Win_CBZ.Forms
 
         private void SettingsSectionList_DrawItem(object sender, DrawItemEventArgs e)
         {
-            Color backgroundColor = Color.White;
-            Color textColor = Color.Black;
+            Color backgroundColor = Theme.GetInstance().ListBackgroundColor;
+            Color textColor = Theme.GetInstance().TextColor;
             System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
 
-            System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
+            System.Drawing.SolidBrush tb = new SolidBrush(Theme.GetInstance().TextColor);
 
             Font f = SystemFonts.CaptionFont;
 
@@ -1825,7 +1911,7 @@ namespace Win_CBZ.Forms
             }
             else
             {
-                backgroundColor = SystemColors.Window;
+                backgroundColor = Theme.GetInstance().ListBackgroundColor;
             }
 
             string name = SettingsSectionList.Items[e.Index] as string;
@@ -1847,15 +1933,15 @@ namespace Win_CBZ.Forms
 
         private void ColotList_DrawItem(object sender, DrawItemEventArgs e)
         {
-            Color backgroundColor = Color.White;
-            Color textColor = Color.Black;
+            Color backgroundColor = Theme.GetInstance().ListBackgroundColor;
+            Color textColor = Theme.GetInstance().TextColor;
             System.Drawing.Pen pen = new System.Drawing.Pen(textColor, 1);
 
             ListBox lb = sender as ListBox;
 
             TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.EndEllipsis;
 
-            System.Drawing.SolidBrush tb = new SolidBrush(Color.Black);
+            System.Drawing.SolidBrush tb = new SolidBrush(Theme.GetInstance().TextColor);
 
             Font f = SystemFonts.CaptionFont;
 
@@ -1865,7 +1951,7 @@ namespace Win_CBZ.Forms
             }
             else
             {
-                backgroundColor = SystemColors.Window;
+                backgroundColor = Theme.GetInstance().ListBackgroundColor;
             }
 
             ThemeColorMapping colorConfig = ThemeColorsListbox.Items[e.Index] as ThemeColorMapping;
@@ -2123,7 +2209,7 @@ namespace Win_CBZ.Forms
                 return;
             }
 
-            Pen pen = new Pen(Color.Black, 1);
+            Pen pen = new Pen(Theme.GetInstance().TextColor, 1);
             Font font = new Font("Verdana", 9f, FontStyle.Regular);
 
             if (e.State.HasFlag(DrawItemState.Selected))
@@ -2141,11 +2227,11 @@ namespace Win_CBZ.Forms
             {
                 Image img = ComboIcons.Images[icon];
                 e.Graphics.DrawImage(img, new Point(e.Bounds.X, e.Bounds.Y));
-                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Theme.GetInstance().TextColor), new PointF(e.Bounds.X + 18, e.Bounds.Y + 1));
             }
             else
             {
-                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Color.Black), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
+                e.Graphics.DrawString(((ComboBox)sender).Items[e.Index].ToString(), font, new SolidBrush(Theme.GetInstance().TextColor), new PointF(e.Bounds.X + 1, e.Bounds.Y + 1));
             }
         }
 

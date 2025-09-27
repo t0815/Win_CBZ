@@ -222,5 +222,11 @@
     <Setting Name="ButtonColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">#F0F0F0</Value>
     </Setting>
+    <Setting Name="ListBackgroundColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FFFFFF</Value>
+    </Setting>
+    <Setting Name="TextColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#000000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

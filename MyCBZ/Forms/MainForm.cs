@@ -266,7 +266,9 @@ namespace Win_CBZ
                 MetaDataFieldConfig.GetInstance().UpdateFrom(Win_CBZSettings.Default.CustomMetadataFields.OfType<String>().ToArray());
             }
 
-            Theme.GetInstance().SetColorHex("AccentColor", Win_CBZSettings.Default.AccentColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_ACCENT, Win_CBZSettings.Default.AccentColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, Win_CBZSettings.Default.TextColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, Win_CBZSettings.Default.ListBackgroundColor);
 
             ApplyTheme();
 
@@ -302,6 +304,9 @@ namespace Win_CBZ
 
                 AppEventHandler.OnMetaDataLoaded(this, new MetaDataLoadEvent(Program.ProjectModel.MetaData.Values.ToList()));
             }
+
+            AddMetaDataRowBtn.BackColor = Theme.GetInstance().ButtonColor;
+            RemoveMetadataRowBtn.BackColor = Theme.GetInstance().ButtonColor;
         }
 
         private ProjectModel NewProjectModel()
@@ -5707,9 +5712,14 @@ namespace Win_CBZ
 
                 Win_CBZSettings.Default.AccentColor = settingsDialog.AccentColor;
                 Win_CBZSettings.Default.ButtonColor = settingsDialog.ButtonColor;
+                Win_CBZSettings.Default.ListBackgroundColor = settingsDialog.ListBackgroundColor;
+                Win_CBZSettings.Default.TextColor = settingsDialog.TextColor;
 
-                Theme.GetInstance().SetColorHex("AccentColor", settingsDialog.AccentColor);
+
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_ACCENT, settingsDialog.AccentColor);
                 Theme.GetInstance().SetColorHex("ButtonColor", settingsDialog.ButtonColor);
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, settingsDialog.ListBackgroundColor);
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, settingsDialog.TextColor);
 
                 ApplyTheme();
 
