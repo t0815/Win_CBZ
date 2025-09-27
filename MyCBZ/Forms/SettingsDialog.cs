@@ -101,6 +101,8 @@ namespace Win_CBZ.Forms
 
         public string AccentColor = Colors.COLOR_GOLD;
 
+        public string ButtonColor = "";
+
         DataValidation validation;
 
         private int lastSearchOccurence = 0;
@@ -127,7 +129,17 @@ namespace Win_CBZ.Forms
                 Description = "Main accent color used for buttons, highlights and selection.",
                 DefaultValue = Colors.COLOR_GOLD,
                 Category = "Main",
-                ExampleValues = new List<string>() { "#FFD700", "#FF0000", "#00FF00", "#0000FF", "#800080", "#FFA500", "#00FFFF", "#FFC0CB", "#A52A2A", "#808080", "#000000", "#FFFFFF" }
+                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_PLUM, Colors.COLOR_MANGO }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = "ButtonColor",
+                Label = "Button Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.ButtonFace),
+                Description = "Main background color used for buttons.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ButtonFace),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ButtonFace), Colors.COLOR_DARK_GRAY_BUTTON_FACE, Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_PLUM, Colors.COLOR_MANGO }
             },
         };
 
@@ -150,20 +162,7 @@ namespace Win_CBZ.Forms
             AppearanceTabControl.Visible = false;
 
 
-            foreach (ThemeColorMapping mapping in ThemeColorMappings)
-            {
-                mapping.ColorValue = Theme.GetInstance().GetColorHex(mapping.ColorName);
-            }
-
-
-            ApplyAccentColor();
-
-            ThemeColorsListbox.Items.Clear();
-
-            foreach (ThemeColorMapping mapping in ThemeColorMappings)
-            {
-                ThemeColorsListbox.Items.Add(mapping);
-            }
+            
 
             // Load settings  ------------------------
 
@@ -246,6 +245,33 @@ namespace Win_CBZ.Forms
             {
                 CompatibilityMode = true;
                 CheckBoxCompatibilityMode.Enabled = false;
+            }
+
+            //----------------------------------------
+
+            foreach (ThemeColorMapping mapping in ThemeColorMappings)
+            {
+                switch (mapping.ColorName)
+                {
+                    case "AccentColor":
+                        mapping.ColorValue = Win_CBZSettings.Default.AccentColor;
+                        break;
+
+                    case "ButtonColor":
+                        mapping.ColorValue = Win_CBZSettings.Default.ButtonColor;
+                        break;
+                }
+
+            }
+
+
+            ApplyAccentColor();
+
+            ThemeColorsListbox.Items.Clear();
+
+            foreach (ThemeColorMapping mapping in ThemeColorMappings)
+            {
+                ThemeColorsListbox.Items.Add(mapping);
             }
 
             // ----------------------------------------
@@ -409,15 +435,17 @@ namespace Win_CBZ.Forms
 
         private void ApplyAccentColor()
         {
-            Theme theme = Theme.GetInstance();
+            //Theme theme = Theme.GetInstance();
 
-            theme.SetColorHex("AccentColor", AccentColor);
+            Color accent = HTMLColor.ToColor(AccentColor);
+            Color themeAccent = Theme.GetInstance().AccentColor;
 
 
             //ButtonOk.BackColor = theme.AccentColor;
             //ButtonCancel.BackColor = theme.AccentColor;
 
-            CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = theme.AccentColor;
+            CustomFieldsDataGrid.DefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
+            CustomFieldsDataGrid.RowsDefaultCellStyle.SelectionBackColor = HTMLColor.ToColor(AccentColor);
 
             SettingsSectionList.Invalidate();
         }
@@ -454,7 +482,7 @@ namespace Win_CBZ.Forms
                             cc.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -470,7 +498,7 @@ namespace Win_CBZ.Forms
                             cc.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -494,7 +522,7 @@ namespace Win_CBZ.Forms
                                 ci.Style = new DataGridViewCellStyle()
                                 {
                                     SelectionForeColor = Color.Black,
-                                    SelectionBackColor = Color.Gold,
+                                    SelectionBackColor = Theme.GetInstance().AccentColor,
                                     BackColor = Color.White,
                                 };
 
@@ -519,7 +547,7 @@ namespace Win_CBZ.Forms
                             cb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -547,7 +575,7 @@ namespace Win_CBZ.Forms
                             tb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -560,7 +588,7 @@ namespace Win_CBZ.Forms
                             cb.Style = new DataGridViewCellStyle()
                             {
                                 SelectionForeColor = Color.Black,
-                                SelectionBackColor = Color.Gold,
+                                SelectionBackColor = Theme.GetInstance().AccentColor,
                                 BackColor = Color.White,
                             };
 
@@ -814,6 +842,10 @@ namespace Win_CBZ.Forms
                         {
                             case "accentcolor":
                                 AccentColor = mapping.ColorValue;
+                                break;
+
+                            case "buttoncolor":
+                                ButtonColor = mapping.ColorValue;
                                 break;
                         }
 
@@ -1301,7 +1333,7 @@ namespace Win_CBZ.Forms
                     cc.Style = new DataGridViewCellStyle()
                     {
                         SelectionForeColor = Color.Black,
-                        SelectionBackColor = Color.Gold,
+                        SelectionBackColor = Theme.GetInstance().AccentColor,
                         BackColor = Color.White,
                     };
 
@@ -1317,7 +1349,7 @@ namespace Win_CBZ.Forms
                     cc.Style = new DataGridViewCellStyle()
                     {
                         SelectionForeColor = Color.Black,
-                        SelectionBackColor = Color.Gold,
+                        SelectionBackColor = Theme.GetInstance().AccentColor,
                         BackColor = Color.White,
                     };
 
@@ -1341,7 +1373,7 @@ namespace Win_CBZ.Forms
                         ci.Style = new DataGridViewCellStyle()
                         {
                             SelectionForeColor = Color.Black,
-                            SelectionBackColor = Color.Gold,
+                            SelectionBackColor = Theme.GetInstance().AccentColor,
                             BackColor = Color.White,
                         };
 
@@ -1487,7 +1519,7 @@ namespace Win_CBZ.Forms
             cc.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1502,7 +1534,7 @@ namespace Win_CBZ.Forms
             cc.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1524,7 +1556,7 @@ namespace Win_CBZ.Forms
                 ci.Style = new DataGridViewCellStyle()
                 {
                     SelectionForeColor = Color.Black,
-                    SelectionBackColor = Color.Gold,
+                    SelectionBackColor = Theme.GetInstance().AccentColor,
                     BackColor = Color.White,
                 };
 
@@ -1542,7 +1574,7 @@ namespace Win_CBZ.Forms
             cb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1557,7 +1589,7 @@ namespace Win_CBZ.Forms
             tb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -1569,7 +1601,7 @@ namespace Win_CBZ.Forms
             cb.Style = new DataGridViewCellStyle()
             {
                 SelectionForeColor = Color.Black,
-                SelectionBackColor = Color.Gold,
+                SelectionBackColor = Theme.GetInstance().AccentColor,
                 BackColor = Color.White,
             };
 
@@ -2012,7 +2044,7 @@ namespace Win_CBZ.Forms
                     //Label contentLabel = container.Controls.Find("TAG_LABEL", false)[0] as Label;
                     //if (contentLabel != null)
                     //{
-                    //label.BackColor = Color.Gold;
+                    //label.BackColor = Theme.GetInstance().AccentColor,;
                     //}
                     //((TagItem)container.Tag).Selected = true;
                     //SelectedTags.Add(container);
@@ -2159,9 +2191,10 @@ namespace Win_CBZ.Forms
         {
             try
             {
+                ThemeColorMapping colorConfig = null;
                 if (ThemeColorsListbox.SelectedItem != null)
                 {
-                    ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                    colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
                     ThemeSelectColorDialog.Color = HTMLColor.ToColor(colorConfig.ColorValue);
                     TextboxSelectedThemeColorValue.Text = colorConfig.ColorValue;
                     PictureBoxColorSelect.BackColor = HTMLColor.ToColor(colorConfig.ColorValue);
@@ -2172,6 +2205,8 @@ namespace Win_CBZ.Forms
                 {
 
                 }
+
+                UpdateExampleColors(colorConfig);
             }
             catch (Exception ex)
             {
@@ -2229,6 +2264,50 @@ namespace Win_CBZ.Forms
                 catch (Exception ex)
                 {
                     PictureBoxColorSelect.BackColor = HTMLColor.ToColor("#000000");
+
+                }
+            }
+        }
+
+        private void PictureBoxExampleColor_Click(object sender, EventArgs e)
+        {
+            PictureBox pictureBox = sender as PictureBox;
+
+            PictureBoxColorSelect.BackColor = pictureBox.BackColor;
+            TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(pictureBox.BackColor);
+            if (ThemeColorsListbox.SelectedItem != null)
+            {
+                ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
+                colorConfig.ColorValue = TextboxSelectedThemeColorValue.Text;
+                int selectedIndex = ThemeColorsListbox.SelectedIndex;
+
+                ThemeColorsListbox.Invalidate();
+            }
+        }
+
+        private void UpdateExampleColors(ThemeColorMapping colorConfig)
+        {
+            if (colorConfig == null)
+            {
+                return;
+            }
+
+            ExampleColorsFlowLayout.Controls.Clear();
+
+            foreach (string example in colorConfig.ExampleValues)
+            {
+                if (example != null)
+                {
+                    PictureBox newExample = new PictureBox();
+                    newExample.BorderStyle = BorderStyle.FixedSingle;
+                    newExample.BackColor = HTMLColor.ToColor(example);
+                    newExample.Width = 20;
+                    newExample.Height = 20;
+                    newExample.Margin = new Padding(10, 8, 10, 8);
+                    newExample.Cursor = Cursors.Hand;
+                    newExample.Click += PictureBoxExampleColor_Click;
+
+                    ExampleColorsFlowLayout.Controls.Add(newExample);
 
                 }
             }

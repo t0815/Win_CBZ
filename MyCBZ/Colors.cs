@@ -16,6 +16,13 @@ namespace Win_CBZ
         public const String COLOR_ERROR_RED = "#9c3838";
         
         public const String COLOR_GOLD = "#FFD700";
+        public const String COLOR_TANGERINE = "#F28500";
+        public const String COLOR_PLUM = "#8E4585";
+        public const String COLOR_LAVENDAR_PINKISH = "#cc99cc";
+        public const String COLOR_MANGO = "#fdbe02";
+        public const String COLOR_CRYOLA = "#FF5800";
+        public const String COLOR_GRAPE_LIGHT_PINK = "#FF878D";
+        public const String COLOR_NEON_GREEN = "#9FE888";
 
         public const String COLOR_DARK_GRAY_WINDOW_BG = "1F1F1F";
         public const String COLOR_DARK_GRAY_LIST_CONTROL_BG = "252526";

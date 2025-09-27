@@ -20,12 +20,47 @@ namespace Win_CBZ
 
         public Dictionary<string, string> ThemeLightColors = new Dictionary<string, string>()
         {
-            { "AccentColor", Colors.COLOR_GOLD }
+            { "AccentColor", Colors.COLOR_GOLD },
+            { "ButtonColor", Colors.COLOR_LIGHT_GREY },
+            { "ButtonTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "ButtonHoverColor", Colors.COLOR_LIGHT_ORANGE },
+            { "ButtonHoverTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "InputFieldColor", Colors.COLOR_LIGHT_GREY },
+            { "InputFieldTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "InputFieldBorderColor", Colors.COLOR_LIGHT_GREY },
+            { "InputFieldBorderFocusColor", Colors.COLOR_GOLD },
+            { "InputFieldColorReadOnly", Colors.COLOR_LIGHT_ORANGE },
+            { "LinkColor", Colors.COLOR_LIGHT_BLUE },
+            { "MenuColor", Colors.COLOR_LIGHT_GREY },
+            { "MenuTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "MenuHoverColor", Colors.COLOR_LIGHT_ORANGE },
+            { "MenuHoverTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "StatusBarColor", Colors.COLOR_LIGHT_GREY },
+            { "StatusBarTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "DialogHeaderColor", Colors.COLOR_LIGHT_GREY },
+            { "DialogHeaderTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "DialogBackgroundColor", Colors.COLOR_LIGHT_GREY },
+            { "DialogTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "TabInactiveColor", Colors.COLOR_LIGHT_GREY },
+            { "TabActiveColor", Colors.COLOR_LIGHT_ORANGE },
+            { "TabTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "TabTextActiveColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "ComboTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "ComboBackgroundColor", Colors.COLOR_LIGHT_GREY },
+            { "ComboBorderColor", Colors.COLOR_LIGHT_GREY },
+            { "DataGridBackgroundColor", Colors.COLOR_LIGHT_ORANGE },
+            { "DataGridTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "DataGridHeaderBackgroundColor", Colors.COLOR_LIGHT_GREY },
+            { "DataGridHeaderTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR },
+            { "DataGridCellColor", Colors.COLOR_LIGHT_GREY },
+            { "DataGridCellAlternateColor", Colors.COLOR_LIGHT_ORANGE },
+            { "DataGridCellTextColor", Colors.COLOR_DARK_GRAY_TEXT_COLOR }
         };
 
         public Dictionary<string, string> ThemeDarkColors = new Dictionary<string, string>()
         {
-            { "AccentColor", Colors.COLOR_GOLD }
+            { "AccentColor", Colors.COLOR_GOLD },
+
         };
 
         private static Theme Instance;
@@ -37,6 +72,10 @@ namespace Win_CBZ
             {
                 case "AccentColor":
                     AccentColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case "ButtonColor":
+                    ButtonColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
             }
 
@@ -50,6 +89,9 @@ namespace Win_CBZ
             {
                 case "AccentColor":
                     return HTMLColor.ToHexColor(AccentColor);
+
+                case "ButtonColor":
+                    return HTMLColor.ToHexColor(ButtonColor);
             }
 
 
@@ -62,6 +104,9 @@ namespace Win_CBZ
             {
                 case "AccentColor":
                     AccentColor = colorValue;
+                    break;
+                case "ButtonColor":
+                    ButtonColor = colorValue;
                     break;
             }
 

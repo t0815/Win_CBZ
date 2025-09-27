@@ -487,6 +487,7 @@
             // 
             PictureBoxColorSelect.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             PictureBoxColorSelect.BackColor = System.Drawing.Color.Black;
+            PictureBoxColorSelect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             PictureBoxColorSelect.Cursor = System.Windows.Forms.Cursors.Hand;
             PictureBoxColorSelect.Location = new System.Drawing.Point(33, 57);
             PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(20, 8, 20, 8);

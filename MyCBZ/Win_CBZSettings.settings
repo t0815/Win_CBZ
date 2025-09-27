@@ -219,5 +219,8 @@
     <Setting Name="AccentColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">#FFD700</Value>
     </Setting>
+    <Setting Name="ButtonColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#F0F0F0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

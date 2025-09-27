@@ -808,5 +808,17 @@ namespace Win_CBZ {
                 this["AccentColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#F0F0F0")]
+        public string ButtonColor {
+            get {
+                return ((string)(this["ButtonColor"]));
+            }
+            set {
+                this["ButtonColor"] = value;
+            }
+        }
     }
 }

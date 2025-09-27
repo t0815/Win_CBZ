@@ -5706,8 +5706,10 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.AutoupdateType = settingsDialog.AutoUpdateCheckIntervalType;
 
                 Win_CBZSettings.Default.AccentColor = settingsDialog.AccentColor;
+                Win_CBZSettings.Default.ButtonColor = settingsDialog.ButtonColor;
 
                 Theme.GetInstance().SetColorHex("AccentColor", settingsDialog.AccentColor);
+                Theme.GetInstance().SetColorHex("ButtonColor", settingsDialog.ButtonColor);
 
                 ApplyTheme();
 
