@@ -6,7 +6,7 @@
       <Value Profile="(Default)">%APPDATA%\WIN_CBZ\Temp\</Value>
     </Setting>
     <Setting Name="InstalledVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.24.212b</Value>
+      <Value Profile="(Default)">0.24.213b</Value>
     </Setting>
     <Setting Name="RenamerPlaceholders" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -226,6 +226,9 @@
       <Value Profile="(Default)">#FFFFFF</Value>
     </Setting>
     <Setting Name="ButtonBorderColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#000000</Value>
+    </Setting>
+    <Setting Name="ButtonTextColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">#000000</Value>
     </Setting>
   </Settings>

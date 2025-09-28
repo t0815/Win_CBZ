@@ -240,12 +240,11 @@ namespace Win_CBZ
             SaveSelectedPageAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             PageSmallIcons = new System.Windows.Forms.ImageList(components);
             MetadataPanel = new System.Windows.Forms.TableLayoutPanel();
-            tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            TableLayoutPanelMetadataHeader = new System.Windows.Forms.TableLayoutPanel();
             BtnRemoveMetaData = new System.Windows.Forms.Button();
             SmallIconsImages = new System.Windows.Forms.ImageList(components);
             BtnAddMetaData = new System.Windows.Forms.Button();
             TextBoxCountKeys = new System.Windows.Forms.TextBox();
-            TextBoxMetadataKeys = new System.Windows.Forms.Label();
             TextBoxMetaDataFilename = new System.Windows.Forms.TextBox();
             ButtonFilter = new System.Windows.Forms.Button();
             ButtonConfigureKeyFilter = new System.Windows.Forms.Button();
@@ -253,6 +252,7 @@ namespace Win_CBZ
             ButtonSelectFilter = new System.Windows.Forms.Button();
             ContextMenuUserFilterList = new System.Windows.Forms.ContextMenuStrip(components);
             requiredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            TextBoxMetadataKeys = new System.Windows.Forms.Label();
             MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
             AddMetaDataRowBtn = new System.Windows.Forms.Button();
             RemoveMetadataRowBtn = new System.Windows.Forms.Button();
@@ -339,7 +339,7 @@ namespace Win_CBZ
             SplitBoxItemsList.SuspendLayout();
             PageListContextMenu.SuspendLayout();
             MetadataPanel.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
+            TableLayoutPanelMetadataHeader.SuspendLayout();
             ContextMenuUserFilterList.SuspendLayout();
             MetaDataTableActionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).BeginInit();
@@ -2593,70 +2593,69 @@ namespace Win_CBZ
             // 
             // MetadataPanel
             // 
+            MetadataPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             MetadataPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             MetadataPanel.ColumnCount = 1;
             MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            MetadataPanel.Controls.Add(tableLayoutPanel2, 0, 0);
+            MetadataPanel.Controls.Add(TableLayoutPanelMetadataHeader, 0, 0);
             MetadataPanel.Controls.Add(MetaDataTableActionsPanel, 0, 2);
             MetadataPanel.Controls.Add(MetaDataGrid, 0, 1);
-            MetadataPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            MetadataPanel.Location = new System.Drawing.Point(0, 0);
+            MetadataPanel.Location = new System.Drawing.Point(2, 2);
             MetadataPanel.Margin = new System.Windows.Forms.Padding(2);
             MetadataPanel.Name = "MetadataPanel";
             MetadataPanel.RowCount = 3;
-            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
+            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-            MetadataPanel.Size = new System.Drawing.Size(939, 265);
+            MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            MetadataPanel.Size = new System.Drawing.Size(933, 259);
             MetadataPanel.TabIndex = 10;
             // 
-            // tableLayoutPanel2
+            // TableLayoutPanelMetadataHeader
             // 
-            tableLayoutPanel2.ColumnCount = 10;
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 51F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 135F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            tableLayoutPanel2.Controls.Add(BtnRemoveMetaData, 5, 0);
-            tableLayoutPanel2.Controls.Add(BtnAddMetaData, 4, 0);
-            tableLayoutPanel2.Controls.Add(TextBoxCountKeys, 3, 0);
-            tableLayoutPanel2.Controls.Add(TextBoxMetadataKeys, 2, 0);
-            tableLayoutPanel2.Controls.Add(TextBoxMetaDataFilename, 1, 0);
-            tableLayoutPanel2.Controls.Add(ButtonFilter, 6, 0);
-            tableLayoutPanel2.Controls.Add(ButtonConfigureKeyFilter, 7, 0);
-            tableLayoutPanel2.Controls.Add(LabelMetadataPanel, 0, 0);
-            tableLayoutPanel2.Controls.Add(ButtonSelectFilter, 8, 0);
-            tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 1;
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 57F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(885, 34);
-            tableLayoutPanel2.TabIndex = 16;
+            TableLayoutPanelMetadataHeader.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TableLayoutPanelMetadataHeader.ColumnCount = 10;
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 56F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 167F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
+            TableLayoutPanelMetadataHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            TableLayoutPanelMetadataHeader.Controls.Add(BtnRemoveMetaData, 5, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(BtnAddMetaData, 4, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(TextBoxCountKeys, 3, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(TextBoxMetaDataFilename, 1, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(ButtonFilter, 6, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(ButtonConfigureKeyFilter, 7, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(LabelMetadataPanel, 0, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(ButtonSelectFilter, 8, 0);
+            TableLayoutPanelMetadataHeader.Controls.Add(TextBoxMetadataKeys, 2, 0);
+            TableLayoutPanelMetadataHeader.Location = new System.Drawing.Point(3, 3);
+            TableLayoutPanelMetadataHeader.Name = "TableLayoutPanelMetadataHeader";
+            TableLayoutPanelMetadataHeader.RowCount = 1;
+            TableLayoutPanelMetadataHeader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            TableLayoutPanelMetadataHeader.Size = new System.Drawing.Size(927, 35);
+            TableLayoutPanelMetadataHeader.TabIndex = 16;
             // 
             // BtnRemoveMetaData
             // 
-            BtnRemoveMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            BtnRemoveMetaData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             BtnRemoveMetaData.Enabled = false;
             BtnRemoveMetaData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BtnRemoveMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             BtnRemoveMetaData.ImageIndex = 1;
             BtnRemoveMetaData.ImageList = SmallIconsImages;
-            BtnRemoveMetaData.Location = new System.Drawing.Point(529, 2);
+            BtnRemoveMetaData.Location = new System.Drawing.Point(539, 2);
             BtnRemoveMetaData.Margin = new System.Windows.Forms.Padding(2);
             BtnRemoveMetaData.Name = "BtnRemoveMetaData";
-            BtnRemoveMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             BtnRemoveMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnRemoveMetaData.Size = new System.Drawing.Size(176, 31);
+            BtnRemoveMetaData.Size = new System.Drawing.Size(166, 31);
             BtnRemoveMetaData.TabIndex = 8;
             BtnRemoveMetaData.Text = "Remove Metadata";
-            BtnRemoveMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            BtnRemoveMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             BtnRemoveMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             BtnRemoveMetaData.UseMnemonic = false;
             BtnRemoveMetaData.UseVisualStyleBackColor = true;
@@ -2672,20 +2671,16 @@ namespace Win_CBZ
             // 
             // BtnAddMetaData
             // 
-            BtnAddMetaData.Dock = System.Windows.Forms.DockStyle.Top;
+            BtnAddMetaData.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             BtnAddMetaData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            BtnAddMetaData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            BtnAddMetaData.ImageIndex = 0;
+            BtnAddMetaData.ImageKey = "add.png";
             BtnAddMetaData.ImageList = SmallIconsImages;
-            BtnAddMetaData.Location = new System.Drawing.Point(367, 2);
+            BtnAddMetaData.Location = new System.Drawing.Point(372, 2);
             BtnAddMetaData.Margin = new System.Windows.Forms.Padding(2);
             BtnAddMetaData.Name = "BtnAddMetaData";
-            BtnAddMetaData.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            BtnAddMetaData.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            BtnAddMetaData.Size = new System.Drawing.Size(158, 31);
+            BtnAddMetaData.Size = new System.Drawing.Size(163, 31);
             BtnAddMetaData.TabIndex = 7;
             BtnAddMetaData.Text = "Add Metadata";
-            BtnAddMetaData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             BtnAddMetaData.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             BtnAddMetaData.UseVisualStyleBackColor = true;
             BtnAddMetaData.Click += BtnAddMetaData_Click;
@@ -2705,18 +2700,6 @@ namespace Win_CBZ
             TextBoxCountKeys.Text = "0";
             TextBoxCountKeys.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // TextBoxMetadataKeys
-            // 
-            TextBoxMetadataKeys.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            TextBoxMetadataKeys.AutoSize = true;
-            TextBoxMetadataKeys.Location = new System.Drawing.Point(263, 0);
-            TextBoxMetadataKeys.Margin = new System.Windows.Forms.Padding(8, 0, 2, 0);
-            TextBoxMetadataKeys.Name = "TextBoxMetadataKeys";
-            TextBoxMetadataKeys.Padding = new System.Windows.Forms.Padding(0, 7, 5, 0);
-            TextBoxMetadataKeys.Size = new System.Drawing.Size(47, 57);
-            TextBoxMetadataKeys.TabIndex = 10;
-            TextBoxMetadataKeys.Text = "Keys:";
-            // 
             // TextBoxMetaDataFilename
             // 
             TextBoxMetaDataFilename.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
@@ -2731,6 +2714,7 @@ namespace Win_CBZ
             // 
             // ButtonFilter
             // 
+            ButtonFilter.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             ButtonFilter.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             ButtonFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonFilter.Image = Properties.Resources.funnel;
@@ -2746,24 +2730,24 @@ namespace Win_CBZ
             // 
             // ButtonConfigureKeyFilter
             // 
+            ButtonConfigureKeyFilter.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             ButtonConfigureKeyFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonConfigureKeyFilter.Image = Properties.Resources.funnel_gearwheels_16;
             ButtonConfigureKeyFilter.Location = new System.Drawing.Point(749, 2);
             ButtonConfigureKeyFilter.Margin = new System.Windows.Forms.Padding(2);
             ButtonConfigureKeyFilter.Name = "ButtonConfigureKeyFilter";
-            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(36, 31);
+            ButtonConfigureKeyFilter.Size = new System.Drawing.Size(37, 31);
             ButtonConfigureKeyFilter.TabIndex = 15;
             ButtonConfigureKeyFilter.UseVisualStyleBackColor = true;
             ButtonConfigureKeyFilter.Click += ButtonConfigureKeyFilter_Click;
             // 
             // LabelMetadataPanel
             // 
-            LabelMetadataPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             LabelMetadataPanel.Location = new System.Drawing.Point(2, 0);
             LabelMetadataPanel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             LabelMetadataPanel.Name = "LabelMetadataPanel";
             LabelMetadataPanel.Padding = new System.Windows.Forms.Padding(0, 7, 0, 0);
-            LabelMetadataPanel.Size = new System.Drawing.Size(78, 57);
+            LabelMetadataPanel.Size = new System.Drawing.Size(78, 33);
             LabelMetadataPanel.TabIndex = 1;
             LabelMetadataPanel.Text = "Metadata";
             // 
@@ -2775,10 +2759,10 @@ namespace Win_CBZ
             ButtonSelectFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSelectFilter.Image = Properties.Resources.dropdown_arrow;
             ButtonSelectFilter.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            ButtonSelectFilter.Location = new System.Drawing.Point(808, 2);
+            ButtonSelectFilter.Location = new System.Drawing.Point(789, 2);
             ButtonSelectFilter.Margin = new System.Windows.Forms.Padding(1, 2, 2, 2);
             ButtonSelectFilter.Name = "ButtonSelectFilter";
-            ButtonSelectFilter.Size = new System.Drawing.Size(34, 53);
+            ButtonSelectFilter.Size = new System.Drawing.Size(54, 31);
             ButtonSelectFilter.TabIndex = 14;
             ButtonSelectFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             ButtonSelectFilter.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -2799,15 +2783,25 @@ namespace Win_CBZ
             requiredToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             requiredToolStripMenuItem.Text = "Required";
             // 
+            // TextBoxMetadataKeys
+            // 
+            TextBoxMetadataKeys.Location = new System.Drawing.Point(263, 0);
+            TextBoxMetadataKeys.Margin = new System.Windows.Forms.Padding(8, 0, 2, 0);
+            TextBoxMetadataKeys.Name = "TextBoxMetadataKeys";
+            TextBoxMetadataKeys.Padding = new System.Windows.Forms.Padding(0, 7, 5, 0);
+            TextBoxMetadataKeys.Size = new System.Drawing.Size(47, 33);
+            TextBoxMetadataKeys.TabIndex = 10;
+            TextBoxMetadataKeys.Text = "Keys:";
+            // 
             // MetaDataTableActionsPanel
             // 
             MetaDataTableActionsPanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             MetaDataTableActionsPanel.AutoSize = true;
             MetaDataTableActionsPanel.Controls.Add(AddMetaDataRowBtn);
             MetaDataTableActionsPanel.Controls.Add(RemoveMetadataRowBtn);
-            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 223);
+            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 217);
             MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
-            MetaDataTableActionsPanel.Size = new System.Drawing.Size(933, 39);
+            MetaDataTableActionsPanel.Size = new System.Drawing.Size(927, 39);
             MetaDataTableActionsPanel.TabIndex = 13;
             // 
             // AddMetaDataRowBtn
@@ -2867,7 +2861,7 @@ namespace Win_CBZ
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             MetaDataGrid.DefaultCellStyle = dataGridViewCellStyle3;
             MetaDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            MetaDataGrid.Location = new System.Drawing.Point(2, 44);
+            MetaDataGrid.Location = new System.Drawing.Point(2, 43);
             MetaDataGrid.Margin = new System.Windows.Forms.Padding(2);
             MetaDataGrid.MultiSelect = false;
             MetaDataGrid.Name = "MetaDataGrid";
@@ -2882,7 +2876,7 @@ namespace Win_CBZ
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 26;
             MetaDataGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.Size = new System.Drawing.Size(935, 174);
+            MetaDataGrid.Size = new System.Drawing.Size(929, 169);
             MetaDataGrid.TabIndex = 12;
             MetaDataGrid.CellClick += MetaDataGrid_CellClick;
             MetaDataGrid.CellContentClick += MetaDataGrid_CellContentClick;
@@ -3309,8 +3303,8 @@ namespace Win_CBZ
             PageListContextMenu.ResumeLayout(false);
             MetadataPanel.ResumeLayout(false);
             MetadataPanel.PerformLayout();
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
+            TableLayoutPanelMetadataHeader.ResumeLayout(false);
+            TableLayoutPanelMetadataHeader.PerformLayout();
             ContextMenuUserFilterList.ResumeLayout(false);
             MetaDataTableActionsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).EndInit();
@@ -3558,7 +3552,7 @@ namespace Win_CBZ
         private System.Windows.Forms.ToolStripMenuItem requiredToolStripMenuItem;
         private System.Windows.Forms.ImageList ComboIcons;
         private System.Windows.Forms.ToolTip DataGridErrorTooltip;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel TableLayoutPanelMetadataHeader;
         private System.Windows.Forms.ToolStripButton ToolButtonSetBookmark;
         private System.Windows.Forms.ToolStripMenuItem bookmarksToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader BookmarkPageCol;

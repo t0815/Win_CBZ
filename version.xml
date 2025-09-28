@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <version>
-  <latest>0.24.212</latest>
+  <latest>0.24.213</latest>
   <notes>
-    <title>Version 0.24.212b now available!</title>
+    <title>Version 0.24.213b now available!</title>
     <changes>
-      <change>small ui fixes</change>
-      <change>
-        dont jump to assigned image-task when selecting a page,
-        instead add action to context menu
-      </change>
-      <change>Add ability to define custom accent color</change>
+      <change>fix button hover- and border color not working</change>
+      <change>fix bulletpoints in update-notes rendered incorrectly</change>
+      <change>add some more example colors</change>
+      <change>add color option to change button text</change>
     </changes>
   </notes>
-  <url>https://github.com/t0815/Win_CBZ/releases/tag/0.24.212b</url>
+  <url>https://github.com/t0815/Win_CBZ/releases/tag/0.24.213b</url>
 </version>

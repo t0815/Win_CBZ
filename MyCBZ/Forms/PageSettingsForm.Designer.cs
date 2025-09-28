@@ -232,8 +232,9 @@
             ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             ButtonOk.Enabled = false;
-            ButtonOk.Location = new System.Drawing.Point(497, 636);
-            ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            ButtonOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonOk.Location = new System.Drawing.Point(494, 636);
+            ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 6, 2);
             ButtonOk.Name = "ButtonOk";
             ButtonOk.Size = new System.Drawing.Size(111, 41);
             ButtonOk.TabIndex = 2;
@@ -245,6 +246,7 @@
             // 
             ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonCancel.Location = new System.Drawing.Point(614, 636);
             ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonCancel.Name = "ButtonCancel";
@@ -758,6 +760,7 @@
             // 
             // ButtonReloadImage
             // 
+            ButtonReloadImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonReloadImage.Image = Properties.Resources.arrow_circle2;
             ButtonReloadImage.Location = new System.Drawing.Point(373, 12);
             ButtonReloadImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

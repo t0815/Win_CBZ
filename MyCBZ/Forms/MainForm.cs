@@ -271,7 +271,9 @@ namespace Win_CBZ
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, Win_CBZSettings.Default.ListBackgroundColor);
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON, Win_CBZSettings.Default.ButtonColor);
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_HIGHLIGHT, Win_CBZSettings.Default.ButtonHighlightColor);
-            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, Win_CBZSettings.Default.ButtonBorderColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, Win_CBZSettings.Default.ButtonBorderColor);          
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_TEXT, Win_CBZSettings.Default.ButtonTextColor);
+
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, Win_CBZSettings.Default.WindowBackgroundColor);
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TAB_BACKGROUND, Win_CBZSettings.Default.TabBackgroundColor);
 
@@ -300,36 +302,44 @@ namespace Win_CBZ
             MetaDataGrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
             //MetaDataGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
             
+            ButtonFilter.ForeColor = Theme.GetInstance().ButtonTextColor;
             ButtonFilter.BackColor = ApplyUserKeyFilter ? Theme.GetInstance().AccentColor : Theme.GetInstance().ButtonColor;
-            ButtonFilter.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            ButtonFilter.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             ButtonFilter.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            ButtonConfigureKeyFilter.ForeColor = Theme.GetInstance().ButtonTextColor;
             ButtonConfigureKeyFilter.BackColor = Theme.GetInstance().ButtonColor;
-            ButtonConfigureKeyFilter.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            ButtonConfigureKeyFilter.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             ButtonConfigureKeyFilter.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            BtnAddMetaData.ForeColor = Theme.GetInstance().ButtonTextColor; 
             BtnAddMetaData.BackColor = Theme.GetInstance().ButtonColor;
-            BtnAddMetaData.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            BtnAddMetaData.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             BtnAddMetaData.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            BtnRemoveMetaData.ForeColor = Theme.GetInstance().ButtonTextColor;
             BtnRemoveMetaData.BackColor = Theme.GetInstance().ButtonColor;
-            BtnRemoveMetaData.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            BtnRemoveMetaData.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             BtnRemoveMetaData.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            AddMetaDataRowBtn.ForeColor = Theme.GetInstance().ButtonTextColor;
             AddMetaDataRowBtn.BackColor = Theme.GetInstance().ButtonColor;
-            AddMetaDataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            AddMetaDataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             AddMetaDataRowBtn.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            RemoveMetadataRowBtn.ForeColor = Theme.GetInstance().ButtonTextColor;
             RemoveMetadataRowBtn.BackColor = Theme.GetInstance().ButtonColor;
-            RemoveMetadataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            RemoveMetadataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             RemoveMetadataRowBtn.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            GetImageProcessExcludesFromSelectedButton.ForeColor = Theme.GetInstance().ButtonTextColor;
             GetImageProcessExcludesFromSelectedButton.BackColor = Theme.GetInstance().ButtonColor;
-            GetImageProcessExcludesFromSelectedButton.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            GetImageProcessExcludesFromSelectedButton.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             GetImageProcessExcludesFromSelectedButton.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            btnGetExcludesFromSelectedPages.ForeColor = Theme.GetInstance().ButtonTextColor;
             btnGetExcludesFromSelectedPages.BackColor = Theme.GetInstance().ButtonColor;
-            btnGetExcludesFromSelectedPages.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            btnGetExcludesFromSelectedPages.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
             btnGetExcludesFromSelectedPages.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
             if (MetaDataGrid.Columns.Count > 0)
@@ -5753,6 +5763,7 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ButtonColor = settingsDialog.ButtonColor;
                 Win_CBZSettings.Default.ButtonHighlightColor = settingsDialog.ButtonHighlightColor;
                 Win_CBZSettings.Default.ButtonBorderColor = settingsDialog.ButtonBorderColor;
+                Win_CBZSettings.Default.ButtonTextColor = settingsDialog.ButtonTextColor; 
 
                 //Win_CBZSettings.Default.TextColor = settingsDialog.TextColor;
                 //Win_CBZSettings.Default.WindowBackgroundColor = settingsDialog.WindowBackgroundColor;
@@ -5764,7 +5775,8 @@ namespace Win_CBZ
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON, settingsDialog.ButtonColor);
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_HIGHLIGHT, settingsDialog.ButtonHighlightColor);
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, settingsDialog.ButtonBorderColor);
-
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_TEXT, settingsDialog.ButtonTextColor);
+                
                 //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, settingsDialog.ListBackgroundColor);
                 //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, settingsDialog.TextColor);
                 //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, settingsDialog.WindowBackgroundColor);

@@ -26,6 +26,7 @@ namespace Win_CBZ
         public const String COLOR_CRYOLA = "#FF5800";
         public const String COLOR_GRAPE_LIGHT_PINK = "#FF878D";
         public const String COLOR_NEON_GREEN = "#9FE888";
+        public const String COLOR_SKY_BLUE = "#83BEE4";
 
         public const String COLOR_DARK_GRAY_WINDOW_BG = "#1F1F1F";
         public const String COLOR_DARK_GRAY_LIST_CONTROL_BG = "#252526";

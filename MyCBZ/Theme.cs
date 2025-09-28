@@ -27,6 +27,7 @@ namespace Win_CBZ
         public const String COLOR_NAME_LIST_BACKGROUND = "ListBackgroundColor";
         public const String COLOR_NAME_TEXT = "TextColor";
         public const String COLOR_NAME_BUTTON = "ButtonColor";
+        public const String COLOR_NAME_BUTTON_TEXT = "ButtonTextColor";
         public const String COLOR_NAME_WINDOW_BACKGROUND = "WindowColor";
         public const String COLOR_NAME_INPUT_FIELD = "InputFieldColor";
         public const String COLOR_NAME_DIALOG_HEADER_BACKGROUND = "DialogHeaderBackground";
@@ -47,6 +48,7 @@ namespace Win_CBZ
             { COLOR_NAME_TAB_BACKGROUND, "#ffffff" },
             { COLOR_NAME_BUTTON_HIGHLIGHT, "#a9a9a9" },
             { COLOR_NAME_BUTTON_BORDER, "#808080" },
+            { COLOR_NAME_BUTTON_TEXT, "#000000" },  
         };
 
         public Dictionary<string, string> ThemeDarkColors = new Dictionary<string, string>()
@@ -83,6 +85,10 @@ namespace Win_CBZ
 
                 case COLOR_NAME_BUTTON_BORDER:
                     ButtonBorderColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_BUTTON_TEXT:
+                    ButtonTextColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
 
                 case COLOR_NAME_LIST_BACKGROUND:
@@ -131,6 +137,10 @@ namespace Win_CBZ
                 case COLOR_NAME_BUTTON_BORDER:
                     return HTMLColor.ToHexColor(ButtonBorderColor);
 
+               case COLOR_NAME_BUTTON_TEXT:
+                    return HTMLColor.ToHexColor(ButtonTextColor);
+
+
                 case COLOR_NAME_LIST_BACKGROUND:
                     return HTMLColor.ToHexColor(ListBackgroundColor);
 
@@ -171,6 +181,9 @@ namespace Win_CBZ
                 case COLOR_NAME_BUTTON_BORDER:
                     ButtonBorderColor = colorValue;
                     break;
+                case COLOR_NAME_BUTTON_TEXT:
+                     ButtonTextColor = colorValue;
+                     break;
                 case COLOR_NAME_LIST_BACKGROUND:
                     ListBackgroundColor = colorValue;
                     break;
@@ -313,6 +326,9 @@ namespace Win_CBZ
                     case COLOR_NAME_BUTTON_BORDER:
                         ButtonBorderColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
                         break;
+                    case COLOR_NAME_BUTTON_TEXT:
+                        ButtonTextColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
 
                     case COLOR_NAME_WINDOW_BACKGROUND:
                         BackgroundColorApp = System.Drawing.ColorTranslator.FromHtml(color.Value);
@@ -355,6 +371,7 @@ namespace Win_CBZ
             theme.ButtonHoverColor = this.ButtonHoverColor;
             theme.ButtonHoverTextColor = this.ButtonHoverTextColor;
             theme.ButtonBorderColor = this.ButtonBorderColor;
+            theme.ButtonTextColor = this.ButtonTextColor;
             theme.InputFieldColor = this.InputFieldColor;
             theme.InputFieldTextColor = this.InputFieldTextColor;
             theme.InputFieldBorderColor = this.InputFieldBorderColor;
@@ -506,7 +523,7 @@ namespace Win_CBZ
             container.OfType<Button>().Each(b =>
             {
                 b.BackColor = ButtonColor;
-                b.ForeColor = TextColor;
+                b.ForeColor = ButtonTextColor;
                 b.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
                 b.FlatAppearance.BorderColor = ButtonBorderColor;
 
@@ -568,7 +585,7 @@ namespace Win_CBZ
             container?.Components.OfType<Button>().Each(b =>
             {
                 b.BackColor = ButtonColor;
-                b.ForeColor = TextColor;
+                b.ForeColor = ButtonTextColor;
                 b.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
                 b.FlatAppearance.BorderColor = ButtonBorderColor;
                 //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);

@@ -110,6 +110,8 @@ namespace Win_CBZ.Forms
 
         public string ButtonBorderColor = HTMLColor.ToHexColor(SystemColors.ControlDark);
 
+        public string ButtonTextColor = HTMLColor.ToHexColor(SystemColors.ControlText);
+
         public string TextColor = HTMLColor.ToHexColor(SystemColors.ControlText);
 
         public string InputFieldColor = HTMLColor.ToHexColor(SystemColors.Window);
@@ -144,7 +146,7 @@ namespace Win_CBZ.Forms
                 Description = "Main accent color used for buttons, highlights and selection.",
                 DefaultValue = Colors.COLOR_GOLD,
                 Category = "Main",
-                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK, Colors.COLOR_LAVENDAR_PINKISH }
+                ExampleValues = new List<string>() { Colors.COLOR_GOLD, Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK, Colors.COLOR_LAVENDAR_PINKISH, Colors.COLOR_SKY_BLUE }
             },
             /*,
             new ThemeColorMapping()
@@ -166,7 +168,17 @@ namespace Win_CBZ.Forms
                 Description = "Main background color used for buttons.",
                 DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
                 Category = "Main",
-                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE }
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE, Colors.COLOR_WHITE, Colors.COLOR_SKY_BLUE, Colors.COLOR_GOLD }
+            },
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_BUTTON_TEXT,
+                Label = "Button Text Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.ControlText),
+                Description = "Font color for button captions.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ControlText),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlText), Colors.COLOR_DARK_GRAY_TEXT_COLOR, HTMLColor.ToHexColor(SystemColors.HotTrack), Colors.COLOR_GOLD, Colors.COLOR_TANGERINE }
             },
             new ThemeColorMapping()
             {
@@ -176,17 +188,17 @@ namespace Win_CBZ.Forms
                 Description = "Hover color buttons.",
                 DefaultValue = HTMLColor.ToHexColor(SystemColors.ButtonHighlight),
                 Category = "Main",
-                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE }
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE, Colors.COLOR_GOLD }
             },
             new ThemeColorMapping()
             {
                 ColorName = Theme.COLOR_NAME_BUTTON_BORDER,
-                Label = "Button border color",
+                Label = "Button Border Color",
                 ColorValue = HTMLColor.ToHexColor(SystemColors.ControlDark),
                 Description = "Border color for buttons.",
-                DefaultValue = HTMLColor.ToHexColor(SystemColors.ControlDark),
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.ControlDarkDark),
                 Category = "Main",
-                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlDark), Colors.COLOR_DARK_GRAY_BUTTON_FACE_ACTIVE }
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlDarkDark), HTMLColor.ToHexColor(SystemColors.ControlDark), Colors.COLOR_DARK_GRAY_BUTTON_FACE_ACTIVE, Colors.COLOR_PLUM }
             },
             /*
             new ThemeColorMapping()
@@ -250,8 +262,8 @@ namespace Win_CBZ.Forms
             UpdatesTabControl.Visible = false;
             AppearanceTabControl.Visible = false;
 
-
             
+
 
             // Load settings  ------------------------
 
@@ -324,8 +336,8 @@ namespace Win_CBZ.Forms
             LogValidationErrors = Win_CBZSettings.Default.LogValidationErrors;
 
             AccentColor = Win_CBZSettings.Default.AccentColor;
-            
-            
+            ButtonHighlightColor = Win_CBZSettings.Default.ButtonHighlightColor;
+            ButtonBorderColor = Win_CBZSettings.Default.ButtonBorderColor;
             ButtonColor = Win_CBZSettings.Default.ButtonColor;
             
             /*
@@ -367,6 +379,10 @@ namespace Win_CBZ.Forms
 
                     case Theme.COLOR_NAME_BUTTON_BORDER:
                         mapping.ColorValue = Win_CBZSettings.Default.ButtonBorderColor;
+                        break;
+
+                    case Theme.COLOR_NAME_BUTTON_TEXT:
+                        mapping.ColorValue = Win_CBZSettings.Default.ButtonTextColor;
                         break;
 
                         /*
@@ -971,6 +987,17 @@ namespace Win_CBZ.Forms
 
                             case Theme.COLOR_NAME_BUTTON:
                                 ButtonColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_BUTTON_HIGHLIGHT:
+                                    ButtonHighlightColor = mapping.ColorValue;
+                                    break;
+                            case Theme.COLOR_NAME_BUTTON_BORDER:
+                                    ButtonBorderColor = mapping.ColorValue;
+                                    break;
+
+                            case Theme.COLOR_NAME_BUTTON_TEXT:
+                                ButtonTextColor = mapping.ColorValue;
                                 break;
 
                             case Theme.COLOR_NAME_LIST_BACKGROUND:

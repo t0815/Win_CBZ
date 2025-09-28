@@ -127,6 +127,11 @@ namespace Win_CBZ.Forms
             dialogButton.TabIndex = index;
             dialogButton.Height = 34;
             dialogButton.Anchor = AnchorStyles.Right | AnchorStyles.Left;
+            dialogButton.FlatStyle = FlatStyle.Flat;
+            dialogButton.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+            dialogButton.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
+            dialogButton.ForeColor = Theme.GetInstance().ButtonTextColor;
+            //dialogButton.BackColor = Theme.GetInstance().ButtonColor;
             ErrorDialogTablePanel.Controls.Add(dialogButton, index, 2);
             _existingButtons |= btn;
 

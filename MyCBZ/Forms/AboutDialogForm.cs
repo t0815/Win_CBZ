@@ -24,6 +24,7 @@ namespace Win_CBZ.Forms
             //Theme.GetInstance().ApplyTheme(flowLayoutPanel1.Controls);
 
             ButtonCloseDialog.BackColor = Theme.GetInstance().ButtonColor;
+            ButtonCloseDialog.ForeColor = Theme.GetInstance().ButtonTextColor;
             ButtonCloseDialog.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
             ButtonCloseDialog.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 

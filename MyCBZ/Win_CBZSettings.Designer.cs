@@ -37,7 +37,7 @@ namespace Win_CBZ {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.24.212b")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.24.213b")]
         public string InstalledVersion {
             get {
                 return ((string)(this["InstalledVersion"]));
@@ -842,6 +842,18 @@ namespace Win_CBZ {
             }
             set {
                 this["ButtonBorderColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#000000")]
+        public string ButtonTextColor {
+            get {
+                return ((string)(this["ButtonTextColor"]));
+            }
+            set {
+                this["ButtonTextColor"] = value;
             }
         }
     }
