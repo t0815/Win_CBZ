@@ -35,6 +35,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
+
             Validation = new DataValidation();
 
             Config = editorTypeConfig;

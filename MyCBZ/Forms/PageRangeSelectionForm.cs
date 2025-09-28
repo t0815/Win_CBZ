@@ -31,6 +31,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
+
             UseOffset = useOffset;
             Offset = lastOffset;
 

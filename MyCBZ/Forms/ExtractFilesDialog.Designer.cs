@@ -115,6 +115,7 @@
             // 
             ButtonOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             ButtonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            ButtonOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonOk.Location = new System.Drawing.Point(329, 475);
             ButtonOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonOk.Name = "ButtonOk";
@@ -128,6 +129,7 @@
             // 
             ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonCancel.Location = new System.Drawing.Point(454, 475);
             ButtonCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonCancel.Name = "ButtonCancel";

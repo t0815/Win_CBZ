@@ -21,6 +21,8 @@ namespace Win_CBZ.Forms
         public PasteBookmarksOffsetForm()
         {
             InitializeComponent();
+
+            Theme.GetInstance().ApplyTheme(BookmarkEditorTableLayout.Controls);
         }
 
         private void OkButton_Click(object sender, EventArgs e)

@@ -39,9 +39,9 @@
             HeaderPicture = new System.Windows.Forms.PictureBox();
             TextBoxSelections = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
-            TextBoxOffset = new System.Windows.Forms.TextBox();
-            CheckBoxUseOffset = new System.Windows.Forms.CheckBox();
             pictureBox2 = new System.Windows.Forms.PictureBox();
+            CheckBoxUseOffset = new System.Windows.Forms.CheckBox();
+            TextBoxOffset = new System.Windows.Forms.TextBox();
             ValidationErrorProvider = new System.Windows.Forms.ErrorProvider(components);
             RangeSelectionTooltip = new System.Windows.Forms.ToolTip(components);
             ItemEditorTableLayout.SuspendLayout();
@@ -95,6 +95,7 @@
             // 
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CancelBtn.Location = new System.Drawing.Point(264, 184);
             CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
@@ -107,6 +108,7 @@
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            OkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             OkButton.Location = new System.Drawing.Point(136, 184);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
@@ -170,25 +172,6 @@
             label1.TabIndex = 8;
             label1.Text = "Select Page(s)";
             // 
-            // TextBoxOffset
-            // 
-            TextBoxOffset.Location = new System.Drawing.Point(133, 135);
-            TextBoxOffset.Name = "TextBoxOffset";
-            TextBoxOffset.PlaceholderText = "0";
-            TextBoxOffset.Size = new System.Drawing.Size(104, 27);
-            TextBoxOffset.TabIndex = 11;
-            // 
-            // CheckBoxUseOffset
-            // 
-            CheckBoxUseOffset.AutoSize = true;
-            CheckBoxUseOffset.Location = new System.Drawing.Point(23, 137);
-            CheckBoxUseOffset.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            CheckBoxUseOffset.Name = "CheckBoxUseOffset";
-            CheckBoxUseOffset.Size = new System.Drawing.Size(71, 24);
-            CheckBoxUseOffset.TabIndex = 12;
-            CheckBoxUseOffset.Text = "Offset";
-            CheckBoxUseOffset.UseVisualStyleBackColor = true;
-            // 
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.information;
@@ -201,6 +184,25 @@
             pictureBox2.TabIndex = 32;
             pictureBox2.TabStop = false;
             RangeSelectionTooltip.SetToolTip(pictureBox2, resources.GetString("pictureBox2.ToolTip"));
+            // 
+            // CheckBoxUseOffset
+            // 
+            CheckBoxUseOffset.AutoSize = true;
+            CheckBoxUseOffset.Location = new System.Drawing.Point(23, 137);
+            CheckBoxUseOffset.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            CheckBoxUseOffset.Name = "CheckBoxUseOffset";
+            CheckBoxUseOffset.Size = new System.Drawing.Size(71, 24);
+            CheckBoxUseOffset.TabIndex = 12;
+            CheckBoxUseOffset.Text = "Offset";
+            CheckBoxUseOffset.UseVisualStyleBackColor = true;
+            // 
+            // TextBoxOffset
+            // 
+            TextBoxOffset.Location = new System.Drawing.Point(133, 135);
+            TextBoxOffset.Name = "TextBoxOffset";
+            TextBoxOffset.PlaceholderText = "0";
+            TextBoxOffset.Size = new System.Drawing.Size(104, 27);
+            TextBoxOffset.TabIndex = 11;
             // 
             // ValidationErrorProvider
             // 

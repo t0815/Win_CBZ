@@ -45,6 +45,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
+
             Validation = new DataValidation();
             SelectedTags = new List<FlowLayoutPanel>();
 
@@ -189,7 +191,7 @@ namespace Win_CBZ.Forms
                     //Label contentLabel = container.Controls.Find("TAG_LABEL", false)[0] as Label;
                     //if (contentLabel != null)
                     //{
-                    label.BackColor = Color.Gold;
+                    label.BackColor = Theme.GetInstance().AccentColor;
                     //}
                     ((TagItem)container.Tag).Selected = true;
                     SelectedTags.Add(container);

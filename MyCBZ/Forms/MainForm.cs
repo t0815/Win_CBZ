@@ -324,6 +324,14 @@ namespace Win_CBZ
             RemoveMetadataRowBtn.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
             RemoveMetadataRowBtn.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
 
+            GetImageProcessExcludesFromSelectedButton.BackColor = Theme.GetInstance().ButtonColor;
+            GetImageProcessExcludesFromSelectedButton.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            GetImageProcessExcludesFromSelectedButton.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
+            btnGetExcludesFromSelectedPages.BackColor = Theme.GetInstance().ButtonColor;
+            btnGetExcludesFromSelectedPages.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            btnGetExcludesFromSelectedPages.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
             if (MetaDataGrid.Columns.Count > 0)
             {
 

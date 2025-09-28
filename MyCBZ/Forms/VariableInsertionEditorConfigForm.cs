@@ -25,6 +25,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
+
             Config = editorTypeConfig;
 
             if (Config != null)

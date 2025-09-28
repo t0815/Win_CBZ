@@ -1358,6 +1358,7 @@ namespace Win_CBZ
             // GetImageProcessExcludesFromSelectedButton
             // 
             GetImageProcessExcludesFromSelectedButton.Dock = System.Windows.Forms.DockStyle.Bottom;
+            GetImageProcessExcludesFromSelectedButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             GetImageProcessExcludesFromSelectedButton.Location = new System.Drawing.Point(10, 1510);
             GetImageProcessExcludesFromSelectedButton.Margin = new System.Windows.Forms.Padding(2);
             GetImageProcessExcludesFromSelectedButton.Name = "GetImageProcessExcludesFromSelectedButton";
@@ -2305,6 +2306,7 @@ namespace Win_CBZ
             // btnGetExcludesFromSelectedPages
             // 
             btnGetExcludesFromSelectedPages.Dock = System.Windows.Forms.DockStyle.Fill;
+            btnGetExcludesFromSelectedPages.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             btnGetExcludesFromSelectedPages.Location = new System.Drawing.Point(13, 505);
             btnGetExcludesFromSelectedPages.Margin = new System.Windows.Forms.Padding(1, 4, 4, 4);
             btnGetExcludesFromSelectedPages.Name = "btnGetExcludesFromSelectedPages";

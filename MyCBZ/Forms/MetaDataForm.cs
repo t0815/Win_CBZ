@@ -33,6 +33,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(MetaDataTablePanel.Controls);
+
             MetaData = metaData;
             WriteXmlIndex = writeIndex;
 

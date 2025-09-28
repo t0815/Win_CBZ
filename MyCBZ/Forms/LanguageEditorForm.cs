@@ -29,6 +29,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
+
             LanguageListDatagrid.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
 
             config = editorTypeConfig;

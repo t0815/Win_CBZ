@@ -22,6 +22,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(BookmarkEditorTableLayout.Controls);
+
             StringBuilder messageBuilder = new StringBuilder(200);
 
             messageBuilder.Append("Changelog:");

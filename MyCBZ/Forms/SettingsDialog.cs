@@ -144,7 +144,7 @@ namespace Win_CBZ.Forms
                 Description = "Main accent color used for buttons, highlights and selection.",
                 DefaultValue = Colors.COLOR_GOLD,
                 Category = "Main",
-                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK }
+                ExampleValues = new List<string>() { Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK, Colors.COLOR_LAVENDAR_PINKISH }
             },
             /*,
             new ThemeColorMapping()

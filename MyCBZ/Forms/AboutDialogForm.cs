@@ -21,6 +21,12 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            //Theme.GetInstance().ApplyTheme(flowLayoutPanel1.Controls);
+
+            ButtonCloseDialog.BackColor = Theme.GetInstance().ButtonColor;
+            ButtonCloseDialog.FlatAppearance.BorderColor = Theme.GetInstance().ComboBorderColor;
+            ButtonCloseDialog.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
+
             AppNameLabel.Text = Assembly.GetExecutingAssembly().GetName().Name;
             AppVersionLabel.Text = "v" + Assembly.GetExecutingAssembly().GetName().Version;
             LicenseInfoRichtextBox.Rtf = global::Win_CBZ.Properties.Resources.CBZMageAboutMessage;

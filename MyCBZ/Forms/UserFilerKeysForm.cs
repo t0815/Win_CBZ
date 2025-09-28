@@ -34,7 +34,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
-            DatagridUserKeyFilter.DefaultCellStyle.SelectionBackColor = Theme.GetInstance().AccentColor;
+            Theme.GetInstance().ApplyThemeDataGid(DatagridUserKeyFilter);
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
 
             FilterKeys = Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray();
             BaseContitionType = Win_CBZSettings.Default.KeyFilterBaseContitionType;

@@ -147,10 +147,10 @@ namespace Win_CBZ.Forms
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
             HeaderPanel.Dock = DockStyle.Fill;
-            HeaderPanel.Location = new Point(3, 0);
-            HeaderPanel.Margin = new Padding(3, 0, 3, 2);
+            HeaderPanel.Location = new Point(0, 0);
+            HeaderPanel.Margin = new Padding(0);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new Size(476, 62);
+            HeaderPanel.Size = new Size(482, 64);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -173,7 +173,7 @@ namespace Win_CBZ.Forms
             HeaderPicture.Location = new Point(24, 5);
             HeaderPicture.Margin = new Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new Size(53, 54);
+            HeaderPicture.Size = new Size(53, 56);
             HeaderPicture.SizeMode = PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -311,6 +311,7 @@ namespace Win_CBZ.Forms
             // 
             CancelBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CancelBtn.DialogResult = DialogResult.Cancel;
+            CancelBtn.FlatStyle = FlatStyle.Flat;
             CancelBtn.Location = new Point(364, 429);
             CancelBtn.Margin = new Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
@@ -323,6 +324,7 @@ namespace Win_CBZ.Forms
             // 
             OkButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             OkButton.DialogResult = DialogResult.OK;
+            OkButton.FlatStyle = FlatStyle.Flat;
             OkButton.Location = new Point(256, 429);
             OkButton.Margin = new Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";

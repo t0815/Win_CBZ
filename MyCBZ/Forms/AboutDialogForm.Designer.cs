@@ -129,6 +129,7 @@
             // 
             // ButtonCloseDialog
             // 
+            ButtonCloseDialog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonCloseDialog.Location = new System.Drawing.Point(554, 11);
             ButtonCloseDialog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonCloseDialog.Name = "ButtonCloseDialog";

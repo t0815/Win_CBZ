@@ -48,6 +48,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(BookmarkEditorTableLayout.Controls);
+
             PagesList.SelectionColor = Theme.GetInstance().AccentColor;
 
             PagesList.Invalidated += ListView_Invalidated;
