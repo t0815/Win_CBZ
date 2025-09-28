@@ -76,7 +76,7 @@ namespace Win_CBZ.Tasks
                                         var downloadUrl = doc.Descendants("url").FirstOrDefault()?.Value;
                                         var title = doc.Descendants("notes").Descendants("title").FirstOrDefault()?.Value;
                                                                                
-                                        doc.Descendants("notes").Descendants("changes").Each(change =>
+                                        doc.Descendants("notes").Descendants("changes").Descendants("change").Each(change =>
                                         {
                                             result.Changes.Add(change.Value.Trim());
                                         });
