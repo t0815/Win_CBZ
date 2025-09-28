@@ -905,13 +905,13 @@ namespace Win_CBZ
                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_WARNING, "No Metadata ['" + MetaData.MetaDataFileName + "'] found in Archive!");
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     MetaData = new MetaData();
 
                     AppEventHandler.OnMetaDataChanged(this, new MetaDataChangedEvent(MetaDataChangedEvent.METADATA_DELETED, MetaData));
 
-                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive!");
+                    MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error loading Metadata ['" + MetaData.MetaDataFileName + "'] from Archive! [" + e.Message + "]");
                 }
 
                 if (MetaData != null && tParams.ApplyKeyUserFilter)
@@ -1532,6 +1532,7 @@ namespace Win_CBZ
                         Task<TaskResult> copyFile = CopyFileTask.CopyFile(new LocalFile(TemporaryFileName), new LocalFile(tParams.FileName), AppEventHandler.OnFileOperation, tParams.CancelToken);
 
                         copyFile.Start();
+                        // Warning! only works, because already in a Thread!!!!
                         copyFile.Wait(tParams.CancelToken); // run synchronously and wait for completion
                         
                         int deletedIndex = 0;
@@ -1541,9 +1542,9 @@ namespace Win_CBZ
 
                             AppEventHandler.OnPageChanged(this, new PageChangedEvent(deletedPage, null, PageChangedEvent.IMAGE_STATUS_CLOSED));
                             AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(deletedPage, deletedIndex, deletedPages.Count));
-                            
-                            tParams.CancelToken.ThrowIfCancellationRequested(); 
-                            
+
+                            tParams.CancelToken.ThrowIfCancellationRequested();
+
                             deletedIndex++;
                         }
 
@@ -1557,8 +1558,8 @@ namespace Win_CBZ
                                     try
                                     {
                                         page.DeleteTemporaryFile();
-                                      
-                                    } catch (Exception exd)
+
+                                } catch (Exception exd)
                                     {
                                         MessageLogger.Instance.Log(LogMessageEvent.LOGMESSAGE_TYPE_ERROR, "Error finalizing CBZ [" + exd.Message + "]");
                                     }
@@ -1567,7 +1568,7 @@ namespace Win_CBZ
                                 AppEventHandler.OnTaskProgress(this, new TaskProgressEvent(page, deletedIndex, Pages.Count));
                                 deletedIndex++;
                             }
-                                
+
                         }
 
                     }

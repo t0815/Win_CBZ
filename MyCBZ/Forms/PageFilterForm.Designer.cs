@@ -30,18 +30,18 @@
         {
             ItemEditorTableLayout = new System.Windows.Forms.TableLayoutPanel();
             label2 = new System.Windows.Forms.Label();
-            CancelBtn = new System.Windows.Forms.Button();
-            OkButton = new System.Windows.Forms.Button();
             HeaderPanel = new System.Windows.Forms.Panel();
             HeaderLabel = new System.Windows.Forms.Label();
             HeaderPicture = new System.Windows.Forms.PictureBox();
             TextBoxSelections = new System.Windows.Forms.TextBox();
             label1 = new System.Windows.Forms.Label();
-            pictureBox2 = new System.Windows.Forms.PictureBox();
             CheckBoxUseOffset = new System.Windows.Forms.CheckBox();
             TextBoxOffset = new System.Windows.Forms.TextBox();
             checkBox1 = new System.Windows.Forms.CheckBox();
             comboBox1 = new System.Windows.Forms.ComboBox();
+            OkButton = new System.Windows.Forms.Button();
+            CancelBtn = new System.Windows.Forms.Button();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
             maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
             checkBox2 = new System.Windows.Forms.CheckBox();
@@ -101,30 +101,6 @@
             label2.Size = new System.Drawing.Size(0, 20);
             label2.TabIndex = 10;
             // 
-            // CancelBtn
-            // 
-            CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            CancelBtn.Location = new System.Drawing.Point(359, 343);
-            CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            CancelBtn.Name = "CancelBtn";
-            CancelBtn.Size = new System.Drawing.Size(99, 35);
-            CancelBtn.TabIndex = 4;
-            CancelBtn.Text = "Cancel";
-            CancelBtn.UseVisualStyleBackColor = true;
-            // 
-            // OkButton
-            // 
-            OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            OkButton.Location = new System.Drawing.Point(248, 343);
-            OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            OkButton.Name = "OkButton";
-            OkButton.Size = new System.Drawing.Size(100, 35);
-            OkButton.TabIndex = 3;
-            OkButton.Text = "Ok";
-            OkButton.UseVisualStyleBackColor = true;
-            // 
             // HeaderPanel
             // 
             HeaderPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -179,18 +155,6 @@
             label1.TabIndex = 8;
             label1.Text = "Search";
             // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = Properties.Resources.information;
-            pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new System.Drawing.Point(26, 338);
-            pictureBox2.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new System.Drawing.Size(36, 43);
-            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            pictureBox2.TabIndex = 32;
-            pictureBox2.TabStop = false;
-            // 
             // CheckBoxUseOffset
             // 
             CheckBoxUseOffset.AutoSize = true;
@@ -227,6 +191,44 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new System.Drawing.Size(104, 28);
             comboBox1.TabIndex = 34;
+            // 
+            // OkButton
+            // 
+            OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            OkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            OkButton.Location = new System.Drawing.Point(248, 343);
+            OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            OkButton.Name = "OkButton";
+            OkButton.Size = new System.Drawing.Size(100, 35);
+            OkButton.TabIndex = 3;
+            OkButton.Text = "Ok";
+            OkButton.UseVisualStyleBackColor = true;
+            // 
+            // CancelBtn
+            // 
+            CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CancelBtn.Location = new System.Drawing.Point(359, 343);
+            CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            CancelBtn.Name = "CancelBtn";
+            CancelBtn.Size = new System.Drawing.Size(99, 35);
+            CancelBtn.TabIndex = 4;
+            CancelBtn.Text = "Cancel";
+            CancelBtn.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.information;
+            pictureBox2.InitialImage = Properties.Resources.information;
+            pictureBox2.Location = new System.Drawing.Point(26, 338);
+            pictureBox2.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new System.Drawing.Size(36, 43);
+            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            pictureBox2.TabIndex = 32;
+            pictureBox2.TabStop = false;
             // 
             // maskedTextBox1
             // 

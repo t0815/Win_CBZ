@@ -34,6 +34,9 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyThemeDataGid(DatagridUserKeyFilter);
+            Theme.GetInstance().ApplyTheme(ItemEditorTableLayout.Controls);
+
             FilterKeys = Win_CBZSettings.Default.KeyFilter?.OfType<string>().ToArray();
             BaseContitionType = Win_CBZSettings.Default.KeyFilterBaseContitionType;
 
@@ -179,7 +182,7 @@ namespace Win_CBZ.Forms
 
             if (e.State.HasFlag(DrawItemState.Selected))
             {
-                e.Graphics.FillRectangle(new SolidBrush(Color.Gold), e.Bounds);
+                e.Graphics.FillRectangle(new SolidBrush(Theme.GetInstance().AccentColor), e.Bounds);
             }
             else
             {

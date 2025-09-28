@@ -67,7 +67,7 @@ namespace Win_CBZ
             }
             catch (IOException)
             {
-
+                LastModified = DateTimeOffset.MinValue;
             }
         }
 

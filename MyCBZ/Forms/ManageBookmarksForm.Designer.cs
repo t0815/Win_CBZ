@@ -336,6 +336,7 @@
             // 
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            OkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             OkButton.Location = new System.Drawing.Point(571, 691);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
@@ -349,6 +350,7 @@
             // 
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CancelBtn.Location = new System.Drawing.Point(692, 691);
             CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
@@ -397,12 +399,13 @@
             PagesList.Location = new System.Drawing.Point(0, 0);
             PagesList.Name = "PagesList";
             PagesList.OwnerDraw = true;
+            PagesList.SelectionColor = System.Drawing.Color.Gold;
+            PagesList.SelectionInactiveColor = System.Drawing.SystemColors.Control;
             PagesList.Size = new System.Drawing.Size(373, 292);
             PagesList.TabIndex = 9;
             PagesList.UseCompatibleStateImageBehavior = false;
             PagesList.View = System.Windows.Forms.View.Details;
             PagesList.DrawColumnHeader += ListView_DrawColumnHeader;
-            PagesList.DrawSubItem += ListView_DrawSubItem;
             PagesList.ItemSelectionChanged += PagesList_ItemSelectionChanged;
             PagesList.SelectedIndexChanged += PagesList_SelectedIndexChanged;
             PagesList.MouseDoubleClick += PagesList_MouseDoubleClick;

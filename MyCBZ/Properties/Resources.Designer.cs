@@ -566,6 +566,16 @@ namespace Win_CBZ.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap floppy_disk_ok {
+            get {
+                object obj = ResourceManager.GetObject("floppy_disk_ok", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_document {
             get {
                 object obj = ResourceManager.GetObject("folder_document", resourceCulture);
@@ -879,6 +889,16 @@ namespace Win_CBZ.Properties {
         internal static System.Drawing.Bitmap photo_landscape {
             get {
                 object obj = ResourceManager.GetObject("photo_landscape", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_landscape_left_right24 {
+            get {
+                object obj = ResourceManager.GetObject("photo_landscape_left_right24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

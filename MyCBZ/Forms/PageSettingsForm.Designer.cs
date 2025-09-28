@@ -118,7 +118,7 @@
             SettingsTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsTablePanel.Name = "SettingsTablePanel";
             SettingsTablePanel.RowCount = 3;
-            SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 110F));
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             SettingsTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
             SettingsTablePanel.Size = new System.Drawing.Size(744, 694);
@@ -131,7 +131,7 @@
             ImagePreviewTableLayout.Controls.Add(ImagePreviewButton, 0, 0);
             ImagePreviewTableLayout.Controls.Add(flowLayoutPanel1, 0, 1);
             ImagePreviewTableLayout.Controls.Add(ProgressBarReload, 0, 2);
-            ImagePreviewTableLayout.Location = new System.Drawing.Point(15, 102);
+            ImagePreviewTableLayout.Location = new System.Drawing.Point(15, 112);
             ImagePreviewTableLayout.Margin = new System.Windows.Forms.Padding(15, 2, 3, 2);
             ImagePreviewTableLayout.Name = "ImagePreviewTableLayout";
             ImagePreviewTableLayout.RowCount = 3;
@@ -200,10 +200,10 @@
             SettingsTablePanel.SetColumnSpan(HeaderPanel, 3);
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(pictureBox1);
-            HeaderPanel.Location = new System.Drawing.Point(3, 0);
-            HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
+            HeaderPanel.Location = new System.Drawing.Point(0, 0);
+            HeaderPanel.Margin = new System.Windows.Forms.Padding(0);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(738, 95);
+            HeaderPanel.Size = new System.Drawing.Size(744, 84);
             HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
@@ -274,11 +274,11 @@
             TabControlPageProperties.Controls.Add(tabPage1);
             TabControlPageProperties.Controls.Add(tabPage2);
             TabControlPageProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            TabControlPageProperties.Location = new System.Drawing.Point(253, 102);
+            TabControlPageProperties.Location = new System.Drawing.Point(253, 112);
             TabControlPageProperties.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TabControlPageProperties.Name = "TabControlPageProperties";
             TabControlPageProperties.SelectedIndex = 0;
-            TabControlPageProperties.Size = new System.Drawing.Size(488, 516);
+            TabControlPageProperties.Size = new System.Drawing.Size(488, 506);
             TabControlPageProperties.TabIndex = 6;
             TabControlPageProperties.SelectedIndexChanged += TabControlPageProperties_SelectedIndexChanged;
             // 
@@ -289,7 +289,7 @@
             tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage1.Size = new System.Drawing.Size(480, 483);
+            tabPage1.Size = new System.Drawing.Size(480, 473);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Properties";
             tabPage1.UseVisualStyleBackColor = true;
@@ -305,7 +305,7 @@
             panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
             panel1.Padding = new System.Windows.Forms.Padding(4);
-            panel1.Size = new System.Drawing.Size(474, 479);
+            panel1.Size = new System.Drawing.Size(474, 469);
             panel1.TabIndex = 0;
             // 
             // LoadingIndicator
@@ -383,7 +383,7 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(466, 471);
+            tableLayoutPanel1.Size = new System.Drawing.Size(466, 461);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // label3
@@ -802,7 +802,7 @@
             tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            tabPage2.Size = new System.Drawing.Size(480, 483);
+            tabPage2.Size = new System.Drawing.Size(480, 473);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Page XML";
             tabPage2.UseVisualStyleBackColor = true;

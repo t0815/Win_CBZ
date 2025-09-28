@@ -33,7 +33,7 @@ namespace Win_CBZ.Forms
         private void InitializeComponent()
         {
             components = new Container();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(UserFilerKeysForm));
             ItemEditorTableLayout = new TableLayoutPanel();
             panel1 = new Panel();
@@ -99,7 +99,7 @@ namespace Win_CBZ.Forms
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 39F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 52F));
             ItemEditorTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 55F));
-            ItemEditorTableLayout.Size = new Size(490, 478);
+            ItemEditorTableLayout.Size = new Size(482, 479);
             ItemEditorTableLayout.TabIndex = 2;
             // 
             // panel1
@@ -112,7 +112,7 @@ namespace Win_CBZ.Forms
             panel1.Location = new Point(12, 99);
             panel1.Margin = new Padding(0, 0, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(234, 27);
+            panel1.Size = new Size(229, 27);
             panel1.TabIndex = 28;
             // 
             // TextBoxKey
@@ -132,7 +132,7 @@ namespace Win_CBZ.Forms
             ButtonAddKey.Dock = DockStyle.Right;
             ButtonAddKey.FlatStyle = FlatStyle.Flat;
             ButtonAddKey.Image = Properties.Resources.navigate_plus;
-            ButtonAddKey.Location = new Point(207, 0);
+            ButtonAddKey.Location = new Point(202, 0);
             ButtonAddKey.Margin = new Padding(3, 2, 3, 2);
             ButtonAddKey.Name = "ButtonAddKey";
             ButtonAddKey.Size = new Size(25, 25);
@@ -147,10 +147,10 @@ namespace Win_CBZ.Forms
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
             HeaderPanel.Dock = DockStyle.Fill;
-            HeaderPanel.Location = new Point(3, 0);
-            HeaderPanel.Margin = new Padding(3, 0, 3, 2);
+            HeaderPanel.Location = new Point(0, 0);
+            HeaderPanel.Margin = new Padding(0);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new Size(484, 62);
+            HeaderPanel.Size = new Size(482, 64);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -173,7 +173,7 @@ namespace Win_CBZ.Forms
             HeaderPicture.Location = new Point(24, 5);
             HeaderPicture.Margin = new Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new Size(53, 54);
+            HeaderPicture.Size = new Size(53, 56);
             HeaderPicture.SizeMode = PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -192,7 +192,7 @@ namespace Win_CBZ.Forms
             // 
             ItemEditorTableLayout.SetColumnSpan(flowLayoutPanel1, 2);
             flowLayoutPanel1.Controls.Add(ItemEditorToolBar);
-            flowLayoutPanel1.Location = new Point(367, 99);
+            flowLayoutPanel1.Location = new Point(360, 99);
             flowLayoutPanel1.Margin = new Padding(0);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(122, 29);
@@ -254,29 +254,29 @@ namespace Win_CBZ.Forms
             // 
             DatagridUserKeyFilter.AllowUserToAddRows = false;
             DatagridUserKeyFilter.AllowUserToResizeRows = false;
-            DatagridUserKeyFilter.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            DatagridUserKeyFilter.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DatagridUserKeyFilter.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             ItemEditorTableLayout.SetColumnSpan(DatagridUserKeyFilter, 3);
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.Gold;
-            dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.Gold;
+            dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            DatagridUserKeyFilter.DefaultCellStyle = dataGridViewCellStyle1;
             DatagridUserKeyFilter.Location = new Point(15, 131);
             DatagridUserKeyFilter.Name = "DatagridUserKeyFilter";
             DatagridUserKeyFilter.RowHeadersWidth = 51;
             DatagridUserKeyFilter.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            DatagridUserKeyFilter.Size = new Size(456, 150);
+            DatagridUserKeyFilter.Size = new Size(449, 153);
             DatagridUserKeyFilter.TabIndex = 29;
             // 
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.information;
             pictureBox2.InitialImage = Properties.Resources.information;
-            pictureBox2.Location = new Point(16, 371);
+            pictureBox2.Location = new Point(16, 372);
             pictureBox2.Margin = new Padding(4, 0, 0, 0);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(30, 43);
@@ -291,9 +291,9 @@ namespace Win_CBZ.Forms
             ComboBoxCondition.DropDownStyle = ComboBoxStyle.DropDownList;
             ComboBoxCondition.FormattingEnabled = true;
             ComboBoxCondition.Items.AddRange(new object[] { "Include All", "Exclude All" });
-            ComboBoxCondition.Location = new Point(15, 335);
+            ComboBoxCondition.Location = new Point(15, 336);
             ComboBoxCondition.Name = "ComboBoxCondition";
-            ComboBoxCondition.Size = new Size(231, 28);
+            ComboBoxCondition.Size = new Size(226, 28);
             ComboBoxCondition.TabIndex = 33;
             ComboBoxCondition.DrawItem += ComboBoxCondition_DrawItem;
             // 
@@ -301,7 +301,7 @@ namespace Win_CBZ.Forms
             // 
             label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(15, 312);
+            label2.Location = new Point(15, 313);
             label2.Name = "label2";
             label2.Size = new Size(74, 20);
             label2.TabIndex = 34;
@@ -311,7 +311,8 @@ namespace Win_CBZ.Forms
             // 
             CancelBtn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CancelBtn.DialogResult = DialogResult.Cancel;
-            CancelBtn.Location = new Point(371, 428);
+            CancelBtn.FlatStyle = FlatStyle.Flat;
+            CancelBtn.Location = new Point(364, 429);
             CancelBtn.Margin = new Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new Size(99, 35);
@@ -323,7 +324,8 @@ namespace Win_CBZ.Forms
             // 
             OkButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             OkButton.DialogResult = DialogResult.OK;
-            OkButton.Location = new Point(263, 428);
+            OkButton.FlatStyle = FlatStyle.Flat;
+            OkButton.Location = new Point(256, 429);
             OkButton.Margin = new Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new Size(100, 35);
@@ -356,7 +358,7 @@ namespace Win_CBZ.Forms
             // 
             // UserFilerKeysForm
             // 
-            ClientSize = new Size(490, 478);
+            ClientSize = new Size(482, 479);
             Controls.Add(ItemEditorTableLayout);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "UserFilerKeysForm";

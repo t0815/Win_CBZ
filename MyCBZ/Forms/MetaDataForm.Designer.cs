@@ -59,8 +59,8 @@
             MetaDataTablePanel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             MetaDataTablePanel.Name = "MetaDataTablePanel";
             MetaDataTablePanel.RowCount = 3;
-            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.41223F));
-            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 86.58777F));
+            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.4102564F));
+            MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.5897446F));
             MetaDataTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 78F));
             MetaDataTablePanel.Size = new System.Drawing.Size(873, 859);
             MetaDataTablePanel.TabIndex = 1;
@@ -75,7 +75,7 @@
             HeaderPanel.Location = new System.Drawing.Point(3, 0);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 2);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(867, 102);
+            HeaderPanel.Size = new System.Drawing.Size(867, 87);
             HeaderPanel.TabIndex = 0;
             // 
             // HeaderLabel
@@ -102,6 +102,7 @@
             // ButtonCancel
             // 
             ButtonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            ButtonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonCancel.Location = new System.Drawing.Point(726, 805);
             ButtonCancel.Margin = new System.Windows.Forms.Padding(11, 25, 3, 2);
             ButtonCancel.Name = "ButtonCancel";
@@ -118,10 +119,10 @@
             SettingsGroup1Panel.Controls.Add(metaDataView);
             SettingsGroup1Panel.Controls.Add(label1);
             SettingsGroup1Panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            SettingsGroup1Panel.Location = new System.Drawing.Point(13, 106);
+            SettingsGroup1Panel.Location = new System.Drawing.Point(13, 91);
             SettingsGroup1Panel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             SettingsGroup1Panel.Name = "SettingsGroup1Panel";
-            SettingsGroup1Panel.Size = new System.Drawing.Size(857, 672);
+            SettingsGroup1Panel.Size = new System.Drawing.Size(857, 687);
             SettingsGroup1Panel.TabIndex = 4;
             // 
             // metaDataView
@@ -131,7 +132,7 @@
             metaDataView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             metaDataView.MinimumSize = new System.Drawing.Size(20, 25);
             metaDataView.Name = "metaDataView";
-            metaDataView.Size = new System.Drawing.Size(857, 672);
+            metaDataView.Size = new System.Drawing.Size(857, 687);
             metaDataView.TabIndex = 3;
             // 
             // label1
@@ -145,6 +146,7 @@
             // 
             // button1
             // 
+            button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button1.Location = new System.Drawing.Point(13, 805);
             button1.Margin = new System.Windows.Forms.Padding(3, 25, 3, 4);
             button1.Name = "button1";

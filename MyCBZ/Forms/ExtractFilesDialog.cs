@@ -30,7 +30,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();      
             
-            
+            Theme.GetInstance().ApplyTheme(ExtractToTablePanel.Controls);
+
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)

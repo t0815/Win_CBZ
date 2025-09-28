@@ -53,6 +53,8 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
+            Theme.GetInstance().ApplyTheme(SettingsTablePanel.Controls);
+
             SelectedPages = new List<Page>(pages);
 
             /// LabelBits.Text = Page.Format.
