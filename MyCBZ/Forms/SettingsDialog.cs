@@ -108,6 +108,8 @@ namespace Win_CBZ.Forms
 
         public string ButtonHighlightColor = HTMLColor.ToHexColor(SystemColors.ButtonHighlight);
 
+        public string ButtonPressedColor = HTMLColor.ToHexColor(SystemColors.Control);
+
         public string ButtonBorderColor = HTMLColor.ToHexColor(SystemColors.ControlDark);
 
         public string ButtonTextColor = HTMLColor.ToHexColor(SystemColors.ControlText);
@@ -190,6 +192,18 @@ namespace Win_CBZ.Forms
                 Category = "Main",
                 ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_BUTTON_FACE, Colors.COLOR_GOLD }
             },
+            /*
+            new ThemeColorMapping()
+            {
+                ColorName = Theme.COLOR_NAME_BUTTON_PRESSED,
+                Label = "Button Pressed Color",
+                ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Description = "Background color used for pressed state of buttons.",
+                DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
+                Category = "Main",
+                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_WINDOW_BG }
+            },
+            */
             new ThemeColorMapping()
             {
                 ColorName = Theme.COLOR_NAME_BUTTON_BORDER,
@@ -200,17 +214,8 @@ namespace Win_CBZ.Forms
                 Category = "Main",
                 ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.ControlDarkDark), HTMLColor.ToHexColor(SystemColors.ControlDark), Colors.COLOR_DARK_GRAY_BUTTON_FACE_ACTIVE, Colors.COLOR_PLUM }
             },
+            
             /*
-            new ThemeColorMapping()
-            {
-                ColorName = Theme.COLOR_NAME_WINDOW_BACKGROUND,
-                Label = "Window Background Color",
-                ColorValue = HTMLColor.ToHexColor(SystemColors.Control),
-                Description = "Background color used for windows.",
-                DefaultValue = HTMLColor.ToHexColor(SystemColors.Control),
-                Category = "Main",
-                ExampleValues = new List<string>() { HTMLColor.ToHexColor(SystemColors.Control), Colors.COLOR_DARK_GRAY_WINDOW_BG }
-            },
             new ThemeColorMapping()
             {
                 ColorName = Theme.COLOR_NAME_LIST_BACKGROUND,
@@ -339,7 +344,9 @@ namespace Win_CBZ.Forms
             ButtonHighlightColor = Win_CBZSettings.Default.ButtonHighlightColor;
             ButtonBorderColor = Win_CBZSettings.Default.ButtonBorderColor;
             ButtonColor = Win_CBZSettings.Default.ButtonColor;
-            
+            ButtonTextColor = Win_CBZSettings.Default.ButtonTextColor;
+            ButtonPressedColor = Win_CBZSettings.Default.ButtonPressedColor;
+
             /*
             ListBackgroundColor = Win_CBZSettings.Default.ListBackgroundColor;
             TextColor = Win_CBZSettings.Default.TextColor;
@@ -383,6 +390,10 @@ namespace Win_CBZ.Forms
 
                     case Theme.COLOR_NAME_BUTTON_TEXT:
                         mapping.ColorValue = Win_CBZSettings.Default.ButtonTextColor;
+                        break;
+
+                    case Theme.COLOR_NAME_BUTTON_PRESSED:
+                        mapping.ColorValue = Win_CBZSettings.Default.ButtonPressedColor;
                         break;
 
                         /*
@@ -998,6 +1009,10 @@ namespace Win_CBZ.Forms
 
                             case Theme.COLOR_NAME_BUTTON_TEXT:
                                 ButtonTextColor = mapping.ColorValue;
+                                break;
+
+                            case Theme.COLOR_NAME_BUTTON_PRESSED:
+                                ButtonPressedColor = mapping.ColorValue;
                                 break;
 
                             case Theme.COLOR_NAME_LIST_BACKGROUND:

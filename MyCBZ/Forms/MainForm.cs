@@ -273,6 +273,7 @@ namespace Win_CBZ
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_HIGHLIGHT, Win_CBZSettings.Default.ButtonHighlightColor);
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, Win_CBZSettings.Default.ButtonBorderColor);          
             Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_TEXT, Win_CBZSettings.Default.ButtonTextColor);
+            Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_PRESSED, Win_CBZSettings.Default.ButtonPressedColor);
 
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, Win_CBZSettings.Default.WindowBackgroundColor);
             //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TAB_BACKGROUND, Win_CBZSettings.Default.TabBackgroundColor);
@@ -5763,7 +5764,8 @@ namespace Win_CBZ
                 Win_CBZSettings.Default.ButtonColor = settingsDialog.ButtonColor;
                 Win_CBZSettings.Default.ButtonHighlightColor = settingsDialog.ButtonHighlightColor;
                 Win_CBZSettings.Default.ButtonBorderColor = settingsDialog.ButtonBorderColor;
-                Win_CBZSettings.Default.ButtonTextColor = settingsDialog.ButtonTextColor; 
+                Win_CBZSettings.Default.ButtonTextColor = settingsDialog.ButtonTextColor;
+                Win_CBZSettings.Default.ButtonPressedColor = settingsDialog.ButtonPressedColor;
 
                 //Win_CBZSettings.Default.TextColor = settingsDialog.TextColor;
                 //Win_CBZSettings.Default.WindowBackgroundColor = settingsDialog.WindowBackgroundColor;
@@ -5776,7 +5778,8 @@ namespace Win_CBZ
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_HIGHLIGHT, settingsDialog.ButtonHighlightColor);
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_BORDER, settingsDialog.ButtonBorderColor);
                 Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_TEXT, settingsDialog.ButtonTextColor);
-                
+                Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_BUTTON_PRESSED, settingsDialog.ButtonPressedColor);
+
                 //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_LIST_BACKGROUND, settingsDialog.ListBackgroundColor);
                 //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_TEXT, settingsDialog.TextColor);
                 //Theme.GetInstance().SetColorHex(Theme.COLOR_NAME_WINDOW_BACKGROUND, settingsDialog.WindowBackgroundColor);

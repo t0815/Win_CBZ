@@ -33,6 +33,7 @@ namespace Win_CBZ
         public const String COLOR_NAME_DIALOG_HEADER_BACKGROUND = "DialogHeaderBackground";
         public const String COLOR_NAME_TAB_BACKGROUND = "TabBackgroundColor";
         public const String COLOR_NAME_BUTTON_HIGHLIGHT = "ButtonHighlightColor";
+        public const String COLOR_NAME_BUTTON_PRESSED = "ButtonPressedColor";
         public const String COLOR_NAME_BUTTON_BORDER = "ButtonBorderColor";
 
 
@@ -48,7 +49,8 @@ namespace Win_CBZ
             { COLOR_NAME_TAB_BACKGROUND, "#ffffff" },
             { COLOR_NAME_BUTTON_HIGHLIGHT, "#a9a9a9" },
             { COLOR_NAME_BUTTON_BORDER, "#808080" },
-            { COLOR_NAME_BUTTON_TEXT, "#000000" },  
+            { COLOR_NAME_BUTTON_TEXT, "#000000" },
+            { COLOR_NAME_BUTTON_PRESSED, "#FAFAFA" },
         };
 
         public Dictionary<string, string> ThemeDarkColors = new Dictionary<string, string>()
@@ -85,6 +87,10 @@ namespace Win_CBZ
 
                 case COLOR_NAME_BUTTON_BORDER:
                     ButtonBorderColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
+                    break;
+
+                case COLOR_NAME_BUTTON_PRESSED:
+                    ButtonPressedColor = System.Drawing.ColorTranslator.FromHtml(colorValue);
                     break;
 
                 case COLOR_NAME_BUTTON_TEXT:
@@ -137,9 +143,11 @@ namespace Win_CBZ
                 case COLOR_NAME_BUTTON_BORDER:
                     return HTMLColor.ToHexColor(ButtonBorderColor);
 
-               case COLOR_NAME_BUTTON_TEXT:
+                case COLOR_NAME_BUTTON_TEXT:
                     return HTMLColor.ToHexColor(ButtonTextColor);
-
+                
+                case COLOR_NAME_BUTTON_PRESSED:
+                    return HTMLColor.ToHexColor(ButtonPressedColor);
 
                 case COLOR_NAME_LIST_BACKGROUND:
                     return HTMLColor.ToHexColor(ListBackgroundColor);
@@ -184,6 +192,11 @@ namespace Win_CBZ
                 case COLOR_NAME_BUTTON_TEXT:
                      ButtonTextColor = colorValue;
                      break;
+
+                case COLOR_NAME_BUTTON_PRESSED:
+                    ButtonPressedColor = colorValue;
+                    break;
+
                 case COLOR_NAME_LIST_BACKGROUND:
                     ListBackgroundColor = colorValue;
                     break;
@@ -330,6 +343,10 @@ namespace Win_CBZ
                         ButtonTextColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
                         break;
 
+                    case COLOR_NAME_BUTTON_PRESSED:
+                        ButtonPressedColor = System.Drawing.ColorTranslator.FromHtml(color.Value);
+                        break;
+
                     case COLOR_NAME_WINDOW_BACKGROUND:
                         BackgroundColorApp = System.Drawing.ColorTranslator.FromHtml(color.Value);
                         break;
@@ -371,6 +388,7 @@ namespace Win_CBZ
             theme.ButtonHoverColor = this.ButtonHoverColor;
             theme.ButtonHoverTextColor = this.ButtonHoverTextColor;
             theme.ButtonBorderColor = this.ButtonBorderColor;
+            theme.ButtonPressedColor = this.ButtonPressedColor;
             theme.ButtonTextColor = this.ButtonTextColor;
             theme.InputFieldColor = this.InputFieldColor;
             theme.InputFieldTextColor = this.InputFieldTextColor;
@@ -420,6 +438,8 @@ namespace Win_CBZ
         public Color ButtonHoverTextColor { get; set; } = System.Drawing.Color.White;
 
         public Color ButtonBorderColor { get; set; } = System.Drawing.Color.DarkGray;
+
+        public Color ButtonPressedColor { get; set; } = System.Drawing.Color.DarkGray;
 
         public Color InputFieldColor { get; set; } = System.Drawing.Color.White;
 
@@ -526,6 +546,7 @@ namespace Win_CBZ
                 b.ForeColor = ButtonTextColor;
                 b.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
                 b.FlatAppearance.BorderColor = ButtonBorderColor;
+                //b.FlatAppearance.MouseDownBackColor = ButtonHoverColor;
 
                 //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
                 //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
@@ -588,6 +609,7 @@ namespace Win_CBZ
                 b.ForeColor = ButtonTextColor;
                 b.FlatAppearance.MouseOverBackColor = ButtonHoverColor;
                 b.FlatAppearance.BorderColor = ButtonBorderColor;
+                //b.FlatAppearance.MouseDownBackColor = ButtonHoverColor;
                 //b.FlatAppearance.MouseOverBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.8f);
                 //b.FlatAppearance.MouseDownBackColor = HTMLColor.AdjustBrightness(HTMLColor.ToColor(ButtonColor), 0.6f);
             });

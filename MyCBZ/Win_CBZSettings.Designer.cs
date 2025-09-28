@@ -856,5 +856,17 @@ namespace Win_CBZ {
                 this["ButtonTextColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string ButtonPressedColor {
+            get {
+                return ((string)(this["ButtonPressedColor"]));
+            }
+            set {
+                this["ButtonPressedColor"] = value;
+            }
+        }
     }
 }
