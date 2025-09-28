@@ -423,7 +423,7 @@ namespace Win_CBZ
 
         private void ListboxChapters_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0)
+            if (e.Index < 0 || closing)
             {
                 return;
             }
@@ -442,7 +442,7 @@ namespace Win_CBZ
 
                 if (e.State.HasFlag(DrawItemState.Selected))
                 {
-                    backgroundColor = Color.Gold;
+                    backgroundColor = Theme.GetInstance().AccentColor;
                 }
                 else
                 {
@@ -458,7 +458,13 @@ namespace Win_CBZ
                 e.Graphics.DrawString(page.Number.ToString(), f, tb, e.Bounds.X + 56, e.Bounds.Y + 20);
                 if (ChapterImagesList.Images.ContainsKey(page.Id))
                 {
-                    e.Graphics.DrawImage(ChapterImagesList.Images[page.Id], e.Bounds.X + 3, e.Bounds.Y + 3);
+                    try
+                    {
+                        e.Graphics.DrawImage(ChapterImagesList.Images[page.Id], e.Bounds.X + 3, e.Bounds.Y + 3);
+                    } catch (Exception ex)
+                    {
+
+                    }
                 }
 
 

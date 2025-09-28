@@ -253,12 +253,12 @@ namespace Win_CBZ
             ContextMenuUserFilterList = new System.Windows.Forms.ContextMenuStrip(components);
             requiredToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             TextBoxMetadataKeys = new System.Windows.Forms.Label();
-            MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
-            AddMetaDataRowBtn = new System.Windows.Forms.Button();
-            RemoveMetadataRowBtn = new System.Windows.Forms.Button();
             MetaDataGrid = new System.Windows.Forms.DataGridView();
             DataGridContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
             ToolStripMenuItemDataGridRemoveSort = new System.Windows.Forms.ToolStripMenuItem();
+            MetaDataTableActionsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            AddMetaDataRowBtn = new System.Windows.Forms.Button();
+            RemoveMetadataRowBtn = new System.Windows.Forms.Button();
             MessageLogListView = new System.Windows.Forms.ListView();
             MessageLogColumnIcon = new System.Windows.Forms.ColumnHeader();
             MessageLogColumnTime = new System.Windows.Forms.ColumnHeader();
@@ -341,9 +341,9 @@ namespace Win_CBZ
             MetadataPanel.SuspendLayout();
             TableLayoutPanelMetadataHeader.SuspendLayout();
             ContextMenuUserFilterList.SuspendLayout();
-            MetaDataTableActionsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).BeginInit();
             DataGridContextMenu.SuspendLayout();
+            MetaDataTableActionsPanel.SuspendLayout();
             ContextMenuPropertyFilter.SuspendLayout();
             StatusToolStripTableLayout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
@@ -2598,8 +2598,8 @@ namespace Win_CBZ
             MetadataPanel.ColumnCount = 1;
             MetadataPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             MetadataPanel.Controls.Add(TableLayoutPanelMetadataHeader, 0, 0);
-            MetadataPanel.Controls.Add(MetaDataTableActionsPanel, 0, 2);
             MetadataPanel.Controls.Add(MetaDataGrid, 0, 1);
+            MetadataPanel.Controls.Add(MetaDataTableActionsPanel, 0, 2);
             MetadataPanel.Location = new System.Drawing.Point(2, 2);
             MetadataPanel.Margin = new System.Windows.Forms.Padding(2);
             MetadataPanel.Name = "MetadataPanel";
@@ -2608,7 +2608,7 @@ namespace Win_CBZ
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            MetadataPanel.Size = new System.Drawing.Size(933, 253);
+            MetadataPanel.Size = new System.Drawing.Size(933, 262);
             MetadataPanel.TabIndex = 10;
             // 
             // TableLayoutPanelMetadataHeader
@@ -2793,49 +2793,6 @@ namespace Win_CBZ
             TextBoxMetadataKeys.TabIndex = 10;
             TextBoxMetadataKeys.Text = "Keys:";
             // 
-            // MetaDataTableActionsPanel
-            // 
-            MetaDataTableActionsPanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            MetaDataTableActionsPanel.AutoSize = true;
-            MetaDataTableActionsPanel.Controls.Add(AddMetaDataRowBtn);
-            MetaDataTableActionsPanel.Controls.Add(RemoveMetadataRowBtn);
-            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 211);
-            MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
-            MetaDataTableActionsPanel.Size = new System.Drawing.Size(927, 39);
-            MetaDataTableActionsPanel.TabIndex = 13;
-            // 
-            // AddMetaDataRowBtn
-            // 
-            AddMetaDataRowBtn.Enabled = false;
-            AddMetaDataRowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            AddMetaDataRowBtn.ImageKey = "add.png";
-            AddMetaDataRowBtn.ImageList = SmallIconsImages;
-            AddMetaDataRowBtn.Location = new System.Drawing.Point(2, 2);
-            AddMetaDataRowBtn.Margin = new System.Windows.Forms.Padding(2);
-            AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
-            AddMetaDataRowBtn.Size = new System.Drawing.Size(152, 35);
-            AddMetaDataRowBtn.TabIndex = 0;
-            AddMetaDataRowBtn.Text = "Add Property";
-            AddMetaDataRowBtn.UseVisualStyleBackColor = true;
-            AddMetaDataRowBtn.Click += AddMetaDataRowBtn_Click;
-            // 
-            // RemoveMetadataRowBtn
-            // 
-            RemoveMetadataRowBtn.Enabled = false;
-            RemoveMetadataRowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            RemoveMetadataRowBtn.ImageKey = "delete.png";
-            RemoveMetadataRowBtn.ImageList = SmallIconsImages;
-            RemoveMetadataRowBtn.Location = new System.Drawing.Point(158, 2);
-            RemoveMetadataRowBtn.Margin = new System.Windows.Forms.Padding(2);
-            RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
-            RemoveMetadataRowBtn.Size = new System.Drawing.Size(152, 35);
-            RemoveMetadataRowBtn.TabIndex = 1;
-            RemoveMetadataRowBtn.Text = "Remove";
-            RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
-            RemoveMetadataRowBtn.Click += RemoveMetadataRowBtn_Click;
-            // 
             // MetaDataGrid
             // 
             MetaDataGrid.AllowUserToAddRows = false;
@@ -2876,7 +2833,7 @@ namespace Win_CBZ
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 26;
             MetaDataGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.Size = new System.Drawing.Size(929, 163);
+            MetaDataGrid.Size = new System.Drawing.Size(929, 172);
             MetaDataGrid.TabIndex = 12;
             MetaDataGrid.CellClick += MetaDataGrid_CellClick;
             MetaDataGrid.CellContentClick += MetaDataGrid_CellContentClick;
@@ -2903,6 +2860,49 @@ namespace Win_CBZ
             ToolStripMenuItemDataGridRemoveSort.Size = new System.Drawing.Size(163, 24);
             ToolStripMenuItemDataGridRemoveSort.Text = "Remove Sort";
             ToolStripMenuItemDataGridRemoveSort.Click += ToolStripMenuItemDataGridRemoveSort_Click;
+            // 
+            // MetaDataTableActionsPanel
+            // 
+            MetaDataTableActionsPanel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            MetaDataTableActionsPanel.AutoSize = true;
+            MetaDataTableActionsPanel.Controls.Add(AddMetaDataRowBtn);
+            MetaDataTableActionsPanel.Controls.Add(RemoveMetadataRowBtn);
+            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 220);
+            MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
+            MetaDataTableActionsPanel.Size = new System.Drawing.Size(312, 39);
+            MetaDataTableActionsPanel.TabIndex = 13;
+            // 
+            // AddMetaDataRowBtn
+            // 
+            AddMetaDataRowBtn.Enabled = false;
+            AddMetaDataRowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            AddMetaDataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            AddMetaDataRowBtn.ImageKey = "add.png";
+            AddMetaDataRowBtn.ImageList = SmallIconsImages;
+            AddMetaDataRowBtn.Location = new System.Drawing.Point(2, 2);
+            AddMetaDataRowBtn.Margin = new System.Windows.Forms.Padding(2);
+            AddMetaDataRowBtn.Name = "AddMetaDataRowBtn";
+            AddMetaDataRowBtn.Size = new System.Drawing.Size(152, 35);
+            AddMetaDataRowBtn.TabIndex = 0;
+            AddMetaDataRowBtn.Text = "Add Property";
+            AddMetaDataRowBtn.UseVisualStyleBackColor = true;
+            AddMetaDataRowBtn.Click += AddMetaDataRowBtn_Click;
+            // 
+            // RemoveMetadataRowBtn
+            // 
+            RemoveMetadataRowBtn.Enabled = false;
+            RemoveMetadataRowBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            RemoveMetadataRowBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            RemoveMetadataRowBtn.ImageKey = "delete.png";
+            RemoveMetadataRowBtn.ImageList = SmallIconsImages;
+            RemoveMetadataRowBtn.Location = new System.Drawing.Point(158, 2);
+            RemoveMetadataRowBtn.Margin = new System.Windows.Forms.Padding(2);
+            RemoveMetadataRowBtn.Name = "RemoveMetadataRowBtn";
+            RemoveMetadataRowBtn.Size = new System.Drawing.Size(152, 35);
+            RemoveMetadataRowBtn.TabIndex = 1;
+            RemoveMetadataRowBtn.Text = "Remove";
+            RemoveMetadataRowBtn.UseVisualStyleBackColor = true;
+            RemoveMetadataRowBtn.Click += RemoveMetadataRowBtn_Click;
             // 
             // MessageLogListView
             // 
@@ -3306,9 +3306,9 @@ namespace Win_CBZ
             TableLayoutPanelMetadataHeader.ResumeLayout(false);
             TableLayoutPanelMetadataHeader.PerformLayout();
             ContextMenuUserFilterList.ResumeLayout(false);
-            MetaDataTableActionsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)MetaDataGrid).EndInit();
             DataGridContextMenu.ResumeLayout(false);
+            MetaDataTableActionsPanel.ResumeLayout(false);
             ContextMenuPropertyFilter.ResumeLayout(false);
             ContextMenuPropertyFilter.PerformLayout();
             StatusToolStripTableLayout.ResumeLayout(false);

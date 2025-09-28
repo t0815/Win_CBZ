@@ -385,10 +385,10 @@
             // AppearanceTabControl
             // 
             AppearanceTabControl.Controls.Add(tabPage6);
-            AppearanceTabControl.Location = new System.Drawing.Point(39, 8);
+            AppearanceTabControl.Location = new System.Drawing.Point(39, 118);
             AppearanceTabControl.Name = "AppearanceTabControl";
             AppearanceTabControl.SelectedIndex = 0;
-            AppearanceTabControl.Size = new System.Drawing.Size(545, 470);
+            AppearanceTabControl.Size = new System.Drawing.Size(545, 360);
             AppearanceTabControl.TabIndex = 6;
             AppearanceTabControl.Visible = false;
             // 
@@ -398,7 +398,7 @@
             tabPage6.Location = new System.Drawing.Point(4, 29);
             tabPage6.Name = "tabPage6";
             tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            tabPage6.Size = new System.Drawing.Size(537, 437);
+            tabPage6.Size = new System.Drawing.Size(537, 327);
             tabPage6.TabIndex = 0;
             tabPage6.Text = "Colors";
             tabPage6.UseVisualStyleBackColor = true;
@@ -420,7 +420,7 @@
             tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             tableLayoutPanel13.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
-            tableLayoutPanel13.Size = new System.Drawing.Size(531, 431);
+            tableLayoutPanel13.Size = new System.Drawing.Size(531, 321);
             tableLayoutPanel13.TabIndex = 1;
             // 
             // ThemeColorsListbox
@@ -432,7 +432,7 @@
             ThemeColorsListbox.ItemHeight = 22;
             ThemeColorsListbox.Location = new System.Drawing.Point(3, 41);
             ThemeColorsListbox.Name = "ThemeColorsListbox";
-            ThemeColorsListbox.Size = new System.Drawing.Size(177, 368);
+            ThemeColorsListbox.Size = new System.Drawing.Size(177, 258);
             ThemeColorsListbox.TabIndex = 0;
             ThemeColorsListbox.DrawItem += ColotList_DrawItem;
             ThemeColorsListbox.SelectedIndexChanged += ThemeColorsListbox_SelectedIndexChanged;
@@ -441,8 +441,8 @@
             // 
             TableLayoutColorSettings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TableLayoutColorSettings.ColumnCount = 3;
-            TableLayoutColorSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.52595F));
-            TableLayoutColorSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.4740448F));
+            TableLayoutColorSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            TableLayoutColorSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             TableLayoutColorSettings.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             TableLayoutColorSettings.Controls.Add(label22, 0, 0);
             TableLayoutColorSettings.Controls.Add(label24, 1, 0);
@@ -456,10 +456,10 @@
             TableLayoutColorSettings.RowCount = 5;
             TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
             TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
-            TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 31F));
-            TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 77F));
             TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
-            TableLayoutColorSettings.Size = new System.Drawing.Size(342, 368);
+            TableLayoutColorSettings.Size = new System.Drawing.Size(342, 258);
             TableLayoutColorSettings.TabIndex = 1;
             // 
             // label22
@@ -476,7 +476,7 @@
             // 
             label24.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label24.AutoSize = true;
-            label24.Location = new System.Drawing.Point(96, 29);
+            label24.Location = new System.Drawing.Point(83, 29);
             label24.Name = "label24";
             label24.Size = new System.Drawing.Size(85, 20);
             label24.TabIndex = 1;
@@ -484,28 +484,29 @@
             // 
             // PictureBoxColorSelect
             // 
-            PictureBoxColorSelect.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             PictureBoxColorSelect.BackColor = System.Drawing.Color.Black;
             PictureBoxColorSelect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             PictureBoxColorSelect.Cursor = System.Windows.Forms.Cursors.Hand;
-            PictureBoxColorSelect.Location = new System.Drawing.Point(33, 57);
-            PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(20, 8, 20, 8);
+            PictureBoxColorSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            PictureBoxColorSelect.Location = new System.Drawing.Point(20, 59);
+            PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
             PictureBoxColorSelect.Name = "PictureBoxColorSelect";
-            PictureBoxColorSelect.Size = new System.Drawing.Size(40, 37);
+            PictureBoxColorSelect.Size = new System.Drawing.Size(40, 33);
             PictureBoxColorSelect.TabIndex = 6;
             PictureBoxColorSelect.TabStop = false;
             PictureBoxColorSelect.Click += PictureBoxColorSelect_Click;
             // 
             // panel3
             // 
+            panel3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             panel3.BackColor = System.Drawing.SystemColors.ControlLightLight;
             panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             panel3.Controls.Add(TextboxSelectedThemeColorValue);
             panel3.Controls.Add(button4);
-            panel3.Location = new System.Drawing.Point(101, 57);
-            panel3.Margin = new System.Windows.Forms.Padding(8, 8, 3, 8);
+            panel3.Location = new System.Drawing.Point(88, 59);
+            panel3.Margin = new System.Windows.Forms.Padding(8, 10, 3, 8);
             panel3.Name = "panel3";
-            panel3.Size = new System.Drawing.Size(154, 31);
+            panel3.Size = new System.Drawing.Size(197, 31);
             panel3.TabIndex = 28;
             // 
             // TextboxSelectedThemeColorValue
@@ -517,7 +518,7 @@
             TextboxSelectedThemeColorValue.Location = new System.Drawing.Point(0, 0);
             TextboxSelectedThemeColorValue.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TextboxSelectedThemeColorValue.Name = "TextboxSelectedThemeColorValue";
-            TextboxSelectedThemeColorValue.Size = new System.Drawing.Size(118, 22);
+            TextboxSelectedThemeColorValue.Size = new System.Drawing.Size(161, 22);
             TextboxSelectedThemeColorValue.TabIndex = 22;
             TextboxSelectedThemeColorValue.TextChanged += TextboxSelectedThemeColorValue_TextChanged;
             // 
@@ -526,7 +527,7 @@
             button4.Dock = System.Windows.Forms.DockStyle.Right;
             button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button4.Image = Properties.Resources.arrow_circle2;
-            button4.Location = new System.Drawing.Point(118, 0);
+            button4.Location = new System.Drawing.Point(161, 0);
             button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             button4.Name = "button4";
             button4.Size = new System.Drawing.Size(34, 29);
@@ -541,7 +542,7 @@
             ExampleColorsFlowLayout.Location = new System.Drawing.Point(20, 201);
             ExampleColorsFlowLayout.Margin = new System.Windows.Forms.Padding(20, 8, 3, 8);
             ExampleColorsFlowLayout.Name = "ExampleColorsFlowLayout";
-            ExampleColorsFlowLayout.Size = new System.Drawing.Size(264, 159);
+            ExampleColorsFlowLayout.Size = new System.Drawing.Size(265, 77);
             ExampleColorsFlowLayout.TabIndex = 30;
             // 
             // LabelColorDescription
@@ -549,10 +550,10 @@
             LabelColorDescription.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             LabelColorDescription.AutoSize = true;
             TableLayoutColorSettings.SetColumnSpan(LabelColorDescription, 2);
-            LabelColorDescription.Location = new System.Drawing.Point(8, 141);
+            LabelColorDescription.Location = new System.Drawing.Point(8, 124);
             LabelColorDescription.Margin = new System.Windows.Forms.Padding(8);
             LabelColorDescription.Name = "LabelColorDescription";
-            LabelColorDescription.Size = new System.Drawing.Size(271, 44);
+            LabelColorDescription.Size = new System.Drawing.Size(272, 61);
             LabelColorDescription.TabIndex = 29;
             LabelColorDescription.Text = "No Description available";
             // 

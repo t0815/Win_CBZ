@@ -65,7 +65,7 @@
             PreviewToolStrip.Location = new System.Drawing.Point(0, 0);
             PreviewToolStrip.Name = "PreviewToolStrip";
             PreviewToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            PreviewToolStrip.Size = new System.Drawing.Size(724, 33);
+            PreviewToolStrip.Size = new System.Drawing.Size(607, 31);
             PreviewToolStrip.TabIndex = 1;
             PreviewToolStrip.Text = "PreviewToolStrip";
             // 
@@ -75,14 +75,14 @@
             toolStripButton1.Image = Properties.Resources.save_as;
             toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new System.Drawing.Size(34, 28);
+            toolStripButton1.Size = new System.Drawing.Size(29, 28);
             toolStripButton1.Text = "Save Image as...";
             toolStripButton1.Click += toolStripButton1_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(6, 33);
+            toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton3
             // 
@@ -90,7 +90,7 @@
             toolStripButton3.Image = Properties.Resources.nav_left;
             toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new System.Drawing.Size(34, 28);
+            toolStripButton3.Size = new System.Drawing.Size(29, 28);
             toolStripButton3.Text = "Previous Page";
             toolStripButton3.Click += toolStripButton3_Click;
             // 
@@ -100,14 +100,14 @@
             toolStripButton4.Image = Properties.Resources.nav_right;
             toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton4.Name = "toolStripButton4";
-            toolStripButton4.Size = new System.Drawing.Size(34, 28);
+            toolStripButton4.Size = new System.Drawing.Size(29, 28);
             toolStripButton4.Text = "Next Page";
             toolStripButton4.Click += toolStripButton4_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(6, 33);
+            toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripButton2
             // 
@@ -116,14 +116,14 @@
             toolStripButton2.Image = Properties.Resources.book_bookmark;
             toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new System.Drawing.Size(34, 28);
+            toolStripButton2.Size = new System.Drawing.Size(29, 28);
             toolStripButton2.Text = "Show chapters";
             toolStripButton2.Click += ToolStripButton2_Click;
             // 
             // toolStripLabel2
             // 
             toolStripLabel2.Name = "toolStripLabel2";
-            toolStripLabel2.Size = new System.Drawing.Size(101, 28);
+            toolStripLabel2.Size = new System.Drawing.Size(83, 28);
             toolStripLabel2.Text = "Goto page:";
             // 
             // TextBoxJumpPage
@@ -131,29 +131,29 @@
             TextBoxJumpPage.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             TextBoxJumpPage.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             TextBoxJumpPage.Name = "TextBoxJumpPage";
-            TextBoxJumpPage.Size = new System.Drawing.Size(62, 33);
+            TextBoxJumpPage.Size = new System.Drawing.Size(50, 31);
             TextBoxJumpPage.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new System.Drawing.Size(6, 33);
+            toolStripSeparator3.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripLabel1
             // 
             toolStripLabel1.Name = "toolStripLabel1";
-            toolStripLabel1.Size = new System.Drawing.Size(379, 28);
+            toolStripLabel1.Size = new System.Drawing.Size(319, 28);
             toolStripLabel1.Text = "Preview Mode (Arrow Left/- Right to Navigate)";
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new System.Drawing.Size(6, 33);
+            toolStripSeparator4.Size = new System.Drawing.Size(6, 31);
             // 
             // toolStripLabel3
             // 
             toolStripLabel3.Name = "toolStripLabel3";
-            toolStripLabel3.Size = new System.Drawing.Size(221, 28);
+            toolStripLabel3.Size = new System.Drawing.Size(185, 28);
             toolStripLabel3.Text = "Extracting Chapter-Images";
             toolStripLabel3.Visible = false;
             // 
@@ -171,8 +171,7 @@
             // 
             SplitBoxPageView.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             SplitBoxPageView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            SplitBoxPageView.Location = new System.Drawing.Point(0, 54);
-            SplitBoxPageView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            SplitBoxPageView.Location = new System.Drawing.Point(0, 43);
             SplitBoxPageView.Name = "SplitBoxPageView";
             // 
             // SplitBoxPageView.Panel1
@@ -184,16 +183,15 @@
             // 
             SplitBoxPageView.Panel2.Controls.Add(ListboxChapters);
             SplitBoxPageView.Panel2Collapsed = true;
-            SplitBoxPageView.Size = new System.Drawing.Size(1624, 670);
-            SplitBoxPageView.SplitterDistance = 1281;
-            SplitBoxPageView.SplitterWidth = 5;
+            SplitBoxPageView.Size = new System.Drawing.Size(1299, 536);
+            SplitBoxPageView.SplitterDistance = 1025;
             SplitBoxPageView.TabIndex = 2;
             // 
             // PageImagePreview
             // 
             PageImagePreview.ImageLocation = "";
-            PageImagePreview.Location = new System.Drawing.Point(5, 6);
-            PageImagePreview.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            PageImagePreview.Location = new System.Drawing.Point(4, 5);
+            PageImagePreview.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             PageImagePreview.Name = "PageImagePreview";
             PageImagePreview.Size = new System.Drawing.Size(157, 94);
             PageImagePreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -206,11 +204,11 @@
             ListboxChapters.Dock = System.Windows.Forms.DockStyle.Fill;
             ListboxChapters.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             ListboxChapters.FormattingEnabled = true;
+            ListboxChapters.IntegralHeight = false;
             ListboxChapters.ItemHeight = 73;
             ListboxChapters.Location = new System.Drawing.Point(0, 0);
-            ListboxChapters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             ListboxChapters.Name = "ListboxChapters";
-            ListboxChapters.Size = new System.Drawing.Size(118, 122);
+            ListboxChapters.Size = new System.Drawing.Size(75, 78);
             ListboxChapters.TabIndex = 0;
             ListboxChapters.DrawItem += ListboxChapters_DrawItem;
             ListboxChapters.SelectedIndexChanged += ListboxChapters_SelectedIndexChanged;
@@ -223,14 +221,15 @@
             // 
             // ImagePreviewForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1626, 725);
+            ClientSize = new System.Drawing.Size(1301, 580);
             Controls.Add(SplitBoxPageView);
             Controls.Add(PreviewToolStrip);
             DoubleBuffered = true;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
-            Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            KeyPreview = true;
+            Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "ImagePreviewForm";
             StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             Text = "Preview";
