@@ -35,7 +35,11 @@ namespace Win_CBZ
         public const String COLOR_BABY_BLUE = "#89CFF0";
         public const String COLOR_BABY_PINK = "#F4C2C2";
         public const String COLOR_BANANA_YELLOW = "#FFE135";
-
+        public const String COLOR_CORNFLOWER_BLUE = "#6495ED";
+        public const String COLOR_FOREST_GREEN = "#228B22";
+        public const String COLOR_COBALT = "#0047AB";
+        public const String COLOR_INDIGO = "#4B0082";
+        public const String COLOR_COTTON_CANDY = "#FFBCD9";
 
         public const String COLOR_DARK_GRAY_WINDOW_BG = "#1F1F1F";
         public const String COLOR_DARK_GRAY_LIST_CONTROL_BG = "#252526";
@@ -47,6 +51,20 @@ namespace Win_CBZ
         public const String COLOR_DARK_GRAY_STATUS_BAR = "#424242";
         public const String COLOR_DARK_GRAY_TEXT_COLOR = "#1F1F1F";
 
+
+        private readonly static List<String> SkipPalette = new List<String>()
+        {
+            COLOR_DARK_GRAY_WINDOW_BG,
+            COLOR_DARK_GRAY_LIST_CONTROL_BG,
+            COLOR_DARK_GRAY_TEXT_CONTROL_BG,
+            COLOR_DARK_GRAY_INACTIVE_TAB,
+            COLOR_DARK_GRAY_ACTIVE_TAB,
+            COLOR_DARK_GRAY_BUTTON_FACE_ACTIVE,
+            COLOR_DARK_GRAY_BUTTON_FACE,
+            COLOR_DARK_GRAY_STATUS_BAR,
+            COLOR_DARK_GRAY_TEXT_COLOR,
+            COLOR_ERROR_RED,
+        };
 
         private readonly static Dictionary<String, String> NamedColors = new Dictionary<String, String>()
         {
@@ -75,8 +93,17 @@ namespace Win_CBZ
             { COLOR_BABY_BLUE, "Baby Blue" },
             { COLOR_BABY_PINK, "Baby Pink" },
             { COLOR_BANANA_YELLOW, "Banana Yellow" },
-           
+            { COLOR_CORNFLOWER_BLUE, "Cornflower Blue" },
+            { COLOR_FOREST_GREEN, "Forest Green" },
+            { COLOR_COBALT, "Cobalt" },
+            { COLOR_INDIGO, "Indigo" },
+            { COLOR_COTTON_CANDY, "Cotton Candy" },
         };
+
+        public static List<String> GetPalette()
+        {
+            return NamedColors.Keys.ToList().Where<string>(s => !SkipPalette.Contains(s)).ToList();
+        }
 
         public static String GetColorName(String hexColor)
         {
@@ -84,6 +111,7 @@ namespace Win_CBZ
             {
                 return NamedColors[hexColor];
             }
+
             return hexColor;
         }
     }

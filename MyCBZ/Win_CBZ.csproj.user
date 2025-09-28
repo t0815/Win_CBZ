@@ -29,6 +29,9 @@
     <Compile Update="Forms\AutoCreateBookmarksForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\ColorSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
