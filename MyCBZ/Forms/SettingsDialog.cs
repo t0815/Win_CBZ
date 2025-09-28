@@ -148,7 +148,13 @@ namespace Win_CBZ.Forms
                 Description = "Main accent color used for buttons, highlights and selection.",
                 DefaultValue = Colors.COLOR_GOLD,
                 Category = "Main",
-                ExampleValues = new List<string>() { Colors.COLOR_GOLD, Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, Colors.COLOR_GRAPE_LIGHT_PINK, Colors.COLOR_LAVENDAR_PINKISH, Colors.COLOR_SKY_BLUE }
+                ExampleValues = new List<string>() { Colors.COLOR_GOLD, 
+                    Colors.COLOR_CRYOLA, Colors.COLOR_TANGERINE, 
+                    Colors.COLOR_NEON_GREEN, Colors.COLOR_MANGO, 
+                    Colors.COLOR_GRAPE_LIGHT_PINK, Colors.COLOR_LAVENDAR_PINKISH, 
+                    Colors.COLOR_SKY_BLUE, Colors.COLOR_BABY_BLUE, Colors.COLOR_BABY_PINK,
+                    Colors.COLOR_BANANA_YELLOW
+                }
             },
             /*,
             new ThemeColorMapping()
@@ -2456,12 +2462,12 @@ namespace Win_CBZ.Forms
             }
         }
 
-        private void PictureBoxExampleColor_Click(object sender, EventArgs e)
+        private void ExampleColor_Click(object sender, EventArgs e)
         {
-            PictureBox pictureBox = sender as PictureBox;
+            Button colorSwatch = sender as Button;
 
-            PictureBoxColorSelect.BackColor = pictureBox.BackColor;
-            TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(pictureBox.BackColor);
+            PictureBoxColorSelect.BackColor = colorSwatch.BackColor;
+            TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(colorSwatch.BackColor);
             if (ThemeColorsListbox.SelectedItem != null)
             {
                 ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
@@ -2485,14 +2491,20 @@ namespace Win_CBZ.Forms
             {
                 if (example != null)
                 {
-                    PictureBox newExample = new PictureBox();
-                    newExample.BorderStyle = BorderStyle.FixedSingle;
+                    Button newExample = new Button();
+                    newExample.FlatStyle = FlatStyle.Flat;
+                    newExample.FlatAppearance.BorderColor = Color.Black;
+                    newExample.FlatAppearance.BorderSize = 1;
+                    
                     newExample.BackColor = HTMLColor.ToColor(example);
                     newExample.Width = 20;
                     newExample.Height = 20;
                     newExample.Margin = new Padding(10, 8, 10, 8);
                     newExample.Cursor = Cursors.Hand;
-                    newExample.Click += PictureBoxExampleColor_Click;
+                    //newExample.
+                    newExample.Click += ExampleColor_Click;
+
+                    SettingsTooltip.SetToolTip(newExample, Colors.GetColorName(example));
 
                     ExampleColorsFlowLayout.Controls.Add(newExample);
 

@@ -488,10 +488,10 @@
             PictureBoxColorSelect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             PictureBoxColorSelect.Cursor = System.Windows.Forms.Cursors.Hand;
             PictureBoxColorSelect.Dock = System.Windows.Forms.DockStyle.Fill;
-            PictureBoxColorSelect.Location = new System.Drawing.Point(20, 59);
-            PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(20, 10, 20, 10);
+            PictureBoxColorSelect.Location = new System.Drawing.Point(25, 59);
+            PictureBoxColorSelect.Margin = new System.Windows.Forms.Padding(25, 10, 20, 10);
             PictureBoxColorSelect.Name = "PictureBoxColorSelect";
-            PictureBoxColorSelect.Size = new System.Drawing.Size(40, 33);
+            PictureBoxColorSelect.Size = new System.Drawing.Size(35, 33);
             PictureBoxColorSelect.TabIndex = 6;
             PictureBoxColorSelect.TabStop = false;
             PictureBoxColorSelect.Click += PictureBoxColorSelect_Click;

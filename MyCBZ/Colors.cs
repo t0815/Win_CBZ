@@ -27,6 +27,15 @@ namespace Win_CBZ
         public const String COLOR_GRAPE_LIGHT_PINK = "#FF878D";
         public const String COLOR_NEON_GREEN = "#9FE888";
         public const String COLOR_SKY_BLUE = "#83BEE4";
+        public const String COLOR_POWDER_BLUE = "#B0E0E6";
+        public const String COLOR_TURQUOISE = "#40E0D0";
+        public const String COLOR_PATRIARCH = "#800080";
+        public const String COLOR_CRIMSON = "#E32636";
+        public const String COLOR_AQUAMARINE = "#7FFFD4";
+        public const String COLOR_BABY_BLUE = "#89CFF0";
+        public const String COLOR_BABY_PINK = "#F4C2C2";
+        public const String COLOR_BANANA_YELLOW = "#FFE135";
+
 
         public const String COLOR_DARK_GRAY_WINDOW_BG = "#1F1F1F";
         public const String COLOR_DARK_GRAY_LIST_CONTROL_BG = "#252526";
@@ -38,5 +47,44 @@ namespace Win_CBZ
         public const String COLOR_DARK_GRAY_STATUS_BAR = "#424242";
         public const String COLOR_DARK_GRAY_TEXT_COLOR = "#1F1F1F";
 
+
+        private readonly static Dictionary<String, String> NamedColors = new Dictionary<String, String>()
+        {
+            { COLOR_LIGHT_ORANGE, "Light Orange" },
+            { COLOR_LIGHT_GREEN, "Light Green" },
+            { COLOR_LIGHT_BLUE, "Light Blue" },
+            { COLOR_LIGHT_PURPLE, "Light Purple" },
+            { COLOR_LIGHT_GREY, "Light Grey" },
+            { COLOR_BLACK, "Black" },
+            { COLOR_WHITE, "White" },
+            { COLOR_GOLD, "Gold" },
+            { COLOR_TANGERINE, "Tangerine" },
+            { COLOR_PLUM, "Plum" },
+            { COLOR_LAVENDAR_PINKISH, "Lavendar Pinkish" },
+            { COLOR_MANGO, "Mango" },
+            { COLOR_CRYOLA, "Cryola" },
+            { COLOR_GRAPE_LIGHT_PINK, "Grape Light Pink" },
+            { COLOR_NEON_GREEN, "Neon Green" },
+            { COLOR_SKY_BLUE, "Sky Blue" },
+            { COLOR_POWDER_BLUE, "Powder Blue" },
+            { COLOR_TURQUOISE, "Turquoise" },
+            { COLOR_PATRIARCH, "Patriarch" },
+            { COLOR_CRIMSON, "Crimson" },
+            { COLOR_ERROR_RED, "Error Red" },
+            { COLOR_AQUAMARINE, "Aquamarine" },
+            { COLOR_BABY_BLUE, "Baby Blue" },
+            { COLOR_BABY_PINK, "Baby Pink" },
+            { COLOR_BANANA_YELLOW, "Banana Yellow" },
+           
+        };
+
+        public static String GetColorName(String hexColor)
+        {
+            if (NamedColors.ContainsKey(hexColor))
+            {
+                return NamedColors[hexColor];
+            }
+            return hexColor;
+        }
     }
 }
