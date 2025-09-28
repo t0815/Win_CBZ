@@ -130,7 +130,7 @@ namespace Win_CBZ.Forms
             dialogButton.FlatStyle = FlatStyle.Flat;
             dialogButton.FlatAppearance.MouseOverBackColor = Theme.GetInstance().ButtonHoverColor;
             dialogButton.FlatAppearance.BorderColor = Theme.GetInstance().ButtonBorderColor;
-            dialogButton.ForeColor = Theme.GetInstance().ButtonTextColor;
+            //dialogButton.ForeColor = Theme.GetInstance().ButtonTextColor;
             //dialogButton.BackColor = Theme.GetInstance().ButtonColor;
             ErrorDialogTablePanel.Controls.Add(dialogButton, index, 2);
             _existingButtons |= btn;
