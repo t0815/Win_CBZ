@@ -40,6 +40,10 @@ namespace Win_CBZ
         public const String COLOR_COBALT = "#0047AB";
         public const String COLOR_INDIGO = "#4B0082";
         public const String COLOR_COTTON_CANDY = "#FFBCD9";
+        public const String COLOR_CERISE = "#FF0066";
+        public const String COLOR_JONQUIL = "FFCC00";
+        public const String COLOR_PERIWINKLE = "#FF00FF";
+        public const String COLOR_PEACH = "#FFE5B4";
 
         public const String COLOR_DARK_GRAY_WINDOW_BG = "#1F1F1F";
         public const String COLOR_DARK_GRAY_LIST_CONTROL_BG = "#252526";
@@ -98,6 +102,10 @@ namespace Win_CBZ
             { COLOR_COBALT, "Cobalt" },
             { COLOR_INDIGO, "Indigo" },
             { COLOR_COTTON_CANDY, "Cotton Candy" },
+            { COLOR_CERISE, "Cerise" },
+            { COLOR_JONQUIL, "Jonquil" },
+            { COLOR_PERIWINKLE, "Periwinkle" },
+            { COLOR_PEACH, "Peach" },
         };
 
         public static List<String> GetPalette()
