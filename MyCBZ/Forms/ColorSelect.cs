@@ -59,6 +59,12 @@ namespace Win_CBZ.Forms
 
 
             PictureBoxSelectedColor.BackColor = SelectedColor;
+
+            TextBoxR.Text = SelectedColor.R.ToString();
+            TextBoxG.Text = SelectedColor.G.ToString();
+            TextBoxB.Text = SelectedColor.B.ToString();
+
+            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
         }
 
         private void PictureBoxPalette_MouseMove(object sender, MouseEventArgs e)

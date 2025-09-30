@@ -2608,7 +2608,7 @@ namespace Win_CBZ
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             MetadataPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            MetadataPanel.Size = new System.Drawing.Size(933, 250);
+            MetadataPanel.Size = new System.Drawing.Size(933, 249);
             MetadataPanel.TabIndex = 10;
             // 
             // TableLayoutPanelMetadataHeader
@@ -2833,7 +2833,7 @@ namespace Win_CBZ
             MetaDataGrid.RowHeadersWidth = 51;
             MetaDataGrid.RowTemplate.Height = 26;
             MetaDataGrid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            MetaDataGrid.Size = new System.Drawing.Size(929, 160);
+            MetaDataGrid.Size = new System.Drawing.Size(929, 159);
             MetaDataGrid.TabIndex = 12;
             MetaDataGrid.CellClick += MetaDataGrid_CellClick;
             MetaDataGrid.CellContentClick += MetaDataGrid_CellContentClick;
@@ -2867,7 +2867,7 @@ namespace Win_CBZ
             MetaDataTableActionsPanel.AutoSize = true;
             MetaDataTableActionsPanel.Controls.Add(AddMetaDataRowBtn);
             MetaDataTableActionsPanel.Controls.Add(RemoveMetadataRowBtn);
-            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 208);
+            MetaDataTableActionsPanel.Location = new System.Drawing.Point(3, 207);
             MetaDataTableActionsPanel.Name = "MetaDataTableActionsPanel";
             MetaDataTableActionsPanel.Size = new System.Drawing.Size(312, 39);
             MetaDataTableActionsPanel.TabIndex = 13;
