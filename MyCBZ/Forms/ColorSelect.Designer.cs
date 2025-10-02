@@ -57,6 +57,7 @@
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
+            PictureBoxRainbow = new System.Windows.Forms.PictureBox();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,6 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)PictureBoxSelectedColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxHoverColor).BeginInit();
             tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).BeginInit();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -256,6 +258,7 @@
             tableLayoutPanel2.Controls.Add(label1, 0, 1);
             tableLayoutPanel2.Controls.Add(label2, 1, 1);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 3);
+            tableLayoutPanel2.Controls.Add(PictureBoxRainbow, 2, 0);
             tableLayoutPanel2.Location = new System.Drawing.Point(484, 20);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 4;
@@ -409,6 +412,17 @@
             label6.TabIndex = 7;
             label6.Text = "HEX";
             // 
+            // PictureBoxRainbow
+            // 
+            PictureBoxRainbow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PictureBoxRainbow.Cursor = System.Windows.Forms.Cursors.Cross;
+            PictureBoxRainbow.Location = new System.Drawing.Point(292, 3);
+            PictureBoxRainbow.Name = "PictureBoxRainbow";
+            PictureBoxRainbow.Size = new System.Drawing.Size(62, 213);
+            PictureBoxRainbow.TabIndex = 12;
+            PictureBoxRainbow.TabStop = false;
+            PictureBoxRainbow.MouseClick += PictureBoxRainbow_MouseClick;
+            // 
             // toolStrip1
             // 
             toolStrip1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
@@ -484,7 +498,7 @@
             ClientSize = new System.Drawing.Size(855, 513);
             Controls.Add(ColorEditorTableLayout);
             DoubleBuffered = true;
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             Name = "ColorSelect";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Select a Color...";
@@ -503,6 +517,7 @@
             ((System.ComponentModel.ISupportInitialize)PictureBoxHoverColor).EndInit();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).EndInit();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ResumeLayout(false);
@@ -546,5 +561,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox PictureBoxRainbow;
     }
 }

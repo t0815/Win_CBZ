@@ -21,8 +21,12 @@ namespace Win_CBZ.Forms
         private Color _selectedColor = Color.White;
 
         private Bitmap _palette = null;
+        private Bitmap _rb = null;
 
         private Image palette;
+        private Image rainbow;
+
+        private Color initialColor = Color.White;
 
         public Color SelectedColor
         {
@@ -52,10 +56,40 @@ namespace Win_CBZ.Forms
 
             Theme.GetInstance().ApplyTheme(ColorEditorTableLayout.Controls);
 
-            _palette = Properties.Resources.palette.ToBitmap();
-            palette = Image.FromHbitmap(_palette.GetHbitmap());
+            //_palette = Properties.Resources.palette.ToBitmap();
 
-            ImageOperations.ResizeImage(ref palette, new Size(PictureBoxPalette.Width, PictureBoxPalette.Height), Color.Black, System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic);
+            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreatePaletteTask(PictureBoxPalette.Width, PictureBoxPalette.Height, new System.Threading.CancellationToken(), initialColor);
+
+            paletteTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    _palette = t.Result;
+                    this.Invoke(() =>
+                    {
+                        PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
+                    });
+                }
+            });
+
+            Task<Bitmap> rainbowTask = Tasks.BitmapGenerationTask.CreatePaletteTask(PictureBoxRainbow.Width, PictureBoxRainbow.Height, new System.Threading.CancellationToken());
+
+            paletteTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    _rb = t.Result;
+                    this.Invoke(() =>
+                    {
+                        PictureBoxRainbow.Image = Image.FromHbitmap(_rb.GetHbitmap());
+                    });
+                }
+            });
+
+            paletteTask.Start();
+            rainbowTask.Start();
+
+            //ImageOperations.ResizeImage(ref palette, new Size(PictureBoxPalette.Width, PictureBoxPalette.Height), Color.Black, System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic);
 
 
             PictureBoxSelectedColor.BackColor = SelectedColor;
@@ -71,7 +105,7 @@ namespace Win_CBZ.Forms
         {
             try
             {
-                PictureBoxHoverColor.BackColor = palette.ToBitmap().GetPixel(e.X, e.Y);
+                PictureBoxHoverColor.BackColor = _palette.GetPixel(e.X, e.Y);
             }
             catch
             {
@@ -90,6 +124,8 @@ namespace Win_CBZ.Forms
             TextBoxB.Text = SelectedColor.B.ToString();
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+
+            
         }
 
         private void PictureBoxPalette_Resize(object sender, EventArgs e)
@@ -102,6 +138,27 @@ namespace Win_CBZ.Forms
 
                 ImageOperations.ResizeImage(ref palette, new Size(PictureBoxPalette.Width, PictureBoxPalette.Height), Color.Black, System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic);
             }
+        }
+
+        private void PictureBoxRainbow_MouseClick(object sender, MouseEventArgs e)
+        {
+            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateRainbowTask(PictureBoxPalette.Width, PictureBoxPalette.Height, new System.Threading.CancellationToken(), SelectedColor);
+
+            paletteTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    _palette = t.Result;
+                    this.Invoke(() =>
+                    {
+                        PictureBoxPalette.Image.Dispose();
+                        PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
+                        PictureBoxPalette.Refresh();
+                    });
+                }
+            });
+
+            paletteTask.Start();
         }
     }
 }
