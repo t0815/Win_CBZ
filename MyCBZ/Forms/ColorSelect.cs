@@ -72,9 +72,9 @@ namespace Win_CBZ.Forms
                 }
             });
 
-            Task<Bitmap> rainbowTask = Tasks.BitmapGenerationTask.CreatePaletteTask(PictureBoxRainbow.Width, PictureBoxRainbow.Height, new System.Threading.CancellationToken());
+            Task<Bitmap> rainbowTask = Tasks.BitmapGenerationTask.CreateRainbowTask(PictureBoxRainbow.Width, PictureBoxRainbow.Height, new System.Threading.CancellationToken());
 
-            paletteTask.ContinueWith((t) =>
+            rainbowTask.ContinueWith((t) =>
             {
                 if (t.IsCompletedSuccessfully)
                 {
@@ -125,7 +125,7 @@ namespace Win_CBZ.Forms
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
 
-            
+
         }
 
         private void PictureBoxPalette_Resize(object sender, EventArgs e)
@@ -142,7 +142,7 @@ namespace Win_CBZ.Forms
 
         private void PictureBoxRainbow_MouseClick(object sender, MouseEventArgs e)
         {
-            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateRainbowTask(PictureBoxPalette.Width, PictureBoxPalette.Height, new System.Threading.CancellationToken(), SelectedColor);
+            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreatePaletteTask(PictureBoxPalette.Width, PictureBoxPalette.Height, new System.Threading.CancellationToken(), initialColor);
 
             paletteTask.ContinueWith((t) =>
             {
@@ -159,6 +159,40 @@ namespace Win_CBZ.Forms
             });
 
             paletteTask.Start();
+
+            PictureBoxSelectedColor.BackColor = PictureBoxHoverColor.BackColor;
+
+            SelectedColor = PictureBoxSelectedColor.BackColor;
+
+            TextBoxR.Text = SelectedColor.R.ToString();
+            TextBoxG.Text = SelectedColor.G.ToString();
+            TextBoxB.Text = SelectedColor.B.ToString();
+
+            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+        }
+
+        private void PictureBoxRainbow_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                PictureBoxHoverColor.BackColor = initialColor = _rb.GetPixel(e.X, e.Y);
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void PictureBoxRainbow_Resize(object sender, EventArgs e)
+        {
+            if (rainbow != null)
+            {
+                rainbow.Dispose();
+
+                rainbow = Image.FromHbitmap(_rb.GetHbitmap());
+
+                ImageOperations.ResizeImage(ref rainbow, new Size(PictureBoxRainbow.Width, PictureBoxRainbow.Height), Color.Black, System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic);
+            }
         }
     }
 }

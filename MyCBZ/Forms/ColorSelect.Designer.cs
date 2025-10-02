@@ -414,14 +414,18 @@
             // 
             // PictureBoxRainbow
             // 
+            PictureBoxRainbow.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PictureBoxRainbow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             PictureBoxRainbow.Cursor = System.Windows.Forms.Cursors.Cross;
             PictureBoxRainbow.Location = new System.Drawing.Point(292, 3);
             PictureBoxRainbow.Name = "PictureBoxRainbow";
             PictureBoxRainbow.Size = new System.Drawing.Size(62, 213);
+            PictureBoxRainbow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             PictureBoxRainbow.TabIndex = 12;
             PictureBoxRainbow.TabStop = false;
             PictureBoxRainbow.MouseClick += PictureBoxRainbow_MouseClick;
+            PictureBoxRainbow.MouseMove += PictureBoxRainbow_MouseMove;
+            PictureBoxRainbow.Resize += PictureBoxRainbow_Resize;
             // 
             // toolStrip1
             // 
