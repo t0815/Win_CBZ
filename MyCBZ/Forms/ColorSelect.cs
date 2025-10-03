@@ -58,7 +58,7 @@ namespace Win_CBZ.Forms
 
             //_palette = Properties.Resources.palette.ToBitmap();
 
-            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreatePaletteTask(PictureBoxPalette.Width, PictureBoxPalette.Height, new System.Threading.CancellationToken(), initialColor);
+            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, initialColor, new System.Threading.CancellationToken());
 
             paletteTask.ContinueWith((t) =>
             {
@@ -142,7 +142,7 @@ namespace Win_CBZ.Forms
 
         private void PictureBoxRainbow_MouseClick(object sender, MouseEventArgs e)
         {
-            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreatePaletteTask(PictureBoxPalette.Width, PictureBoxPalette.Height, new System.Threading.CancellationToken(), initialColor);
+            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, initialColor, new System.Threading.CancellationToken());
 
             paletteTask.ContinueWith((t) =>
             {

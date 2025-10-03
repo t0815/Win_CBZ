@@ -21,7 +21,7 @@ namespace Win_CBZ.Tasks
 
         public static Task<Bitmap> CreateGradientTask(int w, int h, CancellationToken cancellationToken, Nullable<Color> fromColor = null)
         {
-            return new Task<Bitmap>((token) =>
+            return new Task<Bitmap>(token =>
             {
                 Bitmap palette = new Bitmap(w, h);
                 
@@ -42,37 +42,21 @@ namespace Win_CBZ.Tasks
             }, cancellationToken);
         }
 
-        public static Task<Bitmap> CreatePaletteTask(int w, int h, CancellationToken cancellationToken, Nullable<Color> fromColor = null)
+        public static Task<Bitmap> CreatePaletteTask(int w, int h, CancellationToken cancellationToken, Nullable<Color> color = null)
         {
-            return new Task<Bitmap>((token) =>
+            return new Task<Bitmap>(token =>
             {
                 Bitmap palette = new Bitmap(w, h);
 
                 int totalPixels = w * h;
 
-                int pixelIndex = 0;
+                int maxBlockSize = (int)Math.Ceiling(totalPixels / Colors.GetPalette().Count / 2f);
 
-                for (int x = 0; x < w; x++)
+                for (int y = 0; y < h; y++)
                 {
-                    for (int y = 0; y < h; y++)
+                    for (int x = 0; x < w; x++)
                     {
-                        // Normalisierte Koordinaten (0.0 bis 1.0)
-                        float normalizedX = x / (float)(w - 1);
-                        float normalizedY = pixelIndex / (float)(totalPixels - 1);
-                        float normalizedZ = y / (float)(h - 1);
-
-                        // RGB-Werte basierend auf 3D-Position im Farbraum
-                        int r = (int)(normalizedX * 255f);
-                        int g = (int)(normalizedY * 255f);
-                        int b = (int)(normalizedZ * 255f);
-
-                        // Stelle sicher, dass Werte im gültigen Bereich sind
-                        r = Math.Max(0, Math.Min(255, r));
-                        g = Math.Max(0, Math.Min(255, g));
-                        b = Math.Max(0, Math.Min(255, b));
-
-                        palette.SetPixel(x, y, Color.FromArgb(r, g, b));
-                        pixelIndex++;
+                        
 
                     }
                 }
@@ -85,7 +69,7 @@ namespace Win_CBZ.Tasks
 
         public static Task<Bitmap> CreateRainbowTask(int w, int h, CancellationToken cancellationToken, Nullable<Color> fromColor = null)
         {
-            return new Task<Bitmap>((token) =>
+            return new Task<Bitmap>(token =>
             {
                 Bitmap palette = new Bitmap(w, h);
 
@@ -97,20 +81,98 @@ namespace Win_CBZ.Tasks
                 {
                     for (int y = 0; y < h; y++)
                     {
-                        // Berechne Hue basierend auf x-Position (0-360 Grad)
+                        // Calculate Hue based on x (0-360 deg)
                         float hue = (y / (float)(h - 1)) * 360f;
 
-                        // Verwende volle Saturation und Value für lebendige Farben
+                        // use full saturation and value
                         float saturation = 1.0f;
                         float value = 1.0f;
 
-                        // Konvertiere HSV zu RGB
+                        // Convert HSV to RGB
                         Color color = Colors.ColorFromHSV(hue, saturation, value);
                         palette.SetPixel(x, y, color);
                     }
                 }
 
                 return palette;
+            }, cancellationToken);
+        }
+
+        public static Task<Bitmap> CreateThreeColorGradientTask(int w, int h, Color middleColor, CancellationToken cancellationToken)
+        {
+            return new Task<Bitmap>(token =>
+            {
+                Bitmap palette = new Bitmap(w, h);
+                
+                Color black = Color.Black;
+                Color white = Color.White;
+
+                float maxDistance = (float)Math.Sqrt(w * w + h * h);
+
+                for (int x = 0; x < w; x++)
+                {
+                    for (int y = 0; y < h; y++)
+                    {
+                        // Distance from top-left corner (0,0)
+                        float distance = (float)Math.Sqrt(x * x + y * y);
+
+                        // normalized distance (0.0 to 1.0)
+                        float normalizedDistance = distance / maxDistance;
+
+                        Color pixelColor;
+
+                        if (normalizedDistance <= 0.5f)
+                        {
+                            // first half: From Black to Middle Color
+                            float t = normalizedDistance * 2f; // 0-0.5 wird zu 0-1
+                            int r = (int)(black.R + (middleColor.R - black.R) * t);
+                            int g = (int)(black.G + (middleColor.G - black.G) * t);
+                            int b = (int)(black.B + (middleColor.B - black.B) * t);
+                            pixelColor = Color.FromArgb(r, g, b);
+                        }
+                        else
+                        {
+                            // second half: From Middle Color to White
+                            float t = (normalizedDistance - 0.5f) * 2f; // 0.5-1 wird zu 0-1
+                            int r = (int)(middleColor.R + (white.R - middleColor.R) * t);
+                            int g = (int)(middleColor.G + (white.G - middleColor.G) * t);
+                            int b = (int)(middleColor.B + (white.B - middleColor.B) * t);
+                            pixelColor = Color.FromArgb(r, g, b);
+                        }
+
+                        palette.SetPixel(x, y, pixelColor);
+                    }
+                }
+
+                return palette;
+            }, cancellationToken);
+        }
+
+        public static Task<Bitmap> CreateHorizontalGradientTask(int w, int h, Color startColor, Color endColor, CancellationToken cancellationToken)
+        {
+            return new Task<Bitmap>(token =>
+            {
+                Bitmap gradient = new Bitmap(w, h);
+
+                for (int x = 0; x < w; x++)
+                {
+                    // Factor (0.0 bis 1.0)
+                    float t = x / (float)(w - 1);
+
+                    int r = (int)(startColor.R + (endColor.R - startColor.R) * t);
+                    int g = (int)(startColor.G + (endColor.G - startColor.G) * t);
+                    int b = (int)(startColor.B + (endColor.B - startColor.B) * t);
+                    int a = (int)(startColor.A + (endColor.A - startColor.A) * t);
+
+                    Color pixelColor = Color.FromArgb(a, r, g, b);
+
+                    for (int y = 0; y < h; y++)
+                    {
+                        gradient.SetPixel(x, y, pixelColor);
+                    }
+                }
+
+                return gradient;
             }, cancellationToken);
         }
     }
