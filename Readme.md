@@ -1,6 +1,6 @@
 # Win_CBZ
 
-![Screenshot](/meta/screenshot.jpg)
+![Screenshot](/meta/Screenshot.jpg)
 
 
 >[!TIP]
