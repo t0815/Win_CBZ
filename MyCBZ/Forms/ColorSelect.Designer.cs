@@ -682,6 +682,7 @@
             Name = "ColorSelect";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Select a Color...";
+            Load += ColorSelect_Load;
             ColorEditorTableLayout.ResumeLayout(false);
             HeaderPanel.ResumeLayout(false);
             HeaderPanel.PerformLayout();

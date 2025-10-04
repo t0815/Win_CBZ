@@ -101,7 +101,7 @@ namespace Win_CBZ.Forms
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
 
-            LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
+
         }
 
         private void PictureBoxPalette_MouseMove(object sender, MouseEventArgs e)
@@ -226,7 +226,37 @@ namespace Win_CBZ.Forms
 
         private void PaletteColorSwatch_Click(object sender, EventArgs e)
         {
+            Button button = sender as Button;
 
+            PictureBoxSelectedColor.BackColor = button.BackColor;
+
+            SelectedColor = button.BackColor;
+
+
+            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, SelectedColor, new System.Threading.CancellationToken());
+
+            paletteTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    _palette = t.Result;
+                    this.Invoke(() =>
+                    {
+                        PictureBoxPalette.Image.Dispose();
+                        PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
+                        PictureBoxPalette.Refresh();
+                    });
+                }
+            });
+
+            paletteTask.Start();
+
+
+            TextBoxR.Text = SelectedColor.R.ToString();
+            TextBoxG.Text = SelectedColor.G.ToString();
+            TextBoxB.Text = SelectedColor.B.ToString();
+
+            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
         }
 
         private void LoadPaletteForTabHtml(FlowLayoutPanel container, List<string> palette)
@@ -274,27 +304,32 @@ namespace Win_CBZ.Forms
 
                     foreach (Color example in palette)
                     {
-                        
-                            Button newExample = new Button();
-                            newExample.FlatStyle = FlatStyle.Flat;
-                            newExample.FlatAppearance.BorderColor = Color.Black;
-                            newExample.FlatAppearance.BorderSize = 1;
 
-                            newExample.BackColor = example;
-                            newExample.Width = 20;
-                            newExample.Height = 20;
-                            newExample.Margin = new Padding(10, 8, 10, 8);
-                            newExample.Cursor = Cursors.Hand;
-                            //newExample.
-                            newExample.Click += PaletteColorSwatch_Click;
+                        Button newExample = new Button();
+                        newExample.FlatStyle = FlatStyle.Flat;
+                        newExample.FlatAppearance.BorderColor = Color.Black;
+                        newExample.FlatAppearance.BorderSize = 1;
 
-                            ColorSelectTooltip.SetToolTip(newExample, Colors.GetColorName(HTMLColor.ToHexColor(example)));
+                        newExample.BackColor = example;
+                        newExample.Width = 20;
+                        newExample.Height = 20;
+                        newExample.Margin = new Padding(10, 8, 10, 8);
+                        newExample.Cursor = Cursors.Hand;
+                        //newExample.
+                        newExample.Click += PaletteColorSwatch_Click;
 
-                            container.Controls.Add(newExample);
+                        ColorSelectTooltip.SetToolTip(newExample, Colors.GetColorName(HTMLColor.ToHexColor(example)));
 
-                    }                  
+                        container.Controls.Add(newExample);
+
+                    }
                 });
             });
+        }
+
+        private void ColorSelect_Load(object sender, EventArgs e)
+        {
+            LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
         }
     }
 }
