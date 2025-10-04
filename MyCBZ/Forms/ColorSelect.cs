@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
@@ -99,6 +100,8 @@ namespace Win_CBZ.Forms
             TextBoxB.Text = SelectedColor.B.ToString();
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+
+            LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
         }
 
         private void PictureBoxPalette_MouseMove(object sender, MouseEventArgs e)
@@ -193,6 +196,105 @@ namespace Win_CBZ.Forms
 
                 ImageOperations.ResizeImage(ref rainbow, new Size(PictureBoxRainbow.Width, PictureBoxRainbow.Height), Color.Black, System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic);
             }
+        }
+
+        private void PalettesTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            String tab = e.TabPage.Name;
+
+            switch (tab)
+            {
+                case "TabPageDefaultPalette":
+                    LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
+                    break;
+
+                case "TabPageSystemPalette":
+
+                    Dictionary<string, Color> colours = typeof(SystemColors)
+                        .GetRuntimeProperties()
+                        .Select(c => new
+                        {
+                            Color = (Color)c.GetValue(null),
+                            Name = c.Name
+                        }).ToDictionary(x => x.Name, x => x.Color);
+
+                    LoadPaletteForTab(FlowLayoutSystemPalette, colours.Values.ToList());
+                    break;
+                default: break;
+            }
+        }
+
+        private void PaletteColorSwatch_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LoadPaletteForTabHtml(FlowLayoutPanel container, List<string> palette)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Invoke(() =>
+                {
+                    container.Controls.Clear();
+
+                    foreach (string example in palette)
+                    {
+                        if (example != null)
+                        {
+                            Button newExample = new Button();
+                            newExample.FlatStyle = FlatStyle.Flat;
+                            newExample.FlatAppearance.BorderColor = Color.Black;
+                            newExample.FlatAppearance.BorderSize = 1;
+
+                            newExample.BackColor = HTMLColor.ToColor(example);
+                            newExample.Width = 20;
+                            newExample.Height = 20;
+                            newExample.Margin = new Padding(10, 8, 10, 8);
+                            newExample.Cursor = Cursors.Hand;
+                            //newExample.
+                            newExample.Click += PaletteColorSwatch_Click;
+
+                            ColorSelectTooltip.SetToolTip(newExample, Colors.GetColorName(example));
+
+                            container.Controls.Add(newExample);
+
+                        }
+                    }
+                });
+            });
+        }
+
+        private void LoadPaletteForTab(FlowLayoutPanel container, List<Color> palette)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                Invoke(() =>
+                {
+                    container.Controls.Clear();
+
+                    foreach (Color example in palette)
+                    {
+                        
+                            Button newExample = new Button();
+                            newExample.FlatStyle = FlatStyle.Flat;
+                            newExample.FlatAppearance.BorderColor = Color.Black;
+                            newExample.FlatAppearance.BorderSize = 1;
+
+                            newExample.BackColor = example;
+                            newExample.Width = 20;
+                            newExample.Height = 20;
+                            newExample.Margin = new Padding(10, 8, 10, 8);
+                            newExample.Cursor = Cursors.Hand;
+                            //newExample.
+                            newExample.Click += PaletteColorSwatch_Click;
+
+                            ColorSelectTooltip.SetToolTip(newExample, Colors.GetColorName(HTMLColor.ToHexColor(example)));
+
+                            container.Controls.Add(newExample);
+
+                    }                  
+                });
+            });
         }
     }
 }
