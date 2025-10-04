@@ -333,6 +333,19 @@ namespace Win_CBZ.Forms
                 return t.Result;
             });
 
+            paletteRFollow.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    this.Invoke(() =>
+                    {
+                        PictureBoxColorRangeR.Image?.Dispose();
+                        PictureBoxColorRangeR.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                        PictureBoxColorRangeR.Refresh();
+                    });
+                }
+            });
+
             Task<Bitmap> paletteGTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeG.Width, PictureBoxColorRangeG.Height, colorG_1, colorG_2, new System.Threading.CancellationToken());
 
             Task<Bitmap> paletteGFollow = paletteGTask.ContinueWith((t) =>
