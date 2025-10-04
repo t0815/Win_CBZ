@@ -118,17 +118,8 @@ namespace Win_CBZ.Forms
 
         private void PictureBoxPalette_Click(object sender, EventArgs e)
         {
-            PictureBoxSelectedColor.BackColor = PictureBoxHoverColor.BackColor;
-
-            SelectedColor = PictureBoxSelectedColor.BackColor;
-
-            TextBoxR.Text = SelectedColor.R.ToString();
-            TextBoxG.Text = SelectedColor.G.ToString();
-            TextBoxB.Text = SelectedColor.B.ToString();
-
-            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
-
-
+           
+            UpdateSelectedColorState(PictureBoxHoverColor.BackColor, true);
         }
 
         private void PictureBoxPalette_Resize(object sender, EventArgs e)
@@ -145,33 +136,8 @@ namespace Win_CBZ.Forms
 
         private void PictureBoxRainbow_MouseClick(object sender, MouseEventArgs e)
         {
-            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, initialColor, new System.Threading.CancellationToken());
-
-            paletteTask.ContinueWith((t) =>
-            {
-                if (t.IsCompletedSuccessfully)
-                {
-                    _palette = t.Result;
-                    this.Invoke(() =>
-                    {
-                        PictureBoxPalette.Image.Dispose();
-                        PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
-                        PictureBoxPalette.Refresh();
-                    });
-                }
-            });
-
-            paletteTask.Start();
-
-            PictureBoxSelectedColor.BackColor = PictureBoxHoverColor.BackColor;
-
-            SelectedColor = PictureBoxSelectedColor.BackColor;
-
-            TextBoxR.Text = SelectedColor.R.ToString();
-            TextBoxG.Text = SelectedColor.G.ToString();
-            TextBoxB.Text = SelectedColor.B.ToString();
-
-            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+            
+            UpdateSelectedColorState(PictureBoxHoverColor.BackColor);
         }
 
         private void PictureBoxRainbow_MouseMove(object sender, MouseEventArgs e)
@@ -228,35 +194,9 @@ namespace Win_CBZ.Forms
         {
             Button button = sender as Button;
 
-            PictureBoxSelectedColor.BackColor = button.BackColor;
+            //PictureBoxSelectedColor.BackColor = button.BackColor;
 
-            SelectedColor = button.BackColor;
-
-
-            Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, SelectedColor, new System.Threading.CancellationToken());
-
-            paletteTask.ContinueWith((t) =>
-            {
-                if (t.IsCompletedSuccessfully)
-                {
-                    _palette = t.Result;
-                    this.Invoke(() =>
-                    {
-                        PictureBoxPalette.Image.Dispose();
-                        PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
-                        PictureBoxPalette.Refresh();
-                    });
-                }
-            });
-
-            paletteTask.Start();
-
-
-            TextBoxR.Text = SelectedColor.R.ToString();
-            TextBoxG.Text = SelectedColor.G.ToString();
-            TextBoxB.Text = SelectedColor.B.ToString();
-
-            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+            UpdateSelectedColorState(button.BackColor);
         }
 
         private void LoadPaletteForTabHtml(FlowLayoutPanel container, List<string> palette)
@@ -330,6 +270,110 @@ namespace Win_CBZ.Forms
         private void ColorSelect_Load(object sender, EventArgs e)
         {
             LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
+        }
+
+        private void UpdateSelectedColorState(Color color, bool dontRegeneratePaletteGradient = false)
+        {
+            Task<Bitmap> paletteTask;
+
+            if (!dontRegeneratePaletteGradient)
+            {
+                paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, color, new System.Threading.CancellationToken());
+
+                paletteTask.ContinueWith((t) =>
+                {
+                    if (t.IsCompletedSuccessfully)
+                    {
+                        _palette = t.Result;
+                        this.Invoke(() =>
+                        {
+                            PictureBoxPalette.Image.Dispose();
+                            PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
+                            PictureBoxPalette.Refresh();
+                        });
+                    }
+                });
+
+                paletteTask.Start();
+            }
+
+
+
+            PictureBoxSelectedColor.BackColor = color;
+
+            SelectedColor = color;
+
+            TextBoxR.Text = SelectedColor.R.ToString();
+            TextBoxG.Text = SelectedColor.G.ToString();
+            TextBoxB.Text = SelectedColor.B.ToString();
+
+            Color colorR_1 = Color.FromArgb(0, SelectedColor.G, SelectedColor.B);
+            Color colorR_2 = Color.FromArgb(255, SelectedColor.G, SelectedColor.B);
+
+            Color colorG_1 = Color.FromArgb(SelectedColor.R, 0, SelectedColor.B);
+            Color colorG_2 = Color.FromArgb(SelectedColor.R, 255, SelectedColor.B);
+
+            Color colorB_1 = Color.FromArgb(SelectedColor.R, SelectedColor.G, 0);
+            Color colorB_2 = Color.FromArgb(SelectedColor.R, SelectedColor.G, 255);
+
+            Task<Bitmap> paletteRTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeR.Width, PictureBoxColorRangeR.Height, colorR_1, colorR_2, new System.Threading.CancellationToken());
+
+            Task<Bitmap> paletteRFollow = paletteRTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    this.Invoke(() =>
+                    {
+                        PictureBoxColorRangeR.Image?.Dispose();
+                        PictureBoxColorRangeR.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                        PictureBoxColorRangeR.Refresh();
+                    });
+                }
+
+                return t.Result;
+            });
+
+            Task<Bitmap> paletteGTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeG.Width, PictureBoxColorRangeG.Height, colorG_1, colorG_2, new System.Threading.CancellationToken());
+
+            Task<Bitmap> paletteGFollow = paletteGTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    this.Invoke(() =>
+                    {
+                        PictureBoxColorRangeG.Image?.Dispose();
+                        PictureBoxColorRangeG.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                        PictureBoxColorRangeG.Refresh();
+                    });
+                }
+
+                return t.Result;
+            });
+
+            Task<Bitmap> paletteBTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeB.Width, PictureBoxColorRangeB.Height, colorB_1, colorB_2, new System.Threading.CancellationToken());
+
+            Task<Bitmap> paletteBFollow = paletteBTask.ContinueWith((t) =>
+            {
+                if (t.IsCompletedSuccessfully)
+                {
+                    this.Invoke(() =>
+                    {
+                        PictureBoxColorRangeB.Image?.Dispose();
+                        PictureBoxColorRangeB.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                        PictureBoxColorRangeB.Refresh();
+                    });
+
+                    
+                }
+
+                return t.Result;
+            });
+
+            paletteRTask.Start();
+            paletteGTask.Start();
+            paletteBTask.Start();
+
+            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
         }
     }
 }

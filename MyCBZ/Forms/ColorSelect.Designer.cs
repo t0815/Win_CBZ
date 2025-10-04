@@ -67,9 +67,9 @@
             TextBoxR = new System.Windows.Forms.TextBox();
             TextBoxB = new System.Windows.Forms.TextBox();
             TextBoxG = new System.Windows.Forms.TextBox();
-            pictureBox1 = new System.Windows.Forms.PictureBox();
-            pictureBox2 = new System.Windows.Forms.PictureBox();
-            pictureBox3 = new System.Windows.Forms.PictureBox();
+            PictureBoxColorRangeR = new System.Windows.Forms.PictureBox();
+            PictureBoxColorRangeG = new System.Windows.Forms.PictureBox();
+            PictureBoxColorRangeB = new System.Windows.Forms.PictureBox();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -93,9 +93,9 @@
             ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).BeginInit();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeR).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeG).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeB).BeginInit();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -499,16 +499,16 @@
             tableLayoutPanel4.Controls.Add(TextBoxR, 2, 0);
             tableLayoutPanel4.Controls.Add(TextBoxB, 2, 2);
             tableLayoutPanel4.Controls.Add(TextBoxG, 2, 1);
-            tableLayoutPanel4.Controls.Add(pictureBox1, 0, 0);
-            tableLayoutPanel4.Controls.Add(pictureBox2, 0, 1);
-            tableLayoutPanel4.Controls.Add(pictureBox3, 0, 2);
+            tableLayoutPanel4.Controls.Add(PictureBoxColorRangeR, 0, 0);
+            tableLayoutPanel4.Controls.Add(PictureBoxColorRangeG, 0, 1);
+            tableLayoutPanel4.Controls.Add(PictureBoxColorRangeB, 0, 2);
             tableLayoutPanel4.Location = new System.Drawing.Point(4, 237);
             tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 3;
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
             tableLayoutPanel4.Size = new System.Drawing.Size(390, 127);
             tableLayoutPanel4.TabIndex = 13;
             // 
@@ -566,32 +566,36 @@
             TextBoxG.Size = new System.Drawing.Size(65, 31);
             TextBoxG.TabIndex = 1;
             // 
-            // pictureBox1
+            // PictureBoxColorRangeR
             // 
-            pictureBox1.Location = new System.Drawing.Point(4, 4);
-            pictureBox1.Margin = new System.Windows.Forms.Padding(4);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new System.Drawing.Size(156, 34);
-            pictureBox1.TabIndex = 7;
-            pictureBox1.TabStop = false;
+            PictureBoxColorRangeR.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxColorRangeR.Location = new System.Drawing.Point(4, 4);
+            PictureBoxColorRangeR.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxColorRangeR.Name = "PictureBoxColorRangeR";
+            PictureBoxColorRangeR.Size = new System.Drawing.Size(238, 34);
+            PictureBoxColorRangeR.TabIndex = 7;
+            PictureBoxColorRangeR.TabStop = false;
             // 
-            // pictureBox2
+            // PictureBoxColorRangeG
             // 
-            pictureBox2.Location = new System.Drawing.Point(4, 46);
-            pictureBox2.Margin = new System.Windows.Forms.Padding(4);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new System.Drawing.Size(156, 34);
-            pictureBox2.TabIndex = 8;
-            pictureBox2.TabStop = false;
+            PictureBoxColorRangeG.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxColorRangeG.Location = new System.Drawing.Point(4, 46);
+            PictureBoxColorRangeG.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxColorRangeG.Name = "PictureBoxColorRangeG";
+            PictureBoxColorRangeG.Size = new System.Drawing.Size(238, 34);
+            PictureBoxColorRangeG.TabIndex = 8;
+            PictureBoxColorRangeG.TabStop = false;
             // 
-            // pictureBox3
+            // PictureBoxColorRangeB
             // 
-            pictureBox3.Location = new System.Drawing.Point(4, 88);
-            pictureBox3.Margin = new System.Windows.Forms.Padding(4);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new System.Drawing.Size(156, 34);
-            pictureBox3.TabIndex = 9;
-            pictureBox3.TabStop = false;
+            PictureBoxColorRangeB.AccessibleDescription = "0                                   ";
+            PictureBoxColorRangeB.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxColorRangeB.Location = new System.Drawing.Point(4, 88);
+            PictureBoxColorRangeB.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxColorRangeB.Name = "PictureBoxColorRangeB";
+            PictureBoxColorRangeB.Size = new System.Drawing.Size(238, 35);
+            PictureBoxColorRangeB.TabIndex = 9;
+            PictureBoxColorRangeB.TabStop = false;
             // 
             // toolStrip1
             // 
@@ -702,9 +706,9 @@
             tableLayoutPanel3.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeR).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeG).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeB).EndInit();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ResumeLayout(false);
@@ -756,9 +760,9 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox PictureBoxColorRangeR;
+        private System.Windows.Forms.PictureBox PictureBoxColorRangeG;
+        private System.Windows.Forms.PictureBox PictureBoxColorRangeB;
         private System.Windows.Forms.ToolTip ColorSelectTooltip;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutSystemPalette;
     }
