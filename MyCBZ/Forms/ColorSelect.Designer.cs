@@ -43,21 +43,27 @@
             tabPage3 = new System.Windows.Forms.TabPage();
             tabPage4 = new System.Windows.Forms.TabPage();
             tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            TextBoxB = new System.Windows.Forms.TextBox();
+            label5 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            TextBoxG = new System.Windows.Forms.TextBox();
             PictureBoxPalette = new System.Windows.Forms.PictureBox();
             PictureBoxSelectedColor = new System.Windows.Forms.PictureBox();
             PictureBoxHoverColor = new System.Windows.Forms.PictureBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
-            tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            TextBoxR = new System.Windows.Forms.TextBox();
-            TextBoxG = new System.Windows.Forms.TextBox();
-            TextBoxB = new System.Windows.Forms.TextBox();
-            TextBoxHex = new System.Windows.Forms.TextBox();
-            label3 = new System.Windows.Forms.Label();
-            label4 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            label6 = new System.Windows.Forms.Label();
             PictureBoxRainbow = new System.Windows.Forms.PictureBox();
+            tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            TextBoxHex = new System.Windows.Forms.TextBox();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
+            label9 = new System.Windows.Forms.Label();
+            textBox1 = new System.Windows.Forms.TextBox();
+            textBox2 = new System.Windows.Forms.TextBox();
+            textBox3 = new System.Windows.Forms.TextBox();
+            TextBoxR = new System.Windows.Forms.TextBox();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -66,6 +72,10 @@
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            pictureBox2 = new System.Windows.Forms.PictureBox();
+            pictureBox3 = new System.Windows.Forms.PictureBox();
             ColorEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -76,14 +86,17 @@
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxSelectedColor).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxHoverColor).BeginInit();
-            tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).BeginInit();
+            tableLayoutPanel3.SuspendLayout();
             toolStrip1.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // ColorEditorTableLayout
             // 
-            ColorEditorTableLayout.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             ColorEditorTableLayout.ColumnCount = 3;
             ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 249F));
@@ -92,27 +105,28 @@
             ColorEditorTableLayout.Controls.Add(CancelBtn, 2, 2);
             ColorEditorTableLayout.Controls.Add(OkButton, 1, 2);
             ColorEditorTableLayout.Controls.Add(tableLayoutPanel1, 0, 1);
-            ColorEditorTableLayout.Location = new System.Drawing.Point(2, 3);
+            ColorEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            ColorEditorTableLayout.Location = new System.Drawing.Point(0, 0);
             ColorEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 0, 4, 5);
             ColorEditorTableLayout.Name = "ColorEditorTableLayout";
             ColorEditorTableLayout.RowCount = 3;
             ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
             ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
-            ColorEditorTableLayout.Size = new System.Drawing.Size(850, 508);
+            ColorEditorTableLayout.Size = new System.Drawing.Size(855, 513);
             ColorEditorTableLayout.TabIndex = 2;
             // 
             // HeaderPanel
             // 
+            HeaderPanel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             HeaderPanel.BackColor = System.Drawing.Color.White;
             ColorEditorTableLayout.SetColumnSpan(HeaderPanel, 3);
             HeaderPanel.Controls.Add(HeaderLabel);
             HeaderPanel.Controls.Add(HeaderPicture);
-            HeaderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             HeaderPanel.Location = new System.Drawing.Point(0, 0);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(0);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(850, 63);
+            HeaderPanel.Size = new System.Drawing.Size(855, 63);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
@@ -142,7 +156,7 @@
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CancelBtn.Location = new System.Drawing.Point(747, 459);
+            CancelBtn.Location = new System.Drawing.Point(752, 464);
             CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
             CancelBtn.Size = new System.Drawing.Size(99, 35);
@@ -155,7 +169,7 @@
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             OkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            OkButton.Location = new System.Drawing.Point(627, 459);
+            OkButton.Location = new System.Drawing.Point(632, 464);
             OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
             OkButton.Size = new System.Drawing.Size(100, 35);
@@ -179,7 +193,7 @@
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(844, 385);
+            tableLayoutPanel1.Size = new System.Drawing.Size(849, 390);
             tableLayoutPanel1.TabIndex = 5;
             // 
             // PalettesTabControl
@@ -193,7 +207,7 @@
             PalettesTabControl.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             PalettesTabControl.Name = "PalettesTabControl";
             PalettesTabControl.SelectedIndex = 0;
-            PalettesTabControl.Size = new System.Drawing.Size(475, 312);
+            PalettesTabControl.Size = new System.Drawing.Size(480, 317);
             PalettesTabControl.TabIndex = 5;
             // 
             // tabPage1
@@ -202,7 +216,7 @@
             tabPage1.Location = new System.Drawing.Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            tabPage1.Size = new System.Drawing.Size(467, 279);
+            tabPage1.Size = new System.Drawing.Size(472, 284);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Default";
             tabPage1.UseVisualStyleBackColor = true;
@@ -213,7 +227,7 @@
             flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(8);
-            flowLayoutPanel1.Size = new System.Drawing.Size(461, 273);
+            flowLayoutPanel1.Size = new System.Drawing.Size(466, 278);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // tabPage2
@@ -249,26 +263,71 @@
             // 
             tableLayoutPanel2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 63.3218F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.6782F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 67F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.32076F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.679245F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             tableLayoutPanel2.Controls.Add(PictureBoxPalette, 0, 0);
             tableLayoutPanel2.Controls.Add(PictureBoxSelectedColor, 0, 2);
             tableLayoutPanel2.Controls.Add(PictureBoxHoverColor, 1, 2);
             tableLayoutPanel2.Controls.Add(label1, 0, 1);
             tableLayoutPanel2.Controls.Add(label2, 1, 1);
-            tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 3);
             tableLayoutPanel2.Controls.Add(PictureBoxRainbow, 2, 0);
-            tableLayoutPanel2.Location = new System.Drawing.Point(484, 20);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 4);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 0, 3);
+            tableLayoutPanel2.Location = new System.Drawing.Point(489, 20);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 4;
+            tableLayoutPanel2.RowCount = 5;
             tableLayoutPanel1.SetRowSpan(tableLayoutPanel2, 2);
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 33F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(357, 362);
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new System.Drawing.Size(357, 367);
             tableLayoutPanel2.TabIndex = 7;
+            // 
+            // TextBoxB
+            // 
+            TextBoxB.Location = new System.Drawing.Point(255, 71);
+            TextBoxB.Name = "TextBoxB";
+            TextBoxB.Size = new System.Drawing.Size(54, 27);
+            TextBoxB.TabIndex = 2;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(201, 68);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(18, 20);
+            label5.TabIndex = 6;
+            label5.Text = "B";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(201, 34);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(19, 20);
+            label4.TabIndex = 5;
+            label4.Text = "G";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(201, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(18, 20);
+            label3.TabIndex = 4;
+            label3.Text = "R";
+            // 
+            // TextBoxG
+            // 
+            TextBoxG.Location = new System.Drawing.Point(255, 37);
+            TextBoxG.Name = "TextBoxG";
+            TextBoxG.Size = new System.Drawing.Size(53, 27);
+            TextBoxG.TabIndex = 1;
             // 
             // PictureBoxPalette
             // 
@@ -279,7 +338,7 @@
             PictureBoxPalette.Image = Properties.Resources.palette;
             PictureBoxPalette.Location = new System.Drawing.Point(3, 3);
             PictureBoxPalette.Name = "PictureBoxPalette";
-            PictureBoxPalette.Size = new System.Drawing.Size(283, 213);
+            PictureBoxPalette.Size = new System.Drawing.Size(312, 121);
             PictureBoxPalette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             PictureBoxPalette.TabIndex = 6;
             PictureBoxPalette.TabStop = false;
@@ -289,18 +348,18 @@
             // 
             // PictureBoxSelectedColor
             // 
-            PictureBoxSelectedColor.Location = new System.Drawing.Point(3, 255);
+            PictureBoxSelectedColor.Location = new System.Drawing.Point(3, 156);
             PictureBoxSelectedColor.Name = "PictureBoxSelectedColor";
-            PictureBoxSelectedColor.Size = new System.Drawing.Size(177, 42);
+            PictureBoxSelectedColor.Size = new System.Drawing.Size(177, 26);
             PictureBoxSelectedColor.TabIndex = 7;
             PictureBoxSelectedColor.TabStop = false;
             // 
             // PictureBoxHoverColor
             // 
             tableLayoutPanel2.SetColumnSpan(PictureBoxHoverColor, 2);
-            PictureBoxHoverColor.Location = new System.Drawing.Point(186, 255);
+            PictureBoxHoverColor.Location = new System.Drawing.Point(198, 156);
             PictureBoxHoverColor.Name = "PictureBoxHoverColor";
-            PictureBoxHoverColor.Size = new System.Drawing.Size(158, 42);
+            PictureBoxHoverColor.Size = new System.Drawing.Size(156, 26);
             PictureBoxHoverColor.TabIndex = 8;
             PictureBoxHoverColor.TabStop = false;
             // 
@@ -308,7 +367,7 @@
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(3, 232);
+            label1.Location = new System.Drawing.Point(3, 133);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(66, 20);
             label1.TabIndex = 9;
@@ -318,11 +377,26 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(186, 232);
+            label2.Location = new System.Drawing.Point(198, 133);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(35, 20);
             label2.TabIndex = 10;
             label2.Text = "Pick";
+            // 
+            // PictureBoxRainbow
+            // 
+            PictureBoxRainbow.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxRainbow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PictureBoxRainbow.Cursor = System.Windows.Forms.Cursors.Cross;
+            PictureBoxRainbow.Location = new System.Drawing.Point(321, 3);
+            PictureBoxRainbow.Name = "PictureBoxRainbow";
+            PictureBoxRainbow.Size = new System.Drawing.Size(33, 121);
+            PictureBoxRainbow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            PictureBoxRainbow.TabIndex = 12;
+            PictureBoxRainbow.TabStop = false;
+            PictureBoxRainbow.MouseClick += PictureBoxRainbow_MouseClick;
+            PictureBoxRainbow.MouseMove += PictureBoxRainbow_MouseMove;
+            PictureBoxRainbow.Resize += PictureBoxRainbow_Resize;
             // 
             // tableLayoutPanel3
             // 
@@ -332,76 +406,28 @@
             tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            tableLayoutPanel3.Controls.Add(TextBoxR, 0, 1);
-            tableLayoutPanel3.Controls.Add(TextBoxG, 1, 1);
-            tableLayoutPanel3.Controls.Add(TextBoxB, 2, 1);
             tableLayoutPanel3.Controls.Add(TextBoxHex, 3, 1);
-            tableLayoutPanel3.Controls.Add(label3, 0, 0);
-            tableLayoutPanel3.Controls.Add(label4, 1, 0);
-            tableLayoutPanel3.Controls.Add(label5, 2, 0);
             tableLayoutPanel3.Controls.Add(label6, 3, 0);
-            tableLayoutPanel3.Location = new System.Drawing.Point(3, 303);
+            tableLayoutPanel3.Controls.Add(label7, 0, 0);
+            tableLayoutPanel3.Controls.Add(label8, 1, 0);
+            tableLayoutPanel3.Controls.Add(label9, 2, 0);
+            tableLayoutPanel3.Controls.Add(textBox1, 0, 1);
+            tableLayoutPanel3.Controls.Add(textBox2, 1, 1);
+            tableLayoutPanel3.Controls.Add(textBox3, 2, 1);
+            tableLayoutPanel3.Location = new System.Drawing.Point(3, 299);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
-            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(341, 56);
+            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.636364F));
+            tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.363636F));
+            tableLayoutPanel3.Size = new System.Drawing.Size(341, 61);
             tableLayoutPanel3.TabIndex = 11;
-            // 
-            // TextBoxR
-            // 
-            TextBoxR.Location = new System.Drawing.Point(3, 24);
-            TextBoxR.Name = "TextBoxR";
-            TextBoxR.Size = new System.Drawing.Size(54, 27);
-            TextBoxR.TabIndex = 0;
-            // 
-            // TextBoxG
-            // 
-            TextBoxG.Location = new System.Drawing.Point(63, 24);
-            TextBoxG.Name = "TextBoxG";
-            TextBoxG.Size = new System.Drawing.Size(53, 27);
-            TextBoxG.TabIndex = 1;
-            // 
-            // TextBoxB
-            // 
-            TextBoxB.Location = new System.Drawing.Point(123, 24);
-            TextBoxB.Name = "TextBoxB";
-            TextBoxB.Size = new System.Drawing.Size(54, 27);
-            TextBoxB.TabIndex = 2;
             // 
             // TextBoxHex
             // 
-            TextBoxHex.Location = new System.Drawing.Point(183, 24);
+            TextBoxHex.Location = new System.Drawing.Point(183, 29);
             TextBoxHex.Name = "TextBoxHex";
             TextBoxHex.Size = new System.Drawing.Size(131, 27);
             TextBoxHex.TabIndex = 3;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(3, 0);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(18, 20);
-            label3.TabIndex = 4;
-            label3.Text = "R";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(63, 0);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(19, 20);
-            label4.TabIndex = 5;
-            label4.Text = "G";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(123, 0);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(18, 20);
-            label5.TabIndex = 6;
-            label5.Text = "B";
             // 
             // label6
             // 
@@ -412,20 +438,60 @@
             label6.TabIndex = 7;
             label6.Text = "HEX";
             // 
-            // PictureBoxRainbow
+            // label7
             // 
-            PictureBoxRainbow.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxRainbow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            PictureBoxRainbow.Cursor = System.Windows.Forms.Cursors.Cross;
-            PictureBoxRainbow.Location = new System.Drawing.Point(292, 3);
-            PictureBoxRainbow.Name = "PictureBoxRainbow";
-            PictureBoxRainbow.Size = new System.Drawing.Size(62, 213);
-            PictureBoxRainbow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            PictureBoxRainbow.TabIndex = 12;
-            PictureBoxRainbow.TabStop = false;
-            PictureBoxRainbow.MouseClick += PictureBoxRainbow_MouseClick;
-            PictureBoxRainbow.MouseMove += PictureBoxRainbow_MouseMove;
-            PictureBoxRainbow.Resize += PictureBoxRainbow_Resize;
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(3, 0);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(20, 20);
+            label7.TabIndex = 8;
+            label7.Text = "H";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(63, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(17, 20);
+            label8.TabIndex = 9;
+            label8.Text = "S";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(123, 0);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(18, 20);
+            label9.TabIndex = 10;
+            label9.Text = "V";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new System.Drawing.Point(3, 29);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new System.Drawing.Size(54, 27);
+            textBox1.TabIndex = 11;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new System.Drawing.Point(63, 29);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new System.Drawing.Size(54, 27);
+            textBox2.TabIndex = 12;
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new System.Drawing.Point(123, 29);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new System.Drawing.Size(54, 27);
+            textBox3.TabIndex = 13;
+            // 
+            // TextBoxR
+            // 
+            TextBoxR.Location = new System.Drawing.Point(255, 3);
+            TextBoxR.Name = "TextBoxR";
+            TextBoxR.Size = new System.Drawing.Size(54, 27);
+            TextBoxR.TabIndex = 0;
             // 
             // toolStrip1
             // 
@@ -436,7 +502,7 @@
             toolStrip1.Location = new System.Drawing.Point(0, 33);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            toolStrip1.Size = new System.Drawing.Size(481, 27);
+            toolStrip1.Size = new System.Drawing.Size(486, 27);
             toolStrip1.TabIndex = 8;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -495,6 +561,55 @@
             toolStripButton4.Size = new System.Drawing.Size(29, 24);
             toolStripButton4.Text = "toolStripButton4";
             // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 3;
+            tableLayoutPanel2.SetColumnSpan(tableLayoutPanel4, 2);
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.3333359F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.6666641F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 59F));
+            tableLayoutPanel4.Controls.Add(label3, 1, 0);
+            tableLayoutPanel4.Controls.Add(label4, 1, 1);
+            tableLayoutPanel4.Controls.Add(label5, 1, 2);
+            tableLayoutPanel4.Controls.Add(TextBoxR, 2, 0);
+            tableLayoutPanel4.Controls.Add(TextBoxB, 2, 2);
+            tableLayoutPanel4.Controls.Add(TextBoxG, 2, 1);
+            tableLayoutPanel4.Controls.Add(pictureBox1, 0, 0);
+            tableLayoutPanel4.Controls.Add(pictureBox2, 0, 1);
+            tableLayoutPanel4.Controls.Add(pictureBox3, 0, 2);
+            tableLayoutPanel4.Location = new System.Drawing.Point(3, 191);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 3;
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            tableLayoutPanel4.Size = new System.Drawing.Size(312, 102);
+            tableLayoutPanel4.TabIndex = 13;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new System.Drawing.Point(3, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(125, 28);
+            pictureBox1.TabIndex = 7;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Location = new System.Drawing.Point(3, 37);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new System.Drawing.Size(125, 28);
+            pictureBox2.TabIndex = 8;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Location = new System.Drawing.Point(3, 71);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new System.Drawing.Size(125, 27);
+            pictureBox3.TabIndex = 9;
+            pictureBox3.TabStop = false;
+            // 
             // ColorSelect
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -519,11 +634,16 @@
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).EndInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxSelectedColor).EndInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxHoverColor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).EndInit();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).EndInit();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
         }
 
@@ -566,5 +686,15 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.PictureBox PictureBoxRainbow;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
