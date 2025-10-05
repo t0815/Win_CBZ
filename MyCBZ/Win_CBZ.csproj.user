@@ -17,6 +17,9 @@
     <Compile Update="Components\ExtendedListView\ExtendetListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Components\GradientSlider\GradientSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Components\Rating\Rating.cs">
       <SubType>Component</SubType>
     </Compile>

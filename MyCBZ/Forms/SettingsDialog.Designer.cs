@@ -408,7 +408,7 @@
             tableLayoutPanel13.AutoScroll = true;
             tableLayoutPanel13.ColumnCount = 2;
             tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 183F));
-            tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 8F));
+            tableLayoutPanel13.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 349F));
             tableLayoutPanel13.Controls.Add(ThemeColorsListbox, 0, 1);
             tableLayoutPanel13.Controls.Add(TableLayoutColorSettings, 1, 1);
             tableLayoutPanel13.Controls.Add(ThemeConfigToolbar, 0, 0);
@@ -459,7 +459,7 @@
             TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
             TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 77F));
             TableLayoutColorSettings.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
-            TableLayoutColorSettings.Size = new System.Drawing.Size(342, 258);
+            TableLayoutColorSettings.Size = new System.Drawing.Size(343, 258);
             TableLayoutColorSettings.TabIndex = 1;
             // 
             // label22
@@ -506,7 +506,7 @@
             panel3.Location = new System.Drawing.Point(88, 59);
             panel3.Margin = new System.Windows.Forms.Padding(8, 10, 3, 8);
             panel3.Name = "panel3";
-            panel3.Size = new System.Drawing.Size(197, 31);
+            panel3.Size = new System.Drawing.Size(198, 31);
             panel3.TabIndex = 28;
             // 
             // TextboxSelectedThemeColorValue
@@ -518,7 +518,7 @@
             TextboxSelectedThemeColorValue.Location = new System.Drawing.Point(0, 0);
             TextboxSelectedThemeColorValue.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TextboxSelectedThemeColorValue.Name = "TextboxSelectedThemeColorValue";
-            TextboxSelectedThemeColorValue.Size = new System.Drawing.Size(161, 22);
+            TextboxSelectedThemeColorValue.Size = new System.Drawing.Size(162, 22);
             TextboxSelectedThemeColorValue.TabIndex = 22;
             TextboxSelectedThemeColorValue.TextChanged += TextboxSelectedThemeColorValue_TextChanged;
             // 
@@ -527,7 +527,7 @@
             button4.Dock = System.Windows.Forms.DockStyle.Right;
             button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button4.Image = Properties.Resources.arrow_circle2;
-            button4.Location = new System.Drawing.Point(161, 0);
+            button4.Location = new System.Drawing.Point(162, 0);
             button4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             button4.Name = "button4";
             button4.Size = new System.Drawing.Size(34, 29);
@@ -542,7 +542,7 @@
             ExampleColorsFlowLayout.Location = new System.Drawing.Point(20, 201);
             ExampleColorsFlowLayout.Margin = new System.Windows.Forms.Padding(20, 8, 3, 8);
             ExampleColorsFlowLayout.Name = "ExampleColorsFlowLayout";
-            ExampleColorsFlowLayout.Size = new System.Drawing.Size(265, 77);
+            ExampleColorsFlowLayout.Size = new System.Drawing.Size(266, 77);
             ExampleColorsFlowLayout.TabIndex = 30;
             // 
             // LabelColorDescription
@@ -553,7 +553,7 @@
             LabelColorDescription.Location = new System.Drawing.Point(8, 124);
             LabelColorDescription.Margin = new System.Windows.Forms.Padding(8);
             LabelColorDescription.Name = "LabelColorDescription";
-            LabelColorDescription.Size = new System.Drawing.Size(272, 61);
+            LabelColorDescription.Size = new System.Drawing.Size(273, 61);
             LabelColorDescription.TabIndex = 29;
             LabelColorDescription.Text = "No Description available";
             // 
@@ -562,7 +562,7 @@
             pictureBox17.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             pictureBox17.Image = Properties.Resources.information;
             pictureBox17.InitialImage = Properties.Resources.information;
-            pictureBox17.Location = new System.Drawing.Point(296, 49);
+            pictureBox17.Location = new System.Drawing.Point(297, 49);
             pictureBox17.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             pictureBox17.Name = "pictureBox17";
             pictureBox17.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -677,7 +677,7 @@
             MetadataDefaultsTable.ColumnCount = 3;
             MetadataDefaultsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.2803F));
             MetadataDefaultsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 65.719696F));
-            MetadataDefaultsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            MetadataDefaultsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             MetadataDefaultsTable.Controls.Add(label4, 0, 0);
             MetadataDefaultsTable.Controls.Add(CustomDefaultKeys, 0, 2);
             MetadataDefaultsTable.Controls.Add(label1, 0, 1);
@@ -756,10 +756,10 @@
             ComboBoxFileName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             SettingsValidationErrorProvider.SetIconPadding(ComboBoxFileName, -35);
             ComboBoxFileName.Items.AddRange(new object[] { "ComicInfo.xml" });
-            ComboBoxFileName.Location = new System.Drawing.Point(27, 20);
+            ComboBoxFileName.Location = new System.Drawing.Point(26, 20);
             ComboBoxFileName.Margin = new System.Windows.Forms.Padding(3, 20, 8, 20);
             ComboBoxFileName.Name = "ComboBoxFileName";
-            ComboBoxFileName.Size = new System.Drawing.Size(35, 28);
+            ComboBoxFileName.Size = new System.Drawing.Size(34, 28);
             ComboBoxFileName.TabIndex = 4;
             ComboBoxFileName.DrawItem += ComboBox_DrawItem;
             // 
@@ -939,7 +939,7 @@
             tableLayoutPanel8.ColumnCount = 3;
             tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
             tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel8.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             tableLayoutPanel8.Controls.Add(pictureBox10, 2, 2);
             tableLayoutPanel8.Controls.Add(pictureBox9, 2, 1);
             tableLayoutPanel8.Controls.Add(pictureBox2, 2, 0);
@@ -1013,10 +1013,10 @@
             ComboBoxPageIndexVersionWrite.Enabled = false;
             ComboBoxPageIndexVersionWrite.FormattingEnabled = true;
             ComboBoxPageIndexVersionWrite.Items.AddRange(new object[] { "VERSION_1", "VERSION_2" });
-            ComboBoxPageIndexVersionWrite.Location = new System.Drawing.Point(45, 20);
+            ComboBoxPageIndexVersionWrite.Location = new System.Drawing.Point(44, 20);
             ComboBoxPageIndexVersionWrite.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
             ComboBoxPageIndexVersionWrite.Name = "ComboBoxPageIndexVersionWrite";
-            ComboBoxPageIndexVersionWrite.Size = new System.Drawing.Size(23, 28);
+            ComboBoxPageIndexVersionWrite.Size = new System.Drawing.Size(22, 28);
             ComboBoxPageIndexVersionWrite.TabIndex = 16;
             // 
             // label5
@@ -1055,10 +1055,10 @@
             // CheckBoxWriteIndex
             // 
             CheckBoxWriteIndex.AutoSize = true;
-            CheckBoxWriteIndex.Location = new System.Drawing.Point(45, 79);
+            CheckBoxWriteIndex.Location = new System.Drawing.Point(44, 79);
             CheckBoxWriteIndex.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxWriteIndex.Name = "CheckBoxWriteIndex";
-            CheckBoxWriteIndex.Size = new System.Drawing.Size(38, 24);
+            CheckBoxWriteIndex.Size = new System.Drawing.Size(37, 24);
             CheckBoxWriteIndex.TabIndex = 17;
             CheckBoxWriteIndex.Text = "Write page-index";
             CheckBoxWriteIndex.UseVisualStyleBackColor = true;
@@ -1067,10 +1067,10 @@
             // CheckBoxPruneEmplyTags
             // 
             CheckBoxPruneEmplyTags.AutoSize = true;
-            CheckBoxPruneEmplyTags.Location = new System.Drawing.Point(45, 138);
+            CheckBoxPruneEmplyTags.Location = new System.Drawing.Point(44, 138);
             CheckBoxPruneEmplyTags.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxPruneEmplyTags.Name = "CheckBoxPruneEmplyTags";
-            CheckBoxPruneEmplyTags.Size = new System.Drawing.Size(38, 24);
+            CheckBoxPruneEmplyTags.Size = new System.Drawing.Size(37, 24);
             CheckBoxPruneEmplyTags.TabIndex = 18;
             CheckBoxPruneEmplyTags.Text = "Omit empty XML- Tags";
             CheckBoxPruneEmplyTags.UseVisualStyleBackColor = true;
@@ -1102,7 +1102,7 @@
             tableLayoutPanel2.ColumnCount = 3;
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             tableLayoutPanel2.Controls.Add(label6, 0, 0);
             tableLayoutPanel2.Controls.Add(ComboBoxCompressionLevel, 1, 0);
             tableLayoutPanel2.Controls.Add(pictureBox11, 2, 1);
@@ -1139,10 +1139,10 @@
             ComboBoxCompressionLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxCompressionLevel.FormattingEnabled = true;
             ComboBoxCompressionLevel.Items.AddRange(new object[] { "Optimal", "Fastest", "None", "Best" });
-            ComboBoxCompressionLevel.Location = new System.Drawing.Point(41, 20);
+            ComboBoxCompressionLevel.Location = new System.Drawing.Point(40, 20);
             ComboBoxCompressionLevel.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
             ComboBoxCompressionLevel.Name = "ComboBoxCompressionLevel";
-            ComboBoxCompressionLevel.Size = new System.Drawing.Size(17, 28);
+            ComboBoxCompressionLevel.Size = new System.Drawing.Size(16, 28);
             ComboBoxCompressionLevel.TabIndex = 1;
             ComboBoxCompressionLevel.DrawItem += ComboBox_DrawItem;
             // 
@@ -1150,7 +1150,7 @@
             // 
             pictureBox11.Image = Properties.Resources.information;
             pictureBox11.InitialImage = Properties.Resources.information;
-            pictureBox11.Location = new System.Drawing.Point(83, 67);
+            pictureBox11.Location = new System.Drawing.Point(81, 67);
             pictureBox11.Margin = new System.Windows.Forms.Padding(7, 8, 7, 0);
             pictureBox11.Name = "pictureBox11";
             pictureBox11.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -1164,7 +1164,7 @@
             // 
             pictureBox12.Image = Properties.Resources.information;
             pictureBox12.InitialImage = Properties.Resources.information;
-            pictureBox12.Location = new System.Drawing.Point(83, 126);
+            pictureBox12.Location = new System.Drawing.Point(81, 126);
             pictureBox12.Margin = new System.Windows.Forms.Padding(7, 8, 7, 0);
             pictureBox12.Name = "pictureBox12";
             pictureBox12.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
@@ -1177,11 +1177,11 @@
             // CheckBoxCompatibilityMode
             // 
             CheckBoxCompatibilityMode.AutoSize = true;
-            CheckBoxCompatibilityMode.Location = new System.Drawing.Point(41, 68);
+            CheckBoxCompatibilityMode.Location = new System.Drawing.Point(40, 68);
             CheckBoxCompatibilityMode.Margin = new System.Windows.Forms.Padding(9, 9, 2, 4);
             CheckBoxCompatibilityMode.Name = "CheckBoxCompatibilityMode";
             CheckBoxCompatibilityMode.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(33, 32);
+            CheckBoxCompatibilityMode.Size = new System.Drawing.Size(32, 32);
             CheckBoxCompatibilityMode.TabIndex = 3;
             CheckBoxCompatibilityMode.Text = "Compatibility mode";
             CheckBoxCompatibilityMode.UseVisualStyleBackColor = true;
@@ -1189,11 +1189,11 @@
             // CheckBoxIgnoreErrorsOnSave
             // 
             CheckBoxIgnoreErrorsOnSave.AutoSize = true;
-            CheckBoxIgnoreErrorsOnSave.Location = new System.Drawing.Point(41, 127);
+            CheckBoxIgnoreErrorsOnSave.Location = new System.Drawing.Point(40, 127);
             CheckBoxIgnoreErrorsOnSave.Margin = new System.Windows.Forms.Padding(9, 9, 2, 4);
             CheckBoxIgnoreErrorsOnSave.Name = "CheckBoxIgnoreErrorsOnSave";
             CheckBoxIgnoreErrorsOnSave.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(33, 32);
+            CheckBoxIgnoreErrorsOnSave.Size = new System.Drawing.Size(32, 32);
             CheckBoxIgnoreErrorsOnSave.TabIndex = 8;
             CheckBoxIgnoreErrorsOnSave.Text = "Continue on Error";
             CheckBoxIgnoreErrorsOnSave.UseVisualStyleBackColor = true;
@@ -1213,7 +1213,7 @@
             tableLayoutPanel11.ColumnCount = 3;
             tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
             tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             tableLayoutPanel11.Controls.Add(pictureBox16, 2, 0);
             tableLayoutPanel11.Controls.Add(CheckBoxSkipSubfolders, 1, 0);
             tableLayoutPanel11.Controls.Add(label23, 0, 0);
@@ -1233,7 +1233,7 @@
             // 
             pictureBox16.Image = Properties.Resources.information;
             pictureBox16.InitialImage = Properties.Resources.information;
-            pictureBox16.Location = new System.Drawing.Point(76, 0);
+            pictureBox16.Location = new System.Drawing.Point(74, 0);
             pictureBox16.Margin = new System.Windows.Forms.Padding(0);
             pictureBox16.Name = "pictureBox16";
             pictureBox16.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -1246,10 +1246,10 @@
             // CheckBoxSkipSubfolders
             // 
             CheckBoxSkipSubfolders.AutoSize = true;
-            CheckBoxSkipSubfolders.Location = new System.Drawing.Point(41, 20);
+            CheckBoxSkipSubfolders.Location = new System.Drawing.Point(40, 20);
             CheckBoxSkipSubfolders.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxSkipSubfolders.Name = "CheckBoxSkipSubfolders";
-            CheckBoxSkipSubfolders.Size = new System.Drawing.Size(32, 24);
+            CheckBoxSkipSubfolders.Size = new System.Drawing.Size(31, 24);
             CheckBoxSkipSubfolders.TabIndex = 8;
             CheckBoxSkipSubfolders.Text = "Skip all Files located in Subfolders";
             CheckBoxSkipSubfolders.UseVisualStyleBackColor = true;
@@ -1360,7 +1360,7 @@
             tableLayoutPanel6.ColumnCount = 3;
             tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.19212F));
             tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.80788F));
-            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             tableLayoutPanel6.Controls.Add(LabelConvertImages, 0, 0);
             tableLayoutPanel6.Controls.Add(GroupBoxImageQuality, 0, 1);
             tableLayoutPanel6.Controls.Add(ComboBoxConvertPages, 1, 0);
@@ -1381,7 +1381,7 @@
             LabelConvertImages.Location = new System.Drawing.Point(9, 0);
             LabelConvertImages.Margin = new System.Windows.Forms.Padding(9, 0, 4, 0);
             LabelConvertImages.Name = "LabelConvertImages";
-            LabelConvertImages.Size = new System.Drawing.Size(31, 59);
+            LabelConvertImages.Size = new System.Drawing.Size(27, 59);
             LabelConvertImages.TabIndex = 22;
             LabelConvertImages.Text = "Convert Images";
             // 
@@ -1395,7 +1395,7 @@
             GroupBoxImageQuality.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             GroupBoxImageQuality.Name = "GroupBoxImageQuality";
             GroupBoxImageQuality.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            GroupBoxImageQuality.Size = new System.Drawing.Size(36, 55);
+            GroupBoxImageQuality.Size = new System.Drawing.Size(35, 55);
             GroupBoxImageQuality.TabIndex = 21;
             GroupBoxImageQuality.TabStop = false;
             GroupBoxImageQuality.Text = "Image Quality";
@@ -1405,7 +1405,7 @@
             // 
             ImageQualitySliderMaxLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             ImageQualitySliderMaxLabel.AutoSize = true;
-            ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(-96, 102);
+            ImageQualitySliderMaxLabel.Location = new System.Drawing.Point(-97, 102);
             ImageQualitySliderMaxLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             ImageQualitySliderMaxLabel.Name = "ImageQualitySliderMaxLabel";
             ImageQualitySliderMaxLabel.Size = new System.Drawing.Size(41, 20);
@@ -1432,7 +1432,7 @@
             ImageQualityTrackBar.Maximum = 100;
             ImageQualityTrackBar.Minimum = 10;
             ImageQualityTrackBar.Name = "ImageQualityTrackBar";
-            ImageQualityTrackBar.Size = new System.Drawing.Size(3, 56);
+            ImageQualityTrackBar.Size = new System.Drawing.Size(2, 56);
             ImageQualityTrackBar.TabIndex = 3;
             ImageQualityTrackBar.Value = 85;
             // 
@@ -1444,10 +1444,10 @@
             ComboBoxConvertPages.FlatStyle = System.Windows.Forms.FlatStyle.System;
             ComboBoxConvertPages.FormattingEnabled = true;
             ComboBoxConvertPages.Items.AddRange(new object[] { "Dont Convert, keep original Format", "Bitmap", "Jpeg", "PNG", "Tiff" });
-            ComboBoxConvertPages.Location = new System.Drawing.Point(53, 20);
+            ComboBoxConvertPages.Location = new System.Drawing.Point(52, 20);
             ComboBoxConvertPages.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
             ComboBoxConvertPages.Name = "ComboBoxConvertPages";
-            ComboBoxConvertPages.Size = new System.Drawing.Size(47, 28);
+            ComboBoxConvertPages.Size = new System.Drawing.Size(46, 28);
             ComboBoxConvertPages.TabIndex = 23;
             ComboBoxConvertPages.DrawItem += ComboBox_DrawItem;
             // 
@@ -1468,7 +1468,7 @@
             tableLayoutPanel3.ColumnCount = 3;
             tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
             tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             tableLayoutPanel3.Controls.Add(label10, 0, 0);
             tableLayoutPanel3.Controls.Add(pictureBox5, 2, 0);
             tableLayoutPanel3.Controls.Add(label11, 0, 1);
@@ -1502,7 +1502,7 @@
             // 
             pictureBox5.Image = Properties.Resources.information;
             pictureBox5.InitialImage = Properties.Resources.information;
-            pictureBox5.Location = new System.Drawing.Point(76, 0);
+            pictureBox5.Location = new System.Drawing.Point(74, 0);
             pictureBox5.Margin = new System.Windows.Forms.Padding(0);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Padding = new System.Windows.Forms.Padding(7, 20, 7, 8);
@@ -1531,10 +1531,10 @@
             ComboBoxInterpolationModes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxInterpolationModes.FormattingEnabled = true;
             ComboBoxInterpolationModes.Items.AddRange(new object[] { "Default", "Low", "High", "Bilinear", "Bicubic", "NearestNeighbor", "HighQualityBilinear", "HighQualityBicubic" });
-            ComboBoxInterpolationModes.Location = new System.Drawing.Point(41, 20);
+            ComboBoxInterpolationModes.Location = new System.Drawing.Point(40, 20);
             ComboBoxInterpolationModes.Margin = new System.Windows.Forms.Padding(9, 20, 18, 20);
             ComboBoxInterpolationModes.Name = "ComboBoxInterpolationModes";
-            ComboBoxInterpolationModes.Size = new System.Drawing.Size(17, 28);
+            ComboBoxInterpolationModes.Size = new System.Drawing.Size(16, 28);
             ComboBoxInterpolationModes.TabIndex = 1;
             ComboBoxInterpolationModes.Tag = "photo";
             ComboBoxInterpolationModes.DrawItem += ComboBox_DrawItem;
@@ -1542,10 +1542,10 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new System.Drawing.Point(41, 79);
+            checkBox1.Location = new System.Drawing.Point(40, 79);
             checkBox1.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new System.Drawing.Size(32, 24);
+            checkBox1.Size = new System.Drawing.Size(31, 24);
             checkBox1.TabIndex = 8;
             checkBox1.Text = "Value";
             checkBox1.UseVisualStyleBackColor = true;
@@ -1581,7 +1581,7 @@
             EssentialTableLayoutPanel.ColumnCount = 3;
             EssentialTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42.10526F));
             EssentialTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 57.8947372F));
-            EssentialTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            EssentialTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             EssentialTableLayoutPanel.Controls.Add(tableLayoutPanel9, 1, 4);
             EssentialTableLayoutPanel.Controls.Add(pictureBox7, 2, 1);
             EssentialTableLayoutPanel.Controls.Add(DirectoryPathTextBox, 1, 0);
@@ -1618,13 +1618,13 @@
             tableLayoutPanel9.Controls.Add(FilenameList, 0, 1);
             tableLayoutPanel9.Controls.Add(panel2, 0, 0);
             tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel9.Location = new System.Drawing.Point(44, 340);
+            tableLayoutPanel9.Location = new System.Drawing.Point(43, 340);
             tableLayoutPanel9.Margin = new System.Windows.Forms.Padding(5, 20, 0, 3);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
             tableLayoutPanel9.RowCount = 2;
             tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.0884953F));
             tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.91151F));
-            tableLayoutPanel9.Size = new System.Drawing.Size(49, 113);
+            tableLayoutPanel9.Size = new System.Drawing.Size(48, 113);
             tableLayoutPanel9.TabIndex = 38;
             // 
             // FilenameList
@@ -1637,7 +1637,7 @@
             FilenameList.Location = new System.Drawing.Point(0, 38);
             FilenameList.Margin = new System.Windows.Forms.Padding(0, 4, 2, 4);
             FilenameList.Name = "FilenameList";
-            FilenameList.Size = new System.Drawing.Size(47, 71);
+            FilenameList.Size = new System.Drawing.Size(46, 71);
             FilenameList.TabIndex = 28;
             // 
             // panel2
@@ -1650,7 +1650,7 @@
             panel2.Location = new System.Drawing.Point(0, 0);
             panel2.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(46, 32);
+            panel2.Size = new System.Drawing.Size(45, 32);
             panel2.TabIndex = 27;
             // 
             // FilenamesTextbox
@@ -1661,7 +1661,7 @@
             FilenamesTextbox.Location = new System.Drawing.Point(0, 0);
             FilenamesTextbox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             FilenamesTextbox.Name = "FilenamesTextbox";
-            FilenamesTextbox.Size = new System.Drawing.Size(19, 20);
+            FilenamesTextbox.Size = new System.Drawing.Size(18, 20);
             FilenamesTextbox.TabIndex = 22;
             FilenamesTextbox.KeyDown += FilenamesTextbox_KeyDown;
             // 
@@ -1670,7 +1670,7 @@
             button3.Dock = System.Windows.Forms.DockStyle.Right;
             button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button3.Image = Properties.Resources.navigate_plus;
-            button3.Location = new System.Drawing.Point(19, 0);
+            button3.Location = new System.Drawing.Point(18, 0);
             button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             button3.Name = "button3";
             button3.Size = new System.Drawing.Size(25, 30);
@@ -1701,10 +1701,10 @@
             DirectoryPathTextBox.Controls.Add(TextBoxTempPath);
             DirectoryPathTextBox.Controls.Add(ButtonSelectFolder);
             DirectoryPathTextBox.Dock = System.Windows.Forms.DockStyle.Top;
-            DirectoryPathTextBox.Location = new System.Drawing.Point(44, 20);
+            DirectoryPathTextBox.Location = new System.Drawing.Point(43, 20);
             DirectoryPathTextBox.Margin = new System.Windows.Forms.Padding(5, 20, 3, 2);
             DirectoryPathTextBox.Name = "DirectoryPathTextBox";
-            DirectoryPathTextBox.Size = new System.Drawing.Size(46, 27);
+            DirectoryPathTextBox.Size = new System.Drawing.Size(45, 27);
             DirectoryPathTextBox.TabIndex = 26;
             // 
             // TextBoxTempPath
@@ -1715,7 +1715,7 @@
             TextBoxTempPath.Location = new System.Drawing.Point(0, 0);
             TextBoxTempPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             TextBoxTempPath.Name = "TextBoxTempPath";
-            TextBoxTempPath.Size = new System.Drawing.Size(19, 20);
+            TextBoxTempPath.Size = new System.Drawing.Size(18, 20);
             TextBoxTempPath.TabIndex = 22;
             // 
             // ButtonSelectFolder
@@ -1723,7 +1723,7 @@
             ButtonSelectFolder.Dock = System.Windows.Forms.DockStyle.Right;
             ButtonSelectFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSelectFolder.Image = Properties.Resources.folder_small;
-            ButtonSelectFolder.Location = new System.Drawing.Point(19, 0);
+            ButtonSelectFolder.Location = new System.Drawing.Point(18, 0);
             ButtonSelectFolder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ButtonSelectFolder.Name = "ButtonSelectFolder";
             ButtonSelectFolder.Size = new System.Drawing.Size(25, 25);
@@ -1739,7 +1739,7 @@
             label12.Location = new System.Drawing.Point(18, 20);
             label12.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label12.Name = "label12";
-            label12.Size = new System.Drawing.Size(3, 19);
+            label12.Size = new System.Drawing.Size(2, 19);
             label12.TabIndex = 0;
             label12.Text = "Temporary Directory";
             // 
@@ -1764,7 +1764,7 @@
             label13.Location = new System.Drawing.Point(18, 79);
             label13.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label13.Name = "label13";
-            label13.Size = new System.Drawing.Size(18, 123);
+            label13.Size = new System.Drawing.Size(17, 123);
             label13.TabIndex = 27;
             label13.Text = "Image-Extensions";
             // 
@@ -1775,13 +1775,13 @@
             tableLayoutPanel7.Controls.Add(ExtensionList, 0, 1);
             tableLayoutPanel7.Controls.Add(panel1, 0, 0);
             tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            tableLayoutPanel7.Location = new System.Drawing.Point(44, 79);
+            tableLayoutPanel7.Location = new System.Drawing.Point(43, 79);
             tableLayoutPanel7.Margin = new System.Windows.Forms.Padding(5, 20, 0, 3);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 2;
             tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 28F));
             tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 72F));
-            tableLayoutPanel7.Size = new System.Drawing.Size(49, 120);
+            tableLayoutPanel7.Size = new System.Drawing.Size(48, 120);
             tableLayoutPanel7.TabIndex = 28;
             // 
             // ExtensionList
@@ -1794,7 +1794,7 @@
             ExtensionList.Location = new System.Drawing.Point(0, 37);
             ExtensionList.Margin = new System.Windows.Forms.Padding(0, 4, 2, 4);
             ExtensionList.Name = "ExtensionList";
-            ExtensionList.Size = new System.Drawing.Size(47, 79);
+            ExtensionList.Size = new System.Drawing.Size(46, 79);
             ExtensionList.TabIndex = 28;
             // 
             // panel1
@@ -1807,7 +1807,7 @@
             panel1.Location = new System.Drawing.Point(0, 0);
             panel1.Margin = new System.Windows.Forms.Padding(0, 0, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(46, 31);
+            panel1.Size = new System.Drawing.Size(45, 31);
             panel1.TabIndex = 27;
             // 
             // ExtensionTextBox
@@ -1818,7 +1818,7 @@
             ExtensionTextBox.Location = new System.Drawing.Point(0, 0);
             ExtensionTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ExtensionTextBox.Name = "ExtensionTextBox";
-            ExtensionTextBox.Size = new System.Drawing.Size(19, 20);
+            ExtensionTextBox.Size = new System.Drawing.Size(18, 20);
             ExtensionTextBox.TabIndex = 22;
             ExtensionTextBox.KeyDown += ExtensionTextBox_KeyDown;
             // 
@@ -1827,7 +1827,7 @@
             button2.Dock = System.Windows.Forms.DockStyle.Right;
             button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button2.Image = Properties.Resources.navigate_plus;
-            button2.Location = new System.Drawing.Point(19, 0);
+            button2.Location = new System.Drawing.Point(18, 0);
             button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             button2.Name = "button2";
             button2.Size = new System.Drawing.Size(25, 29);
@@ -1842,17 +1842,17 @@
             label14.Location = new System.Drawing.Point(18, 222);
             label14.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label14.Name = "label14";
-            label14.Size = new System.Drawing.Size(18, 39);
+            label14.Size = new System.Drawing.Size(17, 39);
             label14.TabIndex = 29;
             label14.Text = "Filter new Pages";
             // 
             // FilterNewPagesByExtCheckBox
             // 
             FilterNewPagesByExtCheckBox.AutoSize = true;
-            FilterNewPagesByExtCheckBox.Location = new System.Drawing.Point(42, 222);
+            FilterNewPagesByExtCheckBox.Location = new System.Drawing.Point(41, 222);
             FilterNewPagesByExtCheckBox.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             FilterNewPagesByExtCheckBox.Name = "FilterNewPagesByExtCheckBox";
-            FilterNewPagesByExtCheckBox.Size = new System.Drawing.Size(48, 24);
+            FilterNewPagesByExtCheckBox.Size = new System.Drawing.Size(47, 24);
             FilterNewPagesByExtCheckBox.TabIndex = 30;
             FilterNewPagesByExtCheckBox.Text = "Only add files with allowed extensions";
             FilterNewPagesByExtCheckBox.UseVisualStyleBackColor = true;
@@ -1863,17 +1863,17 @@
             label19.Location = new System.Drawing.Point(18, 281);
             label19.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label19.Name = "label19";
-            label19.Size = new System.Drawing.Size(18, 39);
+            label19.Size = new System.Drawing.Size(17, 39);
             label19.TabIndex = 36;
             label19.Text = "Custom Filter";
             // 
             // CheckboxFilterFilenames
             // 
             CheckboxFilterFilenames.AutoSize = true;
-            CheckboxFilterFilenames.Location = new System.Drawing.Point(42, 281);
+            CheckboxFilterFilenames.Location = new System.Drawing.Point(41, 281);
             CheckboxFilterFilenames.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             CheckboxFilterFilenames.Name = "CheckboxFilterFilenames";
-            CheckboxFilterFilenames.Size = new System.Drawing.Size(48, 24);
+            CheckboxFilterFilenames.Size = new System.Drawing.Size(47, 24);
             CheckboxFilterFilenames.TabIndex = 37;
             CheckboxFilterFilenames.Text = "Filter specific files by name";
             CheckboxFilterFilenames.UseVisualStyleBackColor = true;
@@ -1911,7 +1911,7 @@
             CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.90184F));
             CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.636364F));
             CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.363636F));
-            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            CustomFieldTypesTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             CustomFieldTypesTablePanel.Controls.Add(CustomFieldsDataGrid, 0, 2);
             CustomFieldTypesTablePanel.Controls.Add(AddFieldTypeButton, 0, 3);
             CustomFieldTypesTablePanel.Controls.Add(RemoveFieldTypeButton, 1, 3);
@@ -1982,7 +1982,7 @@
             AddFieldTypeButton.Location = new System.Drawing.Point(3, 99);
             AddFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             AddFieldTypeButton.Name = "AddFieldTypeButton";
-            AddFieldTypeButton.Size = new System.Drawing.Size(24, 32);
+            AddFieldTypeButton.Size = new System.Drawing.Size(23, 32);
             AddFieldTypeButton.TabIndex = 1;
             AddFieldTypeButton.Text = "Add";
             AddFieldTypeButton.UseVisualStyleBackColor = true;
@@ -2004,10 +2004,10 @@
             RemoveFieldTypeButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             RemoveFieldTypeButton.ImageIndex = 1;
             RemoveFieldTypeButton.ImageList = DialogImages;
-            RemoveFieldTypeButton.Location = new System.Drawing.Point(33, 99);
+            RemoveFieldTypeButton.Location = new System.Drawing.Point(32, 99);
             RemoveFieldTypeButton.Margin = new System.Windows.Forms.Padding(3, 8, 3, 4);
             RemoveFieldTypeButton.Name = "RemoveFieldTypeButton";
-            RemoveFieldTypeButton.Size = new System.Drawing.Size(31, 32);
+            RemoveFieldTypeButton.Size = new System.Drawing.Size(30, 32);
             RemoveFieldTypeButton.TabIndex = 2;
             RemoveFieldTypeButton.Text = "Remove";
             RemoveFieldTypeButton.UseVisualStyleBackColor = true;
@@ -2020,7 +2020,7 @@
             CheckboxAlwaysInEditMode.Location = new System.Drawing.Point(10, 3);
             CheckboxAlwaysInEditMode.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             CheckboxAlwaysInEditMode.Name = "CheckboxAlwaysInEditMode";
-            CheckboxAlwaysInEditMode.Size = new System.Drawing.Size(80, 35);
+            CheckboxAlwaysInEditMode.Size = new System.Drawing.Size(78, 35);
             CheckboxAlwaysInEditMode.TabIndex = 4;
             CheckboxAlwaysInEditMode.Text = "Begin editing cells immediately";
             CheckboxAlwaysInEditMode.UseVisualStyleBackColor = true;
@@ -2033,7 +2033,7 @@
             CheckBoxEditModeOnlyValueCol.Location = new System.Drawing.Point(36, 44);
             CheckBoxEditModeOnlyValueCol.Margin = new System.Windows.Forms.Padding(36, 3, 3, 3);
             CheckBoxEditModeOnlyValueCol.Name = "CheckBoxEditModeOnlyValueCol";
-            CheckBoxEditModeOnlyValueCol.Size = new System.Drawing.Size(54, 27);
+            CheckBoxEditModeOnlyValueCol.Size = new System.Drawing.Size(52, 27);
             CheckBoxEditModeOnlyValueCol.TabIndex = 5;
             CheckBoxEditModeOnlyValueCol.Text = "Only apply to \"Value\"- Column";
             CheckBoxEditModeOnlyValueCol.UseVisualStyleBackColor = true;
@@ -2042,7 +2042,7 @@
             // 
             pictureBox8.Image = Properties.Resources.information;
             pictureBox8.InitialImage = Properties.Resources.information;
-            pictureBox8.Location = new System.Drawing.Point(93, 0);
+            pictureBox8.Location = new System.Drawing.Point(91, 0);
             pictureBox8.Margin = new System.Windows.Forms.Padding(0);
             pictureBox8.Name = "pictureBox8";
             pictureBox8.Padding = new System.Windows.Forms.Padding(7, 8, 7, 8);
@@ -2081,7 +2081,7 @@
             tableLayoutPanel10.ColumnCount = 3;
             tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42F));
             tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58F));
-            tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel10.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             tableLayoutPanel10.Controls.Add(label17, 0, 1);
             tableLayoutPanel10.Controls.Add(CheckBoxLogValidationErrors, 1, 1);
             tableLayoutPanel10.Controls.Add(label18, 0, 2);
@@ -2109,17 +2109,17 @@
             label17.Location = new System.Drawing.Point(18, 79);
             label17.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label17.Name = "label17";
-            label17.Size = new System.Drawing.Size(18, 39);
+            label17.Size = new System.Drawing.Size(17, 39);
             label17.TabIndex = 36;
             label17.Text = "Validation Errors";
             // 
             // CheckBoxLogValidationErrors
             // 
             CheckBoxLogValidationErrors.AutoSize = true;
-            CheckBoxLogValidationErrors.Location = new System.Drawing.Point(47, 79);
+            CheckBoxLogValidationErrors.Location = new System.Drawing.Point(46, 79);
             CheckBoxLogValidationErrors.Margin = new System.Windows.Forms.Padding(8, 20, 3, 3);
             CheckBoxLogValidationErrors.Name = "CheckBoxLogValidationErrors";
-            CheckBoxLogValidationErrors.Size = new System.Drawing.Size(43, 24);
+            CheckBoxLogValidationErrors.Size = new System.Drawing.Size(42, 24);
             CheckBoxLogValidationErrors.TabIndex = 37;
             CheckBoxLogValidationErrors.Text = "Print to Log";
             CheckBoxLogValidationErrors.UseVisualStyleBackColor = true;
@@ -2130,7 +2130,7 @@
             label18.Location = new System.Drawing.Point(18, 138);
             label18.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label18.Name = "label18";
-            label18.Size = new System.Drawing.Size(18, 39);
+            label18.Size = new System.Drawing.Size(17, 39);
             label18.TabIndex = 39;
             label18.Text = "Layout";
             // 
@@ -2140,17 +2140,17 @@
             label20.Location = new System.Drawing.Point(18, 20);
             label20.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(18, 39);
+            label20.Size = new System.Drawing.Size(17, 39);
             label20.TabIndex = 18;
             label20.Text = "Preview Pages";
             // 
             // CheckBoxJumpToPage
             // 
             CheckBoxJumpToPage.AutoSize = true;
-            CheckBoxJumpToPage.Location = new System.Drawing.Point(47, 20);
+            CheckBoxJumpToPage.Location = new System.Drawing.Point(46, 20);
             CheckBoxJumpToPage.Margin = new System.Windows.Forms.Padding(8, 20, 3, 3);
             CheckBoxJumpToPage.Name = "CheckBoxJumpToPage";
-            CheckBoxJumpToPage.Size = new System.Drawing.Size(43, 24);
+            CheckBoxJumpToPage.Size = new System.Drawing.Size(42, 24);
             CheckBoxJumpToPage.TabIndex = 19;
             CheckBoxJumpToPage.Text = "Scroll into view on selection change";
             CheckBoxJumpToPage.UseVisualStyleBackColor = true;
@@ -2173,10 +2173,10 @@
             // CheckBoxSaveWindowLayout
             // 
             CheckBoxSaveWindowLayout.AutoSize = true;
-            CheckBoxSaveWindowLayout.Location = new System.Drawing.Point(47, 138);
+            CheckBoxSaveWindowLayout.Location = new System.Drawing.Point(46, 138);
             CheckBoxSaveWindowLayout.Margin = new System.Windows.Forms.Padding(8, 20, 3, 3);
             CheckBoxSaveWindowLayout.Name = "CheckBoxSaveWindowLayout";
-            CheckBoxSaveWindowLayout.Size = new System.Drawing.Size(43, 24);
+            CheckBoxSaveWindowLayout.Size = new System.Drawing.Size(42, 24);
             CheckBoxSaveWindowLayout.TabIndex = 38;
             CheckBoxSaveWindowLayout.Text = "Save / Restore Window Size && Layout";
             CheckBoxSaveWindowLayout.UseVisualStyleBackColor = true;
@@ -2197,7 +2197,7 @@
             tableLayoutPanel4.ColumnCount = 3;
             tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 42F));
             tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 58F));
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
             tableLayoutPanel4.Controls.Add(pictureBox3, 2, 0);
             tableLayoutPanel4.Controls.Add(CheckBoxSkipIndexCheck, 1, 0);
             tableLayoutPanel4.Controls.Add(label9, 0, 0);
@@ -2241,10 +2241,10 @@
             // CheckBoxSkipIndexCheck
             // 
             CheckBoxSkipIndexCheck.AutoSize = true;
-            CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(48, 20);
+            CheckBoxSkipIndexCheck.Location = new System.Drawing.Point(47, 20);
             CheckBoxSkipIndexCheck.Margin = new System.Windows.Forms.Padding(9, 20, 3, 2);
             CheckBoxSkipIndexCheck.Name = "CheckBoxSkipIndexCheck";
-            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(42, 24);
+            CheckBoxSkipIndexCheck.Size = new System.Drawing.Size(41, 24);
             CheckBoxSkipIndexCheck.TabIndex = 8;
             CheckBoxSkipIndexCheck.Text = "Skip index check";
             CheckBoxSkipIndexCheck.UseVisualStyleBackColor = true;
@@ -2255,7 +2255,7 @@
             label9.Location = new System.Drawing.Point(18, 20);
             label9.Margin = new System.Windows.Forms.Padding(18, 20, 18, 20);
             label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(3, 19);
+            label9.Size = new System.Drawing.Size(2, 19);
             label9.TabIndex = 9;
             label9.Text = "Verify Index";
             // 
@@ -2265,17 +2265,17 @@
             label7.Location = new System.Drawing.Point(18, 79);
             label7.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(18, 39);
+            label7.Size = new System.Drawing.Size(17, 39);
             label7.TabIndex = 10;
             label7.Text = "Temporary Files";
             // 
             // CheckBoxDeleteTempFiles
             // 
             CheckBoxDeleteTempFiles.AutoSize = true;
-            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(48, 79);
+            CheckBoxDeleteTempFiles.Location = new System.Drawing.Point(47, 79);
             CheckBoxDeleteTempFiles.Margin = new System.Windows.Forms.Padding(9, 20, 3, 4);
             CheckBoxDeleteTempFiles.Name = "CheckBoxDeleteTempFiles";
-            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(42, 24);
+            CheckBoxDeleteTempFiles.Size = new System.Drawing.Size(41, 24);
             CheckBoxDeleteTempFiles.TabIndex = 11;
             CheckBoxDeleteTempFiles.Text = "Delete Immediately";
             CheckBoxDeleteTempFiles.UseVisualStyleBackColor = true;
@@ -2286,17 +2286,17 @@
             label8.Location = new System.Drawing.Point(18, 138);
             label8.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(18, 39);
+            label8.Size = new System.Drawing.Size(17, 39);
             label8.TabIndex = 12;
             label8.Text = "Hashing";
             // 
             // CheckBoxCalculateCrc
             // 
             CheckBoxCalculateCrc.AutoSize = true;
-            CheckBoxCalculateCrc.Location = new System.Drawing.Point(48, 138);
+            CheckBoxCalculateCrc.Location = new System.Drawing.Point(47, 138);
             CheckBoxCalculateCrc.Margin = new System.Windows.Forms.Padding(9, 20, 3, 3);
             CheckBoxCalculateCrc.Name = "CheckBoxCalculateCrc";
-            CheckBoxCalculateCrc.Size = new System.Drawing.Size(42, 24);
+            CheckBoxCalculateCrc.Size = new System.Drawing.Size(41, 24);
             CheckBoxCalculateCrc.TabIndex = 13;
             CheckBoxCalculateCrc.Text = "Calculate crc32 for new pages";
             CheckBoxCalculateCrc.UseVisualStyleBackColor = true;
@@ -2322,7 +2322,7 @@
             label21.Location = new System.Drawing.Point(18, 197);
             label21.Margin = new System.Windows.Forms.Padding(18, 20, 3, 0);
             label21.Name = "label21";
-            label21.Size = new System.Drawing.Size(18, 39);
+            label21.Size = new System.Drawing.Size(17, 39);
             label21.TabIndex = 20;
             label21.Text = "Double-Pages";
             // 
@@ -2344,10 +2344,10 @@
             // CheckboxDetectDoublePages
             // 
             CheckboxDetectDoublePages.AutoSize = true;
-            CheckboxDetectDoublePages.Location = new System.Drawing.Point(48, 197);
+            CheckboxDetectDoublePages.Location = new System.Drawing.Point(47, 197);
             CheckboxDetectDoublePages.Margin = new System.Windows.Forms.Padding(9, 20, 3, 3);
             CheckboxDetectDoublePages.Name = "CheckboxDetectDoublePages";
-            CheckboxDetectDoublePages.Size = new System.Drawing.Size(42, 24);
+            CheckboxDetectDoublePages.Size = new System.Drawing.Size(41, 24);
             CheckboxDetectDoublePages.TabIndex = 21;
             CheckboxDetectDoublePages.Text = "Detect automatically";
             CheckboxDetectDoublePages.UseVisualStyleBackColor = true;
@@ -2425,7 +2425,7 @@
             Controls.Add(SettingsTablePanel);
             DoubleBuffered = true;
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            MinimumSize = new System.Drawing.Size(599, 398);
+            MinimumSize = new System.Drawing.Size(598, 397);
             Name = "SettingsDialog";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Application Configuration";

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,10 @@ namespace Win_CBZ
         public const String COLOR_COBALT = "#0047AB";
         public const String COLOR_INDIGO = "#4B0082";
         public const String COLOR_COTTON_CANDY = "#FFBCD9";
+        public const String COLOR_CERISE = "#FF0066";
+        public const String COLOR_JONQUIL = "FFCC00";
+        public const String COLOR_PERIWINKLE = "#FF00FF";
+        public const String COLOR_PEACH = "#FFE5B4";
 
         public const String COLOR_DARK_GRAY_WINDOW_BG = "#1F1F1F";
         public const String COLOR_DARK_GRAY_LIST_CONTROL_BG = "#252526";
@@ -98,6 +103,10 @@ namespace Win_CBZ
             { COLOR_COBALT, "Cobalt" },
             { COLOR_INDIGO, "Indigo" },
             { COLOR_COTTON_CANDY, "Cotton Candy" },
+            { COLOR_CERISE, "Cerise" },
+            { COLOR_JONQUIL, "Jonquil" },
+            { COLOR_PERIWINKLE, "Periwinkle" },
+            { COLOR_PEACH, "Peach" },
         };
 
         public static List<String> GetPalette()
@@ -113,6 +122,62 @@ namespace Win_CBZ
             }
 
             return hexColor;
+        }
+
+        public static Color ColorFromHSV(float hue, float saturation, float value)
+        {
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            float f = (float) (hue / 60 - Math.Floor(hue / 60));
+
+            value = value * 255;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+
+            if (hi == 0)
+                return Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return Color.FromArgb(255, t, p, v);
+            else
+                return Color.FromArgb(255, v, p, q);
+        }
+
+        public static void ColorToHSV(Color color, out float hue, out float saturation, out float value)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+            hue = color.GetHue();
+            saturation = (max == 0) ? 0 : 1f - (1f * min / max);
+            value = max / 255f;
+        }
+
+        public static String InvertColor(String hexColor)
+        {
+            if (hexColor.StartsWith("#"))
+            {
+                hexColor = hexColor.Substring(1);
+            }
+            if (hexColor.Length != 6)
+            {
+                throw new ArgumentException("Invalid hex color format. Expected format: RRGGBB");
+            }
+            // Parse the hex color components
+            int r = Convert.ToInt32(hexColor.Substring(0, 2), 16);
+            int g = Convert.ToInt32(hexColor.Substring(2, 2), 16);
+            int b = Convert.ToInt32(hexColor.Substring(4, 2), 16);
+            // Invert the colors
+            r = 255 - r;
+            g = 255 - g;
+            b = 255 - b;
+            // Return the inverted color in hex format
+            return $"#{r:X2}{g:X2}{b:X2}";
         }
     }
 }

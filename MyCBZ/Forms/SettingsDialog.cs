@@ -2409,10 +2409,12 @@ namespace Win_CBZ.Forms
 
         private void PictureBoxColorSelect_Click(object sender, EventArgs e)
         {
-            if (ThemeSelectColorDialog.ShowDialog() == DialogResult.OK)
+            ColorSelect colorSelect = new ColorSelect(PictureBoxColorSelect.BackColor);
+
+            if (colorSelect.ShowDialog() == DialogResult.OK)
             {
-                PictureBoxColorSelect.BackColor = ThemeSelectColorDialog.Color;
-                TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(ThemeSelectColorDialog.Color);
+                PictureBoxColorSelect.BackColor = colorSelect.SelectedColor;
+                TextboxSelectedThemeColorValue.Text = HTMLColor.ToHexColor(colorSelect.SelectedColor);
                 if (ThemeColorsListbox.SelectedItem != null)
                 {
                     ThemeColorMapping colorConfig = ThemeColorsListbox.SelectedItem as ThemeColorMapping;
