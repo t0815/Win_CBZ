@@ -148,5 +148,36 @@ namespace Win_CBZ
             else
                 return Color.FromArgb(255, v, p, q);
         }
+
+        public static void ColorToHSV(Color color, out float hue, out float saturation, out float value)
+        {
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+            hue = color.GetHue();
+            saturation = (max == 0) ? 0 : 1f - (1f * min / max);
+            value = max / 255f;
+        }
+
+        public static String InvertColor(String hexColor)
+        {
+            if (hexColor.StartsWith("#"))
+            {
+                hexColor = hexColor.Substring(1);
+            }
+            if (hexColor.Length != 6)
+            {
+                throw new ArgumentException("Invalid hex color format. Expected format: RRGGBB");
+            }
+            // Parse the hex color components
+            int r = Convert.ToInt32(hexColor.Substring(0, 2), 16);
+            int g = Convert.ToInt32(hexColor.Substring(2, 2), 16);
+            int b = Convert.ToInt32(hexColor.Substring(4, 2), 16);
+            // Invert the colors
+            r = 255 - r;
+            g = 255 - g;
+            b = 255 - b;
+            // Return the inverted color in hex format
+            return $"#{r:X2}{g:X2}{b:X2}";
+        }
     }
 }

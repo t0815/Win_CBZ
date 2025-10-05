@@ -103,21 +103,21 @@
             // 
             ColorEditorTableLayout.ColumnCount = 3;
             ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 311F));
-            ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 149F));
+            ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 249F));
+            ColorEditorTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 119F));
             ColorEditorTableLayout.Controls.Add(HeaderPanel, 0, 0);
             ColorEditorTableLayout.Controls.Add(CancelBtn, 2, 2);
             ColorEditorTableLayout.Controls.Add(OkButton, 1, 2);
             ColorEditorTableLayout.Controls.Add(tableLayoutPanel1, 0, 1);
             ColorEditorTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             ColorEditorTableLayout.Location = new System.Drawing.Point(0, 0);
-            ColorEditorTableLayout.Margin = new System.Windows.Forms.Padding(5, 0, 5, 6);
+            ColorEditorTableLayout.Margin = new System.Windows.Forms.Padding(4, 0, 4, 5);
             ColorEditorTableLayout.Name = "ColorEditorTableLayout";
             ColorEditorTableLayout.RowCount = 3;
-            ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 79F));
+            ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
             ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            ColorEditorTableLayout.Size = new System.Drawing.Size(1069, 641);
+            ColorEditorTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            ColorEditorTableLayout.Size = new System.Drawing.Size(855, 513);
             ColorEditorTableLayout.TabIndex = 2;
             // 
             // HeaderPanel
@@ -130,17 +130,16 @@
             HeaderPanel.Location = new System.Drawing.Point(0, 0);
             HeaderPanel.Margin = new System.Windows.Forms.Padding(0);
             HeaderPanel.Name = "HeaderPanel";
-            HeaderPanel.Size = new System.Drawing.Size(1069, 79);
+            HeaderPanel.Size = new System.Drawing.Size(855, 63);
             HeaderPanel.TabIndex = 2;
             // 
             // HeaderLabel
             // 
             HeaderLabel.AutoSize = true;
             HeaderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
-            HeaderLabel.Location = new System.Drawing.Point(119, 20);
-            HeaderLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            HeaderLabel.Location = new System.Drawing.Point(95, 16);
             HeaderLabel.Name = "HeaderLabel";
-            HeaderLabel.Size = new System.Drawing.Size(142, 32);
+            HeaderLabel.Size = new System.Drawing.Size(117, 28);
             HeaderLabel.TabIndex = 1;
             HeaderLabel.Text = "Select Color";
             // 
@@ -148,10 +147,10 @@
             // 
             HeaderPicture.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             HeaderPicture.Image = Properties.Resources.painters_palette_brush;
-            HeaderPicture.Location = new System.Drawing.Point(30, 0);
-            HeaderPicture.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            HeaderPicture.Location = new System.Drawing.Point(24, 0);
+            HeaderPicture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             HeaderPicture.Name = "HeaderPicture";
-            HeaderPicture.Size = new System.Drawing.Size(81, 76);
+            HeaderPicture.Size = new System.Drawing.Size(65, 61);
             HeaderPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             HeaderPicture.TabIndex = 0;
             HeaderPicture.TabStop = false;
@@ -161,10 +160,10 @@
             CancelBtn.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             CancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CancelBtn.Location = new System.Drawing.Point(940, 579);
-            CancelBtn.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            CancelBtn.Location = new System.Drawing.Point(752, 464);
+            CancelBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             CancelBtn.Name = "CancelBtn";
-            CancelBtn.Size = new System.Drawing.Size(124, 44);
+            CancelBtn.Size = new System.Drawing.Size(99, 35);
             CancelBtn.TabIndex = 4;
             CancelBtn.Text = "Cancel";
             CancelBtn.UseVisualStyleBackColor = true;
@@ -174,10 +173,10 @@
             OkButton.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
             OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             OkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            OkButton.Location = new System.Drawing.Point(790, 579);
-            OkButton.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            OkButton.Location = new System.Drawing.Point(632, 464);
+            OkButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             OkButton.Name = "OkButton";
-            OkButton.Size = new System.Drawing.Size(125, 44);
+            OkButton.Size = new System.Drawing.Size(100, 35);
             OkButton.TabIndex = 3;
             OkButton.Text = "Ok";
             OkButton.UseVisualStyleBackColor = true;
@@ -192,14 +191,13 @@
             tableLayoutPanel1.Controls.Add(PalettesTabControl, 0, 2);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 1);
             tableLayoutPanel1.Controls.Add(toolStrip1, 0, 1);
-            tableLayoutPanel1.Location = new System.Drawing.Point(4, 83);
-            tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
+            tableLayoutPanel1.Location = new System.Drawing.Point(3, 66);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
-            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
-            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 54F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 17F));
+            tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new System.Drawing.Size(1061, 486);
+            tableLayoutPanel1.Size = new System.Drawing.Size(849, 390);
             tableLayoutPanel1.TabIndex = 5;
             // 
             // PalettesTabControl
@@ -209,22 +207,21 @@
             PalettesTabControl.Controls.Add(TabPageSystemPalette);
             PalettesTabControl.Controls.Add(TabPagePagePalette);
             PalettesTabControl.Controls.Add(TabPageCustomPalette);
-            PalettesTabControl.Location = new System.Drawing.Point(4, 87);
-            PalettesTabControl.Margin = new System.Windows.Forms.Padding(4, 12, 4, 4);
+            PalettesTabControl.Location = new System.Drawing.Point(3, 70);
+            PalettesTabControl.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             PalettesTabControl.Name = "PalettesTabControl";
             PalettesTabControl.SelectedIndex = 0;
-            PalettesTabControl.Size = new System.Drawing.Size(522, 395);
+            PalettesTabControl.Size = new System.Drawing.Size(418, 317);
             PalettesTabControl.TabIndex = 5;
             PalettesTabControl.Selecting += PalettesTabControl_Selecting;
             // 
             // TabPageDefaultPalette
             // 
             TabPageDefaultPalette.Controls.Add(FlowLayoutDefaultPalette);
-            TabPageDefaultPalette.Location = new System.Drawing.Point(4, 34);
-            TabPageDefaultPalette.Margin = new System.Windows.Forms.Padding(4);
+            TabPageDefaultPalette.Location = new System.Drawing.Point(4, 29);
             TabPageDefaultPalette.Name = "TabPageDefaultPalette";
-            TabPageDefaultPalette.Padding = new System.Windows.Forms.Padding(4);
-            TabPageDefaultPalette.Size = new System.Drawing.Size(514, 357);
+            TabPageDefaultPalette.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            TabPageDefaultPalette.Size = new System.Drawing.Size(410, 284);
             TabPageDefaultPalette.TabIndex = 0;
             TabPageDefaultPalette.Text = "Default";
             TabPageDefaultPalette.UseVisualStyleBackColor = true;
@@ -233,21 +230,19 @@
             // 
             FlowLayoutDefaultPalette.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             FlowLayoutDefaultPalette.AutoScroll = true;
-            FlowLayoutDefaultPalette.Location = new System.Drawing.Point(4, 4);
-            FlowLayoutDefaultPalette.Margin = new System.Windows.Forms.Padding(4);
+            FlowLayoutDefaultPalette.Location = new System.Drawing.Point(3, 3);
             FlowLayoutDefaultPalette.Name = "FlowLayoutDefaultPalette";
-            FlowLayoutDefaultPalette.Padding = new System.Windows.Forms.Padding(10);
-            FlowLayoutDefaultPalette.Size = new System.Drawing.Size(506, 349);
+            FlowLayoutDefaultPalette.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            FlowLayoutDefaultPalette.Size = new System.Drawing.Size(405, 280);
             FlowLayoutDefaultPalette.TabIndex = 0;
             // 
             // TabPageSystemPalette
             // 
             TabPageSystemPalette.Controls.Add(FlowLayoutSystemPalette);
-            TabPageSystemPalette.Location = new System.Drawing.Point(4, 34);
-            TabPageSystemPalette.Margin = new System.Windows.Forms.Padding(4);
+            TabPageSystemPalette.Location = new System.Drawing.Point(4, 29);
             TabPageSystemPalette.Name = "TabPageSystemPalette";
-            TabPageSystemPalette.Padding = new System.Windows.Forms.Padding(4);
-            TabPageSystemPalette.Size = new System.Drawing.Size(514, 357);
+            TabPageSystemPalette.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            TabPageSystemPalette.Size = new System.Drawing.Size(410, 283);
             TabPageSystemPalette.TabIndex = 1;
             TabPageSystemPalette.Text = "System";
             TabPageSystemPalette.UseVisualStyleBackColor = true;
@@ -256,30 +251,27 @@
             // 
             FlowLayoutSystemPalette.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             FlowLayoutSystemPalette.AutoScroll = true;
-            FlowLayoutSystemPalette.Location = new System.Drawing.Point(4, 4);
-            FlowLayoutSystemPalette.Margin = new System.Windows.Forms.Padding(4);
+            FlowLayoutSystemPalette.Location = new System.Drawing.Point(3, 3);
             FlowLayoutSystemPalette.Name = "FlowLayoutSystemPalette";
-            FlowLayoutSystemPalette.Padding = new System.Windows.Forms.Padding(10);
-            FlowLayoutSystemPalette.Size = new System.Drawing.Size(506, 349);
+            FlowLayoutSystemPalette.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            FlowLayoutSystemPalette.Size = new System.Drawing.Size(405, 279);
             FlowLayoutSystemPalette.TabIndex = 1;
             // 
             // TabPagePagePalette
             // 
-            TabPagePagePalette.Location = new System.Drawing.Point(4, 34);
-            TabPagePagePalette.Margin = new System.Windows.Forms.Padding(4);
+            TabPagePagePalette.Location = new System.Drawing.Point(4, 29);
             TabPagePagePalette.Name = "TabPagePagePalette";
-            TabPagePagePalette.Padding = new System.Windows.Forms.Padding(4);
-            TabPagePagePalette.Size = new System.Drawing.Size(514, 357);
+            TabPagePagePalette.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            TabPagePagePalette.Size = new System.Drawing.Size(410, 283);
             TabPagePagePalette.TabIndex = 2;
             TabPagePagePalette.Text = "Current Page";
             TabPagePagePalette.UseVisualStyleBackColor = true;
             // 
             // TabPageCustomPalette
             // 
-            TabPageCustomPalette.Location = new System.Drawing.Point(4, 34);
-            TabPageCustomPalette.Margin = new System.Windows.Forms.Padding(4);
+            TabPageCustomPalette.Location = new System.Drawing.Point(4, 29);
             TabPageCustomPalette.Name = "TabPageCustomPalette";
-            TabPageCustomPalette.Size = new System.Drawing.Size(514, 357);
+            TabPageCustomPalette.Size = new System.Drawing.Size(410, 283);
             TabPageCustomPalette.TabIndex = 3;
             TabPageCustomPalette.Text = "Custom";
             TabPageCustomPalette.UseVisualStyleBackColor = true;
@@ -290,7 +282,7 @@
             tableLayoutPanel2.ColumnCount = 3;
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.32076F));
             tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.679245F));
-            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 49F));
+            tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             tableLayoutPanel2.Controls.Add(PictureBoxPalette, 0, 0);
             tableLayoutPanel2.Controls.Add(PictureBoxSelectedColor, 0, 2);
             tableLayoutPanel2.Controls.Add(PictureBoxHoverColor, 1, 2);
@@ -299,19 +291,18 @@
             tableLayoutPanel2.Controls.Add(PictureBoxRainbow, 2, 0);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 4);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 0, 3);
-            tableLayoutPanel2.Location = new System.Drawing.Point(534, 25);
-            tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4);
+            tableLayoutPanel2.Location = new System.Drawing.Point(427, 20);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 5;
             tableLayoutPanel1.SetRowSpan(tableLayoutPanel2, 2);
             tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 135F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 89F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            tableLayoutPanel2.Size = new System.Drawing.Size(523, 457);
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 108F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 71F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new System.Drawing.Size(419, 367);
             tableLayoutPanel2.TabIndex = 7;
             // 
             // PictureBoxPalette
@@ -321,10 +312,9 @@
             tableLayoutPanel2.SetColumnSpan(PictureBoxPalette, 2);
             PictureBoxPalette.Cursor = System.Windows.Forms.Cursors.Cross;
             PictureBoxPalette.Image = Properties.Resources.palette;
-            PictureBoxPalette.Location = new System.Drawing.Point(4, 4);
-            PictureBoxPalette.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxPalette.Location = new System.Drawing.Point(3, 3);
             PictureBoxPalette.Name = "PictureBoxPalette";
-            PictureBoxPalette.Size = new System.Drawing.Size(465, 149);
+            PictureBoxPalette.Size = new System.Drawing.Size(372, 121);
             PictureBoxPalette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             PictureBoxPalette.TabIndex = 6;
             PictureBoxPalette.TabStop = false;
@@ -334,20 +324,18 @@
             // 
             // PictureBoxSelectedColor
             // 
-            PictureBoxSelectedColor.Location = new System.Drawing.Point(4, 193);
-            PictureBoxSelectedColor.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxSelectedColor.Location = new System.Drawing.Point(3, 156);
             PictureBoxSelectedColor.Name = "PictureBoxSelectedColor";
-            PictureBoxSelectedColor.Size = new System.Drawing.Size(221, 32);
+            PictureBoxSelectedColor.Size = new System.Drawing.Size(177, 26);
             PictureBoxSelectedColor.TabIndex = 7;
             PictureBoxSelectedColor.TabStop = false;
             // 
             // PictureBoxHoverColor
             // 
             tableLayoutPanel2.SetColumnSpan(PictureBoxHoverColor, 2);
-            PictureBoxHoverColor.Location = new System.Drawing.Point(294, 193);
-            PictureBoxHoverColor.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxHoverColor.Location = new System.Drawing.Point(235, 156);
             PictureBoxHoverColor.Name = "PictureBoxHoverColor";
-            PictureBoxHoverColor.Size = new System.Drawing.Size(195, 32);
+            PictureBoxHoverColor.Size = new System.Drawing.Size(156, 26);
             PictureBoxHoverColor.TabIndex = 8;
             PictureBoxHoverColor.TabStop = false;
             // 
@@ -355,10 +343,9 @@
             // 
             label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(4, 164);
-            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Location = new System.Drawing.Point(3, 133);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(78, 25);
+            label1.Size = new System.Drawing.Size(66, 20);
             label1.TabIndex = 9;
             label1.Text = "Selected";
             // 
@@ -366,10 +353,9 @@
             // 
             label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(294, 164);
-            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Location = new System.Drawing.Point(235, 133);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(43, 25);
+            label2.Size = new System.Drawing.Size(35, 20);
             label2.TabIndex = 10;
             label2.Text = "Pick";
             // 
@@ -378,10 +364,9 @@
             PictureBoxRainbow.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PictureBoxRainbow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             PictureBoxRainbow.Cursor = System.Windows.Forms.Cursors.Cross;
-            PictureBoxRainbow.Location = new System.Drawing.Point(477, 4);
-            PictureBoxRainbow.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxRainbow.Location = new System.Drawing.Point(381, 3);
             PictureBoxRainbow.Name = "PictureBoxRainbow";
-            PictureBoxRainbow.Size = new System.Drawing.Size(42, 149);
+            PictureBoxRainbow.Size = new System.Drawing.Size(35, 121);
             PictureBoxRainbow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             PictureBoxRainbow.TabIndex = 12;
             PictureBoxRainbow.TabStop = false;
@@ -393,10 +378,10 @@
             // 
             tableLayoutPanel3.ColumnCount = 4;
             tableLayoutPanel2.SetColumnSpan(tableLayoutPanel3, 3);
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
-            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 201F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
             tableLayoutPanel3.Controls.Add(TextBoxHex, 3, 1);
             tableLayoutPanel3.Controls.Add(label6, 3, 0);
             tableLayoutPanel3.Controls.Add(label7, 0, 0);
@@ -405,85 +390,76 @@
             tableLayoutPanel3.Controls.Add(textBox1, 0, 1);
             tableLayoutPanel3.Controls.Add(textBox2, 1, 1);
             tableLayoutPanel3.Controls.Add(textBox3, 2, 1);
-            tableLayoutPanel3.Location = new System.Drawing.Point(4, 372);
-            tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(4);
+            tableLayoutPanel3.Location = new System.Drawing.Point(3, 299);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.636364F));
             tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 56.363636F));
-            tableLayoutPanel3.Size = new System.Drawing.Size(426, 76);
+            tableLayoutPanel3.Size = new System.Drawing.Size(341, 61);
             tableLayoutPanel3.TabIndex = 11;
             // 
             // TextBoxHex
             // 
-            TextBoxHex.Location = new System.Drawing.Point(229, 37);
-            TextBoxHex.Margin = new System.Windows.Forms.Padding(4);
+            TextBoxHex.Location = new System.Drawing.Point(183, 29);
             TextBoxHex.Name = "TextBoxHex";
-            TextBoxHex.Size = new System.Drawing.Size(163, 31);
+            TextBoxHex.Size = new System.Drawing.Size(131, 27);
             TextBoxHex.TabIndex = 3;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(229, 0);
-            label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label6.Location = new System.Drawing.Point(183, 0);
             label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(45, 25);
+            label6.Size = new System.Drawing.Size(37, 20);
             label6.TabIndex = 7;
             label6.Text = "HEX";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(4, 0);
-            label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label7.Location = new System.Drawing.Point(3, 0);
             label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(25, 25);
+            label7.Size = new System.Drawing.Size(20, 20);
             label7.TabIndex = 8;
             label7.Text = "H";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new System.Drawing.Point(79, 0);
-            label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label8.Location = new System.Drawing.Point(63, 0);
             label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(22, 25);
+            label8.Size = new System.Drawing.Size(17, 20);
             label8.TabIndex = 9;
             label8.Text = "S";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(154, 0);
-            label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label9.Location = new System.Drawing.Point(123, 0);
             label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(23, 25);
+            label9.Size = new System.Drawing.Size(18, 20);
             label9.TabIndex = 10;
             label9.Text = "V";
             // 
             // textBox1
             // 
-            textBox1.Location = new System.Drawing.Point(4, 37);
-            textBox1.Margin = new System.Windows.Forms.Padding(4);
+            textBox1.Location = new System.Drawing.Point(3, 29);
             textBox1.Name = "textBox1";
-            textBox1.Size = new System.Drawing.Size(66, 31);
+            textBox1.Size = new System.Drawing.Size(54, 27);
             textBox1.TabIndex = 11;
             // 
             // textBox2
             // 
-            textBox2.Location = new System.Drawing.Point(79, 37);
-            textBox2.Margin = new System.Windows.Forms.Padding(4);
+            textBox2.Location = new System.Drawing.Point(63, 29);
             textBox2.Name = "textBox2";
-            textBox2.Size = new System.Drawing.Size(66, 31);
+            textBox2.Size = new System.Drawing.Size(54, 27);
             textBox2.TabIndex = 12;
             // 
             // textBox3
             // 
-            textBox3.Location = new System.Drawing.Point(154, 37);
-            textBox3.Margin = new System.Windows.Forms.Padding(4);
+            textBox3.Location = new System.Drawing.Point(123, 29);
             textBox3.Name = "textBox3";
-            textBox3.Size = new System.Drawing.Size(66, 31);
+            textBox3.Size = new System.Drawing.Size(54, 27);
             textBox3.TabIndex = 13;
             // 
             // tableLayoutPanel4
@@ -492,7 +468,7 @@
             tableLayoutPanel2.SetColumnSpan(tableLayoutPanel4, 2);
             tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 78.3333359F));
             tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21.6666641F));
-            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
+            tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
             tableLayoutPanel4.Controls.Add(label3, 1, 0);
             tableLayoutPanel4.Controls.Add(label4, 1, 1);
             tableLayoutPanel4.Controls.Add(label5, 1, 2);
@@ -502,87 +478,81 @@
             tableLayoutPanel4.Controls.Add(PictureBoxColorRangeR, 0, 0);
             tableLayoutPanel4.Controls.Add(PictureBoxColorRangeG, 0, 1);
             tableLayoutPanel4.Controls.Add(PictureBoxColorRangeB, 0, 2);
-            tableLayoutPanel4.Location = new System.Drawing.Point(4, 237);
-            tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4);
+            tableLayoutPanel4.Location = new System.Drawing.Point(3, 191);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 3;
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42F));
-            tableLayoutPanel4.Size = new System.Drawing.Size(390, 127);
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            tableLayoutPanel4.Size = new System.Drawing.Size(312, 102);
             tableLayoutPanel4.TabIndex = 13;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(250, 0);
-            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Location = new System.Drawing.Point(199, 4);
+            label3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(23, 25);
+            label3.Size = new System.Drawing.Size(18, 20);
             label3.TabIndex = 4;
             label3.Text = "R";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(250, 42);
-            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label4.Location = new System.Drawing.Point(199, 38);
+            label4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
             label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(24, 25);
+            label4.Size = new System.Drawing.Size(19, 20);
             label4.TabIndex = 5;
             label4.Text = "G";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(250, 84);
-            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label5.Location = new System.Drawing.Point(199, 72);
+            label5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
             label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(22, 25);
+            label5.Size = new System.Drawing.Size(18, 20);
             label5.TabIndex = 6;
             label5.Text = "B";
             // 
             // TextBoxR
             // 
-            TextBoxR.Location = new System.Drawing.Point(318, 4);
-            TextBoxR.Margin = new System.Windows.Forms.Padding(4);
+            TextBoxR.Location = new System.Drawing.Point(253, 3);
             TextBoxR.Name = "TextBoxR";
-            TextBoxR.Size = new System.Drawing.Size(66, 31);
+            TextBoxR.Size = new System.Drawing.Size(54, 27);
             TextBoxR.TabIndex = 0;
             // 
             // TextBoxB
             // 
-            TextBoxB.Location = new System.Drawing.Point(318, 88);
-            TextBoxB.Margin = new System.Windows.Forms.Padding(4);
+            TextBoxB.Location = new System.Drawing.Point(253, 71);
             TextBoxB.Name = "TextBoxB";
-            TextBoxB.Size = new System.Drawing.Size(66, 31);
+            TextBoxB.Size = new System.Drawing.Size(54, 27);
             TextBoxB.TabIndex = 2;
             // 
             // TextBoxG
             // 
-            TextBoxG.Location = new System.Drawing.Point(318, 46);
-            TextBoxG.Margin = new System.Windows.Forms.Padding(4);
+            TextBoxG.Location = new System.Drawing.Point(253, 37);
             TextBoxG.Name = "TextBoxG";
-            TextBoxG.Size = new System.Drawing.Size(65, 31);
+            TextBoxG.Size = new System.Drawing.Size(53, 27);
             TextBoxG.TabIndex = 1;
             // 
             // PictureBoxColorRangeR
             // 
             PictureBoxColorRangeR.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxColorRangeR.Location = new System.Drawing.Point(4, 4);
-            PictureBoxColorRangeR.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxColorRangeR.Location = new System.Drawing.Point(3, 3);
             PictureBoxColorRangeR.Name = "PictureBoxColorRangeR";
-            PictureBoxColorRangeR.Size = new System.Drawing.Size(238, 34);
+            PictureBoxColorRangeR.Size = new System.Drawing.Size(190, 28);
             PictureBoxColorRangeR.TabIndex = 7;
             PictureBoxColorRangeR.TabStop = false;
             // 
             // PictureBoxColorRangeG
             // 
             PictureBoxColorRangeG.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxColorRangeG.Location = new System.Drawing.Point(4, 46);
-            PictureBoxColorRangeG.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxColorRangeG.Location = new System.Drawing.Point(3, 37);
             PictureBoxColorRangeG.Name = "PictureBoxColorRangeG";
-            PictureBoxColorRangeG.Size = new System.Drawing.Size(238, 34);
+            PictureBoxColorRangeG.Size = new System.Drawing.Size(190, 28);
             PictureBoxColorRangeG.TabIndex = 8;
             PictureBoxColorRangeG.TabStop = false;
             // 
@@ -590,10 +560,9 @@
             // 
             PictureBoxColorRangeB.AccessibleDescription = "0                                   ";
             PictureBoxColorRangeB.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxColorRangeB.Location = new System.Drawing.Point(4, 88);
-            PictureBoxColorRangeB.Margin = new System.Windows.Forms.Padding(4);
+            PictureBoxColorRangeB.Location = new System.Drawing.Point(3, 71);
             PictureBoxColorRangeB.Name = "PictureBoxColorRangeB";
-            PictureBoxColorRangeB.Size = new System.Drawing.Size(238, 35);
+            PictureBoxColorRangeB.Size = new System.Drawing.Size(190, 28);
             PictureBoxColorRangeB.TabIndex = 9;
             PictureBoxColorRangeB.TabStop = false;
             // 
@@ -603,10 +572,10 @@
             toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripButton1, toolStripSeparator1, toolStripButton2, toolStripButton3, toolStripSeparator2, toolStripDropDownButton1, toolStripButton4 });
-            toolStrip1.Location = new System.Drawing.Point(0, 46);
+            toolStrip1.Location = new System.Drawing.Point(0, 33);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            toolStrip1.Size = new System.Drawing.Size(530, 29);
+            toolStrip1.Size = new System.Drawing.Size(424, 27);
             toolStrip1.TabIndex = 8;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -616,13 +585,13 @@
             toolStripButton1.Image = (System.Drawing.Image)resources.GetObject("toolStripButton1.Image");
             toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new System.Drawing.Size(34, 24);
+            toolStripButton1.Size = new System.Drawing.Size(29, 24);
             toolStripButton1.Text = "toolStripButton1";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new System.Drawing.Size(6, 29);
+            toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // toolStripButton2
             // 
@@ -630,7 +599,7 @@
             toolStripButton2.Image = (System.Drawing.Image)resources.GetObject("toolStripButton2.Image");
             toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new System.Drawing.Size(34, 24);
+            toolStripButton2.Size = new System.Drawing.Size(29, 24);
             toolStripButton2.Text = "toolStripButton2";
             // 
             // toolStripButton3
@@ -639,13 +608,13 @@
             toolStripButton3.Image = (System.Drawing.Image)resources.GetObject("toolStripButton3.Image");
             toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new System.Drawing.Size(34, 24);
+            toolStripButton3.Size = new System.Drawing.Size(29, 24);
             toolStripButton3.Text = "toolStripButton3";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new System.Drawing.Size(6, 29);
+            toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // toolStripDropDownButton1
             // 
@@ -653,7 +622,7 @@
             toolStripDropDownButton1.Image = (System.Drawing.Image)resources.GetObject("toolStripDropDownButton1.Image");
             toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            toolStripDropDownButton1.Size = new System.Drawing.Size(38, 24);
+            toolStripDropDownButton1.Size = new System.Drawing.Size(34, 24);
             toolStripDropDownButton1.Text = "toolStripDropDownButton1";
             // 
             // toolStripButton4
@@ -662,7 +631,7 @@
             toolStripButton4.Image = (System.Drawing.Image)resources.GetObject("toolStripButton4.Image");
             toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             toolStripButton4.Name = "toolStripButton4";
-            toolStripButton4.Size = new System.Drawing.Size(34, 24);
+            toolStripButton4.Size = new System.Drawing.Size(29, 24);
             toolStripButton4.Text = "toolStripButton4";
             // 
             // ColorSelectTooltip
@@ -676,13 +645,12 @@
             // 
             // ColorSelect
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1069, 641);
+            ClientSize = new System.Drawing.Size(855, 513);
             Controls.Add(ColorEditorTableLayout);
             DoubleBuffered = true;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            Margin = new System.Windows.Forms.Padding(4);
             Name = "ColorSelect";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "Select a Color...";

@@ -32,17 +32,7 @@ namespace Win_CBZ
 
         public static String ToHexColor(Color color)
         {
-            byte red = 0;
-            byte green = 0;
-            byte blue = 0;
-            byte alpha = 0;
-           
-            red = color.R; 
-            green = color.G; 
-            blue = color.B;
-            alpha = color.A;  // not supported
-
-            return "#" + red.ToString("X2") + green.ToString("X2") + blue.ToString("X2");
+            return "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
 
     }
