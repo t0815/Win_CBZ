@@ -57,9 +57,9 @@
             label7 = new System.Windows.Forms.Label();
             label8 = new System.Windows.Forms.Label();
             label9 = new System.Windows.Forms.Label();
-            textBox1 = new System.Windows.Forms.TextBox();
-            textBox2 = new System.Windows.Forms.TextBox();
-            textBox3 = new System.Windows.Forms.TextBox();
+            TextBoxH = new System.Windows.Forms.TextBox();
+            TextBoxS = new System.Windows.Forms.TextBox();
+            TextBoxV = new System.Windows.Forms.TextBox();
             tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -220,7 +220,7 @@
             TabPageDefaultPalette.Controls.Add(FlowLayoutDefaultPalette);
             TabPageDefaultPalette.Location = new System.Drawing.Point(4, 29);
             TabPageDefaultPalette.Name = "TabPageDefaultPalette";
-            TabPageDefaultPalette.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            TabPageDefaultPalette.Padding = new System.Windows.Forms.Padding(3);
             TabPageDefaultPalette.Size = new System.Drawing.Size(410, 284);
             TabPageDefaultPalette.TabIndex = 0;
             TabPageDefaultPalette.Text = "Default";
@@ -232,7 +232,7 @@
             FlowLayoutDefaultPalette.AutoScroll = true;
             FlowLayoutDefaultPalette.Location = new System.Drawing.Point(3, 3);
             FlowLayoutDefaultPalette.Name = "FlowLayoutDefaultPalette";
-            FlowLayoutDefaultPalette.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            FlowLayoutDefaultPalette.Padding = new System.Windows.Forms.Padding(8);
             FlowLayoutDefaultPalette.Size = new System.Drawing.Size(405, 280);
             FlowLayoutDefaultPalette.TabIndex = 0;
             // 
@@ -241,8 +241,8 @@
             TabPageSystemPalette.Controls.Add(FlowLayoutSystemPalette);
             TabPageSystemPalette.Location = new System.Drawing.Point(4, 29);
             TabPageSystemPalette.Name = "TabPageSystemPalette";
-            TabPageSystemPalette.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            TabPageSystemPalette.Size = new System.Drawing.Size(410, 283);
+            TabPageSystemPalette.Padding = new System.Windows.Forms.Padding(3);
+            TabPageSystemPalette.Size = new System.Drawing.Size(410, 284);
             TabPageSystemPalette.TabIndex = 1;
             TabPageSystemPalette.Text = "System";
             TabPageSystemPalette.UseVisualStyleBackColor = true;
@@ -253,7 +253,7 @@
             FlowLayoutSystemPalette.AutoScroll = true;
             FlowLayoutSystemPalette.Location = new System.Drawing.Point(3, 3);
             FlowLayoutSystemPalette.Name = "FlowLayoutSystemPalette";
-            FlowLayoutSystemPalette.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            FlowLayoutSystemPalette.Padding = new System.Windows.Forms.Padding(8);
             FlowLayoutSystemPalette.Size = new System.Drawing.Size(405, 279);
             FlowLayoutSystemPalette.TabIndex = 1;
             // 
@@ -261,8 +261,8 @@
             // 
             TabPagePagePalette.Location = new System.Drawing.Point(4, 29);
             TabPagePagePalette.Name = "TabPagePagePalette";
-            TabPagePagePalette.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            TabPagePagePalette.Size = new System.Drawing.Size(410, 283);
+            TabPagePagePalette.Padding = new System.Windows.Forms.Padding(3);
+            TabPagePagePalette.Size = new System.Drawing.Size(410, 284);
             TabPagePagePalette.TabIndex = 2;
             TabPagePagePalette.Text = "Current Page";
             TabPagePagePalette.UseVisualStyleBackColor = true;
@@ -271,7 +271,7 @@
             // 
             TabPageCustomPalette.Location = new System.Drawing.Point(4, 29);
             TabPageCustomPalette.Name = "TabPageCustomPalette";
-            TabPageCustomPalette.Size = new System.Drawing.Size(410, 283);
+            TabPageCustomPalette.Size = new System.Drawing.Size(410, 284);
             TabPageCustomPalette.TabIndex = 3;
             TabPageCustomPalette.Text = "Custom";
             TabPageCustomPalette.UseVisualStyleBackColor = true;
@@ -387,9 +387,9 @@
             tableLayoutPanel3.Controls.Add(label7, 0, 0);
             tableLayoutPanel3.Controls.Add(label8, 1, 0);
             tableLayoutPanel3.Controls.Add(label9, 2, 0);
-            tableLayoutPanel3.Controls.Add(textBox1, 0, 1);
-            tableLayoutPanel3.Controls.Add(textBox2, 1, 1);
-            tableLayoutPanel3.Controls.Add(textBox3, 2, 1);
+            tableLayoutPanel3.Controls.Add(TextBoxH, 0, 1);
+            tableLayoutPanel3.Controls.Add(TextBoxS, 1, 1);
+            tableLayoutPanel3.Controls.Add(TextBoxV, 2, 1);
             tableLayoutPanel3.Location = new System.Drawing.Point(3, 299);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 2;
@@ -441,26 +441,26 @@
             label9.TabIndex = 10;
             label9.Text = "V";
             // 
-            // textBox1
+            // TextBoxH
             // 
-            textBox1.Location = new System.Drawing.Point(3, 29);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new System.Drawing.Size(54, 27);
-            textBox1.TabIndex = 11;
+            TextBoxH.Location = new System.Drawing.Point(3, 29);
+            TextBoxH.Name = "TextBoxH";
+            TextBoxH.Size = new System.Drawing.Size(54, 27);
+            TextBoxH.TabIndex = 11;
             // 
-            // textBox2
+            // TextBoxS
             // 
-            textBox2.Location = new System.Drawing.Point(63, 29);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new System.Drawing.Size(54, 27);
-            textBox2.TabIndex = 12;
+            TextBoxS.Location = new System.Drawing.Point(63, 29);
+            TextBoxS.Name = "TextBoxS";
+            TextBoxS.Size = new System.Drawing.Size(54, 27);
+            TextBoxS.TabIndex = 12;
             // 
-            // textBox3
+            // TextBoxV
             // 
-            textBox3.Location = new System.Drawing.Point(123, 29);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new System.Drawing.Size(54, 27);
-            textBox3.TabIndex = 13;
+            TextBoxV.Location = new System.Drawing.Point(123, 29);
+            TextBoxV.Name = "TextBoxV";
+            TextBoxV.Size = new System.Drawing.Size(54, 27);
+            TextBoxV.TabIndex = 13;
             // 
             // tableLayoutPanel4
             // 
@@ -541,30 +541,39 @@
             // PictureBoxColorRangeR
             // 
             PictureBoxColorRangeR.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxColorRangeR.Cursor = System.Windows.Forms.Cursors.Cross;
             PictureBoxColorRangeR.Location = new System.Drawing.Point(3, 3);
             PictureBoxColorRangeR.Name = "PictureBoxColorRangeR";
             PictureBoxColorRangeR.Size = new System.Drawing.Size(190, 28);
             PictureBoxColorRangeR.TabIndex = 7;
             PictureBoxColorRangeR.TabStop = false;
+            PictureBoxColorRangeR.Click += PictureBoxRGBSlider_MouseClick;
+            PictureBoxColorRangeR.MouseMove += PictureBoxRGBSlider_MouseMove;
             // 
             // PictureBoxColorRangeG
             // 
             PictureBoxColorRangeG.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxColorRangeG.Cursor = System.Windows.Forms.Cursors.Cross;
             PictureBoxColorRangeG.Location = new System.Drawing.Point(3, 37);
             PictureBoxColorRangeG.Name = "PictureBoxColorRangeG";
             PictureBoxColorRangeG.Size = new System.Drawing.Size(190, 28);
             PictureBoxColorRangeG.TabIndex = 8;
             PictureBoxColorRangeG.TabStop = false;
+            PictureBoxColorRangeG.Click += PictureBoxRGBSlider_MouseClick;
+            PictureBoxColorRangeG.MouseMove += PictureBoxRGBSlider_MouseMove;
             // 
             // PictureBoxColorRangeB
             // 
             PictureBoxColorRangeB.AccessibleDescription = "0                                   ";
             PictureBoxColorRangeB.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PictureBoxColorRangeB.Cursor = System.Windows.Forms.Cursors.Cross;
             PictureBoxColorRangeB.Location = new System.Drawing.Point(3, 71);
             PictureBoxColorRangeB.Name = "PictureBoxColorRangeB";
             PictureBoxColorRangeB.Size = new System.Drawing.Size(190, 28);
             PictureBoxColorRangeB.TabIndex = 9;
             PictureBoxColorRangeB.TabStop = false;
+            PictureBoxColorRangeB.Click += PictureBoxRGBSlider_MouseClick;
+            PictureBoxColorRangeB.MouseMove += PictureBoxRGBSlider_MouseMove;
             // 
             // toolStrip1
             // 
@@ -724,9 +733,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox TextBoxH;
+        private System.Windows.Forms.TextBox TextBoxS;
+        private System.Windows.Forms.TextBox TextBoxV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.PictureBox PictureBoxColorRangeR;
         private System.Windows.Forms.PictureBox PictureBoxColorRangeG;

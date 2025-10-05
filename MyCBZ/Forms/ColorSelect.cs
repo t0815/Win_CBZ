@@ -199,6 +199,34 @@ namespace Win_CBZ.Forms
             UpdateSelectedColorState(button.BackColor);
         }
 
+        private void PictureBoxRGBSlider_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                PictureBox pictureBox = sender as PictureBox;
+
+                PictureBoxHoverColor.BackColor = pictureBox.Image.ToBitmap().GetPixel(e.X, e.Y);
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void PictureBoxRGBSlider_MouseClick(object sender, EventArgs e)
+        {
+            try
+            {
+                PictureBox pictureBox = sender as PictureBox;
+
+                UpdateSelectedColorState(PictureBoxHoverColor.BackColor);
+            }
+            catch
+            {
+
+            }
+        }
+
         private void LoadPaletteForTabHtml(FlowLayoutPanel container, List<string> palette)
         {
             Task.Factory.StartNew(() =>
@@ -270,6 +298,7 @@ namespace Win_CBZ.Forms
         private void ColorSelect_Load(object sender, EventArgs e)
         {
             LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
+            UpdateSelectedColorState(PictureBoxHoverColor.BackColor);
         }
 
         private void UpdateSelectedColorState(Color color, bool dontRegeneratePaletteGradient = false)
@@ -387,6 +416,14 @@ namespace Win_CBZ.Forms
             paletteBTask.Start();
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+
+            float h, s, v;
+
+            Colors.ColorToHSV(SelectedColor, out h, out s, out v);
+
+            TextBoxH.Text = ((int)h).ToString();
+            TextBoxS.Text = ((int)(s * 100)).ToString();
+            TextBoxV.Text = ((int)(v * 100)).ToString();
         }
     }
 }
