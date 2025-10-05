@@ -42,7 +42,6 @@
             FlowLayoutDefaultPalette = new System.Windows.Forms.FlowLayoutPanel();
             TabPageSystemPalette = new System.Windows.Forms.TabPage();
             FlowLayoutSystemPalette = new System.Windows.Forms.FlowLayoutPanel();
-            TabPagePagePalette = new System.Windows.Forms.TabPage();
             TabPageCustomPalette = new System.Windows.Forms.TabPage();
             tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             PictureBoxPalette = new System.Windows.Forms.PictureBox();
@@ -67,9 +66,9 @@
             TextBoxR = new System.Windows.Forms.TextBox();
             TextBoxB = new System.Windows.Forms.TextBox();
             TextBoxG = new System.Windows.Forms.TextBox();
-            PictureBoxColorRangeR = new System.Windows.Forms.PictureBox();
-            PictureBoxColorRangeG = new System.Windows.Forms.PictureBox();
-            PictureBoxColorRangeB = new System.Windows.Forms.PictureBox();
+            GradientSliderChannelR = new Win_CBZ.Components.GradientSlider.GradientSlider();
+            GradientSliderChannelB = new Win_CBZ.Components.GradientSlider.GradientSlider();
+            GradientSliderChannelG = new Win_CBZ.Components.GradientSlider.GradientSlider();
             toolStrip1 = new System.Windows.Forms.ToolStrip();
             toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -79,8 +78,6 @@
             toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             ColorSelectTooltip = new System.Windows.Forms.ToolTip(components);
-            gradientSlider1 = new Win_CBZ.Components.GradientSlider.GradientSlider(components);
-            gradientSlider2 = new Win_CBZ.Components.GradientSlider.GradientSlider(components);
             ColorEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -88,7 +85,6 @@
             PalettesTabControl.SuspendLayout();
             TabPageDefaultPalette.SuspendLayout();
             TabPageSystemPalette.SuspendLayout();
-            TabPagePagePalette.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxSelectedColor).BeginInit();
@@ -96,9 +92,6 @@
             ((System.ComponentModel.ISupportInitialize)PictureBoxRainbow).BeginInit();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeR).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeG).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeB).BeginInit();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -208,7 +201,6 @@
             PalettesTabControl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PalettesTabControl.Controls.Add(TabPageDefaultPalette);
             PalettesTabControl.Controls.Add(TabPageSystemPalette);
-            PalettesTabControl.Controls.Add(TabPagePagePalette);
             PalettesTabControl.Controls.Add(TabPageCustomPalette);
             PalettesTabControl.Location = new System.Drawing.Point(3, 70);
             PalettesTabControl.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
@@ -259,17 +251,6 @@
             FlowLayoutSystemPalette.Padding = new System.Windows.Forms.Padding(8);
             FlowLayoutSystemPalette.Size = new System.Drawing.Size(405, 279);
             FlowLayoutSystemPalette.TabIndex = 1;
-            // 
-            // TabPagePagePalette
-            // 
-            TabPagePagePalette.Controls.Add(gradientSlider2);
-            TabPagePagePalette.Location = new System.Drawing.Point(4, 29);
-            TabPagePagePalette.Name = "TabPagePagePalette";
-            TabPagePagePalette.Padding = new System.Windows.Forms.Padding(3);
-            TabPagePagePalette.Size = new System.Drawing.Size(410, 284);
-            TabPagePagePalette.TabIndex = 2;
-            TabPagePagePalette.Text = "Current Page";
-            TabPagePagePalette.UseVisualStyleBackColor = true;
             // 
             // TabPageCustomPalette
             // 
@@ -479,9 +460,9 @@
             tableLayoutPanel4.Controls.Add(TextBoxR, 2, 0);
             tableLayoutPanel4.Controls.Add(TextBoxB, 2, 2);
             tableLayoutPanel4.Controls.Add(TextBoxG, 2, 1);
-            tableLayoutPanel4.Controls.Add(PictureBoxColorRangeR, 0, 0);
-            tableLayoutPanel4.Controls.Add(PictureBoxColorRangeG, 0, 1);
-            tableLayoutPanel4.Controls.Add(PictureBoxColorRangeB, 0, 2);
+            tableLayoutPanel4.Controls.Add(GradientSliderChannelR, 0, 0);
+            tableLayoutPanel4.Controls.Add(GradientSliderChannelB, 0, 2);
+            tableLayoutPanel4.Controls.Add(GradientSliderChannelG, 0, 1);
             tableLayoutPanel4.Location = new System.Drawing.Point(3, 191);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 3;
@@ -542,42 +523,42 @@
             TextBoxG.Size = new System.Drawing.Size(53, 27);
             TextBoxG.TabIndex = 1;
             // 
-            // PictureBoxColorRangeR
+            // GradientSliderChannelR
             // 
-            PictureBoxColorRangeR.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxColorRangeR.Cursor = System.Windows.Forms.Cursors.Cross;
-            PictureBoxColorRangeR.Location = new System.Drawing.Point(3, 3);
-            PictureBoxColorRangeR.Name = "PictureBoxColorRangeR";
-            PictureBoxColorRangeR.Size = new System.Drawing.Size(190, 28);
-            PictureBoxColorRangeR.TabIndex = 7;
-            PictureBoxColorRangeR.TabStop = false;
-            PictureBoxColorRangeR.Click += PictureBoxRGBSlider_MouseClick;
-            PictureBoxColorRangeR.MouseMove += PictureBoxRGBSlider_MouseMove;
+            GradientSliderChannelR.EndColor = System.Drawing.Color.Red;
+            GradientSliderChannelR.Location = new System.Drawing.Point(3, 3);
+            GradientSliderChannelR.Maximum = 255;
+            GradientSliderChannelR.Name = "GradientSliderChannelR";
+            GradientSliderChannelR.Size = new System.Drawing.Size(190, 28);
+            GradientSliderChannelR.TabIndex = 7;
+            GradientSliderChannelR.Text = "gradientSlider2";
+            GradientSliderChannelR.ThumbHeight = 28;
+            GradientSliderChannelR.ValueChanged += GradientSliderChannelR_ValueChanged;
             // 
-            // PictureBoxColorRangeG
+            // GradientSliderChannelB
             // 
-            PictureBoxColorRangeG.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxColorRangeG.Cursor = System.Windows.Forms.Cursors.Cross;
-            PictureBoxColorRangeG.Location = new System.Drawing.Point(3, 37);
-            PictureBoxColorRangeG.Name = "PictureBoxColorRangeG";
-            PictureBoxColorRangeG.Size = new System.Drawing.Size(190, 28);
-            PictureBoxColorRangeG.TabIndex = 8;
-            PictureBoxColorRangeG.TabStop = false;
-            PictureBoxColorRangeG.Click += PictureBoxRGBSlider_MouseClick;
-            PictureBoxColorRangeG.MouseMove += PictureBoxRGBSlider_MouseMove;
+            GradientSliderChannelB.EndColor = System.Drawing.Color.Blue;
+            GradientSliderChannelB.Location = new System.Drawing.Point(3, 71);
+            GradientSliderChannelB.Maximum = 255;
+            GradientSliderChannelB.Name = "GradientSliderChannelB";
+            GradientSliderChannelB.Size = new System.Drawing.Size(190, 28);
+            GradientSliderChannelB.TabIndex = 9;
+            GradientSliderChannelB.Text = "gradientSlider4";
+            GradientSliderChannelB.ThumbHeight = 28;
+            GradientSliderChannelB.ValueChanged += GradientSliderChannelB_ValueChanged;
             // 
-            // PictureBoxColorRangeB
+            // GradientSliderChannelG
             // 
-            PictureBoxColorRangeB.AccessibleDescription = "0                                   ";
-            PictureBoxColorRangeB.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PictureBoxColorRangeB.Cursor = System.Windows.Forms.Cursors.Cross;
-            PictureBoxColorRangeB.Location = new System.Drawing.Point(3, 71);
-            PictureBoxColorRangeB.Name = "PictureBoxColorRangeB";
-            PictureBoxColorRangeB.Size = new System.Drawing.Size(190, 28);
-            PictureBoxColorRangeB.TabIndex = 9;
-            PictureBoxColorRangeB.TabStop = false;
-            PictureBoxColorRangeB.Click += PictureBoxRGBSlider_MouseClick;
-            PictureBoxColorRangeB.MouseMove += PictureBoxRGBSlider_MouseMove;
+            GradientSliderChannelG.EndColor = System.Drawing.Color.Green;
+            GradientSliderChannelG.Location = new System.Drawing.Point(3, 37);
+            GradientSliderChannelG.Maximum = 255;
+            GradientSliderChannelG.Name = "GradientSliderChannelG";
+            GradientSliderChannelG.Size = new System.Drawing.Size(190, 28);
+            GradientSliderChannelG.TabIndex = 8;
+            GradientSliderChannelG.Text = "gradientSlider3";
+            GradientSliderChannelG.ThumbHeight = 28;
+            GradientSliderChannelG.Value = 100F;
+            GradientSliderChannelG.ValueChanged += GradientSliderChannelG_ValueChanged;
             // 
             // toolStrip1
             // 
@@ -656,21 +637,6 @@
             ColorSelectTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             ColorSelectTooltip.ToolTipTitle = "Win_CBZ";
             // 
-            // gradientSlider1
-            // 
-            gradientSlider1.Location = new System.Drawing.Point(0, 0);
-            gradientSlider1.Name = "gradientSlider1";
-            gradientSlider1.Size = new System.Drawing.Size(256, 32);
-            gradientSlider1.TabIndex = 0;
-            // 
-            // gradientSlider2
-            // 
-            gradientSlider2.Location = new System.Drawing.Point(130, 77);
-            gradientSlider2.Name = "gradientSlider2";
-            gradientSlider2.Size = new System.Drawing.Size(209, 32);
-            gradientSlider2.TabIndex = 0;
-            gradientSlider2.Text = "gradientSlider2";
-            // 
             // ColorSelect
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -692,7 +658,6 @@
             PalettesTabControl.ResumeLayout(false);
             TabPageDefaultPalette.ResumeLayout(false);
             TabPageSystemPalette.ResumeLayout(false);
-            TabPagePagePalette.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).EndInit();
@@ -703,9 +668,6 @@
             tableLayoutPanel3.PerformLayout();
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeR).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeG).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PictureBoxColorRangeB).EndInit();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ResumeLayout(false);
@@ -724,7 +686,6 @@
         private System.Windows.Forms.TabPage TabPageDefaultPalette;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutDefaultPalette;
         private System.Windows.Forms.TabPage TabPageSystemPalette;
-        private System.Windows.Forms.TabPage TabPagePagePalette;
         private System.Windows.Forms.PictureBox PictureBoxPalette;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox PictureBoxSelectedColor;
@@ -757,12 +718,10 @@
         private System.Windows.Forms.TextBox TextBoxS;
         private System.Windows.Forms.TextBox TextBoxV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.PictureBox PictureBoxColorRangeR;
-        private System.Windows.Forms.PictureBox PictureBoxColorRangeG;
-        private System.Windows.Forms.PictureBox PictureBoxColorRangeB;
         private System.Windows.Forms.ToolTip ColorSelectTooltip;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutSystemPalette;
-        private Components.GradientSlider.GradientSlider gradientSlider1;
-        private Components.GradientSlider.GradientSlider gradientSlider2;
+        private Components.GradientSlider.GradientSlider GradientSliderChannelR;
+        private Components.GradientSlider.GradientSlider GradientSliderChannelG;
+        private Components.GradientSlider.GradientSlider GradientSliderChannelB;
     }
 }

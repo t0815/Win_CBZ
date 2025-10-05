@@ -21,13 +21,8 @@ namespace Win_CBZ.Components.GradientSlider
         public GradientSlider()
         {
             InitializeComponent();
-        }
 
-        public GradientSlider(IContainer container)
-        {
-            container.Add(this);
-
-            InitializeComponent();
+            this.DoubleBuffered = true;
         }
 
         private float _value = 0f;
@@ -40,8 +35,8 @@ namespace Win_CBZ.Components.GradientSlider
         private Image _thumb;
 
         private Color _thumbColor;
-        private int _thumbWidth;
-        private int _thumbHeight;
+        private int _thumbWidth = 1;
+        private int _thumbHeight = 100;
 
         private int _thumbMargin;
 
@@ -53,6 +48,8 @@ namespace Win_CBZ.Components.GradientSlider
         public event EventHandler TrackHeightChanged;
         public event EventHandler TrackWidthChanged;
         public event EventHandler ThumbChanged;
+        public event EventHandler ThumbWidthChanged;
+        public event EventHandler ThumbHeightChanged;
 
         [DefaultValue(0.0f)]
         public virtual float Value
@@ -64,7 +61,19 @@ namespace Win_CBZ.Components.GradientSlider
                 {
                     _value = value;
 
-                    this.OnValueChanged(new ValueChangedEventArgs(value));
+                    if (_value < this.Minimum)
+                    {
+                        _value = this.Minimum;
+                    }
+
+                    if (_value > this.Maximum)
+                    {
+                        _value = this.Maximum;
+                    }
+
+                    this.OnValueChanged(new ValueChangedEventArgs(_value));
+
+                    this.Invalidate();
                 }
             }
         }
@@ -111,6 +120,8 @@ namespace Win_CBZ.Components.GradientSlider
                     _startColor = value;
 
                     this.OnStartColorChanged(new EventArgs());
+
+                    this.Invalidate();
                 }
             }
         }
@@ -127,6 +138,8 @@ namespace Win_CBZ.Components.GradientSlider
                     _endColor = value;
 
                     this.OnEndColorChanged(new EventArgs());
+
+                    this.Invalidate();
                 }
             }
         }
@@ -159,6 +172,55 @@ namespace Win_CBZ.Components.GradientSlider
             }
         }
 
+        [Category("Appearance")]
+        [DefaultValue(1)]
+        public virtual int ThumbWidth
+        {
+            get { return _thumbWidth; }
+            set
+            {
+                if (this.ThumbWidth != value)
+                {
+                    _thumbWidth = value;
+
+                    if (_thumbWidth > this.Width)
+                    {
+                        _thumbWidth = this.Width / 2;
+                    }
+
+                    _thumbMargin = _thumbWidth / 2;
+
+                    this.OnThumbWidthChanged(new EventArgs());
+
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [Category("Appearance")]
+        [DefaultValue(100)]
+        public virtual int ThumbHeight
+        {
+            get { return _thumbHeight; }
+            set
+            {
+                if (this.ThumbHeight != value)
+                {
+                    _thumbHeight = value;
+
+                    if (_thumbHeight > this.Height)
+                    {
+                        _thumbHeight = this.Height;
+                    }
+
+                    this.OnThumbHeightChanged(new EventArgs());
+
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [Category("Appearance")]
         [DefaultValue(null)]
         public virtual Image Thumb
         {
@@ -183,6 +245,8 @@ namespace Win_CBZ.Components.GradientSlider
                     }
 
                     this.OnThumbChanged(new EventArgs());
+
+                    this.Invalidate();
                 }
             }
         }
@@ -204,10 +268,10 @@ namespace Win_CBZ.Components.GradientSlider
             
             Bitmap gradient = new Bitmap(this.Size.Width - (_thumbMargin * 2), this.Size.Height);
 
-            for (int x = 0; x < this.Size.Width; x++)
+            for (int x = 0; x < gradient.Width - 1; x++)
             {
                 // Factor (0.0 bis 1.0)
-                float t = x / (float)(this.Size.Width - 1);
+                float t = x / (float)(gradient.Width - 1);
 
                 int r = (int)(this.StartColor.R + (this.EndColor.R - this.StartColor.R) * t);
                 int g = (int)(this.StartColor.G + (this.EndColor.G - this.StartColor.G) * t);
@@ -216,7 +280,7 @@ namespace Win_CBZ.Components.GradientSlider
 
                 Color pixelColor = Color.FromArgb(a, r, g, b);
 
-                for (int y = 0; y < this.Size.Height; y++)
+                for (int y = 0; y < gradient.Height; y++)
                 {
                     gradient.SetPixel(x, y, pixelColor);
                 }
@@ -265,6 +329,16 @@ namespace Win_CBZ.Components.GradientSlider
             ThumbChanged?.Invoke(this, e);
         }
 
+        protected virtual void OnThumbWidthChanged(EventArgs e)
+        {
+            ThumbWidthChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnThumbHeightChanged(EventArgs e)
+        {
+            ThumbHeightChanged?.Invoke(this, e);
+        }
+
         protected override void OnResize(EventArgs e)
         {
             this.Invalidate();
@@ -280,16 +354,49 @@ namespace Win_CBZ.Components.GradientSlider
             // Create the brush and automatically dispose it.
             using SolidBrush foreBrush = new(ForeColor);
 
+            Bitmap gradient = this.DrawGradient();
+
             // Call the DrawString method to write text.
             // Text, Font, and ClientRectangle are inherited properties.
-            pe.Graphics.DrawImage(this.DrawGradient(), new PointF(0, 0));
+            pe.Graphics.DrawImage(gradient, new PointF(_thumbMargin, 0));
+
+            // Draw Thumb
+            float ratio = (Value - Minimum) / (Maximum - Minimum);
+            int thumbX = (int)(ratio * (this.Width - (_thumbMargin * 2))) + _thumbMargin - (_thumbWidth / 2);
+            int thumbY = 0;
+
+            try
+            {
+                Color currentBg = gradient.GetPixel(thumbX, thumbY);
+
+
+
+                if (this.Thumb != null)
+                {
+                    pe.Graphics.DrawImage(this.Thumb, new Rectangle(thumbX, thumbY, _thumbWidth, _thumbHeight));
+                }
+                else
+                {
+                    using SolidBrush thumbBrush = new SolidBrush(this.ForeColor);
+                    pe.Graphics.FillRectangle(thumbBrush, new Rectangle(thumbX, thumbY, _thumbWidth, _thumbHeight));
+                }
+            } catch (Exception ex)
+            {
+
+            }
 
             base.OnPaint(pe);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Left)
+            {
+                float ratio = e.X / (float)this.Width;
+                this.Value = this.Minimum + ratio * (this.Maximum - this.Minimum);
 
+                this.Invalidate();
+            }
 
             base.OnMouseMove(e);
         }
@@ -305,6 +412,30 @@ namespace Win_CBZ.Components.GradientSlider
             }
 
             base.OnMouseDown(e);
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            if (_thumb != null)
+            {
+                if (_thumbHeight > this.Height)
+                {
+                    _thumbHeight = this.Height;
+                }
+
+                if (_thumbWidth > this.Width)
+                {
+                    _thumbWidth = this.Width / 2;
+                    _thumbMargin = _thumbWidth / 2;
+                }
+                
+            }
+            else
+            {
+               
+            }
+
+            base.OnSizeChanged(e);
         }
     }
 }
