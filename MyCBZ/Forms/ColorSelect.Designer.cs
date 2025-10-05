@@ -389,6 +389,7 @@
             TextBoxHex.Name = "TextBoxHex";
             TextBoxHex.Size = new System.Drawing.Size(131, 27);
             TextBoxHex.TabIndex = 3;
+            TextBoxHex.TextChanged += TextBoxHex_TextChanged;
             // 
             // label6
             // 
@@ -475,8 +476,8 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(199, 4);
-            label3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
+            label3.Location = new System.Drawing.Point(199, 8);
+            label3.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(18, 20);
             label3.TabIndex = 4;
@@ -485,8 +486,8 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(199, 38);
-            label4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
+            label4.Location = new System.Drawing.Point(199, 42);
+            label4.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(19, 20);
             label4.TabIndex = 5;
@@ -495,8 +496,8 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(199, 72);
-            label5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 0);
+            label5.Location = new System.Drawing.Point(199, 76);
+            label5.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             label5.Name = "label5";
             label5.Size = new System.Drawing.Size(18, 20);
             label5.TabIndex = 6;
@@ -508,6 +509,7 @@
             TextBoxR.Name = "TextBoxR";
             TextBoxR.Size = new System.Drawing.Size(54, 27);
             TextBoxR.TabIndex = 0;
+            TextBoxR.TextChanged += TextBoxR_TextChanged;
             // 
             // TextBoxB
             // 
@@ -515,6 +517,7 @@
             TextBoxB.Name = "TextBoxB";
             TextBoxB.Size = new System.Drawing.Size(54, 27);
             TextBoxB.TabIndex = 2;
+            TextBoxB.TextChanged += TextBoxB_TextChanged;
             // 
             // TextBoxG
             // 
@@ -522,6 +525,7 @@
             TextBoxG.Name = "TextBoxG";
             TextBoxG.Size = new System.Drawing.Size(53, 27);
             TextBoxG.TabIndex = 1;
+            TextBoxG.TextChanged += TextBoxG_TextChanged;
             // 
             // GradientSliderChannelR
             // 

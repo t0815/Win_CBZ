@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using Point = System.Drawing.Point;
 
 namespace Win_CBZ.Components.GradientSlider
 {
@@ -378,7 +379,29 @@ namespace Win_CBZ.Components.GradientSlider
                 else
                 {
                     using SolidBrush thumbBrush = new SolidBrush(this.ForeColor);
+                                    
+                    uint luminance = (uint)((0.299 * currentBg.R) + (0.587 * currentBg.G) + (0.114 * currentBg.B));
+                    if (luminance > 186)
+                    {
+                        // Bright color, use black thumb
+                        thumbBrush.Color = Color.Black;
+                    }
+                    else
+                    {
+                        // Dark color, use white thumb
+                        thumbBrush.Color = Color.White;
+                    }
+
+                    
+
                     pe.Graphics.FillRectangle(thumbBrush, new Rectangle(thumbX, thumbY, _thumbWidth, _thumbHeight));
+                    pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - 4 - _thumbWidth, _thumbHeight), new Point(thumbX + _thumbWidth + 4, _thumbHeight));
+                    pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - 3 - _thumbWidth, _thumbHeight - 1), new Point(thumbX + _thumbWidth + 3, _thumbHeight - 1));
+                    pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - 2 - _thumbWidth, _thumbHeight - 2), new Point(thumbX + _thumbWidth + 2, _thumbHeight - 2));
+                    pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - 1 - _thumbWidth, _thumbHeight - 3), new Point(thumbX + _thumbWidth + 1, _thumbHeight - 3));
+                    pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - _thumbWidth, _thumbHeight - 4), new Point(thumbX + _thumbWidth, _thumbHeight - 4));
+                    //pe.Graphics.DrawRectangle(new Pen(thumbBrush), new Rectangle(thumbX - 2, _thumbHeight - 2, _thumbWidth + 6, 1));
+                    //pe.Graphics.DrawRectangle(new Pen(thumbBrush), new Rectangle(thumbX - 1, _thumbHeight - 3, _thumbWidth + 5, 1));
                 }
             } catch (Exception ex)
             {
@@ -416,23 +439,16 @@ namespace Win_CBZ.Components.GradientSlider
 
         protected override void OnSizeChanged(EventArgs e)
         {
-            if (_thumb != null)
+            
+            if (_thumbHeight > this.Height)
             {
-                if (_thumbHeight > this.Height)
-                {
-                    _thumbHeight = this.Height;
-                }
-
-                if (_thumbWidth > this.Width)
-                {
-                    _thumbWidth = this.Width / 2;
-                    _thumbMargin = _thumbWidth / 2;
-                }
-                
+                _thumbHeight = this.Height;
             }
-            else
+
+            if (_thumbWidth > this.Width)
             {
-               
+                _thumbWidth = this.Width / 2;
+                _thumbMargin = _thumbWidth / 2;
             }
 
             base.OnSizeChanged(e);

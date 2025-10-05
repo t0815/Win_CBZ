@@ -55,7 +55,7 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
-            
+
             Theme.GetInstance().ApplyTheme(ColorEditorTableLayout.Controls);
 
             initialColor = Color.FromArgb(color.R, color.G, color.B);
@@ -340,11 +340,19 @@ namespace Win_CBZ.Forms
 
             SelectedColor = color;
 
-            TextBoxR.Text = SelectedColor.R.ToString();
-            TextBoxG.Text = SelectedColor.G.ToString();
-            TextBoxB.Text = SelectedColor.B.ToString();
 
-            
+            GradientSliderChannelR.ValueChanged -= GradientSliderChannelR_ValueChanged;
+            GradientSliderChannelG.ValueChanged -= GradientSliderChannelG_ValueChanged;
+            GradientSliderChannelB.ValueChanged -= GradientSliderChannelB_ValueChanged;
+
+            GradientSliderChannelR.Value = SelectedColor.R;
+            GradientSliderChannelG.Value = SelectedColor.G;
+            GradientSliderChannelB.Value = SelectedColor.B;
+
+            GradientSliderChannelR.ValueChanged += GradientSliderChannelR_ValueChanged;
+            GradientSliderChannelG.ValueChanged += GradientSliderChannelG_ValueChanged;
+            GradientSliderChannelB.ValueChanged += GradientSliderChannelB_ValueChanged;
+
 
             Color colorR_1 = Color.FromArgb(0, SelectedColor.G, SelectedColor.B);
             Color colorR_2 = Color.FromArgb(255, SelectedColor.G, SelectedColor.B);
@@ -365,8 +373,21 @@ namespace Win_CBZ.Forms
             GradientSliderChannelB.StartColor = colorB_1;
             GradientSliderChannelB.EndColor = colorB_2;
 
+            TextBoxR.TextChanged -= TextBoxR_TextChanged;
+            TextBoxG.TextChanged -= TextBoxG_TextChanged;
+            TextBoxB.TextChanged -= TextBoxB_TextChanged;
+            TextBoxHex.TextChanged -= TextBoxHex_TextChanged;
+
+            TextBoxR.Text = SelectedColor.R.ToString();
+            TextBoxG.Text = SelectedColor.G.ToString();
+            TextBoxB.Text = SelectedColor.B.ToString();
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
+
+            TextBoxR.TextChanged += TextBoxR_TextChanged;
+            TextBoxG.TextChanged += TextBoxG_TextChanged;
+            TextBoxB.TextChanged += TextBoxB_TextChanged;
+            TextBoxHex.TextChanged += TextBoxHex_TextChanged;
 
             float h, s, v;
 
@@ -396,6 +417,67 @@ namespace Win_CBZ.Forms
             Color newColor = Color.FromArgb(SelectedColor.R, SelectedColor.G, (byte)e.NewValue);
 
             UpdateSelectedColorState(newColor);
+        }
+
+        private void TextBoxR_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int r = int.Parse(TextBoxR.Text);
+
+                Color newColor = Color.FromArgb((byte)r, SelectedColor.G, SelectedColor.B);
+
+                UpdateSelectedColorState(newColor);
+            } catch
+            {
+                return;
+            }
+
+            
+        }
+
+        private void TextBoxG_TextChanged(object sender, EventArgs e)
+        {
+            try { 
+                int g = int.Parse(TextBoxG.Text);
+
+                Color newColor = Color.FromArgb(SelectedColor.R, (byte)g, SelectedColor.B);
+
+                UpdateSelectedColorState(newColor);
+            } catch
+            {
+                return;
+            }
+
+            
+        }
+
+        private void TextBoxB_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int b = int.Parse(TextBoxB.Text);
+
+                Color newColor = Color.FromArgb(SelectedColor.R, SelectedColor.G, (byte)b);
+                UpdateSelectedColorState(newColor);
+            }
+            catch
+            {
+                return;
+            }
+
+            
+        }
+
+        private void TextBoxHex_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateSelectedColorState(HTMLColor.ToColor(TextBoxHex.Text));
+            }
+            catch
+            {
+            }
         }
     }
 }
