@@ -6759,9 +6759,12 @@ namespace Win_CBZ
 
         private void PictureBoxColorSelect_Click(object sender, EventArgs e)
         {
-            if (SelectColorDialog.ShowDialog() == DialogResult.OK)
+            ColorSelect colorSelect = new ColorSelect(PictureBoxColorSelect.BackColor);
+
+            if (colorSelect.ShowDialog() == DialogResult.OK)
             {
-                PictureBoxColorSelect.BackColor = SelectColorDialog.Color;
+
+                PictureBoxColorSelect.BackColor = colorSelect.SelectedColor;
             }
 
             Nullable<Color> oldValue;
