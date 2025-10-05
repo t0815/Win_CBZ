@@ -29,6 +29,11 @@ namespace Win_CBZ.Forms
 
         private Color initialColor = Color.White;
 
+        private Task<Bitmap> paletteTask;
+        private Task<Bitmap> paletteRTask;
+        private Task<Bitmap> paletteGTask;
+        private Task<Bitmap> paletteBTask;
+
         public Color SelectedColor
         {
             get
@@ -53,12 +58,13 @@ namespace Win_CBZ.Forms
         {
             InitializeComponent();
 
-            SelectedColor = initialColor;
+            UpdateSelectedColorState(initialColor);
 
             Theme.GetInstance().ApplyTheme(ColorEditorTableLayout.Controls);
 
             //_palette = Properties.Resources.palette.ToBitmap();
 
+            /*
             Task<Bitmap> paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, initialColor, new System.Threading.CancellationToken());
 
             paletteTask.ContinueWith((t) =>
@@ -72,6 +78,7 @@ namespace Win_CBZ.Forms
                     });
                 }
             });
+            */
 
             Task<Bitmap> rainbowTask = Tasks.BitmapGenerationTask.CreateRainbowTask(PictureBoxRainbow.Width, PictureBoxRainbow.Height, new System.Threading.CancellationToken());
 
@@ -87,20 +94,10 @@ namespace Win_CBZ.Forms
                 }
             });
 
-            paletteTask.Start();
+            //paletteTask.Start();
             rainbowTask.Start();
 
             //ImageOperations.ResizeImage(ref palette, new Size(PictureBoxPalette.Width, PictureBoxPalette.Height), Color.Black, System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic);
-
-
-            PictureBoxSelectedColor.BackColor = SelectedColor;
-
-            TextBoxR.Text = SelectedColor.R.ToString();
-            TextBoxG.Text = SelectedColor.G.ToString();
-            TextBoxB.Text = SelectedColor.B.ToString();
-
-            TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
-
 
         }
 
@@ -206,6 +203,11 @@ namespace Win_CBZ.Forms
                 PictureBox pictureBox = sender as PictureBox;
 
                 PictureBoxHoverColor.BackColor = pictureBox.Image.ToBitmap().GetPixel(e.X, e.Y);
+            
+                if (e.Button == MouseButtons.Left)
+                {
+                    UpdateSelectedColorState(PictureBoxHoverColor.BackColor);
+                }
             }
             catch
             {
@@ -298,32 +300,38 @@ namespace Win_CBZ.Forms
         private void ColorSelect_Load(object sender, EventArgs e)
         {
             LoadPaletteForTabHtml(FlowLayoutDefaultPalette, Colors.GetPalette());
-            UpdateSelectedColorState(PictureBoxHoverColor.BackColor);
+            //UpdateSelectedColorState(PictureBoxHoverColor.BackColor);
+        
+            
         }
 
         private void UpdateSelectedColorState(Color color, bool dontRegeneratePaletteGradient = false)
         {
-            Task<Bitmap> paletteTask;
+            
 
             if (!dontRegeneratePaletteGradient)
             {
-                paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, color, new System.Threading.CancellationToken());
-
-                paletteTask.ContinueWith((t) =>
+                if (paletteTask == null || paletteTask.IsCompleted)
                 {
-                    if (t.IsCompletedSuccessfully)
-                    {
-                        _palette = t.Result;
-                        this.Invoke(() =>
-                        {
-                            PictureBoxPalette.Image.Dispose();
-                            PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
-                            PictureBoxPalette.Refresh();
-                        });
-                    }
-                });
 
-                paletteTask.Start();
+                    paletteTask = Tasks.BitmapGenerationTask.CreateThreeColorGradientTask(PictureBoxPalette.Width, PictureBoxPalette.Height, color, new System.Threading.CancellationToken());
+
+                    paletteTask.ContinueWith((t) =>
+                    {
+                        if (t.IsCompletedSuccessfully)
+                        {
+                            _palette = t.Result;
+                            this.Invoke(() =>
+                            {
+                                PictureBoxPalette.Image.Dispose();
+                                PictureBoxPalette.Image = Image.FromHbitmap(_palette.GetHbitmap());
+                                PictureBoxPalette.Refresh();
+                            });
+                        }
+                    });
+
+                    paletteTask.Start();
+                }
             }
 
 
@@ -345,75 +353,89 @@ namespace Win_CBZ.Forms
             Color colorB_1 = Color.FromArgb(SelectedColor.R, SelectedColor.G, 0);
             Color colorB_2 = Color.FromArgb(SelectedColor.R, SelectedColor.G, 255);
 
-            Task<Bitmap> paletteRTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeR.Width, PictureBoxColorRangeR.Height, colorR_1, colorR_2, new System.Threading.CancellationToken());
-
-            Task<Bitmap> paletteRFollow = paletteRTask.ContinueWith((t) =>
+            if (paletteRTask == null || paletteRTask.IsCompleted)
             {
-                if (t.IsCompletedSuccessfully)
+                paletteRTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeR.Width, PictureBoxColorRangeR.Height, colorR_1, colorR_2, new System.Threading.CancellationToken());
+
+                Task<Bitmap> paletteRFollow = paletteRTask.ContinueWith((t) =>
                 {
-                    this.Invoke(() =>
+                    if (t.IsCompletedSuccessfully)
                     {
-                        PictureBoxColorRangeR.Image?.Dispose();
-                        PictureBoxColorRangeR.Image = Image.FromHbitmap(t.Result.GetHbitmap());
-                        PictureBoxColorRangeR.Refresh();
-                    });
-                }
+                        this.Invoke(() =>
+                        {
+                            PictureBoxColorRangeR.Image?.Dispose();
+                            PictureBoxColorRangeR.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                            PictureBoxColorRangeR.Refresh();
+                        });
+                    }
 
-                return t.Result;
-            });
+                    return t.Result;
+                });
 
-            paletteRFollow.ContinueWith((t) =>
+                paletteRFollow.ContinueWith((t) =>
+                {
+                    if (t.IsCompletedSuccessfully)
+                    {
+                        this.Invoke(() =>
+                        {
+                            
+                            PictureBoxColorRangeR.Refresh();
+                        });
+                    }
+                });
+
+                paletteRTask.Start();
+            }
+
+            if (paletteGTask == null || paletteGTask.IsCompleted)
             {
-                if (t.IsCompletedSuccessfully)
+                paletteGTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeG.Width, PictureBoxColorRangeG.Height, colorG_1, colorG_2, new System.Threading.CancellationToken());
+
+                Task<Bitmap> paletteGFollow = paletteGTask.ContinueWith((t) =>
                 {
-                    this.Invoke(() =>
+                    if (t.IsCompletedSuccessfully)
                     {
-                        PictureBoxColorRangeR.Image?.Dispose();
-                        PictureBoxColorRangeR.Image = Image.FromHbitmap(t.Result.GetHbitmap());
-                        PictureBoxColorRangeR.Refresh();
-                    });
-                }
-            });
+                        this.Invoke(() =>
+                        {
+                            PictureBoxColorRangeG.Image?.Dispose();
+                            PictureBoxColorRangeG.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                            PictureBoxColorRangeG.Refresh();
+                        });
+                    }
 
-            Task<Bitmap> paletteGTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeG.Width, PictureBoxColorRangeG.Height, colorG_1, colorG_2, new System.Threading.CancellationToken());
+                    return t.Result;
+                });
 
-            Task<Bitmap> paletteGFollow = paletteGTask.ContinueWith((t) =>
+                paletteGTask.Start();
+            }
+
+            if (paletteBTask == null || paletteBTask.IsCompleted)
             {
-                if (t.IsCompletedSuccessfully)
+                paletteBTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeB.Width, PictureBoxColorRangeB.Height, colorB_1, colorB_2, new System.Threading.CancellationToken());
+
+                Task<Bitmap> paletteBFollow = paletteBTask.ContinueWith((t) =>
                 {
-                    this.Invoke(() =>
+                    if (t.IsCompletedSuccessfully)
                     {
-                        PictureBoxColorRangeG.Image?.Dispose();
-                        PictureBoxColorRangeG.Image = Image.FromHbitmap(t.Result.GetHbitmap());
-                        PictureBoxColorRangeG.Refresh();
-                    });
-                }
+                        this.Invoke(() =>
+                        {
+                            PictureBoxColorRangeB.Image?.Dispose();
+                            PictureBoxColorRangeB.Image = Image.FromHbitmap(t.Result.GetHbitmap());
+                            PictureBoxColorRangeB.Refresh();
+                        });
 
-                return t.Result;
-            });
 
-            Task<Bitmap> paletteBTask = Tasks.BitmapGenerationTask.CreateHorizontalGradientTask(PictureBoxColorRangeB.Width, PictureBoxColorRangeB.Height, colorB_1, colorB_2, new System.Threading.CancellationToken());
+                    }
 
-            Task<Bitmap> paletteBFollow = paletteBTask.ContinueWith((t) =>
-            {
-                if (t.IsCompletedSuccessfully)
-                {
-                    this.Invoke(() =>
-                    {
-                        PictureBoxColorRangeB.Image?.Dispose();
-                        PictureBoxColorRangeB.Image = Image.FromHbitmap(t.Result.GetHbitmap());
-                        PictureBoxColorRangeB.Refresh();
-                    });
+                    return t.Result;
+                });
 
-                    
-                }
+                paletteBTask.Start();
+            }
 
-                return t.Result;
-            });
-
-            paletteRTask.Start();
-            paletteGTask.Start();
-            paletteBTask.Start();
+            
+           
+            
 
             TextBoxHex.Text = HTMLColor.ToHexColor(SelectedColor);
 

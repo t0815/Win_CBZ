@@ -79,6 +79,8 @@
             toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             ColorSelectTooltip = new System.Windows.Forms.ToolTip(components);
+            gradientSlider1 = new Win_CBZ.Components.GradientSlider.GradientSlider(components);
+            gradientSlider2 = new Win_CBZ.Components.GradientSlider.GradientSlider(components);
             ColorEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -86,6 +88,7 @@
             PalettesTabControl.SuspendLayout();
             TabPageDefaultPalette.SuspendLayout();
             TabPageSystemPalette.SuspendLayout();
+            TabPagePagePalette.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxSelectedColor).BeginInit();
@@ -259,6 +262,7 @@
             // 
             // TabPagePagePalette
             // 
+            TabPagePagePalette.Controls.Add(gradientSlider2);
             TabPagePagePalette.Location = new System.Drawing.Point(4, 29);
             TabPagePagePalette.Name = "TabPagePagePalette";
             TabPagePagePalette.Padding = new System.Windows.Forms.Padding(3);
@@ -652,6 +656,21 @@
             ColorSelectTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             ColorSelectTooltip.ToolTipTitle = "Win_CBZ";
             // 
+            // gradientSlider1
+            // 
+            gradientSlider1.Location = new System.Drawing.Point(0, 0);
+            gradientSlider1.Name = "gradientSlider1";
+            gradientSlider1.Size = new System.Drawing.Size(256, 32);
+            gradientSlider1.TabIndex = 0;
+            // 
+            // gradientSlider2
+            // 
+            gradientSlider2.Location = new System.Drawing.Point(130, 77);
+            gradientSlider2.Name = "gradientSlider2";
+            gradientSlider2.Size = new System.Drawing.Size(209, 32);
+            gradientSlider2.TabIndex = 0;
+            gradientSlider2.Text = "gradientSlider2";
+            // 
             // ColorSelect
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -673,6 +692,7 @@
             PalettesTabControl.ResumeLayout(false);
             TabPageDefaultPalette.ResumeLayout(false);
             TabPageSystemPalette.ResumeLayout(false);
+            TabPagePagePalette.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).EndInit();
@@ -742,5 +762,7 @@
         private System.Windows.Forms.PictureBox PictureBoxColorRangeB;
         private System.Windows.Forms.ToolTip ColorSelectTooltip;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutSystemPalette;
+        private Components.GradientSlider.GradientSlider gradientSlider1;
+        private Components.GradientSlider.GradientSlider gradientSlider2;
     }
 }
