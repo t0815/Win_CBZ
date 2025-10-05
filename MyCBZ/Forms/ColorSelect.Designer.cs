@@ -78,6 +78,8 @@
             toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             ColorSelectTooltip = new System.Windows.Forms.ToolTip(components);
+            TabPagePagePalette = new System.Windows.Forms.TabPage();
+            FlowLayoutCustomPalette = new System.Windows.Forms.FlowLayoutPanel();
             ColorEditorTableLayout.SuspendLayout();
             HeaderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)HeaderPicture).BeginInit();
@@ -85,6 +87,7 @@
             PalettesTabControl.SuspendLayout();
             TabPageDefaultPalette.SuspendLayout();
             TabPageSystemPalette.SuspendLayout();
+            TabPageCustomPalette.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).BeginInit();
             ((System.ComponentModel.ISupportInitialize)PictureBoxSelectedColor).BeginInit();
@@ -201,6 +204,7 @@
             PalettesTabControl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             PalettesTabControl.Controls.Add(TabPageDefaultPalette);
             PalettesTabControl.Controls.Add(TabPageSystemPalette);
+            PalettesTabControl.Controls.Add(TabPagePagePalette);
             PalettesTabControl.Controls.Add(TabPageCustomPalette);
             PalettesTabControl.Location = new System.Drawing.Point(3, 70);
             PalettesTabControl.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
@@ -254,6 +258,7 @@
             // 
             // TabPageCustomPalette
             // 
+            TabPageCustomPalette.Controls.Add(FlowLayoutCustomPalette);
             TabPageCustomPalette.Location = new System.Drawing.Point(4, 29);
             TabPageCustomPalette.Name = "TabPageCustomPalette";
             TabPageCustomPalette.Size = new System.Drawing.Size(410, 284);
@@ -505,25 +510,28 @@
             // 
             // TextBoxR
             // 
+            TextBoxR.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TextBoxR.Location = new System.Drawing.Point(253, 3);
             TextBoxR.Name = "TextBoxR";
-            TextBoxR.Size = new System.Drawing.Size(54, 27);
+            TextBoxR.Size = new System.Drawing.Size(56, 27);
             TextBoxR.TabIndex = 0;
             TextBoxR.TextChanged += TextBoxR_TextChanged;
             // 
             // TextBoxB
             // 
+            TextBoxB.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TextBoxB.Location = new System.Drawing.Point(253, 71);
             TextBoxB.Name = "TextBoxB";
-            TextBoxB.Size = new System.Drawing.Size(54, 27);
+            TextBoxB.Size = new System.Drawing.Size(56, 27);
             TextBoxB.TabIndex = 2;
             TextBoxB.TextChanged += TextBoxB_TextChanged;
             // 
             // TextBoxG
             // 
+            TextBoxG.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TextBoxG.Location = new System.Drawing.Point(253, 37);
             TextBoxG.Name = "TextBoxG";
-            TextBoxG.Size = new System.Drawing.Size(53, 27);
+            TextBoxG.Size = new System.Drawing.Size(56, 27);
             TextBoxG.TabIndex = 1;
             TextBoxG.TextChanged += TextBoxG_TextChanged;
             // 
@@ -641,6 +649,24 @@
             ColorSelectTooltip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             ColorSelectTooltip.ToolTipTitle = "Win_CBZ";
             // 
+            // TabPagePagePalette
+            // 
+            TabPagePagePalette.Location = new System.Drawing.Point(4, 29);
+            TabPagePagePalette.Name = "TabPagePagePalette";
+            TabPagePagePalette.Size = new System.Drawing.Size(410, 284);
+            TabPagePagePalette.TabIndex = 4;
+            TabPagePagePalette.Text = "Page";
+            TabPagePagePalette.UseVisualStyleBackColor = true;
+            // 
+            // FlowLayoutCustomPalette
+            // 
+            FlowLayoutCustomPalette.AutoScroll = true;
+            FlowLayoutCustomPalette.Location = new System.Drawing.Point(3, 3);
+            FlowLayoutCustomPalette.Name = "FlowLayoutCustomPalette";
+            FlowLayoutCustomPalette.Padding = new System.Windows.Forms.Padding(8);
+            FlowLayoutCustomPalette.Size = new System.Drawing.Size(405, 278);
+            FlowLayoutCustomPalette.TabIndex = 1;
+            // 
             // ColorSelect
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -662,6 +688,7 @@
             PalettesTabControl.ResumeLayout(false);
             TabPageDefaultPalette.ResumeLayout(false);
             TabPageSystemPalette.ResumeLayout(false);
+            TabPageCustomPalette.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBoxPalette).EndInit();
@@ -727,5 +754,7 @@
         private Components.GradientSlider.GradientSlider GradientSliderChannelR;
         private Components.GradientSlider.GradientSlider GradientSliderChannelG;
         private Components.GradientSlider.GradientSlider GradientSliderChannelB;
+        private System.Windows.Forms.TabPage TabPagePagePalette;
+        private System.Windows.Forms.FlowLayoutPanel FlowLayoutCustomPalette;
     }
 }

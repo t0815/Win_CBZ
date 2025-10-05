@@ -350,7 +350,6 @@ namespace Win_CBZ.Components.GradientSlider
         {
             StringFormat style = new();
 
-            
 
             // Create the brush and automatically dispose it.
             using SolidBrush foreBrush = new(ForeColor);
@@ -366,11 +365,14 @@ namespace Win_CBZ.Components.GradientSlider
             int thumbX = (int)(ratio * (this.Width - (_thumbMargin * 2))) + _thumbMargin - (_thumbWidth / 2);
             int thumbY = 0;
 
+            if (thumbX > gradient.Width - 1 - _thumbWidth)
+            {
+                thumbX = gradient.Width - _thumbWidth;
+            }
+
             try
             {
                 Color currentBg = gradient.GetPixel(thumbX, thumbY);
-
-
 
                 if (this.Thumb != null)
                 {
@@ -393,7 +395,6 @@ namespace Win_CBZ.Components.GradientSlider
                     }
 
                     
-
                     pe.Graphics.FillRectangle(thumbBrush, new Rectangle(thumbX, thumbY, _thumbWidth, _thumbHeight));
                     pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - 4 - _thumbWidth, _thumbHeight), new Point(thumbX + _thumbWidth + 4, _thumbHeight));
                     pe.Graphics.DrawLine(new Pen(thumbBrush), new Point(thumbX - 3 - _thumbWidth, _thumbHeight - 1), new Point(thumbX + _thumbWidth + 3, _thumbHeight - 1));
