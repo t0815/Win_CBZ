@@ -269,6 +269,7 @@ namespace Win_CBZ.Models
             Stream outputStream = null;
             Stream inputStream = SourcePage.GetImageStream();
             Image imageInfo = null;
+            bool createSplitTask = false;
 
             int tempFileCounter = 0;
 
@@ -329,20 +330,29 @@ namespace Win_CBZ.Models
                             targetFormat.W = ImageAdjustments.ResizeTo.X;
                             targetFormat.H = ImageAdjustments.ResizeTo.Y;
 
+                            if (ImageAdjustments.IgnoreDoublePagesResizingToPage)
+                            {
+                                if (SourcePage.DoublePage || SourcePage.Format.W > SourcePage.Format.H)
+                                {
+                                    continue; // Skip resizing for double pages
+                                }
+                            }
+
+                            if (ImageAdjustments.SplitDoublePagesFirstResizing)  // split page first, then resize
+                            {
+                                if (SourcePage.DoublePage || SourcePage.Format.W > SourcePage.Format.H)
+                                {
+                                    createSplitTask = true;
+                                    continue;
+                                }
+                            }
+
                             if (ImageAdjustments.ResizeMode == 1)  // Resize to page
                             {
                                 if (targetFormat.W == 0 || targetFormat.H == 0)
                                 {
                                     throw new PageException(SourcePage, "Error resizing page! Width and/or Height must not be <= 0!");
-                                }
-
-                                if (ImageAdjustments.IgnoreDoublePagesResizingToPage)
-                                {
-                                    if (SourcePage.DoublePage || SourcePage.Format.W > SourcePage.Format.H)
-                                    {
-                                        continue; // Skip resizing for double pages
-                                    }
-                                }
+                                } 
                             }
 
                             if (ImageAdjustments.ResizeMode == 2)  // Resize to fixed size
@@ -462,6 +472,12 @@ namespace Win_CBZ.Models
                 inProgressFile.LocalFileInfo.MoveTo(ResultFileName[0].FullPath);
 
                 ResultFileName[0].Refresh();
+
+                if (createSplitTask)
+                {
+                    ImageAdjustments.SplitOnlyDoublePages = true;
+                    SetTaskSplit();
+                }
 
                 if (ImageAdjustments.SplitOnlyDoublePages)
                 {

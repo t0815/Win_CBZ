@@ -381,8 +381,10 @@ namespace Win_CBZ.Components.GradientSlider
                 else
                 {
                     using SolidBrush thumbBrush = new SolidBrush(this.ForeColor);
-                                    
-                    uint luminance = (uint)((0.299 * currentBg.R) + (0.587 * currentBg.G) + (0.114 * currentBg.B));
+
+                    uint luminance = (uint)Math.Sqrt((0.299 * currentBg.R * currentBg.R) +
+                                                      (0.587 * currentBg.G * currentBg.G) +
+                                                      (0.114 * currentBg.B * currentBg.B));
                     if (luminance > 186)
                     {
                         // Bright color, use black thumb

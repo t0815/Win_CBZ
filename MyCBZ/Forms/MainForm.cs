@@ -6497,7 +6497,7 @@ namespace Win_CBZ
                         CheckboxKeepAspectratio.Checked = selected.ImageTask.ImageAdjustments.KeepAspectRatio;
                         PictureBoxColorSelect.BackColor = selected.ImageTask.ImageAdjustments.DetectSplitAtColor;
                         CheckBoxSplitOnlyIfDoubleSize.Checked = selected.ImageTask.ImageAdjustments.SplitOnlyDoublePages;
-                        CheckBoxSplitDoublepagesFirst.Checked = selected.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                        CheckBoxSplitDoublepagesFirst.Checked = selected.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizing;
                         CheckboxIgnoreDoublePages.Checked = selected.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
 
 
@@ -6677,7 +6677,7 @@ namespace Win_CBZ
                     CheckboxKeepAspectratio.Checked = assignment.ImageTask.ImageAdjustments.KeepAspectRatio;
                     PictureBoxColorSelect.BackColor = assignment.ImageTask.ImageAdjustments.DetectSplitAtColor;
                     CheckBoxSplitOnlyIfDoubleSize.Checked = assignment.ImageTask.ImageAdjustments.SplitOnlyDoublePages;
-                    CheckBoxSplitDoublepagesFirst.Checked = assignment.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                    CheckBoxSplitDoublepagesFirst.Checked = assignment.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizing;
 
                     CheckboxIgnoreDoublePages.Checked = assignment.ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage;
 
@@ -6865,12 +6865,12 @@ namespace Win_CBZ
             {
                 bool dontUpdate = cb.Tag != null ? ((bool)cb.Tag) : true;
 
-                oldValue = selectedImageTasks.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage;
+                oldValue = selectedImageTasks.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizing;
 
 
                 if (!dontUpdate)
                 {
-                    selectedImageTasks.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage = CheckBoxSplitDoublepagesFirst.Checked;
+                    selectedImageTasks.ImageTask.ImageAdjustments.SplitDoublePagesFirstResizing = CheckBoxSplitDoublepagesFirst.Checked;
                 }
 
 

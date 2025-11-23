@@ -885,7 +885,7 @@ namespace Win_CBZ
 
                             if (subNode2.Name == "SplitDoublePagesFirstResizingToPage")
                             {
-                                ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage = bool.Parse(subNode2.InnerText);
+                                ImageTask.ImageAdjustments.SplitDoublePagesFirstResizing = bool.Parse(subNode2.InnerText);
                             }
 
                             if (subNode2.Name == "SplitOnlyDoublePages")
@@ -1512,7 +1512,7 @@ namespace Win_CBZ
                 xmlWriter.WriteElementString("KeepAspectRatio", ImageTask.ImageAdjustments.KeepAspectRatio.ToString());
                 xmlWriter.WriteElementString("ResizeToPercentage", ImageTask.ImageAdjustments.ResizeToPercentage.ToString());
 
-                xmlWriter.WriteElementString("SplitDoublePagesFirstResizingToPage", ImageTask.ImageAdjustments.SplitDoublePagesFirstResizingToPage.ToString());
+                xmlWriter.WriteElementString("SplitDoublePagesFirstResizingToPage", ImageTask.ImageAdjustments.SplitDoublePagesFirstResizing.ToString());
                 xmlWriter.WriteElementString("SplitOnlyDoublePages", ImageTask.ImageAdjustments.SplitOnlyDoublePages.ToString());
                 xmlWriter.WriteElementString("IgnoreDoublePagesResizingToPage", ImageTask.ImageAdjustments.IgnoreDoublePagesResizingToPage.ToString());
 
