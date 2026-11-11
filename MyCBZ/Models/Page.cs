@@ -2022,12 +2022,13 @@ namespace Win_CBZ
                 h = ThumbH;
             }
 
-            if (Image != null)
+            if (Image != null && h > 0 && w > 0)
             {
+                var newBitmap = new Bitmap(w, h);
                 ThumbnailError = false;
                 try
                 {
-                    var newBitmap = new Bitmap(w, h);
+                    
                     using (Graphics g = Graphics.FromImage(newBitmap))
                     {
                         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -2047,6 +2048,9 @@ namespace Win_CBZ
                 {
                     Image?.Dispose();
                     Image = null;
+
+                    newBitmap?.Dispose();
+                    newBitmap = null;
                 }
             }
 

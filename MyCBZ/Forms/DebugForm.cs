@@ -1,6 +1,8 @@
 ﻿using AutocompleteMenuNS;
+using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Readers;
+using SharpCompress.Writers.Zip;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,8 +47,8 @@ namespace Win_CBZ.Forms
             string filename = ofd.FileName;
 
             LocalFile input = new LocalFile(filename);
-            
-            ZipArchive j = ZipArchive.Open(input.LocalFileInfo);
+
+            IWritableArchive<ZipWriterOptions> j = ZipArchive.OpenArchive(input.LocalFileInfo);
             /*
             using (IReader reader = ReaderFactory.Open(stream))
             {
@@ -76,11 +78,11 @@ namespace Win_CBZ.Forms
             }
             */
 
-            List<ZipArchiveEntry> resultComicInfo = j.Entries.Where(s => s.Key.ToLower() == "comicinfo.xml").ToList();
-            List<ZipArchiveEntry> resultFiles = j.Entries.Where(s => s.Key.ToLower() != "comicinfo.xml").ToList();
+            List<IArchiveEntry> resultComicInfo = j.Entries.Where(s => s.Key.ToLower() == "comicinfo.xml").ToList();
+            List<IArchiveEntry> resultFiles = j.Entries.Where(s => s.Key.ToLower() != "comicinfo.xml").ToList();
             ListViewItem it;
 
-            foreach (ZipArchiveEntry entry in resultFiles)
+            foreach (IArchiveEntry entry in resultFiles)
             {
                 string t = entry.Crc.ToString();
 
