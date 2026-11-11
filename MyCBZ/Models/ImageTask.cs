@@ -532,7 +532,7 @@ namespace Win_CBZ.Models
 
                     switch (ImageAdjustments.SplitType)
                     {
-                        case 0:
+                        case ImageAdjustments.ADJUSTMENT_SPLIT_TYPE_PERCENT:
                             targetFormat.X = 0;
                             targetFormat.Y = 0;
                             targetFormat.W = (int)(imageInfo.Width * ImageAdjustments.SplitPageAt / 100);
@@ -567,7 +567,7 @@ namespace Win_CBZ.Models
 
 
                             break;
-                        case 1:
+                        case ImageAdjustments.ADJUSTMENT_SPLIT_TYPE_PX:
                             targetFormat.X = 0;
                             targetFormat.Y = 0;
                             targetFormat.W = ImageAdjustments.SplitPageAt;

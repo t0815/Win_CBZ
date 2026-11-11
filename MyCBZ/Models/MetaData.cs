@@ -365,7 +365,7 @@ namespace Win_CBZ
                                 .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                         }
 
-                        if (page.Bookmark.Length > 0)
+                        if (!String.IsNullOrEmpty(page.Bookmark))
                         {
                             newPageEntry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
 
@@ -429,7 +429,7 @@ namespace Win_CBZ
                                  .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                         }
 
-                        if (page.Bookmark != null && page.Bookmark.Length > 0)
+                        if (!String.IsNullOrEmpty(page.Bookmark))
                         {
                             entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
                         }
@@ -484,7 +484,7 @@ namespace Win_CBZ
                              .SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_IMAGE_HEIGHT, page.Format.H.ToString());
                     }
 
-                    if (page.Bookmark.Length > 0)
+                    if (!String.IsNullOrEmpty(page.Bookmark))
                     {
                         entry.SetAttribute(MetaDataEntryPage.COMIC_PAGE_ATTRIBUTE_BOOKMARK, page.Bookmark);
 
@@ -532,7 +532,7 @@ namespace Win_CBZ
         {
             foreach (MetaDataEntry entry in Values)
             {
-                if (search.Length > 0)
+                if (!String.IsNullOrEmpty(search))
                 {
                     bool keyMatch = false;
                     bool valueMatch = false;
@@ -701,7 +701,7 @@ namespace Win_CBZ
             {
                 defaultValueChanged = false;
                 keyChanged = true;
-                if (entry.Value != null && entry.Value != "")
+                if (!String.IsNullOrEmpty(entry.Value))
                 {
                     foreach (var defaultEntry in Defaults)
                     {
@@ -896,7 +896,7 @@ namespace Win_CBZ
                     var mapping = MetaDataFieldConfig.GetInstance().GetFieldConfigFor(entry.Key);
 
                     existing.Type = mapping;
-                    if (entry.Value == null || entry.Value == "")
+                    if (String.IsNullOrEmpty(entry.Value))
                     {
                         if (existing.Type.FieldType == MetaDataFieldType.METADATA_FIELD_TYPE_COMBO_BOX)
                         {
